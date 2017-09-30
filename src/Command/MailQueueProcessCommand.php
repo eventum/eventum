@@ -13,19 +13,28 @@
 
 namespace Eventum\Command;
 
+use Eventum\ConcurrentLock;
 use Mail_Queue;
 
-class MailQueueCommand extends Command
+class MailQueueProcessCommand
 {
-    protected function configure()
+    const DEFAULT_COMMAND = 'mail-queue:process';
+    const USAGE = self::DEFAULT_COMMAND;
+
+    /** @var string */
+    private $lock_name = 'process_mail_queue';
+
+    public function execute()
     {
-        $this->lock_name = 'process_mail_queue';
+        $lock = new ConcurrentLock($this->lock_name);
+        $lock->synchronized(
+            function () {
+                $this->processMailQueue();
+            }
+        );
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function execute()
+    private function processMailQueue()
     {
         // handle only pending emails
         $limit = 50;

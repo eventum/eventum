@@ -17,6 +17,7 @@ use Date_Helper;
 
 class GitlabScmPayload implements ScmPayloadInterface
 {
+    /** @var array */
     private $payload;
 
     public function __construct(array $payload)
@@ -62,7 +63,7 @@ class GitlabScmPayload implements ScmPayloadInterface
     {
         $ref = $this->payload['ref'];
 
-        if (substr($ref, 0, 11) == 'refs/heads/') {
+        if (substr($ref, 0, 11) === 'refs/heads/') {
             return substr($ref, 11);
         }
 
@@ -92,7 +93,7 @@ class GitlabScmPayload implements ScmPayloadInterface
      */
     public function getRepoUrl()
     {
-        return current(explode(':', $this->payload['repository']['url'], 2));
+        return explode(':', $this->payload['repository']['url'], 2)[0];
     }
 
     /**

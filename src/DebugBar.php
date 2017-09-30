@@ -40,12 +40,12 @@ class DebugBar
     public static function initialize()
     {
         // disable debugbar in CLI
-        if (PHP_SAPI == 'cli') {
+        if (PHP_SAPI === 'cli') {
             return;
         }
 
         // setup debugbar, if it can be autoloaded
-        if (!class_exists('DebugBar\StandardDebugBar')) {
+        if (!class_exists(StandardDebugBar::class)) {
             return;
         }
 

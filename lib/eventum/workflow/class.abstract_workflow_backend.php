@@ -341,13 +341,6 @@ class Abstract_Workflow_Backend
     }
 
     /**
-     * @deprecated removed since 3.1.0, use handleScmCommit
-     */
-    public function handleSCMCheckins($prj_id, $issue_id, $module, $files, $username, $commit_msg, $scm, $commitid)
-    {
-    }
-
-    /**
      * Method called on Commit to allow workflow update project name/commit author or user id
      *
      * @param int $prj_id the project ID

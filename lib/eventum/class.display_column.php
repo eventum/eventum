@@ -108,7 +108,7 @@ class Display_Column
                     ctd_min_role,
                     ctd_rank
                 FROM
-                    {{%columns_to_display}}
+                    `columns_to_display`
                 WHERE
                     ctd_prj_id = ? AND
                     ctd_page = ?
@@ -242,7 +242,7 @@ class Display_Column
 
         // delete current entries
         $stmt = 'DELETE FROM
-                    {{%columns_to_display}}
+                    `columns_to_display`
                 WHERE
                     ctd_prj_id = ? AND
                     ctd_page = ?';
@@ -255,7 +255,7 @@ class Display_Column
         $rank = 1;
         foreach ($ranks as $field_name => $requested_rank) {
             $sql = 'INSERT INTO
-                        {{%columns_to_display}}
+                        `columns_to_display`
                     SET
                         ctd_prj_id = ?,
                         ctd_page = ?,
@@ -292,7 +292,7 @@ class Display_Column
                 $min_role = 1;
             }
             $stmt = 'INSERT INTO
-                        {{%columns_to_display}}
+                        `columns_to_display`
                      SET
                         ctd_prj_id = ?,
                         ctd_page = ?,

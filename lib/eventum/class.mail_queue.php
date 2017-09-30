@@ -116,7 +116,7 @@ class Mail_Queue
             $params['maq_type_id'] = $type_id;
         }
 
-        $stmt = 'INSERT INTO {{%mail_queue}} SET ' . DB_Helper::buildSet($params);
+        $stmt = 'INSERT INTO `mail_queue` SET ' . DB_Helper::buildSet($params);
         DB_Helper::getInstance()->query($stmt, $params);
 
         return true;
@@ -241,7 +241,7 @@ class Mail_Queue
         $sql = "SELECT
                     maq_id id
                  FROM
-                    {{%mail_queue}}
+                    `mail_queue`
                  WHERE
                     maq_status=?
                  ORDER BY
@@ -269,7 +269,7 @@ class Mail_Queue
         $sql = 'SELECT
                     GROUP_CONCAT(maq_id) ids
                  FROM
-                    {{%mail_queue}}
+                    `mail_queue`
                  WHERE
                     maq_status=?
                  AND
@@ -315,7 +315,7 @@ class Mail_Queue
                     maq_type,
                     maq_usr_id
                  FROM
-                    {{%mail_queue}}
+                    `mail_queue`
                  WHERE
                     maq_id=?';
         try {
@@ -345,7 +345,7 @@ class Mail_Queue
                     maq_type,
                     maq_usr_id
                  FROM
-                    {{%mail_queue}}
+                    `mail_queue`
                  WHERE
                     maq_id IN (' . implode(',', $maq_ids) . ')';
         try {
@@ -365,7 +365,7 @@ class Mail_Queue
      */
     private static function getQueueErrorCount($maq_id)
     {
-        $sql = 'select count(*) from {{%mail_queue_log}} where mql_maq_id=? and mql_status=?';
+        $sql = 'select count(*) from `mail_queue_log` where mql_maq_id=? and mql_status=?';
         $res = DB_Helper::getInstance()->getOne($sql, [$maq_id, 'error']);
 
         return (int) $res;
@@ -383,7 +383,7 @@ class Mail_Queue
     private static function _saveStatusLog($maq_id, $status, $server_message)
     {
         $stmt = 'INSERT INTO
-                    {{%mail_queue_log}}
+                    `mail_queue_log`
                  (
                     mql_maq_id,
                     mql_created_date,
@@ -405,7 +405,7 @@ class Mail_Queue
         }
 
         $stmt = 'UPDATE
-                    {{%mail_queue}}
+                    `mail_queue`
                  SET
                     maq_status=?
                  WHERE
@@ -431,7 +431,7 @@ class Mail_Queue
                     maq_recipient,
                     maq_subject
                  FROM
-                    {{%mail_queue}}
+                    `mail_queue`
                  WHERE
                     maq_iss_id = ?
                  ORDER BY
@@ -463,7 +463,7 @@ class Mail_Queue
                     maq_headers,
                     maq_body
                  FROM
-                    {{%mail_queue}}
+                    `mail_queue`
                  WHERE
                     maq_id = ?';
         try {
@@ -493,7 +493,7 @@ class Mail_Queue
         $sql = "SELECT
                     maq_recipient
                 FROM
-                    {{%mail_queue}}
+                    `mail_queue`
                 WHERE
                     maq_type IN ($types_list) AND
                     maq_type_id = ?";
@@ -516,24 +516,18 @@ class Mail_Queue
     /**
      * Truncates the maq_body field of any emails older then one month.
      *
-     * @return bool
+     * @param string $interval MySQL Interval definition
      */
-    public static function truncate()
+    public static function truncate($interval)
     {
         $sql = "UPDATE
-                    {{%mail_queue}}
+                    `mail_queue`
                 SET
                   maq_body = '',
                   maq_status = 'truncated'
                 WHERE
                     maq_status = 'sent' AND
-                    maq_queued_date <= DATE_SUB(NOW(), INTERVAL 1 MONTH)";
-        try {
-            DB_Helper::getInstance()->query($sql);
-        } catch (DatabaseException $e) {
-            return false;
-        }
-
-        return true;
+                    maq_queued_date <= DATE_SUB(NOW(), INTERVAL $interval)";
+        DB_Helper::getInstance()->query($sql);
     }
 }

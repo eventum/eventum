@@ -323,7 +323,7 @@ class LDAP_Auth_Backend implements Auth_Backend_Interface
             if ($diff) {
                 $diff = array_diff_assoc($data, $stored_data);
                 // if email is about to be updated, move current one to aliases
-                if (isset($diff['email']) && isset($stored_data['email'])) {
+                if (isset($diff['email'], $stored_data['email'])) {
                     $emails[] = $stored_data['email'];
 
                     // if new email is present in aliases remove it from there

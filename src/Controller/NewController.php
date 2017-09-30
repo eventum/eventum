@@ -275,7 +275,7 @@ class NewController extends BaseController
             'defaults' => $defaults,
         ];
 
-        if (isset($details['customer']) && isset($details['contact'])) {
+        if (isset($details['customer'], $details['contact'])) {
             $vars += [
                 'customer_id' => $details['iss_customer_id'],
                 'contact_id' => $details['iss_customer_contact_id'],

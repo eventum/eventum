@@ -51,7 +51,7 @@ class Priority
             $index = array_search($new_rank, $ranks);
             $replaced_pri_id = $ids[$index];
             $stmt = 'UPDATE
-                        {{%project_priority}}
+                        `project_priority`
                      SET
                         pri_rank=?
                      WHERE
@@ -60,7 +60,7 @@ class Priority
             DB_Helper::getInstance()->query($stmt, [$ranking[$pri_id], $prj_id, $replaced_pri_id]);
         }
         $stmt = 'UPDATE
-                    {{%project_priority}}
+                    `project_priority`
                  SET
                     pri_rank=?
                  WHERE
@@ -84,7 +84,7 @@ class Priority
                     pri_id,
                     pri_rank
                  FROM
-                    {{%project_priority}}
+                    `project_priority`
                  WHERE
                     pri_prj_id=?
                  ORDER BY
@@ -109,7 +109,7 @@ class Priority
         $stmt = 'SELECT
                     *
                  FROM
-                    {{%project_priority}}
+                    `project_priority`
                  WHERE
                     pri_id=?';
         try {
@@ -119,30 +119,6 @@ class Priority
         }
 
         return $res;
-    }
-
-    /**
-     * Method used to remove all priorities related to a set of
-     * specific projects.
-     *
-     * @param   array $ids The project IDs to be removed
-     * @return  bool Whether the removal worked or not
-     * @deprecated method not used
-     */
-    public static function removeByProjects($ids)
-    {
-        $items = DB_Helper::buildList($ids);
-        $stmt = "DELETE FROM
-                    {{%project_priority}}
-                 WHERE
-                    pri_prj_id IN ($items)";
-        try {
-            DB_Helper::getInstance()->query($stmt, $ids);
-        } catch (DatabaseException $e) {
-            return false;
-        }
-
-        return true;
     }
 
     /**
@@ -156,7 +132,7 @@ class Priority
         $items = $_POST['items'];
         $itemlist = DB_Helper::buildList($items);
         $stmt = "DELETE FROM
-                    {{%project_priority}}
+                    `project_priority`
                  WHERE
                     pri_id IN ($itemlist)";
         try {
@@ -181,7 +157,7 @@ class Priority
             return -2;
         }
         $stmt = 'UPDATE
-                    {{%project_priority}}
+                    `project_priority`
                  SET
                     pri_title=?,
                     pri_rank=?,
@@ -209,7 +185,7 @@ class Priority
             return -2;
         }
         $stmt = 'INSERT INTO
-                    {{%project_priority}}
+                    `project_priority`
                  (
                     pri_prj_id,
                     pri_title,
@@ -242,7 +218,7 @@ class Priority
                     pri_rank,
                     pri_icon
                  FROM
-                    {{%project_priority}}
+                    `project_priority`
                  WHERE
                     pri_prj_id=?
                  ORDER BY
@@ -267,7 +243,7 @@ class Priority
         $stmt = 'SELECT
                     pri_title
                  FROM
-                    {{%project_priority}}
+                    `project_priority`
                  WHERE
                     pri_id=?';
         try {
@@ -298,7 +274,7 @@ class Priority
                     pri_id,
                     pri_title
                  FROM
-                    {{%project_priority}}
+                    `project_priority`
                  WHERE
                     pri_prj_id=?
                  ORDER BY
@@ -327,7 +303,7 @@ class Priority
         $stmt = 'SELECT
                     pri_id
                  FROM
-                    {{%project_priority}}
+                    `project_priority`
                  WHERE
                     pri_prj_id=?
                     AND pri_title = ?';

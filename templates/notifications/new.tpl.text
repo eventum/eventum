@@ -3,7 +3,7 @@
 {t escape=no}A new issue was just created and assigned to you.{/t}
 
 {t escape=no}To view more details of this issue, or to update it, please visit the following URL{/t}:
-{$core.base_url}view.php?id={$issue.iss_id}{/textarea}
+{$core.base_url}view.php?id={$issue.iss_id}{/textformat}
 
 ----------------------------------------------------------------------
                {t escape=no}ID{/t}: {$issue.iss_id}

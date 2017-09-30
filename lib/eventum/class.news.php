@@ -27,8 +27,8 @@ class News
         $stmt = "SELECT
                     *
                  FROM
-                    {{%news}},
-                    {{%project_news}}
+                    `news`,
+                    `project_news`
                  WHERE
                     prn_nws_id=nws_id AND
                     prn_prj_id=? AND
@@ -71,7 +71,7 @@ class News
     public static function addProjectAssociation($nws_id, $prj_id)
     {
         $stmt = 'INSERT INTO
-                    {{%project_news}}
+                    `project_news`
                  (
                     prn_nws_id,
                     prn_prj_id
@@ -95,7 +95,7 @@ class News
             return -3;
         }
         $stmt = 'INSERT INTO
-                    {{%news}}
+                    `news`
                  (
                     nws_usr_id,
                     nws_created_date,
@@ -137,7 +137,7 @@ class News
         $items = $_POST['items'];
         $itemlist = DB_Helper::buildList($items);
         $stmt = "DELETE FROM
-                    {{%news}}
+                    `news`
                  WHERE
                     nws_id IN ($itemlist)";
         try {
@@ -167,7 +167,7 @@ class News
 
         $items = DB_Helper::buildList($nws_id);
         $stmt = "DELETE FROM
-                    {{%project_news}}
+                    `project_news`
                  WHERE
                     prn_nws_id IN ($items)";
         $params = $nws_id;
@@ -198,7 +198,7 @@ class News
             return -3;
         }
         $stmt = 'UPDATE
-                    {{%news}}
+                    `news`
                  SET
                     nws_title=?,
                     nws_message=?,
@@ -232,7 +232,7 @@ class News
         $stmt = 'SELECT
                     *
                  FROM
-                    {{%news}}
+                    `news`
                  WHERE
                     nws_id=?';
         try {
@@ -259,7 +259,7 @@ class News
         $stmt = 'SELECT
                     *
                  FROM
-                    {{%news}}
+                    `news`
                  WHERE
                     nws_id=?';
         try {
@@ -286,7 +286,7 @@ class News
                     nws_title,
                     nws_status
                  FROM
-                    {{%news}}
+                    `news`
                  ORDER BY
                     nws_title ASC';
         try {
@@ -316,8 +316,8 @@ class News
                     prj_id,
                     prj_title
                  FROM
-                    {{%project}},
-                    {{%project_news}}
+                    `project`,
+                    `project_news`
                  WHERE
                     prj_id=prn_prj_id AND
                     prn_nws_id=?';

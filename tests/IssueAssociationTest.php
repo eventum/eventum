@@ -27,7 +27,7 @@ class IssueAssociation extends TestCase
         $db = DB_Helper::getInstance();
         $issues = '12,13,14,15';
         $db->query(
-            "delete FROM {{%issue_association}} WHERE isa_issue_id in ($issues) OR isa_associated_id in($issues)"
+            "delete FROM `issue_association` WHERE isa_issue_id in ($issues) OR isa_associated_id in($issues)"
         );
     }
 

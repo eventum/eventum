@@ -29,7 +29,7 @@ class APIAuthToken
     public static function saveToken($usr_id, $token)
     {
         $sql = 'INSERT INTO
-                    {{%api_token}}
+                    `api_token`
                 SET
                     apt_usr_id = ?,
                     apt_created = ?,
@@ -69,7 +69,7 @@ class APIAuthToken
         $sql = "SELECT
                     apt_usr_id
                 FROM
-                    {{%api_token}}
+                    `api_token`
                 WHERE
                     apt_token = ? AND
                     apt_status = 'active'";
@@ -94,7 +94,7 @@ class APIAuthToken
                     apt_status as status,
                     apt_token as token
                 FROM
-                    {{%api_token}}
+                    `api_token`
                 WHERE
                     apt_usr_id = ?';
         if ($active_only) {
@@ -124,7 +124,7 @@ class APIAuthToken
     public static function regenerateKey($usr_id)
     {
         $sql = "UPDATE
-                   {{%api_token}}
+                   `api_token`
                 SET
                     apt_status = 'revoked'
                 WHERE

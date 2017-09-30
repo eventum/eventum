@@ -36,7 +36,7 @@ class EventumLegacyAdapter implements AdapterInterface
                     iaf_flysystem_path,
                     iaf_iat_id
                 FROM
-                    {{%issue_attachment_file}}
+                    `issue_attachment_file`
                 WHERE
                     iaf_id=?';
         $res = DB_Helper::getInstance()->getRow($sql, [$path]);
@@ -244,7 +244,7 @@ class EventumLegacyAdapter implements AdapterInterface
     public function delete($path)
     {
         $sql = 'UPDATE
-                    {{%issue_attachment_file}}
+                    `issue_attachment_file`
                 SET
                     iaf_file = NULL
                 WHERE

@@ -11,9 +11,11 @@
  * that were distributed with this source code.
  */
 
-ini_set('memory_limit', '1024M');
-
 require_once __DIR__ . '/../init.php';
 
-$app = new Eventum\Command\TruncateMailQueueCommand();
+use Eventum\Command\MailQueueTruncateCommand as Command;
+
+$app = new Silly\Application();
+$app->command(Command::USAGE, [new Command(), 'execute']);
+$app->setDefaultCommand(Command::DEFAULT_COMMAND, true);
 $app->run();

@@ -4,9 +4,17 @@
 
 Upgrading to 3.3.0 versions requires that you upgrade to 3.2.0 version first.
 
-- emit history.add events when history entry is added (@glensc, #278)
+- Emit history.add events when history entry is added (@glensc, #278)
 - Fix fatal error when downloading emails from unknown sender with CRM enabled (@balsdorf)
 - Use league/flysystem to abstract attachments (@balsdorf, @glensc, #254)
+- Drop unused/deprecated methods (@glensc, #284)
+- Drop support for old setup.php formats (@glensc, #288)
+- Add script to manage extensions from CLI (@glensc, #290)
+- Use mnapoli/silly for cli applications (@glensc, #279)
+- Unify lengths of header fields (@glensc, #266, #295)
+- Add events for user creation/update (@glensc, #289)
+- Harden closeIssue access checks/validation in RPC code (@glensc, #287)
+- Drop table prefix uses from code (@glensc, #296)
 
 [3.3.0]: https://github.com/eventum/eventum/compare/v3.2.3...master
 

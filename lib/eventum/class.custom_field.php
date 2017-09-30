@@ -72,7 +72,7 @@ class Custom_Field
             $cfo_id = [$cfo_id];
         }
         $stmt = 'DELETE FROM
-                    {{%custom_field_option}}
+                    `custom_field_option`
                  WHERE
                     cfo_id IN (' . DB_Helper::buildList($cfo_id) . ')';
         try {
@@ -84,7 +84,7 @@ class Custom_Field
         // also remove any custom field option that is currently assigned to an issue
         // FIXME: review this
         $stmt = 'DELETE FROM
-                    {{%issue_custom_field}}
+                    `issue_custom_field`
                  WHERE
                     icf_fld_id IN (' . DB_Helper::buildList($fld_id) . ') AND
                     icf_value IN (' . DB_Helper::buildList($cfo_id) . ')';
@@ -113,7 +113,7 @@ class Custom_Field
                 continue;
             }
             $stmt = 'INSERT INTO
-                        {{%custom_field_option}}
+                        `custom_field_option`
                      (
                         cfo_fld_id,
                         cfo_value,
@@ -145,7 +145,7 @@ class Custom_Field
     public static function updateOption($cfo_id, $cfo_value, $rank = null)
     {
         $stmt = 'UPDATE
-                    {{%custom_field_option}}
+                    `custom_field_option`
                  SET
                     cfo_value=?,
                     cfo_rank=?
@@ -196,7 +196,7 @@ class Custom_Field
                         fld_id,
                         fld_type
                      FROM
-                        {{%custom_field}}
+                        `custom_field`
                      WHERE
                         fld_id IN ($cf_list)";
             $field_types = DB_Helper::getInstance()->getPair($stmt, $cf);
@@ -206,7 +206,7 @@ class Custom_Field
                         fld_id,
                         fld_title
                      FROM
-                        {{%custom_field}}
+                        `custom_field`
                      WHERE
                         fld_id IN ($cf_list)";
             $field_titles = DB_Helper::getInstance()->getPair($stmt, $cf);
@@ -217,7 +217,7 @@ class Custom_Field
                 $sql = 'SELECT
                             fld_min_role
                         FROM
-                            {{%custom_field}}
+                            `custom_field`
                         WHERE
                             fld_id = ?';
 
@@ -243,7 +243,7 @@ class Custom_Field
                                 icf_id,
                                 $fld_db_name as value
                              FROM
-                                {{%issue_custom_field}}
+                                `issue_custom_field`
                              WHERE
                                 icf_iss_id=? AND
                                 icf_fld_id=?";
@@ -264,7 +264,7 @@ class Custom_Field
                     if (empty($icf_id)) {
                         // record doesn't exist, insert new record
                         $stmt = "INSERT INTO
-                                    {{%issue_custom_field}}
+                                    `issue_custom_field`
                                  (
                                     icf_iss_id,
                                     icf_fld_id,
@@ -283,7 +283,7 @@ class Custom_Field
                     } else {
                         // record exists, update it
                         $stmt = "UPDATE
-                                    {{%issue_custom_field}}
+                                    `issue_custom_field`
                                  SET
                                     $fld_db_name=?
                                  WHERE
@@ -453,7 +453,7 @@ class Custom_Field
 
             $fld_name = self::getDBValueFieldNameByType($fld_details['fld_type']);
             $stmt = "INSERT INTO
-                        {{%issue_custom_field}}
+                        `issue_custom_field`
                      (
                         icf_iss_id,
                         icf_fld_id,
@@ -492,8 +492,8 @@ class Custom_Field
                     fld_anonymous_form_required,
                     fld_min_role
                  FROM
-                    {{%custom_field}},
-                    {{%project_custom_field}}
+                    `custom_field`,
+                    `project_custom_field`
                  WHERE
                     pcf_fld_id=fld_id AND
                     pcf_prj_id=?';
@@ -604,7 +604,7 @@ class Custom_Field
         $stmt = 'SELECT
                     cfo_value
                  FROM
-                    {{%custom_field_option}}
+                    `custom_field_option`
                  WHERE
                     cfo_fld_id=? AND
                     cfo_id=?';
@@ -656,7 +656,7 @@ class Custom_Field
         $stmt = 'SELECT
                     cfo_id
                  FROM
-                    {{%custom_field_option}}
+                    `custom_field_option`
                  WHERE
                     cfo_fld_id=? AND
                     cfo_value=?';
@@ -716,11 +716,11 @@ class Custom_Field
                     fld_description
                  FROM
                     (
-                    {{%custom_field}},
-                    {{%project_custom_field}}
+                    `custom_field`,
+                    `project_custom_field`
                     )
                  LEFT JOIN
-                    {{%issue_custom_field}}
+                    `issue_custom_field`
                  ON
                     pcf_fld_id=icf_fld_id AND
                     icf_iss_id=?
@@ -871,7 +871,7 @@ class Custom_Field
         $items = $_POST['items'];
         $list = DB_Helper::buildList($items);
         $stmt = "DELETE FROM
-                    {{%custom_field}}
+                    `custom_field`
                  WHERE
                     fld_id IN ($list)";
         try {
@@ -881,7 +881,7 @@ class Custom_Field
         }
 
         $stmt = "DELETE FROM
-                    {{%project_custom_field}}
+                    `project_custom_field`
                  WHERE
                     pcf_fld_id IN ($list)";
         try {
@@ -891,7 +891,7 @@ class Custom_Field
         }
 
         $stmt = "DELETE FROM
-                    {{%issue_custom_field}}
+                    `issue_custom_field`
                  WHERE
                     icf_fld_id IN ($list)";
         try {
@@ -901,7 +901,7 @@ class Custom_Field
         }
 
         $stmt = "DELETE FROM
-                    {{%custom_field_option}}
+                    `custom_field_option`
                  WHERE
                     cfo_fld_id IN ($list)";
         try {
@@ -954,7 +954,7 @@ class Custom_Field
             $_POST['rank'] = (self::getMaxRank() + 1);
         }
         $stmt = 'INSERT INTO
-                    {{%custom_field}}
+                    `custom_field`
                  (
                     fld_title,
                     fld_description,
@@ -1017,7 +1017,7 @@ class Custom_Field
     public static function associateProject($prj_id, $fld_id)
     {
         $stmt = 'INSERT INTO
-                    {{%project_custom_field}}
+                    `project_custom_field`
                  (
                     pcf_prj_id,
                     pcf_fld_id
@@ -1044,7 +1044,7 @@ class Custom_Field
         $stmt = 'SELECT
                     *
                  FROM
-                    {{%custom_field}}
+                    `custom_field`
                  ORDER BY
                     fld_rank ASC';
 
@@ -1074,8 +1074,8 @@ class Custom_Field
                     prj_id,
                     prj_title
                  FROM
-                    {{%project}},
-                    {{%project_custom_field}}
+                    `project`,
+                    `project_custom_field`
                  WHERE
                     pcf_prj_id=prj_id AND
                     pcf_fld_id=?
@@ -1108,7 +1108,7 @@ class Custom_Field
         $stmt = 'SELECT
                     *
                  FROM
-                    {{%custom_field}}
+                    `custom_field`
                  WHERE
                     fld_id=?';
         try {
@@ -1172,7 +1172,7 @@ class Custom_Field
                     cfo_id,
                     cfo_value
                  FROM
-                    {{%custom_field_option}}
+                    `custom_field_option`
                  WHERE
                     cfo_fld_id=?';
         $params = [$fld_id];
@@ -1240,7 +1240,7 @@ class Custom_Field
         }
         $old_details = self::getDetails($_POST['id']);
         $stmt = 'UPDATE
-                    {{%custom_field}}
+                    `custom_field`
                  SET
                     fld_title=?,
                     fld_description=?,
@@ -1308,7 +1308,7 @@ class Custom_Field
 
         // update the project associations now
         $stmt = 'DELETE FROM
-                    {{%project_custom_field}}
+                    `project_custom_field`
                  WHERE
                     pcf_fld_id=?';
         try {
@@ -1336,7 +1336,7 @@ class Custom_Field
         $stmt = 'SELECT
                     pcf_fld_id
                  FROM
-                    {{%project_custom_field}}
+                    `project_custom_field`
                  WHERE
                     pcf_prj_id=?';
         try {
@@ -1370,7 +1370,7 @@ class Custom_Field
             $sql = 'SELECT
                         iss_id
                     FROM
-                        {{%issue}}
+                        `issue`
                     WHERE
                         iss_prj_id = ?';
             try {
@@ -1383,7 +1383,7 @@ class Custom_Field
         }
 
         $stmt = 'DELETE FROM
-                    {{%issue_custom_field}}
+                    `issue_custom_field`
                  WHERE
                     icf_fld_id IN (' . DB_Helper::buildList($fld_id) . ')';
         $params = $fld_id;
@@ -1413,7 +1413,7 @@ class Custom_Field
         $stmt = "SELECT
                     cfo_id
                  FROM
-                    {{%custom_field_option}}
+                    `custom_field_option`
                  WHERE
                     cfo_fld_id IN ($items)";
         try {
@@ -1439,8 +1439,8 @@ class Custom_Field
                     fld_id,
                     fld_title
                 FROM
-                    {{%custom_field}},
-                    {{%project_custom_field}}
+                    `custom_field`,
+                    `project_custom_field`
                 WHERE
                     fld_id = pcf_fld_id AND
                     pcf_prj_id = ? AND
@@ -1468,7 +1468,7 @@ class Custom_Field
         $sql = 'SELECT
                     fld_id
                 FROM
-                    {{%custom_field}}
+                    `custom_field`
                 WHERE
                     fld_title = ?';
         try {
@@ -1499,8 +1499,8 @@ class Custom_Field
                     fld_type,
                     ' . self::getDBValueFieldSQL() . ' as value
                 FROM
-                    {{%custom_field}},
-                    {{%issue_custom_field}}
+                    `custom_field`,
+                    `issue_custom_field`
                 WHERE
                     fld_id=icf_fld_id AND
                     icf_iss_id=? AND
@@ -1541,7 +1541,7 @@ class Custom_Field
         $sql = 'SELECT
                     max(fld_rank)
                 FROM
-                    {{%custom_field}}';
+                    `custom_field`';
 
         return DB_Helper::getInstance()->getOne($sql);
     }
@@ -1599,7 +1599,7 @@ class Custom_Field
     public static function setRank($fld_id, $rank)
     {
         $sql = 'UPDATE
-                    {{%custom_field}}
+                    `custom_field`
                 SET
                     fld_rank = ?
                 WHERE
@@ -1632,7 +1632,7 @@ class Custom_Field
         $sql = 'SELECT
                     fld_backend
                 FROM
-                    {{%custom_field}}
+                    `custom_field`
                 WHERE
                     fld_id = ?';
         try {
@@ -1658,42 +1658,6 @@ class Custom_Field
     }
 
     /**
-     * Searches a specified custom field for a string and returns any issues that match
-     *
-     * @param   int $fld_id The ID of the custom field
-     * @param   string  $search The string to search for
-     * @return  array An array of issue IDs
-     * @deprecated method not used
-     */
-    public static function getIssuesByString($fld_id, $search)
-    {
-        $sql = 'SELECT
-                    icf_iss_id
-                FROM
-                    {{%issue_custom_field}}
-                WHERE
-                    icf_fld_id = ? AND
-                    (
-                        icf_value LIKE ? OR
-                        icf_value_integer LIKE ? OR
-                        icf_value_date LIKE ?
-                    )';
-        try {
-            $params = [
-                $fld_id,
-                "%$search%",
-                "%$search%",
-                "%$search%",
-            ];
-            $res = DB_Helper::getInstance()->getColumn($sql, $params);
-        } catch (DatabaseException $e) {
-            return [];
-        }
-
-        return $res;
-    }
-
-    /**
      * Formats the return value
      *
      * @param   mixed   $value The value to format
@@ -1709,25 +1673,6 @@ class Custom_Field
         }
 
         return Link_Filter::processText(Auth::getCurrentProject(), Misc::htmlentities($value));
-    }
-
-    /**
-     * This method inserts a blank value for all custom fields that do not already have a record.
-     * It currently is not called by the main code, but is included to be called from workflow classes.
-     *
-     * @param   int $issue_id The Issue ID
-     * @deprecated method not used
-     */
-    public static function populateAllFields($issue_id)
-    {
-        $prj_id = Issue::getProjectID($issue_id);
-        $fields = self::getListByIssue($prj_id, $issue_id, APP_SYSTEM_USER_ID);
-        foreach ($fields as $field) {
-            if (empty($field['value'])) {
-                self::removeIssueAssociation($field['fld_id'], $issue_id);
-                self::associateIssue($issue_id, $field['fld_id'], '');
-            }
-        }
     }
 
     /**
@@ -1769,7 +1714,7 @@ class Custom_Field
         $db_field_name = self::getDBValueFieldNameByType($details['fld_type']);
 
         $sql = 'UPDATE
-                    {{%issue_custom_field}}
+                    `issue_custom_field`
                 SET
                     ';
         if ($details['fld_type'] == 'integer') {

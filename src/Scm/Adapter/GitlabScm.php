@@ -15,6 +15,7 @@ namespace Eventum\Scm\Adapter;
 
 use Eventum\Model\Entity;
 use Eventum\Model\Repository\CommitRepository;
+use InvalidArgumentException;
 use Issue;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -48,9 +49,9 @@ class GitlabScm extends AbstractScmAdapter
         $eventType = $this->request->headers->get(self::GITLAB_HEADER);
         $payload = $this->getPayload();
 
-        if ($eventType == 'Push Hook') {
+        if ($eventType === 'Push Hook') {
             $this->processPushHook($payload);
-        } elseif ($eventType == 'System Hook' && $payload->getEventName() == 'push') {
+        } elseif ($eventType === 'System Hook' && $payload->getEventName() === 'push') {
             // system hook can also handle pushes
             // unfortunately it has empty commits[]
             $this->processPushHook($payload);
@@ -59,13 +60,16 @@ class GitlabScm extends AbstractScmAdapter
 
     /**
      * Walk over commit messages and match issue ids
+     *
+     * @param Entity\GitlabScmPayload $payload
+     * @throws InvalidArgumentException
      */
     private function processPushHook(Entity\GitlabScmPayload $payload)
     {
         $repo_url = $payload->getRepoUrl();
         $repo = Entity\CommitRepo::getRepoByUrl($repo_url);
         if (!$repo) {
-            throw new \InvalidArgumentException("SCM repo not identified from {$repo_url}");
+            throw new InvalidArgumentException("SCM repo not identified from {$repo_url}");
         }
 
         $cr = CommitRepository::create();
@@ -78,7 +82,7 @@ class GitlabScm extends AbstractScmAdapter
             $this->log->debug('commit', ['issues' => $issues, 'branch' => $branch, 'commit' => $commit]);
 
             if (!$repo->branchAllowed($branch)) {
-                throw new \InvalidArgumentException("Branch not allowed: {$branch}");
+                throw new InvalidArgumentException("Branch not allowed: {$branch}");
             }
 
             // XXX: take prj_id from first issue_id

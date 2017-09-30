@@ -29,10 +29,10 @@ checkout_vendor() {
 	cd vendor
 	# switch branch if exists
 	if [ -n "$(git branch --list $branch)" ]; then
-		git checkout $branch
+		git checkout -f $branch
 	else
 		# otherwise create the branch
-		git checkout -b $branch
+		git checkout -b $branch || { echo >&2 Branch Create Fail; }
 		git add -A .
 		# remove composer.lock if it's new branch in vendor/.git
 		git rm -f composer.lock
@@ -88,17 +88,6 @@ check_composer_json() {
 	update_composer
 }
 
-sync_phpcs_cache() {
-	local old_branch=$(git name-rev --name-only $old_ref | tr / _)
-	local new_branch=$(git rev-parse --abbrev-ref HEAD | tr / _)
-
-	# skip if cache already exists
-	test -f .php_cs-$new_branch.cache && return 0
-	# skip if cache can't be copied
-	test ! -f .php_cs-$old_branch.cache && return 0
-	cp -p .php_cs-$old_branch.cache .php_cs-$new_branch.cache
-}
-
 # if ran directly, assume user wants to force update vendor/ dir
 if [ -z "$GIT_DIR" ]; then
 	rm -f composer.lock vendor/composer.lock
@@ -109,6 +98,8 @@ fi
 # file checkout, nothing to do
 [ "$flag" = "0" ] && exit 0
 
+# TODO: need to hook when rebasing,
+# as then composer.json updates get in but vendor gets out of sync
+
 check_composer_json
-sync_phpcs_cache
 exit 0

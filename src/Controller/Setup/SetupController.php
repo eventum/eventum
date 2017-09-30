@@ -116,7 +116,7 @@ class SetupController extends BaseController
         }
         clearstatcache();
         if (!is_writable($file)) {
-            if (!stristr(PHP_OS, 'win')) {
+            if (stripos(PHP_OS, 'win') === false) {
                 // let's try to change the permissions ourselves
                 @chmod($file, 0644);
                 clearstatcache();
@@ -127,7 +127,7 @@ class SetupController extends BaseController
                 return $this->getPermissionError($file, $desc, $is_directory, true);
             }
         }
-        if (stristr(PHP_OS, 'win')) {
+        if (stripos(PHP_OS, 'win') !== false) {
             // need to check whether we can really create files in this directory or not
             // since is_writable() is not trustworthy on windows platforms
             if (is_dir($file)) {
@@ -357,9 +357,6 @@ class SetupController extends BaseController
             'password' => $post->get('db_password'),
             'port' => 3306,
             'socket' => $socket,
-
-            // table prefix
-            'table_prefix' => '',
         ];
 
         Setup::save($setup);

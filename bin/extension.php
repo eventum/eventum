@@ -1,5 +1,5 @@
+#!/usr/bin/php
 <?php
-
 /*
  * This file is part of the Eventum (Issue Tracking System) package.
  *
@@ -11,22 +11,11 @@
  * that were distributed with this source code.
  */
 
-namespace Eventum\Command;
+require_once __DIR__ . '/../init.php';
 
-use Mail_Queue;
+use Eventum\Command\ExtensionEnableCommand as Command;
 
-class TruncateMailQueueCommand extends Command
-{
-    protected function configure()
-    {
-        $this->lock_name = 'truncate_mail_queue';
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function execute()
-    {
-        Mail_Queue::truncate();
-    }
-}
+$app = new Silly\Application();
+$app->command(Command::USAGE, [new Command(), 'execute']);
+$app->setDefaultCommand(Command::DEFAULT_COMMAND, true);
+$app->run();

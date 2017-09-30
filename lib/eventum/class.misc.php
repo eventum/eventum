@@ -229,8 +229,10 @@ class Misc
             case 'g':
                 $val *= 1024;
             /** @noinspection PhpMissingBreakStatementInspection */
+            // no break
             case 'm':
                 $val *= 1024;
+                // no break
             case 'k':
                 $val *= 1024;
         }
@@ -489,7 +491,7 @@ class Misc
         }
         clearstatcache();
         if (!is_writable($file)) {
-            if (!stristr(PHP_OS, 'win')) {
+            if (stripos(PHP_OS, 'win') === false) {
                 // let's try to change the permissions ourselves
                 @chmod($file, 0755);
                 clearstatcache();
@@ -500,7 +502,7 @@ class Misc
                 return false;
             }
         }
-        if (stristr(PHP_OS, 'win')) {
+        if (stripos(PHP_OS, 'win') !== false) {
             // need to check whether we can really create files in this directory or not
             // since is_writable() is not trustworthy on windows platforms
             if (is_dir($file)) {
@@ -728,7 +730,7 @@ class Misc
         if ($force_inline == true) {
             header('Content-Type: text/plain');
 
-            if (stristr($filetype, 'gzip')) {
+            if (stripos($filetype, 'gzip') !== false) {
                 header('Content-Encoding: gzip');
             }
             header('Content-Disposition: inline; filename="' . urlencode($filename) . '"');
@@ -737,16 +739,15 @@ class Misc
             exit;
         }
 
-        // XXX $mimetype is never initialized!
-        if (empty($mimetype)) {
-            $mimetype = 'application/octet-stream';
+        if (empty($filetype)) {
+            $filetype = 'application/octet-stream';
         }
         if (empty($filename)) {
             $filename = ev_gettext('Untitled');
         }
         $filename = rawurlencode($filename);
         $disposition = self::getAttachmentDisposition($filetype);
-        header('Content-Type: ' . $mimetype);
+        header('Content-Type: ' . $filetype);
         header("Content-Disposition: {$disposition}; filename=\"{$filename}\"; filename*=" . APP_CHARSET . "''{$filename}");
         header("Content-Length: {$filesize}");
         echo $data;

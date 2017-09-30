@@ -32,7 +32,7 @@ require __DIR__ . '/../init.php';
 
 function check_delete(AdapterInterface $db, $tables, $issue_id)
 {
-    $res = $db->getOne('SELECT iss_id FROM {{%issue}} where iss_id=?', [$issue_id]);
+    $res = $db->getOne('SELECT iss_id FROM `issue` where iss_id=?', [$issue_id]);
     if (!$res) {
         echo "# issue $issue_id does not exist\n";
 
@@ -47,14 +47,14 @@ function check_delete(AdapterInterface $db, $tables, $issue_id)
 
 function check_delete_table(AdapterInterface $db, $table, $column, $issue_id)
 {
-    $query = "select count(*) from {{%{$table}}} where {$column}=?";
+    $query = "select count(*) from `{$table}` where {$column}=?";
     $res = $db->getOne($query, [$issue_id]);
     if (!$res) {
         // no records, skip table
         return;
     }
 
-    echo $db->getOne("select 'delete from {{%{$table}}} where {$column}={$issue_id};'"), "\n";
+    echo $db->getOne("select 'delete from `{$table}` where {$column}={$issue_id};'"), "\n";
 }
 
 $tables = [

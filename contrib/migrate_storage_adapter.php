@@ -22,87 +22,151 @@
 
 use Eventum\Attachment\AttachmentManager;
 use Eventum\Attachment\StorageManager;
+use Eventum\Db\Adapter\AdapterInterface;
+use Symfony\Component\Console\Output\OutputInterface;
 
-if (!isset($argv[2])) {
-    printf("Usage: %s source_adapter target_adapter\n", $argv[0]);
-    exit(1);
-}
+require_once __DIR__ . '/../init.php';
 
-if (!in_array('--yes', $argv)) {
-    echo "WARNING: Migrating data has risks. Make sure all your data is backed up before continuing.
+$app = new Silly\Application();
+$app->command(Command::USAGE, [new Command(), 'execute']);
+$app->setDefaultCommand(Command::DEFAULT_COMMAND, true);
+$app->run();
 
-Pass '--yes' as the last argument to skip this warning and perform the migration\n";
-    exit(1);
-}
+class Command
+{
+    const DEFAULT_COMMAND = 'migrate:attachments';
+    const USAGE = self::DEFAULT_COMMAND . ' [source_adapter] [target_adapter] [--chunksize=] [--yes]';
 
-list($source_adapter, $target_adapter) = array_slice($argv, 1, 2);
+    /** @var OutputInterface */
+    private $output;
 
-require __DIR__ . '/../init.php';
+    /** @var AdapterInterface */
+    private $db;
 
-$chunksize = 100;
+    /** @var StorageManager */
+    private $sm;
 
-echo "Migrating data from $source_adapter to  $target_adapter\n";
+    /** @var string */
+    private $source_adapter;
 
-$sm = StorageManager::get();
+    /** @var string */
+    private $target_adapter;
 
-while (true) {
-    $sql = "SELECT
+    /** @var int */
+    private $chunksize;
+
+    public function execute(OutputInterface $output, $source_adapter, $target_adapter, $chunksize = 100, $yes)
+    {
+        $this->output = $output;
+        $this->assertInput($source_adapter, $target_adapter, $yes);
+
+        $this->source_adapter = $source_adapter;
+        $this->target_adapter = $target_adapter;
+        $this->chunksize = (int)$chunksize;
+
+        $this->db = DB_Helper::getInstance();
+        $this->sm = StorageManager::get();
+        $this->migrateAttachments();
+        $this->postUpgradeNotice();
+    }
+
+    private function migrateAttachments()
+    {
+        $this->output->writeln(
+            "Migrating data from '{$this->source_adapter}://' to '{$this->target_adapter}://'"
+        );
+
+        while (true) {
+            $files = $this->getChunk();
+            if (empty($files)) {
+                echo "No more attachments to migrate\n";
+                break;
+            }
+
+            foreach ($files as $file) {
+                $this->moveFile($file);
+            }
+        }
+    }
+
+    private function moveFile($file)
+    {
+        $iaf_id = $file['iaf_id'];
+        $filename = $file['iaf_filename'];
+        $issue_id = $file['iat_iss_id'];
+        $old_path = $file['iaf_flysystem_path'];
+        $new_path = AttachmentManager::generatePath($iaf_id, $filename, $issue_id);
+        $new_path = str_replace("{$this->sm->getDefaultAdapter()}://", "{$this->target_adapter}://", $new_path);
+
+        $this->output->writeln("Moving $iaf_id '{$filename}' from $old_path to $new_path");
+
+        // throws League\Flysystem\Exception
+        // we let it abort whole process
+        $this->sm->moveFile($old_path, $new_path);
+
+        $sql
+            = 'UPDATE
+                    `issue_attachment_file`
+                SET
+                    iaf_flysystem_path = ?,
+                    iaf_file = NULL
+                WHERE
+                    iaf_id = ?';
+        DB_Helper::getInstance()->query($sql, [$new_path, $iaf_id]);
+
+        if ($this->target_adapter === 'local') {
+            // try to set the timestamp on the filesystem to match what is stored in the database
+            $fs_path = str_replace('local://', APP_PATH . '/var/storage/', $new_path);
+            $created_date = strtotime($file['iat_created_date']);
+            touch($fs_path, $created_date);
+        }
+    }
+
+    private function getChunk()
+    {
+        $sql
+            = "SELECT
                 iaf_id,
                 iaf_filename,
                 iaf_flysystem_path,
                 iat_iss_id,
                 iat_created_date
             FROM
-                {{%issue_attachment_file}},
-                {{%issue_attachment}}
+                `issue_attachment_file`,
+                `issue_attachment`
             WHERE
                 iat_id = iaf_iat_id AND
-                iaf_flysystem_path LIKE '$source_adapter://%'
+                iaf_flysystem_path LIKE '{$this->source_adapter}://%'
             ORDER BY
                 iaf_id ASC
-            LIMIT $chunksize";
-    $res = DB_Helper::getInstance()->getAll($sql);
+            LIMIT {$this->chunksize}";
 
-    if (empty($res)) {
-        echo "No more attachments to migrate\n";
-        break;
+        return $this->db->getAll($sql);
     }
 
-    foreach ($res as $row) {
-        $iaf_id = $row['iaf_id'];
-        $filename = $row['iaf_filename'];
-        $issue_id = $row['iat_iss_id'];
-        $old_path = $row['iaf_flysystem_path'];
-        $created_date = $row['iat_created_date'];
-        $new_path = AttachmentManager::generatePath($iaf_id, $filename, $issue_id);
-        $new_path = str_replace("{$sm->getDefaultAdapter()}://", "{$target_adapter}://", $new_path);
+    private function assertInput($source_adapter, $target_adapter, $migrate)
+    {
+        if (!$migrate) {
+            throw new RuntimeException(
+                'WARNING: Migrating data has risks. ' .
+                "Make sure all your data is backed up before continuing.\n" .
 
-        echo "Moving $iaf_id '{$filename}' from $old_path to $new_path\n";
-
-        try {
-            $move_res = $sm->moveFile($old_path, $new_path);
-        } catch (\League\Flysystem\Exception $e) {
-            echo "\tERROR {$iaf_id}: {$e->getMessage()}\n";
-            break 2;
+                "Pass '--yes' as the last argument to skip this warning " .
+                'and perform the migration.'
+            );
         }
 
-        $sql = 'UPDATE
-                    {{%issue_attachment_file}}
-                SET
-                    iaf_flysystem_path = ?,
-                    iaf_file = null
-                WHERE
-                    iaf_id = ?';
-        DB_Helper::getInstance()->query($sql, [$new_path, $iaf_id]);
-
-        if ($target_adapter == 'local') {
-            // try to set the timestamp on the filesystem to match what is stored in the database
-            $fs_path = str_replace('local://', APP_PATH . '/var/storage/', $new_path);
-            touch($fs_path, strtotime($created_date));
+        if (!$source_adapter || !$target_adapter) {
+            throw new RuntimeException('Must specify source and target adapters');
         }
     }
-}
 
-if ($source_adapter == 'legacy') {
-    echo "\nYou might need to run 'OPTIMIZE TABLE issue_attachment_file' to reclaim space from the database\n";
+    private function postUpgradeNotice()
+    {
+        if ($this->source_adapter === 'legacy') {
+            $message = "You might need to run 'OPTIMIZE TABLE issue_attachment_file' " .
+                'to reclaim space from the database';
+            $this->output->writeln("<warning>$message</warning>");
+        }
+    }
 }

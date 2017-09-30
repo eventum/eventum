@@ -29,7 +29,7 @@ class Email_Response
     public static function addProjectAssociation($ere_id, $prj_id)
     {
         $stmt = 'INSERT INTO
-                    {{%project_email_response}}
+                    `project_email_response`
                  (
                     per_ere_id,
                     per_prj_id
@@ -50,7 +50,7 @@ class Email_Response
             return -2;
         }
         $stmt = 'INSERT INTO
-                    {{%email_response}}
+                    `email_response`
                  (
                     ere_title,
                     ere_response_body
@@ -81,7 +81,7 @@ class Email_Response
     {
         $items = $_POST['items'];
         $stmt = 'DELETE FROM
-                    {{%email_response}}
+                    `email_response`
                  WHERE
                     ere_id IN (' . DB_Helper::buildList($items) . ')';
         try {
@@ -110,7 +110,7 @@ class Email_Response
         }
 
         $stmt = 'DELETE FROM
-                    {{%project_email_response}}
+                    `project_email_response`
                  WHERE
                     per_ere_id IN (' . DB_Helper::buildList($ere_id) . ')';
         $params = $ere_id;
@@ -138,7 +138,7 @@ class Email_Response
             return -2;
         }
         $stmt = 'UPDATE
-                    {{%email_response}}
+                    `email_response`
                  SET
                     ere_title=?,
                     ere_response_body=?
@@ -171,7 +171,7 @@ class Email_Response
         $stmt = 'SELECT
                     *
                  FROM
-                    {{%email_response}}
+                    `email_response`
                  WHERE
                     ere_id=?';
         try {
@@ -199,8 +199,8 @@ class Email_Response
                     prj_id,
                     prj_title
                  FROM
-                    {{%project}},
-                    {{%project_email_response}}
+                    `project`,
+                    `project_email_response`
                  WHERE
                     prj_id=per_prj_id AND
                     per_ere_id=?';
@@ -225,7 +225,7 @@ class Email_Response
                     ere_id,
                     ere_title
                  FROM
-                    {{%email_response}}
+                    `email_response`
                  ORDER BY
                     ere_title ASC';
         try {
@@ -255,8 +255,8 @@ class Email_Response
                     ere_id,
                     ere_title
                  FROM
-                    {{%email_response}},
-                    {{%project_email_response}}
+                    `email_response`,
+                    `project_email_response`
                  WHERE
                     per_ere_id=ere_id AND
                     per_prj_id=?
@@ -284,8 +284,8 @@ class Email_Response
                     ere_id,
                     ere_response_body
                  FROM
-                    {{%email_response}},
-                    {{%project_email_response}}
+                    `email_response`,
+                    `project_email_response`
                  WHERE
                     per_ere_id=ere_id AND
                     per_prj_id=?';

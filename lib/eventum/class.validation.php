@@ -87,27 +87,4 @@ class Validation
 
         return true;
     }
-
-    /**
-     * Method used to check whether a string has only valid (ASCII)
-     * characters.
-     *
-     * @param   string $str The string to check against
-     * @return  bool
-     * @deprecated method not used
-     */
-    public static function hasValidChars($str)
-    {
-        $valid_chars = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i',
-                                'j', 'l', 'k', 'm', 'n', 'o', 'p', 'q', 'r',
-                                's', 't', 'u', 'w', 'v', 'x', 'y', 'z', ];
-
-        for ($i = 0; $i < strlen($str); $i++) {
-            if (!in_array(substr($str, $i, 1), $valid_chars)) {
-                return false;
-            }
-        }
-
-        return true;
-    }
 }

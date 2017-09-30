@@ -52,7 +52,7 @@ class Reminder_Action
             $index = array_search($new_rank, $ranks);
             $replaced_rma_id = $ids[$index];
             $stmt = 'UPDATE
-                        {{%reminder_action}}
+                        `reminder_action`
                      SET
                         rma_rank=?
                      WHERE
@@ -60,7 +60,7 @@ class Reminder_Action
             DB_Helper::getInstance()->query($stmt, [$ranking[$rma_id], $replaced_rma_id]);
         }
         $stmt = 'UPDATE
-                    {{%reminder_action}}
+                    `reminder_action`
                  SET
                     rma_rank=?
                  WHERE
@@ -83,7 +83,7 @@ class Reminder_Action
                     rma_id,
                     rma_rank
                  FROM
-                    {{%reminder_action}}
+                    `reminder_action`
                  WHERE
                     rma_rem_id = ?
                  ORDER BY
@@ -108,7 +108,7 @@ class Reminder_Action
         $stmt = 'SELECT
                     rma_title
                  FROM
-                    {{%reminder_action}}
+                    `reminder_action`
                  WHERE
                     rma_id=?';
         try {
@@ -131,7 +131,7 @@ class Reminder_Action
         $stmt = 'SELECT
                     *
                  FROM
-                    {{%reminder_action}}
+                    `reminder_action`
                  WHERE
                     rma_id=?';
         try {
@@ -156,7 +156,7 @@ class Reminder_Action
     public static function insert()
     {
         $stmt = 'INSERT INTO
-                    {{%reminder_action}}
+                    `reminder_action`
                  (
                     rma_rem_id,
                     rma_rmt_id,
@@ -208,7 +208,7 @@ class Reminder_Action
                     ral_usr_id,
                     ral_email
                  FROM
-                    {{%reminder_action_list}}
+                    `reminder_action_list`
                  WHERE
                     ral_rma_id=?';
         try {
@@ -247,7 +247,7 @@ class Reminder_Action
                 $email = $user;
             }
             $stmt = 'INSERT INTO
-                        {{%reminder_action_list}}
+                        `reminder_action_list`
                      (
                         ral_rma_id,
                         ral_usr_id,
@@ -267,7 +267,7 @@ class Reminder_Action
     public static function update()
     {
         $stmt = 'UPDATE
-                    {{%reminder_action}}
+                    `reminder_action`
                  SET
                     rma_last_updated_date=?,
                     rma_rank=?,
@@ -316,7 +316,7 @@ class Reminder_Action
         $stmt = 'SELECT
                     rmt_type
                  FROM
-                    {{%reminder_action_type}}
+                    `reminder_action_type`
                  WHERE
                     rmt_id=?';
         try {
@@ -350,7 +350,7 @@ class Reminder_Action
 
         $items = DB_Helper::buildList($rma_id);
         $stmt = "DELETE FROM
-                    {{%reminder_action_list}}
+                    `reminder_action_list`
                  WHERE
                     ral_rma_id IN ($items)";
         DB_Helper::getInstance()->query($stmt, $rma_id);
@@ -365,19 +365,19 @@ class Reminder_Action
         $items = DB_Helper::buildList($action_ids);
 
         $stmt = "DELETE FROM
-                    {{%reminder_action}}
+                    `reminder_action`
                  WHERE
                     rma_id IN ($items)";
         DB_Helper::getInstance()->query($stmt, $action_ids);
 
         $stmt = "DELETE FROM
-                    {{%reminder_history}}
+                    `reminder_history`
                  WHERE
                     rmh_rma_id IN ($items)";
         DB_Helper::getInstance()->query($stmt, $action_ids);
 
         $stmt = "DELETE FROM
-                    {{%reminder_level_condition}}
+                    `reminder_level_condition`
                  WHERE
                     rlc_rma_id IN ($items)";
         DB_Helper::getInstance()->query($stmt, $action_ids);
@@ -396,7 +396,7 @@ class Reminder_Action
                     rmt_id,
                     rmt_title
                  FROM
-                    {{%reminder_action_type}}
+                    `reminder_action_type`
                  ORDER BY
                     rmt_title ASC';
         try {
@@ -426,8 +426,8 @@ class Reminder_Action
                     rma_alert_irc,
                     rma_alert_group_leader
                  FROM
-                    {{%reminder_action}},
-                    {{%reminder_action_type}}
+                    `reminder_action`,
+                    `reminder_action_type`
                  WHERE
                     rma_rmt_id=rmt_id AND
                     rma_rem_id=?
@@ -464,7 +464,7 @@ class Reminder_Action
         $stmt = 'SELECT
                     *
                  FROM
-                    {{%reminder_action}}
+                    `reminder_action`
                  WHERE
                     rma_rem_id=?
                  ORDER BY
@@ -493,7 +493,7 @@ class Reminder_Action
         $stmt = 'SELECT
                     rmt_type
                  FROM
-                    {{%reminder_action_type}}
+                    `reminder_action_type`
                  WHERE
                     rmt_id=?';
         try {
@@ -516,7 +516,7 @@ class Reminder_Action
     public static function saveHistory($issue_id, $rma_id)
     {
         $stmt = 'INSERT INTO
-                    {{%reminder_history}}
+                    `reminder_history`
                  (
                     rmh_iss_id,
                     rmh_rma_id,
@@ -784,7 +784,7 @@ class Reminder_Action
                     rta_iss_id,
                     rta_rma_id
                  FROM
-                    {{%reminder_triggered_action}}
+                    `reminder_triggered_action`
                  WHERE
                     rta_iss_id IN ($idlist)";
         try {
@@ -818,14 +818,14 @@ class Reminder_Action
         $stmt = 'SELECT
                     COUNT(*)
                  FROM
-                    {{%reminder_triggered_action}}
+                    `reminder_triggered_action`
                  WHERE
                     rta_iss_id=?';
 
         $total = DB_Helper::getInstance()->getOne($stmt, [$issue_id]);
         if ($total == 1) {
             $stmt = 'UPDATE
-                        {{%reminder_triggered_action}}
+                        `reminder_triggered_action`
                      SET
                         rta_rma_id=?
                      WHERE
@@ -833,7 +833,7 @@ class Reminder_Action
             $params = [$rma_id, $issue_id];
         } else {
             $stmt = 'INSERT INTO
-                        {{%reminder_triggered_action}}
+                        `reminder_triggered_action`
                      (
                         rta_iss_id,
                         rta_rma_id
@@ -861,7 +861,7 @@ class Reminder_Action
     public static function clearLastTriggered($issue_id)
     {
         $stmt = 'DELETE FROM
-                    {{%reminder_triggered_action}}
+                    `reminder_triggered_action`
                  WHERE
                     rta_iss_id=?';
         try {

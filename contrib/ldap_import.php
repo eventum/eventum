@@ -22,6 +22,13 @@ require_once __DIR__ . '/../init.php';
 
 class UserEntry
 {
+    /** @var int */
+    public $id;
+    /** @var string */
+    public $email;
+    /** @var string */
+    public $external_id;
+
     public function __construct($usr)
     {
         $this->id = $usr['usr_id'];
@@ -31,7 +38,7 @@ class UserEntry
 
     public function __toString()
     {
-        return $this->id;
+        return (string) $this->id;
     }
 }
 
@@ -73,7 +80,7 @@ class LDAP_Wrapper extends LDAP_Auth_Backend
     }
 }
 
-if (strtolower(APP_AUTH_BACKEND) != 'ldap_auth_backend') {
+if (strtolower(APP_AUTH_BACKEND) !== 'ldap_auth_backend') {
     error_log('You should enable and configure LDAP backend first');
     exit(1);
 }
@@ -94,7 +101,7 @@ foreach ($users as $usr) {
 
     // call for update
     $res = $ldap->updateLocalUser($usr);
-    if ($res != 1) {
-        echo "UPDATE FAILED: $res\n";
+    if (!$res) {
+        echo "UPDATE FAILED for {$usr->id}\n";
     }
 }

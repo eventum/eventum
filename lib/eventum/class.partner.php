@@ -84,7 +84,7 @@ class Partner
         if (!in_array($par_code, $current_partners)) {
             $params = [$iss_id, $par_code, Date_Helper::getCurrentDateGMT()];
             $sql = 'INSERT INTO
-                        {{%issue_partner}}
+                        `issue_partner`
                     SET
                         ipa_iss_id = ?,
                         ipa_par_code = ?,
@@ -111,7 +111,7 @@ class Partner
     {
         $params = [$iss_id, $par_code];
         $sql = 'DELETE FROM
-                    {{%issue_partner}}
+                    `issue_partner`
                 WHERE
                     ipa_iss_id = ? AND
                     ipa_par_code = ?';
@@ -140,7 +140,7 @@ class Partner
         $sql = 'SELECT
                     pap_par_code
                 FROM
-                    {{%partner_project}}
+                    `partner_project`
                 WHERE
                     pap_prj_id = ?';
 
@@ -166,8 +166,8 @@ class Partner
         $sql = 'SELECT
                     ipa_par_code
                 FROM
-                    {{%issue_partner}},
-                    {{%partner_project}}
+                    `issue_partner`,
+                    `partner_project`
                 WHERE
                     ipa_par_code = pap_par_code AND
                     pap_prj_id = ? AND
@@ -222,7 +222,7 @@ class Partner
 
         // delete all first, then re-insert
         $sql = 'DELETE FROM
-                    {{%partner_project}}
+                    `partner_project`
                 WHERE
                     pap_par_code = ?';
         try {
@@ -234,7 +234,7 @@ class Partner
         if (is_array($projects)) {
             foreach ($projects as $prj_id) {
                 $sql = 'INSERT INTO
-                            {{%partner_project}}
+                            `partner_project`
                         SET
                             pap_par_code = ?,
                             pap_prj_id = ?';
@@ -255,8 +255,8 @@ class Partner
                     pap_prj_id,
                     prj_title
                 FROM
-                    {{%partner_project}},
-                    {{%project}}
+                    `partner_project`,
+                    `project`
                 WHERE
                     pap_prj_id = prj_id AND
                     pap_par_code = ?';

@@ -29,7 +29,7 @@ class Email_Account
         $stmt = 'SELECT
                     ema_issue_auto_creation_options
                  FROM
-                    {{%email_account}}
+                    `email_account`
                  WHERE
                     ema_id=?';
         $res = DB_Helper::getInstance()->getOne($stmt, [$ema_id]);
@@ -50,7 +50,7 @@ class Email_Account
     public static function updateIssueAutoCreation($ema_id, $auto_creation, $options)
     {
         $stmt = 'UPDATE
-                    {{%email_account}}
+                    `email_account`
                  SET
                     ema_issue_auto_creation=?,
                     ema_issue_auto_creation_options=?
@@ -77,7 +77,7 @@ class Email_Account
         $stmt = 'SELECT
                     sup_ema_id
                  FROM
-                    {{%support_email}}
+                    `support_email`
                  WHERE
                     sup_id=?';
         try {
@@ -102,7 +102,7 @@ class Email_Account
         $stmt = 'SELECT
                     ema_id
                  FROM
-                    {{%email_account}}
+                    `email_account`
                  WHERE
                     ema_username=? AND
                     ema_hostname=?';
@@ -150,7 +150,7 @@ class Email_Account
         $stmt = 'SELECT
                     *
                  FROM
-                    {{%email_account}}
+                    `email_account`
                  WHERE
                     ema_id=?';
 
@@ -184,7 +184,7 @@ class Email_Account
     {
         $items = $_POST['items'];
         $stmt = 'DELETE FROM
-                    {{%email_account}}
+                    `email_account`
                  WHERE
                     ema_id IN (' . DB_Helper::buildList($items) . ')';
         try {
@@ -218,7 +218,7 @@ class Email_Account
             $_POST['leave_copy'] = 0;
         }
         $stmt = 'INSERT INTO
-                    {{%email_account}}
+                    `email_account`
                  (
                     ema_prj_id,
                     ema_type,
@@ -276,7 +276,7 @@ class Email_Account
             $_POST['leave_copy'] = 0;
         }
         $stmt = 'UPDATE
-                    {{%email_account}}
+                    `email_account`
                  SET
                     ema_prj_id=?,
                     ema_type=?,
@@ -323,7 +323,7 @@ class Email_Account
     public static function updatePassword($ema_id, $password)
     {
         $stmt = 'UPDATE
-                    {{%email_account}}
+                    `email_account`
                  SET
                     ema_password=?
                  WHERE
@@ -347,7 +347,7 @@ class Email_Account
         $stmt = 'SELECT
                     *
                  FROM
-                    {{%email_account}}
+                    `email_account`
                  ORDER BY
                     ema_hostname';
         try {
@@ -387,8 +387,8 @@ class Email_Account
                     ema_id,
                     $title_sql AS ema_title
                  FROM
-                    {{%email_account}},
-                    {{%project}}
+                    `email_account`,
+                    `project`
                  WHERE
                     prj_id = ema_prj_id AND
                     ema_prj_id IN (" . DB_Helper::buildList($projects) . ')
@@ -418,40 +418,13 @@ class Email_Account
         $stmt = 'SELECT
                     ema_id
                  FROM
-                    {{%email_account}}
+                    `email_account`
                  WHERE
                     ema_prj_id=?
                  LIMIT
                     1 OFFSET 0';
         try {
             $res = DB_Helper::getInstance()->getOne($stmt, [$prj_id]);
-        } catch (DatabaseException $e) {
-            return '';
-        }
-
-        return $res;
-    }
-
-    /**
-     * Method used to get the email account associated with the given
-     * issue' project.
-     *
-     * @param   int $issue_id The issue ID
-     * @return  int The email account ID
-     * @deprecated method not used
-     */
-    public static function getEmailAccountByIssueID($issue_id)
-    {
-        $stmt = 'SELECT
-                    ema_id
-                 FROM
-                    {{%email_account}},
-                    {{%issue}}
-                 WHERE
-                    ema_prj_id=iss_prj_id AND
-                    iss_id=?';
-        try {
-            $res = DB_Helper::getInstance()->getOne($stmt, [$issue_id]);
         } catch (DatabaseException $e) {
             return '';
         }

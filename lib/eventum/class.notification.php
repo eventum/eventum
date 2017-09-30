@@ -63,16 +63,16 @@ class Notification
                     CASE WHEN usr_id <> 0 THEN usr_email ELSE sub_email END AS email
                  FROM
                     (
-                    {{%subscription}}';
+                    `subscription`';
         $params = [];
         if ($type != false) {
             $stmt .= ',
-                    {{%subscription_type}}';
+                    `subscription_type`';
         }
         $stmt .= '
                     )
                  LEFT JOIN
-                    {{%user}}
+                    `user`
                  ON
                     usr_id=sub_usr_id
                  WHERE';
@@ -110,16 +110,16 @@ class Notification
                     CASE WHEN usr_id <> 0 THEN usr_email ELSE sub_email END AS email
                  FROM
                     (
-                    {{%subscription}}';
+                    `subscription`';
         $params = [];
         if ($type != false) {
             $stmt .= ',
-                    {{%subscription_type}}';
+                    `subscription_type`';
         }
         $stmt .= '
                     )
                  LEFT JOIN
-                    {{%user}}
+                    `user`
                  ON
                     usr_id=sub_usr_id
                  WHERE';
@@ -458,8 +458,8 @@ class Notification
                     not_is_blocked,
                     usr_full_name
                  FROM
-                    {{%note}},
-                    {{%user}}
+                    `note`,
+                    `user`
                  WHERE
                     not_id=? AND
                     not_usr_id=usr_id';
@@ -487,43 +487,6 @@ class Notification
     }
 
     /**
-     * Method used to get the details of a given issue and its
-     * associated emails.
-     *
-     * @param   int $issue_id The issue ID
-     * @param   array $sup_ids The list of associated emails
-     * @return  array The issue / emails details
-     * @deprecated method not used
-     */
-    public static function getEmails($issue_id, $sup_ids)
-    {
-        $items = DB_Helper::buildList($sup_ids);
-        $stmt = "SELECT
-                    sup_from,
-                    sup_to,
-                    sup_date,
-                    sup_subject,
-                    sup_has_attachment
-                 FROM
-                    {{%support_email}}
-                 WHERE
-                    sup_id IN ($items)";
-        try {
-            $res = DB_Helper::getInstance()->getAll($stmt, $sup_ids);
-        } catch (DatabaseException $e) {
-            return '';
-        }
-
-        if (count($res) == 0) {
-            return '';
-        }
-        $data = Issue::getDetails($issue_id);
-        $data['emails'] = $res;
-
-        return $data;
-    }
-
-    /**
      * Method used to get the details of a given issue and attachment.
      *
      * @param   int $issue_id The issue ID
@@ -539,8 +502,8 @@ class Notification
                     iat_description,
                     iat_unknown_user
                  FROM
-                    {{%issue_attachment}},
-                    {{%user}}
+                    `issue_attachment`,
+                    `user`
                  WHERE
                     iat_usr_id=usr_id AND
                     iat_iss_id=? AND
@@ -573,7 +536,7 @@ class Notification
                         DISTINCT sub_usr_id,
                         sub_email
                      FROM
-                        {{%subscription}}
+                        `subscription`
                      WHERE
                         sub_iss_id=? AND
                         sub_usr_id IS NOT NULL AND
@@ -588,11 +551,11 @@ class Notification
                         pru_role
                      FROM
                         (
-                        {{%subscription}},
-                        {{%subscription_type}}
+                        `subscription`,
+                        `subscription_type`
                         )
                         LEFT JOIN
-                          {{%project_user}}
+                          `project_user`
                           ON
                             sub_usr_id = pru_usr_id AND
                             pru_prj_id = ?
@@ -878,7 +841,7 @@ class Notification
                 $stmt = 'SELECT
                             iss_customer_contact_id
                          FROM
-                            {{%issue}}
+                            `issue`
                          WHERE
                             iss_id=?';
                 $customer_contact_id = DB_Helper::getInstance()->getOne($stmt, [$issue_id]);
@@ -1145,8 +1108,8 @@ class Notification
                     usr_customer_id,
                     usr_customer_contact_id
                  FROM
-                    {{%user}},
-                    {{%project_user}}
+                    `user`,
+                    `project_user`
                  WHERE
                     pru_prj_id=? AND
                     usr_id=pru_usr_id AND
@@ -1185,8 +1148,8 @@ class Notification
                     usr_full_name,
                     usr_email
                  FROM
-                    {{%user}},
-                    {{%issue_user}}
+                    `user`,
+                    `issue_user`
                  WHERE
                     isu_iss_id=? AND
                     usr_id=isu_usr_id AND
@@ -1483,7 +1446,7 @@ class Notification
             $params['ino_target_usr_id'] = $usr_id;
         }
 
-        $stmt = 'INSERT INTO {{%irc_notice}} SET ' . DB_Helper::buildSet($params);
+        $stmt = 'INSERT INTO `irc_notice` SET ' . DB_Helper::buildSet($params);
         DB_Helper::getInstance()->query($stmt, $params);
     }
 
@@ -1564,56 +1527,6 @@ class Notification
     }
 
     /**
-     * Send an email to all issue assignees
-     *
-     * @param   int $issue_id The ID of the issue
-     * @param   string $type The type of notification to send
-     * @param   array $data Any extra data to pass to the template
-     * @deprecated method not used
-     */
-    public static function notifyAssignees($issue_id, $type, $data, $title = '')
-    {
-        $prj_id = Issue::getProjectID($issue_id);
-        $assignees = Issue::getAssignedUserIDs($issue_id);
-        if (!$assignees) {
-            return;
-        }
-
-        // get issue details
-        $issue = Issue::getDetails($issue_id);
-        // open text template
-        $tpl = new Template_Helper();
-        $tpl->setTemplate('notifications/' . $type . '.tpl.text');
-        $tpl->assign([
-            'app_title' => Misc::getToolCaption(),
-            'issue' => $issue,
-            'data' => $data,
-        ]);
-
-        foreach ($assignees as $usr_id) {
-            $usr_email = User::getFromHeader($usr_id);
-            if (!Workflow::shouldEmailAddress($prj_id, Mail_Helper::getEmailAddress($usr_email))) {
-                continue;
-            }
-
-            $subject = "[#$issue_id] $title: " . $issue['iss_summary'];
-            $text_message = $tpl->getTemplateContents();
-
-            // change the current locale
-            Language::set(User::getLang($usr_id));
-
-            $from = self::getFixedFromHeader($issue_id, '', 'issue');
-
-            $options = [
-                'save_email_copy' => true,
-                'type' => $type,
-            ];
-            self::notifyByMail($text_message, $from, $usr_email, $subject, $issue_id, $options);
-        }
-        Language::restore();
-    }
-
-    /**
      * Method used to send an email notification when an issue is
      * assigned to an user.
      *
@@ -1667,30 +1580,6 @@ class Notification
     }
 
     /**
-     * Method used to send the account details of an user.
-     *
-     * @param   int $usr_id The user ID
-     * @deprecated method not used?
-     */
-    public static function notifyAccountDetails($usr_id)
-    {
-        $info = User::getDetails($usr_id);
-        $info['projects'] = Project::getAssocList($usr_id, true, true);
-        // open text template
-        $tpl = new Template_Helper();
-        $tpl->setTemplate('notifications/account_details.tpl.text');
-        $tpl->assign([
-            'app_title' => Misc::getToolCaption(),
-            'user' => $info,
-        ]);
-
-        // TRANSLATORS: %s = APP_SHORT_NAME
-        $subject = ev_gettext('%s: Your User Account Details', APP_SHORT_NAME);
-        $text_message = $tpl->getTemplateContents();
-        self::notifyUserByMail($usr_id, $subject, $text_message);
-    }
-
-    /**
      * Method used to get the list of subscribers for a given issue.
      *
      * @param   int $issue_id The issue ID
@@ -1713,17 +1602,17 @@ class Notification
                     pru_role
                  FROM
                     (
-                    {{%subscription}},
-                    {{%user}}';
+                    `subscription`,
+                    `user`';
 
         if ($type) {
             $stmt .= ',
-                     {{%subscription_type}}';
+                     `subscription_type`';
         }
         $stmt .= '
                     )
                     LEFT JOIN
-                        {{%project_user}}
+                        `project_user`
                     ON
                         (sub_usr_id = pru_usr_id AND pru_prj_id = ?)
                  WHERE
@@ -1763,15 +1652,15 @@ class Notification
                         pru_role
                      FROM
                         (
-                        {{%subscription}},
-                        {{%subscription_type}}
+                        `subscription`,
+                        `subscription_type`
                         )
                      LEFT JOIN
-                        {{%user}}
+                        `user`
                      ON
                         usr_email = sub_email
                      LEFT JOIN
-                        {{%project_user}}
+                        `project_user`
                      ON
                         usr_id = pru_usr_id AND
                         pru_prj_id = $prj_id
@@ -1820,7 +1709,7 @@ class Notification
         $stmt = 'SELECT
                     *
                  FROM
-                    {{%subscription}}
+                    `subscription`
                  WHERE
                     sub_id=?';
         try {
@@ -1850,7 +1739,7 @@ class Notification
                     sbt_type,
                     1
                  FROM
-                    {{%subscription_type}}
+                    `subscription_type`
                  WHERE
                     sbt_sub_id=?';
         try {
@@ -1876,7 +1765,7 @@ class Notification
                     sub_usr_id,
                     sub_email
                  FROM
-                    {{%subscription}}
+                    `subscription`
                  WHERE
                     sub_iss_id=?';
         try {
@@ -1910,7 +1799,7 @@ class Notification
         $stmt = 'SELECT
                     COUNT(*)
                  FROM
-                    {{%subscription}}
+                    `subscription`
                  WHERE
                     sub_iss_id=? AND
                     sub_usr_id=?';
@@ -1933,7 +1822,7 @@ class Notification
         $stmt = "SELECT
                     sub_iss_id
                  FROM
-                    {{%subscription}}
+                    `subscription`
                  WHERE
                     sub_id IN ($itemlist)";
         $issue_id = DB_Helper::getInstance()->getOne($stmt, $items);
@@ -1944,13 +1833,13 @@ class Notification
         foreach ($items as $sub_id) {
             $subscriber = self::getSubscriber($sub_id);
             $stmt = 'DELETE FROM
-                        {{%subscription}}
+                        `subscription`
                      WHERE
                         sub_id=?';
             DB_Helper::getInstance()->query($stmt, [$sub_id]);
 
             $stmt = 'DELETE FROM
-                        {{%subscription_type}}
+                        `subscription_type`
                      WHERE
                         sbt_sub_id=?';
             DB_Helper::getInstance()->query($stmt, [$sub_id]);
@@ -1971,7 +1860,7 @@ class Notification
         $stmt = 'SELECT
                     sub_id
                  FROM
-                    {{%subscription}}
+                    `subscription`
                  WHERE
                     sub_iss_id = ? AND';
         $params = [$issue_id];
@@ -1991,7 +1880,7 @@ class Notification
         }
 
         $stmt = 'DELETE FROM
-                    {{%subscription}}
+                    `subscription`
                  WHERE
                     sub_id=?';
         try {
@@ -2001,7 +1890,7 @@ class Notification
         }
 
         $stmt = 'DELETE FROM
-                    {{%subscription_type}}
+                    `subscription_type`
                  WHERE
                     sbt_sub_id=?';
         try {
@@ -2035,7 +1924,7 @@ class Notification
                     sub_usr_id,
                     sub_email
                  FROM
-                    {{%subscription}}
+                    `subscription`
                  WHERE
                     sub_id=?';
         try {
@@ -2066,7 +1955,7 @@ class Notification
         $stmt = 'SELECT
                     sub_id
                  FROM
-                    {{%subscription}}
+                    `subscription`
                  WHERE
                     sub_iss_id = ? AND';
         if ($usr_id) {
@@ -2164,7 +2053,7 @@ class Notification
         $stmt = 'SELECT
                     COUNT(sub_id)
                  FROM
-                    {{%subscription}}
+                    `subscription`
                  WHERE
                     sub_iss_id=? AND
                     sub_usr_id=?';
@@ -2173,7 +2062,7 @@ class Notification
             return -1;
         }
         $stmt = "INSERT INTO
-                    {{%subscription}}
+                    `subscription`
                  (
                     sub_iss_id,
                     sub_usr_id,
@@ -2245,7 +2134,7 @@ class Notification
             $stmt = 'SELECT
                         COUNT(sub_id)
                      FROM
-                        {{%subscription}}
+                        `subscription`
                      WHERE
                         sub_iss_id=? AND
                         sub_email=?';
@@ -2255,7 +2144,7 @@ class Notification
             }
         }
         $stmt = "INSERT INTO
-                    {{%subscription}}
+                    `subscription`
                  (
                     sub_iss_id,
                     sub_usr_id,
@@ -2301,7 +2190,7 @@ class Notification
     public static function addType($sub_id, $type)
     {
         $stmt = 'INSERT INTO
-                    {{%subscription_type}}
+                    `subscription_type`
                  (
                     sbt_sub_id,
                     sbt_type
@@ -2340,7 +2229,7 @@ class Notification
 
         // always set the type of notification to issue-level
         $stmt = "UPDATE
-                    {{%subscription}}
+                    `subscription`
                  SET
                     sub_level='issue',
                     sub_email=?,
@@ -2354,7 +2243,7 @@ class Notification
         }
 
         $stmt = 'DELETE FROM
-                    {{%subscription_type}}
+                    `subscription_type`
                  WHERE
                     sbt_sub_id=?';
         DB_Helper::getInstance()->query($stmt, [$sub_id]);

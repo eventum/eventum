@@ -532,20 +532,36 @@ class RemoteApi
      * @param string $note
      * @return string
      * @access protected
+     * @since 3.3.0 checks user access and issue close state
      */
     public function closeIssue($issue_id, $new_status, $resolution_id, $send_notification, $note)
     {
-        $usr_id = Auth::getUserID();
-        $status_id = Status::getStatusID($new_status);
+        $this->checkIssuePermissions($issue_id);
+        $this->checkIssueAssignment($issue_id);
 
-        AuthCookie::setProjectCookie(Issue::getProjectID($issue_id));
+        $usr_id = Auth::getUserID();
+
+        if (!Access::canChangeStatus($issue_id, $usr_id)) {
+            throw new RemoteApiException("User has no access to update issue #$issue_id");
+        }
+
+        if (Issue::isClosed($issue_id)) {
+            throw new RemoteApiException("Issue #$issue_id already closed");
+        }
+
+        $status_id = Status::getStatusID($new_status);
+        $prj_id = Issue::getProjectID($issue_id);
+        if (!$status_id || !in_array($prj_id, Status::getAssociatedProjects($status_id))) {
+            throw new RemoteApiException("Invalid status: $new_status");
+        }
+
+        AuthCookie::setProjectCookie($prj_id);
 
         $res = Issue::close($usr_id, $issue_id, $send_notification, $resolution_id, $status_id, $note);
         if ($res == -1) {
             throw new RemoteApiException("Could not close issue #$issue_id");
         }
 
-        $prj_id = Issue::getProjectID($issue_id);
         if (CRM::hasCustomerIntegration($prj_id)) {
             $crm = CRM::getInstance($prj_id);
             try {
@@ -598,11 +614,12 @@ class RemoteApi
                 $email['id'] = $i + 1;
                 unset($email['seb_body']);
             }
+            unset($email);
         }
 
         $setup = Setup::get();
 
-        if (isset($setup['description_email_0']) && $setup['description_email_0'] == 'enabled') {
+        if (isset($setup['description_email_0']) && $setup['description_email_0'] === 'enabled') {
             $issue = Issue::getDetails($issue_id);
             $email = [
                 'id' => 0,
@@ -612,7 +629,7 @@ class RemoteApi
                 'sup_cc' => '',
                 'sup_subject' => $issue['iss_summary'],
             ];
-            if ($real_emails != '') {
+            if ($real_emails !== '') {
                 $emails = array_merge([$email], $real_emails);
             } else {
                 $emails[] = $email;
@@ -738,7 +755,7 @@ class RemoteApi
      * @param DateTime $start
      * @param DateTime $end
      * @param struct $options
-     * @return string
+     * @return struct
      * @access protected
      * @since 3.0.2
      */
@@ -957,9 +974,6 @@ class RemoteApi
         $prj_id = Issue::getProjectID($issue_id);
         AuthCookie::setProjectCookie($prj_id);
 
-        // FIXME: $customer_id unused
-        $customer_id = Issue::getCustomerID($issue_id);
-
         if (!CRM::hasCustomerIntegration($prj_id)) {
             // no customer integration
             throw new RemoteApiException("No customer integration for issue #$issue_id");
@@ -1003,8 +1017,6 @@ class RemoteApi
     {
         $prj_id = Issue::getProjectID($issue_id);
         AuthCookie::setProjectCookie($prj_id);
-        // FIXME: $customer_id unused
-        $customer_id = Issue::getCustomerID($issue_id);
 
         if (!CRM::hasCustomerIntegration($prj_id)) {
             // no customer integration
@@ -1129,11 +1141,11 @@ class RemoteApi
                     sta_title
                  FROM
                     (
-                    {{%issue}},
-                    {{%STATUS}}
+                    `issue`,
+                    `STATUS`
                     )
                  LEFT JOIN
-                    {{%issue_user}}
+                    `issue_user`
                  ON
                     isu_iss_id=iss_id
                  WHERE ';
@@ -1190,8 +1202,8 @@ class RemoteApi
                     prj_id,
                     prj_title
                  FROM
-                    {{%project}},
-                    {{%project_user}}
+                    `project`,
+                    `project_user`
                  WHERE
                     prj_id=pru_prj_id AND
                     pru_usr_id=? AND
@@ -1252,7 +1264,7 @@ class RemoteApi
         $may_change_issue = $this->mayChangeIssue($issue_id);
 
         // if not, show confirmation message
-        if ($may_change_issue != 'yes') {
+        if ($may_change_issue !== 'yes') {
             throw new RemoteApiException("You are not currently assigned to issue #$issue_id.");
         }
     }

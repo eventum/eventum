@@ -98,7 +98,7 @@ class Auth
                     Session::init($anon_usr_id);
                 } else {
                     // check for valid HTTP_BASIC params
-                    if (isset($_SERVER['PHP_AUTH_USER']) && isset($_SERVER['PHP_AUTH_PW'])) {
+                    if (isset($_SERVER['PHP_AUTH_USER'], $_SERVER['PHP_AUTH_PW'])) {
                         if (self::isCorrectPassword($_SERVER['PHP_AUTH_USER'], $_SERVER['PHP_AUTH_PW'])) {
                             $usr_id = User::getUserIDByEmail($_SERVER['PHP_AUTH_USER'], true);
                             $prj_id = reset(array_keys(Project::getAssocList($usr_id)));
@@ -421,7 +421,7 @@ class Auth
     {
         $prj_id = self::getCurrentProject();
         $usr_id = self::getUserID();
-        if ((!empty($prj_id)) && (!empty($usr_id))) {
+        if ($prj_id && $usr_id) {
             return User::getRoleByUser($usr_id, $prj_id);
         }
 

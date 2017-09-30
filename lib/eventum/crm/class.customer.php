@@ -121,7 +121,7 @@ abstract class Customer
      */
     abstract public function getNewIssueMessage();
 
-//
+    //
 //    /**
 //     * Method used to get the overall statistics of issues in the system for a
 //     * given customer.
@@ -171,7 +171,7 @@ abstract class Customer
                     cno_customer_id,
                     cno_note
                 FROM
-                    {{%customer_note}}
+                    `customer_note`
                 WHERE
                     cno_customer_id = ?';
         try {
@@ -196,8 +196,8 @@ abstract class Customer
                     usr_email,
                     cam_type
                  FROM
-                    {{%customer_account_manager}},
-                    {{%user}}
+                    `customer_account_manager`,
+                    `user`
                  WHERE
                     cam_usr_id=usr_id AND
                     cam_prj_id=? AND

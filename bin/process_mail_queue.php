@@ -15,5 +15,9 @@ ini_set('memory_limit', '1024M');
 
 require_once __DIR__ . '/../init.php';
 
-$app = new Eventum\Command\MailQueueCommand();
+use Eventum\Command\MailQueueProcessCommand as Command;
+
+$app = new Silly\Application();
+$app->command(Command::USAGE, [new Command(), 'execute']);
+$app->setDefaultCommand(Command::DEFAULT_COMMAND, true);
 $app->run();

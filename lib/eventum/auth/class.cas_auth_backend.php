@@ -107,8 +107,8 @@ class CAS_Auth_Backend implements Auth_Backend_Interface
                 unset($data['full_name']);
             }
 
-            $update = User::update($usr_id, $data, false);
-            if ($update > 0) {
+            $updated = User::update($usr_id, $data, false);
+            if ($updated) {
                 $this->updateAliases($usr_id, $emails);
             }
 

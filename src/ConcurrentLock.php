@@ -24,7 +24,7 @@ class ConcurrentLock
     {
         $lockfile = APP_LOCKS_PATH . '/' . $lockname . '.lck';
 
-        $fh = fopen($lockfile, 'c');
+        $fh = fopen($lockfile, 'cb');
         if (!$fh) {
             throw new RuntimeException("Unable to create lock file: $lockfile");
         }

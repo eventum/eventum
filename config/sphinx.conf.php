@@ -73,7 +73,7 @@ source eventum
 #############################################################################
 source src_issue : eventum
 {
-    sql_query_range = SELECT MIN(iss_id), MAX(iss_id) FROM <?php echo $dbconfig['table_prefix']; ?>issue
+    sql_query_range = SELECT MIN(iss_id), MAX(iss_id) FROM issue
     sql_query = \
         SELECT \
             iss_id, \
@@ -86,7 +86,7 @@ source src_issue : eventum
             iss_summary, \
             iss_description \
         FROM \
-            <?php echo $dbconfig['table_prefix']; ?>issue \
+            issue \
         WHERE \
             iss_id>=$start AND \
             iss_id<=$end
@@ -127,7 +127,7 @@ index issue_description
 #############################################################################
 source src_issue_recent : src_issue
 {
-    sql_query_range = SELECT IF(CAST(MAX(iss_id) AS SIGNED)-100>0, MAX(iss_id), 1), MAX(iss_id) FROM <?php echo $dbconfig['table_prefix']; ?>issue
+    sql_query_range = SELECT IF(CAST(MAX(iss_id) AS SIGNED)-100>0, MAX(iss_id), 1), MAX(iss_id) FROM issue
 }
 
 index issue_recent
@@ -157,7 +157,7 @@ index issue_recent_description
 #############################################################################
 source src_email : eventum
 {
-    sql_query_range = SELECT MIN(seb_sup_id), MAX(seb_sup_id) FROM <?php echo $dbconfig['table_prefix']; ?>support_email_body
+    sql_query_range = SELECT MIN(seb_sup_id), MAX(seb_sup_id) FROM support_email_body
     sql_range_step = 2000
     sql_query = \
         SELECT \
@@ -174,9 +174,9 @@ source src_email : eventum
             sup_subject, \
             seb_body \
         FROM \
-            <?php echo $dbconfig['table_prefix']; ?>support_email, \
-            <?php echo $dbconfig['table_prefix']; ?>support_email_body, \
-            <?php echo $dbconfig['table_prefix']; ?>issue \
+            support_email, \
+            support_email_body, \
+            issue \
         WHERE \
             sup_iss_id = iss_id AND \
             seb_sup_id>=$start AND \
@@ -217,11 +217,11 @@ index email_description
 #############################################################################
 source src_email_recent : src_email
 {
-#    sql_query_range = SELECT (MAX(seb_sup_id)-1000), MAX(seb_sup_id) FROM <?php echo $dbconfig['table_prefix']; ?>support_email_body
+#    sql_query_range = SELECT (MAX(seb_sup_id)-1000), MAX(seb_sup_id) FROM support_email_body
 #    # we use @max to store initial value and not to overflow
-#    sql_query_range = SELECT (@max:=MAX(seb_sup_id))- 1000, MAX(seb_sup_id) FROM <?php echo $dbconfig['table_prefix']; ?>support_email_body
+#    sql_query_range = SELECT (@max:=MAX(seb_sup_id))- 1000, MAX(seb_sup_id) FROM support_email_body
 #    # we use need to cast MAX() result to SIGNED not to overflow and check for negative value
-    sql_query_range = SELECT IF(CAST(MAX(sup_id) AS SIGNED)-1000>0, MAX(sup_id), 1), MAX(sup_id) FROM <?php echo $dbconfig['table_prefix']; ?>support_email
+    sql_query_range = SELECT IF(CAST(MAX(sup_id) AS SIGNED)-1000>0, MAX(sup_id), 1), MAX(sup_id) FROM support_email
 }
 
 index email_recent
@@ -252,7 +252,7 @@ index email_recent_description
 #############################################################################
 source src_phonesupport : eventum
 {
-    sql_query_range = SELECT MIN(phs_id), MAX(phs_id) FROM <?php echo $dbconfig['table_prefix']; ?>phone_support
+    sql_query_range = SELECT MIN(phs_id), MAX(phs_id) FROM phone_support
     sql_range_step = 1000
     sql_query = \
         SELECT \
@@ -269,8 +269,8 @@ source src_phonesupport : eventum
             phs_description/*, \
             phs_triggered_by_other */\
         FROM \
-            <?php echo $dbconfig['table_prefix']; ?>phone_support, \
-            <?php echo $dbconfig['table_prefix']; ?>issue \
+            phone_support, \
+            issue \
         WHERE \
             phs_iss_id = iss_id AND \
             phs_id>=$start AND phs_id<=$end
@@ -310,10 +310,10 @@ index phonesupport_description
 #############################################################################
 source src_phonesupport_recent : src_phonesupport
 {
-#    sql_query_range = SELECT (MAX(phs_id)-1000), MAX(phs_id) FROM <?php echo $dbconfig['table_prefix']; ?>phone_support
+#    sql_query_range = SELECT (MAX(phs_id)-1000), MAX(phs_id) FROM phone_support
 #    # we use @max:= to avoid overflow via cast
-#    sql_query_range = SELECT (@max:=MAX(phs_id))-1000, MAX(phs_id) FROM <?php echo $dbconfig['table_prefix']; ?>phone_support
-    sql_query_range = SELECT IF(CAST(MAX(phs_id) AS SIGNED)-1000>0, MAX(phs_id), 1), MAX(phs_id) FROM <?php echo $dbconfig['table_prefix']; ?>phone_support
+#    sql_query_range = SELECT (@max:=MAX(phs_id))-1000, MAX(phs_id) FROM phone_support
+    sql_query_range = SELECT IF(CAST(MAX(phs_id) AS SIGNED)-1000>0, MAX(phs_id), 1), MAX(phs_id) FROM phone_support
 
 }
 
@@ -344,7 +344,7 @@ index phonesupport_recent_description
 #############################################################################
 source src_note : eventum
 {
-    sql_query_range = SELECT MIN(not_id), MAX(not_id) FROM <?php echo $dbconfig['table_prefix']; ?>note
+    sql_query_range = SELECT MIN(not_id), MAX(not_id) FROM note
     sql_range_step = 1000
     sql_query = \
         SELECT \
@@ -359,8 +359,8 @@ source src_note : eventum
             not_note /*, \
             not_blocked_message*/ \
         FROM \
-            <?php echo $dbconfig['table_prefix']; ?>note, \
-            <?php echo $dbconfig['table_prefix']; ?>issue \
+            note, \
+            issue \
         WHERE \
             not_iss_id = iss_id AND \
             not_removed = 0 AND \
@@ -401,10 +401,10 @@ index note_description
 #############################################################################
 source src_note_recent : src_note
 {
-#    sql_query_range = SELECT (MAX(not_id)-1000), MAX(not_id) FROM <?php echo $dbconfig['table_prefix']; ?>note
+#    sql_query_range = SELECT (MAX(not_id)-1000), MAX(not_id) FROM note
 #    # we use @max:= to avoid overflow via cast
-#    sql_query_range = SELECT (@max:=MAX(not_id))-1000, MAX(not_id) FROM <?php echo $dbconfig['table_prefix']; ?>note
-    sql_query_range = SELECT IF(CAST(MAX(not_id) AS SIGNED)-1000>0, MAX(not_id), 1), MAX(not_id) FROM <?php echo $dbconfig['table_prefix']; ?>note
+#    sql_query_range = SELECT (@max:=MAX(not_id))-1000, MAX(not_id) FROM note
+    sql_query_range = SELECT IF(CAST(MAX(not_id) AS SIGNED)-1000>0, MAX(not_id), 1), MAX(not_id) FROM note
 }
 
 index note_recent

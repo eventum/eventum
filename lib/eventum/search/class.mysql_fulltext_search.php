@@ -21,14 +21,14 @@ class MySQL_Fulltext_Search extends Abstract_Fulltext_Search
         $stmt = '(SELECT
                     iss_id
                  FROM
-                     {{%issue}}
+                     `issue`
                  WHERE
                      MATCH(iss_summary, iss_description) AGAINST (? IN BOOLEAN MODE)
                  ) UNION (
                  SELECT
                     not_iss_id
                  FROM
-                     {{%note}}
+                     `note`
                  WHERE
                      not_removed = 0 AND
                      MATCH(not_note) AGAINST (? IN BOOLEAN MODE)
@@ -36,22 +36,22 @@ class MySQL_Fulltext_Search extends Abstract_Fulltext_Search
                  SELECT
                     ttr_iss_id
                  FROM
-                     {{%time_tracking}}
+                     `time_tracking`
                  WHERE
                      MATCH(ttr_summary) AGAINST (? IN BOOLEAN MODE)
                  ) UNION (
                  SELECT
                     phs_iss_id
                  FROM
-                     {{%phone_support}}
+                     `phone_support`
                  WHERE
                      MATCH(phs_description) AGAINST (? IN BOOLEAN MODE)
                  ) UNION (
                  SELECT
                      sup_iss_id
                  FROM
-                     {{%support_email}},
-                     {{%support_email_body}}
+                     `support_email`,
+                     `support_email_body`
                  WHERE
                      sup_id = seb_sup_id AND
                      sup_removed = 0 AND
@@ -73,7 +73,7 @@ class MySQL_Fulltext_Search extends Abstract_Fulltext_Search
         $stmt = 'SELECT
                     DISTINCT(icf_iss_id)
                 FROM
-                    {{%issue_custom_field}}
+                    `issue_custom_field`
                 WHERE
                     (MATCH (icf_value) AGAINST (? IN BOOLEAN MODE) OR
                      MATCH (icf_value_integer) AGAINST (? IN BOOLEAN MODE))';

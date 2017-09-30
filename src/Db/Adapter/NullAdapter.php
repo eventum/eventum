@@ -24,11 +24,11 @@ class NullAdapter implements AdapterInterface
     {
     }
 
-    public function getAll($query, $params = [], $fetchmode = AdapterInterface::DB_FETCHMODE_ASSOC)
+    public function getAll($query, $params = [], $fetchMode = AdapterInterface::DB_FETCHMODE_ASSOC)
     {
     }
 
-    public function fetchAssoc($query, $params = [], $fetchmode = AdapterInterface::DB_FETCHMODE_DEFAULT)
+    public function fetchAssoc($query, $params = [], $fetchMode = AdapterInterface::DB_FETCHMODE_DEFAULT)
     {
     }
 
