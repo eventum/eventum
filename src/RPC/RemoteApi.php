@@ -1141,11 +1141,11 @@ class RemoteApi
                     sta_title
                  FROM
                     (
-                    {{%issue}},
-                    {{%STATUS}}
+                    `issue`,
+                    `STATUS`
                     )
                  LEFT JOIN
-                    {{%issue_user}}
+                    `issue_user`
                  ON
                     isu_iss_id=iss_id
                  WHERE ';
@@ -1202,8 +1202,8 @@ class RemoteApi
                     prj_id,
                     prj_title
                  FROM
-                    {{%project}},
-                    {{%project_user}}
+                    `project`,
+                    `project_user`
                  WHERE
                     prj_id=pru_prj_id AND
                     pru_usr_id=? AND

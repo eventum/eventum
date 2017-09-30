@@ -232,9 +232,9 @@ class BotCommands extends AbstractBotCommands
                     ino_target_usr_id,
                     ino_category
                  FROM
-                    {{%irc_notice}}
+                    `irc_notice`
                  LEFT JOIN
-                    {{%issue}}
+                    `issue`
                  ON
                     iss_id=ino_iss_id
                  WHERE
@@ -284,7 +284,7 @@ class BotCommands extends AbstractBotCommands
         // mark message as sent
         $stmt
             = "UPDATE
-                    {{%irc_notice}}
+                    `irc_notice`
                  SET
                     ino_status='sent'
                  WHERE

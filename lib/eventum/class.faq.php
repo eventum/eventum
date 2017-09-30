@@ -32,7 +32,7 @@ class FAQ
             $stmt = 'SELECT
                         *
                      FROM
-                        {{%faq}}
+                        `faq`
                      WHERE
                         faq_prj_id = ?
                      ORDER BY
@@ -42,8 +42,8 @@ class FAQ
             $stmt = 'SELECT
                         *
                      FROM
-                        {{%faq}},
-                        {{%faq_support_level}}
+                        `faq`,
+                        `faq_support_level`
                      WHERE
                         faq_id=fsl_faq_id AND
                         fsl_support_level_id IN (' . DB_Helper::buildList($support_level_ids) . ') AND
@@ -80,7 +80,7 @@ class FAQ
     {
         $items = $_POST['items'];
         $stmt = 'DELETE FROM
-                    {{%faq}}
+                    `faq`
                  WHERE
                     faq_id IN (' . DB_Helper::buildList($items) . ')';
         try {
@@ -108,7 +108,7 @@ class FAQ
         }
 
         $stmt = 'DELETE FROM
-                    {{%faq_support_level}}
+                    `faq_support_level`
                  WHERE
                     fsl_faq_id IN (' . DB_Helper::buildList($faq_id) . ')';
         try {
@@ -136,7 +136,7 @@ class FAQ
 
         $faq_id = $_POST['id'];
         $stmt = 'UPDATE
-                    {{%faq}}
+                    `faq`
                  SET
                     faq_prj_id=?,
                     faq_updated_date=?,
@@ -177,7 +177,7 @@ class FAQ
             return -3;
         }
         $stmt = 'INSERT INTO
-                    {{%faq}}
+                    `faq`
                  (
                     faq_prj_id,
                     faq_usr_id,
@@ -215,7 +215,7 @@ class FAQ
     public static function addSupportLevelAssociation($faq_id, $support_level_id)
     {
         $stmt = 'INSERT INTO
-                    {{%faq_support_level}}
+                    `faq_support_level`
                  (
                     fsl_faq_id,
                     fsl_support_level_id
@@ -236,7 +236,7 @@ class FAQ
         $stmt = 'SELECT
                     *
                  FROM
-                    {{%faq}}
+                    `faq`
                  WHERE
                     faq_id=?';
         try {
@@ -270,7 +270,7 @@ class FAQ
                     faq_title,
                     faq_rank
                  FROM
-                    {{%faq}}
+                    `faq`
                  ORDER BY
                     faq_rank ASC';
         try {
@@ -303,7 +303,7 @@ class FAQ
             $stmt = 'SELECT
                         fsl_support_level_id
                      FROM
-                        {{%faq_support_level}}
+                        `faq_support_level`
                      WHERE
                         fsl_faq_id=?';
             $ids = DB_Helper::getInstance()->getColumn($stmt, [$faq_id]);
@@ -354,7 +354,7 @@ class FAQ
             $index = array_search($new_rank, $ranks);
             $replaced_faq_id = $ids[$index];
             $stmt = 'UPDATE
-                        {{%faq}}
+                        `faq`
                      SET
                         faq_rank=?
                      WHERE
@@ -362,7 +362,7 @@ class FAQ
             DB_Helper::getInstance()->query($stmt, [$ranking[$faq_id], $replaced_faq_id]);
         }
         $stmt = 'UPDATE
-                    {{%faq}}
+                    `faq`
                  SET
                     faq_rank=?
                  WHERE
@@ -384,7 +384,7 @@ class FAQ
                     faq_id,
                     faq_rank
                  FROM
-                    {{%faq}}
+                    `faq`
                  ORDER BY
                     faq_rank ASC';
         try {

@@ -128,17 +128,17 @@ class RecentActivity
     {
         $sql
             = "SELECT
-                    {{%phone_support}}.*,
+                    `phone_support`.*,
                     phc_title,
                     usr_full_name,
                     iss_summary,
                     sta_color
                 FROM
-                    {{%phone_support}},
-                    {{%project_phone_category}},
-                    {{%issue}},
-                    {{%user}},
-                    {{%status}}
+                    `phone_support`,
+                    `project_phone_category`,
+                    `issue`,
+                    `user`,
+                    `status`
                 WHERE
                     iss_sta_id = sta_id AND
                     phs_phc_id = phc_id AND
@@ -157,15 +157,15 @@ class RecentActivity
     {
         $sql
             = "SELECT
-                    {{%note}}.*,
+                    `note`.*,
                     usr_full_name,
                     iss_summary,
                     sta_color
                 FROM
-                    {{%note}},
-                    {{%issue}},
-                    {{%user}},
-                    {{%status}}
+                    `note`,
+                    `issue`,
+                    `user`,
+                    `status`
                 WHERE
                     iss_sta_id = sta_id AND
                     not_iss_id = iss_id AND
@@ -183,14 +183,14 @@ class RecentActivity
     {
         $sql
             = "SELECT
-                    {{%support_email}}.*,
+                    `support_email`.*,
                     iss_summary,
                     CONCAT(sup_ema_id, '-', sup_id) AS composite_id,
                     sta_color
                 FROM
-                    {{%support_email}},
-                    {{%issue}},
-                    {{%status}}
+                    `support_email`,
+                    `issue`,
+                    `status`
                 WHERE
                     iss_sta_id = sta_id AND
                     sup_iss_id = iss_id AND
@@ -207,13 +207,13 @@ class RecentActivity
     {
         $sql
             = "SELECT
-                    {{%email_draft}}.*,
+                    `email_draft`.*,
                     iss_summary,
                     sta_color
                 FROM
-                    {{%email_draft}},
-                    {{%issue}},
-                    {{%status}}
+                    `email_draft`,
+                    `issue`,
+                    `status`
                 WHERE
                     iss_sta_id = sta_id AND
                     emd_iss_id = iss_id AND
@@ -242,17 +242,17 @@ class RecentActivity
     {
         $sql
             = "SELECT
-                    {{%time_tracking}}.*,
+                    `time_tracking`.*,
                     ttc_title,
                     iss_summary,
                     usr_full_name,
                     sta_color
                 FROM
-                    {{%time_tracking}},
-                    {{%time_tracking_category}},
-                    {{%issue}},
-                    {{%user}},
-                    {{%status}}
+                    `time_tracking`,
+                    `time_tracking_category`,
+                    `issue`,
+                    `user`,
+                    `status`
                 WHERE
                     iss_sta_id = sta_id AND
                     ttr_iss_id = iss_id AND
@@ -274,15 +274,15 @@ class RecentActivity
     {
         $sql
             = "SELECT
-                    {{%reminder_history}}.*,
+                    `reminder_history`.*,
                     iss_summary,
                     sta_color,
                     rma_title
                 FROM
-                    {{%reminder_history}},
-                    {{%reminder_action}},
-                    {{%issue}},
-                    {{%status}}
+                    `reminder_history`,
+                    `reminder_action`,
+                    `issue`,
+                    `status`
                 WHERE
                     iss_sta_id = sta_id AND
                     rmh_iss_id = iss_id AND

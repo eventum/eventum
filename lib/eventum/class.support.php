@@ -43,7 +43,7 @@ class Support
                     sup_message_id,
                     sup_ema_id
                  FROM
-                    {{%support_email}}
+                    `support_email`
                  WHERE
                     sup_id IN (' . DB_Helper::buildList($sup_ids) . ')';
         try {
@@ -94,7 +94,7 @@ class Support
     public static function removeEmail($sup_id)
     {
         $stmt = 'DELETE FROM
-                    {{%support_email}}
+                    `support_email`
                  WHERE
                     sup_id=?';
         try {
@@ -104,7 +104,7 @@ class Support
         }
 
         $stmt = 'DELETE FROM
-                    {{%support_email_body}}
+                    `support_email_body`
                  WHERE
                     seb_sup_id=?';
         try {
@@ -132,15 +132,15 @@ class Support
                     sup_ema_id
                  FROM
                     (
-                    {{%support_email}},
-                    {{%email_account}}
+                    `support_email`,
+                    `email_account`
                     )
                     LEFT JOIN
-                        {{%issue}}
+                        `issue`
                     ON
                         sup_iss_id = iss_id';
         if (!empty($options['keywords'])) {
-            $stmt .= ', {{%support_email_body}}';
+            $stmt .= ', `support_email_body`';
         }
         $stmt .= self::buildWhereClause($options);
         $stmt .= '
@@ -187,7 +187,7 @@ class Support
                     sup_id,
                     sup_ema_id
                  FROM
-                    {{%support_email}}
+                    `support_email`
                  WHERE
                     sup_iss_id=?
                  ORDER BY
@@ -247,7 +247,7 @@ class Support
         $stmt = 'SELECT
                     sup_from
                  FROM
-                    {{%support_email}}
+                    `support_email`
                  WHERE
                     sup_id IN (' . DB_Helper::buildList($sup_ids) . ')';
         try {
@@ -282,7 +282,7 @@ class Support
         $items = $_POST['item'];
         $list = DB_Helper::buildList($items);
         $stmt = "UPDATE
-                    {{%support_email}}
+                    `support_email`
                  SET
                     sup_removed=0
                  WHERE
@@ -310,8 +310,8 @@ class Support
                     sup_subject,
                     sup_from
                  FROM
-                    {{%support_email}},
-                    {{%email_account}}
+                    `support_email`,
+                    `email_account`
                  WHERE
                     ema_prj_id=? AND
                     ema_id=sup_ema_id AND
@@ -340,7 +340,7 @@ class Support
         }
 
         $stmt = 'DELETE FROM
-                    {{%support_email}}
+                    `support_email`
                  WHERE
                     sup_ema_id IN (' . DB_Helper::buildList($ids) . ')';
         try {
@@ -920,7 +920,7 @@ class Support
         $sql = 'SELECT
                     count(*)
                 FROM
-                    {{%support_email}}
+                    `support_email`
                 WHERE
                     sup_message_id = ?';
         try {
@@ -990,7 +990,7 @@ class Support
             $params['sup_cc'] = $row['cc'];
         }
 
-        $stmt = 'INSERT INTO {{%support_email}} SET ' . DB_Helper::buildSet($params);
+        $stmt = 'INSERT INTO `support_email` SET ' . DB_Helper::buildSet($params);
         try {
             DB_Helper::getInstance()->query($stmt, $params);
         } catch (DatabaseException $e) {
@@ -1002,7 +1002,7 @@ class Support
         $row['sup_id'] = $sup_id;
         // now add the body and full email to the separate table
         $stmt = 'INSERT INTO
-                    {{%support_email_body}}
+                    `support_email_body`
                  (
                     seb_sup_id,
                     seb_body,
@@ -1136,15 +1136,15 @@ class Support
                     sup_has_attachment
                  FROM
                     (
-                    {{%support_email}},
-                    {{%email_account}}';
+                    `support_email`,
+                    `email_account`';
         if (!empty($options['keywords'])) {
-            $stmt .= ', {{%support_email_body}} ';
+            $stmt .= ', `support_email_body` ';
         }
         $stmt .= '
                     )
                     LEFT JOIN
-                        {{%issue}}
+                        `issue`
                     ON
                         sup_iss_id = iss_id';
         $stmt .= self::buildWhereClause($options);
@@ -1353,7 +1353,7 @@ class Support
     {
         $list = DB_Helper::buildList($items);
         $stmt = "UPDATE
-                    {{%support_email}}
+                    `support_email`
                  SET
                     sup_iss_id=$issue_id
                  WHERE
@@ -1374,7 +1374,7 @@ class Support
         $stmt = "SELECT
                     sup_subject
                  FROM
-                    {{%support_email}}
+                    `support_email`
                  WHERE
                     sup_id IN ($list)";
         $res = DB_Helper::getInstance()->getColumn($stmt, $items);
@@ -1410,8 +1410,8 @@ class Support
                     sup_id,
                     seb_full_email
                  FROM
-                    {{%support_email}},
-                    {{%support_email_body}}
+                    `support_email`,
+                    `support_email_body`
                  WHERE
                     sup_id=seb_sup_id AND
                     sup_id IN (' . DB_Helper::buildList($items) . ')';
@@ -1467,11 +1467,11 @@ class Support
     {
         // $ema_id is not needed anymore and will be re-factored away in the future
         $stmt = 'SELECT
-                    {{%support_email}}.*,
-                    {{%support_email_body}}.*
+                    `support_email`.*,
+                    `support_email_body`.*
                  FROM
-                    {{%support_email}},
-                    {{%support_email_body}}
+                    `support_email`,
+                    `support_email_body`
                  WHERE
                     sup_id=seb_sup_id AND
                     sup_id=?';
@@ -1508,7 +1508,7 @@ class Support
                     sup_id,
                     sup_ema_id
                 FROM
-                    {{%support_email}}
+                    `support_email`
                 WHERE
                     sup_iss_id = ?
                 ORDER BY
@@ -1541,8 +1541,8 @@ class Support
                     sup_from,
                     sup_subject
                  FROM
-                    {{%support_email}},
-                    {{%email_account}}
+                    `support_email`,
+                    `email_account`
                  WHERE
                     ema_id=sup_ema_id AND
                     ema_prj_id=? AND
@@ -1571,7 +1571,7 @@ class Support
         $stmt = 'SELECT
                     seb_full_email
                  FROM
-                    {{%support_email_body}}
+                    `support_email_body`
                  WHERE
                     seb_sup_id=?';
         try {
@@ -1595,7 +1595,7 @@ class Support
         $stmt = 'SELECT
                     seb_body
                  FROM
-                    {{%support_email_body}}
+                    `support_email_body`
                  WHERE
                     seb_sup_id=?';
         try {
@@ -1628,7 +1628,7 @@ class Support
                     sup_has_attachment,
                     CONCAT(sup_ema_id, '-', sup_id) AS composite_id
                  FROM
-                    {{%support_email}}
+                    `support_email`
                  WHERE
                     sup_iss_id=?
                  ORDER BY
@@ -1657,7 +1657,7 @@ class Support
         $items = $_POST['item'];
         $list = DB_Helper::buildList($items);
         $stmt = "UPDATE
-                    {{%support_email}}
+                    `support_email`
                  SET
                     sup_removed=1
                  WHERE
@@ -1684,13 +1684,13 @@ class Support
         $stmt = "SELECT
                     sup_iss_id
                  FROM
-                    {{%support_email}}
+                    `support_email`
                  WHERE
                     sup_id IN ($list)";
         $issue_id = DB_Helper::getInstance()->getOne($stmt, $items);
 
         $stmt = "UPDATE
-                    {{%support_email}}
+                    `support_email`
                  SET
                     sup_iss_id=0
                  WHERE
@@ -1707,7 +1707,7 @@ class Support
                     sup_id,
                     sup_subject
                  FROM
-                    {{%support_email}}
+                    `support_email`
                  WHERE
                     sup_id IN ($list)";
         $subjects = DB_Helper::getInstance()->getPair($stmt, $items);
@@ -2156,7 +2156,7 @@ class Support
         $stmt = 'SELECT
                     sup_message_id
                  FROM
-                    {{%support_email}}
+                    `support_email`
                  WHERE
                     sup_id=?';
         try {
@@ -2183,7 +2183,7 @@ class Support
         $stmt = 'SELECT
                     sup_id
                  FROM
-                    {{%support_email}}
+                    `support_email`
                  WHERE
                     sup_message_id=?';
         try {
@@ -2214,7 +2214,7 @@ class Support
         $stmt = 'SELECT
                     sup_iss_id
                  FROM
-                    {{%support_email}}
+                    `support_email`
                  WHERE
                     sup_message_id=?';
         try {
@@ -2238,7 +2238,7 @@ class Support
         $stmt = 'SELECT
                     sup_iss_id
                  FROM
-                    {{%support_email}}
+                    `support_email`
                  WHERE
                     sup_id=?';
         try {
@@ -2261,8 +2261,8 @@ class Support
         $sql = 'SELECT
                     parent.sup_message_id
                 FROM
-                    {{%support_email}} child,
-                    {{%support_email}} parent
+                    `support_email` child,
+                    `support_email` parent
                 WHERE
                     parent.sup_id = child.sup_parent_id AND
                     child.sup_message_id = ?';
@@ -2294,8 +2294,8 @@ class Support
         $stmt = 'SELECT
                     COUNT(sup_id)
                  FROM
-                    {{%support_email}},
-                    {{%email_account}}
+                    `support_email`,
+                    `email_account`
                  WHERE
                     ema_id = sup_ema_id AND
                     ema_prj_id = ? AND
@@ -2335,7 +2335,7 @@ class Support
         $stmt = 'SELECT
                     ema_prj_id
                  FROM
-                    {{%email_account}}
+                    `email_account`
                  WHERE
                     ema_id = ?';
         try {
@@ -2389,7 +2389,7 @@ class Support
         }
 
         $sql = 'UPDATE
-                    {{%support_email}}
+                    `support_email`
                 SET
                     sup_ema_id = ?,
                     sup_iss_id = ?,
@@ -2581,7 +2581,7 @@ class Support
                     sup_id,
                     @sup_seq := @sup_seq+1
                 FROM
-                    {{%support_email}}
+                    `support_email`
                 WHERE
                     sup_iss_id = ?
                 ORDER BY

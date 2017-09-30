@@ -14,6 +14,7 @@ Upgrading to 3.3.0 versions requires that you upgrade to 3.2.0 version first.
 - Unify lengths of header fields (@glensc, #266, #295)
 - Add events for user creation/update (@glensc, #289)
 - Harden closeIssue access checks/validation in RPC code (@glensc, #287)
+- Drop table prefix uses from code (@glensc, #296)
 
 [3.3.0]: https://github.com/eventum/eventum/compare/v3.2.3...master
 

@@ -27,7 +27,7 @@ class Search_Profile
     public static function remove($usr_id, $prj_id, $type)
     {
         $stmt = 'DELETE FROM
-                    {{%search_profile}}
+                    `search_profile`
                  WHERE
                     sep_usr_id=? AND
                     sep_prj_id=? AND
@@ -61,7 +61,7 @@ class Search_Profile
         $stmt = 'SELECT
                     sep_user_profile
                  FROM
-                    {{%search_profile}}
+                    `search_profile`
                  WHERE
                     sep_usr_id=? AND
                     sep_prj_id=? AND
@@ -95,7 +95,7 @@ class Search_Profile
         $stmt = 'SELECT
                     COUNT(*) AS total
                  FROM
-                    {{%search_profile}}
+                    `search_profile`
                  WHERE
                     sep_usr_id=? AND
                     sep_prj_id=? AND
@@ -145,7 +145,7 @@ class Search_Profile
     private static function _insert($usr_id, $prj_id, $type, $profile)
     {
         $stmt = 'INSERT INTO
-                    {{%search_profile}}
+                    `search_profile`
                  (
                     sep_usr_id,
                     sep_prj_id,
@@ -176,7 +176,7 @@ class Search_Profile
     private static function _update($usr_id, $prj_id, $type, $profile)
     {
         $stmt = 'UPDATE
-                    {{%search_profile}}
+                    `search_profile`
                  SET
                     sep_user_profile=?
                  WHERE

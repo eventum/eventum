@@ -54,7 +54,7 @@ class DbTest extends TestCase
     /** @group query */
     public function testQuery()
     {
-        $res = $this->db->query('update {{%user}} set usr_lang=? where 1=0', ['en_US']);
+        $res = $this->db->query('update `user` set usr_lang=? where 1=0', ['en_US']);
         $this->assertEquals(true, $res);
     }
 
@@ -62,7 +62,7 @@ class DbTest extends TestCase
     public function testGetAllDefault()
     {
         $res = $this->db->getAll(
-            'SELECT usr_id,usr_full_name,usr_email,usr_lang FROM {{%user}} WHERE usr_id<=?', [2],
+            'SELECT usr_id,usr_full_name,usr_email,usr_lang FROM `user` WHERE usr_id<=?', [2],
             AdapterInterface::DB_FETCHMODE_DEFAULT
         );
         $this->assertInternalType('array', $res);
@@ -87,7 +87,7 @@ class DbTest extends TestCase
     public function testGetAllAssoc()
     {
         $res = $this->db->getAll(
-            'SELECT usr_id,usr_full_name,usr_email,usr_lang FROM {{%user}} WHERE usr_id<=? AND usr_id!=42', [2],
+            'SELECT usr_id,usr_full_name,usr_email,usr_lang FROM `user` WHERE usr_id<=? AND usr_id!=42', [2],
             AdapterInterface::DB_FETCHMODE_ASSOC
         );
         $this->assertInternalType('array', $res);
@@ -112,7 +112,7 @@ class DbTest extends TestCase
     public function testFetchAssocDefault()
     {
         $res = $this->db->fetchAssoc(
-            'SELECT usr_id,usr_full_name,usr_email,usr_lang FROM {{%user}} WHERE usr_id<=?',
+            'SELECT usr_id,usr_full_name,usr_email,usr_lang FROM `user` WHERE usr_id<=?',
             [2],
             AdapterInterface::DB_FETCHMODE_DEFAULT
         );
@@ -137,7 +137,7 @@ class DbTest extends TestCase
     public function testFetchAssocAssoc()
     {
         $res = $this->db->fetchAssoc(
-            'SELECT usr_id,usr_full_name,usr_email,usr_lang FROM {{%user}} WHERE usr_id<=?',
+            'SELECT usr_id,usr_full_name,usr_email,usr_lang FROM `user` WHERE usr_id<=?',
             [2],
             AdapterInterface::DB_FETCHMODE_ASSOC
         );
@@ -166,7 +166,7 @@ class DbTest extends TestCase
      */
     public function testFetchAssoc()
     {
-        $stmt = 'SELECT sta_id, sta_title FROM {{%status}} ORDER BY sta_rank ASC';
+        $stmt = 'SELECT sta_id, sta_title FROM `status` ORDER BY sta_rank ASC';
         $res = $this->db->getPair($stmt);
         $exp = [
             1 => 'discovery',
@@ -183,7 +183,7 @@ class DbTest extends TestCase
     public function testGetColumn()
     {
         $res = $this->db->getColumn(
-            'SELECT usr_full_name FROM {{%user}} WHERE usr_id<=?',
+            'SELECT usr_full_name FROM `user` WHERE usr_id<=?',
             [2]
         );
 
@@ -199,12 +199,12 @@ class DbTest extends TestCase
     public function testGetOne()
     {
         $res = $this->db->getOne(
-            'SELECT usr_id FROM {{%user}} WHERE usr_email=?', ['nosuchemail@.-']
+            'SELECT usr_id FROM `user` WHERE usr_email=?', ['nosuchemail@.-']
         );
         $this->assertNull($res);
 
         $res = $this->db->getOne(
-            'SELECT usr_id FROM {{%user}} WHERE usr_email=?', ['admin@example.com']
+            'SELECT usr_id FROM `user` WHERE usr_email=?', ['admin@example.com']
         );
         $this->assertEquals(2, $res);
     }
@@ -213,13 +213,13 @@ class DbTest extends TestCase
     public function testGetPair()
     {
         $res = $this->db->getPair(
-            'SELECT usr_id,usr_full_name FROM {{%user}} WHERE usr_email=?', ['nosuchemail@.-']
+            'SELECT usr_id,usr_full_name FROM `user` WHERE usr_email=?', ['nosuchemail@.-']
         );
         $this->assertInternalType('array', $res);
         $this->assertEmpty($res);
 
         $res = $this->db->getPair(
-            'SELECT usr_id,usr_full_name FROM {{%user}} WHERE usr_id<=2'
+            'SELECT usr_id,usr_full_name FROM `user` WHERE usr_id<=2'
         );
         $this->assertInternalType('array', $res);
         $exp = [1 => 'system', 2 => 'Admin User'];
@@ -230,7 +230,7 @@ class DbTest extends TestCase
     public function testGetRowDefault()
     {
         $res = $this->db->getRow(
-            'SELECT usr_id,usr_full_name,usr_email,usr_lang FROM {{%user}} WHERE usr_id<=?',
+            'SELECT usr_id,usr_full_name,usr_email,usr_lang FROM `user` WHERE usr_id<=?',
             [2], AdapterInterface::DB_FETCHMODE_DEFAULT
         );
 
@@ -248,7 +248,7 @@ class DbTest extends TestCase
     public function testGetRowAssoc()
     {
         $res = $this->db->getRow(
-            'SELECT usr_id,usr_full_name,usr_email,usr_lang FROM {{%user}} WHERE usr_id<=?',
+            'SELECT usr_id,usr_full_name,usr_email,usr_lang FROM `user` WHERE usr_id<=?',
             [2], AdapterInterface::DB_FETCHMODE_ASSOC
         );
 

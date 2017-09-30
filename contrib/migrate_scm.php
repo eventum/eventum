@@ -38,7 +38,7 @@ function all_repos()
 {
     global $db;
 
-    return $db->getColumn('SELECT DISTINCT com_scm_name FROM {{%commit}}');
+    return $db->getColumn('SELECT DISTINCT com_scm_name FROM `commit`');
 }
 
 /**
@@ -57,10 +57,10 @@ function migrate_git_repos()
     );
 
     foreach ($git_repos as $repo) {
-        $commits = $db->getColumn('SELECT com_id FROM {{%commit}} WHERE com_scm_name=?', [$repo]);
+        $commits = $db->getColumn('SELECT com_id FROM `commit` WHERE com_scm_name=?', [$repo]);
         $commits = implode(',', $commits);
         $db->query(
-            'UPDATE {{%commit}} SET com_project_name=com_scm_name, com_scm_name=? WHERE com_scm_name=? and com_scm_name!=?',
+            'UPDATE `commit` SET com_project_name=com_scm_name, com_scm_name=? WHERE com_scm_name=? and com_scm_name!=?',
             [$git_name, $repo, $git_name]
         );
         echo "$repo -> $commits\n";
@@ -147,13 +147,13 @@ function migrate_svn_repos()
         }
     );
     $list = DB_Helper::buildList($svn_repos);
-    $commits = $db->getColumn("select com_id from {{%commit}} where com_scm_name in ($list)", $svn_repos);
+    $commits = $db->getColumn("select com_id from `commit` where com_scm_name in ($list)", $svn_repos);
 
     foreach ($commits as $commit) {
-        $files = $db->getColumn('SELECT cof_filename FROM {{%commit_file}} WHERE cof_com_id=?', [$commit]);
+        $files = $db->getColumn('SELECT cof_filename FROM `commit_file` WHERE cof_com_id=?', [$commit]);
         $commit_root = find_common_root($files);
         $db->query(
-            'UPDATE {{%commit}} SET com_project_name=? WHERE com_id=?',
+            'UPDATE `commit` SET com_project_name=? WHERE com_id=?',
             [$commit_root, $commit]
         );
         echo "$commit -> $commit_root\n";
@@ -174,7 +174,7 @@ function set_commit_users($prj_id = 1)
         return;
     }
 
-    $commits = $db->getColumn('SELECT com_id FROM {{%commit}} WHERE com_usr_id IS NULL');
+    $commits = $db->getColumn('SELECT com_id FROM `commit` WHERE com_usr_id IS NULL');
     echo count($commits), " commits to check\n";
     $co = Commit::create();
     $cache = [];
@@ -197,7 +197,7 @@ function set_commit_users($prj_id = 1)
         if ($usr_id) {
             //            echo "Updating: #{$commit->getId()} [$cache_key]: usr_id={$usr_id}\n";
             $db->query(
-                'UPDATE {{%commit}} SET com_usr_id=? WHERE com_id=?',
+                'UPDATE `commit` SET com_usr_id=? WHERE com_id=?',
                 [$usr_id, $commit->getId()]
             );
         }

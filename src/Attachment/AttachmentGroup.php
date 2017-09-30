@@ -113,7 +113,7 @@ class AttachmentGroup
             $params['iat_not_id'] = $this->associated_note_id;
         }
 
-        $sql = 'INSERT INTO {{%issue_attachment}} SET ' . DB_Helper::buildSet($params);
+        $sql = 'INSERT INTO `issue_attachment` SET ' . DB_Helper::buildSet($params);
 
         DB_Helper::getInstance()->query($sql, $params);
 
@@ -170,7 +170,7 @@ class AttachmentGroup
         $usr_id = Auth::getUserID();
         try {
             $sql = 'DELETE FROM
-                        {{%issue_attachment}}
+                        `issue_attachment`
                     WHERE
                         iat_id=?';
             DB_Helper::getInstance()->query($sql, [$this->id]);

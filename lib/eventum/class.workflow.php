@@ -39,7 +39,7 @@ class Workflow
                     prj_id,
                     prj_workflow_backend
                  FROM
-                    {{%project}}
+                    `project`
                  ORDER BY
                     prj_id';
         try {

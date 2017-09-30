@@ -16,6 +16,7 @@ namespace Eventum\Command;
 use DB_Helper;
 use Eventum\Db;
 use Eventum\Db\DatabaseException;
+use Exception;
 use Setup;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -104,23 +105,18 @@ class MonitorCommand
 
     /**
      * Checks on the status of the MySQL database.
+     *
+     * @throws DatabaseException
+     * @throws Exception
      */
     protected function checkDatabase()
     {
         $required_tables = Db\Table::getTableList();
 
-        // add the table prefix to all of the required tables
-        $dbc = DB_Helper::getConfig();
-        $required_tables = array_map(
-            function ($table) use ($dbc) {
-                return "{$dbc['table_prefix']}$table";
-            }, $required_tables
-        );
-
         // check if all of the required tables are really there
         $table_list = DB_Helper::getInstance()->getColumn('SHOW TABLES');
         foreach ($required_tables as $table) {
-            if (!in_array($table, $table_list)) {
+            if (!in_array($table, $table_list, true)) {
                 $this->error(ev_gettext('ERROR: Could not find required table "%s"', $table));
             }
         }
@@ -135,8 +131,8 @@ class MonitorCommand
             = "SELECT
                     maq_id
                  FROM
-                    {{%mail_queue}},
-                    {{%mail_queue_log}}
+                    `mail_queue`,
+                    `mail_queue_log`
                  WHERE
                     maq_status='error' AND
                     maq_id=mql_maq_id
@@ -170,11 +166,11 @@ class MonitorCommand
                     COUNT(*)
                  FROM
                     (
-                    {{%support_email}},
-                    {{%email_account}}
+                    `support_email`,
+                    `email_account`
                     )
                     LEFT JOIN
-                        {{%issue}}
+                        `issue`
                     ON
                         sup_iss_id = iss_id
                     WHERE sup_removed=0 AND sup_ema_id=ema_id AND sup_iss_id = 0

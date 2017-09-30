@@ -38,7 +38,7 @@ class Time_Tracking
         $stmt = 'SELECT
                     ttc_id
                  FROM
-                    {{%time_tracking_category}}
+                    `time_tracking_category`
                  WHERE
                     ttc_prj_id=? AND
                     ttc_title=?';
@@ -62,7 +62,7 @@ class Time_Tracking
         $stmt = 'SELECT
                     *
                  FROM
-                    {{%time_tracking_category}}
+                    `time_tracking_category`
                  WHERE
                     ttc_id=?';
         try {
@@ -85,7 +85,7 @@ class Time_Tracking
                     ttr_ttc_id,
                     COUNT(ttr_ttc_id)
                  FROM
-                    {{%time_tracking}}';
+                    `time_tracking`';
         if (count($ttc_ids) > 0) {
             $stmt .= ' WHERE ttr_ttc_id IN (' . DB_Helper::buildList($ttc_ids) . ')';
         }
@@ -116,7 +116,7 @@ class Time_Tracking
         }
 
         $stmt = 'DELETE FROM
-                    {{%time_tracking_category}}
+                    `time_tracking_category`
                  WHERE
                     ttc_id IN (' . DB_Helper::buildList($items) . ')';
         try {
@@ -142,7 +142,7 @@ class Time_Tracking
             return -2;
         }
         $stmt = 'UPDATE
-                    {{%time_tracking_category}}
+                    `time_tracking_category`
                  SET
                     ttc_title=?
                  WHERE
@@ -171,7 +171,7 @@ class Time_Tracking
         }
 
         $stmt = 'INSERT INTO
-                    {{%time_tracking_category}}
+                    `time_tracking_category`
                  (
                     ttc_prj_id,
                     ttc_title,
@@ -217,7 +217,7 @@ class Time_Tracking
                     ttc_id,
                     ttc_title
                  FROM
-                    {{%time_tracking_category}}
+                    `time_tracking_category`
                  WHERE
                     ttc_title NOT IN (' . DB_Helper::buildList(self::$default_categories) . ') AND
                     ttc_prj_id=?
@@ -255,7 +255,7 @@ class Time_Tracking
                     ttc_id,
                     ttc_title
                  FROM
-                    {{%time_tracking_category}}
+                    `time_tracking_category`
                  WHERE
                     ttc_prj_id=?
                  ORDER BY
@@ -284,7 +284,7 @@ class Time_Tracking
                     ttr_iss_id,
                     SUM(ttr_time_spent)
                  FROM
-                    {{%time_tracking}}
+                    `time_tracking`
                  WHERE
                     ttr_iss_id IN (' . DB_Helper::buildList($ids) . ')
                  GROUP BY
@@ -319,9 +319,9 @@ class Time_Tracking
                     ttr_usr_id,
                     usr_full_name
                  FROM
-                    {{%time_tracking}},
-                    {{%time_tracking_category}},
-                    {{%user}}
+                    `time_tracking`,
+                    `time_tracking_category`,
+                    `user`
                  WHERE
                     ttr_ttc_id=ttc_id AND
                     ttr_usr_id=usr_id AND
@@ -385,9 +385,9 @@ class Time_Tracking
                     ttr_usr_id,
                     usr_full_name
                  FROM
-                    {{%time_tracking}},
-                    {{%time_tracking_category}},
-                    {{%user}}
+                    `time_tracking`,
+                    `time_tracking_category`,
+                    `user`
                  WHERE
                     ttr_ttc_id=ttc_id AND
                     ttr_usr_id=usr_id AND
@@ -409,7 +409,7 @@ class Time_Tracking
                     ttr_iss_id issue_id,
                     ttr_usr_id owner_usr_id
                  FROM
-                    {{%time_tracking}}
+                    `time_tracking`
                  WHERE
                     ttr_id=?';
 
@@ -420,7 +420,7 @@ class Time_Tracking
         }
 
         $stmt = 'DELETE FROM
-                    {{%time_tracking}}
+                    `time_tracking`
                  WHERE
                     ttr_id=?';
         try {
@@ -463,7 +463,7 @@ class Time_Tracking
 
         $usr_id = Auth::getUserID();
         $stmt = 'INSERT INTO
-                    {{%time_tracking}}
+                    `time_tracking`
                  (
                     ttr_ttc_id,
                     ttr_iss_id,
@@ -522,7 +522,7 @@ class Time_Tracking
 
         $usr_id = Auth::getUserID();
         $stmt = 'UPDATE
-                    {{%time_tracking}}
+                    `time_tracking`
                  SET
                     ttr_ttc_id = ?,
                     ttr_created_date = ?,
@@ -563,7 +563,7 @@ class Time_Tracking
     public static function recordRemoteTimeEntry($issue_id, $usr_id, $cat_id, $summary, $time_spent)
     {
         $stmt = 'INSERT INTO
-                    {{%time_tracking}}
+                    `time_tracking`
                  (
                     ttr_ttc_id,
                     ttr_iss_id,
@@ -612,9 +612,9 @@ class Time_Tracking
                     COUNT(ttr_id) as total,
                     SUM(ttr_time_spent) as total_time
                  FROM
-                    {{%time_tracking}},
-                    {{%issue}},
-                    {{%time_tracking_category}}
+                    `time_tracking`,
+                    `issue`,
+                    `time_tracking_category`
                  WHERE
                     iss_id = ttr_iss_id AND
                     ttr_ttc_id = ttc_id AND
@@ -662,14 +662,14 @@ class Time_Tracking
                     pri_title,
                     sta_is_closed
                  FROM
-                    {{%time_tracking}},
-                    {{%issue}}
+                    `time_tracking`,
+                    `issue`
                     LEFT JOIN
-                        {{%status}}
+                        `status`
                     ON
                         iss_sta_id = sta_id
                  LEFT JOIN
-                    {{%project_priority}}
+                    `project_priority`
                  ON
                     iss_pri_id = pri_id
                  WHERE
@@ -704,7 +704,7 @@ class Time_Tracking
         $stmt = 'SELECT
                     ttr_iss_id, sum(ttr_time_spent)
                  FROM
-                    {{%time_tracking}}
+                    `time_tracking`
                  WHERE
                     ttr_usr_id = ? AND
                     ttr_created_date BETWEEN ? AND ? AND
