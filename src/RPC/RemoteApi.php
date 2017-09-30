@@ -549,20 +549,19 @@ class RemoteApi
             throw new RemoteApiException("Issue #$issue_id already closed");
         }
 
-        // FIXME: this doesn't validate that the status belongs to $issue_id's project
         $status_id = Status::getStatusID($new_status);
-        if (!$status_id) {
+        $prj_id = Issue::getProjectID($issue_id);
+        if (!$status_id || !in_array($prj_id, Status::getAssociatedProjects($status_id))) {
             throw new RemoteApiException("Invalid status: $new_status");
         }
 
-        AuthCookie::setProjectCookie(Issue::getProjectID($issue_id));
+        AuthCookie::setProjectCookie($prj_id);
 
         $res = Issue::close($usr_id, $issue_id, $send_notification, $resolution_id, $status_id, $note);
         if ($res == -1) {
             throw new RemoteApiException("Could not close issue #$issue_id");
         }
 
-        $prj_id = Issue::getProjectID($issue_id);
         if (CRM::hasCustomerIntegration($prj_id)) {
             $crm = CRM::getInstance($prj_id);
             try {
