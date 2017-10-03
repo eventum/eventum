@@ -16,6 +16,7 @@ _Under Construction_
  * [x] [[Creating Issues|Basic-User:-Creating-Issues]]
  * [x] [[Editing Personal Preferences|Basic-User:-Editing-Preferences]]
  * [x] [[FAQ|Basic-User:-FAQ]]
+ * [X] [[Attachments]]
  * [[How Issues are Handled|Basic-User:-How-issues-are-handled-in-Eventum]]
  * [[Listing Issues|Basic-User:-Listing-Issues]]
  * [[Projects|Basic-User:-Projects]]
