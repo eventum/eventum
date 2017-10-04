@@ -9,25 +9,23 @@ Three adapters are included:
 
 Advanced users can change to a different adapter by editing setup.php in your configuration file and adding/changing the default adapter.
 
-```
- 'attachments' =>
-  array (
-    'default_adapter' => 'local',
-  ),
+```php
+    'attachments' => [
+        'default_adapter' => 'local',
+    ],
 ```
 
 You can define additional adapters and pass options to adapters as well.
-```
- 'attachments' =>
-  array (
-    'default_adapter' => 'local',
-    'adapters' => array(
-        'local' =>  array(
-            'class' =>  '\\League\\Flysystem\\Adapter\\Local',
-            'options'   =>  array('/path/to/my/system/')
-        ),
-    ),
-  ),
+```php
+    'attachments' => [
+        'default_adapter' => 'local',
+        'adapters' => [
+            'local' => [
+                'class' => '\\League\\Flysystem\\Adapter\\Local',
+                'options' => ['/path/to/my/system/'],
+            ],
+        ],
+    ],
 ```
 
 # Migrating existing attachments
