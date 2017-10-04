@@ -19,11 +19,9 @@ class DatabaseException extends PDOException
 {
     public function __construct($message = '', $code = 0, $previous = null)
     {
-        // PDOException code is HY000 in MySQL workaround
-        if (!is_numeric($code)) {
-            $code = (int)$code;
-        }
+        parent::__construct($message, 0, $previous);
 
-        parent::__construct($message, $code, $previous);
+        // PDOException code is 'HY000' in MySQL workaround
+        $this->code = $code;
     }
 }

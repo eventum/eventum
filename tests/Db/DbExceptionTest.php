@@ -31,8 +31,7 @@ class DbExceptionTest extends TestCase
 
         $ex = new DatabaseException($e->getMessage(), $e->getCode(), $e);
         $this->assertEquals($message, $ex->getMessage());
-        // it's numeric now
-        $this->assertEquals(0, $ex->getCode());
+        $this->assertEquals($code, $ex->getCode());
     }
 
     /**
