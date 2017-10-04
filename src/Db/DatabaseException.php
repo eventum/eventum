@@ -17,4 +17,13 @@ use RuntimeException;
 
 class DatabaseException extends RuntimeException
 {
+    public function __construct($message = '', $code = 0, $previous = null)
+    {
+        // PDOException code is HY000 in MySQL workaround
+        if (!is_numeric($code)) {
+            $code = (int)$code;
+        }
+
+        parent::__construct($message, $code, $previous);
+    }
 }
