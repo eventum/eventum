@@ -1,8 +1,11 @@
 # Eventum Issue Tracking System
 
-## [3.3.0] - ???
+## [3.3.0] - 2017-10-04
 
 Upgrading to 3.3.0 versions requires that you upgrade to 3.2.0 version first.
+
+This version adds support storing attachments in filesystem (#254).
+See [Attachments] wiki page for details.
 
 - Emit history.add events when history entry is added (@glensc, #278)
 - Fix fatal error when downloading emails from unknown sender with CRM enabled (@balsdorf)
@@ -16,7 +19,8 @@ Upgrading to 3.3.0 versions requires that you upgrade to 3.2.0 version first.
 - Harden closeIssue access checks/validation in RPC code (@glensc, #287)
 - Drop table prefix uses from code (@glensc, #296)
 
-[3.3.0]: https://github.com/eventum/eventum/compare/v3.2.3...master
+[3.3.0]: https://github.com/eventum/eventum/compare/v3.2.3...v3.3.0
+[Attachments]: https://github.com/eventum/eventum/wiki/Attachments
 
 ## [3.2.3] - 2017-08-31
 
