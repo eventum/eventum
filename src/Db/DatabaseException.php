@@ -13,9 +13,9 @@
 
 namespace Eventum\Db;
 
-use RuntimeException;
+use PDOException;
 
-class DatabaseException extends RuntimeException
+class DatabaseException extends PDOException
 {
     public function __construct($message = '', $code = 0, $previous = null)
     {
