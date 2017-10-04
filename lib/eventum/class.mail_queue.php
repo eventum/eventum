@@ -284,11 +284,7 @@ class Mail_Queue
             $sql .= " LIMIT 0, $limit";
         }
 
-        try {
-            $res = DB_Helper::getInstance()->getAll($sql, [$status]);
-        } catch (DatabaseException $e) {
-            return [];
-        }
+        $res = DB_Helper::getInstance()->getAll($sql, [$status]);
 
         foreach ($res as &$value) {
             $value = explode(',', $value['ids']);
@@ -318,13 +314,8 @@ class Mail_Queue
                     `mail_queue`
                  WHERE
                     maq_id=?';
-        try {
-            $res = DB_Helper::getInstance()->getRow($stmt, [$maq_id]);
-        } catch (DatabaseException $e) {
-            return [];
-        }
 
-        return $res;
+        return DB_Helper::getInstance()->getRow($stmt, [$maq_id]);
     }
 
     /**
@@ -348,13 +339,8 @@ class Mail_Queue
                     `mail_queue`
                  WHERE
                     maq_id IN (' . implode(',', $maq_ids) . ')';
-        try {
-            $res = DB_Helper::getInstance()->getAll($stmt);
-        } catch (DatabaseException $e) {
-            return [];
-        }
 
-        return $res;
+        return DB_Helper::getInstance()->getAll($stmt);
     }
 
     /**
@@ -398,11 +384,7 @@ class Mail_Queue
             $status,
             $server_message,
         ];
-        try {
-            DB_Helper::getInstance()->query($stmt, $params);
-        } catch (DatabaseException $e) {
-            return false;
-        }
+        DB_Helper::getInstance()->query($stmt, $params);
 
         $stmt = 'UPDATE
                     `mail_queue`
@@ -436,13 +418,8 @@ class Mail_Queue
                     maq_iss_id = ?
                  ORDER BY
                     maq_queued_date ASC';
-        try {
-            $res = DB_Helper::getInstance()->getAll($stmt, [$issue_id]);
-        } catch (DatabaseException $e) {
-            return false;
-        }
 
-        return $res;
+        return DB_Helper::getInstance()->getAll($stmt, [$issue_id]);
     }
 
     /**
@@ -466,13 +443,8 @@ class Mail_Queue
                     `mail_queue`
                  WHERE
                     maq_id = ?';
-        try {
-            $res = DB_Helper::getInstance()->getRow($stmt, [$maq_id]);
-        } catch (DatabaseException $e) {
-            return false;
-        }
 
-        return $res;
+        return DB_Helper::getInstance()->getRow($stmt, [$maq_id]);
     }
 
     /**
@@ -499,11 +471,7 @@ class Mail_Queue
                     maq_type_id = ?";
         $params = $types;
         $params[] = $type_id;
-        try {
-            $res = DB_Helper::getInstance()->getColumn($sql, $params);
-        } catch (DatabaseException $e) {
-            return false;
-        }
+        $res = DB_Helper::getInstance()->getColumn($sql, $params);
 
         foreach ($res as &$row) {
             // FIXME: what does quote stripping fix here
