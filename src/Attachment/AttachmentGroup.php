@@ -150,7 +150,7 @@ class AttachmentGroup
             $attachment = new Attachment($file['iaf_filename'], $file['iaf_filetype']);
             $attachment->id = $file['iaf_id'];
             $attachment->filesize = $file['iaf_filesize'];
-            $attachment->flysystem_path = $file['iaf_flysystem_path'];
+            $attachment->flysystem_path = $file['iap_flysystem_path'];
             $attachment->group_id = $file['iaf_iat_id'];
             $attachments[] = $attachment;
         }

@@ -18,6 +18,14 @@ class EventumAttachmentsMigrate extends AbstractMigration
     public function up()
     {
         $this->execute("UPDATE issue_attachment SET iat_min_role = IF(iat_status = 'public', 1, 4)");
-        $this->execute("UPDATE issue_attachment_file SET iaf_flysystem_path = CONCAT('legacy://', iaf_id)");
+        $this->execute("INSERT INTO 
+                                issue_attachment_file_path 
+                            (
+                            SELECT 
+                                iaf_id, 
+                                CONCAT('legacy://', iaf_id)
+                            FROM
+                                issue_attachment_file)
+                            ");
     }
 }

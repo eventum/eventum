@@ -22,7 +22,7 @@ class EventumLegacyAdapter implements AdapterInterface
 {
     /**
      * @param string $path
-     * @return \Eventum\Attachment\Attachment
+     * @return array
      */
     private function getAttachment($path)
     {
@@ -33,11 +33,13 @@ class EventumLegacyAdapter implements AdapterInterface
                     iaf_filetype,
                     iaf_filesize,
                     iaf_created_date,
-                    iaf_flysystem_path,
+                    iap_flysystem_path,
                     iaf_iat_id
-                FROM
-                    `issue_attachment_file`
-                WHERE
+                 FROM
+                    `issue_attachment_file`,
+                    `issue_attachment_file_path`
+                 WHERE
+                    iap_iaf_id = iaf_id AND
                     iaf_id=?';
         $res = DB_Helper::getInstance()->getRow($sql, [$path]);
 

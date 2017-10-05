@@ -122,20 +122,19 @@ class Attachment
     public function save()
     {
         if ($this->id) {
-            $params = [
-                'iaf_flysystem_path' => $this->flysystem_path,
-            ];
             if ($this->group) {
-                $params['iaf_iat_id'] = $this->group->id;
+                $sql = 'UPDATE
+                            `issue_attachment_file`
+                        SET
+                            iaf_iat_id = ?
+                        WHERE
+                            iaf_id = ?';
+                DB_Helper::getInstance()->query($sql, [
+                    $this->group->id,
+                    $this->id,
+                ]);
             }
-            $sql = 'UPDATE
-                        `issue_attachment_file`
-                    SET
-                        ' . DB_Helper::buildSet($params) . '
-                    WHERE
-                        iaf_id = ?';
-            $params[] = $this->id;
-            DB_Helper::getInstance()->query($sql, $params);
+            $this->savePath();
         } else {
             $sql = 'INSERT INTO
                         `issue_attachment_file`
@@ -160,8 +159,37 @@ class Attachment
             $storage = StorageManager::get();
             $storage->addFile($this->flysystem_path, $this->blob);
 
-            // save with path set
-            $this->save();
+            $this->savePath(true);
+        }
+    }
+
+    /**
+     * Saves the path of a file
+     * @param bool $insert
+     */
+    private function savePath($insert = false)
+    {
+        if ($insert) {
+            $sql = 'INSERT INTO
+                        `issue_attachment_file_path`
+                    SET 
+                        iap_iaf_id = ?,
+                        iap_flysystem_path = ?';
+            DB_Helper::getInstance()->query($sql, [
+                $this->id,
+                $this->flysystem_path,
+            ]);
+        } else {
+            $sql = 'UPDATE
+                        `issue_attachment_file_path`
+                    SET
+                        iap_flysystem_path = ?
+                    WHERE
+                        iap_iaf_id = ?';
+            DB_Helper::getInstance()->query($sql, [
+                $this->flysystem_path,
+                $this->id,
+            ]);
         }
     }
 
