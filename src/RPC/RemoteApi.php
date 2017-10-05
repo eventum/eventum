@@ -28,7 +28,6 @@ use Draft;
 use Eventum\Attachment\Attachment;
 use Eventum\Attachment\AttachmentManager;
 use Eventum\Attachment\Exceptions\AttachmentException;
-use Eventum\Monolog\Logger;
 use History;
 use InvalidArgumentException;
 use Issue;
@@ -1044,20 +1043,14 @@ class RemoteApi
         return $incidents;
     }
 
-    // FIXME: this method should be used by SERVER, not by CLIENT
-
     /**
      * @param string $command
      * @return string
      * @access protected
+     * @deprecated since 3.3.0 this method does nothing
      */
     public function logCommand($command)
     {
-        $usr_id = Auth::getUserID();
-        $email = User::getEmail($usr_id);
-
-        Logger::cli()->info($command, ['usr_id' => $usr_id, 'email' => $email]);
-
         return 'OK';
     }
 
