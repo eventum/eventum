@@ -231,7 +231,11 @@ class XmlRpcServer
                 $params[] = $this->encoder->decode($message->getParam($i));
             }
 
-            return $this->handle($method, $params, $public, $pdesc);
+            if ($pdesc) {
+                $this->decodeParams($params, $pdesc);
+            }
+
+            return $this->handle($method, $params, $public);
         };
 
         return $function;
@@ -241,10 +245,9 @@ class XmlRpcServer
      * @param ReflectionMethod $method
      * @param array $params Method parameters in already decoded into PHP types
      * @param bool $public true if method should not be protected with login/password
-     * @param array $pdesc Parameter descriptions
      * @return string
      */
-    private function handle($method, $params, $public, $pdesc)
+    private function handle($method, $params, $public)
     {
         try {
             $email = null;
@@ -263,10 +266,6 @@ class XmlRpcServer
                 }
 
                 AuthCookie::setAuthCookie($email);
-            }
-
-            if ($pdesc) {
-                $this->decodeParams($params, $pdesc);
             }
 
             $res = $method->invokeArgs($this->api, $params);
