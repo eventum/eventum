@@ -16,6 +16,7 @@ namespace Eventum\RPC;
 use APIAuthToken;
 use Auth;
 use AuthCookie;
+use Eventum\Monolog\Logger;
 use Exception;
 use PhpXmlRpc;
 use ReflectionClass;
@@ -35,11 +36,15 @@ class XmlRpcServer
     /** @var PhpXmlRpc\Encoder */
     protected $encoder;
 
+    /** @var \Monolog\Logger */
+    protected $logger;
+
     public function __construct($api)
     {
         $this->api = $api;
         $this->reflectionClass = new ReflectionClass($this->api);
         $this->encoder = new PhpXmlRpc\Encoder();
+        $this->logger = Logger::cli();
 
         $services = $this->getXmlRpcMethodSignatures();
         $this->server = new PhpXmlRpc\Server($services);
@@ -242,6 +247,7 @@ class XmlRpcServer
     private function handle($method, $params, $public, $pdesc)
     {
         try {
+            $email = null;
             if (!$public) {
                 list($email, $password) = $this->getAuthParams($params);
 
@@ -264,6 +270,7 @@ class XmlRpcServer
             }
 
             $res = $method->invokeArgs($this->api, $params);
+            $this->logRequest($method->getName(), ['params' => $params, 'email' => $email]);
         } catch (Exception $e) {
             $code = $e->getCode() ?: 1;
             $code += PhpXmlRpc\PhpXmlRpc::$xmlrpcerruser;
@@ -292,5 +299,20 @@ class XmlRpcServer
         }
 
         return array_splice($params, 0, 2);
+    }
+
+    /**
+     * log info about request
+     *
+     * @param string $message
+     * @param array $context
+     */
+    private function logRequest($message, $context)
+    {
+        if (isset($_SERVER['HTTP_USER_AGENT'])) {
+            $context['agent'] = $_SERVER['HTTP_USER_AGENT'];
+        }
+
+        $this->logger->info($message, $context);
     }
 }
