@@ -254,15 +254,9 @@ class XmlRpcServer
             if (!$public) {
                 list($email, $password) = $this->getAuthParams($params);
 
-                if (!Auth::isCorrectPassword($email, $password)
-                    && !APIAuthToken::isTokenValidForEmail(
-                        $password, $email
-                    )
-                ) {
-                    // FIXME: role is not checked here
-                    throw new RemoteApiException(
-                        "Authentication failed for $email. Your login/password/api key is invalid or you do not have the proper role."
-                    );
+                // FIXME: role is not checked here
+                if (!$this->isValidLogin($email, $password)) {
+                    throw RemoteApiException::authenticationFailed($email);
                 }
 
                 AuthCookie::setAuthCookie($email);
@@ -282,6 +276,17 @@ class XmlRpcServer
         }
 
         return $res;
+    }
+
+    /**
+     * @param string $email
+     * @param string $password
+     * @return bool
+     */
+    private function isValidLogin($email, $password)
+    {
+        return Auth::isCorrectPassword($email, $password)
+            || APIAuthToken::isTokenValidForEmail($password, $email);
     }
 
     /**
