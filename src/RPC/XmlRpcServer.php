@@ -60,7 +60,7 @@ class XmlRpcServer
         $signatures = [];
         foreach ($this->getMethods() as $methodName => $method) {
             $tags = $this->parseBlockComment($method->getDocComment());
-            $public = isset($tags['access']) && $tags['access'][0][0] == 'public';
+            $public = isset($tags['access']) && $tags['access'][0][0] === 'public';
             $signature = $this->getSignature($tags, $public);
             $pdesc = isset($tags['param']) ? $tags['param'] : null;
             $function = $this->getFunctionDecorator($method, $public, $pdesc);
@@ -86,7 +86,7 @@ class XmlRpcServer
             if (
                 $method->isPublic() // only public
                 && !$method->isStatic() // no static
-                && substr($method->getName(), 0, 2) != '__' // no magic
+                && strpos($method->getName(), '__') !== 0 // no magic
             ) {
                 $methods[$method->getName()] = $method;
             }
@@ -110,7 +110,7 @@ class XmlRpcServer
             $line = trim($line);
             $line = preg_replace('/\s+/', ' ', $line);
 
-            if (empty($line) || $line[0] != '@') {
+            if (empty($line) || $line[0] !== '@') {
                 continue;
             }
 
