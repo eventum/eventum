@@ -285,13 +285,20 @@ class Attachment
         $usr_id = Auth::getUserID();
         $group = $this->getGroup();
         try {
+            $sm = StorageManager::get();
+            $sm->deleteFile($this->flysystem_path);
+
             $sql = 'DELETE FROM
                         `issue_attachment_file`
                     WHERE
                         iaf_id=?';
             DB_Helper::getInstance()->query($sql, [$this->id]);
-            $sm = StorageManager::get();
-            $sm->deleteFile($this->flysystem_path);
+
+            $sql = 'DELETE FROM
+                        `issue_attachment_file_path`
+                    WHERE
+                        iap_iaf_id=?';
+            DB_Helper::getInstance()->query($sql, [$this->id]);
         } catch (DatabaseException $e) {
             return -1;
         }

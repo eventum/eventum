@@ -384,7 +384,8 @@ class AttachmentManager
         $usr_id = Auth::getUserID();
         $group = self::getGroup($iat_id);
         if (!$group->canAccess($usr_id) ||
-            ($usr_id != $group->user_id && User::getRoleByUser($usr_id, Issue::getProjectID($group->issue_id) < User::ROLE_MANAGER))
+            ($usr_id != $group->user_id &&
+                User::getRoleByUser($usr_id, Issue::getProjectID($group->issue_id)) < User::ROLE_MANAGER)
         ) {
             return -2;
         }
