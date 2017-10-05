@@ -263,7 +263,7 @@ class XmlRpcServer
             }
 
             $res = $method->invokeArgs($this->api, $params);
-            $this->logRequest($method->getName(), ['params' => $params, 'email' => $email]);
+            $this->logRequest($method->name, ['params' => $params, 'email' => $email]);
         } catch (Exception $e) {
             $code = $e->getCode() ?: 1;
             $code += PhpXmlRpc\PhpXmlRpc::$xmlrpcerruser;
