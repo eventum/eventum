@@ -1,6 +1,6 @@
 # Eventum Issue Tracking System
 
-## [3.3.0] - 2017-10-04
+## [3.3.0] - 2017-10-??
 
 Upgrading to 3.3.0 versions requires that you upgrade to 3.2.0 version first.
 
@@ -19,6 +19,7 @@ See [Attachments] wiki page for details.
 - Harden closeIssue access checks/validation in RPC code (@glensc, #287)
 - Drop table prefix uses from code (@glensc, #296)
 - Handle PDOException HY000 non-numeric values (@glensc, #301)
+- RPC: log actions server side, not by client (@glensc, #303)
 
 [3.3.0]: https://github.com/eventum/eventum/compare/v3.2.3...v3.3.0
 [Attachments]: https://github.com/eventum/eventum/wiki/Attachments
