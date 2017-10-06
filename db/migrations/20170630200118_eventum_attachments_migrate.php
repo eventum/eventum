@@ -21,6 +21,10 @@ class EventumAttachmentsMigrate extends AbstractMigration
         $this->execute("INSERT INTO 
                                 issue_attachment_file_path 
                             (
+                                iap_iaf_id,
+                                iap_flysystem_path
+                            )
+                            (
                             SELECT 
                                 iaf_id, 
                                 CONCAT('legacy://', iaf_id)
