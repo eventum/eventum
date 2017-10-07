@@ -4,6 +4,8 @@
 
 Upgrading to 3.3.0 versions requires that you upgrade to 3.2.0 version first.
 
+The minimum supported PHP version from this version onwards is 5.6.
+
 This version adds support storing attachments in filesystem (#254).
 See [Attachments] wiki page for details.
 
