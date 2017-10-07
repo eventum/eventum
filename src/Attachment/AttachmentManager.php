@@ -182,11 +182,13 @@ class AttachmentManager
                     iaf_filetype,
                     iaf_filesize,
                     iaf_created_date,
-                    iaf_flysystem_path,
+                    iap_flysystem_path,
                     iaf_iat_id
-                FROM
-                    `issue_attachment_file`
-                WHERE
+                 FROM
+                    `issue_attachment_file`,
+                    `issue_attachment_file_path`
+                 WHERE
+                    iap_iaf_id = iaf_id AND
                     iaf_id=?';
         $res = DB_Helper::getInstance()->getRow($sql, [$iaf_id]);
         if (empty($res)) {
@@ -196,7 +198,7 @@ class AttachmentManager
         $attachment = new Attachment($res['iaf_filename'], $res['iaf_filetype']);
         $attachment->id = $iaf_id;
         $attachment->filesize = $res['iaf_filesize'];
-        $attachment->flysystem_path = $res['iaf_flysystem_path'];
+        $attachment->flysystem_path = $res['iap_flysystem_path'];
         $attachment->group_id = $res['iaf_iat_id'];
 
         return $attachment;
@@ -209,10 +211,12 @@ class AttachmentManager
     {
         $sql = "SELECT
                     iaf_id,
-                    iaf_flysystem_path
-                FROM
-                    `issue_attachment_file`
-                WHERE
+                    iap_flysystem_path
+                 FROM
+                    `issue_attachment_file`,
+                    `issue_attachment_file_path`
+                 WHERE
+                    iap_iaf_id = iaf_id AND
                     iaf_iat_id=0 AND
                     iaf_created_date > '0000-00-00 00:00:00' AND
                     iaf_created_date < ?";
@@ -223,9 +227,9 @@ class AttachmentManager
         $sm = StorageManager::get();
         foreach ($res as $row) {
             $iaf_ids[] = $row['iaf_id'];
-            if (!empty($row['iaf_flysystem_path'])) {
+            if (!empty($row['iap_flysystem_path'])) {
                 try {
-                    $sm->deleteFile($row['iaf_flysystem_path']);
+                    $sm->deleteFile($row['iap_flysystem_path']);
                 } catch (FileNotFoundException $e) {
                     // TODO: Should we log this?
                 }
@@ -303,11 +307,13 @@ class AttachmentManager
                     iaf_filetype,
                     iaf_filesize,
                     iaf_created_date,
-                    iaf_flysystem_path,
+                    iap_flysystem_path,
                     iaf_iat_id
                  FROM
-                    `issue_attachment_file`
+                    `issue_attachment_file`,
+                    `issue_attachment_file_path`
                  WHERE
+                    iap_iaf_id = iaf_id AND
                     iaf_iat_id=?';
         try {
             $res = DB_Helper::getInstance()->getAll($stmt, [$group_id]);
@@ -378,7 +384,8 @@ class AttachmentManager
         $usr_id = Auth::getUserID();
         $group = self::getGroup($iat_id);
         if (!$group->canAccess($usr_id) ||
-            ($usr_id != $group->user_id && User::getRoleByUser($usr_id, Issue::getProjectID($group->issue_id) < User::ROLE_MANAGER))
+            ($usr_id != $group->user_id &&
+                User::getRoleByUser($usr_id, Issue::getProjectID($group->issue_id)) < User::ROLE_MANAGER)
         ) {
             return -2;
         }
