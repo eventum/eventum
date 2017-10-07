@@ -50,11 +50,13 @@ foreach ($findUsers($active_dn) as $entry) {
     $dn = $entry->dn();
 
     // FIXME: where's adding new users part?
+    // TODO: check if ldap enabled and eventum disabled activates accounts in eventum
     echo "checking: $uid, $dn\n";
     try {
         $ldap->updateLocalUserFromBackend($uid);
-    } catch (Exception $e) {
-        error_log("$uid: " . $e->getMessage());
+    } catch (AuthException $e) {
+        // this likely logs that user doesn't exist and will not be created
+        error_log("XX: $uid: " . $e->getMessage());
     }
 }
 
@@ -62,9 +64,26 @@ foreach ($findUsers($active_dn) as $entry) {
 foreach ($findUsers($inactive_dn) as $entry) {
     $uid = $entry->getValue('uid');
     $dn = $entry->dn();
+    $active = $ldap->accountActive($uid);
 
-    if ($ldap->accountActive($uid) === true) {
+    // handle unmapped users
+    if ($active === null) {
+        // try to find user
+        $remote = $ldap->getRemoteUserInfo($uid);
+        $usr_id = $ldap->getLocalUserId($uid, $remote['emails']);
+        // first update user to setup "external_id" mapping
+        if ($usr_id) {
+            $ldap->updateLocalUserFromBackend($uid);
+            // fetch user again
+            $active = $ldap->accountActive($uid);
+        }
+    }
+
+    if ($active === true) {
         echo "disabling: $uid, $dn\n";
-        $ldap->disableAccount($uid);
+        $res = $ldap->disableAccount($uid, $dn);
+        if ($res !== true) {
+            throw new LogicException("Account disable for $uid ($dn) failed");
+        }
     }
 }
