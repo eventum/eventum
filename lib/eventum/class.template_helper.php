@@ -31,6 +31,8 @@ class Template_Helper
 
     /**
      * Constructor of the class
+     *
+     * @throws SmartyException
      */
     public function __construct($tpl_name = null)
     {
@@ -98,6 +100,7 @@ class Template_Helper
      *
      * @param bool $process Whether to call process template to fill template variables. Default true
      * @return $this
+     * @throws DebugBarException
      */
     public function displayTemplate($process = true)
     {
@@ -116,6 +119,9 @@ class Template_Helper
      *
      * @param bool $process Whether to call process template to fill template variables. Default true
      * @return string The contents of the parsed template
+     * @throws DebugBarException
+     * @throws Exception
+     * @throws SmartyException
      */
     public function getTemplateContents($process = true)
     {
