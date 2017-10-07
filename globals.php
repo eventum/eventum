@@ -12,7 +12,7 @@
  */
 
 define('APP_URL', 'https://github.com/eventum/eventum');
-define('APP_VERSION', '3.3.0-dev');
+define('APP_VERSION', '3.3.1-dev');
 
 // base path
 define('APP_PATH', __DIR__);
