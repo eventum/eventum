@@ -172,7 +172,7 @@ class Attachment
         if ($insert) {
             $sql = 'INSERT INTO
                         `issue_attachment_file_path`
-                    SET 
+                    SET
                         iap_iaf_id = ?,
                         iap_flysystem_path = ?';
             DB_Helper::getInstance()->query($sql, [
