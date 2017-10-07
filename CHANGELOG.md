@@ -1,6 +1,6 @@
 # Eventum Issue Tracking System
 
-## [3.3.0] - 2017-10-??
+## [3.3.0] - 2017-10-07
 
 Upgrading to 3.3.0 versions requires that you upgrade to 3.2.0 version first.
 
