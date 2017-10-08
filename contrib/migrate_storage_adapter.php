@@ -161,7 +161,7 @@ class Command
                 'WARNING: Migrating data has risks. ' .
                 "Make sure all your data is backed up before continuing.\n" .
 
-                "Pass '--yes' as the last argument to skip this warning " .
+                "Pass '--yes' argument to skip this warning " .
                 'and perform the migration.'
             );
         }
