@@ -66,6 +66,9 @@ class DoctrineTest extends TestCase
         print_r($items);
     }
 
+    /**
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
     public function test4()
     {
         $em = $this->getEntityManager();
@@ -105,6 +108,9 @@ class DoctrineTest extends TestCase
         $project = $em->getRepository(Entity\Project::class);
     }
 
+    /**
+     * @throws \Doctrine\ORM\EntityNotFoundException
+     */
     public function testProjectStatusId()
     {
         /** @var ProjectRepository $repo */
@@ -149,10 +155,5 @@ class DoctrineTest extends TestCase
             ['status' => 'inactive'],
             ['id' => 'ASC']
         );
-    }
-
-    private function getEntityManager()
-    {
-        return Doctrine::getEntityManager();
     }
 }

@@ -24,9 +24,11 @@ use Setup;
  */
 class ScmCommitTest extends ScmTestCase
 {
+    private $issue_id = 1;
     private $changeset;
     private $commit_id;
-    private $issue_id = 1;
+    private $commit_file_id;
+    private $issue_commit_id;
 
     public function setUp()
     {
@@ -34,26 +36,38 @@ class ScmCommitTest extends ScmTestCase
         $this->createCommit();
     }
 
-    public function createCommit()
+    /**
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
+    private function createCommit()
     {
-        $this->changeset = uniqid('z1', true);
+        $this->changeset = uniqid('z1', false);
+
+        $em = $this->getEntityManager();
+
         $ci = Entity\Commit::create()
             ->setScmName('cvs')
             ->setAuthorName('Au Thor')
             ->setCommitDate(Date_Helper::getDateTime())
             ->setChangeset($this->changeset)
             ->setMessage('Mes-Sage');
-        $this->commit_id = $ci->save();
+        $em->persist($ci);
+        $em->flush();
+        $this->commit_id = $ci->getId();
 
-        $this->commit_file_id = Entity\CommitFile::create()
+        $cf = Entity\CommitFile::create()
             ->setCommitId($ci->getId())
-            ->setFilename('file')
-            ->save();
+            ->setFilename('file');
+        $em->persist($cf);
+        $em->flush();
+        $this->commit_file_id = $cf->getId();
 
-        $this->issue_commit_id = Entity\IssueCommit::create()
+        $isc = Entity\IssueCommit::create()
             ->setCommitId($ci->getId())
-            ->setIssueId($this->issue_id)
-            ->save();
+            ->setIssueId($this->issue_id);
+        $em->persist($isc);
+        $em->flush();
+        $this->issue_commit_id = $isc->getId();
     }
 
     public function testGetCommit()
