@@ -16,6 +16,7 @@ namespace Eventum\Controller\Setup;
 use Auth;
 use Date_Helper;
 use DB_Helper;
+use Eventum\AppInfo;
 use Eventum\Controller\BaseController;
 use Eventum\Monolog\Logger;
 use Eventum\Setup\DatabaseSetup;
@@ -66,6 +67,7 @@ class SetupController extends BaseController
 
     protected function prepareTemplate()
     {
+        $appInfo = new AppInfo();
         $request = $this->getRequest();
         $relative_url = rtrim(dirname($request->getBaseUrl()), '/') . '/';
         $this->tpl->assign(
@@ -73,8 +75,8 @@ class SetupController extends BaseController
                 'core' => [
                     'rel_url' => $relative_url,
                     'app_title' => APP_NAME,
-                    'app_version' => APP_VERSION,
-                    'php_version' => phpversion(),
+                    'app_version' => $appInfo->getVersion(),
+                    'php_version' => PHP_VERSION,
                     'template_id' => 'setup',
                 ],
                 'userstyle' => '',
