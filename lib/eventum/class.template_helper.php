@@ -99,8 +99,8 @@ class Template_Helper
      * Prints the actual parsed template.
      *
      * @param bool $process Whether to call process template to fill template variables. Default true
-     * @return $this
      * @throws DebugBarException
+     * @return $this
      */
     public function displayTemplate($process = true)
     {
@@ -118,10 +118,10 @@ class Template_Helper
      * Returns the contents of the parsed template
      *
      * @param bool $process Whether to call process template to fill template variables. Default true
-     * @return string The contents of the parsed template
      * @throws DebugBarException
      * @throws Exception
      * @throws SmartyException
+     * @return string The contents of the parsed template
      */
     public function getTemplateContents($process = true)
     {
