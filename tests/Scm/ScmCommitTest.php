@@ -11,7 +11,7 @@
  * that were distributed with this source code.
  */
 
-namespace Eventum\Test;
+namespace Eventum\Test\Scm;
 
 use Date_Helper;
 use DB_Helper;
@@ -20,6 +20,7 @@ use Eventum\Model\Entity;
 use Eventum\Model\Repository\CommitRepository;
 use Eventum\Monolog\Logger;
 use Eventum\Scm\Adapter\GitlabScm;
+use Eventum\Test\TestCase;
 use Setup;
 use Symfony\Component\HttpFoundation\Request;
 
