@@ -14,7 +14,7 @@
 namespace Eventum\Test\Scm;
 
 use Eventum\Monolog\Logger;
-use Eventum\Scm\Adapter\GitlabScm;
+use Eventum\Scm\Adapter\Gitlab;
 use Setup;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -29,10 +29,10 @@ class ScmApiCommitTest extends ScmTestCase
         $payload = $this->readDataFile('gitlab-commit.json');
 
         $request = Request::create($api_url, 'POST', [], [], [], [], $payload);
-        $request->headers->set(GitlabScm::GITLAB_HEADER, 'Push Hook');
+        $request->headers->set(Gitlab::GITLAB_HEADER, 'Push Hook');
 
         $logger = Logger::app();
-        $handler = new GitlabScm($request, $logger);
+        $handler = new Gitlab($request, $logger);
         $this->assertTrue($handler->can());
 
         $handler->process();

@@ -11,13 +11,15 @@
  * that were distributed with this source code.
  */
 
-namespace Eventum\Model\Entity;
+namespace Eventum\Scm\Payload;
 
 use Date_Helper;
+use Eventum\Model\Entity\Commit;
+use Eventum\Scm\Payload\PayloadInterface;
 use Issue;
 use Symfony\Component\HttpFoundation\ParameterBag;
 
-class StdScmPayload implements ScmPayloadInterface
+class StandardPayload implements PayloadInterface
 {
     private $params;
 

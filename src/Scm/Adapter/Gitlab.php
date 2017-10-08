@@ -15,6 +15,7 @@ namespace Eventum\Scm\Adapter;
 
 use Eventum\Model\Entity;
 use Eventum\Model\Repository\CommitRepository;
+use Eventum\Scm\Payload\GitlabPayload;
 use InvalidArgumentException;
 use Issue;
 use Symfony\Component\HttpFoundation\Request;
@@ -24,7 +25,7 @@ use Symfony\Component\HttpFoundation\Request;
  *
  * @see http://doc.gitlab.com/ce/web_hooks/web_hooks.html
  */
-class GitlabScm extends AbstractScmAdapter
+class Gitlab extends AbstractAdapter
 {
     const GITLAB_HEADER = 'X-Gitlab-Event';
 
@@ -61,10 +62,10 @@ class GitlabScm extends AbstractScmAdapter
     /**
      * Walk over commit messages and match issue ids
      *
-     * @param Entity\GitlabScmPayload $payload
+     * @param GitlabPayload $payload
      * @throws InvalidArgumentException
      */
-    private function processPushHook(Entity\GitlabScmPayload $payload)
+    private function processPushHook(GitlabPayload $payload)
     {
         $repo_url = $payload->getRepoUrl();
         $repo = Entity\CommitRepo::getRepoByUrl($repo_url);
@@ -116,6 +117,6 @@ class GitlabScm extends AbstractScmAdapter
     {
         $data = json_decode($this->request->getContent(), true);
 
-        return new Entity\GitlabScmPayload($data);
+        return new GitlabPayload($data);
     }
 }

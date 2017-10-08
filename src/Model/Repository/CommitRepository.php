@@ -15,6 +15,7 @@ namespace Eventum\Model\Repository;
 
 use Date_Helper;
 use Eventum\Model\Entity;
+use Eventum\Scm\Payload;
 use History;
 use Issue;
 use Link_Filter;
@@ -25,9 +26,9 @@ class CommitRepository extends BaseRepository
     /**
      * Method called on Commit to allow workflow update project name/commit author or user id
      *
-     * @param int $prj_id The project ID.     *
+     * @param int $prj_id The project ID
      * @param Entity\Commit $ci
-     * @param Entity\GitlabScmPayload|Entity\StdScmPayload $payload
+     * @param Payload\GitlabPayload|Payload\StandardPayload $payload
      */
     public function preCommit($prj_id, Entity\Commit $ci, $payload)
     {

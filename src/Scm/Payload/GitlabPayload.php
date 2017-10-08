@@ -11,11 +11,12 @@
  * that were distributed with this source code.
  */
 
-namespace Eventum\Model\Entity;
+namespace Eventum\Scm\Payload;
 
 use Date_Helper;
+use Eventum\Model\Entity\Commit;
 
-class GitlabScmPayload implements ScmPayloadInterface
+class GitlabPayload implements PayloadInterface
 {
     /** @var array */
     private $payload;
@@ -63,7 +64,7 @@ class GitlabScmPayload implements ScmPayloadInterface
     {
         $ref = $this->payload['ref'];
 
-        if (substr($ref, 0, 11) === 'refs/heads/') {
+        if (strpos($ref, 'refs/heads/') === 0) {
             return substr($ref, 11);
         }
 

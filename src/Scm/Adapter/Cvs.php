@@ -15,11 +15,12 @@ namespace Eventum\Scm\Adapter;
 
 use Eventum\Model\Entity;
 use Eventum\Model\Repository\CommitRepository;
+use Eventum\Scm\Payload\StandardPayload;
 use InvalidArgumentException;
 use Issue;
 use Symfony\Component\HttpFoundation\Request;
 
-class CvsScm extends AbstractScmAdapter
+class Cvs extends AbstractAdapter
 {
     /**
      * {@inheritdoc}
@@ -123,6 +124,6 @@ class CvsScm extends AbstractScmAdapter
     {
         $data = json_decode($this->request->getContent(), true);
 
-        return new Entity\StdScmPayload($data);
+        return new StandardPayload($data);
     }
 }

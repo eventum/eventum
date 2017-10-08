@@ -11,9 +11,9 @@
  * that were distributed with this source code.
  */
 
-namespace Eventum\Model\Entity;
+namespace Eventum\Scm\Payload;
 
-interface ScmPayloadInterface
+interface PayloadInterface
 {
     /**
      * @return array
