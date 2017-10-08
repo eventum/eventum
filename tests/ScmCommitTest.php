@@ -15,6 +15,7 @@ namespace Eventum\Test;
 
 use Date_Helper;
 use DB_Helper;
+use Eventum\Extension\ExtensionManager;
 use Eventum\Model\Entity;
 use Eventum\Model\Repository\CommitRepository;
 use Eventum\Monolog\Logger;
@@ -30,6 +31,13 @@ class ScmCommitTest extends TestCase
     private $changeset;
     private $commit_id;
     private $issue_id = 1;
+
+    public static function setUpBeforeClass()
+    {
+        // Boot ExtensionManager
+        // current test touches parts that would require workflow to be called
+        ExtensionManager::getManager();
+    }
 
     public function setUp()
     {
