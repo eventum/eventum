@@ -124,7 +124,7 @@ class Command
 
         if ($this->target_adapter === 'local') {
             // try to set the timestamp on the filesystem to match what is stored in the database
-            $fs_path = str_replace('local://', APP_PATH . '/var/storage/', $new_path);
+            $fs_path = str_replace('local://', StorageManager::STORAGE_PATH, $new_path);
             $created_date = strtotime($file['iat_created_date']);
             touch($fs_path, $created_date);
         }
