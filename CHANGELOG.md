@@ -3,6 +3,9 @@
 ## [3.3.1]
 
 Upgrading to 3.3.0 versions requires that you upgrade to 3.2.0 version first.
+The minimum supported PHP version from this version onwards is 5.6.
+
+- Include league flysystem traits in dist tarball (@glensc, #305)
 
 [3.3.1]: https://github.com/eventum/eventum/compare/v3.3.0...master
 
