@@ -176,7 +176,7 @@ class Command
         if ($this->source_adapter === 'legacy') {
             $message = "You might need to run 'OPTIMIZE TABLE issue_attachment_file' " .
                 'to reclaim space from the database';
-            $this->output->writeln("<warning>$message</warning>");
+            $this->output->writeln("<error>$message</error>");
         }
     }
 }
