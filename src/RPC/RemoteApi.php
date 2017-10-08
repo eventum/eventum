@@ -468,6 +468,9 @@ class RemoteApi
             throw new RemoteApiException('Not authenticated');
         }
 
+        $this->checkIssuePermissions($issue_id);
+        $this->checkIssueAssignment($issue_id);
+
         try {
             $iaf_id = Attachment::create($filename, $mimetype, $contents)->id;
         } catch (AttachmentException $e) {
