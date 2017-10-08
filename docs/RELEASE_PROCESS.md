@@ -20,7 +20,9 @@ $ make snapshot
 - install twice to same database, second time select drop tables, install must not fail
 if it fails the error is something like `DB Error: already exists`
 - Test the new release directory with a quick installation
-  * see if a new issue can be created correctly and etc
+  * see if a new issue can be created
+  * test if you can upload attacment
+  * ...
 - update translation keywords to launchpad
   * Run `make pot`
   * Commit eventum.pot and push
@@ -40,13 +42,18 @@ cd docs/wiki
 git fetch origin
 git checkout master
 cd ../..
-git commit -am 'updated wiki submodule'
 ```
+
+Commit both changes
+```
+git commit -am 'prepare for 3.3.1 release'
+```
+
 
 - Create git tag
 ```
-$ git tag -s v3.2.0 -m 'release v3.2.0'
-$ git push origin v3.2.0
+$ git tag -s v3.3.1 -m 'release v3.3.1'
+$ git push origin v3.3.1
 
 ```
 - wait for Travis-CI to build release tarball, download and test it again
@@ -55,13 +62,13 @@ $ git push origin v3.2.0
 - upload tarball and signature to the release
 - to create a digital signature, use the following command:
 ```
-% gpg --armor --sign --detach-sig eventum-3.2.0.tar.gz
+% gpg --armor --sign --detach-sig eventum-3.3.1.tar.gz
 ```
 - create tag also in wiki submodule
 ```
 cd docs/wiki
-git tag v3.2.0
-git push origin v3.2.0
+git tag v3.3.1
+git push origin v3.3.1
 ```
 
 After release
@@ -75,6 +82,7 @@ $ git config --add remote.launchpad.push refs/tags/v*:refs/tags/v*
 ```
 - publish changes also on launchpad git repo
 ```
+$ git pull launchpad
 $ git push launchpad
 ```
 - add new milestone in github. just fill version number in Title field https://github.com/eventum/eventum/milestones
