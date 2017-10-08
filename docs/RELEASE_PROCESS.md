@@ -33,9 +33,9 @@ Release process
 
 Do not forget to update changeset link to point to tag not master
 
-- Update git submodule to point to master (use `git submodule init` if the submodules do not exist yet)
+- Update git submodule to point to master
 ```
-git submodule update
+git submodule update --init
 cd docs/wiki
 git fetch origin
 git checkout master
