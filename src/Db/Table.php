@@ -52,6 +52,7 @@ class Table
             'issue_association',
             'issue_attachment',
             'issue_attachment_file',
+            'issue_attachment_file_path',
             'issue_checkin',
             'issue_commit',
             'issue_custom_field',
