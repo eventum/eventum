@@ -178,6 +178,11 @@
 			<fileset dir="${vendor}/phlib/flysystem-pdo">
 				<include name="schema/**"/>
 			</fileset>
+
+			<fileset dir="${vendor}/mnapoli/silly">
+				<include name="website/**"/>
+				<include name="couscous.yml"/>
+			</fileset>
 		</delete>
 	</target>
 
