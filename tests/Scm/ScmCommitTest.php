@@ -15,62 +15,28 @@ namespace Eventum\Test\Scm;
 
 use Date_Helper;
 use DB_Helper;
-use Eventum\Extension\ExtensionManager;
 use Eventum\Model\Entity;
 use Eventum\Model\Repository\CommitRepository;
-use Eventum\Monolog\Logger;
-use Eventum\Scm\Adapter\GitlabScm;
-use Eventum\Test\TestCase;
 use Setup;
-use Symfony\Component\HttpFoundation\Request;
 
 /**
  * @group db
  */
-class ScmCommitTest extends TestCase
+class ScmCommitTest extends ScmTestCase
 {
     private $changeset;
     private $commit_id;
     private $issue_id = 1;
 
-    public static function setUpBeforeClass()
-    {
-        // Boot ExtensionManager
-        // current test touches parts that would require workflow to be called
-        ExtensionManager::getManager();
-    }
-
     public function setUp()
     {
-        $scm = [
-            'cvs' => [
-                'name' => 'cvs',
-                'checkout_url' => 'https://localhost/{MODULE}/{FILE}?rev={NEW_VERSION}&content-type=text/x-cvsweb-markup',
-                'diff_url' => 'https://localhost/{MODULE}/{FILE}?r1={OLD_VERSION}&r2={NEW_VERSION}&f=h',
-                'log_url' => 'https://localhost/{MODULE}/{FILE}?r1={VERSION}#rev{VERSION}',
-            ],
-            'gitlab' => [
-                'name' => 'gitlab',
-                'urls' => [
-                    'http://localhost:10080',
-                    'git@localhost',
-                ],
-                'only' => ['merge-tip'],
-                'except' => ['dev'],
-                'checkout_url' => 'http://localhost:10080/{PROJECT}/blob/{VERSION}/{FILE}',
-                'diff_url' => 'http://localhost:10080/{PROJECT}/commit/{VERSION}#{FILE}',
-                'log_url' => 'http://localhost:10080/{PROJECT}/commits/{VERSION}/{FILE}',
-            ],
-        ];
-        Setup::set(['scm' => $scm]);
-
         DB_Helper::getInstance()->query('DELETE FROM `issue_commit` WHERE isc_iss_id=?', [$this->issue_id]);
         $this->createCommit();
     }
 
     public function createCommit()
     {
-        $this->changeset = uniqid('z1');
+        $this->changeset = uniqid('z1', true);
         $ci = Entity\Commit::create()
             ->setScmName('cvs')
             ->setAuthorName('Au Thor')
@@ -117,49 +83,5 @@ class ScmCommitTest extends TestCase
         $res = $r->getIssueCommitsArray($this->issue_id);
 
         $this->assertEquals($this->changeset, $res[0]['com_changeset']);
-    }
-
-    /**
-     * Test commit push over Api
-     */
-    public function testGitlabCommitApi()
-    {
-        $api_url = $this->getCommitUrl();
-        $payload = file_get_contents(__DIR__ . '/data/gitlab-commit.json');
-
-        $request = Request::create($api_url, 'POST', [], [], [], [], $payload);
-        $request->headers->set(GitlabScm::GITLAB_HEADER, 'Push Hook');
-
-        $logger = Logger::app();
-        $handler = new GitlabScm($request, $logger);
-        $this->assertTrue($handler->can());
-
-        $handler->process();
-    }
-
-    /**
-     * Test commit push over http
-     */
-    public function testGitlabCommitUrl()
-    {
-        $api_url = $this->getCommitUrl();
-
-        $payload = __DIR__ . '/data/gitlab-commit.json';
-        $headers = "-H 'X-Gitlab-Event: Push Hook'";
-        $this->POST($api_url, $payload, $headers);
-    }
-
-    private function getCommitUrl()
-    {
-        $setup = Setup::get();
-        $api_url = $setup['tests.commit_url'];
-        $this->assertNotNull($api_url);
-
-        return $api_url;
-    }
-
-    private function POST($url, $payload, $headers = '')
-    {
-        return shell_exec("curl -Ss $headers -X POST --data @{$payload} {$url}");
     }
 }

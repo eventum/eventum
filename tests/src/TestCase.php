@@ -51,6 +51,11 @@ class TestCase extends \PHPUnit\Framework\TestCase
         return $stub;
     }
 
+    protected function getDataFile($filename)
+    {
+        return __DIR__ . '/../data/' . $filename;
+    }
+
     /**
      * Read file from tests/data directory.
      *
@@ -59,9 +64,7 @@ class TestCase extends \PHPUnit\Framework\TestCase
      */
     protected function readDataFile($filename)
     {
-        $file = __DIR__ . '/../data/' . $filename;
-
-        return $this->readFile($file);
+        return $this->readFile($this->getDataFile($filename));
     }
 
     /**
