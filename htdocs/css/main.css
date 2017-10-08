@@ -24,6 +24,13 @@ input, select {
 a {
     color: #000000;
 }
+
+blockquote {
+    margin: 8px 0;
+    padding: 4px 8px;
+    border-left: 3px solid #a1a1a1;
+}
+
 #issue_overview .js_link:hover,
 div#header a:hover {
     color: #c0c0c0;

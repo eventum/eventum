@@ -419,6 +419,12 @@ class Misc
      */
     public static function activateLinks($text, $class = 'link')
     {
+        // process issue link separatly since it has to do something special
+        if (!Link_Filter::markdownEnabled()) {
+            // conflicts with markdown
+            return $text;
+        }
+
         $range = '[-\w+@=?.%/:&;~|,#\[\]]+';
         // FIXME: handle the base of email addresses surrounded by <>, i.e.
         // Bryan Alsdorf <bryan@askmonty.org>
@@ -531,6 +537,10 @@ class Misc
      */
     public static function highlightQuotedReply($text)
     {
+        if (Link_Filter::markdownEnabled()) {
+            return $text;
+        }
+
         require_once APP_INC_PATH . '/smarty/modifier.highlight_quoted.php';
 
         return smarty_modifier_highlight_quoted($text);
