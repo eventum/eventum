@@ -1,14 +1,16 @@
 # Eventum Issue Tracking System
 
-## [3.3.1]
+## [3.3.1] - 2017-10-09
 
-Upgrading to 3.3.0 versions requires that you upgrade to 3.2.0 version first.
-The minimum supported PHP version from this version onwards is 5.6.
+Upgrading to 3.3.x versions requires that you upgrade to 3.2.0 version first.
+Eventum 3.3.x requires PHP 5.6.
+
+v3.3.1 fixes packaging bug present in 3.3.0 version.
 
 - Include league flysystem traits in dist tarball (@glensc, #305)
 - RPC: check that user has access to issue (@glensc, #306)
 
-[3.3.1]: https://github.com/eventum/eventum/compare/v3.3.0...master
+[3.3.1]: https://github.com/eventum/eventum/compare/v3.3.0...v3.3.1
 
 ## [3.3.0] - 2017-10-07
 
