@@ -13,9 +13,11 @@
 
 namespace Eventum\Test\Mail;
 
+use Eventum\Attachment\Attachment;
 use Eventum\Mail\MailBuilder;
 use Eventum\Mail\MailMessage;
 use Eventum\Test\TestCase;
+use ReflectionProperty;
 use Zend\Mail\Header\MessageId;
 
 class MimeMessageTest extends TestCase
@@ -81,19 +83,23 @@ class MimeMessageTest extends TestCase
         }
 
         // textual attachment
-        $attachment = [
-            'iaf_file' => 'lamp€1',
-            'iaf_filetype' => 'application/octet-stream',
-            'iaf_filename' => 'test2123.txt',
-        ];
+        $attachment = $this->createAttachment(
+            [
+                'iaf_file' => 'lamp€1',
+                'iaf_filetype' => 'application/octet-stream',
+                'iaf_filename' => 'test2123.txt',
+            ]
+        );
         $builder->addAttachment($attachment);
 
         // binary
-        $attachment = [
-            'iaf_file' => "\x1b\xff\xff\xcf",
-            'iaf_filetype' => 'application/octet-stream',
-            'iaf_filename' => 'test2123.txt',
-        ];
+        $attachment = $this->createAttachment(
+            [
+                'iaf_file' => "\x1b\xff\xff\xcf",
+                'iaf_filetype' => 'application/octet-stream',
+                'iaf_filename' => 'test2123.txt',
+            ]
+        );
         $builder->addAttachment($attachment);
 
         $mail = $builder->toMailMessage();
@@ -103,5 +109,20 @@ class MimeMessageTest extends TestCase
         // it's reusable
         $m = MailMessage::createFromString($mail->getRawContent());
         $this->assertNotEmpty($m);
+    }
+
+    /**
+     * @param array $params
+     * @return Attachment
+     */
+    private function createAttachment($params)
+    {
+        $attachment = new Attachment($params['iaf_filename'], $params['iaf_filetype']);
+        $property = new ReflectionProperty($attachment, 'blob');
+
+        $property->setAccessible(true);
+        $property->setValue($attachment, 'iaf_file');
+
+        return $attachment;
     }
 }
