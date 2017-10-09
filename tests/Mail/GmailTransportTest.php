@@ -50,6 +50,7 @@ class GmailTransportTest extends TestCase
             'from' => 'xyz@domain.cz',
             'host' => 'smtp.gmail.com',
             'port' => '587',
+            'ssl' => 'tls',
             'auth' => true,
             'username' => $smtpSetup['username'],
             'password' => $smtpSetup['password'],

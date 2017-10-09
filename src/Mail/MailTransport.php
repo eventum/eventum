@@ -115,7 +115,7 @@ class MailTransport
             $options['host'] = $setup['host'];
         }
         if ($setup['port']) {
-            $options['port'] = $setup['port'];
+            $options['port'] = (int)$setup['port'];
         }
 
         if (file_exists('/etc/mailname')) {
@@ -123,10 +123,14 @@ class MailTransport
         }
 
         if ($setup['auth']) {
+            $ssl = $options['port'] === 587 ? 'tls' : 'ssl';
             $options['connection_class'] = 'login';
             $options['connection_config'] = [
                 'username' => $setup['username'],
                 'password' => $setup['password'],
+                /** @see \Zend\Mail\Protocol\Smtp */
+                // possible values: tls, ssl
+                'ssl' => $setup['ssl'] ?: $ssl,
             ];
         }
 
