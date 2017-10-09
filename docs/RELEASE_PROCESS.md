@@ -89,5 +89,5 @@ $ git push launchpad
 - move open tickets/pull requests to new milestone
 - close old milestone
 - verify that you did not forget to update wiki submodule
-- update release number in globals.php to indicate next dev version (`APP_VERSION`)
+- update `VERSION` constant in `src/AppInfo.php` to indicate next dev version
 - start new version entry in CHANGELOG.md
