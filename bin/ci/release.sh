@@ -114,12 +114,10 @@ update_version() {
 	# trim 'v' prefix
 	version=${version#v}
 
-	sed -i -e "
-		/define('APP_VERSION'/ {
-			idefine('APP_VERSION', '$version');
-		    d
-
-		}" globals.php
+	sed -i -re "
+		/const VERSION/ {
+			s/'[^']+'/'$version'/
+		}" src/AppInfo.php
 }
 
 # clean trailing spaces/tabs
