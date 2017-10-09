@@ -18,6 +18,9 @@ use Eventum\Scm\Adapter\Gitlab;
 use Setup;
 use Symfony\Component\HttpFoundation\Request;
 
+/**
+ * @group api
+ */
 class ScmApiCommitTest extends ScmTestCase
 {
     /**

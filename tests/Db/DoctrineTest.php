@@ -22,6 +22,8 @@ use Eventum\Test\TestCase;
 
 /**
  * TODO: datetime and timezone: http://docs.doctrine-project.org/projects/doctrine-orm/en/latest/cookbook/working-with-datetime.html
+ *
+ * @group db
  */
 class DoctrineTest extends TestCase
 {
