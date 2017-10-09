@@ -112,16 +112,6 @@ class Command
                     iap_iaf_id = ?';
         DB_Helper::getInstance()->query($sql, [$new_path, $iaf_id]);
 
-        if ($this->source_adapter === 'legacy') {
-            $sql = 'UPDATE
-                      `issue_attachment_file`
-                  SET
-                      iaf_file = NULL
-                  WHERE
-                      iaf_id = ?';
-            DB_Helper::getInstance()->query($sql, [$iaf_id]);
-        }
-
         if ($this->target_adapter === 'local') {
             // try to set the timestamp on the filesystem to match what is stored in the database
             $fs_path = str_replace('local://', StorageManager::STORAGE_PATH, $new_path);
