@@ -65,8 +65,8 @@
         </tr>
         {table_row field="host" title="{t}Host{/t}"}
         {table_row field="port" title="{t}Port{/t}" size="5" help="{t}(default: 389){/t}"}
-        {table_row field="binddn" title="{t}Bind DN{/t}"}
-        {table_row field="bindpw" title="{t}Bind PW{/t}" type="password"}
+        {table_row field="binddn" title="{t}Bind DN{/t}" help="{t}Leave empty to clear saved Bind PW{/t}"}
+        {table_row field="bindpw" title="{t}Bind PW{/t}" type="password" help="{t}Leave empty to keep current password{/t}"}
         {table_row field="basedn" title="{t}Base DN{/t}"}
         {table_row field="userdn" title="{t}User DN{/t}" help="{t}Use %UID% to specify where the UID should be substituted.{/t}"}
         {table_row field="user_filter" title="{t}User Filter{/t}" help="{t}Optional filter when binding the user{/t}"}
