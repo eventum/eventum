@@ -53,6 +53,20 @@ class LDAP_Auth_Backend implements Auth_Backend_Interface
     protected $user_filter_string;
 
     /**
+     * DN under what Active users are stored
+     *
+     * @var string
+     */
+    public $active_dn;
+
+    /**
+     * DN under what Inactive users are stored
+     *
+     * @var string
+     */
+    public $inactive_dn;
+
+    /**
      * configures LDAP
      *
      * @throws AuthException if failed LDAP bind failed
@@ -68,6 +82,8 @@ class LDAP_Auth_Backend implements Auth_Backend_Interface
         $this->user_filter_string = $setup['user_filter'];
         $this->customer_id_attribute = $setup['customer_id_attribute'];
         $this->contact_id_attribute = $setup['contact_id_attribute'];
+        $this->active_dn = $setup['active_dn'];
+        $this->inactive_dn = $setup['inactive_dn'];
         $this->create_users = (bool)$setup['create_users'];
     }
 
@@ -545,6 +561,8 @@ class LDAP_Auth_Backend implements Auth_Backend_Interface
             'contact_id_attribute' => '',
             'user_filter' => '',
             'create_users' => null,
+            'active_dn' => 'ou=People,dc=example,dc=org',
+            'inactive_dn' => 'ou=Inactive Accounts,dc=example,dc=org',
             'default_role' => [],
         ];
     }

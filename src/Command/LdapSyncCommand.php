@@ -34,22 +34,8 @@ class LdapSyncCommand
         $this->ldapSync();
     }
 
-    private function assertLdapAuthEnabled()
-    {
-        if (strtolower(APP_AUTH_BACKEND) !== 'ldap_auth_backend') {
-            throw new RuntimeException('You should enable and configure LDAP backend first');
-        }
-    }
-
     private function ldapSync()
     {
-        /**
-         * Get the new user information from the LDAP servers
-         */
-
-        $active_dn = 'ou=People,dc=example,dc=net';
-        $inactive_dn = 'ou=Inactive Accounts,dc=example,dc=net';
-
         $ldap = new LDAP_Auth_Backend();
 
         $findUsers = function ($dn) use ($ldap) {
@@ -69,7 +55,7 @@ class LdapSyncCommand
         };
 
         // process active users from ldap
-        foreach ($findUsers($active_dn) as $entry) {
+        foreach ($findUsers($ldap->active_dn) as $entry) {
             $uid = $entry->getValue('uid');
             $dn = $entry->dn();
 
@@ -85,7 +71,7 @@ class LdapSyncCommand
         }
 
         // process inactive users from ldap
-        foreach ($findUsers($inactive_dn) as $entry) {
+        foreach ($findUsers($ldap->inactive_dn) as $entry) {
             $uid = $entry->getValue('uid');
             $dn = $entry->dn();
             $active = $ldap->accountActive($uid);
@@ -110,6 +96,13 @@ class LdapSyncCommand
                     throw new RuntimeException("Account disable for $uid ($dn) failed");
                 }
             }
+        }
+    }
+
+    private function assertLdapAuthEnabled()
+    {
+        if (strtolower(APP_AUTH_BACKEND) !== 'ldap_auth_backend') {
+            throw new RuntimeException('You should enable and configure LDAP backend first');
         }
     }
 }
