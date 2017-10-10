@@ -97,7 +97,7 @@ class LdapController extends ManageBaseController
         ];
         $this->messages->mapMessages($res, $map);
 
-        $this->tpl->assign('result', $res);
+        $this->redirect('ldap.php');
     }
 
     /**
