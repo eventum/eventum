@@ -54,7 +54,8 @@ class LdapController extends ManageBaseController
     {
         $post = $this->getRequest()->request;
 
-        $setup = Setup::get()->ldap->toArray();
+        $config = Setup::get();
+        $setup = $config['ldap']->toArray();
 
         // special handling for binddn/bindpw:
         // update bindpw only if submitted new value
@@ -82,7 +83,7 @@ class LdapController extends ManageBaseController
 
         // clear default_role first, otherwise values will be appended by Zend\Config
         // https://github.com/eventum/eventum/pull/315#issuecomment-335593325
-        Setup::get()['ldap']['default_role'] = [];
+        $config['ldap']['default_role'] = [];
         $res = Setup::save(['ldap' => $setup]);
 
         // FIXME: translations
