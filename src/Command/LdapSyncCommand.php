@@ -83,6 +83,9 @@ class LdapSyncCommand extends BaseCommand
         foreach ($users as $entry) {
             $uid = $entry->getValue('uid');
             $dn = $entry->dn();
+
+            $this->writeln("checking: $uid, $dn", self::VERBOSE);
+
             $active = $this->ldap->accountActive($uid);
 
             // handle unmapped users
