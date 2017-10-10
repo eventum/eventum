@@ -11,7 +11,6 @@
  * that were distributed with this source code.
  */
 
-use DebugBar\DebugBarException;
 use Eventum\AppInfo;
 use Eventum\DebugBarManager;
 use Eventum\Templating;
