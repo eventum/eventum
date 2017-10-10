@@ -11,6 +11,8 @@
  * that were distributed with this source code.
  */
 
+use Eventum\Monolog\Logger;
+
 /**
  * This auth backend integrates with an LDAP server and if set to, will create
  * a local user with the specified name and email. The user will be
@@ -33,6 +35,9 @@ class LDAP_Auth_Backend implements Auth_Backend_Interface
     /** @var bool */
     protected $create_users;
 
+    /** @var \Monolog\Logger */
+    private $logger;
+
     /**
      * Use %UID% to specify where the UID should be substituted.
      *
@@ -54,6 +59,8 @@ class LDAP_Auth_Backend implements Auth_Backend_Interface
      */
     public function __construct()
     {
+        $this->logger = Logger::auth();
+
         $setup = Setup::get()->ldap;
 
         $this->basedn = $setup['basedn'];
@@ -344,7 +351,7 @@ class LDAP_Auth_Backend implements Auth_Backend_Interface
             if (array_diff($emails, $aliases)) {
                 $res = $this->updateAliases($usr_id, $emails);
                 if (!$res) {
-                    error_log('aliases update failed');
+                    $this->logger->error('aliases update failed');
                 }
             }
 
@@ -409,7 +416,7 @@ class LDAP_Auth_Backend implements Auth_Backend_Interface
         foreach ($aliases as $alias) {
             $res = User::addAlias($usr_id, $alias);
             if (!$res) {
-                error_log("updating $alias failed");
+                $this->logger->error("updating $alias failed");
             } else {
                 $updated++;
             }
