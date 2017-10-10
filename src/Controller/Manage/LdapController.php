@@ -45,7 +45,7 @@ class LdapController extends ManageBaseController
      */
     protected function defaultAction()
     {
-        if ($this->cat == 'update') {
+        if ($this->cat === 'update') {
             $this->updateAction();
         }
     }
@@ -64,7 +64,7 @@ class LdapController extends ManageBaseController
         if ($post->get('bindpw')) {
             $setup['bindpw'] = $post->get('bindpw');
         }
-        if ($setup['binddn'] == '') {
+        if ($setup['binddn'] === '') {
             $setup['bindpw'] = '';
         }
 
@@ -75,6 +75,8 @@ class LdapController extends ManageBaseController
         $setup['user_filter'] = $post->get('user_filter');
         $setup['customer_id_attribute'] = $post->get('customer_id_attribute');
         $setup['contact_id_attribute'] = $post->get('contact_id_attribute');
+        $setup['active_dn'] = $post->get('active_dn');
+        $setup['inactive_dn'] = $post->get('inactive_dn');
         $setup['create_users'] = $post->get('create_users');
         $setup['default_role'] = $post->get('default_role');
 

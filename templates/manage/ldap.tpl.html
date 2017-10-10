@@ -132,6 +132,24 @@
         </tr>
         <tr>
             <th width="120">
+                {t}DN for active users{/t}:
+            </th>
+            <td>
+                <input type="text" name="active_dn" size="50" value="{$setup.active_dn|escape:"html"|default:''}">
+                {include file="error_icon.tpl.html" field="active_dn"}
+            </td>
+        </tr>
+        <tr>
+            <th width="120">
+                {t}DN for inactive users{/t}:
+            </th>
+            <td>
+                <input type="text" name="inactive_dn" size="50" value="{$setup.inactive_dn|escape:"html"|default:''}">
+                {include file="error_icon.tpl.html" field="inactive_dn"}
+            </td>
+        </tr>
+        <tr>
+            <th width="120">
                 {t}Create Users{/t}:
             </th>
             <td>

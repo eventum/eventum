@@ -27,7 +27,7 @@ class LdapSyncCommand
     /** @var OutputInterface */
     private $output;
 
-    /** @var  LDAP_Auth_Backend */
+    /** @var LDAP_Auth_Backend */
     private $ldap;
 
     public function execute(OutputInterface $output)
