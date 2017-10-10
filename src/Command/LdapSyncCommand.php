@@ -16,16 +16,12 @@ namespace Eventum\Command;
 use AuthException;
 use LDAP_Auth_Backend;
 use RuntimeException;
-use Setup;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class LdapSyncCommand
+class LdapSyncCommand extends BaseCommand
 {
     const DEFAULT_COMMAND = 'ldap:sync';
     const USAGE = self::DEFAULT_COMMAND;
-
-    /** @var OutputInterface */
-    private $output;
 
     /** @var LDAP_Auth_Backend */
     private $ldap;
@@ -63,12 +59,12 @@ class LdapSyncCommand
 
             // FIXME: where's adding new users part?
             // TODO: check if ldap enabled and eventum disabled activates accounts in eventum
-            echo "checking: $uid, $dn\n";
+            $this->writeln("checking: $uid, $dn", self::VERBOSE);
             try {
                 $this->ldap->updateLocalUserFromBackend($uid);
             } catch (AuthException $e) {
                 // this likely logs that user doesn't exist and will not be created
-                error_log("XX: $uid: " . $e->getMessage());
+                $this->writeln("<error>XX: $uid: {$e->getMessage()}</error>");
             }
         }
     }
@@ -99,7 +95,7 @@ class LdapSyncCommand
             }
 
             if ($active === true) {
-                echo "disabling: $uid, $dn\n";
+                $this->writeln("disabling: $uid, $dn");
                 $res = $this->ldap->disableAccount($uid);
                 if ($res !== true) {
                     throw new RuntimeException("Account disable for $uid ($dn) failed");
@@ -123,7 +119,7 @@ class LdapSyncCommand
             $emails = $entry->get_value('mail', 'all');
             if (!$emails) {
                 $uid = $entry->getValue('uid');
-                echo "skip (no email): $uid, $dn\n";
+                $this->writeln("skip (no email): $uid, $dn", self::VERBOSE);
                 continue;
             }
 
