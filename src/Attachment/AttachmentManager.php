@@ -247,13 +247,19 @@ class AttachmentManager
      * issue in the database.
      *
      * @param   int $issue_id The issue ID
-     * @return  array The full list of attachments
+     * @param   int|null $max_role Don't return attachments with a role greater then this
+     * @param   int|null $not_id The ID of the related note
+     * @return array The full list of attachments
      */
-    public static function getList($issue_id)
+    public static function getList($issue_id, $max_role = null, $not_id = null)
     {
         $usr_id = Auth::getUserID();
         $prj_id = Issue::getProjectID($issue_id);
 
+        if (!$max_role) {
+            $max_role = User::getRoleByUser($usr_id, $prj_id);
+        }
+        $params = [$issue_id, $max_role];
         $stmt = 'SELECT
                     iat_id,
                     iat_usr_id,
@@ -269,15 +275,15 @@ class AttachmentManager
                     iat_iss_id=? AND
                     iat_usr_id=usr_id AND
                     iat_min_role <= ?';
+        if ($not_id) {
+            $stmt .= ' AND
+                    iat_not_id = ?';
+            $params[] = $not_id;
+        }
         $stmt .= '
                  ORDER BY
                     iat_created_date ASC';
-        $params = [$issue_id, User::getRoleByUser($usr_id, $prj_id)];
-        try {
-            $res = DB_Helper::getInstance()->getAll($stmt, $params);
-        } catch (DatabaseException $e) {
-            return '';
-        }
+        $res = DB_Helper::getInstance()->getAll($stmt, $params);
 
         foreach ($res as &$row) {
             $row['iat_description'] = Link_Filter::processText($prj_id, nl2br(htmlspecialchars($row['iat_description'])));

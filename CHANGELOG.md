@@ -5,6 +5,8 @@
 Upgrading to 3.3.x versions requires that you upgrade to 3.2.0 version first.
 Eventum 3.3.x requires PHP 5.6.
 
+- Fix error deleting attachments when deleting notes (@balsdorf, #312, #314)
+
 [3.3.2]: https://github.com/eventum/eventum/compare/v3.3.1...master
 
 ## [3.3.1] - 2017-10-09
