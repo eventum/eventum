@@ -1,10 +1,7 @@
 {extends "manage/manage.tpl.html"}
 
-{block "manage_content"}
-{if $auth_backend == 'ldap_auth_backend'}
-
+{block "javascripts" append}
 <script type="text/javascript">
-    <!--
     function validateForm()
     {
         if (Validation.isFieldWhitespace('host')) {
@@ -34,11 +31,12 @@
     $().ready(function() {
         $('#ldap_form').submit(validateForm);
     })
-
-    //-->
 </script>
+{/block}
 
-<form id="ldap_form" method="post">
+{block "manage_content"}
+  {if $auth_backend == 'ldap_auth_backend'}
+    <form id="ldap_form" method="post">
     <input type="hidden" name="cat" value="update">
     <table class="bordered">
         <tr class="title">
