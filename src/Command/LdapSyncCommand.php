@@ -68,7 +68,7 @@ class LdapSyncCommand extends BaseCommand
                 $this->updateLocalUserFromBackend($uid);
             } catch (AuthException $e) {
                 // this likely logs that user doesn't exist and will not be created
-                $this->writeln("<error>XX: $uid: {$e->getMessage()}</error>");
+                $this->writeln("<error>XXX</error>: <info>$uid</info>: {$e->getMessage()}");
             }
         }
     }
