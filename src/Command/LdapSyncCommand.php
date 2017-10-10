@@ -21,15 +21,19 @@ use Symfony\Component\Console\Output\OutputInterface;
 class LdapSyncCommand extends BaseCommand
 {
     const DEFAULT_COMMAND = 'ldap:sync';
-    const USAGE = self::DEFAULT_COMMAND;
+    const USAGE = self::DEFAULT_COMMAND . ' [--dry-run]';
 
     /** @var LDAP_Auth_Backend */
     private $ldap;
 
-    public function execute(OutputInterface $output)
+    /** @var bool */
+    private $dryrun;
+
+    public function execute(OutputInterface $output, $dryrun = false)
     {
         $this->assertLdapAuthEnabled();
         $this->output = $output;
+        $this->dryrun = $dryrun;
 
         $this->ldap = new LDAP_Auth_Backend();
         $this->ldapSync();
@@ -61,7 +65,7 @@ class LdapSyncCommand extends BaseCommand
             // TODO: check if ldap enabled and eventum disabled activates accounts in eventum
             $this->writeln("checking: $uid, $dn", self::VERBOSE);
             try {
-                $this->ldap->updateLocalUserFromBackend($uid);
+                $this->updateLocalUserFromBackend($uid);
             } catch (AuthException $e) {
                 // this likely logs that user doesn't exist and will not be created
                 $this->writeln("<error>XX: $uid: {$e->getMessage()}</error>");
@@ -88,18 +92,14 @@ class LdapSyncCommand extends BaseCommand
                 $usr_id = $this->ldap->getLocalUserId($uid, $remote['emails']);
                 // first update user to setup "external_id" mapping
                 if ($usr_id) {
-                    $this->ldap->updateLocalUserFromBackend($uid);
+                    $this->updateLocalUserFromBackend($uid);
                     // fetch user again
                     $active = $this->ldap->accountActive($uid);
                 }
             }
 
             if ($active === true) {
-                $this->writeln("disabling: $uid, $dn");
-                $res = $this->ldap->disableAccount($uid);
-                if ($res !== true) {
-                    throw new RuntimeException("Account disable for $uid ($dn) failed");
-                }
+                $this->disableAccount($dn, $uid);
             }
         }
     }
@@ -124,6 +124,36 @@ class LdapSyncCommand extends BaseCommand
             }
 
             yield $entry;
+        }
+    }
+
+    /**
+     * proxy to do nothing when dry-run mode active
+     *
+     * @param string $uid
+     */
+    private function updateLocalUserFromBackend($uid)
+    {
+        if ($this->dryrun) {
+            $this->writeln("<info>would run</info> updateLocalUserFromBackend($uid)");
+
+            return;
+        }
+        $this->ldap->updateLocalUserFromBackend($uid);
+    }
+
+    private function disableAccount($dn, $uid)
+    {
+        if ($this->dryrun) {
+            $this->writeln("<info>would run</info> disableAccount($uid)");
+
+            return;
+        }
+
+        $this->writeln("disabling: $uid, $dn");
+        $res = $this->ldap->disableAccount($uid);
+        if ($res !== true) {
+            throw new RuntimeException("Account disable for $uid ($dn) failed");
         }
     }
 
