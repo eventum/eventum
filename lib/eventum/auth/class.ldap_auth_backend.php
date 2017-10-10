@@ -67,6 +67,7 @@ class LDAP_Auth_Backend implements Auth_Backend_Interface
     /**
      * Create LDAP connection.
      *
+     * @throws AuthException
      * @return Net_LDAP2
      */
     protected function connect()
@@ -97,6 +98,7 @@ class LDAP_Auth_Backend implements Auth_Backend_Interface
      *
      * NOTE: not used for auth backend, but used by contrib/ldap_udate_users.php script
      *
+     * @param string|null $dn
      * @return Net_LDAP2_Search|Net_LDAP2_Error Net_LDAP2_Search object or Net_LDAP2_Error object
      */
     public function getUserListing($dn = null)
@@ -112,16 +114,18 @@ class LDAP_Auth_Backend implements Auth_Backend_Interface
     }
 
     /**
+     * @param string $uid
      * @param string $password
+     * @return bool
      */
     private function validatePassword($uid, $password)
     {
         $errors = [];
 
-        foreach (explode('|', $this->getUserDNstring($uid)) as $userDNstring) {
+        foreach (explode('|', $this->getUserDNstring($uid)) as $dn) {
             // Connecting using the configuration
             try {
-                $res = $this->connect()->bind($userDNstring, $password);
+                $res = $this->connect()->bind($dn, $password);
                 if (Misc::isError($res)) {
                     throw new AuthException($res->getMessage(), $res->getCode());
                 }
@@ -259,7 +263,7 @@ class LDAP_Auth_Backend implements Auth_Backend_Interface
     {
         $email = User::getEmail($usr_id);
 
-        if (($key = array_search($email, $emails)) !== false) {
+        if (($key = array_search($email, $emails, true)) !== false) {
             // email was found, ensure it's first item
             unset($emails[$key]);
             array_unshift($emails, $email);
@@ -327,7 +331,7 @@ class LDAP_Auth_Backend implements Auth_Backend_Interface
                     $emails[] = $stored_data['email'];
 
                     // if new email is present in aliases remove it from there
-                    if (($key = array_search($data['email'], $aliases)) !== false) {
+                    if (($key = array_search($data['email'], $aliases, true)) !== false) {
                         $remove_aliases[] = $aliases[$key];
                     }
                 }
@@ -360,6 +364,7 @@ class LDAP_Auth_Backend implements Auth_Backend_Interface
      * Create new local user.
      *
      * @param array $remote
+     * @throws AuthException
      * @return int usr_id
      */
     private function createUser($remote)
@@ -415,6 +420,7 @@ class LDAP_Auth_Backend implements Auth_Backend_Interface
 
     /**
      * @param string $login
+     * @return int
      */
     public function getUserIDByLogin($login)
     {
@@ -434,9 +440,7 @@ class LDAP_Auth_Backend implements Auth_Backend_Interface
         }
 
         // try to create or update local user from ldap info
-        $created = $this->updateLocalUserFromBackend($login);
-
-        return $created;
+        return $this->updateLocalUserFromBackend($login);
     }
 
     public function userExists($login)
@@ -448,8 +452,9 @@ class LDAP_Auth_Backend implements Auth_Backend_Interface
 
     /**
      * @param int $usr_id
+     * @return bool
      */
-    private function isLDAPuser($usr_id)
+    private function isLDAPUser($usr_id)
     {
         $local_user_info = User::getDetails($usr_id);
         if (empty($local_user_info['usr_external_id'])) {
@@ -462,7 +467,7 @@ class LDAP_Auth_Backend implements Auth_Backend_Interface
     public function verifyPassword($login, $password)
     {
         // check if this is an ldap or internal
-        $usr_id = self::getUserIDByLogin($login);
+        $usr_id = $this->getUserIDByLogin($login);
         $local_user_info = User::getDetails($usr_id);
         if (empty($local_user_info['usr_external_id'])) {
             return Auth::getFallBackAuthBackend()->verifyPassword($login, $password);
@@ -510,7 +515,8 @@ class LDAP_Auth_Backend implements Auth_Backend_Interface
      */
     public static function getDefaults()
     {
-        // don't do anything complex here that would load setup
+        // to avoid dead-loop,
+        // don't do anything complex here that would require loading setup
         return [
             'host' => 'localhost',
             'port' => '389',
@@ -535,7 +541,7 @@ class LDAP_Auth_Backend implements Auth_Backend_Interface
      */
     public function updatePassword($usr_id, $password)
     {
-        if (!$this->isLDAPuser($usr_id)) {
+        if (!$this->isLDAPUser($usr_id)) {
             return Auth::getFallBackAuthBackend()->updatePassword($usr_id, $password);
         }
 

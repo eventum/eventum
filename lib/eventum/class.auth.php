@@ -64,7 +64,7 @@ class Auth
     public static function saveLoginAttempt($email, $type, $extra = null)
     {
         $msg = "Login attempt by '$email' was ";
-        if ($type == 'success') {
+        if ($type === 'success') {
             $msg .= 'successful.';
         } else {
             $msg .= "not successful because of '$extra'.";
