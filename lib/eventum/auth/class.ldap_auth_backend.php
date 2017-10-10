@@ -335,13 +335,19 @@ class LDAP_Auth_Backend implements Auth_Backend_Interface
                 $diff = array_diff_assoc($data, $stored_data);
                 // if email is about to be updated, move current one to aliases
                 if (isset($diff['email'], $stored_data['email'])) {
+                    $this->logger->debug("add alias:{$stored_data['email']}");
+
                     $emails[] = $stored_data['email'];
 
                     // if new email is present in aliases remove it from there
                     if (($key = array_search($data['email'], $aliases, true)) !== false) {
+                        $this->logger->debug("remove alias:{$aliases[$key]}");
                         $remove_aliases[] = $aliases[$key];
                     }
                 }
+
+                $fdiff = json_encode($diff, JSON_UNESCAPED_UNICODE);
+                $this->logger->debug("update data: $usr_id: $fdiff");
 
                 User::update($usr_id, $data, false);
             }
@@ -349,6 +355,9 @@ class LDAP_Auth_Backend implements Auth_Backend_Interface
             // as we are only adding aliases (never removing)
             // check only one way
             if (array_diff($emails, $aliases)) {
+                $diff = implode(',', array_diff($aliases, $emails));
+                $this->logger->debug("update aliases: $usr_id: $diff");
+
                 $res = $this->updateAliases($usr_id, $emails);
                 if (!$res) {
                     $this->logger->error('aliases update failed');
@@ -356,6 +365,7 @@ class LDAP_Auth_Backend implements Auth_Backend_Interface
             }
 
             if ($remove_aliases) {
+                $this->logger->debug('remove aliases: ' . implode(',', $remove_aliases));
                 foreach ($remove_aliases as $email) {
                     User::removeAlias($usr_id, $email);
                 }
