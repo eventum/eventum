@@ -21,7 +21,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 class LdapSyncCommand extends BaseCommand
 {
     const DEFAULT_COMMAND = 'ldap:sync';
-    const USAGE = self::DEFAULT_COMMAND . ' [--dry-run]';
+    const USAGE = self::DEFAULT_COMMAND . ' [--dry-run] [--no-update] [--no-disable]';
 
     /** @var LDAP_Auth_Backend */
     private $ldap;
@@ -29,34 +29,31 @@ class LdapSyncCommand extends BaseCommand
     /** @var bool */
     private $dryrun;
 
-    public function execute(OutputInterface $output, $dryrun = false)
+    public function execute(OutputInterface $output, $dryrun = false, $noUpdate, $noDisable)
     {
         $this->assertLdapAuthEnabled();
         $this->output = $output;
         $this->dryrun = $dryrun;
 
         $this->ldap = new LDAP_Auth_Backend();
-        $this->ldapSync();
-    }
-
-    private function ldapSync()
-    {
-        if ($dn = $this->ldap->active_dn) {
-            $this->updateUsers($this->findUsers($dn));
-        }
-
-        if ($dn = $this->ldap->inactive_dn) {
-            $this->disableUsers($this->findUsers($dn));
-        }
+        $this->updateUsers(!$noUpdate);
+        $this->disableUsers(!$noDisable);
     }
 
     /**
      * add new users and update existing users
      *
-     * @param \Net_LDAP2_Entry[] $users
+     * @param bool $enabled
      */
-    private function updateUsers($users)
+    private function updateUsers($enabled)
     {
+        if (!$enabled || !$this->ldap->active_dn) {
+            $this->writeln('Skipping update users');
+
+            return;
+        }
+
+        $users = $this->findUsers($this->ldap->active_dn);
         foreach ($users as $entry) {
             $uid = $entry->getValue('uid');
             $dn = $entry->dn();
@@ -76,10 +73,18 @@ class LdapSyncCommand extends BaseCommand
     /**
      * Process inactive users from ldap
      *
-     * @param \Net_LDAP2_Entry[] $users
+     * @param bool $enabled
      */
-    private function disableUsers($users)
+    private function disableUsers($enabled)
     {
+        if (!$enabled || !$this->ldap->inactive_dn) {
+            $this->writeln('Skipping disable users');
+
+            return;
+        }
+
+        $users = $this->findUsers($this->ldap->inactive_dn);
+
         foreach ($users as $entry) {
             $uid = $entry->getValue('uid');
             $dn = $entry->dn();
