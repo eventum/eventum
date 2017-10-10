@@ -13,7 +13,7 @@
 
 use DebugBar\DebugBarException;
 use Eventum\AppInfo;
-use Eventum\DebugBar;
+use Eventum\DebugBarManager;
 use Eventum\Templating;
 
 /**
@@ -30,11 +30,10 @@ class Template_Helper
     private $tpl_name;
 
     /**
-     * Constructor of the class
-     *
+     * @param string $templateName
      * @throws SmartyException
      */
-    public function __construct($tpl_name = null)
+    public function __construct($templateName = null)
     {
         $smarty = new Smarty();
         $smarty->setTemplateDir([APP_LOCAL_PATH . '/templates', APP_TPL_PATH]);
@@ -61,8 +60,8 @@ class Template_Helper
             $smarty->registerPlugin('block', 't', 'smarty_block_t');
         }
 
-        if ($tpl_name) {
-            $this->setTemplate($tpl_name);
+        if ($templateName) {
+            $this->setTemplate($templateName);
         }
 
         $this->smarty = $smarty;
@@ -99,7 +98,6 @@ class Template_Helper
      * Prints the actual parsed template.
      *
      * @param bool $process Whether to call process template to fill template variables. Default true
-     * @throws DebugBarException
      * @return $this
      */
     public function displayTemplate($process = true)
@@ -118,9 +116,6 @@ class Template_Helper
      * Returns the contents of the parsed template
      *
      * @param bool $process Whether to call process template to fill template variables. Default true
-     * @throws DebugBarException
-     * @throws Exception
-     * @throws SmartyException
      * @return string The contents of the parsed template
      */
     public function getTemplateContents($process = true)
@@ -135,7 +130,6 @@ class Template_Helper
     /**
      * Processes the template and assign common variables automatically.
      *
-     * @throws DebugBarException
      * @return $this
      */
     private function processTemplate()
@@ -209,7 +203,7 @@ class Template_Helper
         $userFile();
 
         if (isset($role_id) && $role_id >= User::ROLE_ADMINISTRATOR) {
-            DebugBar::register($this->smarty);
+            DebugBarManager::register($this->smarty);
         }
 
         return $this;

@@ -16,10 +16,11 @@ namespace Eventum;
 use DebugBar\DataCollector\ConfigCollector;
 use DebugBar\DataCollector\PDO\PDOCollector;
 use DebugBar\DataCollector\PDO\TraceablePDO;
-use DebugBar\DebugBar as BaseDebugBar;
+use DebugBar\DebugBar;
 use DebugBar\DebugBarException;
 use DebugBar\JavascriptRenderer;
 use DebugBar\StandardDebugBar;
+use Eventum\Monolog\Logger;
 use PDO;
 use Setup;
 use Smarty;
@@ -29,27 +30,27 @@ use Smarty;
  *
  * @see http://phpdebugbar.com/
  */
-class DebugBar
+class DebugBarManager
 {
-    /** @var BaseDebugBar */
-    private static $debugbar;
+    /** @var DebugBar */
+    private static $debugBar;
 
     /**
      * Create DebugBar instance
      */
     public static function initialize()
     {
-        // disable debugbar in CLI
+        // disable debugBar in CLI
         if (PHP_SAPI === 'cli') {
             return;
         }
 
-        // setup debugbar, if it can be autoloaded
+        // setup debugVar, if it can be autoloaded
         if (!class_exists(StandardDebugBar::class)) {
             return;
         }
 
-        self::$debugbar = new StandardDebugBar();
+        self::$debugBar = new StandardDebugBar();
     }
 
     /**
@@ -59,15 +60,7 @@ class DebugBar
      */
     public static function hasDebugBar()
     {
-        return self::$debugbar !== null;
-    }
-
-    /**
-     * @return BaseDebugBar
-     */
-    public static function getDebugBar()
-    {
-        return self::$debugbar;
+        return self::$debugBar !== null;
     }
 
     /**
@@ -79,31 +72,25 @@ class DebugBar
      */
     public static function getTraceablePDO(PDO $pdo)
     {
-        $debugbar = self::$debugbar;
         $pdo = new TraceablePDO($pdo);
-        $debugbar->addCollector(new PDOCollector($pdo));
+        self::$debugBar->addCollector(new PDOCollector($pdo));
 
         return $pdo;
     }
 
-    /**
-     * Setup Debug Bar:
-     * - if initialized
-     * - if role_id is set
-     * - if user is administrator
-     *
-     * @throws DebugBarException
-     */
     public static function register(Smarty $smarty)
     {
-        if (!self::$debugbar) {
+        if (!self::$debugBar) {
             return;
         }
 
-        $debugbarRenderer = self::getDebugBarRenderer($smarty);
-
-        $smarty->assign('debugbar_head', $debugbarRenderer->renderHead());
-        $smarty->assign('debugbar_body', $debugbarRenderer->render());
+        try {
+            $renderer = self::getDebugBarRenderer($smarty);
+            $smarty->assign('debugbar_head', $renderer->renderHead());
+            $smarty->assign('debugbar_body', $renderer->render());
+        } catch (DebugBarException $e) {
+            Logger::app()->error($e->getMessage());
+        }
     }
 
     /**
@@ -122,17 +109,17 @@ class DebugBar
             return $renderer;
         }
 
-        $debugbar = self::$debugbar;
+        $debugBar = self::$debugBar;
         $rel_url = APP_RELATIVE_URL;
 
-        $debugbar->addCollector(
+        $debugBar->addCollector(
             new ConfigCollector($smarty->tpl_vars, 'Smarty')
         );
-        $debugbar->addCollector(
+        $debugBar->addCollector(
             new ConfigCollector(Setup::get()->toArray(), 'Config')
         );
 
-        $renderer = $debugbar->getJavascriptRenderer("{$rel_url}debugbar");
+        $renderer = $debugBar->getJavascriptRenderer("{$rel_url}debugbar");
         $renderer->addControl(
             'Smarty', [
                 'widget' => 'PhpDebugBar.Widgets.VariableListWidget',
