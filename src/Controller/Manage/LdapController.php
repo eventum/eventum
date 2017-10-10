@@ -80,6 +80,9 @@ class LdapController extends ManageBaseController
         $setup['create_users'] = $post->get('create_users');
         $setup['default_role'] = $post->get('default_role');
 
+        // clear default_role first, otherwise values will be appended by Zend\Config
+        // https://github.com/eventum/eventum/pull/315#issuecomment-335593325
+        Setup::get()['ldap']['default_role'] = [];
         $res = Setup::save(['ldap' => $setup]);
 
         // FIXME: translations
