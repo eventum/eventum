@@ -55,18 +55,18 @@ class LdapSyncCommand extends BaseCommand
         }
 
         $users = $this->findUsers($this->ldap->active_dn);
+        $this->writeln('Checking active LDAP users');
         foreach ($users as $entry) {
             $uid = $entry->getValue('uid');
             $dn = $entry->dn();
 
             // FIXME: where's adding new users part?
             // TODO: check if ldap enabled and eventum disabled activates accounts in eventum
-            $this->writeln("checking: $uid, $dn", self::VERBOSE);
+            $this->writeln("checking: $uid, $dn", self::VERY_VERBOSE);
             try {
                 $this->updateLocalUserFromBackend($uid);
             } catch (AuthException $e) {
-                // this likely logs that user doesn't exist and will not be created
-                $this->writeln("<error>XXX</error>: <info>$uid</info>: {$e->getMessage()}");
+                $this->writeln("<error>ERROR</error>: <info>$uid</info>: {$e->getMessage()}");
             }
         }
     }
@@ -85,12 +85,12 @@ class LdapSyncCommand extends BaseCommand
         }
 
         $users = $this->findUsers($this->ldap->inactive_dn);
-
+        $this->writeln('Checking inactive LDAP users');
         foreach ($users as $entry) {
             $uid = $entry->getValue('uid');
             $dn = $entry->dn();
 
-            $this->writeln("checking: $uid, $dn", self::VERBOSE);
+            $this->writeln("checking: $uid, $dn", self::VERY_VERBOSE);
 
             $active = $this->ldap->accountActive($uid);
 

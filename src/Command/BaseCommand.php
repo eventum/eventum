@@ -20,6 +20,7 @@ class BaseCommand
     // compact constants for writeln
     const DEBUG = OutputInterface::VERBOSITY_DEBUG;
     const VERBOSE = OutputInterface::VERBOSITY_VERBOSE;
+    const VERY_VERBOSE = OutputInterface::VERBOSITY_VERY_VERBOSE;
 
     /** @var OutputInterface */
     protected $output;
