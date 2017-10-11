@@ -1,15 +1,14 @@
 # Eventum Issue Tracking System
 
-## [3.3.2]
+## [3.3.2] - 2017-10-11
 
 Upgrading to 3.3.x versions requires that you upgrade to 3.2.0 version first.
 Eventum 3.3.x requires PHP 5.6.
 
 - Fix error deleting attachments when deleting notes (@balsdorf, #312, #314)
-
-[3.3.2]: https://github.com/eventum/eventum/compare/v3.3.1...master
-
 - Use `ssl=tls` for GMail (@glensc, #308, #311)
+
+[3.3.2]: https://github.com/eventum/eventum/compare/v3.3.1...v3.3.2
 
 ## [3.3.1] - 2017-10-09
 
