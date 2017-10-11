@@ -11,6 +11,7 @@
  * that were distributed with this source code.
  */
 
+use Eventum\Attachment\AttachmentManager;
 use Eventum\Db\DatabaseException;
 
 /**
@@ -458,13 +459,11 @@ class Note
         }
 
         // also remove any internal-only files associated with this note
-        $stmt = "DELETE FROM
-                    `issue_attachment`
-                 WHERE
-                    iat_not_id=? AND
-                    iat_status='internal'";
-
-        DB_Helper::getInstance()->query($stmt, [$note_id]);
+        $attachment_groups = AttachmentManager::getList($details['not_iss_id'], User::ROLE_USER, $note_id);
+        foreach ($attachment_groups as $group_info) {
+            $group = AttachmentManager::getGroup($group_info['iat_id']);
+            $group->delete(true);
+        }
 
         Issue::markAsUpdated($details['not_iss_id']);
         if ($log) {
