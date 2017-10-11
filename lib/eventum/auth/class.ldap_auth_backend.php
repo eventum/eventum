@@ -33,7 +33,7 @@ class LDAP_Auth_Backend implements Auth_Backend_Interface
     /** @var string */
     protected $contact_id_attribute;
     /** @var bool */
-    protected $create_users;
+    public $create_users;
 
     /** @var \Monolog\Logger */
     private $logger;
@@ -390,6 +390,10 @@ class LDAP_Auth_Backend implements Auth_Backend_Interface
             return $usr_id;
         }
 
+        if (!$this->create_users) {
+            return false;
+        }
+
         return $this->createUser($remote);
     }
 
@@ -402,10 +406,6 @@ class LDAP_Auth_Backend implements Auth_Backend_Interface
      */
     private function createUser($remote)
     {
-        if (!$this->create_users) {
-            throw new AuthException('User does not exist and will not be created.');
-        }
-
         $emails = $remote['emails'];
         if (!$emails) {
             throw new AuthException('E-mail is required');

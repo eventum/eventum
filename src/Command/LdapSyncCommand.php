@@ -21,7 +21,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 class LdapSyncCommand extends BaseCommand
 {
     const DEFAULT_COMMAND = 'ldap:sync';
-    const USAGE = self::DEFAULT_COMMAND . ' [--dry-run] [--no-update] [--no-disable]';
+    const USAGE = self::DEFAULT_COMMAND . ' [--dry-run] [--create-users] [--no-update] [--no-disable]';
 
     /** @var LDAP_Auth_Backend */
     private $ldap;
@@ -29,13 +29,14 @@ class LdapSyncCommand extends BaseCommand
     /** @var bool */
     private $dryrun;
 
-    public function execute(OutputInterface $output, $dryrun = false, $noUpdate, $noDisable)
+    public function execute(OutputInterface $output, $dryrun = false, $createUsers, $noUpdate, $noDisable)
     {
         $this->assertLdapAuthEnabled();
         $this->output = $output;
         $this->dryrun = $dryrun;
 
         $this->ldap = new LDAP_Auth_Backend();
+        $this->ldap->create_users = $createUsers;
         $this->updateUsers(!$noUpdate);
         $this->disableUsers(!$noDisable);
     }
