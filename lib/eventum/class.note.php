@@ -63,7 +63,7 @@ class Note
      * Retrieves the details about a given note.
      *
      * @param   int $note_id The note ID
-     * @return  array The note details
+     * @return  false|array The note details
      */
     public static function getDetails($note_id)
     {
@@ -77,13 +77,9 @@ class Note
                  WHERE
                     not_usr_id=usr_id AND
                     not_id=?';
-        try {
-            $res = DB_Helper::getInstance()->getRow($stmt, [$note_id]);
-        } catch (DatabaseException $e) {
-            return '';
-        }
+        $res = DB_Helper::getInstance()->getRow($stmt, [$note_id]);
 
-        if (count($res) > 0) {
+        if ($res) {
             $res['timestamp'] = Date_Helper::getUnixTimestamp($res['not_created_date'], 'GMT');
 
             if ($res['not_is_blocked'] == 1) {
@@ -103,7 +99,7 @@ class Note
             return $res;
         }
 
-        return '';
+        return false;
     }
 
     /**
@@ -446,6 +442,8 @@ class Note
             return -2;
         }
 
+        // Notes are not deleted so a record of the the not_message_id is
+        // preserved to prevent duplicates from being downloaded.
         $stmt = 'UPDATE
                     `note`
                  SET
