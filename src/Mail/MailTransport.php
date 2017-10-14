@@ -14,6 +14,7 @@
 namespace Eventum\Mail;
 
 use Eventum\Monolog\Logger;
+use Mail_Helper;
 use Setup;
 use Zend\Mail\Transport;
 
@@ -50,7 +51,8 @@ class MailTransport
         $transport = $this->getTransport();
 
         $envelope = new Transport\Envelope();
-        $envelope->setTo($recipient);
+        // SMTP wants just Address
+        $envelope->setTo(Mail_Helper::getEmailAddress($recipient));
         $transport->setEnvelope($envelope);
 
         try {
