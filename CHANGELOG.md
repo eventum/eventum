@@ -7,6 +7,7 @@ Eventum 3.3.x requires PHP 5.6.
 
 - Fix mail queue SMTP to use only email address (@glensc, #313, #317)
 - Auth/LDAP: add commandline script (@glensc, #315)
+- Prevent users from viewing "removed" notes (@balsdorf, #316)
 
 [3.3.3]: https://github.com/eventum/eventum/compare/v3.3.2...master
 
