@@ -237,9 +237,6 @@ class Mail_Queue
 
         $transport = new MailTransport();
 
-        // TODO: mail::send wants just bare addresses, do that ourselves
-        $recipient = Mime_Helper::encodeAddress($recipient);
-
         return $transport->send($recipient, $headers, $body);
     }
 
