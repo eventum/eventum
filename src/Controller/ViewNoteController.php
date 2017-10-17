@@ -18,7 +18,6 @@ use Auth;
 use Issue;
 use Mail_Queue;
 use Note;
-use User;
 
 class ViewNoteController extends BaseController
 {

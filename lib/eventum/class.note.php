@@ -63,7 +63,7 @@ class Note
      * Retrieves the details about a given note.
      *
      * @param   int $note_id The note ID
-     * @return  false|array The note details
+     * @return  bool|array The note details
      */
     public static function getDetails($note_id)
     {
