@@ -21,9 +21,8 @@ use Eventum\Model\Entity;
 use Eventum\Model\Repository;
 
 /**
- * Class Doctrine
- *
  * @method static Repository\ProjectRepository getProjectRepository()
+ * @method static Repository\IssueAssociationRepository getIssueAssociationRepository()
  */
 class Doctrine
 {
@@ -73,6 +72,7 @@ class Doctrine
                 ?: $repos[$class] = self::getEntityManager()
                     ->getRepository($class);
         }
+
         throw new BadMethodCallException($method);
     }
 }

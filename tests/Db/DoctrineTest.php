@@ -104,10 +104,27 @@ class DoctrineTest extends TestCase
         );
     }
 
-    public function test5()
+    public function testDeleteByQuery()
     {
+        $issue_id = 13;
+        $associated_issue_id = 12;
         $em = $this->getEntityManager();
-        $project = $em->getRepository(Entity\Project::class);
+        $qb = $em->createQueryBuilder();
+        $qb->delete(Entity\IssueAssociation::class, 'ia');
+
+        $expr = $qb->expr();
+        $left = $expr->andX('ia.isa_issue_id = :isa_issue_id', 'ia.isa_associated_id = :isa_associated_id');
+        $right = $expr->andX('ia.isa_issue_id = :isa_associated_id', 'ia.isa_associated_id = :isa_issue_id');
+        $qb->where(
+            $expr->orX()
+                ->add($left)
+                ->add($right)
+        );
+
+        $qb->setParameter('isa_issue_id', $issue_id);
+        $qb->setParameter('isa_associated_id', $associated_issue_id);
+        $query = $qb->getQuery();
+        $query->execute();
     }
 
     /**

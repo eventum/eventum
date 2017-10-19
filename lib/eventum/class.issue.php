@@ -13,7 +13,7 @@
 
 use Eventum\Attachment\AttachmentManager;
 use Eventum\Db\DatabaseException;
-use Eventum\Model\Repository\IssueAssociationRepository;
+use Eventum\Db\Doctrine;
 
 /**
  * Class designed to handle all business logic related to the issues in the
@@ -1182,7 +1182,7 @@ class Issue
      */
     private static function updateAssociatedIssuesRelations($usr_id, $issue_id, $associated_issues)
     {
-        $repo = IssueAssociationRepository::create();
+        $repo = Doctrine::getIssueAssociationRepository();
         $res = $repo->updateAssociations($usr_id, $issue_id, $associated_issues);
 
         global $errors;
@@ -1887,7 +1887,7 @@ class Issue
                 'issue_id' => $issue_id,
             ]);
 
-            IssueAssociationRepository::create()
+            Doctrine::getIssueAssociationRepository()
                 ->addIssueAssociation($usr_id, $issue_id, $clone_iss_id);
         }
 
@@ -2556,7 +2556,7 @@ class Issue
             $res['is_current_user_assigned'] = 0;
         }
 
-        $repo = IssueAssociationRepository::create();
+        $repo = Doctrine::getIssueAssociationRepository();
         $res['associated_issues'] = $repo->getAssociatedIssues($res['iss_id']);
         $res['associated_issues_details'] = $repo->getIssueDetails($res['associated_issues']);
 

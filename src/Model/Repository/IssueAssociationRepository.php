@@ -14,6 +14,9 @@
 namespace Eventum\Model\Repository;
 
 use DB_Helper;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\Criteria;
+use Doctrine\ORM\EntityRepository;
 use Eventum\Model\Entity;
 use History;
 use InvalidArgumentException;
@@ -22,8 +25,23 @@ use LogicException;
 use Misc;
 use User;
 
-class IssueAssociationRepository extends BaseRepository
+class IssueAssociationRepository extends EntityRepository
 {
+    /**
+     * @param int $issue_id
+     * @return Collection
+     */
+    public function findByIssueId($issue_id)
+    {
+        $criteria = new Criteria();
+        $expr = Criteria::expr();
+        $criteria
+            ->orWhere($expr->eq('isa_issue_id', $issue_id))
+            ->orWhere($expr->eq('isa_associated_id', $issue_id));
+
+        return $this->matching($criteria);
+    }
+
     /**
      * Method used to get the list of issues associated to a specific issue.
      *
@@ -33,7 +51,7 @@ class IssueAssociationRepository extends BaseRepository
     public function getAssociatedIssues($issue_id)
     {
         $res = [];
-        $isa = Entity\IssueAssociation::create()->findByIssueId($issue_id);
+        $isa = $this->findByIssueId($issue_id);
         if (!$isa) {
             return $res;
         }
@@ -108,10 +126,13 @@ class IssueAssociationRepository extends BaseRepository
             throw new InvalidArgumentException("Issue $issue_id already associated to $associated_issue_id");
         }
 
-        Entity\IssueAssociation::create()
+        $entity = new Entity\IssueAssociation();
+        $entity
             ->setIssueId($issue_id)
-            ->setAssociatedId($associated_issue_id)
-            ->save();
+            ->setAssociatedId($associated_issue_id);
+        $em = $this->getEntityManager();
+        $em->persist($entity);
+        $em->flush();
 
         History::add(
             $issue_id, $usr_id, 'issue_associated', 'Issue associated to Issue #{associated_id} by {user}', [
@@ -136,7 +157,7 @@ class IssueAssociationRepository extends BaseRepository
             throw new InvalidArgumentException("Issue $issue_id not associated to $associated_issue_id");
         }
 
-        Entity\IssueAssociation::create()->removeAssociation($issue_id, $associated_issue_id);
+        $this->deleteByIssueAssociation($issue_id, $associated_issue_id);
 
         $full_name = User::getFullName($usr_id);
         $pairs = [
@@ -184,6 +205,46 @@ class IssueAssociationRepository extends BaseRepository
         }
 
         return $errors;
+    }
+
+    /**
+     * @param int[] $issues
+     * @internal used for tests
+     */
+    public function deleteAllRelations($issues)
+    {
+        $this
+            ->createQueryBuilder('q')
+            ->delete(Entity\IssueAssociation::class, 'a')
+            ->where('a.isa_issue_id IN (:issues) OR a.isa_associated_id IN (:issues)')
+            ->setParameter('issues', $issues)
+            ->getQuery()
+            ->execute();
+    }
+
+    /**
+     * @param int $issue_id
+     * @param int $associated_issue_id
+     * @internal used by removeAssociation
+     */
+    private function deleteByIssueAssociation($issue_id, $associated_issue_id)
+    {
+        $qb = $this->createQueryBuilder('q');
+        $qb->delete(Entity\IssueAssociation::class, 'a');
+
+        $expr = $qb->expr();
+        $left = $expr->andX('a.isa_issue_id = :isa_issue_id', 'a.isa_associated_id = :isa_associated_id');
+        $right = $expr->andX('a.isa_issue_id = :isa_associated_id', 'a.isa_associated_id = :isa_issue_id');
+        $qb->where(
+            $expr->orX()
+                ->add($left)
+                ->add($right)
+        );
+
+        $qb->setParameter('isa_issue_id', $issue_id);
+        $qb->setParameter('isa_associated_id', $associated_issue_id);
+        $query = $qb->getQuery();
+        $query->execute();
     }
 
     /**
