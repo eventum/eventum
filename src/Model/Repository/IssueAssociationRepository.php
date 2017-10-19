@@ -51,7 +51,7 @@ class IssueAssociationRepository extends BaseRepository
                 throw new LogicException();
             }
 
-            $res[] = $iss_id;
+            $res[] = (int)$iss_id;
         }
 
         // make unique
@@ -60,7 +60,7 @@ class IssueAssociationRepository extends BaseRepository
         // and sort
         asort($res);
 
-        return $res;
+        return array_values($res);
     }
 
     /**

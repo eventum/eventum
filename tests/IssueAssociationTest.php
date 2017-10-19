@@ -20,7 +20,7 @@ use InvalidArgumentException;
 /**
  * @group db
  */
-class IssueAssociation extends TestCase
+class IssueAssociationTest extends TestCase
 {
     public function setUp()
     {
