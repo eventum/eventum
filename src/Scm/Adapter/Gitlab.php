@@ -16,6 +16,7 @@ namespace Eventum\Scm\Adapter;
 use Eventum\Model\Entity;
 use Eventum\Model\Repository\CommitRepository;
 use Eventum\Scm\Payload\GitlabPayload;
+use Eventum\Scm\ScmRepository;
 use InvalidArgumentException;
 use Issue;
 use Symfony\Component\HttpFoundation\Request;
@@ -68,7 +69,7 @@ class Gitlab extends AbstractAdapter
     private function processPushHook(GitlabPayload $payload)
     {
         $repo_url = $payload->getRepoUrl();
-        $repo = Entity\CommitRepo::getRepoByUrl($repo_url);
+        $repo = ScmRepository::getRepoByUrl($repo_url);
         if (!$repo) {
             throw new InvalidArgumentException("SCM repo not identified from {$repo_url}");
         }

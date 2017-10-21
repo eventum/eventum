@@ -13,6 +13,8 @@
 
 namespace Eventum\Model\Entity;
 
+use Eventum\Scm\ScmRepository;
+
 /**
  * @Entity @Table(name="commit")
  **/
@@ -372,10 +374,10 @@ class Commit extends BaseModel
     }
 
     /**
-     * @return CommitRepo
+     * @return ScmRepository
      */
     public function getCommitRepo()
     {
-        return new CommitRepo($this->getScmName());
+        return new ScmRepository($this->getScmName());
     }
 }

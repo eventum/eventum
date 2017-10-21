@@ -16,6 +16,7 @@ namespace Eventum\Scm\Adapter;
 use Eventum\Model\Entity;
 use Eventum\Model\Repository\CommitRepository;
 use Eventum\Scm\Payload\StandardPayload;
+use Eventum\Scm\ScmRepository;
 use InvalidArgumentException;
 use Issue;
 use Symfony\Component\HttpFoundation\Request;
@@ -60,7 +61,7 @@ class Cvs extends AbstractAdapter
             // set this last, as it may need other $ci properties
             $ci->setChangeset($commitId ?: $this->generateCommitId($ci));
 
-            $repo = new Entity\CommitRepo($ci->getScmName());
+            $repo = new ScmRepository($ci->getScmName());
             if (!$repo->branchAllowed($ci->getBranch())) {
                 throw new \InvalidArgumentException("Branch not allowed: {$ci->getBranch()}");
             }
