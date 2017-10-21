@@ -31,7 +31,7 @@ class EventumIssueAssociationPk extends AbstractMigration
         $table->update();
          */
         $this->execute(
-            'ALTER TABLE `issue_association` ADD `isa_id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY FIRST'
+            'ALTER TABLE `issue_association` ADD `isa_id` INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY FIRST'
         );
     }
 
