@@ -14,34 +14,17 @@
 namespace Eventum\Model\Repository;
 
 use DB_Helper;
-use Doctrine\Common\Collections\Collection;
-use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\EntityRepository;
 use Eventum\Model\Entity;
 use History;
 use InvalidArgumentException;
 use Issue;
-use LogicException;
 use Misc;
+use PDO;
 use User;
 
 class IssueAssociationRepository extends EntityRepository
 {
-    /**
-     * @param int $issue_id
-     * @return Collection
-     */
-    public function findByIssueId($issue_id)
-    {
-        $criteria = new Criteria();
-        $expr = Criteria::expr();
-        $criteria
-            ->orWhere($expr->eq('isa_issue_id', $issue_id))
-            ->orWhere($expr->eq('isa_associated_id', $issue_id));
-
-        return $this->matching($criteria);
-    }
-
     /**
      * Method used to get the list of issues associated to a specific issue.
      *
@@ -50,30 +33,27 @@ class IssueAssociationRepository extends EntityRepository
      */
     public function getAssociatedIssues($issue_id)
     {
+        // doctrine doesn't support UNION
+        // and we want just single column, use PDO directly
+        $em = $this->getEntityManager();
+        $connection = $em->getConnection();
+        $query = $connection->prepare(
+            '
+            SELECT isa_associated_id
+            FROM issue_association
+            WHERE isa_issue_id = :issue_id
+            UNION
+            SELECT isa_issue_id
+            FROM issue_association
+            WHERE isa_associated_id = :issue_id
+        '
+        );
+        $query->execute([':issue_id' => $issue_id]);
+
         $res = [];
-        $isa = $this->findByIssueId($issue_id);
-        if (!$isa) {
-            return $res;
+        while (($id = $query->fetchColumn()) !== false) {
+            $res[] = (int)$id;
         }
-
-        foreach ($isa as $ia) {
-            // check which column to use
-            if ($ia->getIssueId() == $issue_id) {
-                $iss_id = $ia->getAssociatedId();
-            } else {
-                $iss_id = $ia->getIssueId();
-            }
-
-            // can't be itself!
-            if ($iss_id == $issue_id) {
-                throw new LogicException();
-            }
-
-            $res[] = (int)$iss_id;
-        }
-
-        // make unique
-        $res = array_unique($res);
 
         // and sort
         asort($res);
