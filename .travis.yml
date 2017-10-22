@@ -17,6 +17,7 @@ jobs:
       services:
         - mysql
       script: |
+        mysql -e 'CREATE DATABASE IF NOT EXISTS e_test'
         cp -p tests/travis/*.php config
         php bin/upgrade.php
 
