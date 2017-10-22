@@ -20,6 +20,7 @@ PHING_VERSION := 2.15.0
 PHPCB_VERSION := 1.1.1
 PHPCS_FIXER_VERSION := 2.5.0
 PHPMD_VERSION := 2.6.0
+CODECEPT_VERSION := 2.3.6
 
 define find_tool
 $(shell PATH=$$PATH:. which $1.phar 2>/dev/null || which $1 2>/dev/null || echo false)
@@ -91,7 +92,7 @@ gush.phar:
 	$(call fetch_tool,http://gushphp.org/gush.phar)
 
 codecept.phar:
-	$(call fetch_tool,http://codeception.com/codecept.phar)
+	$(call fetch_tool,http://codeception.com/releases/$(CODECEPT_VERSION)/codecept.phar)
 
 pear-fix: composer.lock
 	$(php-cs-fixer) fix vendor/pear-pear.php.net --rules=no_php4_constructor --allow-risky=yes  --using-cache=no --verbose --show-progress=estimating
