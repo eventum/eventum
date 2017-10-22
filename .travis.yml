@@ -17,6 +17,7 @@ jobs:
       services:
         - mysql
       script: |
+        cp -p tests/travis/*.php config
         php bin/upgrade.php
 
     # TODO: would be nice to have two separate stages, one for build, and other for actually publishing
