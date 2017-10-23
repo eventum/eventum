@@ -5,6 +5,7 @@
 Upgrading to 3.3.x versions requires that you upgrade to 3.2.0 version first.
 Eventum 3.3.x requires PHP 5.6.
 
+- Fix current url in resolution manage (@phavel, #319)
 
 [3.3.4]: https://github.com/eventum/eventum/compare/v3.3.3...master
 
