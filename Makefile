@@ -92,7 +92,7 @@ gush.phar:
 	$(call fetch_tool,http://gushphp.org/gush.phar)
 
 codecept.phar:
-	$(call fetch_tool,http://codeception.com/releases/$(CODECEPT_VERSION)/codecept.phar)
+	$(call fetch_tool,http://codeception.com/releases/$(CODECEPT_VERSION)/php54/codecept.phar)
 
 pear-fix: composer.lock
 	$(php-cs-fixer) fix vendor/pear-pear.php.net --rules=no_php4_constructor --allow-risky=yes  --using-cache=no --verbose --show-progress=estimating
