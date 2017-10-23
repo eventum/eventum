@@ -16,6 +16,8 @@ jobs:
     - php: "5.6"
       services:
         - mysql
+      env:
+        - MIGRATIONS=1
       script: |
         mysql -e 'CREATE DATABASE IF NOT EXISTS e_test'
         cp -p tests/travis/*.php config
