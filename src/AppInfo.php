@@ -75,7 +75,9 @@ class AppInfo
 
     private function getHashFromGit()
     {
-        if (!file_exists($file = APP_PATH . '/.git/HEAD')) {
+        $gitDir = __DIR__ . '/../.git';
+
+        if (!file_exists($file = $gitDir . '/HEAD')) {
             return null;
         }
 
@@ -86,7 +88,7 @@ class AppInfo
         // "fc334abadfd480820071c1415723c7de0216eb6f"
         if (strpos($hash, 'ref:') === 0) {
             list(, $refname) = explode(': ', $hash);
-            if (!file_exists($file = APP_PATH . '/.git/' . trim($refname))) {
+            if (!file_exists($file = $gitDir . '/' . trim($refname))) {
                 return null;
             }
             $hash = file_get_contents($file);
