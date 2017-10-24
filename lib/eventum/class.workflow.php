@@ -31,22 +31,18 @@ class Workflow
     {
         static $backends;
 
-        if (isset($backends[$prj_id])) {
-            return $backends[$prj_id];
-        }
-
-        $stmt = 'SELECT
+        if ($backends === null) {
+            $stmt = 'SELECT
                     prj_id,
                     prj_workflow_backend
                  FROM
                     `project`
                  ORDER BY
                     prj_id';
-        $res = DB_Helper::getInstance()->getPair($stmt);
+            $backends = DB_Helper::getInstance()->getPair($stmt);
+        }
 
-        $backends = $res;
-
-        return $backends[$prj_id];
+        return isset($backends[$prj_id]) ? $backends[$prj_id] : null;
     }
 
     /**
