@@ -16,9 +16,10 @@ namespace Eventum\Model\Entity;
 use Eventum\Scm\ScmRepository;
 
 /**
- * @Entity @Table(name="commit")
- **/
-class Commit extends BaseModel
+ * @Table(name="commit")
+ * @Entity(repositoryClass="Eventum\Model\Repository\CommitRepository")
+ */
+class Commit
 {
     /** @Id @Column(type="integer") @GeneratedValue */
     protected $com_id;
@@ -352,32 +353,18 @@ class Commit extends BaseModel
     }
 
     /**
-     * @param string $changeset
-     * @return Commit
-     */
-    public function findOneByChangeset($changeset)
-    {
-        $res = $this->findAllByConditions(['com_changeset' => $changeset], 1);
-
-        return $res ? $res[0] : null;
-    }
-
-    /**
-     * @param int $id
-     * @return Commit
-     */
-    public function findById($id)
-    {
-        $res = $this->findAllByConditions(['com_id' => $id], 1);
-
-        return $res ? $res[0] : null;
-    }
-
-    /**
      * @return ScmRepository
      */
     public function getCommitRepo()
     {
         return new ScmRepository($this->getScmName());
+    }
+
+    /**
+     * @return array
+     */
+    public function toArray()
+    {
+        return get_object_vars($this);
     }
 }

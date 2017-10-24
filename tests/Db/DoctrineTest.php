@@ -42,8 +42,7 @@ class DoctrineTest extends TestCase
 
     public function test2()
     {
-        $em = $this->getEntityManager();
-        $repo = $em->getRepository(Entity\Commit::class);
+        $repo = Doctrine::getCommitRepository();
         $items = $repo->findBy([], null, 10);
 
         /**
@@ -56,8 +55,7 @@ class DoctrineTest extends TestCase
 
     public function test3()
     {
-        $em = $this->getEntityManager();
-        $repo = $em->getRepository(Entity\Commit::class);
+        $repo = Doctrine::getCommitRepository();
         $qb = $repo->createQueryBuilder('commit');
 
         $qb->setMaxResults(10);
@@ -77,7 +75,7 @@ class DoctrineTest extends TestCase
 
         $issue_id = 1;
         $changeset = uniqid('z1', true);
-        $ci = Entity\Commit::create()
+        $ci = (new Entity\Commit())
             ->setScmName('cvs')
             ->setAuthorName('Au Thor')
             ->setCommitDate(Date_Helper::getDateTime())
@@ -86,13 +84,13 @@ class DoctrineTest extends TestCase
         $em->persist($ci);
         $em->flush();
 
-        $cf = Entity\CommitFile::create()
+        $cf = (new Entity\CommitFile())
             ->setCommitId($ci->getId())
             ->setFilename('file');
         $em->persist($cf);
         $em->flush();
 
-        $isc = Entity\IssueCommit::create()
+        $isc = (new Entity\IssueCommit())
             ->setCommitId($ci->getId())
             ->setIssueId($issue_id);
         $em->persist($isc);

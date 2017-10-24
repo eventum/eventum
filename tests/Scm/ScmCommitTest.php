@@ -14,9 +14,10 @@
 namespace Eventum\Test\Scm;
 
 use Date_Helper;
-use DB_Helper;
+use Eventum\Db\Doctrine;
 use Eventum\Model\Entity;
 use Eventum\Model\Repository\CommitRepository;
+use Eventum\Model\Repository\IssueCommitRepository;
 use Setup;
 
 /**
@@ -24,6 +25,11 @@ use Setup;
  */
 class ScmCommitTest extends ScmTestCase
 {
+    /** @var \Doctrine\ORM\EntityRepository|IssueCommitRepository */
+    private $issueCommitRepo;
+    /** @var \Doctrine\ORM\EntityRepository|CommitRepository */
+    private $commitRepo;
+
     private $issue_id = 1;
     private $changeset;
     private $commit_id;
@@ -32,7 +38,10 @@ class ScmCommitTest extends ScmTestCase
 
     public function setUp()
     {
-        DB_Helper::getInstance()->query('DELETE FROM `issue_commit` WHERE isc_iss_id=?', [$this->issue_id]);
+        $this->issueCommitRepo = Doctrine::getIssueCommitRepository();
+        $this->commitRepo = Doctrine::getCommitRepository();
+
+        $this->issueCommitRepo->deleteAllRelations($this->issue_id);
         $this->createCommit();
     }
 
@@ -45,7 +54,7 @@ class ScmCommitTest extends ScmTestCase
 
         $em = $this->getEntityManager();
 
-        $ci = Entity\Commit::create()
+        $ci = (new Entity\Commit())
             ->setScmName('cvs')
             ->setAuthorName('Au Thor')
             ->setCommitDate(Date_Helper::getDateTime())
@@ -55,14 +64,14 @@ class ScmCommitTest extends ScmTestCase
         $em->flush();
         $this->commit_id = $ci->getId();
 
-        $cf = Entity\CommitFile::create()
+        $cf = (new Entity\CommitFile())
             ->setCommitId($ci->getId())
             ->setFilename('file');
         $em->persist($cf);
         $em->flush();
         $this->commit_file_id = $cf->getId();
 
-        $isc = Entity\IssueCommit::create()
+        $isc = (new Entity\IssueCommit())
             ->setCommitId($ci->getId())
             ->setIssueId($this->issue_id);
         $em->persist($isc);
@@ -72,29 +81,40 @@ class ScmCommitTest extends ScmTestCase
 
     public function testGetCommit()
     {
-        $c = Entity\Commit::create()->findOneByChangeset($this->changeset);
+        $c = $this->commitRepo->findOneByChangeset($this->changeset);
+        $this->assertNotNull($c);
         $this->assertEquals($this->changeset, $c->getChangeset());
+
+        $c = $this->commitRepo->findOneByChangeset('no-such-commit');
+        $this->assertNull($c);
     }
 
     public function testGetIssueCommits()
     {
-        $ic = Entity\IssueCommit::create()->findByIssueId($this->issue_id);
+        $ic = $this->issueCommitRepo->findByIssueId($this->issue_id);
         $this->assertNotNull($ic);
+        $this->assertCount(1, $ic);
         $this->assertEquals($this->issue_id, $ic[0]->getIssueId());
+
+        $ic = $this->issueCommitRepo->findByIssueId(-1);
+        $this->assertNotNull($ic);
+        $this->assertCount(0, $ic);
     }
 
     public function testFindCommitById()
     {
         $cid = 177966;
-        $c = Entity\Commit::create()->findById($cid);
+        $c = $this->commitRepo->findById($cid);
         $this->assertNotNull($c);
         $this->assertEquals($cid, $c->getId());
+
+        $c = $this->commitRepo->findById(-1);
+        $this->assertNull($c);
     }
 
     public function testIssueCommits()
     {
-        $r = new CommitRepository();
-        $res = $r->getIssueCommitsArray($this->issue_id);
+        $res = $this->commitRepo->getIssueCommitsArray($this->issue_id);
 
         $this->assertEquals($this->changeset, $res[0]['com_changeset']);
     }

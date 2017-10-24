@@ -24,7 +24,7 @@ use Date_Helper;
 use Draft;
 use Email_Account;
 use Eventum\Attachment\AttachmentManager;
-use Eventum\Model\Repository\CommitRepository;
+use Eventum\Db\Doctrine;
 use Group;
 use Issue;
 use Issue_Field;
@@ -210,6 +210,8 @@ class ViewController extends BaseController
 
         $time_entries = Time_Tracking::getTimeEntryListing($this->issue_id);
 
+        $repo = Doctrine::getCommitRepository();
+
         $this->tpl->assign(
             [
                 'notes' => Note::getListing($this->issue_id),
@@ -217,7 +219,7 @@ class ViewController extends BaseController
                 'is_user_authorized' => Authorized_Replier::isUserAuthorizedReplier($this->issue_id, $this->usr_id),
                 'phone_entries' => Phone_Support::getListing($this->issue_id),
                 'phone_categories' => Phone_Support::getCategoryAssocList($this->prj_id),
-                'checkins' => CommitRepository::create()->getIssueCommitsArray($this->issue_id),
+                'checkins' => $repo->getIssueCommitsArray($this->issue_id),
                 'time_categories' => Time_Tracking::getAssocCategories($this->prj_id),
                 'time_entries' => $time_entries['list'],
                 'total_time_by_user' => $time_entries['total_time_by_user'],

@@ -13,7 +13,7 @@
 
 namespace Eventum\Test;
 
-use Eventum\Model\Entity;
+use Eventum\Db\Doctrine;
 use Eventum\Model\Repository\IssueAssociationRepository;
 use InvalidArgumentException;
 
@@ -28,7 +28,7 @@ class IssueAssociationTest extends TestCase
     public function setUp()
     {
         $em = $this->getEntityManager();
-        $this->repo = $em->getRepository(Entity\IssueAssociation::class);
+        $this->repo = Doctrine::getIssueAssociationRepository();
 
         $issues = [12, 13, 14, 15];
         $this->repo->deleteAllRelations($issues);

@@ -32,7 +32,7 @@ class GitlabPayload implements PayloadInterface
      */
     public function createCommit($commit)
     {
-        return Commit::create()
+        return (new Commit())
             ->setChangeset($commit['id'])
             ->setAuthorEmail($commit['author']['email'])
             ->setAuthorName($commit['author']['name'])

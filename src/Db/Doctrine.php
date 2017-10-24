@@ -21,8 +21,11 @@ use Eventum\Model\Entity;
 use Eventum\Model\Repository;
 
 /**
- * @method static Repository\ProjectRepository getProjectRepository()
+ * @method static Repository\CommitFileRepository getCommitFileRepository()
+ * @method static Repository\CommitRepository getCommitRepository()
  * @method static Repository\IssueAssociationRepository getIssueAssociationRepository()
+ * @method static Repository\IssueCommitRepository getIssueCommitRepository()
+ * @method static Repository\ProjectRepository getProjectRepository()
  */
 class Doctrine
 {

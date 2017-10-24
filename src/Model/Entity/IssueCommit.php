@@ -14,9 +14,10 @@
 namespace Eventum\Model\Entity;
 
 /**
- * @Entity @Table(name="issue_commit")
+ * @Table(name="issue_commit")
+ * @Entity(repositoryClass="Eventum\Model\Repository\IssueCommitRepository")
  */
-class IssueCommit extends BaseModel
+class IssueCommit
 {
     /**
      * @var int
@@ -116,14 +117,5 @@ class IssueCommit extends BaseModel
     public function addCommits($commit)
     {
         $this->commits[] = $commit;
-    }
-
-    /**
-     * @param int $issue_id
-     * @return $this[]
-     */
-    public function findByIssueId($issue_id)
-    {
-        return $this->findAllByConditions(['isc_iss_id' => $issue_id]);
     }
 }

@@ -15,7 +15,6 @@ namespace Eventum\Scm\Payload;
 
 use Date_Helper;
 use Eventum\Model\Entity\Commit;
-use Eventum\Scm\Payload\PayloadInterface;
 use Issue;
 use Symfony\Component\HttpFoundation\ParameterBag;
 
@@ -74,7 +73,7 @@ class StandardPayload implements PayloadInterface
     public function createCommit()
     {
         $params = $this->params;
-        $ci = Commit::create()
+        $ci = (new Commit())
             ->setScmName($params->get('scm_name'))
             ->setProjectName($params->get('project'))
             ->setCommitDate(Date_Helper::getDateTime($params->get('commit_date')))

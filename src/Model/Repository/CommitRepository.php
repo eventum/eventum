@@ -14,6 +14,8 @@
 namespace Eventum\Model\Repository;
 
 use Date_Helper;
+use Doctrine\ORM\EntityRepository;
+use Eventum\Db\Doctrine;
 use Eventum\Model\Entity;
 use Eventum\Scm\Payload;
 use History;
@@ -21,8 +23,26 @@ use Issue;
 use Link_Filter;
 use Workflow;
 
-class CommitRepository extends BaseRepository
+class CommitRepository extends EntityRepository
 {
+    /**
+     * @param int $id
+     * @return null|object|Entity\Commit
+     */
+    public function findById($id)
+    {
+        return $this->findOneBy(['com_id' => $id]);
+    }
+
+    /**
+     * @param string $changeset
+     * @return null|object|Entity\Commit
+     */
+    public function findOneByChangeset($changeset)
+    {
+        return $this->findOneBy(['com_changeset' => $changeset]);
+    }
+
     /**
      * Method called on Commit to allow workflow update project name/commit author or user id
      *
@@ -66,12 +86,16 @@ class CommitRepository extends BaseRepository
     /**
      * Add commit files from $commit array
      *
+     * @param Entity\Commit $ci
      * @param array $commit
+     * @throws \Doctrine\ORM\OptimisticLockException
      */
     public function addCommitFiles(Entity\Commit $ci, $commit)
     {
+        $em = Doctrine::getEntityManager();
+
         foreach ($commit['added'] as $filename) {
-            $cf = Entity\CommitFile::create()
+            $cf = (new Entity\CommitFile())
                 ->setCommitId($ci->getId())
                 ->setAdded(true)
                 ->setFilename($filename);
@@ -80,12 +104,13 @@ class CommitRepository extends BaseRepository
                 $this->setFileVersions($cf, $commit['versions'][$filename]);
             }
 
-            $cf->save();
+            $em->persist($cf);
+            $em->flush();
             $ci->addFile($cf);
         }
 
         foreach ($commit['modified'] as $filename) {
-            $cf = Entity\CommitFile::create()
+            $cf = (new Entity\CommitFile())
                 ->setCommitId($ci->getId())
                 ->setModified(true)
                 ->setFilename($filename);
@@ -94,12 +119,13 @@ class CommitRepository extends BaseRepository
                 $this->setFileVersions($cf, $commit['versions'][$filename]);
             }
 
-            $cf->save();
+            $em->persist($cf);
+            $em->flush();
             $ci->addFile($cf);
         }
 
         foreach ($commit['removed'] as $filename) {
-            $cf = Entity\CommitFile::create()
+            $cf = (new Entity\CommitFile())
                 ->setCommitId($ci->getId())
                 ->setRemoved(true)
                 ->setFilename($filename);
@@ -108,7 +134,8 @@ class CommitRepository extends BaseRepository
                 $this->setFileVersions($cf, $commit['versions'][$filename]);
             }
 
-            $cf->save();
+            $em->persist($cf);
+            $em->flush();
             $ci->addFile($cf);
         }
     }
@@ -133,18 +160,22 @@ class CommitRepository extends BaseRepository
      */
     public function getIssueCommits($issue_id)
     {
-        $res = [];
+        $em = Doctrine::getEntityManager();
+        $issueCommitRepo = Doctrine::getIssueCommitRepository();
 
-        $ics = Entity\IssueCommit::create()->findByIssueId($issue_id);
+        $ics = $issueCommitRepo->findByIssueId($issue_id);
         if (!$ics) {
             return [];
         }
 
+        $commitRepo = Doctrine::getCommitRepository();
+        $commitFileRepo = Doctrine::getCommitFileRepository();
         // associate commits
+        $res = [];
         foreach ($ics as $ic) {
-            $c = Entity\Commit::create()->findById($ic->getCommitId());
+            $c = $commitRepo->findById($ic->getCommitId());
             // associate files
-            $files = Entity\CommitFile::create()->findByCommitId($c->getId()) ?: [];
+            $files = $commitFileRepo->findByCommitId($c->getId()) ?: [];
             foreach ($files as $cf) {
                 $c->addFile($cf);
             }

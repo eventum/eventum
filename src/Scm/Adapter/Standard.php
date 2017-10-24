@@ -13,8 +13,8 @@
 
 namespace Eventum\Scm\Adapter;
 
+use Eventum\Db\Doctrine;
 use Eventum\Model\Entity;
-use Eventum\Model\Repository\CommitRepository;
 use Eventum\Scm\Payload\StandardPayload;
 use Eventum\Scm\ScmRepository;
 use InvalidArgumentException;
@@ -61,18 +61,22 @@ class Standard extends AbstractAdapter
 
         $ci->setChangeset($payload->getCommitId());
 
+        $em = Doctrine::getEntityManager();
+        $cr = Doctrine::getCommitRepository();
+
         // XXX: take prj_id from first issue_id
         $prj_id = Issue::getProjectID($issues[0]);
-        $cr = CommitRepository::create();
         $cr->preCommit($prj_id, $ci, $payload);
-        $ci->save();
+        $em->persist($ci);
+        $em->flush();
 
         // save issue association
         foreach ($issues as $issue_id) {
-            Entity\IssueCommit::create()
+            $ic = (new Entity\IssueCommit())
                 ->setCommitId($ci->getId())
-                ->setIssueId($issue_id)
-                ->save();
+                ->setIssueId($issue_id);
+            $em->persist($ic);
+            $em->flush();
 
             // print report to stdout of commits so hook could report status back to commiter
             $details = Issue::getDetails($issue_id);

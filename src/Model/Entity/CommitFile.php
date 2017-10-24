@@ -14,9 +14,10 @@
 namespace Eventum\Model\Entity;
 
 /**
- * @Entity @Table(name="commit_file")
+ * @Table(name="commit_file")
+ * @Entity(repositoryClass="Eventum\Model\Repository\CommitFileRepository")
  */
-class CommitFile extends BaseModel
+class CommitFile
 {
     /**
      * @var int
@@ -265,11 +266,10 @@ class CommitFile extends BaseModel
     }
 
     /**
-     * @param int $cid
-     * @return $this[]
+     * @return array
      */
-    public function findByCommitId($cid)
+    public function toArray()
     {
-        return $this->findAllByConditions(['cof_com_id' => $cid]);
+        return get_object_vars($this);
     }
 }
