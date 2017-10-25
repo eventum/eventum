@@ -85,7 +85,7 @@ class DoctrineTest extends TestCase
         $em->flush();
 
         $cf = (new Entity\CommitFile())
-            ->setCommitId($ci->getId())
+            ->setCommit($ci->getId())
             ->setFilename('file');
         $em->persist($cf);
         $em->flush();

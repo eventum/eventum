@@ -94,7 +94,7 @@ class CommitRepository extends EntityRepository
 
         foreach ($commit['added'] as $filename) {
             $cf = (new Entity\CommitFile())
-                ->setCommitId($ci->getId())
+                ->setCommit($ci->getId())
                 ->setAdded(true)
                 ->setFilename($filename);
 
@@ -109,7 +109,7 @@ class CommitRepository extends EntityRepository
 
         foreach ($commit['modified'] as $filename) {
             $cf = (new Entity\CommitFile())
-                ->setCommitId($ci->getId())
+                ->setCommit($ci->getId())
                 ->setModified(true)
                 ->setFilename($filename);
 
@@ -124,7 +124,7 @@ class CommitRepository extends EntityRepository
 
         foreach ($commit['removed'] as $filename) {
             $cf = (new Entity\CommitFile())
-                ->setCommitId($ci->getId())
+                ->setCommit($ci->getId())
                 ->setRemoved(true)
                 ->setFilename($filename);
 
@@ -168,17 +168,21 @@ class CommitRepository extends EntityRepository
 
         $commitRepo = Doctrine::getCommitRepository();
         $commitFileRepo = Doctrine::getCommitFileRepository();
+//        $res = $ics->getCommits();
+//        /*
         // associate commits
         $res = [];
         foreach ($ics as $ic) {
-            $c = $commitRepo->findById($ic->getCommitId());
+            $c = $ic->getCommits();
+//            $c = $commitRepo->findById($ic->getCommitId());
             // associate files
-            $files = $commitFileRepo->findByCommitId($c->getId()) ?: [];
-            foreach ($files as $cf) {
-                $c->addFile($cf);
-            }
+//            $files = $commitFileRepo->findByCommitId($c->getId()) ?: [];
+//            foreach ($files as $cf) {
+//                $c->addFile($cf);
+//            }
             $res[] = $c;
         }
+//        */
 
         // order by date
         // need userspace sort as the sort column is in commit table

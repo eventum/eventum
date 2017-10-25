@@ -13,6 +13,7 @@
 
 namespace Eventum\Model\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Eventum\Scm\ScmRepository;
 
 /**
@@ -86,6 +87,19 @@ class Commit
      * @Column(type="text", length=16777215, nullable=true)
      */
     protected $com_message;
+
+    /**
+     * Bidirectional - One-To-Many (INVERSE SIDE)
+     *
+     * @var CommitFile[]
+     * @OneToMany(targetEntity="Eventum\Model\Entity\CommitFile", mappedBy="commit")
+     */
+    private $files;
+
+    public function __construct()
+    {
+        $this->files = new ArrayCollection();
+    }
 
     /**
      * @param int $id
@@ -321,11 +335,10 @@ class Commit
         return $this->com_message;
     }
 
-    /** @var CommitFile[] */
-    private $files = [];
-
     public function addFile(CommitFile $cf)
     {
+        $cf->setCommit($this);
+
         $this->files[] = $cf;
     }
 

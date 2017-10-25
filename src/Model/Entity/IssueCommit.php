@@ -13,6 +13,8 @@
 
 namespace Eventum\Model\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+
 /**
  * @Table(name="issue_commit")
  * @Entity(repositoryClass="Eventum\Model\Repository\IssueCommitRepository")
@@ -21,24 +23,41 @@ class IssueCommit
 {
     /**
      * @var int
-     *
      * @Id @Column(type="integer") @GeneratedValue
      */
     protected $isc_id;
 
     /**
      * @var int
-     *
      * @Column(type="integer", nullable=false)
      */
     protected $isc_iss_id;
 
     /**
      * @var int
-     *
      * @Column(type="integer", nullable=false)
      */
     protected $isc_com_id;
+
+    /**
+     * Bidirectional - One-To-Many (INVERSE SIDE)
+     *
+     * @var Commit[]
+     * @OneToMany(targetEntity="Eventum\Model\Entity\Commit", mappedBy="commit")
+     */
+    /**
+     * Bidirectional - Many Comments are authored by one user (OWNING SIDE)
+     *
+     * @var Commit[]
+     * @ManyToOne(targetEntity="Eventum\Model\Entity\Commit", inversedBy="files")
+     * @JoinColumn(nullable=false, name="isc_com_id", referencedColumnName="com_id")
+     */
+    private $commits;
+
+    public function __construct()
+    {
+        $this->commits = new ArrayCollection();
+    }
 
     /**
      * @param int $id
@@ -107,15 +126,16 @@ class IssueCommit
         return $this->isc_com_id;
     }
 
-    /** @var Commit[] */
-    private $commits;
-    public function __construct()
-    {
-        $this->commits = [];
-    }
-
-    public function addCommits($commit)
+    public function addCommits(Commit $commit)
     {
         $this->commits[] = $commit;
+    }
+
+    /**
+     * @return Commit[]
+     */
+    public function getCommits()
+    {
+        return $this->commits;
     }
 }

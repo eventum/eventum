@@ -42,7 +42,6 @@ class ScmCommitTest extends ScmTestCase
         $this->commitRepo = Doctrine::getCommitRepository();
 
         $this->issueCommitRepo->deleteAllRelations($this->issue_id);
-        $this->createCommit();
     }
 
     /**
@@ -60,15 +59,16 @@ class ScmCommitTest extends ScmTestCase
             ->setCommitDate(Date_Helper::getDateTime())
             ->setChangeset($this->changeset)
             ->setMessage('Mes-Sage');
-        $em->persist($ci);
-        $em->flush();
-        $this->commit_id = $ci->getId();
 
         $cf = (new Entity\CommitFile())
-            ->setCommitId($ci->getId())
             ->setFilename('file');
+        $ci->addFile($cf);
+
+        $em->persist($ci);
         $em->persist($cf);
         $em->flush();
+
+        $this->commit_id = $ci->getId();
         $this->commit_file_id = $cf->getId();
 
         $isc = (new Entity\IssueCommit())
@@ -81,6 +81,8 @@ class ScmCommitTest extends ScmTestCase
 
     public function testGetCommit()
     {
+        $this->createCommit();
+
         $c = $this->commitRepo->findOneByChangeset($this->changeset);
         $this->assertNotNull($c);
         $this->assertEquals($this->changeset, $c->getChangeset());
@@ -91,6 +93,8 @@ class ScmCommitTest extends ScmTestCase
 
     public function testGetIssueCommits()
     {
+        $this->createCommit();
+
         $ic = $this->issueCommitRepo->findByIssueId($this->issue_id);
         $this->assertNotNull($ic);
         $this->assertCount(1, $ic);
@@ -107,6 +111,10 @@ class ScmCommitTest extends ScmTestCase
         $c = $this->commitRepo->findById($cid);
         $this->assertNotNull($c);
         $this->assertEquals($cid, $c->getId());
+
+        $files = iterator_to_array($c->getFiles());
+        $this->assertCount(1, $files);
+        $this->assertInstanceOf(Entity\CommitFile::class, $files[0]);
 
         $c = $this->commitRepo->findById(-1);
         $this->assertNull($c);

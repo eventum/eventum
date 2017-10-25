@@ -21,56 +21,51 @@ class CommitFile
 {
     /**
      * @var int
-     *
      * @Id @Column(type="integer") @GeneratedValue
      */
     protected $cof_id;
 
     /**
-     * @var int
+     * Bidirectional - Many Comments are authored by one user (OWNING SIDE)
      *
-     * @Column(type="integer", nullable=false)
+     * @var Commit
+     * @ManyToOne(targetEntity="Eventum\Model\Entity\Commit", inversedBy="files")
+     * @JoinColumn(nullable=false, name="cof_com_id", referencedColumnName="com_id")
      */
-    protected $cof_com_id;
+    private $commit;
 
     /**
      * @var string
-     *
      * @Column(type="string", length=255, nullable=false)
      */
     protected $cof_filename;
 
     /**
      * @var bool
-     *
      * @Column(type="boolean", nullable=false)
      */
     protected $cof_added = false;
 
     /**
      * @var bool
-     *
      * @Column(type="boolean", nullable=false)
      */
     protected $cof_modified = false;
 
     /**
      * @var bool
-     *
      * @Column(type="boolean", nullable=false)
      */
     protected $cof_removed = false;
 
     /**
      * @var string
-     *
      * @Column(type="string", length=40, nullable=true)
      */
     protected $cof_old_version;
 
     /**
      * @var string
-     *
      * @Column(name="cof_new_version", type="string", length=40, nullable=true)
      */
     protected $cof_new_version;
@@ -97,26 +92,22 @@ class CommitFile
     }
 
     /**
-     * Set cofComId
-     *
-     * @param int $commitId
+     * @param Commit $commit
      * @return CommitFile
      */
-    public function setCommitId($commitId)
+    public function setCommit(Commit $commit)
     {
-        $this->cof_com_id = $commitId;
+        $this->commit = $commit;
 
         return $this;
     }
 
     /**
-     * Get cofComId
-     *
-     * @return int
+     * @return Commit
      */
     public function getCommitId()
     {
-        return $this->cof_com_id;
+        return $this->commit;
     }
 
     /**
