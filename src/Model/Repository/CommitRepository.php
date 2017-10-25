@@ -13,14 +13,12 @@
 
 namespace Eventum\Model\Repository;
 
-use Date_Helper;
 use Doctrine\ORM\EntityRepository;
 use Eventum\Db\Doctrine;
 use Eventum\Model\Entity;
 use Eventum\Scm\Payload;
 use History;
 use Issue;
-use Link_Filter;
 use Workflow;
 
 class CommitRepository extends EntityRepository
@@ -195,58 +193,5 @@ class CommitRepository extends EntityRepository
         uasort($res, $sorter);
 
         return $res;
-    }
-
-    /**
-     * Get commits related to issue formatted to array for templating
-     *
-     * @param   int $issue_id The issue ID
-     * @return  array The list of checkins
-     */
-    public function getIssueCommitsArray($issue_id)
-    {
-        $res = $this->getIssueCommits($issue_id);
-
-        $checkins = [];
-        foreach ($res as $c) {
-            $scm = $c->getCommitRepo();
-
-            $checkin = $c->toArray();
-            $checkin['isc_commit_date'] = Date_Helper::convertDateGMT($checkin['com_commit_date']);
-            $checkin['isc_commit_msg'] = Link_Filter::processText(
-                Issue::getProjectID($issue_id), nl2br(htmlspecialchars($checkin['com_message']))
-            );
-            $checkin['author'] = $c->getAuthor();
-            $checkin['project_name'] = $c->getProjectName();
-            $checkin['branch'] = $c->getBranch();
-            $checkin['commit_short'] = $c->getChangeset(true);
-            $checkin['changeset_url'] = $scm->getChangesetUrl($c);
-            $checkin['branch_url'] = $scm->getBranchUrl($c);
-            $checkin['project_url'] = $scm->getProjectUrl($c);
-            $checkin['files'] = [];
-            foreach ($c->getFiles() as $cf) {
-                $f = $cf->toArray();
-
-                $f['added'] = $cf->isAdded();
-                $f['removed'] = $cf->isRemoved();
-                $f['modified'] = $cf->isModified();
-
-                // flag indicating whether file has versions
-                $f['versions'] = $cf->hasVersions();
-
-                // fill for url builder
-                $f['project_name'] = $c->getProjectName();
-
-                // fill urls
-                $f['checkout_url'] = $scm->getCheckoutUrl($c, $cf);
-                $f['diff_url'] = $scm->getDiffUrl($c, $cf);
-                $f['scm_log_url'] = $scm->getLogUrl($c, $cf);
-
-                $checkin['files'][] = $f;
-            }
-            $checkins[] = $checkin;
-        }
-
-        return $checkins;
     }
 }

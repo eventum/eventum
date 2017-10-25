@@ -111,11 +111,4 @@ class ScmCommitTest extends ScmTestCase
         $c = $this->commitRepo->findById(-1);
         $this->assertNull($c);
     }
-
-    public function testIssueCommits()
-    {
-        $res = $this->commitRepo->getIssueCommitsArray($this->issue_id);
-
-        $this->assertEquals($this->changeset, $res[0]['com_changeset']);
-    }
 }
