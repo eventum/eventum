@@ -68,14 +68,17 @@ class ScmCommitTest extends ScmTestCase
         $em->persist($cf);
         $em->flush();
 
-        $this->commit_id = $ci->getId();
-        $this->commit_file_id = $cf->getId();
+        $issue = new Entity\Issue();
+        $issue->setCommits();
 
         $isc = (new Entity\IssueCommit())
             ->setCommitId($ci->getId())
             ->setIssueId($this->issue_id);
         $em->persist($isc);
         $em->flush();
+
+        $this->commit_id = $ci->getId();
+        $this->commit_file_id = $cf->getId();
         $this->issue_commit_id = $isc->getId();
     }
 
@@ -118,5 +121,19 @@ class ScmCommitTest extends ScmTestCase
 
         $c = $this->commitRepo->findById(-1);
         $this->assertNull($c);
+    }
+
+    public function testFindByIssueId()
+    {
+        $issue_id = 64;
+        $c = $this->issueCommitRepo->findByIssueId($issue_id);
+        $this->assertNotEmpty($c);
+
+        foreach ($c as $ic) {
+            $commits = $ic->getCommits();
+            foreach ($commits as $commit) {
+                $commit->getUserId();
+            }
+        }
     }
 }

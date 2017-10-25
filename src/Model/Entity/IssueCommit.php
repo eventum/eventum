@@ -45,12 +45,14 @@ class IssueCommit
      * @var Commit[]
      * @OneToMany(targetEntity="Eventum\Model\Entity\Commit", mappedBy="commit")
      */
+
     /**
-     * Bidirectional - Many Comments are authored by one user (OWNING SIDE)
-     *
-     * @var Commit[]
-     * @ManyToOne(targetEntity="Eventum\Model\Entity\Commit", inversedBy="files")
-     * @JoinColumn(nullable=false, name="isc_com_id", referencedColumnName="com_id")
+     * Many User have Many Phonenumbers.
+     * @ManyToMany(targetEntity="Eventum\Model\Entity\Commit")
+     * @JoinTable(name="issue_commit",
+     *   joinColumns={@JoinColumn(name="isc_com_id", referencedColumnName="com_id")},
+     *   inverseJoinColumns={@JoinColumn(name="isc_iss_id", referencedColumnName="id", unique=true)}
+     * )
      */
     private $commits;
 

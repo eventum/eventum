@@ -148,6 +148,39 @@ class DoctrineTest extends TestCase
         dump($items);
     }
 
+    public function testIssueRepository()
+    {
+        $em = Doctrine::getEntityManager();
+        $repo = $em->getRepository(Entity\Issue::class);
+
+        $issue = $repo->findOneBy(['id' => 64]);
+        $this->assertNotNull($issue);
+
+        $commitCollection = $issue->getCommits();
+        $commits = iterator_to_array($commitCollection);
+        $this->assertCount(10, $commits);
+
+        /** @var Entity\Commit $commit */
+        $commit = $commits[0];
+        $this->assertInstanceOf(Entity\Commit::class, $commit);
+
+        $fileCollection = $commit->getFiles();
+        $files = iterator_to_array($fileCollection);
+        $this->assertCount(2, $files);
+
+        /** @var Entity\CommitFile $file */
+        $file = $files[0];
+        $this->assertInstanceOf(Entity\CommitFile::class, $file);
+    }
+
+    public function testAddCommit()
+    {
+        $issue_id = 1;
+
+        $issue = new Entity\Issue();
+        $issue->setId(1);
+    }
+
     public function testUserRepository()
     {
         /** @var UserRepository $repo */
