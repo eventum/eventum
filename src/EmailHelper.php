@@ -71,10 +71,6 @@ class EmailHelper
         $wrapText = function ($text) {
             $text = Misc::highlightQuotedReply($text);
 
-            if (Link_Filter::markdownEnabled()) {
-                $text = Link_Filter::activateLinks($text);
-            }
-
             return
                 '<div><span class="toggle-trimmed-email"><a href="#">…</a></span>'
                 . '<div class="hidden email-trimmed">'
@@ -94,6 +90,10 @@ class EmailHelper
             function (Fragment $fragment) use ($wrapText) {
                 if ($fragment->isQuoted() || $fragment->isSignature()) {
                     return $wrapText($fragment);
+                }
+
+                if (Link_Filter::markdownEnabled()) {
+                    return Link_Filter::markdownFormat((string)$fragment);
                 }
 
                 return htmlspecialchars($fragment);
