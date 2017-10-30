@@ -49,8 +49,6 @@ class EmailHelper
         if (!Link_Filter::markdownEnabled()) {
             $text = nl2br($text);
             $text = Link_Filter::activateLinks($text);
-        } else {
-            $text = Link_Filter::markdownFormat($text);
         }
 
         return $text;
@@ -69,7 +67,11 @@ class EmailHelper
         }
 
         $wrapText = function ($text) {
-            $text = Misc::highlightQuotedReply($text);
+            if (Link_Filter::markdownEnabled()) {
+                $text = Link_Filter::markdownFormat($text);
+            } else {
+                $text = Misc::highlightQuotedReply($text);
+            }
 
             return
                 '<div><span class="toggle-trimmed-email"><a href="#">…</a></span>'
