@@ -49,6 +49,8 @@ class EmailHelper
         if (!Link_Filter::markdownEnabled()) {
             $text = nl2br($text);
             $text = Link_Filter::activateLinks($text);
+        } else {
+            $text = Link_Filter::markdownFormat($text);
         }
 
         return $text;

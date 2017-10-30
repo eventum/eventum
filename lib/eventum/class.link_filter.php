@@ -251,6 +251,26 @@ class Link_Filter
     }
 
     /**
+     * @param string $text
+     * @return string
+     */
+    public static function markdownFormat($text)
+    {
+        static $parser;
+
+        if (!$parser) {
+            $parser = new GithubMarkdown();
+            $parser->enableNewlines = true;
+        }
+
+        $text = $parser->parse($text);
+        // strip paragraph, confuses single line areas
+        $text = preg_replace("{^<p>(.+)</p>\n}", '$1', $text);
+
+        return $text;
+    }
+
+    /**
      * Processes text through all link filters.
      *
      * @param   int $prj_id The ID of the project
@@ -281,12 +301,7 @@ class Link_Filter
 
         // enable markdown
         if (self::markdownEnabled()) {
-            $parser = new GithubMarkdown();
-            $parser->enableNewlines = true;
-
-            $text = $parser->parse($text);
-            // strip paragraph, confuses single line areas
-            $text = preg_replace("{^<p>(.+)</p>\n}", '$1', $text);
+            $text = self::markdownFormat($text);
         }
 
         return $text;
