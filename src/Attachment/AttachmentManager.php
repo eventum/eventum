@@ -182,11 +182,13 @@ class AttachmentManager
                     iaf_filetype,
                     iaf_filesize,
                     iaf_created_date,
-                    iaf_flysystem_path,
+                    iap_flysystem_path,
                     iaf_iat_id
-                FROM
-                    `issue_attachment_file`
-                WHERE
+                 FROM
+                    `issue_attachment_file`,
+                    `issue_attachment_file_path`
+                 WHERE
+                    iap_iaf_id = iaf_id AND
                     iaf_id=?';
         $res = DB_Helper::getInstance()->getRow($sql, [$iaf_id]);
         if (empty($res)) {
@@ -196,7 +198,7 @@ class AttachmentManager
         $attachment = new Attachment($res['iaf_filename'], $res['iaf_filetype']);
         $attachment->id = $iaf_id;
         $attachment->filesize = $res['iaf_filesize'];
-        $attachment->flysystem_path = $res['iaf_flysystem_path'];
+        $attachment->flysystem_path = $res['iap_flysystem_path'];
         $attachment->group_id = $res['iaf_iat_id'];
 
         return $attachment;
@@ -209,10 +211,12 @@ class AttachmentManager
     {
         $sql = "SELECT
                     iaf_id,
-                    iaf_flysystem_path
-                FROM
-                    `issue_attachment_file`
-                WHERE
+                    iap_flysystem_path
+                 FROM
+                    `issue_attachment_file`,
+                    `issue_attachment_file_path`
+                 WHERE
+                    iap_iaf_id = iaf_id AND
                     iaf_iat_id=0 AND
                     iaf_created_date > '0000-00-00 00:00:00' AND
                     iaf_created_date < ?";
@@ -223,9 +227,9 @@ class AttachmentManager
         $sm = StorageManager::get();
         foreach ($res as $row) {
             $iaf_ids[] = $row['iaf_id'];
-            if (!empty($row['iaf_flysystem_path'])) {
+            if (!empty($row['iap_flysystem_path'])) {
                 try {
-                    $sm->deleteFile($row['iaf_flysystem_path']);
+                    $sm->deleteFile($row['iap_flysystem_path']);
                 } catch (FileNotFoundException $e) {
                     // TODO: Should we log this?
                 }
@@ -243,13 +247,19 @@ class AttachmentManager
      * issue in the database.
      *
      * @param   int $issue_id The issue ID
-     * @return  array The full list of attachments
+     * @param   int|null $max_role Don't return attachments with a role greater then this
+     * @param   int|null $not_id The ID of the related note
+     * @return array The full list of attachments
      */
-    public static function getList($issue_id)
+    public static function getList($issue_id, $max_role = null, $not_id = null)
     {
         $usr_id = Auth::getUserID();
         $prj_id = Issue::getProjectID($issue_id);
 
+        if (!$max_role) {
+            $max_role = User::getRoleByUser($usr_id, $prj_id);
+        }
+        $params = [$issue_id, $max_role];
         $stmt = 'SELECT
                     iat_id,
                     iat_usr_id,
@@ -265,15 +275,15 @@ class AttachmentManager
                     iat_iss_id=? AND
                     iat_usr_id=usr_id AND
                     iat_min_role <= ?';
+        if ($not_id) {
+            $stmt .= ' AND
+                    iat_not_id = ?';
+            $params[] = $not_id;
+        }
         $stmt .= '
                  ORDER BY
                     iat_created_date ASC';
-        $params = [$issue_id, User::getRoleByUser($usr_id, $prj_id)];
-        try {
-            $res = DB_Helper::getInstance()->getAll($stmt, $params);
-        } catch (DatabaseException $e) {
-            return '';
-        }
+        $res = DB_Helper::getInstance()->getAll($stmt, $params);
 
         foreach ($res as &$row) {
             $row['iat_description'] = Link_Filter::processText($prj_id, nl2br(htmlspecialchars($row['iat_description'])));
@@ -303,11 +313,13 @@ class AttachmentManager
                     iaf_filetype,
                     iaf_filesize,
                     iaf_created_date,
-                    iaf_flysystem_path,
+                    iap_flysystem_path,
                     iaf_iat_id
                  FROM
-                    `issue_attachment_file`
+                    `issue_attachment_file`,
+                    `issue_attachment_file_path`
                  WHERE
+                    iap_iaf_id = iaf_id AND
                     iaf_iat_id=?';
         try {
             $res = DB_Helper::getInstance()->getAll($stmt, [$group_id]);
@@ -378,7 +390,8 @@ class AttachmentManager
         $usr_id = Auth::getUserID();
         $group = self::getGroup($iat_id);
         if (!$group->canAccess($usr_id) ||
-            ($usr_id != $group->user_id && User::getRoleByUser($usr_id, Issue::getProjectID($group->issue_id) < User::ROLE_MANAGER))
+            ($usr_id != $group->user_id &&
+                User::getRoleByUser($usr_id, Issue::getProjectID($group->issue_id)) < User::ROLE_MANAGER)
         ) {
             return -2;
         }

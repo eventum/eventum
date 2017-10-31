@@ -28,6 +28,13 @@ use Setup;
 class StorageManager
 {
     /**
+     * Local path where to store attachments if using filesystem storage.
+     *
+     * @var string
+     */
+    const STORAGE_PATH = APP_PATH . '/var/storage/';
+
+    /**
      * @var MountManager
      */
     private $mount_manager;
@@ -50,7 +57,7 @@ class StorageManager
         $mount_config = [
             'pdo' => $this->getPdoAdapter(),
             'legacy' => new Filesystem(new EventumLegacyAdapter()),
-            'local' => new Filesystem(new Local(APP_PATH . '/var/storage/')),
+            'local' => new Filesystem(new Local(self::STORAGE_PATH)),
         ];
 
         foreach ($setup['adapters'] as $adapter_name => $adapter_config) {

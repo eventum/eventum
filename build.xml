@@ -59,8 +59,10 @@
 				<include name="**/phpstan.neon"/>
 				<include name="**/phpunit.xml*"/>
 				<include name="**/travis.ini"/>
-				<!-- traits are not used -->
+				<!-- traits are not commonly used -->
 				<include name="**/*Trait.php"/>
+				<exclude name="league/flysystem/src/ConfigAwareTrait.php"/>
+				<exclude name="league/flysystem/src/Plugin/PluggableTrait.php"/>
 			</fileset>
 
 			<!-- whole dirs -->
@@ -177,6 +179,11 @@
 
 			<fileset dir="${vendor}/phlib/flysystem-pdo">
 				<include name="schema/**"/>
+			</fileset>
+
+			<fileset dir="${vendor}/mnapoli/silly">
+				<include name="website/**"/>
+				<include name="couscous.yml"/>
 			</fileset>
 		</delete>
 	</target>

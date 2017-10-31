@@ -12,7 +12,6 @@
  */
 
 use Eventum\Attachment\AttachmentGroup;
-use Eventum\Db\DatabaseException;
 use Eventum\Event\WorkflowEvents;
 use Eventum\EventDispatcher\EventManager;
 use Eventum\Extension\ExtensionLoader;
@@ -26,32 +25,25 @@ class Workflow
      * Returns the name of the workflow backend for the specified project.
      *
      * @param   int $prj_id the id of the project to lookup
+     * @throws Exception
      * @return  string the name of the customer backend
      */
     private static function _getBackendNameByProject($prj_id)
     {
         static $backends;
 
-        if (isset($backends[$prj_id])) {
-            return $backends[$prj_id];
-        }
-
-        $stmt = 'SELECT
+        if ($backends === null) {
+            $stmt = 'SELECT
                     prj_id,
                     prj_workflow_backend
                  FROM
                     `project`
                  ORDER BY
                     prj_id';
-        try {
-            $res = DB_Helper::getInstance()->getPair($stmt);
-        } catch (DatabaseException $e) {
-            return '';
+            $backends = DB_Helper::getInstance()->getPair($stmt);
         }
 
-        $backends = $res;
-
-        return @$backends[$prj_id];
+        return isset($backends[$prj_id]) ? $backends[$prj_id] : null;
     }
 
     /**

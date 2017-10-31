@@ -11,6 +11,5 @@
  * that were distributed with this source code.
  */
 
-class TestWorkflow extends Abstract_Workflow_Backend
-{
-}
+define('APP_DEFAULT_TIMEZONE', 'UTC');
+define('APP_SITE_NAME', 'Eventum');

@@ -94,7 +94,7 @@ class Command
         $iaf_id = $file['iaf_id'];
         $filename = $file['iaf_filename'];
         $issue_id = $file['iat_iss_id'];
-        $old_path = $file['iaf_flysystem_path'];
+        $old_path = $file['iap_flysystem_path'];
         $new_path = AttachmentManager::generatePath($iaf_id, $filename, $issue_id);
         $new_path = str_replace("{$this->sm->getDefaultAdapter()}://", "{$this->target_adapter}://", $new_path);
 
@@ -104,19 +104,17 @@ class Command
         // we let it abort whole process
         $this->sm->moveFile($old_path, $new_path);
 
-        $sql
-            = 'UPDATE
-                    `issue_attachment_file`
+        $sql = 'UPDATE
+                    `issue_attachment_file_path`
                 SET
-                    iaf_flysystem_path = ?,
-                    iaf_file = NULL
+                    iap_flysystem_path = ?
                 WHERE
-                    iaf_id = ?';
+                    iap_iaf_id = ?';
         DB_Helper::getInstance()->query($sql, [$new_path, $iaf_id]);
 
         if ($this->target_adapter === 'local') {
             // try to set the timestamp on the filesystem to match what is stored in the database
-            $fs_path = str_replace('local://', APP_PATH . '/var/storage/', $new_path);
+            $fs_path = str_replace('local://', StorageManager::STORAGE_PATH, $new_path);
             $created_date = strtotime($file['iat_created_date']);
             touch($fs_path, $created_date);
         }
@@ -128,15 +126,17 @@ class Command
             = "SELECT
                 iaf_id,
                 iaf_filename,
-                iaf_flysystem_path,
+                iap_flysystem_path,
                 iat_iss_id,
                 iat_created_date
             FROM
                 `issue_attachment_file`,
+                `issue_attachment_file_path`,
                 `issue_attachment`
             WHERE
+                iap_iaf_id = iaf_id AND
                 iat_id = iaf_iat_id AND
-                iaf_flysystem_path LIKE '{$this->source_adapter}://%'
+                iap_flysystem_path LIKE '{$this->source_adapter}://%'
             ORDER BY
                 iaf_id ASC
             LIMIT {$this->chunksize}";
@@ -151,7 +151,7 @@ class Command
                 'WARNING: Migrating data has risks. ' .
                 "Make sure all your data is backed up before continuing.\n" .
 
-                "Pass '--yes' as the last argument to skip this warning " .
+                "Pass '--yes' argument to skip this warning " .
                 'and perform the migration.'
             );
         }
@@ -166,7 +166,7 @@ class Command
         if ($this->source_adapter === 'legacy') {
             $message = "You might need to run 'OPTIMIZE TABLE issue_attachment_file' " .
                 'to reclaim space from the database';
-            $this->output->writeln("<warning>$message</warning>");
+            $this->output->writeln("<error>$message</error>");
         }
     }
 }

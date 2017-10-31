@@ -47,8 +47,8 @@ class PdoAdapter extends PdoAdapterBase implements AdapterInterface
             throw new DatabaseException($e->getMessage(), $e->getCode(), $e);
         }
 
-        if (Eventum\DebugBar::hasDebugBar()) {
-            $pdo = Eventum\DebugBar::getTraceablePDO($pdo);
+        if (Eventum\DebugBarManager::hasDebugBar()) {
+            $pdo = Eventum\DebugBarManager::getTraceablePDO($pdo);
         }
 
         $this->db = $pdo;

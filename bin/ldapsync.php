@@ -1,5 +1,5 @@
+#!/usr/bin/php
 <?php
-
 /*
  * This file is part of the Eventum (Issue Tracking System) package.
  *
@@ -11,17 +11,11 @@
  * that were distributed with this source code.
  */
 
-namespace Eventum\Db;
+require_once __DIR__ . '/../init.php';
 
-use PDOException;
+use Eventum\Command\LdapSyncCommand as Command;
 
-class DatabaseException extends PDOException
-{
-    public function __construct($message = '', $code = 0, $previous = null)
-    {
-        parent::__construct($message, 0, $previous);
-
-        // PDOException code is 'HY000' in MySQL workaround
-        $this->code = $code;
-    }
-}
+$app = new Silly\Application();
+$app->command(Command::USAGE, [new Command(), 'execute']);
+$app->setDefaultCommand(Command::DEFAULT_COMMAND, true);
+$app->run();

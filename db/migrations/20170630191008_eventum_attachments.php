@@ -20,8 +20,11 @@ class EventumAttachments extends AbstractMigration
         $this->table('issue_attachment')
             ->addColumn('iat_min_role', 'integer', ['after' => 'iat_usr_id', 'length' => '1', 'signed' => false, 'null' => false, 'default' => 1])
             ->update();
-        $this->table('issue_attachment_file')
-            ->addColumn('iaf_flysystem_path', 'string', ['length' => 255, 'null' => true])
-            ->update();
+
+        $table = $this->table('issue_attachment_file_path', ['id' => false, 'primary_key' => 'iap_iaf_id'])
+            ->addColumn('iap_iaf_id', 'integer', ['limit' => self::INT_MEDIUM, 'signed' => false])
+            ->addColumn('iap_flysystem_path', 'string', ['length' => 255, 'null' => true]);
+        $this->getPrimaryKey($table)->setIdentity(true);
+        $table->create();
     }
 }

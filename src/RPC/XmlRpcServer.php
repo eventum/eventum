@@ -16,6 +16,7 @@ namespace Eventum\RPC;
 use APIAuthToken;
 use Auth;
 use AuthCookie;
+use Eventum\Monolog\Logger;
 use Exception;
 use PhpXmlRpc;
 use ReflectionClass;
@@ -35,11 +36,15 @@ class XmlRpcServer
     /** @var PhpXmlRpc\Encoder */
     protected $encoder;
 
+    /** @var \Monolog\Logger */
+    protected $logger;
+
     public function __construct($api)
     {
         $this->api = $api;
         $this->reflectionClass = new ReflectionClass($this->api);
         $this->encoder = new PhpXmlRpc\Encoder();
+        $this->logger = Logger::cli();
 
         $services = $this->getXmlRpcMethodSignatures();
         $this->server = new PhpXmlRpc\Server($services);
@@ -55,7 +60,7 @@ class XmlRpcServer
         $signatures = [];
         foreach ($this->getMethods() as $methodName => $method) {
             $tags = $this->parseBlockComment($method->getDocComment());
-            $public = isset($tags['access']) && $tags['access'][0][0] == 'public';
+            $public = isset($tags['access']) && $tags['access'][0][0] === 'public';
             $signature = $this->getSignature($tags, $public);
             $pdesc = isset($tags['param']) ? $tags['param'] : null;
             $function = $this->getFunctionDecorator($method, $public, $pdesc);
@@ -81,7 +86,7 @@ class XmlRpcServer
             if (
                 $method->isPublic() // only public
                 && !$method->isStatic() // no static
-                && substr($method->getName(), 0, 2) != '__' // no magic
+                && strpos($method->getName(), '__') !== 0 // no magic
             ) {
                 $methods[$method->getName()] = $method;
             }
@@ -105,7 +110,7 @@ class XmlRpcServer
             $line = trim($line);
             $line = preg_replace('/\s+/', ' ', $line);
 
-            if (empty($line) || $line[0] != '@') {
+            if (empty($line) || $line[0] !== '@') {
                 continue;
             }
 
@@ -226,7 +231,11 @@ class XmlRpcServer
                 $params[] = $this->encoder->decode($message->getParam($i));
             }
 
-            return $this->handle($method, $params, $public, $pdesc);
+            if ($pdesc) {
+                $this->decodeParams($params, $pdesc);
+            }
+
+            return $this->handle($method, $params, $public);
         };
 
         return $function;
@@ -236,34 +245,25 @@ class XmlRpcServer
      * @param ReflectionMethod $method
      * @param array $params Method parameters in already decoded into PHP types
      * @param bool $public true if method should not be protected with login/password
-     * @param array $pdesc Parameter descriptions
      * @return string
      */
-    private function handle($method, $params, $public, $pdesc)
+    private function handle($method, $params, $public)
     {
         try {
+            $email = null;
             if (!$public) {
                 list($email, $password) = $this->getAuthParams($params);
 
-                if (!Auth::isCorrectPassword($email, $password)
-                    && !APIAuthToken::isTokenValidForEmail(
-                        $password, $email
-                    )
-                ) {
-                    // FIXME: role is not checked here
-                    throw new RemoteApiException(
-                        "Authentication failed for $email. Your login/password/api key is invalid or you do not have the proper role."
-                    );
+                // FIXME: role is not checked here
+                if (!$this->isValidLogin($email, $password)) {
+                    throw RemoteApiException::authenticationFailed($email);
                 }
 
                 AuthCookie::setAuthCookie($email);
             }
 
-            if ($pdesc) {
-                $this->decodeParams($params, $pdesc);
-            }
-
             $res = $method->invokeArgs($this->api, $params);
+            $this->logRequest($method->name, ['params' => $params, 'email' => $email]);
         } catch (Exception $e) {
             $code = $e->getCode() ?: 1;
             $code += PhpXmlRpc\PhpXmlRpc::$xmlrpcerruser;
@@ -276,6 +276,17 @@ class XmlRpcServer
         }
 
         return $res;
+    }
+
+    /**
+     * @param string $email
+     * @param string $password
+     * @return bool
+     */
+    private function isValidLogin($email, $password)
+    {
+        return Auth::isCorrectPassword($email, $password)
+            || APIAuthToken::isTokenValidForEmail($password, $email);
     }
 
     /**
@@ -292,5 +303,20 @@ class XmlRpcServer
         }
 
         return array_splice($params, 0, 2);
+    }
+
+    /**
+     * log info about request
+     *
+     * @param string $message
+     * @param array $context
+     */
+    private function logRequest($message, $context)
+    {
+        if (isset($_SERVER['HTTP_USER_AGENT'])) {
+            $context['agent'] = $_SERVER['HTTP_USER_AGENT'];
+        }
+
+        $this->logger->info($message, $context);
     }
 }

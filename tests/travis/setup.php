@@ -11,18 +11,13 @@
  * that were distributed with this source code.
  */
 
-use Eventum\Test\TestCase;
-
-class WorkflowTestCase extends TestCase
-{
-    protected $workflow_class = 'TestWorkflow';
-
-    /**
-     * setup workflow object
-     */
-    public function setUp()
-    {
-        $classname = $this->workflow_class;
-        $this->workflow = new $classname();
-    }
-}
+return [
+  'database' => [
+    'driver' => 'mysql',
+    'hostname' => 'localhost',
+    'database' => 'e_test',
+    'username' => 'root',
+    'password' => '',
+    'port' => 3306,
+  ],
+];

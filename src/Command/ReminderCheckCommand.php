@@ -103,7 +103,7 @@ class ReminderCheckCommand
                     $message = '  - ' . ev_gettext("Adding repeated issue '%d' to the list of already triggered issues", $issue_id);
                     $this->debugMessage($message);
 
-                    $triggered_issues[] = $issue_id;
+                    $this->triggered_issues[] = $issue_id;
                 }
             }
 

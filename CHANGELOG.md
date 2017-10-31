@@ -1,8 +1,56 @@
 # Eventum Issue Tracking System
 
-## [3.3.0] - ???
+## [3.3.4]
+
+Upgrading to 3.3.x versions requires that you upgrade to 3.2.0 version first.
+Eventum 3.3.x requires PHP 5.6.
+
+- Fix current url in resolution manage (@phavel, #319)
+- Fix sending same reminder repeatedly (@phavel, #321)
+
+[3.3.4]: https://github.com/eventum/eventum/compare/v3.3.3...master
+
+## [3.3.3] - 2017-10-17
+
+Upgrading to 3.3.x versions requires that you upgrade to 3.2.0 version first.
+Eventum 3.3.x requires PHP 5.6.
+
+- Fix mail queue SMTP to use only email address (@glensc, #313, #317)
+- Auth/LDAP: add commandline script (@glensc, #315)
+- Prevent users from viewing "removed" notes (@balsdorf, #316)
+
+[3.3.3]: https://github.com/eventum/eventum/compare/v3.3.2...v3.3.3
+
+## [3.3.2] - 2017-10-11
+
+Upgrading to 3.3.x versions requires that you upgrade to 3.2.0 version first.
+Eventum 3.3.x requires PHP 5.6.
+
+- Fix error deleting attachments when deleting notes (@balsdorf, #312, #314)
+- Use `ssl=tls` for GMail (@glensc, #308, #311)
+
+[3.3.2]: https://github.com/eventum/eventum/compare/v3.3.1...v3.3.2
+
+## [3.3.1] - 2017-10-09
+
+Upgrading to 3.3.x versions requires that you upgrade to 3.2.0 version first.
+Eventum 3.3.x requires PHP 5.6.
+
+v3.3.1 fixes packaging bug present in 3.3.0 version.
+
+- Include league flysystem traits in dist tarball (@glensc, #305)
+- RPC: check that user has access to issue (@glensc, #306)
+
+[3.3.1]: https://github.com/eventum/eventum/compare/v3.3.0...v3.3.1
+
+## [3.3.0] - 2017-10-07
 
 Upgrading to 3.3.0 versions requires that you upgrade to 3.2.0 version first.
+
+The minimum supported PHP version from this version onwards is 5.6.
+
+This version adds support storing attachments in filesystem (#254).
+See [Attachments] wiki page for details.
 
 - Emit history.add events when history entry is added (@glensc, #278)
 - Fix fatal error when downloading emails from unknown sender with CRM enabled (@balsdorf)
@@ -15,8 +63,11 @@ Upgrading to 3.3.0 versions requires that you upgrade to 3.2.0 version first.
 - Add events for user creation/update (@glensc, #289)
 - Harden closeIssue access checks/validation in RPC code (@glensc, #287)
 - Drop table prefix uses from code (@glensc, #296)
+- Handle PDOException HY000 non-numeric values (@glensc, #301)
+- RPC: log actions server side, not by client (@glensc, #303)
 
-[3.3.0]: https://github.com/eventum/eventum/compare/v3.2.3...master
+[3.3.0]: https://github.com/eventum/eventum/compare/v3.2.3...v3.3.0
+[Attachments]: https://github.com/eventum/eventum/wiki/Attachments
 
 ## [3.2.3] - 2017-08-31
 

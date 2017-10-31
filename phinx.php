@@ -19,9 +19,6 @@
 
 // init minimal constants needed for some classes to work
 require_once __DIR__ . '/globals.php';
-if (file_exists(APP_CONFIG_PATH . '/config.php')) {
-    require_once APP_CONFIG_PATH . '/config.php';
-}
 $define = function ($name, $value) {
     if (defined($name)) {
         return;
@@ -29,6 +26,9 @@ $define = function ($name, $value) {
     define($name, $value);
 };
 $define('APP_LOCAL_PATH', APP_CONFIG_PATH);
+if (file_exists(APP_CONFIG_PATH . '/config.php')) {
+    require_once APP_CONFIG_PATH . '/config.php';
+}
 
 // workflow may use this in constructor
 Eventum\Monolog\Logger::initialize();
