@@ -13,7 +13,10 @@
 
 namespace Eventum\Test;
 
+use Eventum\Auth\Ldap\LdapConnection;
 use LDAP_Auth_Backend;
+use Setup;
+use Zend\Config\Config;
 
 /**
  * @group ldap
@@ -21,16 +24,38 @@ use LDAP_Auth_Backend;
 class AuthLdapTest extends TestCase
 {
     /** @var LDAP_Auth_Backend */
-    public static $ldap;
+    private $ldap;
 
-    public static function setupBeforeClass()
+    /** @var \Eventum\Auth\Ldap\LdapConnection */
+    private $connection;
+
+    /** @var Config */
+    private $config;
+
+    public function setUp()
     {
-        self::$ldap = new LDAP_Auth_Backend();
+        $this->config = Setup::get()['ldap'];
+        $this->connection = new LdapConnection($this->config);
+    }
+
+    public function testLdapAdapter()
+    {
+        $users = $this->connection->listUsers();
+        $expanded = iterator_to_array($users);
+    }
+
+    public function test2()
+    {
+        $uid = 'glen';
+        $entry = $this->connection->findUser($uid);
+        dump($entry);
     }
 
     public function testLdapSearch()
     {
-        $search = self::$ldap->getUserListing();
+        $ldap = new LDAP_Auth_Backend();
+
+        $search = $ldap->getUserListing();
         while ($entry = $search->shiftEntry()) {
             $uid = $entry->getValue('uid');
             $dn = $entry->dn();

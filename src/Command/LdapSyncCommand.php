@@ -14,6 +14,8 @@
 namespace Eventum\Command;
 
 use AuthException;
+use Eventum\Auth\Ldap\UserEntry;
+use InvalidArgumentException;
 use LDAP_Auth_Backend;
 use RuntimeException;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -56,9 +58,9 @@ class LdapSyncCommand extends BaseCommand
 
         $users = $this->findUsers($this->ldap->active_dn);
         $this->writeln('Checking active LDAP users');
-        foreach ($users as $entry) {
-            $uid = $entry->getValue('uid');
-            $dn = $entry->dn();
+        foreach ($users as $user) {
+            $uid = $user->getUid();
+            $dn = $user->getDn();
 
             // FIXME: where's adding new users part?
             // TODO: check if ldap enabled and eventum disabled activates accounts in eventum
@@ -86,9 +88,9 @@ class LdapSyncCommand extends BaseCommand
 
         $users = $this->findUsers($this->ldap->inactive_dn);
         $this->writeln('Checking inactive LDAP users');
-        foreach ($users as $entry) {
-            $uid = $entry->getValue('uid');
-            $dn = $entry->dn();
+        foreach ($users as $user) {
+            $uid = $user->getUid();
+            $dn = $user->getDn();
 
             $this->writeln("checking: $uid, $dn", self::VERY_VERBOSE);
 
@@ -97,8 +99,11 @@ class LdapSyncCommand extends BaseCommand
             // handle unmapped users
             if ($active === null) {
                 // try to find user
-                $remote = $this->ldap->getRemoteUserInfo($uid);
-                $usr_id = $this->ldap->getLocalUserId($uid, $remote['emails']);
+                $remote = $this->ldap->getLdapUser($uid);
+                if ($remote === null) {
+                    throw new InvalidArgumentException('Unexpected null');
+                }
+                $usr_id = $this->ldap->getLocalUserId($uid, $remote->getEmails());
                 // first update user to setup "external_id" mapping
                 if ($usr_id) {
                     $this->updateLocalUserFromBackend($uid);
@@ -117,22 +122,21 @@ class LdapSyncCommand extends BaseCommand
      * Find users under specified DN.
      *
      * @param string $dn
-     * @return \Generator|\Net_LDAP2_Entry[]
+     * @return \Generator|UserEntry[]
      */
     private function findUsers($dn)
     {
-        $search = $this->ldap->getUserListing($dn);
+        $users = $this->ldap->getUserListing($dn);
 
-        while ($entry = $search->shiftEntry()) {
+        foreach ($users as $user) {
             // skip entries with no email
-            $emails = $entry->get_value('mail', 'all');
-            if (!$emails) {
-                $uid = $entry->getValue('uid');
-                $this->writeln("skip (no email): $uid, $dn", self::VERBOSE);
+            if (!$user->getEmails()) {
+                $uid = $user->getUid();
+                $this->writeln("skip (no email): $uid", self::VERBOSE);
                 continue;
             }
 
-            yield $entry;
+            yield $user;
         }
     }
 
