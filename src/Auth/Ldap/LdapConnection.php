@@ -91,7 +91,7 @@ class LdapConnection
      */
     public function listUsers($dn = null)
     {
-        $filter = $this->config['user_filter'];
+        $filter = $this->getUserFilter(null);
 
         $result = $this->search($dn ?: $this->config['basedn'], $filter);
         foreach ($result as $entry) {
@@ -179,9 +179,13 @@ class LdapConnection
 
         $filter = $this->config['user_filter'] ?: '({uid_key}={username})';
 
-        $username = $this->ldap->escape($username, '', LdapInterface::ESCAPE_FILTER);
+        if ($username !== null) {
+            $username = $this->ldap->escape($username, '', LdapInterface::ESCAPE_FILTER);
+        } else {
+            $username = '*';
+        }
 
-        return str_replace(['uid_key', 'username'], [$uid_key, $username], $filter);
+        return str_replace(['{uid_key}', '{username}'], [$uid_key, $username], $filter);
     }
 
     /**

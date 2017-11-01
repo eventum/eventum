@@ -72,11 +72,11 @@ class LDAP_Auth_Backend implements Auth_Backend_Interface
     /**
      * Get all users from LDAP server.
      *
-     * @param string|null $dn
+     * @param string $dn
      * @return UserEntry[]
      * @internal Public for use by LdapSyncCommand
      */
-    public function getUserListing($dn = null)
+    public function getUserListing($dn)
     {
         return $this->ldap->listUsers($dn);
     }
