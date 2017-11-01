@@ -93,7 +93,6 @@
 		"symfony/filesystem": "^2.7 || ^3.0",
 		"symfony/http-foundation": "^2.7 || ^3.0",
 		"symfony/ldap": "^2.7 || ^3.3",
-		"symfony/security": "^2.7 || ^3.2",
 		"theorchard/monolog-cascade": "^0.5.0",
 		"willdurand/email-reply-parser": "dev-set-sig-regex",
 		"zendframework/zend-config": "2.4.*",
