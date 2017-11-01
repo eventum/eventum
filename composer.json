@@ -104,6 +104,7 @@
 	"replace": {
 		"symfony/polyfill-mbstring": "1.1.1",
 		"symfony/polyfill-php55": "1.1.1",
+		"symfony/polyfill-php56": "1.6.0",
 		"zendframework/zend-crypt": "2.4.9"
 	},
 	"require-dev": {
