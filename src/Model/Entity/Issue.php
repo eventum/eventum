@@ -72,8 +72,10 @@ class Issue
      * @param Commit $commit
      * @return Issue
      */
-    public function addCommit($commit)
+    public function addCommit(Commit $commit)
     {
+        $commit->setIssue($this);
+
         $this->commits[] = $commit;
 
         return $this;

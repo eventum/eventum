@@ -13,7 +13,9 @@
 
 namespace Eventum\Test\Scm;
 
+use Date_Helper;
 use Eventum\Extension\ExtensionManager;
+use Eventum\Model\Entity;
 use Eventum\Test\TestCase;
 use Project;
 use SCM;
@@ -29,6 +31,45 @@ class ScmTestCase extends TestCase
         // Boot ExtensionManager
         // current test touches parts that would require workflow to be called
         ExtensionManager::getManager();
+    }
+
+    /**
+     * Create commit associated to new issue
+     *
+     * @return Entity\Commit
+     */
+    protected function createCommit($scm = 'cvs')
+    {
+        $changeset = uniqid('z1', false);
+
+        $ci = (new Entity\Commit())
+            ->setScmName($scm)
+            ->setAuthorName('Au Thor')
+            ->setCommitDate(Date_Helper::getDateTime())
+            ->setChangeset($changeset)
+            ->setMessage('Mes-Sage')
+            ->addFile(
+                (new Entity\CommitFile())
+                    ->setFilename('file')
+            );
+
+        $issue = new Entity\Issue();
+        $issue->addCommit($ci);
+
+        return $ci;
+    }
+
+    protected function flushCommit(Entity\Commit $commit)
+    {
+        $em = $this->getEntityManager();
+
+        foreach ($commit->getFiles() as $file) {
+            $em->persist($file);
+        }
+        $em->persist($commit);
+        $em->persist($commit->getIssue());
+
+        $em->flush();
     }
 
     private static function setUpConfig()

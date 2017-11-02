@@ -66,42 +66,6 @@ class DoctrineTest extends TestCase
         print_r($items);
     }
 
-    /**
-     * @throws \Doctrine\ORM\OptimisticLockException
-     */
-    public function test4()
-    {
-        $em = $this->getEntityManager();
-
-        $issue_id = 1;
-        $changeset = uniqid('z1', true);
-        $ci = (new Entity\Commit())
-            ->setScmName('cvs')
-            ->setAuthorName('Au Thor')
-            ->setCommitDate(Date_Helper::getDateTime())
-            ->setChangeset($changeset)
-            ->setMessage('Mes-Sage');
-        $em->persist($ci);
-        $em->flush();
-
-        $cf = (new Entity\CommitFile())
-            ->setCommit($ci->getId())
-            ->setFilename('file');
-        $em->persist($cf);
-        $em->flush();
-
-        $isc = (new Entity\IssueCommit())
-            ->setCommitId($ci->getId())
-            ->setIssueId($issue_id);
-        $em->persist($isc);
-        $em->flush();
-
-        printf(
-            "ci: %d\ncf: %d\nisc: %d\n",
-            $ci->getId(), $cf->getId(), $isc->getId()
-        );
-    }
-
     public function testDeleteByQuery()
     {
         $issue_id = 13;

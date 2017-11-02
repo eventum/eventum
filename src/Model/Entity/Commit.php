@@ -27,35 +27,30 @@ class Commit
 
     /**
      * @var string
-     *
      * @Column(type="string", length=255, nullable=false)
      */
     protected $com_scm_name;
 
     /**
      * @var string
-     *
      * @Column(type="string", length=255, nullable=true)
      */
     protected $com_project_name;
 
     /**
      * @var string
-     *
      * @Column(type="string", length=40, nullable=false)
      */
     protected $com_changeset;
 
     /**
      * @var string
-     *
      * @Column(type="string", length=255, nullable=true)
      */
     protected $com_branch;
 
     /**
      * @var int
-     *
      * @Column(type="integer", nullable=true)
      */
     protected $com_usr_id;
@@ -69,24 +64,26 @@ class Commit
 
     /**
      * @var string
-     *
      * @Column(type="string", length=255, nullable=true)
      */
     protected $com_author_name;
 
     /**
      * @var \DateTime
-     *
      * @Column(type="datetime", nullable=false)
      */
     protected $com_commit_date;
 
     /**
      * @var string
-     *
      * @Column(type="text", length=16777215, nullable=true)
      */
     protected $com_message;
+
+    /**
+     * @var Issue
+     */
+    private $issue;
 
     /**
      * Bidirectional - One-To-Many (INVERSE SIDE)
@@ -335,11 +332,17 @@ class Commit
         return $this->com_message;
     }
 
+    /**
+     * @param CommitFile $cf
+     * @return Commit
+     */
     public function addFile(CommitFile $cf)
     {
         $cf->setCommit($this);
 
         $this->files[] = $cf;
+
+        return $this;
     }
 
     /**
@@ -348,6 +351,25 @@ class Commit
     public function getFiles()
     {
         return $this->files;
+    }
+
+    /**
+     * @return Issue
+     */
+    public function getIssue()
+    {
+        return $this->issue;
+    }
+
+    /**
+     * @param Issue $issue
+     * @return Commit
+     */
+    public function setIssue($issue)
+    {
+        $this->issue = $issue;
+
+        return $this;
     }
 
     /**
