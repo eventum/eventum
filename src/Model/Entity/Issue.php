@@ -15,14 +15,7 @@ namespace Eventum\Model\Entity;
 
 /**
  * @Entity
- * @Table(name="issue", indexes={
- *     @Index(name="iss_prj_id", columns={"iss_prj_id"}),
- *     @Index(name="iss_prc_id", columns={"iss_prc_id"}),
- *     @Index(name="iss_res_id", columns={"iss_res_id"}),
- *     @Index(name="iss_grp_id", columns={"iss_grp_id"}),
- *     @Index(name="iss_duplicated_iss_id", columns={"iss_duplicated_iss_id"}),
- *     @Index(name="ft_issue", columns={"iss_summary", "iss_description"})
- * })
+ * @Table(name="issue")
  * @Entity(repositoryClass="Eventum\Model\Repository\IssueRepository")
  */
 class Issue

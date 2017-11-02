@@ -18,6 +18,7 @@ use Eventum\Db\Doctrine;
 use Eventum\Model\Entity;
 use Eventum\Model\Repository\CommitRepository;
 use Eventum\Model\Repository\IssueCommitRepository;
+use Eventum\Model\Repository\IssueRepository;
 use Setup;
 
 /**
@@ -25,6 +26,8 @@ use Setup;
  */
 class ScmCommitTest extends ScmTestCase
 {
+    /** @var \Doctrine\ORM\EntityRepository|IssueRepository */
+    private $issueRepo;
     /** @var \Doctrine\ORM\EntityRepository|IssueCommitRepository */
     private $issueCommitRepo;
     /** @var \Doctrine\ORM\EntityRepository|CommitRepository */
@@ -34,11 +37,11 @@ class ScmCommitTest extends ScmTestCase
     private $changeset;
     private $commit_id;
     private $commit_file_id;
-    private $issue_commit_id;
 
     public function setUp()
     {
         $this->issueCommitRepo = Doctrine::getIssueCommitRepository();
+        $this->issueRepo = Doctrine::getIssueRepository();
         $this->commitRepo = Doctrine::getCommitRepository();
 
         $this->issueCommitRepo->deleteAllRelations($this->issue_id);
@@ -64,22 +67,17 @@ class ScmCommitTest extends ScmTestCase
             ->setFilename('file');
         $ci->addFile($cf);
 
-        $em->persist($ci);
-        $em->persist($cf);
-        $em->flush();
-
         $issue = new Entity\Issue();
-        $issue->setCommits();
+        $issue->addCommit($ci);
 
-        $isc = (new Entity\IssueCommit())
-            ->setCommitId($ci->getId())
-            ->setIssueId($this->issue_id);
-        $em->persist($isc);
+        $em->persist($cf);
+        $em->persist($ci);
+        $em->persist($issue);
         $em->flush();
 
+        $this->issue_id = $issue->getId();
         $this->commit_id = $ci->getId();
         $this->commit_file_id = $cf->getId();
-        $this->issue_commit_id = $isc->getId();
     }
 
     public function testGetCommit()
@@ -123,17 +121,10 @@ class ScmCommitTest extends ScmTestCase
         $this->assertNull($c);
     }
 
-    public function testFindByIssueId()
+    public function testFindCommitsByIssueId()
     {
         $issue_id = 64;
-        $c = $this->issueCommitRepo->findByIssueId($issue_id);
+        $c = $this->issueRepo->getCommits($issue_id);
         $this->assertNotEmpty($c);
-
-        foreach ($c as $ic) {
-            $commits = $ic->getCommits();
-            foreach ($commits as $commit) {
-                $commit->getUserId();
-            }
-        }
     }
 }

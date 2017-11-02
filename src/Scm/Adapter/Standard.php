@@ -14,9 +14,7 @@
 namespace Eventum\Scm\Adapter;
 
 use Eventum\Db\Doctrine;
-use Eventum\Model\Entity;
 use Eventum\Scm\Payload\StandardPayload;
-use Eventum\Scm\ScmRepository;
 use InvalidArgumentException;
 use Issue;
 use Symfony\Component\HttpFoundation\Request;
@@ -53,7 +51,7 @@ class Standard extends AbstractAdapter
         }
 
         $ci = $payload->createCommit();
-        $repo = new ScmRepository($ci->getScmName());
+        $repo = $ci->getCommitRepo();
 
         if (!$repo->branchAllowed($payload->getBranch())) {
             throw new InvalidArgumentException("Branch not allowed: {$payload->getBranch()}");
@@ -67,28 +65,14 @@ class Standard extends AbstractAdapter
         // XXX: take prj_id from first issue_id
         $prj_id = Issue::getProjectID($issues[0]);
         $cr->preCommit($prj_id, $ci, $payload);
+
+        // add commit files
+        $cr->addCommitFiles($ci, $payload->getFiles());
+        // add commits to issues
+        $cr->addIssues($ci, $issues);
+
         $em->persist($ci);
         $em->flush();
-
-        // save issue association
-        foreach ($issues as $issue_id) {
-            $ic = (new Entity\IssueCommit())
-                ->setCommitId($ci->getId())
-                ->setIssueId($issue_id);
-            $em->persist($ic);
-            $em->flush();
-
-            // print report to stdout of commits so hook could report status back to commiter
-            $details = Issue::getDetails($issue_id);
-            echo "#$issue_id - {$details['iss_summary']} ({$details['sta_title']})\n";
-        }
-
-        // save commit files
-        $cr->addCommitFiles($ci, $payload->getFiles());
-
-        foreach ($issues as $issue_id) {
-            $cr->addCommit($issue_id, $ci);
-        }
     }
 
     /*

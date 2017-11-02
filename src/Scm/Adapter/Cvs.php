@@ -16,7 +16,6 @@ namespace Eventum\Scm\Adapter;
 use Eventum\Db\Doctrine;
 use Eventum\Model\Entity;
 use Eventum\Scm\Payload\StandardPayload;
-use Eventum\Scm\ScmRepository;
 use InvalidArgumentException;
 use Issue;
 use Symfony\Component\HttpFoundation\Request;
@@ -33,7 +32,7 @@ class Cvs extends AbstractAdapter
             return false;
         }
         // require 'scm=cvs' GET parameter
-        return $this->request->query->get('scm') == 'cvs';
+        return $this->request->query->get('scm') === 'cvs';
     }
 
     /**
@@ -62,7 +61,7 @@ class Cvs extends AbstractAdapter
             // set this last, as it may need other $ci properties
             $ci->setChangeset($commitId ?: $this->generateCommitId($ci));
 
-            $repo = new ScmRepository($ci->getScmName());
+            $repo = $ci->getCommitRepo();
             if (!$repo->branchAllowed($ci->getBranch())) {
                 throw new \InvalidArgumentException("Branch not allowed: {$ci->getBranch()}");
             }
@@ -71,28 +70,15 @@ class Cvs extends AbstractAdapter
             $prj_id = Issue::getProjectID($issues[0]);
             $cr->preCommit($prj_id, $ci, $payload);
             $em->persist($ci);
-            $em->flush();
 
-            // save issue association
-            foreach ($issues as $issue_id) {
-                $c = (new Entity\IssueCommit())
-                    ->setCommitId($ci->getId())
-                    ->setIssueId($issue_id);
-                $em->persist($c);
-                $em->flush();
-
-                // print report to stdout of commits so hook could report status back to commiter
-                $details = Issue::getDetails($issue_id);
-                echo "#$issue_id - {$details['iss_summary']} ({$details['sta_title']})\n";
-            }
+            // add commits to issues
+            $cr->addIssues($ci, $issues);
         }
 
-        // save commit files
+        // add commit files
         $cr->addCommitFiles($ci, $payload->getFiles());
 
-        foreach ($issues as $issue_id) {
-            $cr->addCommit($issue_id, $ci);
-        }
+        $em->flush();
     }
 
     /**

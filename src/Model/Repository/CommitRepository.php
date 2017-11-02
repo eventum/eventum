@@ -18,6 +18,7 @@ use Eventum\Db\Doctrine;
 use Eventum\Model\Entity;
 use Eventum\Scm\Payload;
 use History;
+use InvalidArgumentException;
 use Issue;
 use Workflow;
 
@@ -54,13 +55,10 @@ class CommitRepository extends EntityRepository
     }
 
     /**
-     * Associate commit to an existing issue,
-     * additionally notifies workflow about new commit
-     *
      * @param int $issue_id the ID of the issue
      * @param Entity\Commit $commit
      */
-    public function addCommit($issue_id, Entity\Commit $commit)
+    public function notifyNewCommit($issue_id, Entity\Commit $commit)
     {
         $prj_id = Issue::getProjectID($issue_id);
 
@@ -86,7 +84,6 @@ class CommitRepository extends EntityRepository
      *
      * @param Entity\Commit $ci
      * @param array $commit
-     * @throws \Doctrine\ORM\OptimisticLockException
      */
     public function addCommitFiles(Entity\Commit $ci, $commit)
     {
@@ -94,7 +91,7 @@ class CommitRepository extends EntityRepository
 
         foreach ($commit['added'] as $filename) {
             $cf = (new Entity\CommitFile())
-                ->setCommit($ci->getId())
+                ->setCommit($ci)
                 ->setAdded(true)
                 ->setFilename($filename);
 
@@ -103,13 +100,12 @@ class CommitRepository extends EntityRepository
             }
 
             $em->persist($cf);
-            $em->flush();
             $ci->addFile($cf);
         }
 
         foreach ($commit['modified'] as $filename) {
             $cf = (new Entity\CommitFile())
-                ->setCommit($ci->getId())
+                ->setCommit($ci)
                 ->setModified(true)
                 ->setFilename($filename);
 
@@ -118,13 +114,12 @@ class CommitRepository extends EntityRepository
             }
 
             $em->persist($cf);
-            $em->flush();
             $ci->addFile($cf);
         }
 
         foreach ($commit['removed'] as $filename) {
             $cf = (new Entity\CommitFile())
-                ->setCommit($ci->getId())
+                ->setCommit($ci)
                 ->setRemoved(true)
                 ->setFilename($filename);
 
@@ -133,8 +128,36 @@ class CommitRepository extends EntityRepository
             }
 
             $em->persist($cf);
-            $em->flush();
             $ci->addFile($cf);
+        }
+    }
+
+    /**
+     * Add commit to issues. Associate commit to (several) issues.
+     *
+     * @param Entity\Commit $ci
+     * @param int[] $issues
+     */
+    public function addIssues(Entity\Commit $ci, $issues)
+    {
+        $em = Doctrine::getEntityManager();
+        $ir = Doctrine::getIssueRepository();
+
+        // add issue association
+        foreach ($issues as $issue_id) {
+            /** @var Entity\Issue $issue */
+            $issue = $ir->findOneBy(['id' => $issue_id]);
+            if (!$issue) {
+                throw new InvalidArgumentException("Invalid issue: $issue_id");
+            }
+            $issue->addCommit($ci);
+            $em->persist($issue);
+
+            $this->notifyNewCommit($issue_id, $ci);
+
+            // print report to stdout of commits so hook could report status back to commiter
+            $details = Issue::getDetails($issue_id);
+            echo "#$issue_id - {$details['iss_summary']} ({$details['sta_title']})\n";
         }
     }
 

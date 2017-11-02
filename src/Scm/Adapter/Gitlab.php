@@ -14,7 +14,6 @@
 namespace Eventum\Scm\Adapter;
 
 use Eventum\Db\Doctrine;
-use Eventum\Model\Entity;
 use Eventum\Scm\Payload\GitlabPayload;
 use Eventum\Scm\ScmRepository;
 use InvalidArgumentException;
@@ -97,24 +96,15 @@ class Gitlab extends AbstractAdapter
             $ci->setProjectName($payload->getProject());
             $ci->setBranch($branch);
             $cr->preCommit($prj_id, $ci, $payload);
-
             $em->persist($ci);
-            $em->flush();
 
             // save commit files
             $cr->addCommitFiles($ci, $commit);
-
-            // add issue relations
-            foreach ($issues as $issue_id) {
-                $ic = (new Entity\IssueCommit())
-                    ->setCommitId($ci->getId())
-                    ->setIssueId($issue_id);
-
-                $em->persist($ic);
-                $em->flush();
-                $cr->addCommit($issue_id, $ci);
-            }
+            // add commits to issues
+            $cr->addIssues($ci, $issues);
         }
+
+        $em->flush();
     }
 
     /*

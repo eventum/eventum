@@ -242,11 +242,7 @@ class Issue
                     `issue`
                  WHERE
                     iss_id=?';
-        try {
-            $res = DB_Helper::getInstance()->getOne($stmt, [$issue_id]);
-        } catch (DatabaseException $e) {
-            return '';
-        }
+        $res = DB_Helper::getInstance()->getOne($stmt, [$issue_id]);
 
         $returns[$issue_id] = $res;
 
