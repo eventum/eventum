@@ -57,7 +57,7 @@ class AppInfo
 
     private function getGitHash($version)
     {
-        // Try APP_VERSION match:
+        // Try $version match:
         // "Eventum 2.3.3-148-g78b3368"
         // "Eventum 2.4.0-pre1-285-g298325e"
         if (preg_match('/^[\d.]+(?:-[^-]+)(?:-\d+)?-g(?P<hash>[0-9a-f]+)$/', $version, $m)) {

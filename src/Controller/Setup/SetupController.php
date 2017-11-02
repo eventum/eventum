@@ -292,10 +292,6 @@ class SetupController extends BaseController
             define('APP_DEFAULT_TIMEZONE', $tz ?: 'UTC');
         }
 
-        // and APP_VERSION
-        if (!defined('APP_VERSION')) {
-            define('APP_VERSION', '3.x');
-        }
         Logger::initialize();
     }
 
