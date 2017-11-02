@@ -394,10 +394,10 @@ class ViewController extends BaseController
      */
     private function getIssueCommits($issue_id)
     {
-        $res = Doctrine::getCommitRepository()->getIssueCommits($issue_id);
+        $commit = Doctrine::getIssueRepository()->getCommits($issue_id);
 
         $checkins = [];
-        foreach ($res as $c) {
+        foreach ($commit as $c) {
             $scm = $c->getCommitRepo();
 
             $checkin = $c->toArray();

@@ -16,7 +16,6 @@ namespace Eventum\Db;
 use BadMethodCallException;
 use DB_Helper;
 use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Tools\Setup;
 use Eventum\Model\Entity;
 use Eventum\Model\Repository;
@@ -26,7 +25,7 @@ use Eventum\Model\Repository;
  * @method static Repository\CommitRepository getCommitRepository()
  * @method static Repository\IssueAssociationRepository getIssueAssociationRepository()
  * @method static Repository\IssueCommitRepository getIssueCommitRepository()
- * @method static EntityRepository getIssueRepository()
+ * @method static Repository\IssueRepository getIssueRepository()
  * @method static Repository\ProjectRepository getProjectRepository()
  */
 class Doctrine

@@ -23,6 +23,7 @@ namespace Eventum\Model\Entity;
  *     @Index(name="iss_duplicated_iss_id", columns={"iss_duplicated_iss_id"}),
  *     @Index(name="ft_issue", columns={"iss_summary", "iss_description"})
  * })
+ * @Entity(repositoryClass="Eventum\Model\Repository\IssueRepository")
  */
 class Issue
 {

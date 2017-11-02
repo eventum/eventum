@@ -151,40 +151,4 @@ class CommitRepository extends EntityRepository
             $cf->setNewVersion($versions[1]);
         }
     }
-
-    /**
-     * @param int $issue_id
-     * @return Entity\Commit[]
-     */
-    public function getIssueCommits($issue_id)
-    {
-        $repo = Doctrine::getIssueRepository();
-
-        /** @var Entity\Issue $issue */
-        $issue = $repo->findOneBy(['id' => $issue_id]);
-        if (!$issue) {
-            return [];
-        }
-
-        $commits = $issue->getCommits();
-        if (!count($commits)) {
-            return [];
-        }
-
-        $res = iterator_to_array($commits);
-
-        // order by date
-        // need userspace sort as the sort column is in commit table
-        // but we select from issue_commit table
-        $sorter = function (Entity\Commit $ca, Entity\Commit $cb) {
-            $a = $ca->getCommitDate()->getTimestamp();
-            $b = $cb->getCommitDate()->getTimestamp();
-
-            return ($a < $b) ? -1 : (($a > $b) ? 1 : 0);
-        };
-
-        uasort($res, $sorter);
-
-        return $res;
-    }
 }
