@@ -80,14 +80,13 @@ class Issue
      */
     public function addCommit($commit)
     {
-//        $commit->setI
         $this->commits[] = $commit;
 
         return $this;
     }
 
     /**
-     * @return Commit[]
+     * @return Commit[]|\Traversable
      */
     public function getCommits()
     {

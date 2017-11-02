@@ -158,31 +158,20 @@ class CommitRepository extends EntityRepository
      */
     public function getIssueCommits($issue_id)
     {
-        $em = Doctrine::getEntityManager();
-        $issueCommitRepo = Doctrine::getIssueCommitRepository();
+        $repo = Doctrine::getIssueRepository();
 
-        $ics = $issueCommitRepo->findByIssueId($issue_id);
-        if (!$ics) {
+        /** @var Entity\Issue $issue */
+        $issue = $repo->findOneBy(['id' => $issue_id]);
+        if (!$issue) {
             return [];
         }
 
-        $commitRepo = Doctrine::getCommitRepository();
-        $commitFileRepo = Doctrine::getCommitFileRepository();
-//        $res = $ics->getCommits();
-//        /*
-        // associate commits
-        $res = [];
-        foreach ($ics as $ic) {
-            $c = $ic->getCommits();
-//            $c = $commitRepo->findById($ic->getCommitId());
-            // associate files
-//            $files = $commitFileRepo->findByCommitId($c->getId()) ?: [];
-//            foreach ($files as $cf) {
-//                $c->addFile($cf);
-//            }
-            $res[] = $c;
+        $commits = $issue->getCommits();
+        if (!count($commits)) {
+            return [];
         }
-//        */
+
+        $res = iterator_to_array($commits);
 
         // order by date
         // need userspace sort as the sort column is in commit table

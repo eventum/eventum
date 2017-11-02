@@ -173,6 +173,35 @@ class DoctrineTest extends TestCase
         $this->assertInstanceOf(Entity\CommitFile::class, $file);
     }
 
+    public function testIssueAddCommit()
+    {
+        $em = Doctrine::getEntityManager();
+        $repo = $em->getRepository(Entity\Issue::class);
+
+        /** @var Entity\Issue $issue */
+        $issue = $repo->findOneBy(['id' => 64]);
+        $this->assertNotNull($issue);
+
+        $changeset = uniqid('z1', false);
+        $commit = (new Entity\Commit())
+            ->setScmName('cvs')
+            ->setAuthorName('Au Thor')
+            ->setCommitDate(Date_Helper::getDateTime())
+            ->setChangeset($changeset)
+            ->setMessage('Mes-Sage');
+
+        $cf = (new Entity\CommitFile())
+            ->setCommit($commit)
+            ->setFilename('file');
+
+        $issue->addCommit($commit);
+
+        $em->persist($cf);
+        $em->persist($commit);
+        $em->persist($issue);
+        $em->flush();
+    }
+
     public function testAddCommit()
     {
         $issue_id = 1;
