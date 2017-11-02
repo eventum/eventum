@@ -105,7 +105,7 @@ class CommitFile
     /**
      * @return Commit
      */
-    public function getCommitId()
+    public function getCommit()
     {
         return $this->commit;
     }
