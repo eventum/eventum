@@ -29,6 +29,12 @@ class Issue
     private $id;
 
     /**
+     * @var string
+     * @Column(name="iss_summary", type="string", length=128, nullable=false)
+     */
+    private $summary;
+
+    /**
      * @param int $id
      * @return Issue
      */
@@ -56,6 +62,25 @@ class Issue
      * )
      */
     private $commits;
+
+    /**
+     * @return string
+     */
+    public function getSummary()
+    {
+        return $this->summary;
+    }
+
+    /**
+     * @param string $summary
+     * @return Issue
+     */
+    public function setSummary($summary)
+    {
+        $this->summary = $summary;
+
+        return $this;
+    }
 
     /**
      * @param Commit[] $commits

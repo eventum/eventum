@@ -157,7 +157,7 @@ class CommitRepository extends EntityRepository
 
             // print report to stdout of commits so hook could report status back to commiter
             $details = Issue::getDetails($issue_id);
-            echo "#$issue_id - {$details['iss_summary']} ({$details['sta_title']})\n";
+            echo "#$issue_id - {$issue->getSummary()} ({$details['sta_title']})\n";
         }
     }
 
