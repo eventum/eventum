@@ -186,4 +186,8 @@ class UserEntry
 
         return $values[0];
     }
+
+    public function __toString() {
+        return sprintf("%s(%s)", __CLASS__, $this->getDn());
+    }
 }
