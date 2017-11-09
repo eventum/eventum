@@ -126,7 +126,6 @@ interface Auth_Backend_Interface
 
     /**
      * Called when a user logs out.
-     * @return mixed
      */
     public function logout();
 }

@@ -70,7 +70,6 @@
 		"monolog/monolog": "^1.22.0",
 		"pear-pear.php.net/mail_mimedecode": "*",
 		"pear-pear.php.net/math_stats": "*",
-		"pear-pear.php.net/net_ldap2": "~2.1",
 		"pear-pear.php.net/net_pop3": "*",
 		"pear-pear.php.net/net_url": "*",
 		"pear-pear.php.net/text_diff": "*",
@@ -90,9 +89,10 @@
 		"smarty/smarty": "~3.1.12",
 		"sphinx/php-sphinxapi": "2.0.*",
 		"symfony/console": "^3.2.0",
-		"symfony/event-dispatcher": "~2.7.0",
-		"symfony/filesystem": "~2.7.0",
-		"symfony/http-foundation": "~2.7.0",
+		"symfony/event-dispatcher": "^2.7 || ^3.0",
+		"symfony/filesystem": "^2.7 || ^3.0",
+		"symfony/http-foundation": "^2.7 || ^3.0",
+		"symfony/ldap": "^2.7 || ^3.3",
 		"theorchard/monolog-cascade": "^0.5.0",
 		"willdurand/email-reply-parser": "dev-set-sig-regex",
 		"zendframework/zend-config": "2.4.*",
@@ -102,6 +102,7 @@
 	"replace": {
 		"symfony/polyfill-mbstring": "1.1.1",
 		"symfony/polyfill-php55": "1.1.1",
+		"symfony/polyfill-php56": "1.6.0",
 		"zendframework/zend-crypt": "2.4.9"
 	},
 	"require-dev": {
@@ -128,7 +129,6 @@
 		"widernet/cmd-ctrl-enter": "~0.2.0"
 	},
 	"suggest": {
-		"ext-imap": "Support for fetching mail over IMAP/POP3",
-		"ext-ldap": "Adds support for LDAP auth backend"
+		"ext-imap": "Support for fetching mail over IMAP/POP3"
 	}
 }
