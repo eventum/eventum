@@ -158,15 +158,15 @@ class Filter
             $stmt = 'UPDATE
                         `custom_filter`
                      SET
-                        cst_iss_pri_id=?,
-                        cst_iss_sev_id=?,
+                        cst_priorities=?,
+                        cst_severities=?,
                         cst_keywords=?,
                         cst_users=?,
-                        cst_reporter=?,
-                        cst_iss_sta_id=?,
-                        cst_iss_pre_id=?,
-                        cst_iss_prc_id=?,
-                        cst_pro_id=?,
+                        cst_reporters=?,
+                        cst_statuses=?,
+                        cst_releases=?,
+                        cst_categories=?,
+                        cst_products=?,
                         cst_rows=?,
                         cst_sort_by=?,
                         cst_sort_order=?,
@@ -246,15 +246,15 @@ class Filter
                         cst_usr_id,
                         cst_prj_id,
                         cst_title,
-                        cst_iss_pri_id,
-                        cst_iss_sev_id,
+                        cst_priorities,
+                        cst_severities,
                         cst_keywords,
                         cst_users,
-                        cst_reporter,
-                        cst_iss_sta_id,
-                        cst_iss_pre_id,
-                        cst_iss_prc_id,
-                        cst_pro_id,
+                        cst_reporters,
+                        cst_statuses,
+                        cst_releases,
+                        cst_categories,
+                        cst_products,
                         cst_rows,
                         cst_sort_by,
                         cst_sort_order,
@@ -747,12 +747,12 @@ class Filter
         //      "title" => human readable title,
         //      "param" => name that appears in get, post or cookie
         $fields = [
-            'iss_pri_id' => [
+            'priorities' => [
                 'title' => ev_gettext('Priority'),
                 'param' => 'priority',
                 'quickfilter' => true,
             ],
-            'iss_sev_id' => [
+            'severities' => [
                 'title' => ev_gettext('Severity'),
                 'param' => 'severity',
                 'quickfilter' => true,
@@ -767,17 +767,17 @@ class Filter
                 'param' => 'users',
                 'quickfilter' => true,
             ],
-            'iss_prc_id' => [
+            'categories' => [
                 'title' => ev_gettext('Category'),
                 'param' => 'category',
                 'quickfilter' => true,
             ],
-            'iss_sta_id' => [
+            'statuses' => [
                 'title' => ev_gettext('Status'),
                 'param' => 'status',
                 'quickfilter' => true,
             ],
-            'iss_pre_id' => [
+            'releases' => [
                 'title' => ev_gettext('Release'),
                 'param' => 'release',
             ],
@@ -834,7 +834,7 @@ class Filter
                 'title' => ev_gettext('Search Type'),
                 'param' => 'search_type',
             ],
-            'reporter' => [
+            'reporters' => [
                 'title' => ev_gettext('Reporter'),
                 'param' => 'reporter',
             ],
@@ -842,7 +842,7 @@ class Filter
                 'title' => ev_gettext('Customer'),
                 'param' => 'customer_id',
             ],
-            'pro_id' => [
+            'products' => [
                 'title' => ev_gettext('Product'),
                 'param' => 'product',
             ],
