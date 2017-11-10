@@ -86,8 +86,8 @@ class AdvSearchController extends BaseController
 
         $this->tpl->assign([
             'cats' => Category::getAssocList($this->prj_id),
-            'priorities' => Priority::getList($this->prj_id),
-            'severities' => Severity::getList($this->prj_id),
+            'priorities' => Priority::getAssocList($this->prj_id),
+            'severities' => Severity::getAssocList($this->prj_id),
             'status' => Status::getAssocStatusList($this->prj_id),
             'users' => $assign_options,
             'releases' => Release::getAssocList($this->prj_id, true),

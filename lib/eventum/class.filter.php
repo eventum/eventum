@@ -87,6 +87,30 @@ class Filter
     public static function save()
     {
         $cst_id = self::getFilterID($_POST['title']);
+
+        // loop through multi-select fields and prepare the values
+        /**
+         * @var $priority
+         * @var $severity
+         * @var $users
+         * @var $reporter
+         * @var $category
+         * @var $status
+         * @var $release
+         * @var $product
+         */
+
+        foreach (self::getFiltersInfo() as $field => $filter) {
+            if (@$filter['is_array'] == true) {
+                $field_name = $filter['param'];
+                $value = @$_POST[$field_name];
+                if (is_array($value)) {
+                    $value = implode(',', $value);
+                }
+                $$field_name = $value;
+            }
+        }
+
         // loop through all available date fields and prepare the values for the sql query
         $date_fields = [
             'created_date',
@@ -199,15 +223,15 @@ class Filter
                      WHERE
                         cst_id=?';
             $params = [
-                @$_POST['priority'],
-                @$_POST['severity'],
+                $priority,
+                $severity,
                 $_POST['keywords'],
-                $_POST['users'],
-                $_POST['reporter'],
-                $_POST['status'],
-                @$_POST['release'],
-                @$_POST['category'],
-                @$_POST['product'],
+                $users,
+                $reporter,
+                $status,
+                $release,
+                $category,
+                $product,
                 $_POST['rows'],
                 $_POST['sort_by'],
                 $_POST['sort_order'],
@@ -295,15 +319,15 @@ class Filter
                 Auth::getUserID(),
                 Auth::getCurrentProject(),
                 $_POST['title'],
-                @$_POST['priority'],
-                @$_POST['severity'],
+                $priority,
+                $severity,
                 $_POST['keywords'],
-                $_POST['users'],
-                $_POST['reporter'],
-                $_POST['status'],
-                @$_POST['release'],
-                @$_POST['category'],
-                @$_POST['product'],
+                $users,
+                $reporter,
+                $status,
+                $release,
+                $category,
+                $product,
                 $_POST['rows'],
                 $_POST['sort_by'],
                 $_POST['sort_order'],
@@ -436,7 +460,13 @@ class Filter
         if (count($res) > 0 && $build_url == true) {
             $filter_info = self::getFiltersInfo();
             foreach ($res as &$row) {
-                $row['url'] = self::buildUrl($filter_info, self::removeCSTprefix($row));
+                $temp = self::removeCSTprefix($row);
+                foreach ($filter_info as $filter_key => $filter) {
+                    if (@$filter['is_array'] == true) {
+                        $temp[$filter_key] = explode(',', $temp[$filter_key]);
+                    }
+                }
+                $row['url'] = self::buildUrl($filter_info, $temp);
             }
         }
 
@@ -491,6 +521,10 @@ class Filter
                         }
                     }
                 }
+            } else if (@$filter['is_array'] == true) {
+                foreach ($value as $id) {
+                    $url .= $filter['param'] . '[]=' . $id . '&';
+                }
             } else {
                 if ((@$filter['is_custom'] != 1) && ($value !== null)) {
                     $url .= $filter['param'] . '=' . urlencode($value) . '&';
@@ -541,6 +575,12 @@ class Filter
             $res = DB_Helper::getInstance()->getRow($stmt, $params);
         } catch (DatabaseException $e) {
             return '';
+        }
+
+        foreach (self::getFiltersInfo() as $field => $filter) {
+            if (@$filter['is_array'] == true) {
+                $res['cst_' . $field] = explode(',', $res['cst_' . $field]);
+            }
         }
 
         if (is_string($res['cst_custom_field'])) {
@@ -671,46 +711,78 @@ class Filter
                 }
             } elseif ($filter['param'] == 'status') {
                 $statuses = Status::getAssocStatusList($prj_id);
-                $display = $statuses[$filter_details];
+                $active_statuses = [];
+                foreach ($filter_details as $status) {
+                    if ($status != '') {
+                        $active_statuses[] = $statuses[$status];
+                    }
+                }
+                $display = implode(', ', $active_statuses);
             } elseif ($filter['param'] == 'category') {
                 $categories = Category::getAssocList($prj_id);
-                if (is_array($filter_details)) {
-                    $active_categories = [];
-                    foreach ($filter_details as $category) {
+                $active_categories = [];
+                foreach ($filter_details as $category) {
+                    if ($category != '') {
                         $active_categories[] = $categories[$category];
                     }
-                    $display = implode(', ', $active_categories);
-                } else {
-                    $display = $categories[$filter_details];
                 }
+                $display = implode(', ', $active_categories);
             } elseif ($filter['param'] == 'priority') {
                 $priorities = Priority::getAssocList($prj_id);
-                $display = $priorities[$filter_details];
+                $active_priorities = [];
+                foreach ($filter_details as $priority) {
+                    if ($priority != '') {
+                        $active_priorities[] = $priorities[$priority];
+                    }
+                }
+                $display = implode(', ', $active_priorities);
             } elseif ($filter['param'] == 'severity') {
                 $severities = Severity::getAssocList($prj_id);
-                $display = $severities[$filter_details];
-            } elseif ($filter['param'] == 'users') {
-                if ($filter_details == -1) {
-                    $display = ev_gettext('un-assigned');
-                } elseif ($filter_details == -2) {
-                    $display = ev_gettext('myself and un-assigned');
-                } elseif ($filter_details == -3) {
-                    $display = ev_gettext('myself and my group');
-                } elseif ($filter_details == -4) {
-                    $display = ev_gettext('myself, un-assigned and my group');
-                } elseif (substr($filter_details, 0, 3) == 'grp') {
-                    $display = ev_gettext('%1$s Group', Group::getName(substr($filter_details, 4)));
-                } else {
-                    $display = User::getFullName($filter_details);
+                $active_severities = [];
+                foreach ($filter_details as $severity) {
+                    if ($severity != '') {
+                        $active_severities[] = $severities[$severity];
+                    }
                 }
+                $display = implode(', ', $active_severities);
+            } elseif ($filter['param'] == 'users') {
+                $active_users = [];
+                foreach ($filter_details as $user) {
+                    if ($user == -1) {
+                        $active_users[] = ev_gettext('un-assigned');
+                    } elseif ($user == -2) {
+                        $active_users[] = ev_gettext('myself and un-assigned');
+                    } elseif ($user == -3) {
+                        $active_users[] = ev_gettext('myself and my group');
+                    } elseif ($user == -4) {
+                        $active_users[] = ev_gettext('myself, un-assigned and my group');
+                    } elseif (substr($user, 0, 3) == 'grp') {
+                        $active_users[] = ev_gettext('%1$s Group', Group::getName(substr($user, 4)));
+                    } else {
+                        $active_users[] = User::getFullName($user);
+                    }
+                }
+                $display = implode(', ', $active_users);
             } elseif ($filter['param'] == 'hide_closed') {
                 if ($filter_details == true) {
                     $display = ev_gettext('Yes');
                 }
             } elseif ($filter['param'] == 'reporter') {
-                $display = User::getFullName($filter_details);
+                $active_reporters = [];
+                foreach ($filter_details as $reporter) {
+                    if ($reporter != '') {
+                        $active_reporters[] = User::getFullName($reporter);
+                    }
+                }
+                $display = implode(', ', $active_reporters);
             } elseif ($filter['param'] == 'release') {
-                $display = Release::getTitle($filter_details);
+                $active_releases = [];
+                foreach ($filter_details as $release) {
+                    if ($release != '') {
+                        $active_releases[] = Release::getTitle($release);
+                    }
+                }
+                $display = implode(', ', $active_releases);
             } elseif ($filter['param'] == 'customer_id') {
                 try {
                     $crm = CRM::getInstance($prj_id);
@@ -720,7 +792,13 @@ class Filter
                     $display = $filter_details;
                 }
             } elseif ($filter['param'] == 'product') {
-                $display = Product::getTitle($filter_details);
+                $active_products = [];
+                foreach ($filter_details as $product) {
+                    if ($product != '') {
+                        $active_products[] = Product::getTitle($product);
+                    }
+                }
+                $display = implode(', ', $active_products);
             } else {
                 $display = $filter_details;
             }
@@ -751,11 +829,13 @@ class Filter
                 'title' => ev_gettext('Priority'),
                 'param' => 'priority',
                 'quickfilter' => true,
+                'is_array' => true,
             ],
             'severities' => [
                 'title' => ev_gettext('Severity'),
                 'param' => 'severity',
                 'quickfilter' => true,
+                'is_array' => true,
             ],
             'keywords' => [
                 'title' => ev_gettext('Keyword(s)'),
@@ -766,20 +846,24 @@ class Filter
                 'title' => ev_gettext('Assigned'),
                 'param' => 'users',
                 'quickfilter' => true,
+                'is_array' => true,
             ],
             'categories' => [
                 'title' => ev_gettext('Category'),
                 'param' => 'category',
                 'quickfilter' => true,
+                'is_array' => true,
             ],
             'statuses' => [
                 'title' => ev_gettext('Status'),
                 'param' => 'status',
                 'quickfilter' => true,
+                'is_array' => true,
             ],
             'releases' => [
                 'title' => ev_gettext('Release'),
                 'param' => 'release',
+                'is_array' => true,
             ],
             'created_date' => [
                 'title' => ev_gettext('Created Date'),
@@ -837,6 +921,7 @@ class Filter
             'reporters' => [
                 'title' => ev_gettext('Reporter'),
                 'param' => 'reporter',
+                'is_array' => true,
             ],
             'customer_id' => [
                 'title' => ev_gettext('Customer'),
@@ -845,6 +930,7 @@ class Filter
             'products' => [
                 'title' => ev_gettext('Product'),
                 'param' => 'product',
+                'is_array' => true,
             ],
         ];
 
