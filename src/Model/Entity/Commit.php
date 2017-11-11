@@ -89,7 +89,7 @@ class Commit
      * Bidirectional - One-To-Many (INVERSE SIDE)
      *
      * @var CommitFile[]
-     * @OneToMany(targetEntity="Eventum\Model\Entity\CommitFile", mappedBy="commit")
+     * @OneToMany(targetEntity="Eventum\Model\Entity\CommitFile", mappedBy="commit", cascade={"persist", "remove"})
      */
     private $files;
 

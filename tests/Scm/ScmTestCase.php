@@ -64,13 +64,18 @@ class ScmTestCase extends TestCase
     {
         $em = $this->getEntityManager();
 
-        foreach ($commit->getFiles() as $file) {
-            $em->persist($file);
-        }
-        $em->persist($commit);
+        // persisting issue will cascade save of issue_commit, commit, commit_file com
         $em->persist($commit->getIssue());
-
         $em->flush();
+
+        // flush cache to ensure doctrine has to fetch from db
+        foreach ($commit->getFiles() as $file) {
+            $em->detach($file);
+        }
+        $em->detach($commit);
+        $em->detach($commit->getIssue());
+
+        return $commit;
     }
 
     private static function setUpConfig()

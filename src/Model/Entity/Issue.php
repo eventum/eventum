@@ -55,7 +55,7 @@ class Issue
 
     /**
      * @var Commit[]
-     * @ManyToMany(targetEntity="Eventum\Model\Entity\Commit")
+     * @ManyToMany(targetEntity="Eventum\Model\Entity\Commit", cascade={"persist", "remove"})
      * @JoinTable(name="issue_commit",
      *   joinColumns={@JoinColumn(name="isc_iss_id", referencedColumnName="iss_id")},
      *   inverseJoinColumns={@JoinColumn(name="isc_com_id", referencedColumnName="com_id", unique=true)}

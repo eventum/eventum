@@ -14,6 +14,7 @@
 namespace Eventum\Test\Scm;
 
 use Eventum\Db\Doctrine;
+use Eventum\Model\Entity\Commit;
 use Eventum\Model\Repository\CommitRepository;
 use Eventum\Model\Repository\IssueRepository;
 
@@ -26,21 +27,21 @@ class ScmCommitTest extends ScmTestCase
     private $issueRepo;
     /** @var \Doctrine\ORM\EntityRepository|CommitRepository */
     private $commitRepo;
+    /** @var Commit */
+    private $commit;
 
     public function setUp()
     {
         $this->issueRepo = Doctrine::getIssueRepository();
         $this->commitRepo = Doctrine::getCommitRepository();
+        $this->commit = $this->flushCommit($this->createCommit());
     }
 
     public function testFindByCommit()
     {
-        $commit = $this->createCommit();
-        $this->flushCommit($commit);
-
-        $c = $this->commitRepo->findOneByChangeset($commit->getChangeset());
+        $c = $this->commitRepo->findOneByChangeset($this->commit->getChangeset());
         $this->assertNotNull($c);
-        $this->assertEquals($commit->getChangeset(), $c->getChangeset());
+        $this->assertEquals($this->commit->getChangeset(), $c->getChangeset());
 
         $c = $this->commitRepo->findOneByChangeset('no-such-commit');
         $this->assertNull($c);
@@ -48,10 +49,7 @@ class ScmCommitTest extends ScmTestCase
 
     public function testFindCommitsByIssueId()
     {
-        $commit = $this->createCommit();
-        $this->flushCommit($commit);
-
-        $c = $this->issueRepo->getCommits($commit->getIssue()->getId());
-        $this->assertNotEmpty($c);
+        $c = $this->issueRepo->getCommits($this->commit->getIssue()->getId());
+        $this->assertNotEmpty($c, 'can find commits to issue');
     }
 }
