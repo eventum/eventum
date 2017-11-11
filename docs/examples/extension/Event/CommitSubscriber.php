@@ -47,11 +47,10 @@ class CommitSubscriber implements EventSubscriberInterface
     {
         /** @var Entity\Issue $issue */
         $issue = $event->getSubject();
-        $prj_id = 1;
 
         // XXX: complex logic figuring out what to say to IRC
         $irc_message = sprintf('commits added to #%d', $issue->getId());
 
-        Notification::notifyIRC($prj_id, $irc_message, $issue->getId());
+        Notification::notifyIRC($issue->getProjectId(), $irc_message, $issue->getId());
     }
 }
