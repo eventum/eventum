@@ -55,6 +55,7 @@ class ScmTestCase extends TestCase
 
         $issue = new Entity\Issue();
         $issue->setSummary('issue with commits');
+        $issue->setProjectId(1);
         $issue->addCommit($ci);
 
         return $ci;

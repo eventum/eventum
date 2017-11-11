@@ -29,10 +29,26 @@ class Issue
     private $id;
 
     /**
+     * @var int
+     * @Column(name="iss_prj_id", type="integer", nullable=false)
+     */
+    private $project_id;
+
+    /**
      * @var string
      * @Column(name="iss_summary", type="string", length=128, nullable=false)
      */
     private $summary;
+
+    /**
+     * @var Commit[]
+     * @ManyToMany(targetEntity="Eventum\Model\Entity\Commit", cascade={"persist", "remove"})
+     * @JoinTable(name="issue_commit",
+     *   joinColumns={@JoinColumn(name="isc_iss_id", referencedColumnName="iss_id")},
+     *   inverseJoinColumns={@JoinColumn(name="isc_com_id", referencedColumnName="com_id", unique=true)}
+     * )
+     */
+    private $commits;
 
     /**
      * @param int $id
@@ -52,16 +68,6 @@ class Issue
     {
         return $this->id;
     }
-
-    /**
-     * @var Commit[]
-     * @ManyToMany(targetEntity="Eventum\Model\Entity\Commit", cascade={"persist", "remove"})
-     * @JoinTable(name="issue_commit",
-     *   joinColumns={@JoinColumn(name="isc_iss_id", referencedColumnName="iss_id")},
-     *   inverseJoinColumns={@JoinColumn(name="isc_com_id", referencedColumnName="com_id", unique=true)}
-     * )
-     */
-    private $commits;
 
     /**
      * @return string
@@ -112,5 +118,24 @@ class Issue
     public function getCommits()
     {
         return $this->commits;
+    }
+
+    /**
+     * @param int $project_id
+     * @return Issue
+     */
+    public function setProjectId($project_id)
+    {
+        $this->project_id = $project_id;
+
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getProjectId()
+    {
+        return $this->project_id;
     }
 }
