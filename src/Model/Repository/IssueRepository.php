@@ -18,6 +18,8 @@ use Eventum\Model\Entity;
 
 class IssueRepository extends EntityRepository
 {
+    use Traits\FindByIdTrait;
+
     /**
      * @param int $issue_id
      * @return Entity\Commit[]

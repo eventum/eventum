@@ -13,25 +13,9 @@
 
 namespace Eventum\Model\Repository;
 
-use Doctrine\ORM\EntityNotFoundException;
 use Doctrine\ORM\EntityRepository;
-use Eventum\Model\Entity;
 
 class ProjectRepository extends EntityRepository
 {
-    /**
-     * @param int $id the identifier
-     * @throws EntityNotFoundException
-     * @return Entity\Project
-     */
-    public function findById($id)
-    {
-        /** @var Entity\Project $res */
-        $res = $this->find($id);
-        if (!$res) {
-            throw new EntityNotFoundException();
-        }
-
-        return $res;
-    }
+    use Traits\FindByIdTrait;
 }
