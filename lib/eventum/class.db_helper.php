@@ -16,10 +16,6 @@ use Eventum\Db\Adapter\NullAdapter;
 use Eventum\Db\DatabaseException;
 use Eventum\Monolog\Logger;
 
-/**
- * Class to manage all tasks related to the DB abstraction module. This is only
- * useful to maintain a data dictionary of the current database schema tables.
- */
 class DB_Helper
 {
     const DEFAULT_ADAPTER = 'PdoAdapter';
