@@ -71,7 +71,7 @@ class ScmPingController extends BaseController
     }
 
     /**
-     * @return \Eventum\Scm\Adapter\ScmInterface[]
+     * @return \Eventum\Scm\Adapter\AdapterInterface[]
      */
     private function getAdapters()
     {
