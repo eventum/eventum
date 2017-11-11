@@ -79,7 +79,6 @@ class DB_Helper
 
     /**
      * Get database config.
-     * load it from setup, fall back to legacy config.php constants
      *
      * @return array
      */
