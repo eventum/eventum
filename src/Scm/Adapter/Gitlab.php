@@ -75,6 +75,7 @@ class Gitlab extends AbstractAdapter
 
         $em = Doctrine::getEntityManager();
         $cr = Doctrine::getCommitRepository();
+        $ir = Doctrine::getIssueRepository();
 
         foreach ($payload->getCommits() as $commit) {
             $issues = $this->match_issues($commit['message']);
@@ -89,7 +90,8 @@ class Gitlab extends AbstractAdapter
             }
 
             // XXX: take prj_id from first issue_id
-            $prj_id = Issue::getProjectID($issues[0]);
+            $issue = $ir->findById($issues[0]);
+            $prj_id = $issue->getProjectId();
 
             $ci = $payload->createCommit($commit);
             $ci->setScmName($repo->getName());

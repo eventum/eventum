@@ -61,9 +61,12 @@ class Standard extends AbstractAdapter
 
         $em = Doctrine::getEntityManager();
         $cr = Doctrine::getCommitRepository();
+        $ir = Doctrine::getIssueRepository();
 
         // XXX: take prj_id from first issue_id
-        $prj_id = Issue::getProjectID($issues[0]);
+        $issue = $ir->findById($issues[0]);
+        $prj_id = $issue->getProjectId();
+
         $cr->preCommit($prj_id, $ci, $payload);
 
         // add commit files
