@@ -21,16 +21,19 @@ final class SystemEvents
      * Event fired when history entry is added
      *
      * @since 3.3.0
+     * @since 3.3.4 uses GenericEvent
      */
     const HISTORY_ADD = 'history.add';
 
     /**
      * @since 3.3.0
+     * @since 3.3.4 uses GenericEvent
      */
     const USER_CREATE = 'user.create';
 
     /**
      * @since 3.3.0
+     * @since 3.3.4 uses GenericEvent
      */
     const USER_UPDATE = 'user.update';
 

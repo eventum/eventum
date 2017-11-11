@@ -14,23 +14,13 @@
 namespace Eventum\Event;
 
 use InvalidArgumentException;
-use Symfony\Component\EventDispatcher\Event;
+use Symfony\Component\EventDispatcher\GenericEvent;
 
-class UnstructuredEvent extends Event
+/**
+ * @deprecated since 3.3.4 use GenericEvent instead
+ */
+class UnstructuredEvent extends GenericEvent
 {
-    /**
-     * Event parameters.
-     * Access to event parameters is controlled by magic get/set to protect access to wrong parameters.
-     *
-     * @var array
-     */
-    private $params;
-
-    public function __construct($params = [])
-    {
-        $this->params = $params;
-    }
-
     /**
      * Get all parameters
      *
@@ -38,7 +28,7 @@ class UnstructuredEvent extends Event
      */
     public function getParams()
     {
-        return $this->params;
+        return $this->getArguments();
     }
 
     /**
@@ -47,24 +37,20 @@ class UnstructuredEvent extends Event
      */
     public function __get($name)
     {
-        if (!isset($this->params[$name])) {
-            throw new InvalidArgumentException("Invalid parameter: $name");
-        }
-
-        return $this->params[$name];
+        return $this->getArgument($name);
     }
 
     public function __set($name, $value)
     {
-        if (!isset($this->params[$name])) {
+        if (!$this->hasArgument($name)) {
             throw new InvalidArgumentException("Invalid parameter: $name");
         }
 
-        $this->params[$name] = $value;
+        $this->setArgument($name, $value);
     }
 
     public function __isset($name)
     {
-        return isset($this->params[$name]);
+        return $this->hasArgument($name);
     }
 }
