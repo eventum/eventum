@@ -15,8 +15,10 @@ namespace Eventum\Db;
 
 use BadMethodCallException;
 use DB_Helper;
+use Doctrine\DBAL\Types\Type;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Tools\Setup;
+use Eventum\Db\Types\UTCDateTimeType;
 use Eventum\Model\Entity;
 use Eventum\Model\Repository;
 
@@ -57,6 +59,8 @@ class Doctrine
         ];
 
         $config = Setup::createAnnotationMetadataConfiguration($paths, $isDevMode, $proxyDir);
+
+        Type::overrideType(Type::DATETIME, UTCDateTimeType::class);
 
         // obtaining the entity manager
         $entityManager = EntityManager::create($conn, $config);
