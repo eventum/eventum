@@ -15,11 +15,14 @@ namespace Eventum\Model\Repository;
 
 use Doctrine\ORM\EntityRepository;
 use Eventum\Db\Doctrine;
+use Eventum\Event\SystemEvents;
+use Eventum\EventDispatcher\EventManager;
 use Eventum\Model\Entity;
 use Eventum\Scm\Payload;
 use History;
 use InvalidArgumentException;
 use Issue;
+use Symfony\Component\EventDispatcher\GenericEvent;
 use Workflow;
 
 class CommitRepository extends EntityRepository
@@ -43,14 +46,19 @@ class CommitRepository extends EntityRepository
     }
 
     /**
-     * Method called on Commit to allow workflow update project name/commit author or user id
+     * Method called on before storing Commit,
+     * to allow workflow update project name/commit author or user id.
      *
      * @param int $prj_id The project ID
      * @param Entity\Commit $ci
-     * @param Payload\GitlabPayload|Payload\StandardPayload $payload
+     * @param Payload\PayloadInterface $payload
+     * @since 3.3.4 dispatches SystemEvents::SCM_COMMIT_BEFORE event
      */
-    public function preCommit($prj_id, Entity\Commit $ci, $payload)
+    public function preCommit($prj_id, Entity\Commit $ci, Payload\PayloadInterface $payload)
     {
+        $event = new GenericEvent($ci, ['payload' => $payload]);
+        EventManager::dispatch(SystemEvents::SCM_COMMIT_BEFORE, $event);
+
         Workflow::preScmCommit($prj_id, $ci, $payload);
     }
 
@@ -137,6 +145,7 @@ class CommitRepository extends EntityRepository
      *
      * @param Entity\Commit $ci
      * @param int[] $issues
+     * @since 3.3.4 dispatches SystemEvents::SCM_COMMIT_ASSOCIATED event
      */
     public function addIssues(Entity\Commit $ci, $issues)
     {
@@ -154,6 +163,9 @@ class CommitRepository extends EntityRepository
             $em->persist($issue);
 
             $this->notifyNewCommit($issue_id, $ci);
+
+            $event = new GenericEvent($issue);
+            EventManager::dispatch(SystemEvents::SCM_COMMIT_ASSOCIATED, $event);
 
             // print report to stdout of commits so hook could report status back to commiter
             $details = Issue::getDetails($issue_id);

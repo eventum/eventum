@@ -13,6 +13,8 @@
 
 namespace Eventum\Event;
 
+use Eventum\Model\Repository\CommitRepository;
+
 final class SystemEvents
 {
     /**
@@ -31,4 +33,18 @@ final class SystemEvents
      * @since 3.3.0
      */
     const USER_UPDATE = 'user.update';
+
+    /**
+     * @since 3.3.4
+     * @see CommitRepository::preCommit
+     */
+    const SCM_COMMIT_BEFORE = 'scm.commit.before';
+
+    /**
+     * Commit is associated to an issue
+     *
+     * @since 3.3.4
+     * @see CommitRepository::addIssues
+     */
+    const SCM_COMMIT_ASSOCIATED = 'scm.commit.associated';
 }
