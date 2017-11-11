@@ -117,12 +117,12 @@ class DoctrineTest extends TestCase
         $em = Doctrine::getEntityManager();
         $repo = $em->getRepository(Entity\Issue::class);
 
-        $issue = $repo->findOneBy(['id' => 64]);
+        $issue = $repo->findOneBy(['id' => 135]);
         $this->assertNotNull($issue);
 
         $commitCollection = $issue->getCommits();
         $commits = iterator_to_array($commitCollection);
-        $this->assertCount(10, $commits);
+        $this->assertCount(12, $commits);
 
         /** @var Entity\Commit $commit */
         $commit = $commits[0];
@@ -130,7 +130,7 @@ class DoctrineTest extends TestCase
 
         $fileCollection = $commit->getFiles();
         $files = iterator_to_array($fileCollection);
-        $this->assertCount(2, $files);
+        $this->assertCount(1, $files);
 
         /** @var Entity\CommitFile $file */
         $file = $files[0];
@@ -190,7 +190,7 @@ class DoctrineTest extends TestCase
 
         // query for a single product matching the given name and price
         $user = $repo->findOneBy(
-            ['status' => 'active', 'parCode' => 0]
+            ['status' => 'active', 'partnerCode' => 0]
         );
 
         // query for multiple products matching the given name, ordered by price

@@ -40,7 +40,6 @@ class Doctrine
 
         // Create a simple "default" Doctrine ORM configuration for Annotations
         $isDevMode = true;
-        $proxyDir = APP_PATH . '/src/Doctrine/Proxy';
         $paths = [
             APP_PATH . '/src/Model/Entity',
         ];
@@ -58,7 +57,7 @@ class Doctrine
             'charset' => 'utf8',
         ];
 
-        $config = Setup::createAnnotationMetadataConfiguration($paths, $isDevMode, $proxyDir);
+        $config = Setup::createAnnotationMetadataConfiguration($paths, $isDevMode);
 
         Type::overrideType(Type::DATETIME, UTCDateTimeType::class);
 
