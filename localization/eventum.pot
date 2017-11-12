@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-11-12 18:04+0200\n"
+"POT-Creation-Date: 2017-11-12 18:13+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -988,7 +988,7 @@ msgid "Assignee"
 msgstr ""
 
 #: src/Controller/ViewController.php:325
-#: src/Controller/UpdateController.php:337 lib/eventum/class.project.php:1042
+#: src/Controller/UpdateController.php:342 lib/eventum/class.project.php:1042
 #: templates/include/new_form.tpl.html:113
 #: templates/manage/anonymous.tpl.html:132
 #: templates/manage/issue_auto_creation.tpl.html:114
@@ -1037,7 +1037,7 @@ msgid "Associated Emails"
 msgstr ""
 
 #: src/Controller/ViewController.php:345
-#: src/Controller/UpdateController.php:358 lib/eventum/class.project.php:1070
+#: src/Controller/UpdateController.php:363 lib/eventum/class.project.php:1070
 #: templates/include/new_form.tpl.html:202
 msgid "Associated Issues"
 msgstr ""
@@ -1099,7 +1099,7 @@ msgid "Author"
 msgstr ""
 
 #: src/Controller/ViewController.php:371
-#: src/Controller/UpdateController.php:388
+#: src/Controller/UpdateController.php:393
 #: templates/authorized_replier.tpl.html:61
 msgid "Authorized Repliers"
 msgstr ""
@@ -1311,7 +1311,7 @@ msgstr ""
 msgid "Cancel Update"
 msgstr ""
 
-#: src/Controller/UpdateController.php:131
+#: src/Controller/UpdateController.php:136
 #, php-format
 msgid "Cancelled Issue #%1$s update."
 msgstr ""
@@ -1331,7 +1331,7 @@ msgid "Categories and Statuses"
 msgstr ""
 
 #: src/Controller/ViewController.php:253
-#: src/Controller/UpdateController.php:257 lib/eventum/class.project.php:1030
+#: src/Controller/UpdateController.php:262 lib/eventum/class.project.php:1030
 #: lib/eventum/class.notification.php:615
 #: lib/eventum/class.notification.php:616
 #: lib/eventum/class.display_column.php:190 lib/eventum/class.filter.php:771
@@ -2164,7 +2164,7 @@ msgid "Duplicated by"
 msgstr ""
 
 #: src/Controller/ViewController.php:366
-#: src/Controller/UpdateController.php:383
+#: src/Controller/UpdateController.php:388
 msgid "Duplicates"
 msgstr ""
 
@@ -2729,7 +2729,7 @@ msgid "Est Dev Time"
 msgstr ""
 
 #: src/Controller/ViewController.php:358
-#: src/Controller/UpdateController.php:375 lib/eventum/class.project.php:1050
+#: src/Controller/UpdateController.php:380 lib/eventum/class.project.php:1050
 #: lib/eventum/class.notification.php:639
 #: lib/eventum/class.notification.php:640
 #: templates/include/new_form.tpl.html:230
@@ -2908,7 +2908,7 @@ msgid "Expand collapsed cell"
 msgstr ""
 
 #: src/Controller/ViewController.php:351
-#: src/Controller/UpdateController.php:366 lib/eventum/class.project.php:1054
+#: src/Controller/UpdateController.php:371 lib/eventum/class.project.php:1054
 #: lib/eventum/class.notification.php:611
 #: lib/eventum/class.notification.php:612
 #: lib/eventum/class.display_column.php:219
@@ -3103,7 +3103,7 @@ msgstr ""
 
 #: src/Controller/ViewController.php:379
 #: src/Controller/Helper/AssignHelper.php:54
-#: src/Controller/UpdateController.php:396 lib/eventum/class.project.php:1058
+#: src/Controller/UpdateController.php:401 lib/eventum/class.project.php:1058
 #: lib/eventum/class.display_column.php:173
 #: templates/include/new_form.tpl.html:133
 #: templates/notifications/updated_account.tpl.text:8
@@ -3784,7 +3784,7 @@ msgid "Last Updated"
 msgstr ""
 
 #: src/Controller/ViewController.php:340
-#: src/Controller/UpdateController.php:353 lib/eventum/class.issue.php:66
+#: src/Controller/UpdateController.php:358 lib/eventum/class.issue.php:66
 #: templates/email_drafts.tpl.html:55 templates/faq.tpl.html:33
 msgid "Last Updated Date"
 msgstr ""
@@ -4611,13 +4611,13 @@ msgid ""
 "it the new password will be then activated and sent to you."
 msgstr ""
 
-#: templates/view_form.tpl.html:30
-msgid "Note: Project automatically switched from '%1' to '%2'."
+#: src/Controller/UpdateController.php:94
+#, php-format
+msgid "Note: Project automatically switched from \"%1$s\" to \"%2$s\"."
 msgstr ""
 
-#: src/Controller/UpdateController.php:93
-#, php-format
-msgid "Note: Project automatically switched to \"%1$s\" from \"%2$s\"."
+#: templates/view_form.tpl.html:30
+msgid "Note: Project automatically switched from '%1' to '%2'."
 msgstr ""
 
 #: templates/include/new_form.tpl.html:311 templates/file_upload.tpl.html:104
@@ -4657,7 +4657,7 @@ msgid "Notes by sent date %s through %s"
 msgstr ""
 
 #: src/Controller/ViewController.php:331
-#: src/Controller/UpdateController.php:344 lib/eventum/class.support.php:1188
+#: src/Controller/UpdateController.php:349 lib/eventum/class.support.php:1188
 #: templates/send.tpl.html:231
 msgid "Notification List"
 msgstr ""
@@ -4910,7 +4910,7 @@ msgid "Percent complete"
 msgstr ""
 
 #: src/Controller/ViewController.php:306
-#: src/Controller/UpdateController.php:315
+#: src/Controller/UpdateController.php:320
 msgid "Percentage Complete"
 msgstr ""
 
@@ -5891,7 +5891,7 @@ msgid "Primary Technical Account Manager"
 msgstr ""
 
 #: src/Controller/ViewController.php:281
-#: src/Controller/UpdateController.php:289 lib/eventum/class.project.php:1034
+#: src/Controller/UpdateController.php:294 lib/eventum/class.project.php:1034
 #: lib/eventum/class.notification.php:623
 #: lib/eventum/class.notification.php:624
 #: lib/eventum/class.display_column.php:158 lib/eventum/class.filter.php:751
@@ -5934,13 +5934,13 @@ msgid "Processing issue #%d"
 msgstr ""
 
 #: src/Controller/ViewController.php:319
-#: src/Controller/UpdateController.php:327 lib/eventum/class.project.php:1066
+#: src/Controller/UpdateController.php:332 lib/eventum/class.project.php:1066
 #: lib/eventum/class.filter.php:846 templates/include/new_form.tpl.html:247
 #: templates/adv_search.tpl.html:140
 msgid "Product"
 msgstr ""
 
-#: src/Controller/UpdateController.php:331
+#: src/Controller/UpdateController.php:336
 #: templates/include/new_form.tpl.html:263
 msgid "Product Version"
 msgstr ""
@@ -6318,7 +6318,7 @@ msgid "Reported By"
 msgstr ""
 
 #: src/Controller/ViewController.php:313
-#: src/Controller/UpdateController.php:321
+#: src/Controller/UpdateController.php:326
 #: lib/eventum/class.display_column.php:167 lib/eventum/class.filter.php:838
 #: templates/help/permission_levels.tpl.html:8
 #: templates/manage/anonymous.tpl.html:94 templates/adv_search.tpl.html:119
@@ -6411,7 +6411,7 @@ msgid "Reset"
 msgstr ""
 
 #: src/Controller/ViewController.php:298
-#: src/Controller/UpdateController.php:305
+#: src/Controller/UpdateController.php:310
 #: lib/eventum/class.notification.php:635
 #: lib/eventum/class.notification.php:636 templates/close.tpl.html:38
 msgid "Resolution"
@@ -6545,7 +6545,7 @@ msgid "Saved Searches"
 msgstr ""
 
 #: src/Controller/ViewController.php:291
-#: src/Controller/UpdateController.php:298 lib/eventum/class.project.php:1046
+#: src/Controller/UpdateController.php:303 lib/eventum/class.project.php:1046
 #: templates/include/new_form.tpl.html:152
 msgid "Scheduled Release"
 msgstr ""
@@ -6676,7 +6676,7 @@ msgid "Set Message"
 msgstr ""
 
 #: src/Controller/ViewController.php:268
-#: src/Controller/UpdateController.php:271 lib/eventum/class.project.php:1038
+#: src/Controller/UpdateController.php:276 lib/eventum/class.project.php:1038
 #: lib/eventum/class.notification.php:627
 #: lib/eventum/class.notification.php:628
 #: lib/eventum/class.display_column.php:161 lib/eventum/class.filter.php:756
@@ -6800,7 +6800,7 @@ msgstr ""
 msgid "Sorry, an error happened while trying to run your query."
 msgstr ""
 
-#: src/Controller/UpdateController.php:152
+#: src/Controller/UpdateController.php:157
 msgid "Sorry, an error happened while trying to update this issue."
 msgstr ""
 
@@ -6843,7 +6843,7 @@ msgstr ""
 msgid "Sorry, you are not allowed to access this page."
 msgstr ""
 
-#: src/Controller/UpdateController.php:139
+#: src/Controller/UpdateController.php:144
 msgid "Sorry, you can't update issue if it's locked by another user"
 msgstr ""
 
@@ -6861,7 +6861,7 @@ msgstr ""
 msgid "Sorry, you do not have permission to view this page"
 msgstr ""
 
-#: src/Controller/UpdateController.php:103
+#: src/Controller/UpdateController.php:108
 msgid "Sorry, you do not have the required privileges to update this issue."
 msgstr ""
 
@@ -6928,7 +6928,7 @@ msgid "Start time in the future."
 msgstr ""
 
 #: src/Controller/ViewController.php:260
-#: src/Controller/UpdateController.php:263
+#: src/Controller/UpdateController.php:268
 #: lib/eventum/class.notification.php:631
 #: lib/eventum/class.notification.php:632
 #: lib/eventum/class.display_column.php:202 lib/eventum/class.filter.php:776
@@ -7012,7 +7012,7 @@ msgid "Submitted"
 msgstr ""
 
 #: src/Controller/ViewController.php:335
-#: src/Controller/UpdateController.php:348
+#: src/Controller/UpdateController.php:353
 msgid "Submitted Date"
 msgstr ""
 
@@ -7138,7 +7138,7 @@ msgstr ""
 msgid "Thank you, columns to display was saved successfully."
 msgstr ""
 
-#: src/Controller/UpdateController.php:156
+#: src/Controller/UpdateController.php:161
 #, php-format
 msgid "Thank you, issue #%1$s was updated successfully."
 msgstr ""
@@ -8445,7 +8445,7 @@ msgstr ""
 msgid "Update Issue"
 msgstr ""
 
-#: src/Controller/UpdateController.php:215
+#: src/Controller/UpdateController.php:220
 #, php-format
 msgid "Update Issue #%1$s"
 msgstr ""
