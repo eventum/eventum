@@ -9,7 +9,11 @@
 {if $result_msg == -1}
   {t}An error occurred while trying to run your query{/t}
 {elseif $result_msg == 1}
-  {t}Thank you, the emails were {if $smarty.post.cat == 'remove'}removed{else}restored{/if} successfully{/t}
+  {if $smarty.post.cat == 'remove'}
+    {t}Thank you, the emails were removed successfully{/t}
+  {else}
+    {t}Thank you, the emails were restored successfully{/t}
+  {/if}
 {/if}
   </span>
 </center>
