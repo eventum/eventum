@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-09-10 19:17+0300\n"
+"POT-Creation-Date: 2017-11-12 04:09+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -84,13 +84,13 @@ msgid ""
 msgstr ""
 
 #. TRANSLATORS: %1 - APP_SHORT_NAME
-#: lib/eventum/class.user.php:344
+#: lib/eventum/class.user.php:346
 #, php-format
 msgid "%s: New Account - Confirmation Required"
 msgstr ""
 
 #. TRANSLATORS: %s - APP_SHORT_NAME
-#: lib/eventum/class.user.php:376
+#: lib/eventum/class.user.php:378
 #, php-format
 msgid "%s: New Password - Confirmation Required"
 msgstr ""
@@ -166,7 +166,7 @@ msgstr ""
 msgid "(Tip: port defaults are 110 for POP3 servers and 143 for IMAP ones)"
 msgstr ""
 
-#: lib/eventum/class.template_helper.php:221
+#: lib/eventum/class.template_helper.php:183
 msgid "(archived)"
 msgstr ""
 
@@ -176,6 +176,10 @@ msgstr ""
 
 #: templates/manage/email_accounts.tpl.html:169
 msgid "(default folder is INBOX)"
+msgstr ""
+
+#: templates/manage/ldap.tpl.html:67
+msgid "(default: 389)"
 msgstr ""
 
 #: templates/manage/general.tpl.html:451 templates/manage/general.tpl.html:461
@@ -423,7 +427,7 @@ msgstr ""
 msgid "Added"
 msgstr ""
 
-#: src/Command/CheckRemindersCommand.php:103
+#: src/Command/ReminderCheckCommand.php:103
 #, php-format
 msgid "Adding repeated issue '%d' to the list of already triggered issues"
 msgstr ""
@@ -666,7 +670,7 @@ msgstr ""
 msgid "An error occurred while trying to add the new time tracking category."
 msgstr ""
 
-#: src/Controller/Manage/UsersController.php:71
+#: src/Controller/Manage/UsersController.php:75
 msgid "An error occurred while trying to add the new user."
 msgstr ""
 
@@ -868,7 +872,7 @@ msgid ""
 "information."
 msgstr ""
 
-#: src/Controller/Manage/UsersController.php:101
+#: src/Controller/Manage/UsersController.php:118
 msgid "An error occurred while trying to update the user information."
 msgstr ""
 
@@ -1060,7 +1064,7 @@ msgstr ""
 msgid "Attached Files"
 msgstr ""
 
-#: src/Attachment/Attachment.php:271
+#: src/Attachment/Attachment.php:306
 msgid "Attachment \"{filename}\" removed by {user}"
 msgstr ""
 
@@ -1196,7 +1200,7 @@ msgstr ""
 msgid "Backup Technical Account Manager"
 msgstr ""
 
-#: templates/manage/ldap.tpl.html:88
+#: templates/manage/ldap.tpl.html:70
 msgid "Base DN"
 msgstr ""
 
@@ -1220,11 +1224,11 @@ msgstr ""
 msgid "Between"
 msgstr ""
 
-#: templates/manage/ldap.tpl.html:70
+#: templates/manage/ldap.tpl.html:68
 msgid "Bind DN"
 msgstr ""
 
-#: templates/manage/ldap.tpl.html:79
+#: templates/manage/ldap.tpl.html:69
 msgid "Bind PW"
 msgstr ""
 
@@ -1580,7 +1584,7 @@ msgstr ""
 msgid "Confirm New Password"
 msgstr ""
 
-#: templates/manage/ldap.tpl.html:126
+#: templates/manage/ldap.tpl.html:74
 msgid "Contact ID attribute"
 msgstr ""
 
@@ -1716,7 +1720,7 @@ msgstr ""
 msgid "Create User and Permissions"
 msgstr ""
 
-#: templates/manage/ldap.tpl.html:135
+#: templates/manage/ldap.tpl.html:79
 msgid "Create Users"
 msgstr ""
 
@@ -1818,7 +1822,7 @@ msgstr ""
 msgid "Customer Emails"
 msgstr ""
 
-#: templates/manage/ldap.tpl.html:117
+#: templates/manage/ldap.tpl.html:73
 msgid "Customer ID attribute"
 msgstr ""
 
@@ -1872,6 +1876,14 @@ msgstr ""
 #. TRANSLATORS: Translation of Czech language in preferences dropdown
 #: localization/LINGUAS.php:10
 msgid "Czech"
+msgstr ""
+
+#: templates/manage/ldap.tpl.html:75
+msgid "DN for active users"
+msgstr ""
+
+#: templates/manage/ldap.tpl.html:76
+msgid "DN for inactive users"
 msgstr ""
 
 #. TRANSLATORS: Translation of Danish language in preferences dropdown
@@ -1966,7 +1978,7 @@ msgstr ""
 msgid "Default Priority"
 msgstr ""
 
-#: templates/manage/ldap.tpl.html:145
+#: templates/manage/ldap.tpl.html:89
 msgid "Default Roles"
 msgstr ""
 
@@ -2165,60 +2177,60 @@ msgstr ""
 msgid "E-mail about the change was sent to"
 msgstr ""
 
-#: src/Command/MonitorCommand.php:205
+#: src/Command/MonitorCommand.php:201
 #, php-format
 msgid "ERROR: Almost no free disk space left (percentage left: %.2f%%)"
 msgstr ""
 
-#: src/Command/MonitorCommand.php:124
+#: src/Command/MonitorCommand.php:120
 #, php-format
 msgid "ERROR: Could not find required table \"%s\""
 msgstr ""
 
-#: src/Command/MonitorCommand.php:281
+#: src/Command/MonitorCommand.php:277
 #, php-format
 msgid "ERROR: Directory could not be found (path: %1$s)"
 msgstr ""
 
-#: src/Command/MonitorCommand.php:289
+#: src/Command/MonitorCommand.php:285
 #, php-format
 msgid ""
 "ERROR: Directory permission mismatch (path: %1$s; current perm: %2$s; "
 "correct perm: %3$s)"
 msgstr ""
 
-#: src/Command/MonitorCommand.php:232
+#: src/Command/MonitorCommand.php:228
 #, php-format
 msgid "ERROR: File could not be found (path: %s)"
 msgstr ""
 
-#: src/Command/MonitorCommand.php:246
+#: src/Command/MonitorCommand.php:242
 #, php-format
 msgid ""
 "ERROR: File group mismatch (path: %1$s; current group: %2$s; correct group: "
 "%3$s)"
 msgstr ""
 
-#: src/Command/MonitorCommand.php:239
+#: src/Command/MonitorCommand.php:235
 #, php-format
 msgid ""
 "ERROR: File owner mismatch (path: %1$s; current owner: %2$s; correct owner: "
 "%3$s)"
 msgstr ""
 
-#: src/Command/MonitorCommand.php:255
+#: src/Command/MonitorCommand.php:251
 #, php-format
 msgid ""
 "ERROR: File permission mismatch (path: %1$s; current perm: %2$s; correct "
 "perm: %3$s)"
 msgstr ""
 
-#: src/Command/MonitorCommand.php:264
+#: src/Command/MonitorCommand.php:260
 #, php-format
 msgid "ERROR: File size mismatch (path: %1$s; current filesize: %2$s)"
 msgstr ""
 
-#: src/Command/MonitorCommand.php:213
+#: src/Command/MonitorCommand.php:209
 #, php-format
 msgid ""
 "ERROR: Free disk space left is getting very low (percentage left: %.2f%%)"
@@ -2258,21 +2270,21 @@ msgid ""
 "system administrator and ask for write privileges on the provided filename."
 msgstr ""
 
-#: src/Command/MonitorCommand.php:191
+#: src/Command/MonitorCommand.php:187
 #, php-format
 msgid "ERROR: There is a total of %d emails not associated."
 msgstr ""
 
-#: src/Command/MonitorCommand.php:155
+#: src/Command/MonitorCommand.php:151
 #, php-format
 msgid "ERROR: There is a total of %d queued emails with errors."
 msgstr ""
 
-#: src/Command/MonitorCommand.php:185
+#: src/Command/MonitorCommand.php:181
 msgid "ERROR: There was a DB error checking the mail association status"
 msgstr ""
 
-#: src/Command/MonitorCommand.php:148
+#: src/Command/MonitorCommand.php:144
 msgid "ERROR: There was a DB error checking the mail queue status"
 msgstr ""
 
@@ -2460,7 +2472,7 @@ msgstr ""
 msgid "Email by time period"
 msgstr ""
 
-#: lib/eventum/class.note.php:405 lib/eventum/class.support.php:2515
+#: lib/eventum/class.note.php:402 lib/eventum/class.support.php:2515
 msgid "Email from '{from}' blocked"
 msgstr ""
 
@@ -3191,7 +3203,7 @@ msgstr ""
 msgid "Home"
 msgstr ""
 
-#: templates/manage/ldap.tpl.html:51
+#: templates/manage/ldap.tpl.html:66
 msgid "Host"
 msgstr ""
 
@@ -3318,7 +3330,7 @@ msgstr ""
 msgid "Ignore Issue Status Changes"
 msgstr ""
 
-#: src/Command/CheckRemindersCommand.php:128
+#: src/Command/ReminderCheckCommand.php:128
 #, php-format
 msgid ""
 "Ignoring issue #%d because it was found in the list of already triggered "
@@ -3730,7 +3742,7 @@ msgstr ""
 msgid "Korean"
 msgstr ""
 
-#: templates/manage/ldap.tpl.html:46
+#: templates/manage/ldap.tpl.html:63
 msgid "LDAP Setup"
 msgstr ""
 
@@ -3783,6 +3795,14 @@ msgstr ""
 
 #: templates/manage/email_accounts.tpl.html:203
 msgid "Leave Copy of Messages On Server"
+msgstr ""
+
+#: templates/manage/ldap.tpl.html:68
+msgid "Leave empty to clear saved Bind PW"
+msgstr ""
+
+#: templates/manage/ldap.tpl.html:69
+msgid "Leave empty to keep current password"
 msgstr ""
 
 #: templates/redeem_incident.tpl.html:13
@@ -3874,7 +3894,7 @@ msgstr ""
 msgid "Mail Queue for %1)"
 msgstr ""
 
-#: src/Command/TruncateMailQueueCommand.php:29
+#: src/Command/MailQueueTruncateCommand.php:29
 #, php-format
 msgid "Mail queue truncated by %1$s."
 msgstr ""
@@ -4521,7 +4541,7 @@ msgstr ""
 msgid "No time tracking entries could be found."
 msgstr ""
 
-#: src/Command/CheckRemindersCommand.php:111
+#: src/Command/ReminderCheckCommand.php:111
 #, php-format
 msgid "No triggered issues for action '%s'"
 msgstr ""
@@ -4550,7 +4570,7 @@ msgid "Note"
 msgstr ""
 
 #. TRANSLATORS: %1: note sequence number, %2: note title
-#: src/Controller/ViewNoteController.php:94
+#: src/Controller/ViewNoteController.php:86
 #, php-format
 msgid "Note #%1$s: %2$s"
 msgstr ""
@@ -4563,19 +4583,19 @@ msgstr ""
 msgid "Note Sender Flag"
 msgstr ""
 
-#: lib/eventum/class.note.php:409
+#: lib/eventum/class.note.php:406
 msgid "Note added by {subject}"
 msgstr ""
 
-#: lib/eventum/class.note.php:638
+#: lib/eventum/class.note.php:635
 msgid "Note converted to draft (from: {from}) by {user}"
 msgstr ""
 
-#: lib/eventum/class.note.php:613
+#: lib/eventum/class.note.php:610
 msgid "Note converted to e-mail (from: {from}) by {user}"
 msgstr ""
 
-#: lib/eventum/class.note.php:473
+#: lib/eventum/class.note.php:470
 msgid "Note removed by {user}"
 msgstr ""
 
@@ -4670,7 +4690,7 @@ msgstr ""
 msgid "Number of Days"
 msgstr ""
 
-#: src/Command/MonitorCommand.php:99
+#: src/Command/MonitorCommand.php:100
 msgid "OK: No errors found"
 msgstr ""
 
@@ -4731,6 +4751,10 @@ msgstr ""
 #: templates/manage/reminder_conditions.tpl.html:117
 #: templates/manage/reminder_conditions.tpl.html:185
 msgid "Operator"
+msgstr ""
+
+#: templates/manage/ldap.tpl.html:72
+msgid "Optional filter when binding the user"
 msgstr ""
 
 #: templates/manage/custom_fields.tpl.html:400
@@ -5248,11 +5272,11 @@ msgstr ""
 msgid "Please enter the IMAP folder for this email account."
 msgstr ""
 
-#: templates/manage/ldap.tpl.html:11
+#: templates/manage/ldap.tpl.html:8
 msgid "Please enter the LDAP Host."
 msgstr ""
 
-#: templates/manage/ldap.tpl.html:17
+#: templates/manage/ldap.tpl.html:14
 msgid "Please enter the LDAP port."
 msgstr ""
 
@@ -5280,7 +5304,7 @@ msgstr ""
 msgid "Please enter the alternate username for this installation of Eventum."
 msgstr ""
 
-#: templates/manage/ldap.tpl.html:22
+#: templates/manage/ldap.tpl.html:19
 msgid "Please enter the base dn."
 msgstr ""
 
@@ -5598,7 +5622,7 @@ msgstr ""
 msgid "Please enter the updated value."
 msgstr ""
 
-#: templates/manage/ldap.tpl.html:27
+#: templates/manage/ldap.tpl.html:24
 msgid "Please enter the user dn."
 msgstr ""
 
@@ -5821,7 +5845,7 @@ msgstr ""
 
 #: templates/manage/email_accounts.tpl.html:157
 #: templates/manage/email_accounts.tpl.html:239
-#: templates/manage/general.tpl.html:267 templates/manage/ldap.tpl.html:60
+#: templates/manage/general.tpl.html:267 templates/manage/ldap.tpl.html:67
 #: templates/setup.tpl.html:438
 msgid "Port"
 msgstr ""
@@ -5897,12 +5921,12 @@ msgstr ""
 msgid "Processing Group Leader notification"
 msgstr ""
 
-#: src/Command/CheckRemindersCommand.php:85
+#: src/Command/ReminderCheckCommand.php:85
 #, php-format
 msgid "Processing Reminder Action '%s'"
 msgstr ""
 
-#: src/Command/CheckRemindersCommand.php:123
+#: src/Command/ReminderCheckCommand.php:123
 #, php-format
 msgid "Processing issue #%d"
 msgstr ""
@@ -6356,7 +6380,7 @@ msgstr ""
 #: templates/manage/faq.tpl.html:155 templates/manage/field_display.tpl.html:35
 #: templates/manage/general.tpl.html:823 templates/manage/groups.tpl.html:132
 #: templates/manage/issue_auto_creation.tpl.html:126
-#: templates/manage/ldap.tpl.html:166
+#: templates/manage/ldap.tpl.html:110
 #: templates/manage/link_filters.tpl.html:120
 #: templates/manage/monitor.tpl.html:124 templates/manage/news.tpl.html:107
 #: templates/manage/phone_categories.tpl.html:68
@@ -6749,12 +6773,12 @@ msgstr ""
 msgid "Skip Weekends"
 msgstr ""
 
-#: src/Command/CheckRemindersCommand.php:151
+#: src/Command/ReminderCheckCommand.php:151
 #, php-format
 msgid "Skipping Reminder '%s' due to weekend exclusion"
 msgstr ""
 
-#: src/Command/CheckRemindersCommand.php:90
+#: src/Command/ReminderCheckCommand.php:90
 msgid "Skipping Reminder because there were no reminder conditions found"
 msgstr ""
 
@@ -6807,8 +6831,8 @@ msgid "Sorry, there was an error updating your information"
 msgstr ""
 
 #: src/Controller/BaseController.php:73
-#: src/Controller/Manage/UsersController.php:86
-#: src/Controller/Manage/UsersController.php:125
+#: src/Controller/Manage/UsersController.php:97
+#: src/Controller/Manage/UsersController.php:141
 msgid "Sorry, you are not allowed to access this page."
 msgstr ""
 
@@ -6816,7 +6840,7 @@ msgstr ""
 msgid "Sorry, you can't update issue if it's locked by another user"
 msgstr ""
 
-#: src/Controller/Manage/UsersController.php:93
+#: src/Controller/Manage/UsersController.php:104
 msgid "Sorry, you cannot perform that action."
 msgstr ""
 
@@ -6945,7 +6969,7 @@ msgstr ""
 msgid "Status changed to '{status}' by {user} when sending an email"
 msgstr ""
 
-#: src/RPC/RemoteApi.php:1101
+#: src/RPC/RemoteApi.php:1109
 msgid "Status remotely changed to '{status}' by {user}"
 msgstr ""
 
@@ -7492,11 +7516,11 @@ msgstr ""
 msgid "Thank you, the uploaded file was associated with the issue below."
 msgstr ""
 
-#: src/Controller/Manage/UsersController.php:70
+#: src/Controller/Manage/UsersController.php:81
 msgid "Thank you, the user was added successfully."
 msgstr ""
 
-#: src/Controller/Manage/UsersController.php:100
+#: src/Controller/Manage/UsersController.php:114
 msgid "Thank you, the user was updated successfully."
 msgstr ""
 
@@ -8290,7 +8314,7 @@ msgstr ""
 msgid "Triggered Action"
 msgstr ""
 
-#: src/Command/CheckRemindersCommand.php:135
+#: src/Command/ReminderCheckCommand.php:135
 #, php-format
 msgid "Triggered Action '%s' for issue #%d"
 msgstr ""
@@ -8472,7 +8496,7 @@ msgstr ""
 #: templates/manage/anonymous.tpl.html:143
 #: templates/manage/general.tpl.html:822
 #: templates/manage/issue_auto_creation.tpl.html:125
-#: templates/manage/ldap.tpl.html:165 templates/manage/monitor.tpl.html:123
+#: templates/manage/ldap.tpl.html:109 templates/manage/monitor.tpl.html:123
 #: templates/manage/scm.tpl.html:129
 msgid "Update Setup"
 msgstr ""
@@ -8532,6 +8556,10 @@ msgstr ""
 msgid "Usage Examples"
 msgstr ""
 
+#: templates/manage/ldap.tpl.html:71
+msgid "Use %UID% to specify where the UID should be substituted."
+msgstr ""
+
 #: templates/send.tpl.html:273
 msgid "Use Canned Response"
 msgstr ""
@@ -8552,11 +8580,11 @@ msgstr ""
 msgid "User"
 msgstr ""
 
-#: templates/manage/ldap.tpl.html:97
+#: templates/manage/ldap.tpl.html:71
 msgid "User DN"
 msgstr ""
 
-#: templates/manage/ldap.tpl.html:107
+#: templates/manage/ldap.tpl.html:72
 msgid "User Filter"
 msgstr ""
 
@@ -9279,6 +9307,14 @@ msgstr ""
 #: templates/add_phone_entry.tpl.html:101
 #: templates/add_phone_entry.tpl.html:108
 msgid "last name"
+msgstr ""
+
+#: templates/manage/ldap.tpl.html:75
+msgid "ldapsync: DN to search for active users"
+msgstr ""
+
+#: templates/manage/ldap.tpl.html:76
+msgid "ldapsync: DN to search for inactive users"
 msgstr ""
 
 #: templates/manage/email_accounts.tpl.html:188
