@@ -45,11 +45,13 @@ function viewNote(id)
 <table align="center" class="bordered internal">
         <tr class="title">
           <th colspan="2">
-			{if $issue_id}
-			{t escape=no 1=$issue_id 2="{$core.rel_url}view.php?id={$issue_id}"}View Note Details (Associated with Issue <a href="%2">#%1</a>){/t}
-			{else}
             {t}View Note Details{/t}
-			{/if}
+            {if $issue_id}
+              {t escape=no
+                1=$issue_id
+                2="{$core.rel_url}view.php?id={$issue_id}"
+              }(Associated with Issue <a href="%2">#%1</a>){/t}
+            {/if}
           </th>
         </tr>
         {if $next != "" || $previous != ""}
