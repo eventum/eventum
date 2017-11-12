@@ -1,7 +1,9 @@
 # https://github.com/eventum/eventum/pull/325
 # configure .po/.pot differ
 #
-# git config --add include.path $(pwd)/gitconfig-podiff
+# invoke from shell:
+# git config --add include.path $(git rev-parse --show-toplevel)/contrib/git/gitconfig-podiff
+#
 
 # from http://stackoverflow.com/questions/2006351/gettext-po-files-under-version-control/11291001#11291001
 # more verbose than my minimal version
