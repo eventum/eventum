@@ -8,6 +8,7 @@ Eventum 3.3.x requires PHP 5.6.
 - Fix current url in resolution manage (@phavel, #319)
 - Fix sending same reminder repeatedly (@phavel, #321)
 - Use symfony/ldap for ldap connection (@glensc, #322)
+- Make `git diff`, `git log` on `*.po`/`*.pot` files less useful (@glensc, #325)
 
 [3.3.4]: https://github.com/eventum/eventum/compare/v3.3.3...master
 
