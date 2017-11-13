@@ -27,7 +27,7 @@ class Mail_Helper
     // variable to keep the Mail_mime object
     public $mime;
     // variable to keep the headers to be used in the email
-    public $headers = '';
+    public $headers = [];
     // text version of this message
     public $text_body = '';
 
