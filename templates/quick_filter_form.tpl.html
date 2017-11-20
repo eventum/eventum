@@ -26,11 +26,11 @@
         <input type="hidden" name="show_authorized_issues" value="{$options.show_authorized_issues|default:''}">
         <input type="hidden" name="show_notification_list_issues" value="{$options.show_notification_list_issues|default:''}">
         <input type="hidden" name="custom_field" value="{$options.custom_field|@serialize|urlencode}">
-        {foreach from=$options.reporter item=$reporter}
+        {foreach from=$options.reporter item=reporter}
         <input type="hidden" name="reporter[]" value="{$reporter}">
         {/foreach}
         <input type="hidden" name="customer_id" value="{$options.customer_id|default:''}">
-        {foreach from=$options.product item=$product}
+        {foreach from=$options.product item=product}
         <input type="hidden" name="product[]" value="{$product}">
         {/foreach}
         {if $categories|@count < 1}
@@ -42,12 +42,27 @@
         {if $priorities|@count < 1}
         <input type="hidden" name="priority[]" value="">
         {/if}
-        {foreach from=$options.release item=$release}
+        {foreach from=$options.release item=release}
         <input type="hidden" name="release[]" value="{$release}">
         {/foreach}
         {if $core.current_role == $core.roles.customer}
         <input type="hidden" name="users[]" value="">
         {/if}
+        {foreach from=$options.users item=user}
+        <input type="hidden" name="last_users[]" value="{$user}">
+        {/foreach}
+        {foreach from=$options.category item=category}
+        <input type="hidden" name="last_category[]" value="{$category}">
+        {/foreach}
+        {foreach from=$options.priority item=priority}
+        <input type="hidden" name="last_priority[]" value="{$priority}">
+        {/foreach}
+        {foreach from=$options.severity item=severity}
+        <input type="hidden" name="last_severity[]" value="{$severity}">
+        {/foreach}
+        {foreach from=$options.status item=status}
+        <input type="hidden" name="last_status[]" value="{$status}">
+        {/foreach}
         <tr>
             <td nowrap>
                 <span>{t}Keyword(s){/t}:</span><br />
@@ -94,43 +109,72 @@
             {if $core.current_role != $core.roles.customer}
             <td valign="top">
                 <span>{t}Assigned{/t}:</span><br />
-                <select name="users[]" multiple size="8">
+                <select name="users">
+                    {if $options.users|@count > 1}
+                    <option value="last" selected>{t}multiple selections{/t}</option>
+                    {html_options options=$assign_options}
+                    {else}
                     {html_options options=$assign_options selected=$options.users}
+                    {/if}
                 </select>
             </td>
             {/if}
             {if $categories|@count > 0}
             <td valign="top">
                 <span>{t}Category{/t}:</span><br />
-                <select name="category[]" multiple size="8">
+                <select name="category">
+                    {if $options.category|@count > 1}
+                    <option value="last" selected>{t}multiple selections{/t}</option>
+                    <option value="">{t}any{/t}</option>
+                    {html_options options=$categories}
+                    {else}
                     <option value="" {if $options.category[0] == ""}selected{/if}>{t}any{/t}</option>
                     {html_options options=$categories selected=$options.category}
+                    {/if}
                 </select>
             </td>
             {/if}
             {if $priorities|@count > 0}
             <td valign="top">
                 <span>{t}Priority{/t}:</span><br />
-                <select name="priority[]" multiple size="8">
+                <select name="priority">
+                    {if $options.priority|@count > 1}
+                    <option value="last" selected>{t}multiple selections{/t}</option>
+                    <option value="">{t}any{/t}</option>
+                    {html_options options=$priorities}
+                    {else}
                     <option value="" {if $options.priority[0] == ""}selected{/if}>{t}any{/t}</option>
                     {html_options options=$priorities selected=$options.priority}
+                    {/if}
                 </select>
             </td>
             {/if}
             {if $severities|@count > 0}
             <td valign="top">
                 <span>{t}Severity{/t}:</span><br />
-                <select name="severity[]" multiple size="8">
+                <select name="severity">
+                    {if $options.severity|@count > 1}
+                    <option value="last" selected>{t}multiple selections{/t}</option>
+                    <option value="">{t}any{/t}</option>
+                    {html_options options=$severities}
+                    {else}
                     <option value="" {if $options.severity[0] == ""}selected{/if}>{t}any{/t}</option>
                     {html_options options=$severities selected=$options.severity}
+                    {/if}
                 </select>
             </td>
             {/if}
             <td valign="top">
                 <span>{t}Status{/t}:</span><br />
-                <select name="status[]" multiple size="8">
+                <select name="status">
+                    {if $options.status|@count > 1}
+                    <option value="last" selected>{t}multiple selections{/t}</option>
+                    <option value="">{t}any{/t}</option>
+                    {html_options options=$status}
+                    {else}
                     <option value="" {if $options.status[0] == ""}selected{/if}>{t}any{/t}</option>
                     {html_options options=$status selected=$options.status}
+                    {/if}
                 </select>
             </td>
         </tr>

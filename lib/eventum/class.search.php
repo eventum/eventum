@@ -65,6 +65,9 @@ class Search
     public static function getArrayParam($name, $request_only)
     {
         $value = self::getParam($name, $request_only);
+        if ($value == 'last') {
+            $value = self::getParam('last_' . $name, $request_only);
+        }
         if (!is_array($value)) {
             $value = [$value];
         }
