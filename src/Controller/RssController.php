@@ -13,6 +13,7 @@
 
 namespace Eventum\Controller;
 
+use APIAuthToken;
 use Auth;
 use AuthCookie;
 use Filter;
@@ -125,7 +126,7 @@ class RssController extends BaseController
         }
 
         // check if the password matches
-        if (!Auth::isCorrectPassword($authUser, $authPassword)) {
+        if (!Auth::isCorrectPassword($authUser, $authPassword) && !APIAuthToken::isTokenValidForEmail($authPassword, $authUser)) {
             throw new InvalidArgumentException('The provided email address/password combo is not correct.');
         }
 
