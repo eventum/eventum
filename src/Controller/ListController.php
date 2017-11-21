@@ -202,6 +202,9 @@ class ListController extends BaseController
         $users = Project::getUserAssocList($this->prj_id, 'active', User::ROLE_CUSTOMER);
         $assign_options = $this->assign->getAssignOptions($users);
 
+        // MARIADB-CSTM: Display number of issues from other projects
+        $this->tpl->assign('other_project_issues', \MariaDB_Helper::getIssuesFromOtherProjects());
+
         $prefs = Prefs::get($this->usr_id);
         $list = Search::getListing($this->prj_id, $options, $this->pagerRow, $this->rows);
         $this->tpl->assign(
