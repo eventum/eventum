@@ -16,7 +16,7 @@ namespace Eventum\Scm\Adapter;
 use Monolog\Logger;
 use Symfony\Component\HttpFoundation\Request;
 
-interface ScmInterface
+interface AdapterInterface
 {
     public function __construct(Request $request, Logger $logger);
 

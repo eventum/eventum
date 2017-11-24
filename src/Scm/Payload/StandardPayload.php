@@ -11,13 +11,14 @@
  * that were distributed with this source code.
  */
 
-namespace Eventum\Model\Entity;
+namespace Eventum\Scm\Payload;
 
 use Date_Helper;
+use Eventum\Model\Entity\Commit;
 use Issue;
 use Symfony\Component\HttpFoundation\ParameterBag;
 
-class StdScmPayload implements ScmPayloadInterface
+class StandardPayload implements PayloadInterface
 {
     private $params;
 
@@ -72,7 +73,7 @@ class StdScmPayload implements ScmPayloadInterface
     public function createCommit()
     {
         $params = $this->params;
-        $ci = Commit::create()
+        $ci = (new Commit())
             ->setScmName($params->get('scm_name'))
             ->setProjectName($params->get('project'))
             ->setCommitDate(Date_Helper::getDateTime($params->get('commit_date')))

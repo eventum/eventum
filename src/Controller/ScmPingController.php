@@ -71,7 +71,7 @@ class ScmPingController extends BaseController
     }
 
     /**
-     * @return \Eventum\Scm\Adapter\ScmInterface[]
+     * @return \Eventum\Scm\Adapter\AdapterInterface[]
      */
     private function getAdapters()
     {
@@ -79,9 +79,9 @@ class ScmPingController extends BaseController
         $logger = Logger::app();
 
         return [
-            new Scm\Adapter\GitlabScm($request, $logger),
-            new Scm\Adapter\CvsScm($request, $logger),
-            new Scm\Adapter\StdScm($request, $logger),
+            new Scm\Adapter\Gitlab($request, $logger),
+            new Scm\Adapter\Cvs($request, $logger),
+            new Scm\Adapter\Standard($request, $logger),
         ];
     }
 

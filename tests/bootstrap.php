@@ -15,8 +15,9 @@
 // needing actual config being present.
 use Eventum\Monolog\Logger;
 
-define('APP_PATH', realpath(__DIR__ . '/..'));
+define('APP_PATH', dirname(__DIR__));
 define('APP_CONFIG_PATH', __DIR__);
+define('APP_VAR_PATH', APP_PATH . '/var');
 define('APP_SETUP_FILE', APP_CONFIG_PATH . '/_setup.php');
 // FIXME: HHVM: Warning: Constants may only evaluate to scalar values
 define('APP_ERROR_LOG', STDERR);

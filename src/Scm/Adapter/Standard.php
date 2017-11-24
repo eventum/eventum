@@ -13,8 +13,8 @@
 
 namespace Eventum\Scm\Adapter;
 
-use Eventum\Model\Entity;
-use Eventum\Model\Repository\CommitRepository;
+use Eventum\Db\Doctrine;
+use Eventum\Scm\Payload\StandardPayload;
 use InvalidArgumentException;
 use Issue;
 use Symfony\Component\HttpFoundation\Request;
@@ -22,7 +22,7 @@ use Symfony\Component\HttpFoundation\Request;
 /**
  * Standard SCM handler
  */
-class StdScm extends AbstractScmAdapter
+class Standard extends AbstractAdapter
 {
     /**
      * {@inheritdoc}
@@ -51,7 +51,7 @@ class StdScm extends AbstractScmAdapter
         }
 
         $ci = $payload->createCommit();
-        $repo = new Entity\CommitRepo($ci->getScmName());
+        $repo = $ci->getCommitRepo();
 
         if (!$repo->branchAllowed($payload->getBranch())) {
             throw new InvalidArgumentException("Branch not allowed: {$payload->getBranch()}");
@@ -59,30 +59,23 @@ class StdScm extends AbstractScmAdapter
 
         $ci->setChangeset($payload->getCommitId());
 
+        $em = Doctrine::getEntityManager();
+        $cr = Doctrine::getCommitRepository();
+        $ir = Doctrine::getIssueRepository();
+
         // XXX: take prj_id from first issue_id
-        $prj_id = Issue::getProjectID($issues[0]);
-        $cr = CommitRepository::create();
+        $issue = $ir->findById($issues[0]);
+        $prj_id = $issue->getProjectId();
+
         $cr->preCommit($prj_id, $ci, $payload);
-        $ci->save();
 
-        // save issue association
-        foreach ($issues as $issue_id) {
-            Entity\IssueCommit::create()
-                ->setCommitId($ci->getId())
-                ->setIssueId($issue_id)
-                ->save();
-
-            // print report to stdout of commits so hook could report status back to commiter
-            $details = Issue::getDetails($issue_id);
-            echo "#$issue_id - {$details['iss_summary']} ({$details['sta_title']})\n";
-        }
-
-        // save commit files
+        // add commit files
         $cr->addCommitFiles($ci, $payload->getFiles());
+        // add commits to issues
+        $cr->addIssues($ci, $issues);
 
-        foreach ($issues as $issue_id) {
-            $cr->addCommit($issue_id, $ci);
-        }
+        $em->persist($ci);
+        $em->flush();
     }
 
     /*
@@ -92,6 +85,6 @@ class StdScm extends AbstractScmAdapter
     {
         $data = json_decode($this->request->getContent(), true);
 
-        return new Entity\StdScmPayload($data);
+        return new StandardPayload($data);
     }
 }

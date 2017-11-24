@@ -68,6 +68,7 @@ class User
      *
      * @param   int $customer_contact_id The customer contact ID
      * @return  int The user ID
+     * @deprecated use UserRepository
      */
     public static function getUserIDByContactID($customer_contact_id)
     {
@@ -93,6 +94,7 @@ class User
      *
      * @param   int $customer_contact_id The customer contact ID
      * @return  string The user's email address
+     * @deprecated use UserRepository
      */
     public static function getEmailByContactID($customer_contact_id)
     {

@@ -17,7 +17,7 @@ use Issue;
 use Monolog\Logger;
 use Symfony\Component\HttpFoundation\Request;
 
-abstract class AbstractScmAdapter implements ScmInterface
+abstract class AbstractAdapter implements AdapterInterface
 {
     /** @var Request */
     protected $request;

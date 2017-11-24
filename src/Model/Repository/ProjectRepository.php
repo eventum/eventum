@@ -13,10 +13,9 @@
 
 namespace Eventum\Model\Repository;
 
-abstract class BaseRepository
+use Doctrine\ORM\EntityRepository;
+
+class ProjectRepository extends EntityRepository
 {
-    public static function create()
-    {
-        return new static();
-    }
+    use Traits\FindByIdTrait;
 }
