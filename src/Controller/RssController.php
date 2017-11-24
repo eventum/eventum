@@ -178,9 +178,9 @@ class RssController extends BaseController
         $options = [
             'users' => $filter['cst_users'],
             'keywords' => $filter['cst_keywords'],
-            'priority' => $filter['cst_iss_pri_id'],
-            'category' => $filter['cst_iss_prc_id'],
-            'status' => $filter['cst_iss_sta_id'],
+            'priority' => $filter['cst_priorities'],
+            'category' => $filter['cst_categories'],
+            'status' => $filter['cst_statuses'],
             'hide_closed' => $filter['cst_hide_closed'],
             'sort_by' => $filter['cst_sort_by'],
             'sort_order' => $filter['cst_sort_order'],
