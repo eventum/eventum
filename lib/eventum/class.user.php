@@ -1087,7 +1087,7 @@ class User
         $user['id'] = $usr_id;
         unset($user['password']);
 
-        $event = new Event\UnstructuredEvent($user);
+        $event = new Event\UnstructuredEvent(null, $user);
         EventManager::dispatch(Event\SystemEvents::USER_UPDATE, $event);
 
         return true;
@@ -1157,7 +1157,7 @@ class User
         $user['id'] = $usr_id;
         unset($user['password']);
 
-        $event = new Event\UnstructuredEvent($user);
+        $event = new Event\UnstructuredEvent(null, $user);
         EventManager::dispatch(Event\SystemEvents::USER_CREATE, $event);
 
         return $usr_id;

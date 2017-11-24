@@ -15,13 +15,12 @@ namespace Eventum\Event;
 
 use Misc;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\EventDispatcher\GenericEvent;
 
 class HistorySubscriber implements EventSubscriberInterface
 {
     /**
-     * Returns an array of event names this subscriber wants to listen to.
-     *
-     * @return array The event names to listen to
+     * {@inheritdoc}
      */
     public static function getSubscribedEvents()
     {
@@ -31,12 +30,12 @@ class HistorySubscriber implements EventSubscriberInterface
     }
 
     /**
-     * @param UnstructuredEvent $event
+     * @param GenericEvent $event
      */
-    public function historyAdded(UnstructuredEvent $event)
+    public function historyAdded(GenericEvent $event)
     {
-        $his_summary = Misc::processTokens(ev_gettext($event->his_summary), $event->his_context);
+        $his_summary = Misc::processTokens(ev_gettext($event['his_summary']), $event['his_context']);
 
-        error_log("HISTORY: #{$event->his_id}: $his_summary");
+        error_log("HISTORY: #{$event['his_id']}: $his_summary");
     }
 }

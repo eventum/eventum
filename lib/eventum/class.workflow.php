@@ -401,6 +401,7 @@ class Workflow
      * @param int $issue_id the ID of the issue
      * @param Entity\Commit $commit
      * @since 3.1.0
+     * @deprecated since 3.3.4 use SystemEvents::SCM_COMMIT_ASSOCIATED event
      */
     public static function handleScmCommit($prj_id, $issue_id, Entity\Commit $commit)
     {
@@ -419,6 +420,7 @@ class Workflow
      * @param Entity\Commit $commit
      * @param mixed $payload
      * @since 3.1.0
+     * @deprecated since 3.3.4 use SystemEvents::SCM_COMMIT_BEFORE event
      */
     public static function preScmCommit($prj_id, $commit, $payload)
     {
@@ -872,6 +874,7 @@ class Workflow
      *
      * @since 3.1.0 workflow method added
      * @since 3.2.1 dispatches WorkflowEvents::CRYPTO_DOWNGRADE event
+     * @deprecated since 3.3.4 use Extension EventSubscriber
      */
     public static function cryptoUpgradeConfig($prj_id = 1)
     {
@@ -889,6 +892,7 @@ class Workflow
      *
      * @since 3.1.0 workflow method added
      * @since 3.2.1 dispatches WorkflowEvents::CRYPTO_DOWNGRADE event
+     * @deprecated since 3.3.4 use Extension EventSubscriber
      */
     public static function cryptoDowngradeConfig($prj_id = 1)
     {
