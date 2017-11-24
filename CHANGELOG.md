@@ -4,6 +4,7 @@
 
 Upgrading to 3.4.x versions requires that you upgrade to 3.2.0 version first.
 
+- Use Doctrine as ORM for SCM and IssueAssociation (@glensc, #307)
 
 [3.4.0]: https://github.com/eventum/eventum/compare/v3.3.3...master
 
