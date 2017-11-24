@@ -18,11 +18,11 @@ class EventumCustomFilterMultiselect extends AbstractMigration
     const COLUMNS = [
         'cst_iss_pri_id' => 'cst_priorities',
         'cst_iss_sev_id' => 'cst_severities',
-        'cst_reporter'   => 'cst_reporters',
+        'cst_reporter' => 'cst_reporters',
         'cst_iss_prc_id' => 'cst_categories',
         'cst_iss_sta_id' => 'cst_statuses',
         'cst_iss_pre_id' => 'cst_releases',
-        'cst_pro_id'     => 'cst_products',
+        'cst_pro_id' => 'cst_products',
     ];
 
     public function up()

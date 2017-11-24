@@ -71,6 +71,7 @@ class Search
         if (!is_array($value)) {
             $value = [$value];
         }
+
         return $value;
     }
 

@@ -521,7 +521,7 @@ class Filter
                         }
                     }
                 }
-            } else if (@$filter['is_array'] == true) {
+            } elseif (@$filter['is_array'] == true) {
                 foreach ($value as $id) {
                     $url .= $filter['param'] . '[]=' . $id . '&';
                 }
