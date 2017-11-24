@@ -13,6 +13,9 @@
 
 use Eventum\Db\Adapter\AdapterInterface;
 use Eventum\Db\DatabaseException;
+use Eventum\Db\Doctrine;
+use Eventum\Model\Entity;
+use Eventum\Model\Repository;
 
 /**
  * Class to handle the business logic related to the administration
@@ -68,22 +71,11 @@ class Project
      *
      * @param   int $prj_id The project ID
      * @return  int The status ID
+     * @deprecated fetch project entity instead of this method
      */
     public static function getInitialStatus($prj_id)
     {
-        $stmt = 'SELECT
-                    prj_initial_sta_id
-                 FROM
-                    `project`
-                 WHERE
-                    prj_id=?';
-        try {
-            $res = DB_Helper::getInstance()->getOne($stmt, [$prj_id]);
-        } catch (DatabaseException $e) {
-            return '';
-        }
-
-        return $res;
+        return self::getRepository()->findById($prj_id)->getInitialStatusId();
     }
 
     /**
@@ -1093,5 +1085,17 @@ class Project
             ];
         }
         self::updateFieldDisplaySettings($prj_id, $settings);
+    }
+
+    /**
+     * @return Repository\ProjectRepository|\Doctrine\ORM\EntityRepository
+     */
+    protected static function getRepository()
+    {
+        static $repo;
+
+        return $repo
+            ?: $repo = Doctrine::getEntityManager()
+                ->getRepository(Entity\Project::class);
     }
 }

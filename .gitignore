@@ -64,11 +64,11 @@ Session.vim
 /tests/ldap.php
 /tests/private_key.php
 /tests/secret_key.php
-/tests/_output/*
-/tests/_support/_generated/*
-/tests/acceptance.suite.yml
-/tests/functional.suite.yml
-/tests/unit.suite.yml
+/tests/Codeception/_output/*
+/tests/Codeception/_support/_generated/*
+/tests/Codeception/acceptance.suite.yml
+/tests/Codeception/functional.suite.yml
+/tests/Codeception/unit.suite.yml
 /codeception.yml
 
 /misc/routed_emails/*

@@ -108,7 +108,7 @@ po_checkout() {
 	make -C $dir/localization touch-po
 }
 
-# setup $version and update APP_VERSION in globals.php
+# setup $version and update VERSION in AppInfo class
 update_version() {
 	version=$(git describe --tags --abbrev=8 HEAD)
 	# trim 'v' prefix

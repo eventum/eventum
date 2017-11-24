@@ -15,22 +15,38 @@ namespace Eventum\Model\Entity;
 
 /**
  * IssueAssociation
+ *
+ * @Table(name="issue_association", indexes={@Index(name="isa_issue_id", columns={"isa_issue_id", "isa_associated_id"})})
+ * @Entity(repositoryClass="Eventum\Model\Repository\IssueAssociationRepository")
  */
-class IssueAssociation extends BaseModel
+class IssueAssociation
 {
     /**
      * @var int
+     * @Column(name="isa_id", type="integer", nullable=false)
+     * @Id
+     * @GeneratedValue(strategy="IDENTITY")
      */
-    protected $isa_issue_id;
+    private $isa_id;
 
     /**
      * @var int
+     * @Column(name="isa_issue_id", type="integer", nullable=false)
      */
-    protected $isa_associated_id;
+    private $isa_issue_id;
 
-    public function setId($id)
+    /**
+     * @var int
+     * @Column(name="isa_associated_id", type="integer", nullable=false)
+     */
+    private $isa_associated_id;
+
+    /**
+     * @return int
+     */
+    public function getId()
     {
-        // method ignored, needed for BaseModel save
+        return $this->isa_id;
     }
 
     /**
@@ -77,26 +93,5 @@ class IssueAssociation extends BaseModel
     public function getAssociatedId()
     {
         return $this->isa_associated_id;
-    }
-
-    /**
-     * @param int $issue_id
-     * @return $this[]
-     */
-    public function findByIssueId($issue_id)
-    {
-        $where = ['isa_issue_id' => $issue_id, 'isa_associated_id' => $issue_id];
-
-        return $this->findAllByConditions($where, null, null, $conditionJoin = ' OR ');
-    }
-
-    public function removeAssociation($issue_id, $associated_id)
-    {
-        $query = '(isa_issue_id = ? AND isa_associated_id = ?) OR (isa_issue_id = ? AND isa_associated_id = ?)';
-        $params = [
-            $issue_id, $associated_id,
-            $associated_id, $issue_id,
-        ];
-        $this->deleteByQuery($query, $params);
     }
 }

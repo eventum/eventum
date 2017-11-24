@@ -13,6 +13,7 @@
 
 namespace Eventum\Controller;
 
+use APIAuthToken;
 use Auth;
 use AuthCookie;
 use Filter;
@@ -125,7 +126,7 @@ class RssController extends BaseController
         }
 
         // check if the password matches
-        if (!Auth::isCorrectPassword($authUser, $authPassword)) {
+        if (!Auth::isCorrectPassword($authUser, $authPassword) && !APIAuthToken::isTokenValidForEmail($authPassword, $authUser)) {
             throw new InvalidArgumentException('The provided email address/password combo is not correct.');
         }
 
@@ -177,9 +178,9 @@ class RssController extends BaseController
         $options = [
             'users' => $filter['cst_users'],
             'keywords' => $filter['cst_keywords'],
-            'priority' => $filter['cst_iss_pri_id'],
-            'category' => $filter['cst_iss_prc_id'],
-            'status' => $filter['cst_iss_sta_id'],
+            'priority' => $filter['cst_priorities'],
+            'category' => $filter['cst_categories'],
+            'status' => $filter['cst_statuses'],
             'hide_closed' => $filter['cst_hide_closed'],
             'sort_by' => $filter['cst_sort_by'],
             'sort_order' => $filter['cst_sort_order'],

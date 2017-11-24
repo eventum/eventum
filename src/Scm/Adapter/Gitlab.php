@@ -13,8 +13,9 @@
 
 namespace Eventum\Scm\Adapter;
 
-use Eventum\Model\Entity;
-use Eventum\Model\Repository\CommitRepository;
+use Eventum\Db\Doctrine;
+use Eventum\Scm\Payload\GitlabPayload;
+use Eventum\Scm\ScmRepository;
 use InvalidArgumentException;
 use Issue;
 use Symfony\Component\HttpFoundation\Request;
@@ -24,7 +25,7 @@ use Symfony\Component\HttpFoundation\Request;
  *
  * @see http://doc.gitlab.com/ce/web_hooks/web_hooks.html
  */
-class GitlabScm extends AbstractScmAdapter
+class Gitlab extends AbstractAdapter
 {
     const GITLAB_HEADER = 'X-Gitlab-Event';
 
@@ -61,18 +62,21 @@ class GitlabScm extends AbstractScmAdapter
     /**
      * Walk over commit messages and match issue ids
      *
-     * @param Entity\GitlabScmPayload $payload
+     * @param GitlabPayload $payload
      * @throws InvalidArgumentException
      */
-    private function processPushHook(Entity\GitlabScmPayload $payload)
+    private function processPushHook(GitlabPayload $payload)
     {
         $repo_url = $payload->getRepoUrl();
-        $repo = Entity\CommitRepo::getRepoByUrl($repo_url);
+        $repo = ScmRepository::getRepoByUrl($repo_url);
         if (!$repo) {
             throw new InvalidArgumentException("SCM repo not identified from {$repo_url}");
         }
 
-        $cr = CommitRepository::create();
+        $em = Doctrine::getEntityManager();
+        $cr = Doctrine::getCommitRepository();
+        $ir = Doctrine::getIssueRepository();
+
         foreach ($payload->getCommits() as $commit) {
             $issues = $this->match_issues($commit['message']);
             if (!$issues) {
@@ -86,27 +90,23 @@ class GitlabScm extends AbstractScmAdapter
             }
 
             // XXX: take prj_id from first issue_id
-            $prj_id = Issue::getProjectID($issues[0]);
+            $issue = $ir->findById($issues[0]);
+            $prj_id = $issue->getProjectId();
 
             $ci = $payload->createCommit($commit);
             $ci->setScmName($repo->getName());
             $ci->setProjectName($payload->getProject());
             $ci->setBranch($branch);
             $cr->preCommit($prj_id, $ci, $payload);
-            $ci->save();
+            $em->persist($ci);
 
             // save commit files
             $cr->addCommitFiles($ci, $commit);
-
-            // add issue relations
-            foreach ($issues as $issue_id) {
-                Entity\IssueCommit::create()
-                    ->setCommitId($ci->getId())
-                    ->setIssueId($issue_id)
-                    ->save();
-                $cr->addCommit($issue_id, $ci);
-            }
+            // add commits to issues
+            $cr->addIssues($ci, $issues);
         }
+
+        $em->flush();
     }
 
     /*
@@ -116,6 +116,6 @@ class GitlabScm extends AbstractScmAdapter
     {
         $data = json_decode($this->request->getContent(), true);
 
-        return new Entity\GitlabScmPayload($data);
+        return new GitlabPayload($data);
     }
 }

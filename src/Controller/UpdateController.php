@@ -90,7 +90,13 @@ class UpdateController extends BaseController
         $iss_prj_id = Issue::getProjectID($this->issue_id);
         if ($iss_prj_id && $iss_prj_id != $this->prj_id && in_array($iss_prj_id, $associated_projects)) {
             AuthCookie::setProjectCookie($iss_prj_id);
-            $this->messages->addInfoMessage(ev_gettext('Note: Project automatically switched to "%1$s" from "%2$s".', Project::getName($iss_prj_id), Project::getName($this->prj_id)));
+            // XXX the same logic also present in view_form template
+            $message = ev_gettext(
+                'Note: Project automatically switched from "%1$s" to "%2$s".',
+                Project::getName($this->prj_id),
+                Project::getName($iss_prj_id)
+            );
+            $this->messages->addInfoMessage($message);
             $this->prj_id = $iss_prj_id;
         }
 
@@ -134,7 +140,7 @@ class UpdateController extends BaseController
             $this->redirect(APP_RELATIVE_URL . 'view.php?id=' . $this->issue_id);
         }
 
-        if ($this->cat == 'update') {
+        if ($this->cat === 'update') {
             if ($issue_lock) {
                 $this->error(ev_gettext("Sorry, you can't update issue if it's locked by another user"));
             }

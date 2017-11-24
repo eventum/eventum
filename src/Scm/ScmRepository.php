@@ -11,15 +11,14 @@
  * that were distributed with this source code.
  */
 
-namespace Eventum\Model\Entity;
+namespace Eventum\Scm;
 
+use Eventum\Model\Entity\Commit;
+use Eventum\Model\Entity\CommitFile;
 use InvalidArgumentException;
 use Setup;
 
-/**
- * Class Eventum\Model\Entity\CommitRepo
- */
-class CommitRepo
+class ScmRepository
 {
     /** @var array */
     private $config;
@@ -53,7 +52,7 @@ class CommitRepo
      * Walk over all configured scm to find one by matching url.
      *
      * @param string $repo_url
-     * @return CommitRepo
+     * @return ScmRepository
      */
     public static function getRepoByUrl($repo_url)
     {

@@ -16,7 +16,7 @@ namespace Eventum;
 class AppInfo
 {
     const URL = 'https://github.com/eventum/eventum';
-    const VERSION = '3.3.4-dev';
+    const VERSION = '3.4.0-dev';
 
     /** @var string */
     private $version;
@@ -57,7 +57,7 @@ class AppInfo
 
     private function getGitHash($version)
     {
-        // Try APP_VERSION match:
+        // Try $version match:
         // "Eventum 2.3.3-148-g78b3368"
         // "Eventum 2.4.0-pre1-285-g298325e"
         if (preg_match('/^[\d.]+(?:-[^-]+)(?:-\d+)?-g(?P<hash>[0-9a-f]+)$/', $version, $m)) {

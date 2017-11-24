@@ -13,13 +13,14 @@
 
 namespace Eventum\Scm\Adapter;
 
+use Eventum\Db\Doctrine;
 use Eventum\Model\Entity;
-use Eventum\Model\Repository\CommitRepository;
+use Eventum\Scm\Payload\StandardPayload;
 use InvalidArgumentException;
 use Issue;
 use Symfony\Component\HttpFoundation\Request;
 
-class CvsScm extends AbstractScmAdapter
+class Cvs extends AbstractAdapter
 {
     /**
      * {@inheritdoc}
@@ -31,7 +32,7 @@ class CvsScm extends AbstractScmAdapter
             return false;
         }
         // require 'scm=cvs' GET parameter
-        return $this->request->query->get('scm') == 'cvs';
+        return $this->request->query->get('scm') === 'cvs';
     }
 
     /**
@@ -46,10 +47,11 @@ class CvsScm extends AbstractScmAdapter
             throw new InvalidArgumentException('No issues provided');
         }
 
-        $cr = CommitRepository::create();
+        $em = Doctrine::getEntityManager();
+        $cr = Doctrine::getCommitRepository();
 
         $commitId = $payload->getCommitId();
-        $ci = Entity\Commit::create()->findOneByChangeset($commitId);
+        $ci = $cr->findOneByChangeset($commitId);
 
         // if ci already seen, skip adding commit and issue association
         // but still process commit files.
@@ -59,35 +61,28 @@ class CvsScm extends AbstractScmAdapter
             // set this last, as it may need other $ci properties
             $ci->setChangeset($commitId ?: $this->generateCommitId($ci));
 
-            $repo = new Entity\CommitRepo($ci->getScmName());
+            $repo = $ci->getCommitRepo();
             if (!$repo->branchAllowed($ci->getBranch())) {
                 throw new \InvalidArgumentException("Branch not allowed: {$ci->getBranch()}");
             }
 
+            $ir = Doctrine::getIssueRepository();
+
             // XXX: take prj_id from first issue_id
-            $prj_id = Issue::getProjectID($issues[0]);
+            $issue = $ir->findById($issues[0]);
+            $prj_id = $issue->getProjectId();
+
             $cr->preCommit($prj_id, $ci, $payload);
-            $ci->save();
+            $em->persist($ci);
 
-            // save issue association
-            foreach ($issues as $issue_id) {
-                Entity\IssueCommit::create()
-                    ->setCommitId($ci->getId())
-                    ->setIssueId($issue_id)
-                    ->save();
-
-                // print report to stdout of commits so hook could report status back to commiter
-                $details = Issue::getDetails($issue_id);
-                echo "#$issue_id - {$details['iss_summary']} ({$details['sta_title']})\n";
-            }
+            // add commits to issues
+            $cr->addIssues($ci, $issues);
         }
 
-        // save commit files
+        // add commit files
         $cr->addCommitFiles($ci, $payload->getFiles());
 
-        foreach ($issues as $issue_id) {
-            $cr->addCommit($issue_id, $ci);
-        }
+        $em->flush();
     }
 
     /**
@@ -123,6 +118,6 @@ class CvsScm extends AbstractScmAdapter
     {
         $data = json_decode($this->request->getContent(), true);
 
-        return new Entity\StdScmPayload($data);
+        return new StandardPayload($data);
     }
 }

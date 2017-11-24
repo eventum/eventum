@@ -1,14 +1,27 @@
 # Eventum Issue Tracking System
 
-## [3.3.4]
+## [3.4.0]
+
+Upgrading to 3.4.x versions requires that you upgrade to 3.2.0 version first.
+
+- Use Doctrine as ORM for SCM and IssueAssociation (@glensc, #307)
+- Support multiple selections in search fields (@inguin, #323)
+
+[3.4.0]: https://github.com/eventum/eventum/compare/v3.3.3...master
+
+## [3.3.4] - 2017-11-24
 
 Upgrading to 3.3.x versions requires that you upgrade to 3.2.0 version first.
 Eventum 3.3.x requires PHP 5.6.
 
 - Fix current url in resolution manage (@phavel, #319)
 - Fix sending same reminder repeatedly (@phavel, #321)
+- Use symfony/ldap for ldap connection (@glensc, #322)
+- Make `git diff`, `git log` on `*.po`/`*.pot` files less useful (@glensc, #325)
+- Don't show inactive users in notification list (@balsdorf, #324)
+- Allow API tokens to be used for RSS Authentication (@balsdorf)
 
-[3.3.4]: https://github.com/eventum/eventum/compare/v3.3.3...master
+[3.3.4]: https://github.com/eventum/eventum/compare/v3.3.3...v3.3.4
 
 ## [3.3.3] - 2017-10-17
 
