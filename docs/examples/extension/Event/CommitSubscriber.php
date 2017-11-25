@@ -45,12 +45,16 @@ class CommitSubscriber implements EventSubscriberInterface
 
     public function onAssociate(GenericEvent $event)
     {
-        /** @var Entity\Issue $issue */
-        $issue = $event->getSubject();
+        /** @var Entity\Commit $commit */
+        $commit = $event->getSubject();
+
+        $issue = $commit->getIssue();
+        $issue_id = $issue->getId();
+        $prj_id = $issue->getProjectId();
 
         // XXX: complex logic figuring out what to say to IRC
-        $irc_message = sprintf('commits added to #%d', $issue->getId());
+        $irc_message = sprintf('commits added to #%d', $issue_id);
 
-        Notification::notifyIRC($issue->getProjectId(), $irc_message, $issue->getId());
+        Notification::notifyIRC($prj_id, $irc_message, $issue_id);
     }
 }

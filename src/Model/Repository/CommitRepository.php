@@ -164,7 +164,7 @@ class CommitRepository extends EntityRepository
 
             $this->notifyNewCommit($issue_id, $ci);
 
-            $event = new GenericEvent($issue);
+            $event = new GenericEvent($ci);
             EventManager::dispatch(SystemEvents::SCM_COMMIT_ASSOCIATED, $event);
 
             // print report to stdout of commits so hook could report status back to commiter
