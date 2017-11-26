@@ -14,7 +14,37 @@
 namespace Eventum\Model\Repository;
 
 use Doctrine\ORM\EntityRepository;
+use Eventum\Model\Entity;
+use LogicException;
 
 class IssueHistoryRepository extends EntityRepository
 {
+    /**
+     * Returns the last person to close the issue
+     *
+     * @param int $issue_id The ID of the issue
+     * @return int usr_id
+     */
+    public function getIssueCloser(int $issue_id): int
+    {
+        $typeId = $this->getTypeId('issue_closed');
+        $htt = $this->findOneBy(['issueId' => $issue_id, 'typeId' => $typeId], ['createdDate' => 'DESC']);
+        if (!$htt) {
+            return 0;
+        }
+
+        return $htt->getUserId();
+    }
+
+    private function getTypeId(string $name): int
+    {
+        $repo = $this->getEntityManager()->getRepository(Entity\HistoryType::class);
+
+        $htt = $repo->findOneBy(['name' => $name]);
+        if (!$htt) {
+            throw new LogicException("Cannot find history type '{$name}'");
+        }
+
+        return $htt->getId();
+    }
 }
