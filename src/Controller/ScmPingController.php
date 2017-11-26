@@ -19,11 +19,15 @@ use Exception;
 
 class ScmPingController extends BaseController
 {
+    /** @var \Monolog\Logger */
+    private $logger;
+
     /**
      * {@inheritdoc}
      */
     protected function configure()
     {
+        $this->logger = Logger::app();
     }
 
     /**
@@ -53,7 +57,7 @@ class ScmPingController extends BaseController
                 'code' => $code && is_numeric($code) ? $code : -1,
                 'message' => $e->getMessage(),
             ];
-            Logger::app()->error($e);
+            $this->logger->error($e);
         }
 
         echo json_encode($status);
@@ -76,12 +80,11 @@ class ScmPingController extends BaseController
     private function getAdapters()
     {
         $request = $this->getRequest();
-        $logger = Logger::app();
 
         return [
-            new Scm\Adapter\Gitlab($request, $logger),
-            new Scm\Adapter\Cvs($request, $logger),
-            new Scm\Adapter\Standard($request, $logger),
+            new Scm\Adapter\Gitlab($request, $this->logger),
+            new Scm\Adapter\Cvs($request, $this->logger),
+            new Scm\Adapter\Standard($request, $this->logger),
         ];
     }
 
