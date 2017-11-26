@@ -15,23 +15,23 @@ namespace Eventum\Scm;
 
 use Eventum\Model\Entity\Commit;
 use Eventum\Model\Entity\CommitFile;
-use InvalidArgumentException;
+use Eventum\Monolog\Logger;
 use Setup;
 
 class ScmRepository
 {
     /** @var array */
-    private $config;
+    private $config = [];
 
     public function __construct($name)
     {
         $setup = Setup::get();
 
-        if (!isset($setup['scm'][$name])) {
-            throw new InvalidArgumentException("SCM Repo '$name' not defined");
+        if (isset($setup['scm'][$name])) {
+            $this->config = $setup['scm'][$name];
+        } else {
+            Logger::app()->warn("SCM Repo '$name' not defined");
         }
-
-        $this->config = $setup['scm'][$name];
     }
 
     public function getName()
