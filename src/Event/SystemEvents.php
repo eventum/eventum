@@ -21,24 +21,24 @@ final class SystemEvents
      * Event fired when history entry is added
      *
      * @since 3.3.0
-     * @since 3.3.4 uses GenericEvent
+     * @since 3.4.0 uses GenericEvent
      */
     const HISTORY_ADD = 'history.add';
 
     /**
      * @since 3.3.0
-     * @since 3.3.4 uses GenericEvent
+     * @since 3.4.0 uses GenericEvent
      */
     const USER_CREATE = 'user.create';
 
     /**
      * @since 3.3.0
-     * @since 3.3.4 uses GenericEvent
+     * @since 3.4.0 uses GenericEvent
      */
     const USER_UPDATE = 'user.update';
 
     /**
-     * @since 3.3.4
+     * @since 3.4.0
      * @see CommitRepository::preCommit
      */
     const SCM_COMMIT_BEFORE = 'scm.commit.before';
@@ -46,7 +46,7 @@ final class SystemEvents
     /**
      * Commit is associated to an issue
      *
-     * @since 3.3.4
+     * @since 3.4.0
      * @see CommitRepository::addIssues
      */
     const SCM_COMMIT_ASSOCIATED = 'scm.commit.associated';

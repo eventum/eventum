@@ -17,7 +17,7 @@ use InvalidArgumentException;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
 /**
- * @deprecated since 3.3.4 use GenericEvent instead
+ * @deprecated since 3.4.0 use GenericEvent instead
  */
 class UnstructuredEvent extends GenericEvent
 {

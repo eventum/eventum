@@ -52,7 +52,7 @@ class CommitRepository extends EntityRepository
      * @param int $prj_id The project ID
      * @param Entity\Commit $ci
      * @param Payload\PayloadInterface $payload
-     * @since 3.3.4 dispatches SystemEvents::SCM_COMMIT_BEFORE event
+     * @since 3.4.0 dispatches SystemEvents::SCM_COMMIT_BEFORE event
      */
     public function preCommit($prj_id, Entity\Commit $ci, Payload\PayloadInterface $payload)
     {
