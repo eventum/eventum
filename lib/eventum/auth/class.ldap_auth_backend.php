@@ -482,6 +482,7 @@ class LDAP_Auth_Backend implements Auth_Backend_Interface
             'binddn' => '',
             'bindpw' => '',
             'basedn' => 'dc=example,dc=org',
+            'user_id_attribute' => '',
             'userdn' => 'uid=%UID%,ou=People,dc=example,dc=org',
             'customer_id_attribute' => '',
             'contact_id_attribute' => '',
