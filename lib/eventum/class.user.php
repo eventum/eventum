@@ -1128,7 +1128,7 @@ class User
 
         $usr_id = DB_Helper::get_last_insert_id();
 
-        if ($user['password'] !== '') {
+        if (isset($user['password']) && $user['password'] !== '') {
             self::updatePassword($usr_id, $user['password']);
         }
 
