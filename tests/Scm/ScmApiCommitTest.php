@@ -13,9 +13,13 @@
 
 namespace Eventum\Test\Scm;
 
+use Eventum\Event\SystemEvents;
+use Eventum\EventDispatcher\EventManager;
+use Eventum\Model\Entity;
 use Eventum\Monolog\Logger;
 use Eventum\Scm\Adapter\Gitlab;
 use Setup;
+use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -38,7 +42,20 @@ class ScmApiCommitTest extends ScmTestCase
         $handler = new Gitlab($request, $logger);
         $this->assertTrue($handler->can());
 
+        $files = [];
+        $listener = function (GenericEvent $event) use (&$files) {
+            /** @var Entity\Commit $commit */
+            $commit = $event->getSubject();
+            foreach ($commit->getFiles() as $cf) {
+                $files[] = $cf->getFilename();
+            }
+        };
+        $dispatcher = EventManager::getEventDispatcher();
+        $dispatcher->addListener(SystemEvents::SCM_COMMIT_ASSOCIATED, $listener);
+
         $handler->process();
+
+        $this->assertEquals(['bla'],  $files);
     }
 
     /**
