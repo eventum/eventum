@@ -128,6 +128,10 @@ class Help
                 'title' => ev_gettext('User Permission Levels'),
                 'parent' => 'main',
             ],
+            'ldap' => [
+                'title' => ev_gettext('LDAP Authentication'),
+                'parent' => 'main',
+            ],
         ];
 
         return self::$topics;
