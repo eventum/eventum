@@ -401,7 +401,7 @@ class Search
                     $column_headings['cstm_' . $fld_id] = $fld_title;
                 }
             } else {
-                $column_headings[$col_key] = $column['title'];
+                $column_headings[$col_key] = @$column['title'];
             }
         }
         $csv[] = @implode("\t", $column_headings);

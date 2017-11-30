@@ -33,7 +33,7 @@
         {foreach from=$available item=column key=field_name}
         <tr class="{cycle values='odd,even'}">
             <td align="center" width="40%">
-                {$column.title}
+                {$column.title|default:$field_name}
             </td>
             <td align="center" width="20%">
                 {assign var="selected_field" value=$selected[$field_name]|default:''}
