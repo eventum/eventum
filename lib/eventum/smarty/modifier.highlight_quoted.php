@@ -66,7 +66,7 @@ function smarty_modifier_highlight_quoted($text, $escape = true, $indenter = '|>
             $match[2] = htmlspecialchars($match[2]);
         }
         $line = trim($match[2]);
-        if ($line) {
+        if ($line !== '') {
             $indent = strlen(preg_replace('/[\s]*/', '', $match[1]));
             $color = $indent % count($colors);
             $ret .= '<font color="' . $colors[$color] . '">';
