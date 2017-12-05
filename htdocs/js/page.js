@@ -322,7 +322,7 @@ issue_view.toggle_plain_view = function()
     var plain = $('#description_plain');
     var link = $('#fixed_width_link');
 
-    if (formatted.is(':visible')) {
+    if (!plain.is(':visible')) {
         formatted.hide();
         plain.show();
         link.text(link.attr('data-normal'));
