@@ -72,10 +72,11 @@ class History
         $stmt = 'INSERT INTO `issue_history` SET ' . DB_Helper::buildSet($params);
 
         DB_Helper::getInstance()->query($stmt, $params);
+
         $params['his_id'] = DB_Helper::get_last_insert_id();
         $params['prj_id'] = Auth::getCurrentProject();
 
-        $event = new Event\UnstructuredEvent($params);
+        $event = new Event\UnstructuredEvent(null, $params);
         EventManager::dispatch(Event\SystemEvents::HISTORY_ADD, $event);
     }
 

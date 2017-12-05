@@ -14,13 +14,12 @@
 namespace Eventum\Event;
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\EventDispatcher\GenericEvent;
 
 class UserSubscriber implements EventSubscriberInterface
 {
     /**
-     * Returns an array of event names this subscriber wants to listen to.
-     *
-     * @return array The event names to listen to
+     * {@inheritdoc}
      */
     public static function getSubscribedEvents()
     {
@@ -31,18 +30,18 @@ class UserSubscriber implements EventSubscriberInterface
     }
 
     /**
-     * @param UnstructuredEvent $event
+     * @param GenericEvent $event
      */
-    public function userCreated(UnstructuredEvent $event)
+    public function userCreated(GenericEvent $event)
     {
-        error_log("user created: #{$event->id}");
+        error_log("user created: #{$event['id']}");
     }
 
     /**
-     * @param UnstructuredEvent $event
+     * @param GenericEvent $event
      */
-    public function userUpdated(UnstructuredEvent $event)
+    public function userUpdated(GenericEvent $event)
     {
-        error_log("user updated: #{$event->id}");
+        error_log("user updated: #{$event['id']}");
     }
 }

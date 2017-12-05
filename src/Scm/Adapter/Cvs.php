@@ -75,12 +75,16 @@ class Cvs extends AbstractAdapter
             $cr->preCommit($prj_id, $ci, $payload);
             $em->persist($ci);
 
+            // add commit files
+            $cr->addCommitFiles($ci, $payload->getFiles());
+
             // add commits to issues
             $cr->addIssues($ci, $issues);
+        } else {
+            // add more files to existing commit
+            // NOTE: workflow/eventdispatcher is not fired
+            $cr->addCommitFiles($ci, $payload->getFiles());
         }
-
-        // add commit files
-        $cr->addCommitFiles($ci, $payload->getFiles());
 
         $em->flush();
     }

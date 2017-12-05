@@ -72,6 +72,7 @@ class LdapController extends ManageBaseController
         $setup['host'] = $post->get('host');
         $setup['port'] = $post->get('port');
         $setup['basedn'] = $post->get('basedn');
+        $setup['user_id_attribute'] = $post->get('user_id_attribute');
         $setup['userdn'] = $post->get('userdn');
         $setup['user_filter'] = $post->get('user_filter');
         $setup['customer_id_attribute'] = $post->get('customer_id_attribute');

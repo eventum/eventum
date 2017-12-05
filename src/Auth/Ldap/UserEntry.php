@@ -44,7 +44,7 @@ class UserEntry
         $emails = $entry->getAttribute('mail');
 
         $this->dn = $entry->getDn();
-        $this->uid = $this->getAttributeValue($entry, 'uid');
+        $this->uid = $this->getAttributeValue($entry, $config['user_id_attribute'] ?: 'uid');
         $this->full_name = $this->getAttributeValue($entry, 'cn');
         $this->emails = Misc::trim(Misc::lowercase($emails));
         $this->customer_id = Misc::trim($customer_id) ?: null;

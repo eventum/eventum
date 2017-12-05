@@ -1095,7 +1095,7 @@ class User
         $user['id'] = $usr_id;
         unset($user['password']);
 
-        $event = new Event\UnstructuredEvent($user);
+        $event = new Event\UnstructuredEvent(null, $user);
         EventManager::dispatch(Event\SystemEvents::USER_UPDATE, $event);
 
         return true;
@@ -1136,7 +1136,7 @@ class User
 
         $usr_id = DB_Helper::get_last_insert_id();
 
-        if ($user['password'] !== '') {
+        if (isset($user['password']) && $user['password'] !== '') {
             self::updatePassword($usr_id, $user['password']);
         }
 
@@ -1165,7 +1165,7 @@ class User
         $user['id'] = $usr_id;
         unset($user['password']);
 
-        $event = new Event\UnstructuredEvent($user);
+        $event = new Event\UnstructuredEvent(null, $user);
         EventManager::dispatch(Event\SystemEvents::USER_CREATE, $event);
 
         return $usr_id;

@@ -126,6 +126,7 @@ class ExampleExtension extends AbstractExtension
             Event\CryptoSubscriber::class,
             Event\HistorySubscriber::class,
             Event\UserSubscriber::class,
+            Event\CommitSubscriber::class,
         ];
     }
 }
