@@ -480,16 +480,11 @@ abstract class Abstract_Workflow_Backend
      *
      * @param   int $prj_id The ID of the project
      * @param   array $info an array of info about the email account
-     * @param   array $headers the headers of the email
-     * @param   string $message_body the body of the message
-     * @param   string $date The date this message was sent
-     * @param   string $from the name and email address of the sender
-     * @param   string $subject the subject of this message
-     * @param   string $to to addresses
-     * @param   string $cc cc addresses
+     * @param   MailMessage $mail The Mail object
      * @return int
+     * @since 3.4.0 uses new signature, see #263
      */
-    public function getIssueIDforNewEmail($prj_id, $info, $headers, $message_body, $date, $from, $subject, $to, $cc)
+    public function getIssueIDforNewEmail($prj_id, $info, MailMessage $mail)
     {
         return null;
     }

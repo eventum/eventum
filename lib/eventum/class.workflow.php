@@ -635,17 +635,7 @@ class Workflow
         }
         $backend = self::_getBackend($prj_id);
 
-        $headers = $mail->getHeadersArray();
-        $message_body = $mail->getContent();
-        // the $date used to be Received Date, but for simplicity just use Date header
-        $date = Date_Helper::convertDateGMT($mail->date);
-        $from = $mail->getSender();
-        $subject = $mail->subject;
-        /** @see MailStorageTest::testImapHeaderStructure */
-        $to = implode(',', (array)$mail->getAddresses('To'));
-        $cc = implode(',', (array)$mail->getAddresses('Cc'));
-
-        return $backend->getIssueIDforNewEmail($prj_id, $info, $headers, $message_body, $date, $from, $subject, $to, $cc);
+        return $backend->getIssueIDforNewEmail($prj_id, $info, $mail);
     }
 
     /**
