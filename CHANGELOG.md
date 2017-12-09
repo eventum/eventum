@@ -4,6 +4,8 @@
 
 Upgrading to 3.4.x versions requires that you upgrade to 3.2.0 version first.
 
+NOTE: Mail related Workflow methods changed singature, see #263
+
 - Use Doctrine as ORM for SCM and IssueAssociation (@glensc, #307)
 - Support multiple selections in search fields (@inguin, #323)
 - Add EventDispatcher events for SCM actions (@glensc, #328)

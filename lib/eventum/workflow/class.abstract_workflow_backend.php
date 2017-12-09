@@ -279,6 +279,7 @@ class Abstract_Workflow_Backend
      * @param   MailMessage $mail The Mail object
      * @param   array $row the array of data that was inserted into the database
      * @param   bool $closing if we are closing the issue
+     * @since 3.4.0 uses new signature, see #263
      */
     public function handleNewEmail($prj_id, $issue_id, MailMessage $mail, $row, $closing = false)
     {
@@ -415,7 +416,7 @@ class Abstract_Workflow_Backend
      * @param string $sender_email The email address to check
      * @param MailMessage $mail
      * @return bool True if the note should be added, false otherwise
-     * @since 3.3.0 uses new signature
+     * @since 3.4.0 uses new signature, see #263
      */
     public function canSendNote($prj_id, $issue_id, $sender_email, $mail)
     {
@@ -441,6 +442,7 @@ class Abstract_Workflow_Backend
      * @param   int $prj_id The project ID
      * @param   ImapMessage $mail The Imap Mail Message object
      * @return  mixed null by default, -1 if the rest of the email script should not be processed
+     * @since 3.4.0 uses new signature, see #263
      */
     public function preEmailDownload($prj_id, ImapMessage $mail)
     {
@@ -499,7 +501,7 @@ class Abstract_Workflow_Backend
      * @param   string $recipient
      * @param MailMessage $mail The Mail object
      * @param array $options Optional options, see Mail_Queue::queue
-     * @since 3.3.0 the method signature changed
+     * @since 3.4.0 uses new signature, see #263
      */
     public function modifyMailQueue($prj_id, $recipient, $mail, $options)
     {
