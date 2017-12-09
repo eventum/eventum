@@ -20,7 +20,7 @@ use Eventum\Model\Entity;
  * Abstract Class that all workflow backends should extend. This is so any new
  * workflow methods added in future releases will not break current backends.
  */
-class Abstract_Workflow_Backend
+abstract class Abstract_Workflow_Backend
 {
     /**
      * Project Id this Workflow was created for.
