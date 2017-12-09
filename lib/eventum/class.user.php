@@ -14,6 +14,7 @@
 use Eventum\Db\DatabaseException;
 use Eventum\Event;
 use Eventum\EventDispatcher\EventManager;
+use Eventum\Mail\MailBuilder;
 use Eventum\Monolog\Logger;
 
 /**
@@ -285,8 +286,12 @@ class User
      */
     public static function createVisitorAccount($role, $projects)
     {
+        $usr_email = $_POST['email'];
+        $full_name = $_POST['full_name'];
+        $passwd = $_POST['passwd'];
+
         // check for double submits
-        if (Auth::userExists($_POST['email'])) {
+        if (Auth::userExists($usr_email)) {
             return -2;
         }
 
@@ -298,12 +303,13 @@ class User
                     usr_email,
                     usr_status
                  ) VALUES (?, ?, ?, ?)';
+
         try {
             DB_Helper::getInstance()->query(
                 $stmt, [
                     Date_Helper::getCurrentDateGMT(),
-                    $_POST['full_name'],
-                    $_POST['email'],
+                    $full_name,
+                    $usr_email,
                     'pending',
                 ]
             );
@@ -314,7 +320,7 @@ class User
         $usr_id = DB_Helper::get_last_insert_id();
 
         try {
-            self::updatePassword($usr_id, $_POST['passwd']);
+            self::updatePassword($usr_id, $passwd);
         } catch (Exception $e) {
             Logger::app()->error($e);
 
@@ -329,24 +335,27 @@ class User
         Prefs::set($usr_id, Prefs::getDefaults($projects));
 
         // send confirmation email to user
-        $hash = md5($_POST['full_name'] . $_POST['email'] . Auth::privateKey());
+        $hash = md5($full_name . $usr_email . Auth::privateKey());
 
         $tpl = new Template_Helper();
         $tpl->setTemplate('notifications/visitor_account.tpl.text');
         $tpl->assign([
             'app_title' => Misc::getToolCaption(),
-            'email' => $_POST['email'],
+            'email' => $usr_email,
             'hash' => $hash,
         ]);
         $text_message = $tpl->getTemplateContents();
 
-        $setup = Setup::get();
-        $mail = new Mail_Helper();
-        $mail->setTextBody($text_message);
-
         // TRANSLATORS: %1 - APP_SHORT_NAME
         $subject = ev_gettext('%s: New Account - Confirmation Required', APP_SHORT_NAME);
-        $mail->send($setup['smtp']['from'], $_POST['email'], $subject);
+
+        $builder = new MailBuilder();
+        $builder->addTextPart($text_message)
+            ->getMessage()
+            ->setSubject($subject)
+            ->setTo($usr_email);
+
+        Mail_Queue::queue($builder, $usr_email);
 
         return 1;
     }
@@ -361,7 +370,8 @@ class User
     {
         $info = self::getDetails($usr_id);
         // send confirmation email to user
-        $hash = md5($info['usr_full_name'] . $info['usr_email'] . Auth::privateKey());
+        $usr_email = $info['usr_email'];
+        $hash = md5($info['usr_full_name'] . $usr_email . Auth::privateKey());
 
         $tpl = new Template_Helper();
         $tpl->setTemplate('notifications/password_confirmation.tpl.text');
@@ -372,13 +382,16 @@ class User
         ]);
         $text_message = $tpl->getTemplateContents();
 
-        $setup = Setup::get();
-        $mail = new Mail_Helper();
-        $mail->setTextBody($text_message);
-
         // TRANSLATORS: %s - APP_SHORT_NAME
         $subject = ev_gettext('%s: New Password - Confirmation Required', APP_SHORT_NAME);
-        $mail->send($setup['smtp']['from'], $info['usr_email'], $subject);
+
+        $builder = new MailBuilder();
+        $builder->addTextPart($text_message)
+            ->getMessage()
+            ->setSubject($subject)
+            ->setTo($usr_email);
+
+        Mail_Queue::queue($builder, $usr_email);
     }
 
     /**
@@ -745,8 +758,10 @@ class User
     /**
      * Method used to get the email address of the specified user.
      *
-     * @param   int|array $usr_id The user ID or user ids
-     * @return  string The user' full name
+     * TODO: fix api to be stable, always strings or always arrays in/out
+     *
+     * @param   int|int[] $usr_id The user ID or user ids
+     * @return  string|string[] The user' full name
      */
     public static function getEmail($usr_id)
     {
@@ -779,18 +794,11 @@ class User
                     `user`
                  WHERE
                     usr_id IN ($itemlist)";
-        try {
-            if (!is_array($usr_id)) {
-                $res = DB_Helper::getInstance()->getOne($stmt, $items);
-            } else {
-                $res = DB_Helper::getInstance()->getColumn($stmt, $items);
-            }
-        } catch (DatabaseException $e) {
-            if (!is_array($usr_id)) {
-                return '';
-            }
 
-            return [];
+        if (!is_array($usr_id)) {
+            $res = DB_Helper::getInstance()->getOne($stmt, $items);
+        } else {
+            $res = DB_Helper::getInstance()->getColumn($stmt, $items);
         }
 
         $returns[$key] = $res;

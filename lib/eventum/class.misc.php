@@ -757,7 +757,7 @@ class Misc
     /**
      * Returns how the download should be displayed.
      *
-     * @param $filetype
+     * @param string $filetype
      * @return string inline|attachment
      */
     public static function getAttachmentDisposition($filetype)

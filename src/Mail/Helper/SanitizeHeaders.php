@@ -24,6 +24,11 @@ use Zend\Mail\Headers;
 class SanitizeHeaders
 {
     /**
+     * Namespace for Header classes
+     */
+    const HEADER_NS = '\\Zend\\Mail\\Header\\';
+
+    /**
      * Sanitize Mail headers:
      *
      * - generate MessageId header in case it is missing
@@ -57,7 +62,8 @@ class SanitizeHeaders
         // NOTE: the headerClass does not match the format for Message-Id,
         // but luckily Message-Id header is always present (see above)
         foreach ($checkHeaders as $headerName => $unique) {
-            $header = $mail->getHeaderByName($headerName, $headerName);
+            $headerClass = self::HEADER_NS . $headerName;
+            $header = $mail->getHeaderByName($headerName, $headerClass);
             if ($unique) {
                 $this->removeDuplicateHeader($headers, $header);
             } else {

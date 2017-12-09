@@ -52,6 +52,7 @@ class SendController extends BaseController
     /** @var int */
     private $prj_id;
 
+    // TODO: $ema_id is likely not needed
     /** @var int */
     private $ema_id;
 
@@ -302,7 +303,7 @@ class SendController extends BaseController
             return;
         }
 
-        $email = Support::getEmailDetails($this->ema_id, $get->getInt('id'));
+        $email = Support::getEmailDetails($get->getInt('id'));
         $header = Misc::formatReplyPreamble($email['timestamp'], $email['sup_from']);
         $email['seb_body'] = $header . Misc::formatReply($email['seb_body']);
         $this->tpl->assign(

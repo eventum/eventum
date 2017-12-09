@@ -66,7 +66,9 @@ class MailTransportTest extends TestCase
         $headers = ['Subject: lol', "From: $from"];
         $body = 'nothing';
 
-        $res = $this->send($recipient, $headers, $body);
+        $mail = MailMessage::createFromHeaderBody($headers, $body);
+
+        $res = $this->send($recipient, $mail);
 
         // MAIL FROM<>
         $this->assertEquals($from, $res->mail);
@@ -88,10 +90,10 @@ class MailTransportTest extends TestCase
      *
      * @return object with mock results
      */
-    private function send($recipient, $headers, $body)
+    private function send($recipient, $mail)
     {
         $mta = $this->getMailTransport();
-        $mta->send($recipient, $headers, $body);
+        $mta->send($recipient, $mail);
 
         /** @var object $connection */
         $connection = $mta->getTransport()->getConnection();

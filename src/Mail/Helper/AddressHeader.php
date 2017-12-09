@@ -40,7 +40,7 @@ class AddressHeader
     /**
      * @param string $addresses
      * @throws \Zend\Mail\Header\Exception\InvalidArgumentException
-     * @return static
+     * @return AddressHeader
      */
     public static function fromString($addresses)
     {
@@ -53,7 +53,7 @@ class AddressHeader
         $addresses = Mime_Helper::encodeValue($addresses);
 
         // use To header to utilize AddressList functionality
-        return new static(To::fromString('To:' . $addresses));
+        return new self(To::fromString('To:' . $addresses));
     }
 
     /**

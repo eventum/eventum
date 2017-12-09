@@ -146,7 +146,7 @@ class RemoteDataController extends BaseController
     private function getEmail($id)
     {
         list($ema_id, $sup_id) = explode('-', $id);
-        $info = Support::getEmailDetails($ema_id, $sup_id);
+        $info = Support::getEmailDetails($sup_id);
 
         if (!Issue::canAccess($info['sup_iss_id'], $this->usr_id)) {
             return null;

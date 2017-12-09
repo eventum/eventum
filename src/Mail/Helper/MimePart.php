@@ -28,8 +28,25 @@ class MimePart extends Mime\Part
         return $part;
     }
 
+    /**
+     * @param string $content
+     * @return MimePart
+     */
     public static function createTextPart($content)
     {
         return self::create($content, Mime\Mime::TYPE_TEXT);
+    }
+
+    /**
+     * @param string $content
+     * @param string $type
+     * @param string $filename
+     * @return Mime\Part
+     */
+    public static function createAttachmentPart($content, $type, $filename)
+    {
+        return self::create($content, $type)
+            ->setDisposition(Mime\Mime::DISPOSITION_ATTACHMENT)
+            ->setFileName($filename);
     }
 }

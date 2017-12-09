@@ -15,6 +15,7 @@ use Eventum\Attachment\AttachmentGroup;
 use Eventum\Event\WorkflowEvents;
 use Eventum\EventDispatcher\EventManager;
 use Eventum\Extension\ExtensionLoader;
+use Eventum\Mail\ImapMessage;
 use Eventum\Mail\MailMessage;
 use Eventum\Model\Entity;
 
@@ -264,11 +265,11 @@ class Workflow
      *
      * @param   int $prj_id The project ID
      * @param   int $issue_id the ID of the issue
-     * @param   object $message An object containing the new email
+     * @param   MailMessage $mail The Mail object
      * @param   array $row the array of data that was inserted into the database
      * @param   bool $closing if we are closing the issue
      */
-    public static function handleNewEmail($prj_id, $issue_id, $message, $row, $closing = false)
+    public static function handleNewEmail($prj_id, $issue_id, MailMessage $mail, $row, $closing = false)
     {
         Partner::handleNewEmail($issue_id, $row['sup_id']);
 
@@ -277,7 +278,7 @@ class Workflow
         }
 
         $backend = self::_getBackend($prj_id);
-        $backend->handleNewEmail($prj_id, $issue_id, $message, $row, $closing);
+        $backend->handleNewEmail($prj_id, $issue_id, $mail, $row, $closing);
     }
 
     /**
@@ -495,18 +496,18 @@ class Workflow
      *
      * @param   int $prj_id The project ID
      * @param   int $issue_id The issue ID
-     * @param   string $email The email address to check
-     * @param $structure
+     * @param string $sender_email The email address to check
+     * @param MailMessage $mail
      * @return  bool True if the note should be added, false otherwise
      */
-    public static function canSendNote($prj_id, $issue_id, $email, $structure)
+    public static function canSendNote($prj_id, $issue_id, $sender_email, MailMessage $mail)
     {
         if (!self::hasWorkflowIntegration($prj_id)) {
-            return;
+            return null;
         }
         $backend = self::_getBackend($prj_id);
 
-        return $backend->canSendNote($prj_id, $issue_id, $email, $structure);
+        return $backend->canSendNote($prj_id, $issue_id, $sender_email, $mail);
     }
 
     /**
@@ -568,22 +569,18 @@ class Workflow
      * rest of the email code will not be executed.
      *
      * @param   int $prj_id The project ID
-     * @param   array $info an array containing the information on the email account
-     * @param   resource $mbox The imap connection resource
-     * @param   int $num The sequential email number
-     * @param   string $message The complete email message
-     * @param   object $email An object containing the decoded email
-     * @param   object $structure An object containing the decoded email
+     * @param   ImapMessage $mail The Imap Mail Message object
      * @return  mixed null by default, -1 if the rest of the email script should not be processed
      */
-    public static function preEmailDownload($prj_id, $info, $mbox, $num, &$message, $email, $structure)
+    public static function preEmailDownload($prj_id, ImapMessage $mail)
     {
         if (!self::hasWorkflowIntegration($prj_id)) {
             return null;
         }
+
         $backend = self::_getBackend($prj_id);
 
-        return $backend->preEmailDownload($prj_id, $info, $mbox, $num, $message, $email, $structure);
+        return $backend->preEmailDownload($prj_id, $mail);
     }
 
     /**
@@ -627,22 +624,26 @@ class Workflow
      * Can also return an array containing 'customer_id', 'contact_id' and 'contract_id', 'sev_id'
      *
      * @param   int $prj_id The ID of the project
-     * @param   array $info an array of info about the email account
-     * @param   string $headers the headers of the email
-     * @param   string $message_body the body of the message
-     * @param   string $date The date this message was sent
-     * @param   string $from the name and email address of the sender
-     * @param   string $subject the subject of this message
-     * @param   array $to An array of to addresses
-     * @param   array $cc An array of cc addresses
+     * @param   array   $info an array of info about the email account
+     * @param   MailMessage $mail The Mail object
      * @return  string|array
      */
-    public static function getIssueIDForNewEmail($prj_id, $info, $headers, $message_body, $date, $from, $subject, $to, $cc)
+    public static function getIssueIDForNewEmail($prj_id, $info, MailMessage $mail)
     {
         if (!self::hasWorkflowIntegration($prj_id)) {
             return null;
         }
         $backend = self::_getBackend($prj_id);
+
+        $headers = $mail->getHeadersArray();
+        $message_body = $mail->getContent();
+        // the $date used to be Received Date, but for simplicity just use Date header
+        $date = Date_Helper::convertDateGMT($mail->date);
+        $from = $mail->getSender();
+        $subject = $mail->subject;
+        /** @see MailStorageTest::testImapHeaderStructure */
+        $to = implode(',', (array)$mail->getAddresses('To'));
+        $cc = implode(',', (array)$mail->getAddresses('Cc'));
 
         return $backend->getIssueIDforNewEmail($prj_id, $info, $headers, $message_body, $date, $from, $subject, $to, $cc);
     }
@@ -652,28 +653,17 @@ class Workflow
      *
      * @param   int $prj_id
      * @param   string $recipient
-     * @param   MailMessage $mail The Mail object
-     * @param   int $issue_id
-     * @param   string $type the type of message this is
-     * @param   int $sender_usr_id the id of the user sending this email
-     * @param   int $type_id The ID of the event that triggered this notification (issue_id, sup_id, not_id, etc)
+     * @param MailMessage $mail The Mail object
+     * @param array $options Optional options, see Mail_Queue::queue
+     * @since 3.3.0 the method signature changed
      */
-    public static function modifyMailQueue($prj_id, &$recipient, &$mail, $issue_id, $type, $sender_usr_id, $type_id)
+    public static function modifyMailQueue($prj_id, $recipient, $mail, $options)
     {
         if (!self::hasWorkflowIntegration($prj_id)) {
             return;
         }
-        $backend = self::_getBackend($prj_id);
 
-        $o_headers = $headers = $mail->getHeadersArray();
-        $o_body = $body = $mail->getContent();
-
-        $backend->modifyMailQueue($prj_id, $recipient, $headers, $body, $issue_id, $type, $sender_usr_id, $type_id);
-
-        // recreate mail object if headers or body was modified by workflow method
-        if ($o_headers != $headers || $o_body != $body) {
-            $mail = MailMessage::createFromHeaderBody($headers, $body);
-        }
+        self::_getBackend($prj_id)->modifyMailQueue($prj_id, $recipient, $mail, $options);
     }
 
     /**

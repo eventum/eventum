@@ -138,7 +138,7 @@ class ViewEmailController extends BaseController
      */
     protected function prepareTemplate()
     {
-        $email = Support::getEmailDetails($_GET['ema_id'], $this->sup_id);
+        $email = Support::getEmailDetails($this->sup_id);
         $email['seb_body'] = str_replace('&amp;nbsp;', '&nbsp;', $email['seb_body']);
 
         $recipients = Mail_Queue::getMessageRecipients(['customer_email', 'other_email'], $this->sup_id);

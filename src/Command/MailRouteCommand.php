@@ -14,6 +14,7 @@
 namespace Eventum\Command;
 
 use Eventum\Mail\Exception\RoutingException;
+use Eventum\Mail\MailMessage;
 use Routing;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -37,8 +38,12 @@ class MailRouteCommand
             $full_message = stream_get_contents(STDIN);
         }
 
+        Routing::removeMboxHeader($full_message);
+
+        $mail = MailMessage::createFromString($full_message);
+
         try {
-            $return = Routing::route($full_message);
+            $return = Routing::route($mail);
         } catch (RoutingException $e) {
             $output->writeln(sprintf('<error>%s</error>', $e->getMessage()));
 

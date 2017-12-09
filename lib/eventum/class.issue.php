@@ -14,6 +14,8 @@
 use Eventum\Attachment\AttachmentManager;
 use Eventum\Db\DatabaseException;
 use Eventum\Db\Doctrine;
+use Eventum\Mail\MailMessage;
+use Eventum\Model\Repository\IssueAssociationRepository;
 
 /**
  * Class designed to handle all business logic related to the issues in the
@@ -1110,26 +1112,21 @@ class Issue
 
         if ($send_notification_to === 'all') {
             $from = User::getFromHeader($usr_id);
-            $message_id = Mail_Helper::generateMessageID();
-            $full_email = Support::buildFullHeaders($issue_id, $message_id, $from,
+            $mail = Support::buildMail($issue_id, $from,
                 '', '', ev_gettext('Issue closed comments'), $reason, '');
 
-            $structure = Mime_Helper::decode($full_email, true, false);
-
-            $email = [
-                'ema_id' => Email_Account::getEmailAccount(self::getProjectID($issue_id)),
+            $email_options = [
+                'ema_id' => Email_Account::getEmailAccount($prj_id),
                 'issue_id' => $issue_id,
-                'message_id' => $message_id,
-                'date' => Date_Helper::getCurrentDateGMT(),
-                'subject' => ev_gettext('Issue closed comments'),
-                'from' => $from,
-                'has_attachment' => 0,
-                'body' => $reason,
-                'full_email' => $full_email,
-                'headers' => $structure->headers,
+                'date' => Date_Helper::convertDateGMT($mail->getDate()),
+                'closing' => true,
+                // these below are likely unused by Support::insertEmail
+                'message_id' => $mail->messageId,
+                'subject' => $mail->subject,
+                'from' => $mail->from,
+                'body' => $mail->getContent(),
             ];
-            $sup_id = null;
-            Support::insertEmail($email, $structure, $sup_id, true);
+            $sup_id = Support::insertEmail($mail, $email_options);
             $ids = $sup_id;
         } else {
             // add note with the reason to close the issue
@@ -1161,8 +1158,10 @@ class Issue
                 }
             }
             // send notifications for the issue being closed
-            Notification::notify($issue_id, 'closed', $ids, ($send_notification_to !== 'all'));
+            $internal_only = $send_notification_to !== 'all';
+            Notification::notify($issue_id, 'closed', $ids, $internal_only);
         }
+
         Workflow::handleIssueClosed($prj_id, $issue_id, $send_notification, $resolution_id, $status_id, $reason, $usr_id);
 
         return 1;
@@ -1634,25 +1633,37 @@ class Issue
     /**
      * Creates an issue with the given email information.
      *
-     * @param   int $prj_id The project ID
-     * @param   int $usr_id The user responsible for this action
-     * @param   string $sender The original sender of this email
-     * @param   string $summary The issue summary
-     * @param   string $description The issue description
-     * @param   int $category The category ID
-     * @param   int $priority The priority ID
-     * @param   array $assignment The list of users to assign this issue to
-     * @param   string $date the date the email was originally sent
-     * @param   string $msg_id the message ID of the email we are creating this issue from
-     * @param   int $severity
-     * @param   string $customer_id
-     * @param   string $contact_id
-     * @param   string $contract_id
+     * @param MailMessage $mail The Mail object
+     * @param array $options
+     * - int $prj_id The project ID
+     * - int $usr_id The user responsible for this action
+     * - int $category The category ID
+     * - int $priority The priority ID
+     * - array $assignment The list of users to assign this issue to
+     * - int $severity
+     * - string $customer_id
+     * - string $contact_id
+     * - string $contract_id
      * @return int
      */
-    public static function createFromEmail($prj_id, $usr_id, $sender, $summary, $description, $category, $priority, $assignment,
-                             $date, $msg_id, $severity, $customer_id, $contact_id, $contract_id)
+    public static function createFromEmail(MailMessage $mail, $options)
     {
+        $category = isset($options['category']) ? $options['category'] : null;
+        $priority = isset($options['priority']) ? $options['priority'] : null;
+        $assignment = isset($options['users']) ? $options['users'] : null;
+        $prj_id = $options['prj_id'];
+        $usr_id = $options['usr_id'];
+        $severity = $options['severity'];
+        $customer_id = $options['customer_id'];
+        $contact_id = $options['contact_id'];
+        $contract_id = $options['contract_id'];
+
+        $sender = $mail->from;
+        $summary = $mail->subject;
+        $description = $mail->getMessageBody();
+        $msg_id = $mail->messageId;
+        $date = isset($options['date']) ? $options['date'] : Date_Helper::getRFC822Date($mail->date);
+
         $exclude_list = [];
         $managers = [];
 
@@ -1776,7 +1787,7 @@ class Issue
             $has_TAM = true;
         }
         // now add the user/issue association
-        if (@count($assignment) > 0) {
+        if ($assignment) {
             foreach ($assignment as $ass_usr_id) {
                 Notification::subscribeUser($reporter, $issue_id, $ass_usr_id, $actions);
                 self::addUserAssociation(APP_SYSTEM_USER_ID, $issue_id, $ass_usr_id);
