@@ -9,6 +9,7 @@ Upgrading to 3.4.x versions requires that you upgrade to 3.2.0 version first.
 - Add EventDispatcher events for SCM actions (@glensc, #328)
 - Gracefully deal with commits from unknown SCM repositories (@inguin, #327)
 - Make LDAP user ID attribute configurable, add help page (@inguin, #329)
+- Drop `pear/mime_decode`, `pear/mail_mime` in favor of `Zend\Mail` (@glensc, #263)
 
 [3.4.0]: https://github.com/eventum/eventum/compare/v3.3.3...master
 
