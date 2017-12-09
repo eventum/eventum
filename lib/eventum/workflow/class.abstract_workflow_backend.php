@@ -418,7 +418,7 @@ abstract class Abstract_Workflow_Backend
      * @return bool True if the note should be added, false otherwise
      * @since 3.4.0 uses new signature, see #263
      */
-    public function canSendNote($prj_id, $issue_id, $sender_email, $mail)
+    public function canSendNote($prj_id, $issue_id, $sender_email, MailMessage $mail)
     {
         return null;
     }
@@ -503,7 +503,7 @@ abstract class Abstract_Workflow_Backend
      * @param array $options Optional options, see Mail_Queue::queue
      * @since 3.4.0 uses new signature, see #263
      */
-    public function modifyMailQueue($prj_id, $recipient, $mail, $options)
+    public function modifyMailQueue($prj_id, $recipient, MailMessage $mail, $options)
     {
     }
 

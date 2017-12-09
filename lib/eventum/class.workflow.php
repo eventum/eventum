@@ -657,7 +657,7 @@ class Workflow
      * @param array $options Optional options, see Mail_Queue::queue
      * @since 3.3.0 the method signature changed
      */
-    public static function modifyMailQueue($prj_id, $recipient, $mail, $options)
+    public static function modifyMailQueue($prj_id, $recipient, MailMessage $mail, $options)
     {
         if (!self::hasWorkflowIntegration($prj_id)) {
             return;
