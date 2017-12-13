@@ -13,6 +13,9 @@
 
 namespace Eventum\Mail;
 
+use Symfony\Component\Filesystem\Exception\IOException;
+use Symfony\Component\Filesystem\Filesystem;
+
 class MailDumper
 {
     const TYPE_EMAIL = 'email';
@@ -23,6 +26,7 @@ class MailDumper
      * Method used to save the routed mail into a backup directory.
      *
      * @param MailMessage $mail
+     * @throws IOException
      */
     public static function dump(MailMessage $mail, $type)
     {
@@ -30,8 +34,10 @@ class MailDumper
         if (!$filename) {
             return;
         }
-        file_put_contents($filename, $mail->getRawContent());
-        chmod($filename, 0644);
+
+        $fs = new Filesystem();
+        $fs->dumpFile($filename, $mail->getRawContent());
+        $fs->chmod($filename, 0644);
     }
 
     private static function getFilename($type)
