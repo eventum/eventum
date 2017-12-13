@@ -150,14 +150,6 @@
 				<exclude name="rgb.inc.php"/>
 			</fileset>
 
-			<fileset dir="${vendor}/malkusch/lock/classes">
-				<exclude name="mutex/FlockMutex.php"/>
-				<exclude name="mutex/LockMutex.php"/>
-				<exclude name="mutex/Mutex.php"/>
-				<exclude name="util/DoubleCheckedLocking.php"/>
-				<exclude name="exception/*.php"/>
-			</fileset>
-
 			<fileset dir="${vendor}/phpxmlrpc/phpxmlrpc">
 				<include name="debugger/*"/>
 				<include name="extras/*"/>
