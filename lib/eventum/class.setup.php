@@ -12,6 +12,8 @@
  */
 
 use Eventum\Monolog\Logger;
+use Symfony\Component\Filesystem\Exception\IOException;
+use Symfony\Component\Filesystem\Filesystem;
 use Zend\Config\Config;
 
 /**
@@ -158,25 +160,14 @@ class Setup
      */
     private static function saveConfig($path, Config $config)
     {
-        // if file exists, the file must be writable
-        if (file_exists($path)) {
-            if (!is_writable($path)) {
-                throw new RuntimeException("File '$path' is not writable'", -2);
-            }
-        } else {
-            // if file does not exist, it's parent dir must be writable
-            $dir = dirname($path);
-            if (!is_writable($dir)) {
-                throw new RuntimeException("Directory '$dir' is not writable'", -1);
-            }
-        }
-
         $contents = self::dumpConfig($config);
-        $res = file_put_contents($path, $contents);
-        if ($res === false) {
-            throw new RuntimeException("Can't write {$path}", -2);
+
+        try {
+            $fs = new Filesystem();
+            $fs->dumpFile($path, $contents);
+        } catch (IOException $e) {
+            throw new RuntimeException($e->getMessage(), -2);
         }
-        clearstatcache(true, $path);
     }
 
     /**
