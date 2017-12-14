@@ -294,31 +294,6 @@ class CAS_Auth_Backend implements Auth_Backend_Interface
         return $setup;
     }
 
-    public static function saveSetup($options)
-    {
-        // this is needed to check if the file can be created or not
-        if (!file_exists(APP_CONFIG_PATH . '/cas.php')) {
-            if (!is_writable(APP_CONFIG_PATH)) {
-                clearstatcache();
-
-                return -1;
-            }
-        } else {
-            if (!is_writable(APP_CONFIG_PATH . '/cas.php')) {
-                clearstatcache();
-
-                return -2;
-            }
-        }
-        $contents = '<' . "?php\n\$cas_setup = " . var_export($options, 1) . ";\n";
-        $res = file_put_contents(APP_CONFIG_PATH . '/cas.php', $contents);
-        if ($res === false) {
-            return -2;
-        }
-
-        return 1;
-    }
-
     /**
      * Method used to get the system-wide defaults.
      *
