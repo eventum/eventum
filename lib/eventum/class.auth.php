@@ -13,6 +13,8 @@
 
 use Eventum\Monolog\Logger;
 use Eventum\Session;
+use Symfony\Component\Filesystem\Exception\IOException;
+use Symfony\Component\Filesystem\Filesystem;
 
 /**
  * Class to handle authentication issues.
@@ -46,9 +48,11 @@ class Auth
 
         $contents = '<' . "?php\n\$private_key = " . var_export($private_key, 1) . ";\n";
 
-        $res = file_put_contents($path, $contents);
-        if ($res === false) {
-            throw new RuntimeException("Can't write {$path}", -2);
+        try {
+            $fs = new Filesystem();
+            $fs->dumpFile($path, $contents);
+        } catch (IOException $e) {
+            throw new RuntimeException($e->getMessage(), -2);
         }
     }
 
