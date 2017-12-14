@@ -12,6 +12,7 @@ NOTE: Mail related Workflow methods changed singature, see #263
 - Gracefully deal with commits from unknown SCM repositories (@inguin, #327)
 - Make LDAP user ID attribute configurable, add help page (@inguin, #329)
 - Drop `pear/mime_decode`, `pear/mail_mime` in favor of `Zend\Mail` (@glensc, #263)
+- Use `symfony/filesystem` for file writes (@glensc, #331)
 
 [3.4.0]: https://github.com/eventum/eventum/compare/v3.3.3...master
 
