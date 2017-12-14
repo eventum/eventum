@@ -12,6 +12,7 @@
  */
 
 use Eventum\Db\DatabaseException;
+use MariaDB\Eventum\SMSAlert;
 
 /**
  * Class to handle the business logic related to the reminder emails
@@ -568,6 +569,7 @@ class Reminder_Action
         if (Reminder::isDebug()) {
             echo '  - ' . ev_gettext('Performing action %1$s for issue # %2$s', $action_type, $issue_id) . "\n";
         }
+        $sms_users = [];
         switch ($action_type) {
             case 'email_assignee':
                 $type = 'email';
@@ -612,7 +614,11 @@ class Reminder_Action
                     if (User::isClockedIn($assignee)) {
                         $sms_email = User::getSMS($assignee);
                         if (!empty($sms_email)) {
-                            $to[] = $sms_email;
+                            if (strpos($sms_email, '@') === false) {
+                                $sms_users[] = $assignee;
+                            } else {
+                                $to[] = $sms_email;
+                            }
                         }
                     }
                 }
@@ -637,7 +643,11 @@ class Reminder_Action
                         if (User::isClockedIn($key)) {
                             $sms_email = User::getSMS($key);
                             if (!empty($sms_email)) {
-                                $to[] = $sms_email;
+                                if (strpos($sms_email, '@') === false) {
+                                    $sms_users[] = $key;
+                                } else {
+                                    $to[] = $sms_email;
+                                }
                             }
                         }
                     }
@@ -646,7 +656,11 @@ class Reminder_Action
                 if ((!empty($group_leader_usr_id)) && (User::isClockedIn($group_leader_usr_id))) {
                     $leader_sms_email = User::getSMS($group_leader_usr_id);
                     if ((!empty($leader_sms_email)) && (!in_array($leader_sms_email, $to))) {
-                        $to[] = $leader_sms_email;
+                        if (strpos($leader_sms_email, '@') === false) {
+                            $sms_users[] = $group_leader_usr_id;
+                        } else {
+                            $to[] = $leader_sms_email;
+                        }
                     }
                 }
                 break;
@@ -679,7 +693,7 @@ class Reminder_Action
         }
         $setup = Setup::get();
         // if there are no recipients, then just skip to the next action
-        if (count($to) == 0) {
+        if (count($to) == 0 && count($sms_users) == 0) {
             if (Reminder::isDebug()) {
                 echo "  - No recipients could be found\n";
             }
@@ -693,6 +707,7 @@ class Reminder_Action
                 return false;
             }
         }
+
         // - save a history entry about this action
         self::saveHistory($issue_id, $action['rma_id']);
         // - save this action as the latest triggered one for the given issue ID
@@ -726,6 +741,17 @@ class Reminder_Action
                 $mail->send(null, $address, $subject, 0, $issue_id, 'reminder');
             }
         }
+
+        // send sms alerts
+        if (count($sms_users) > 0) {
+            $message = $action['rma_title'] . ' #' . $issue_id . ':' . $data['sev_title'] . '[' .
+                $data['customer']['name'] . "] " . $data['iss_summary'];
+            $message = substr($message, 0, 159);
+            foreach ($sms_users as $sms_user) {
+                SMSAlert::notify($sms_user, $message);
+            }
+        }
+
         // - eventum saves the day once again
         return true;
     }
