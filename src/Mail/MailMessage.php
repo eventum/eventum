@@ -266,7 +266,7 @@ class MailMessage extends Message
             $hasDisposition = $headers->has('Content-Disposition');
             $disposition = $hasDisposition ? $part->getHeaderField('Content-Disposition') : null;
             $filename = $hasDisposition ? $part->getHeaderField('Content-Disposition', 'filename') : null;
-            $is_attachment = $disposition == 'attachment' || $filename;
+            $is_attachment = $disposition === 'attachment' || $filename;
 
             $charset = $part->getHeaderField('Content-Type', 'charset');
 
@@ -277,7 +277,7 @@ class MailMessage extends Message
                         $delsp = $part->getHeaderField('Content-Type', 'delsp');
 
                         $text = Mime_Helper::convertString($part->getContent(), $charset);
-                        if ($format == 'flowed') {
+                        if ($format === 'flowed') {
                             $text = Mime_Helper::decodeFlowedBodies($text, $delsp);
                         }
                         $parts['text'][] = $text;
@@ -299,10 +299,10 @@ class MailMessage extends Message
 
                 default:
                     // avoid treating forwarded messages as attachments
-                    $is_attachment |= ($disposition == 'inline' && $ctype != 'message/rfc822');
+                    $is_attachment |= ($disposition === 'inline' && $ctype !== 'message/rfc822');
                     // handle inline images
                     $type = current(explode('/', $ctype));
-                    $is_attachment |= $type == 'image';
+                    $is_attachment |= $type === 'image';
 
                     if (!$is_attachment) {
                         $parts['text'][] = $part->getContent();
