@@ -252,14 +252,6 @@ class Support
     }
 
     /**
-     * Method used to clear the error stack as required by the IMAP PHP extension.
-     */
-    public static function clearErrors()
-    {
-        @imap_errors();
-    }
-
-    /**
      * Method used to restore the specified support emails from
      * 'removed' to 'active'.
      *
@@ -861,18 +853,6 @@ class Support
             'type' => $type,
             'parent_id' => $parent_id,
         ];
-    }
-
-    /**
-     * Method used to close the existing connection to the email
-     * server.
-     *
-     * @param   resource $mbox The mailbox
-     */
-    public static function closeEmailServer($mbox)
-    {
-        @imap_expunge($mbox);
-        @imap_close($mbox);
     }
 
     /**

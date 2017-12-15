@@ -137,7 +137,27 @@ class MailDownloadCommand
      */
     private function closeConnection($mbox)
     {
-        Support::closeEmailServer($mbox);
-        Support::clearErrors();
+        $this->closeEmailServer($mbox);
+        $this->clearErrors();
+    }
+
+    /**
+     * Method used to close the existing connection to the email
+     * server.
+     *
+     * @param   resource $mbox The mailbox
+     */
+    private function closeEmailServer($mbox)
+    {
+        imap_expunge($mbox);
+        imap_close($mbox);
+    }
+
+    /**
+     * Method used to clear the error stack as required by the IMAP PHP extension.
+     */
+    private function clearErrors()
+    {
+        imap_errors();
     }
 }
