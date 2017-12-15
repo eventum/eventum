@@ -276,7 +276,7 @@ class MailMessage extends Message
                         $format = $part->getHeaderField('Content-Type', 'format');
                         $delsp = $part->getHeaderField('Content-Type', 'delsp');
 
-                        $text = Mime_Helper::convertString($part->getContent(), $charset);
+                        $text = Mime_Helper::convertString((new DecodePart($part))->decode(), $charset);
                         if ($format === 'flowed') {
                             $text = Mime_Helper::decodeFlowedBodies($text, $delsp);
                         }
