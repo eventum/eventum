@@ -319,8 +319,7 @@ class MailMessage extends Message
             $str = implode("\n\n", $parts['html']);
 
             // hack for inotes to prevent content from being displayed all on one line.
-            $str = str_replace('</DIV><DIV>', "\n", $str);
-            $str = str_replace(['<br>', '<br />', '<BR>', '<BR />'], "\n", $str);
+            $str = str_replace(['</DIV><DIV>', '<br>', '<br />', '<BR>', '<BR />'], "\n", $str);
             // XXX: do we also need to do something here about base64 encoding?
             $str = strip_tags($str);
 
