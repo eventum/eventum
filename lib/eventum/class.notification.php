@@ -13,10 +13,13 @@
 
 use Eventum\Attachment\AttachmentManager;
 use Eventum\Db\DatabaseException;
+use Eventum\Event\SystemEvents;
+use Eventum\EventDispatcher\EventManager;
 use Eventum\Mail\Helper\AddressHeader;
 use Eventum\Mail\Helper\WarningMessage;
 use Eventum\Mail\MailBuilder;
 use Eventum\Mail\MailMessage;
+use Symfony\Component\EventDispatcher\GenericEvent;
 
 /**
  * Class to handle all of the business logic related to sending email
@@ -1436,35 +1439,17 @@ class Notification
      */
     public static function notifyIRC($project_id, $notice, $issue_id = null, $usr_id = null, $category = false, $type = false)
     {
-        // don't save any irc notification if this feature is disabled
-        $setup = Setup::get();
-        if ($setup['irc_notification'] != 'enabled') {
-            return;
-        }
-
-        $notice = Workflow::formatIRCMessage($project_id, $notice, $issue_id, $usr_id, $category, $type);
-
-        if ($notice === false) {
-            return;
-        }
-
-        $params = [
-            'ino_prj_id' => $project_id,
-            'ino_created_date' => Date_Helper::getCurrentDateGMT(),
-            'ino_status' => 'pending',
-            'ino_message' => $notice,
-            'ino_category' => $category,
+        $arguments = [
+            'prj_id' => $project_id,
+            'notice' => $notice,
+            'issue_id' => $issue_id,
+            'usr_id' => $usr_id,
+            'category' => $category,
+            'type' => $type,
         ];
 
-        if ($issue_id) {
-            $params['ino_iss_id'] = $issue_id;
-        }
-        if ($usr_id) {
-            $params['ino_target_usr_id'] = $usr_id;
-        }
-
-        $stmt = 'INSERT INTO `irc_notice` SET ' . DB_Helper::buildSet($params);
-        DB_Helper::getInstance()->query($stmt, $params);
+        $event = new GenericEvent(null, $arguments);
+        EventManager::dispatch(SystemEvents::IRC_NOTIFY, $event);
     }
 
     /**

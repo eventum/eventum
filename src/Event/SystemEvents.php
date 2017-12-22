@@ -67,4 +67,10 @@ final class SystemEvents
     const MAIL_QUEUE_SEND = 'mail.queue.send';
     const MAIL_QUEUE_SENT = 'mail.queue.sent';
     const MAIL_QUEUE_ERROR = 'mail.queue.error';
+
+    /**
+     * @since 3.4.2
+     * @see Notification::notifyIRC()
+     */
+    const IRC_NOTIFY = 'irc.notify';
 }
