@@ -12,12 +12,14 @@
  */
 
 use Eventum\Attachment\AttachmentGroup;
+use Eventum\Event\SystemEvents;
 use Eventum\Event\WorkflowEvents;
 use Eventum\EventDispatcher\EventManager;
 use Eventum\Extension\ExtensionLoader;
 use Eventum\Mail\ImapMessage;
 use Eventum\Mail\MailMessage;
 use Eventum\Model\Entity;
+use Symfony\Component\EventDispatcher\GenericEvent;
 
 class Workflow
 {
@@ -211,9 +213,20 @@ class Workflow
      * @param   int $issue_id the ID of the issue
      * @param   array $email_details Details of the issue
      * @param   string $type what type of blocked email this is
+     * @since 3.4.2 emits BLOCKED_EMAIL event
+     * @deprecated use SystemEvents::EMAIL_BLOCKED event listener
      */
     public static function handleBlockedEmail($prj_id, $issue_id, $email_details, $type)
     {
+        $arguments = [
+            'prj_id' => $prj_id,
+            'issue_id' => $issue_id,
+            'email_details' => $email_details,
+            'type' => $type,
+        ];
+        $event = new GenericEvent(null, $arguments);
+        EventManager::dispatch(SystemEvents::EMAIL_BLOCKED, $event);
+
         if (!self::hasWorkflowIntegration($prj_id)) {
             return;
         }

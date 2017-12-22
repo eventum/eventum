@@ -76,6 +76,12 @@ final class SystemEvents
 
     /**
      * @since 3.4.2
+     * @see Workflow::handleBlockedEmail()
+     */
+    const EMAIL_BLOCKED = 'email.blocked';
+
+    /**
+     * @since 3.4.2
      * @see Notification::notifyNewIssue()
      */
     const NOTIFY_ISSUE_CREATED = 'notify.issue.created';
