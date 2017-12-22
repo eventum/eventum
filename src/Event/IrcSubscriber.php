@@ -15,6 +15,9 @@ namespace Eventum\Event;
 
 use Date_Helper;
 use DB_Helper;
+use Group;
+use Issue;
+use Notification;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 use Workflow;
@@ -28,7 +31,45 @@ class IrcSubscriber implements EventSubscriberInterface
     {
         return [
             SystemEvents::IRC_NOTIFY => 'notifyIRC',
+            SystemEvents::NOTIFY_ISSUE_CREATED => 'notifyIssueCreated',
         ];
+    }
+
+    /**
+     * Notify new issue to irc channel
+     */
+    public function notifyIssueCreated(GenericEvent $event)
+    {
+        $issue_id = $event['issue_id'];
+        $prj_id = $event['prj_id'];
+        $data = $event['data'];
+
+        $irc_notice = "New Issue #$issue_id (";
+        $quarantine = Issue::getQuarantineInfo($issue_id);
+        if ($quarantine) {
+            $irc_notice .= 'Quarantined; ';
+        }
+
+        $irc_notice .= 'Priority: ' . $data['pri_title'];
+
+        // also add information about the assignee, if any
+        $assignment = Issue::getAssignedUsers($issue_id);
+        if (count($assignment) > 0) {
+            $irc_notice .= '; Assignment: ' . implode(', ', $assignment);
+        }
+
+        if (!empty($data['iss_grp_id'])) {
+            $irc_notice .= '; Group: ' . Group::getName($data['iss_grp_id']);
+        }
+        $irc_notice .= '), ';
+
+        if (isset($data['customer'])) {
+            $irc_notice .= $data['customer']['name'] . ', ';
+        }
+
+        $irc_notice .= $data['iss_summary'];
+
+        Notification::notifyIRC($prj_id, $irc_notice, $issue_id, false, false, 'new_issue');
     }
 
     public function notifyIRC(GenericEvent $event)

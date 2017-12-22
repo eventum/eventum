@@ -1204,28 +1204,8 @@ class Notification
         $data = Issue::getDetails($issue_id, true);
         $data['attachments'] = AttachmentManager::getList($issue_id);
 
-        // notify new issue to irc channel
-        $irc_notice = "New Issue #$issue_id (";
-        $quarantine = Issue::getQuarantineInfo($issue_id);
-        if (!empty($quarantine)) {
-            $irc_notice .= 'Quarantined; ';
-        }
-        $irc_notice .= 'Priority: ' . $data['pri_title'];
-        // also add information about the assignee, if any
-        $assignment = Issue::getAssignedUsers($issue_id);
-        if (count($assignment) > 0) {
-            $irc_notice .= '; Assignment: ' . implode(', ', $assignment);
-        }
-        if (!empty($data['iss_grp_id'])) {
-            $irc_notice .= '; Group: ' . Group::getName($data['iss_grp_id']);
-        }
-        $irc_notice .= '), ';
-        if (@isset($data['customer'])) {
-            $irc_notice .= $data['customer']['name'] . ', ';
-        }
-        $irc_notice .= $data['iss_summary'];
-        self::notifyIRC($prj_id, $irc_notice, $issue_id, false, false, 'new_issue');
-        $data['custom_fields'] = [];// empty place holder so notifySubscribers will fill it in with appropriate data for the user
+        // empty place holder so notifySubscribers will fill it in with appropriate data for the user
+        $data['custom_fields'] = [];
         $subject = ev_gettext('New Issue');
         // generate new Message-ID
         $message_id = Mail_Helper::generateMessageID();
@@ -1235,6 +1215,15 @@ class Notification
 
         // remove excluded emails
         $emails = array_diff($emails, $exclude_list);
+
+        $arguments = [
+            'issue_id' => (int)$issue_id,
+            'prj_id' => $prj_id,
+            'data' => $data,
+        ];
+
+        $event = new GenericEvent(null, $arguments);
+        EventManager::dispatch(SystemEvents::NOTIFY_ISSUE_CREATED, $event);
 
         self::notifySubscribers($issue_id, $emails, 'new_issue', $data, $subject, false, false, $headers);
     }

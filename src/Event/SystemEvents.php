@@ -73,4 +73,10 @@ final class SystemEvents
      * @see Notification::notifyIRC()
      */
     const IRC_NOTIFY = 'irc.notify';
+
+    /**
+     * @since 3.4.2
+     * @see Notification::notifyNewIssue()
+     */
+    const NOTIFY_ISSUE_CREATED = 'notify.issue.created';
 }
