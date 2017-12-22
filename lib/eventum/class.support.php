@@ -1942,7 +1942,7 @@ class Support
                     // we pass as reference, as that may save some memory
                     'body' => &$body,
                 ];
-                Workflow::handleBlockedEmail($prj_id, $issue_id, $email_details, 'web');
+                Workflow::handleBlockedEmail($prj_id, $issue_id, $email_details, 'web', $mail);
 
                 return 1;
             }
@@ -2423,7 +2423,7 @@ class Support
             } else {
                 $email_type = 'routed';
             }
-            Workflow::handleBlockedEmail($prj_id, $issue_id, $email_details, $email_type);
+            Workflow::handleBlockedEmail($prj_id, $issue_id, $email_details, $email_type, $mail);
 
             // try to get usr_id of sender, if not, use system account
             $usr_id = User::getUserIDByEmail($sender_email, true) ?: APP_SYSTEM_USER_ID;

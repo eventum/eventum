@@ -213,16 +213,18 @@ class Workflow
      * @param   int $issue_id the ID of the issue
      * @param   array $email_details Details of the issue
      * @param   string $type what type of blocked email this is
+     * @param MailMessage $mail
      * @since 3.4.2 emits BLOCKED_EMAIL event
      * @deprecated use SystemEvents::EMAIL_BLOCKED event listener
      */
-    public static function handleBlockedEmail($prj_id, $issue_id, $email_details, $type)
+    public static function handleBlockedEmail($prj_id, $issue_id, $email_details, $type, $mail = null)
     {
         $arguments = [
             'prj_id' => $prj_id,
             'issue_id' => $issue_id,
             'email_details' => $email_details,
             'type' => $type,
+            'mail' => $mail,
         ];
         $event = new GenericEvent(null, $arguments);
         EventManager::dispatch(SystemEvents::EMAIL_BLOCKED, $event);
