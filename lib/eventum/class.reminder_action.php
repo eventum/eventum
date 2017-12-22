@@ -12,6 +12,9 @@
  */
 
 use Eventum\Db\DatabaseException;
+use Eventum\Event\SystemEvents;
+use Eventum\EventDispatcher\EventManager;
+use Symfony\Component\EventDispatcher\GenericEvent;
 
 /**
  * Class to handle the business logic related to the reminder emails
@@ -653,30 +656,17 @@ class Reminder_Action
         }
         $data = Issue::getDetails($issue_id);
         $conditions = Reminder_Condition::getAdminList($action['rma_id']);
-        // alert IRC if needed
-        if ($action['rma_alert_irc']) {
-            if (Reminder::isDebug()) {
-                echo "  - Processing IRC notification\n";
-            }
-            $irc_notice = "Issue #$issue_id (";
-            if (!empty($data['pri_title'])) {
-                $irc_notice .= 'Priority: ' . $data['pri_title'];
-            }
-            if (!empty($data['sev_title'])) {
-                $irc_notice .= 'Severity: ' . $data['sev_title'];
-            }
-            // also add information about the assignee, if any
-            $assignment = Issue::getAssignedUsers($issue_id);
-            if (count($assignment) > 0) {
-                $irc_notice .= '; Assignment: ' . implode(', ', $assignment);
-            }
-            if (!empty($data['iss_grp_id'])) {
-                $irc_notice .= '; Group: ' . Group::getName($data['iss_grp_id']);
-            }
-            $irc_notice .= "), Reminder action '" . $action['rma_title'] . "' was just triggered; " . $action['rma_boilerplate'];
-            Notification::notifyIRC(Issue::getProjectID($issue_id), $irc_notice, $issue_id, false,
-                APP_EVENTUM_IRC_CATEGORY_REMINDER);
-        }
+
+        $arguments = [
+            // $issue_id, $reminder, $action
+            'issue_id' => $issue_id,
+            'reminder' => $reminder,
+            'action' => $action,
+            'to' => $to,
+        ];
+        $event = new GenericEvent(null, $arguments);
+        EventManager::dispatch(SystemEvents::REMINDER_ACTION_PERFORM, $event);
+
         $setup = Setup::get();
         // if there are no recipients, then just skip to the next action
         if (count($to) == 0) {
@@ -686,7 +676,7 @@ class Reminder_Action
             // if not even an irc alert was sent, then save
             // a notice about this on reminder_sent@, if needed
             if (!$action['rma_alert_irc']) {
-                if ($setup['email_reminder']['status'] == 'enabled') {
+                if ($setup['email_reminder']['status'] === 'enabled') {
                     self::_recordNoRecipientError($issue_id, $type, $reminder, $action, $data, $conditions);
                 }
 
@@ -701,7 +691,7 @@ class Reminder_Action
         // - perform the action
         if (count($to) > 0) {
             // send a copy of this reminder to reminder_sent@, if needed
-            if ($setup['email_reminder']['status'] == 'enabled' && $setup['email_reminder']['addresses']) {
+            if ($setup['email_reminder']['status'] === 'enabled' && $setup['email_reminder']['addresses']) {
                 $addresses = Reminder::_getReminderAlertAddresses();
                 if (count($addresses) > 0) {
                     $to = array_merge($to, $addresses);
@@ -741,7 +731,7 @@ class Reminder_Action
      * @param   array $reminder The reminder details
      * @param   array $action The action details
      */
-    private function _recordNoRecipientError($issue_id, $type, $reminder, $action, $data, $conditions)
+    private static function _recordNoRecipientError($issue_id, $type, $reminder, $action, $data, $conditions)
     {
         $to = Reminder::_getReminderAlertAddresses();
         if (count($to) > 0) {

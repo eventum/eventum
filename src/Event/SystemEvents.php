@@ -79,4 +79,10 @@ final class SystemEvents
      * @see Notification::notifyNewIssue()
      */
     const NOTIFY_ISSUE_CREATED = 'notify.issue.created';
+
+    /**
+     * @since 3.4.2
+     * @see Reminder_Action::perform()
+     */
+    const REMINDER_ACTION_PERFORM = 'reminder.action.perform';
 }

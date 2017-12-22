@@ -18,6 +18,7 @@ use DB_Helper;
 use Group;
 use Issue;
 use Notification;
+use Reminder;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 use Workflow;
@@ -32,7 +33,39 @@ class IrcSubscriber implements EventSubscriberInterface
         return [
             SystemEvents::IRC_NOTIFY => 'notifyIRC',
             SystemEvents::NOTIFY_ISSUE_CREATED => 'notifyIssueCreated',
+            SystemEvents::REMINDER_ACTION_PERFORM => 'reminderAction',
         ];
+    }
+
+    public function reminderAction(GenericEvent $event)
+    {
+        $issue_id = $event['issue_id'];
+        $action = $event['action'];
+
+        // alert IRC if needed
+        if (!$action['rma_alert_irc']) {
+            return;
+        }
+
+        $irc_notice = "Issue #$issue_id (";
+        if (!empty($data['pri_title'])) {
+            $irc_notice .= 'Priority: ' . $data['pri_title'];
+        }
+        if (!empty($data['sev_title'])) {
+            $irc_notice .= 'Severity: ' . $data['sev_title'];
+        }
+        // also add information about the assignee, if any
+        $assignment = Issue::getAssignedUsers($issue_id);
+        if (count($assignment) > 0) {
+            $irc_notice .= '; Assignment: ' . implode(', ', $assignment);
+        }
+        if (!empty($data['iss_grp_id'])) {
+            $irc_notice .= '; Group: ' . Group::getName($data['iss_grp_id']);
+        }
+        $irc_notice .= "), Reminder action '" . $action['rma_title'] . "' was just triggered; " . $action['rma_boilerplate'];
+
+        $prj_id = Issue::getProjectID($issue_id);
+        Notification::notifyIRC($prj_id, $irc_notice, $issue_id, false, APP_EVENTUM_IRC_CATEGORY_REMINDER);
     }
 
     /**
