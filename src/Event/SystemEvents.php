@@ -94,6 +94,12 @@ final class SystemEvents
 
     /**
      * @since 3.4.2
+     * @see Workflow::formatIRCMessage()
+     */
+    const IRC_FORMAT_MESSAGE = 'irc.format.message';
+
+    /**
+     * @since 3.4.2
      * @see Notification::notifyIRCBlockedMessage()
      */
     const IRC_NOTIFY_BLOCKED_MESSAGE = 'irc.notify.blocked.message';

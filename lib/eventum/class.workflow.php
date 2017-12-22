@@ -801,15 +801,39 @@ class Workflow
         return $backend->getActiveGroup($prj_id);
     }
 
-    public static function formatIRCMessage($prj_id, $notice, $issue_id = false, $usr_id = false, &$category = false,
-                                            $type = false)
+    /**
+     * @param int $prj_id
+     * @param string $notice
+     * @param int $issue_id
+     * @param int $usr_id
+     * @param string $category
+     * @param string $type
+     * @return string
+     * @since 3.4.2 emits IRC_FORMAT_MESSAGE event
+     * @deprecated since 3.4.2 use Event instead
+     */
+    public static function formatIRCMessage($prj_id, $notice, $issue_id = null, $usr_id = null, &$category = null, $type = null)
     {
-        if (!self::hasWorkflowIntegration($prj_id)) {
-            return $notice;
-        }
-        $backend = self::_getBackend($prj_id);
+        $arguments = [
+            'prj_id' => $prj_id,
+            'notice' => $notice,
+            'issue_id' => $issue_id,
+            'usr_id' => $usr_id,
+            'category' => $category,
+            'type' => $type,
+        ];
+        $event = new GenericEvent(null, $arguments);
+        EventManager::dispatch(SystemEvents::IRC_FORMAT_MESSAGE, $event);
 
-        return $backend->formatIRCMessage($prj_id, $notice, $issue_id, $usr_id, $category, $type);
+        if (self::hasWorkflowIntegration($prj_id)) {
+            $backend = self::_getBackend($prj_id);
+            $event['notice'] = $backend->formatIRCMessage($prj_id, $notice, $issue_id, $usr_id, $category, $type);
+        }
+
+        // might have been updated by workflow
+        $category = $event['category'];
+
+        return $event['notice'];
     }
 
     /**
