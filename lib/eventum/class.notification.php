@@ -1406,14 +1406,12 @@ class Notification
      */
     public static function notifyIRCBlockedMessage($issue_id, $from)
     {
-        $notice = "Issue #$issue_id updated (";
-        // also add information about the assignee, if any
-        $assignment = Issue::getAssignedUsers($issue_id);
-        if (count($assignment) > 0) {
-            $notice .= 'Assignment: ' . implode(', ', $assignment) . '; ';
-        }
-        $notice .= "BLOCKED email from '$from')";
-        self::notifyIRC(Issue::getProjectID($issue_id), $notice, $issue_id);
+        $arguments = [
+            'issue_id' => $issue_id,
+            'from' => $from,
+        ];
+        $event = new GenericEvent(null, $arguments);
+        EventManager::dispatch(SystemEvents::IRC_NOTIFY_BLOCKED_MESSAGE, $event);
     }
 
     /**

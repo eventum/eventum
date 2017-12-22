@@ -32,9 +32,31 @@ class IrcSubscriber implements EventSubscriberInterface
     {
         return [
             SystemEvents::IRC_NOTIFY => 'notifyIRC',
+            SystemEvents::IRC_NOTIFY_BLOCKED_MESSAGE => 'notifyBlockedMessage',
             SystemEvents::NOTIFY_ISSUE_CREATED => 'notifyIssueCreated',
             SystemEvents::REMINDER_ACTION_PERFORM => 'reminderAction',
         ];
+    }
+
+    /**
+     * Method used to send an IRC notification about a blocked email that was
+     * saved into an internal note.
+     */
+    public function notifyBlockedMessage(GenericEvent $event)
+    {
+        $issue_id = $event['issue_id'];
+        $from = $event['from'];
+
+        $notice = "Issue #$issue_id updated (";
+        // also add information about the assignee, if any
+        $assignment = Issue::getAssignedUsers($issue_id);
+        if (count($assignment) > 0) {
+            $notice .= 'Assignment: ' . implode(', ', $assignment) . '; ';
+        }
+        $notice .= "BLOCKED email from '$from')";
+
+        $prj_id = Issue::getProjectID($issue_id);
+        Notification::notifyIRC($prj_id, $notice, $issue_id);
     }
 
     public function reminderAction(GenericEvent $event)

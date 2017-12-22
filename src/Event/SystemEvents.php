@@ -85,4 +85,10 @@ final class SystemEvents
      * @see Reminder_Action::perform()
      */
     const REMINDER_ACTION_PERFORM = 'reminder.action.perform';
+
+    /**
+     * @since 3.4.2
+     * @see Notification::notifyIRCBlockedMessage()
+     */
+    const IRC_NOTIFY_BLOCKED_MESSAGE = 'irc.notify.blocked.message';
 }
