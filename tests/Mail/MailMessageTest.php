@@ -18,7 +18,6 @@ use Eventum\Mail\MailBuilder;
 use Eventum\Mail\MailMessage;
 use Eventum\Test\TestCase;
 use Mail_Helper;
-use Mail_mimeDecode;
 use Mail_Queue;
 use Mime_Helper;
 use PHPUnit_Framework_Error_Notice;
@@ -164,58 +163,6 @@ class MailMessageTest extends TestCase
     {
         $message = MailMessage::createFromFile(__DIR__ . '/../data/bug684922.txt');
         $this->assertFalse($message->isBounceMessage());
-    }
-
-    public function testHasAttachments()
-    {
-        $raw = "Message-ID: <33@JON>X-foo: 1\r\n\r\nada";
-        $message = MailMessage::createFromString($raw);
-        $has_attachments = $message->countParts();
-        $multipart = $message->isMultipart();
-        $this->assertFalse($multipart);
-        $this->assertEquals(0, $has_attachments);
-        $this->assertFalse($message->getAttachment()->hasAttachments());
-
-        $message = MailMessage::createFromFile(__DIR__ . '/../data/bug684922.txt');
-        $multipart = $message->isMultipart();
-        $this->assertTrue($multipart);
-        $has_attachments = $message->countParts();
-        $this->assertEquals(2, $has_attachments);
-        $this->assertTrue($message->getAttachment()->hasAttachments());
-
-        // this one does not have "Attachments" even it is multipart
-        $message = MailMessage::createFromFile(__DIR__ . '/../data/multipart-text-html.txt');
-        $this->assertFalse($message->getAttachment()->hasAttachments());
-    }
-
-    /**
-     * Ensure email with text/plain attachment does not throw InvalidArgumentException
-     *
-     * Uncaught Exception Zend\Mail\Storage\Exception\InvalidArgumentException:
-     * "Header with Name Content-Disposition or content-disposition not found"
-     */
-    public function testHasAttachmentPlain()
-    {
-        $content = $this->readDataFile('attachment-bug.txt');
-        $message = MailMessage::createFromString($content);
-        $this->assertTrue($message->getAttachment()->hasAttachments());
-    }
-
-    public function testGetAttachments()
-    {
-        $raw = $this->readDataFile('bug684922.txt');
-
-        $mail = MailMessage::createFromString($raw);
-        $attachment = $mail->getAttachment();
-        $this->assertTrue($attachment->hasAttachments());
-        $att2 = $attachment->getAttachments();
-
-        $this->assertCount(2, $att2);
-        $att = $att2[0];
-        $this->assertArrayHasKey('filename', $att);
-        $this->assertArrayHasKey('cid', $att);
-        $this->assertArrayHasKey('filetype', $att);
-        $this->assertArrayHasKey('blob', $att);
     }
 
     public function testReferenceMessageId()
@@ -763,30 +710,5 @@ class MailMessageTest extends TestCase
             " root@example.org,\r\n" .
             ' Root =?utf-8?b?TcOkZQ==?= <root2@example.org>';
         $this->assertEquals($exp, $m->to);
-    }
-
-    /**
-     * Multipart/related contains attachment.
-     * Current implementation sees 2 attachments, should see 3.
-     */
-    public function testMultipartRelatedAttachments()
-    {
-        $content = $this->readDataFile('102232.txt');
-
-        $decode = new Mail_mimeDecode($content);
-        $params = [
-            'crlf' => "\r\n",
-            'include_bodies' => true,
-            'decode_headers' => false,
-            'decode_bodies' => true,
-        ];
-        $email = $decode->decode($params);
-
-        $mail = MailMessage::createFromString($content);
-        $attachment = $mail->getAttachment();
-
-        $this->assertTrue($attachment->hasAttachments());
-        $attachments = $attachment->getAttachments();
-        $this->assertCount(3, $attachments);
     }
 }

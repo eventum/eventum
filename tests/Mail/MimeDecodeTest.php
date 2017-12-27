@@ -62,23 +62,6 @@ class MimeDecodeTest extends TestCase
     }
 
     /**
-     * Test that $mail->getAttachments can be called if no attachments present
-     *
-     * @see Support::getEmailDetails()
-     */
-    public function testGetAttachments()
-    {
-        $content = $this->readDataFile('attachment-bug.txt');
-        $mail = MailMessage::createFromString($content);
-        $attachment = $mail->getAttachment();
-        $this->assertTrue($attachment->hasAttachments());
-        $attachments = $attachment->getAttachments();
-        $this->assertContains('i cannot get any cursed header', $attachments[0]['blob']);
-        $content = $mail->getMessageBody();
-        $this->assertContains('i cannot get any cursed header', $content);
-    }
-
-    /**
      * Mime_Helper::decode()->body extracts main message body if no parts present
      */
     public function testBuildMail()
