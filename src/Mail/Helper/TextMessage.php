@@ -15,13 +15,14 @@ namespace Eventum\Mail\Helper;
 
 use Eventum\Mail\MailMessage;
 use Mime_Helper;
+use Zend\Mail\Storage\Part;
 
 /**
  * Creates textual representation of the message body.
  */
 class TextMessage
 {
-    /** @var MailMessage */
+    /** @var MailMessage|Part\PartInterface */
     private $message;
 
     public function __construct(MailMessage $message)
@@ -43,6 +44,10 @@ class TextMessage
             $charset = $part->getHeaderField('Content-Type', 'charset');
 
             switch ($ctype) {
+                case 'multipart/alternative':
+                    $parts['text'][] = (new self($part))->getMessageBody();
+                    break;
+
                 case 'text/plain':
                     if (!$is_attachment) {
                         $format = $part->getHeaderField('Content-Type', 'format');
