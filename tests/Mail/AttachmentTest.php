@@ -104,4 +104,18 @@ class AttachmentTest extends TestCase
         $content = $mail->getMessageBody();
         $this->assertContains('i cannot get any cursed header', $content);
     }
+
+    /**
+     * it should not account multipart/alternative as an attachment
+     */
+    public function testMultipartAlternative()
+    {
+        $content = $this->readDataFile('multipart-mixed-alternative-attachment.eml');
+        $mail = MailMessage::createFromString($content);
+        $attachment = $mail->getAttachment();
+
+        $this->assertTrue($attachment->hasAttachments());
+        $attachments = $attachment->getAttachments();
+        $this->assertCount(1, $attachments);
+    }
 }
