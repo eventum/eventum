@@ -19,7 +19,7 @@ use Zend\Mail\Header\ContentType;
 use Zend\Mail\Storage\Message;
 use Zend\Mime\Part;
 
-class Attachment
+class MailAttachment
 {
     /** @var MailMessage */
     private $message;

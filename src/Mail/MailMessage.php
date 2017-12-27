@@ -52,7 +52,7 @@ class MailMessage extends Message
 {
     const ENCODING = APP_CHARSET;
 
-    /** @var Attachment */
+    /** @var MailAttachment */
     private $attachment;
 
     /**
@@ -230,12 +230,12 @@ class MailMessage extends Message
     /**
      * Return Attachment object related to current Mail Message
      *
-     * @return Attachment
+     * @return MailAttachment
      */
     public function getAttachment()
     {
         if (!$this->attachment) {
-            $this->attachment = new Attachment($this);
+            $this->attachment = new MailAttachment($this);
         }
 
         return $this->attachment;
