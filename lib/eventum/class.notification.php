@@ -2317,12 +2317,15 @@ class Notification
      */
     public static function notifyByMail($text_message, $from, $to, $subject, $issue_id, $options = [])
     {
+        $to = AddressHeader::fromString($to)->getAddress();
+        $from = AddressHeader::fromString($from ?: Setup::get()->smtp->from)->getAddress();
+
         $builder = new MailBuilder();
         $builder->addTextPart($text_message)
             ->getMessage()
             ->setSubject($subject)
-            ->setFrom($from ?: Setup::get()->smtp->from)
-            ->setTo($to);
+            ->setFrom($from->getEmail(), $from->getName())
+            ->setTo($to->getEmail(), $to->getName());
 
         $mail = $builder->toMailMessage();
         $mail->addHeaders(Mail_Helper::getBaseThreadingHeaders($issue_id));
