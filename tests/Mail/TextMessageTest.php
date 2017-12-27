@@ -47,7 +47,19 @@ class TextMessageTest extends TestCase
     {
         $filename = $this->getDataFile('multipart-text-html.txt');
         $mail = MailMessage::createFromFile($filename);
-        $body2 = $mail->getMessageBody();
-        $this->assertEquals("Commit in MAIN\n", $body2);
+        $body = $mail->getMessageBody();
+        $this->assertEquals("Commit in MAIN\n", $body);
+    }
+
+    /**
+     * root mail: multipart/mixed
+     * first part: multipart/alternative
+     */
+    public function testMultiPartAlternativeAttachment()
+    {
+        $filename = $this->getDataFile('multipart-mixed-alternative.eml');
+        $mail = MailMessage::createFromFile($filename);
+        $body = $mail->getMessageBody();
+        $this->assertEquals("No one has ever seen God.\n", $body);
     }
 }
