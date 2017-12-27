@@ -454,9 +454,9 @@ class Support
         // check if the current message was already seen
         if ($info['ema_get_only_new'] && $mail->isSeen()) {
             $logger->debug("Skip $message_id: processing only new mails and already Seen.");
+
             return;
         }
-
 
         // if message_id already exists, return immediately -- nothing to do
         if (self::exists($message_id) || Note::exists($message_id)) {
@@ -527,7 +527,7 @@ class Support
             'body' => $mail->getMessageBody(),
             'full_email' => $mail->getRawContent(),
             // the following items are not inserted, but useful in some methods
-            'headers' => $mail->getHeadersArray(),
+//            'headers' => $mail->getHeadersArray(),
         ];
 
         $info['date'] = $t['date'];
