@@ -32,7 +32,7 @@ class TextMessage
 
     public function getMessageBody()
     {
-        $parts = [];
+        $text = $html = [];
         foreach ($this->message as $part) {
             $headers = $part->getHeaders();
             $ctype = $part->getHeaderField('Content-Type');
@@ -45,7 +45,7 @@ class TextMessage
 
             switch ($ctype) {
                 case 'multipart/alternative':
-                    $parts['text'][] = (new self($part))->getMessageBody();
+                    $text[] = (new self($part))->getMessageBody();
                     break;
 
                 case 'text/plain':
@@ -53,24 +53,24 @@ class TextMessage
                         $format = $part->getHeaderField('Content-Type', 'format');
                         $delsp = $part->getHeaderField('Content-Type', 'delsp');
 
-                        $text = Mime_Helper::convertString((new DecodePart($part))->decode(), $charset);
+                        $content = Mime_Helper::convertString((new DecodePart($part))->decode(), $charset);
                         if ($format === 'flowed') {
-                            $text = Mime_Helper::decodeFlowedBodies($text, $delsp);
+                            $content = Mime_Helper::decodeFlowedBodies($content, $delsp);
                         }
-                        $parts['text'][] = $text;
+                        $text[] = $content;
                     }
                     break;
 
                 case 'text/html':
                     if (!$is_attachment) {
-                        $parts['html'][] = Mime_Helper::convertString($part->getContent(), $charset);
+                        $html[] = Mime_Helper::convertString($part->getContent(), $charset);
                     }
                     break;
 
                 // special case for Apple Mail
                 case 'text/enriched':
                     if (!$is_attachment) {
-                        $parts['html'][] = Mime_Helper::convertString($part->getContent(), $charset);
+                        $html[] = Mime_Helper::convertString($part->getContent(), $charset);
                     }
                     break;
 
@@ -82,18 +82,17 @@ class TextMessage
                     $is_attachment |= $type === 'image';
 
                     if (!$is_attachment) {
-                        $parts['text'][] = $part->getContent();
+                        $text[] = $part->getContent();
                     }
             }
         }
 
-        // now we have $parts with type 'text' and type 'html'
-        if (isset($parts['text'])) {
-            return implode("\n\n", $parts['text']);
+        if ($text) {
+            return implode("\n\n", $text);
         }
 
-        if (isset($parts['html'])) {
-            $str = implode("\n\n", $parts['html']);
+        if ($html) {
+            $str = implode("\n\n", $html);
 
             // hack for inotes to prevent content from being displayed all on one line.
             $str = str_replace(['</DIV><DIV>', '<br>', '<br />', '<BR>', '<BR />'], "\n", $str);
