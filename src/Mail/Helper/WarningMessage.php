@@ -74,8 +74,7 @@ class WarningMessage
 
         $this->modifyContent(
             function ($content) use ($blocked, $warning) {
-                $content = str_replace($blocked . "\n\n", '', $content);
-                $content = str_replace($warning . "\n\n", '', $content);
+                $content = str_replace([$blocked . "\n\n", $warning . "\n\n"], '', $content);
 
                 return $content;
             }

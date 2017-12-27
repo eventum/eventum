@@ -1,0 +1,42 @@
+From: A Happy User <us.er@example.net>
+To: "support@example.net" <support@example.net>
+Date: Wed, 20 Dec 2017 07:50:23 +0000
+Message-ID: <4B9DEC0C-9C0C-426E-9C0C-327FA351468E@example.org>
+Content-Type: multipart/mixed;
+	boundary="_006_4B9DEC0C9C0C426E9C0C327FA351468Eexampleorg_"
+MIME-Version: 1.0
+
+--_006_4B9DEC0C9C0C426E9C0C327FA351468Eexampleorg_
+Content-Type: multipart/alternative;
+	boundary="_000_4B9DEC0C9C0C426E9C0C327FA351468Eexampleorg_"
+
+--_000_4B9DEC0C9C0C426E9C0C327FA351468Eexampleorg_
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+
+Tm8gb25lIGhhcyBldmVyIHNlZW4gR29kLgo=
+
+--_000_4B9DEC0C9C0C426E9C0C327FA351468Eexampleorg_
+Content-Type: text/html; charset="utf-8"
+Content-ID: <027DA73F56180F47BFAC8D33C76A8893@vendor.example.org>
+Content-Transfer-Encoding: base64
+
+SWYgSSB0ZXN0aWZ5IGFib3V0IG15c2VsZiwgbXkgdGVzdGltb255IGlzIG5vdCB2YWxpZC4KRXZl
+biBpZiBJIHRlc3RpZnkgb24gbXkgb3duIGJlaGFsZiwgbXkgdGVzdGltb255IGlzIHZhbGlkLgo=
+
+--_006_4B9DEC0C9C0C426E9C0C327FA351468Eexampleorg_
+Content-Type: image/gif; name="s.gif"
+Content-Description: s[1].gif
+Content-Disposition: attachment; filename="s[3].gif"; size=43;
+	creation-date="Wed, 20 Dec 2017 07:50:23 GMT";
+	modification-date="Wed, 20 Dec 2017 07:50:23 GMT"
+Content-ID: <16B92C28D7717847A5D610CF449E7339@vendor.example.org>
+Content-Transfer-Encoding: base64
+
+R0lGODlhAQABAID/AMDAwAAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==
+
+--_006_4B9DEC0C9C0C426E9C0C327FA351468Eexampleorg_--
+
+
+
+

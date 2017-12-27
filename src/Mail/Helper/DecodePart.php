@@ -31,7 +31,7 @@ class DecodePart
      * get body.
      * have to decode ourselves or use something like Mime\Message::createFromMessage
      *
-     * @return bool|string
+     * @return string
      */
     public function decode()
     {

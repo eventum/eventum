@@ -57,21 +57,21 @@ class Attachment
             if ($part->getHeaders()->has('Content-Disposition')) {
                 $disposition = $part->getHeaderField('Content-Disposition');
                 $filename = $part->getHeaderField('Content-Disposition', 'filename');
-                $is_attachment = $disposition == 'attachment' || $filename;
+                $is_attachment = $disposition === 'attachment' || $filename;
             }
 
             if (in_array($ctype, ['text/plain', 'text/html', 'text/enriched'])) {
                 $has_attachments |= $is_attachment;
-            } elseif ($ctype == 'multipart/related') {
+            } elseif ($ctype === 'multipart/related') {
                 // multipart/related may have subparts (inline html)
                 $attachment = new self($part);
                 $has_attachments |= $attachment->hasAttachments();
             } else {
                 // avoid treating forwarded messages as attachments
-                $is_attachment |= ($disposition == 'inline' && $ctype != 'message/rfc822');
+                $is_attachment |= ($disposition === 'inline' && $ctype !== 'message/rfc822');
                 // handle inline images
                 $type = current(explode('/', $ctype));
-                $is_attachment |= $type == 'image';
+                $is_attachment |= $type === 'image';
 
                 $has_attachments |= $is_attachment;
             }
@@ -93,12 +93,19 @@ class Attachment
         foreach ($this->message as $part) {
             $headers = $part->getHeaders();
 
+            /** @var ContentType $ct */
             $ct = $headers->get('Content-Type');
+            $type = $ct->getType();
+
+            // multipart/alternative should have text/plain and text/html, none of them are "attachments"
+            if ($type === 'multipart/alternative') {
+                continue;
+            }
+
             // attempt to extract filename
             // 1. try Content-Type: name parameter
             // 2. try Content-Disposition: filename parameter
             // 3. as last resort use Untitled with extension from mime-type subpart
-            /** @var ContentType $ct */
             $filename = $ct->getParameter('name');
             if (!$filename) {
                 try {
@@ -107,7 +114,8 @@ class Attachment
                 }
             }
             if (!$filename) {
-                $filename = ev_gettext('Untitled.%s', end(explode('/', $ct->getType())));
+                $parts = explode('/', $type);
+                $filename = ev_gettext('Untitled.%s', end($parts));
             }
 
             $cid = $headers->has('Content-Id') ? $headers->get('Content-Id')->getFieldValue() : null;
@@ -115,11 +123,11 @@ class Attachment
             $attachments[] = [
                 'filename' => $filename,
                 'cid' => $cid,
-                'filetype' => $ct->getType(),
+                'filetype' => $type,
                 'blob' => (new DecodePart($part))->decode(),
             ];
 
-            if ($ct->getType() == 'multipart/related') {
+            if ($type === 'multipart/related') {
                 // get attachments from multipart/related
                 $subpart = new self($part);
 
@@ -127,7 +135,7 @@ class Attachment
                 // this will resemble previous eventum behavior
                 // whether that's correct is another topic
                 foreach ($subpart->getAttachments() as $attachment) {
-                    if ($attachment['filetype'] == 'text/html') {
+                    if ($attachment['filetype'] === 'text/html') {
                         continue;
                     }
                     $attachments[] = $attachment;
