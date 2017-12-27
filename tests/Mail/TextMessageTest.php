@@ -16,10 +16,7 @@ namespace Eventum\Test\Mail;
 use Eventum\Mail\MailMessage;
 use Eventum\Test\TestCase;
 
-/**
- * @group mail
- */
-class MailParseTest extends TestCase
+class TextMessageTest extends TestCase
 {
     /**
      * Test that HTML entities used in text/html part get decoded
@@ -41,5 +38,16 @@ class MailParseTest extends TestCase
         $mail = MailMessage::createFromString($message);
 
         $this->assertEquals('', $mail->getMessageBody());
+    }
+
+    /**
+     * test $structure->body getting textual mail body from multipart message
+     */
+    public function testGetMailBody()
+    {
+        $filename = $this->getDataFile('multipart-text-html.txt');
+        $mail = MailMessage::createFromFile($filename);
+        $body2 = $mail->getMessageBody();
+        $this->assertEquals("Commit in MAIN\n", $body2);
     }
 }

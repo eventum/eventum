@@ -510,18 +510,6 @@ class MailMessageTest extends TestCase
     }
 
     /**
-     * @test $structure->body getting textual mail body from multipart message
-     */
-    public function testGetMailBody()
-    {
-        $filename = __DIR__ . '/../data/multipart-text-html.txt';
-
-        $mail = MailMessage::createFromFile($filename);
-        $body2 = $mail->getMessageBody();
-        $this->assertEquals("Commit in MAIN\n", $body2);
-    }
-
-    /**
      * test different access modes or X-Priority header.
      */
     public function testXPriority()
