@@ -1236,7 +1236,6 @@ class Support
      * @param   MailMessage $mail The Mail object
      * @param   bool $internal_only Whether these files are supposed to be internal only or not
      * @param   int $associated_note_id The note ID that these attachments should be associated with
-     * @status PORTED
      */
     public static function extractAttachments($issue_id, MailMessage $mail, $internal_only = false, $associated_note_id = null)
     {
@@ -1245,7 +1244,7 @@ class Support
         $usr_id = User::getUserIDByEmail($sender_email);
         $prj_id = Issue::getProjectID($issue_id);
         $unknown_user = false;
-        if (empty($usr_id)) {
+        if (!$usr_id) {
             if (CRM::hasCustomerIntegration($prj_id)) {
                 // try checking if a customer technical contact has this email associated with it
                 try {
@@ -1256,7 +1255,7 @@ class Support
                     $usr_id = null;
                 }
             }
-            if (empty($usr_id)) {
+            if (!$usr_id) {
                 // if we couldn't find a real customer by that email, set the usr_id to be the system user id,
                 // and store the actual email address in the unknown_user field.
                 $usr_id = APP_SYSTEM_USER_ID;
