@@ -621,7 +621,7 @@ class MailMessage extends Message
     {
         $email = $this->getSender();
 
-        return substr($email, 0, 14) == 'mailer-daemon@';
+        return strpos($email, 'mailer-daemon@') === 0;
     }
 
     /**
