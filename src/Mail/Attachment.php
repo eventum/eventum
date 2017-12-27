@@ -57,21 +57,21 @@ class Attachment
             if ($part->getHeaders()->has('Content-Disposition')) {
                 $disposition = $part->getHeaderField('Content-Disposition');
                 $filename = $part->getHeaderField('Content-Disposition', 'filename');
-                $is_attachment = $disposition == 'attachment' || $filename;
+                $is_attachment = $disposition === 'attachment' || $filename;
             }
 
             if (in_array($ctype, ['text/plain', 'text/html', 'text/enriched'])) {
                 $has_attachments |= $is_attachment;
-            } elseif ($ctype == 'multipart/related') {
+            } elseif ($ctype === 'multipart/related') {
                 // multipart/related may have subparts (inline html)
                 $attachment = new self($part);
                 $has_attachments |= $attachment->hasAttachments();
             } else {
                 // avoid treating forwarded messages as attachments
-                $is_attachment |= ($disposition == 'inline' && $ctype != 'message/rfc822');
+                $is_attachment |= ($disposition === 'inline' && $ctype !== 'message/rfc822');
                 // handle inline images
                 $type = current(explode('/', $ctype));
-                $is_attachment |= $type == 'image';
+                $is_attachment |= $type === 'image';
 
                 $has_attachments |= $is_attachment;
             }
@@ -119,7 +119,7 @@ class Attachment
                 'blob' => (new DecodePart($part))->decode(),
             ];
 
-            if ($ct->getType() == 'multipart/related') {
+            if ($ct->getType() === 'multipart/related') {
                 // get attachments from multipart/related
                 $subpart = new self($part);
 
@@ -127,7 +127,7 @@ class Attachment
                 // this will resemble previous eventum behavior
                 // whether that's correct is another topic
                 foreach ($subpart->getAttachments() as $attachment) {
-                    if ($attachment['filetype'] == 'text/html') {
+                    if ($attachment['filetype'] === 'text/html') {
                         continue;
                     }
                     $attachments[] = $attachment;
