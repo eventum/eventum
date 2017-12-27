@@ -23,7 +23,7 @@ use Support;
 class MailDownloadCommand
 {
     const DEFAULT_COMMAND = 'mail:download';
-    const USAGE = self::DEFAULT_COMMAND . ' [username] [hostname] [mailbox] [--limit=]';
+    const USAGE = self::DEFAULT_COMMAND . ' [username] [hostname] [mailbox] [--limit=] [--no-lock]';
 
     /**
      * Limit amount of emails to process.
@@ -38,17 +38,21 @@ class MailDownloadCommand
      * @param string $hostname
      * @param string $mailbox
      */
-    public function execute($username, $hostname, $mailbox, $limit = 0)
+    public function execute($username, $hostname, $mailbox, $limit = 0, $noLock = false)
     {
         $account_id = $this->getAccountId($username, $hostname, $mailbox);
         $this->limit = $limit;
 
-        $lock = new ConcurrentLock('download_emails_' . $account_id);
-        $lock->synchronized(
-            function () use ($account_id) {
-                $this->processEmails($account_id);
-            }
-        );
+        if (!$noLock) {
+            $lock = new ConcurrentLock('download_emails_' . $account_id);
+            $lock->synchronized(
+                function () use ($account_id) {
+                    $this->processEmails($account_id);
+                }
+            );
+        } else {
+            $this->processEmails($account_id);
+        }
     }
 
     /**
