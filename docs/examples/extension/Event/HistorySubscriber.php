@@ -36,6 +36,6 @@ class HistorySubscriber implements EventSubscriberInterface
     {
         $his_summary = Misc::processTokens(ev_gettext($event['his_summary']), $event['his_context']);
 
-        error_log("HISTORY: #{$event['his_id']}: $his_summary");
+        error_log("HISTORY[issue {$event['his_iss_id']}]: {$event['his_id']}: $his_summary");
     }
 }

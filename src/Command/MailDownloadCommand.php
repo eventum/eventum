@@ -23,23 +23,36 @@ use Support;
 class MailDownloadCommand
 {
     const DEFAULT_COMMAND = 'mail:download';
-    const USAGE = self::DEFAULT_COMMAND . ' [username] [hostname] [mailbox]';
+    const USAGE = self::DEFAULT_COMMAND . ' [username] [hostname] [mailbox] [--limit=] [--no-lock]';
+
+    /**
+     * Limit amount of emails to process.
+     * Default unlimited: 0
+     *
+     * @var int
+     */
+    private $limit = 0;
 
     /**
      * @param string $username
      * @param string $hostname
      * @param string $mailbox
      */
-    public function execute($username, $hostname, $mailbox)
+    public function execute($username, $hostname, $mailbox, $limit = 0, $noLock = false)
     {
         $account_id = $this->getAccountId($username, $hostname, $mailbox);
+        $this->limit = $limit;
 
-        $lock = new ConcurrentLock('download_emails_' . $account_id);
-        $lock->synchronized(
-            function () use ($account_id) {
-                $this->processEmails($account_id);
-            }
-        );
+        if (!$noLock) {
+            $lock = new ConcurrentLock('download_emails_' . $account_id);
+            $lock->synchronized(
+                function () use ($account_id) {
+                    $this->processEmails($account_id);
+                }
+            );
+        } else {
+            $this->processEmails($account_id);
+        }
     }
 
     /**
@@ -49,6 +62,7 @@ class MailDownloadCommand
     {
         $account = Email_Account::getDetails($account_id, true);
         $mbox = $this->getConnection($account);
+        $limit = 0;
 
         // if we only want new emails
         if ($account['ema_get_only_new']) {
@@ -58,6 +72,9 @@ class MailDownloadCommand
                 foreach ($emails as $i) {
                     $mail = ImapMessage::createFromImap($mbox, $i, $account);
                     Support::processMailMessage($mail, $account);
+                    if ($this->limit && $limit++ > $this->limit) {
+                        break;
+                    }
                 }
             }
         } else {
@@ -67,6 +84,9 @@ class MailDownloadCommand
                 for ($i = 1; $i <= $total_emails; $i++) {
                     $mail = ImapMessage::createFromImap($mbox, $i, $account);
                     Support::processMailMessage($mail, $account);
+                    if ($this->limit && ++$limit >= $this->limit) {
+                        break;
+                    }
                 }
             }
         }

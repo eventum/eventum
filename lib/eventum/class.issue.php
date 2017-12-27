@@ -1658,16 +1658,13 @@ class Issue
         $contact_id = $options['contact_id'];
         $contract_id = $options['contract_id'];
 
-        $sender = $mail->from;
-        $summary = $mail->subject;
         $description = $mail->getMessageBody();
         $msg_id = $mail->messageId;
-        $date = isset($options['date']) ? $options['date'] : Date_Helper::getRFC822Date($mail->date);
 
         $exclude_list = [];
         $managers = [];
 
-        $sender_email = Mail_Helper::getEmailAddress($sender);
+        $sender_email = Mail_Helper::getEmailAddress($mail->from);
         $sender_usr_id = User::getUserIDByEmail($sender_email, true);
         if (!empty($sender_usr_id)) {
             $reporter = $sender_usr_id;
@@ -1681,7 +1678,7 @@ class Issue
             'priority' => $priority,
             'severity' => $severity,
             'description' => $description,
-            'summary' => $summary,
+            'summary' => $mail->subject,
             'msg_id' => $msg_id,
             'customer' => false,
             'contact' => false,
@@ -1751,7 +1748,7 @@ class Issue
         $has_RR = false;
         // log the creation of the issue
         History::add($issue_id, $usr_id, 'issue_opened', 'Issue opened by {sender}', [
-            'sender' => $sender,
+            'sender' => $mail->from,
         ]);
 
         $emails = [];
@@ -1763,7 +1760,7 @@ class Issue
             }
         }
         // add the reporter to the notification list
-        $emails[] = $sender;
+        $emails[] = $mail->from;
         $emails = array_unique($emails);
         $actions = Notification::getDefaultActions($issue_id, false, 'issue_from_email');
         foreach ($emails as $address) {
@@ -1775,7 +1772,7 @@ class Issue
         $has_TAM = false;
         if ((CRM::hasCustomerIntegration($prj_id)) && (count($managers) > 0)) {
             foreach ($managers as $manager) {
-                if ($manager['cam_type'] == 'intpart') {
+                if ($manager['cam_type'] === 'intpart') {
                     continue;
                 }
                 $users[] = $manager['cam_usr_id'];
@@ -1815,7 +1812,8 @@ class Issue
         Workflow::handleNewIssue($prj_id, $issue_id, $has_TAM, $has_RR);
 
         // send special 'an issue was auto-created for you' notification back to the sender
-        Notification::notifyAutoCreatedIssue($prj_id, $issue_id, $sender, $date, $summary);
+        $date = isset($options['date']) ? $options['date'] : Date_Helper::getRFC822Date($mail->date);
+        Notification::notifyAutoCreatedIssue($prj_id, $issue_id, $mail->from, $date, $mail->subject);
 
         // also notify any users that want to receive emails anytime a new issue is created
         Notification::notifyNewIssue($prj_id, $issue_id, $exclude_list);

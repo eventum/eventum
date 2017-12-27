@@ -445,23 +445,31 @@ class Support
      */
     public static function processMailMessage(ImapMessage $mail, $info)
     {
-        AuthCookie::setAuthCookie(APP_SYSTEM_USER_ID);
+        $logger = Logger::app();
 
-        // check if the current message was already seen
-        if ($info['ema_get_only_new'] && $mail->isSeen()) {
-            return;
-        }
+        AuthCookie::setAuthCookie(APP_SYSTEM_USER_ID);
 
         $message_id = $mail->messageId;
 
+        // check if the current message was already seen
+        if ($info['ema_get_only_new'] && $mail->isSeen()) {
+            $logger->debug("Skip $message_id: processing only new mails and already Seen.");
+
+            return;
+        }
+
         // if message_id already exists, return immediately -- nothing to do
         if (self::exists($message_id) || Note::exists($message_id)) {
+            $logger->debug("Skip $message_id: Already exists as email or note.");
+
             return;
         }
 
         // pass in $mail object so it can be modified
         $workflow = Workflow::preEmailDownload($mail->getProjectId(), $mail);
         if ($workflow === -1) {
+            $logger->debug("Skip $message_id: Skipped by workflow");
+
             return;
         }
 
@@ -470,6 +478,8 @@ class Support
             try {
                 $routed = Routing::route($mail);
             } catch (RoutingException $e) {
+                $logger->debug("Skip $message_id: RoutingException: {$e->getMessage()}");
+
                 // "if leave copy of emails on IMAP server" is "off",
                 // then we can bounce on the message
                 // otherwise proper would be to create table -
@@ -484,7 +494,10 @@ class Support
 
             // the mail was routed
             if ($routed === true) {
+                $logger->debug("Routed $message_id");
+
                 if (!$info['ema_leave_copy']) {
+                    $logger->debug("$message_id: Delete from IMAP/POP3");
                     $mail->deleteMessage();
                 }
 
@@ -514,7 +527,7 @@ class Support
             'body' => $mail->getMessageBody(),
             'full_email' => $mail->getRawContent(),
             // the following items are not inserted, but useful in some methods
-            'headers' => $mail->getHeadersArray(),
+//            'headers' => $mail->getHeadersArray(),
         ];
 
         $info['date'] = $t['date'];
@@ -817,7 +830,7 @@ class Support
                 Authorized_Replier::manualInsert($issue_id, $sender_email, false);
             }
             // associate any existing replied-to email with this new issue
-            if ((!empty($associate_email)) && (!empty($reference_issue_id))) {
+            if ((!empty($associate_email)) && (!empty($reference_issue_id))) { // $reference_issue_id never defined
                 $reference_sup_id = self::getIDByMessageID($associate_email);
                 self::associate(APP_SYSTEM_USER_ID, $issue_id, [$reference_sup_id]);
             }
