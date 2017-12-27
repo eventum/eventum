@@ -19,47 +19,34 @@ use Eventum\Test\TestCase;
 class TextMessageTest extends TestCase
 {
     /**
-     * Test that HTML entities used in text/html part get decoded
+     * @dataProvider testCases
      */
-    public function testParseHtmlEntities()
+    public function testTextMessage($dataFile, $expectedText)
     {
-        $full_message = $this->readDataFile('encoding.txt');
-
-        $mail = MailMessage::createFromString($full_message);
-        $text = $mail->getMessageBody();
-        $this->assertEquals(
-            "\npöördumise töötaja.\n<b>Võtame</b> töösse võimalusel.\npöördumisele süsteemis\n\n", $text
-        );
+        $mail = MailMessage::createFromFile($this->getDataFile($dataFile));
+        $this->assertEquals($expectedText, $mail->getMessageBody());
     }
 
-    public function testBug684922()
+    public function testCases()
     {
-        $message = $this->readDataFile('bug684922.txt');
-        $mail = MailMessage::createFromString($message);
+        return [
+            'Test that HTML entities used in text/html part get decoded' => [
+                'encoding.txt',
+                "\npöördumise töötaja.\n<b>Võtame</b> töösse võimalusel.\npöördumisele süsteemis\n\n",
+            ],
+            'testBug684922' => [
+                'bug684922.txt',
+                '',
+            ],
+            'test $structure->body getting textual mail body from multipart message' => [
+                'multipart-text-html.txt',
+                "Commit in MAIN\n",
+            ],
 
-        $this->assertEquals('', $mail->getMessageBody());
-    }
-
-    /**
-     * test $structure->body getting textual mail body from multipart message
-     */
-    public function testGetMailBody()
-    {
-        $filename = $this->getDataFile('multipart-text-html.txt');
-        $mail = MailMessage::createFromFile($filename);
-        $body = $mail->getMessageBody();
-        $this->assertEquals("Commit in MAIN\n", $body);
-    }
-
-    /**
-     * root mail: multipart/mixed
-     * first part: multipart/alternative
-     */
-    public function testMultiPartAlternativeAttachment()
-    {
-        $filename = $this->getDataFile('multipart-mixed-alternative.eml');
-        $mail = MailMessage::createFromFile($filename);
-        $body = $mail->getMessageBody();
-        $this->assertEquals("No one has ever seen God.\n", $body);
+            'test with multipart/mixed mail with multipart/alternative attachment' => [
+                'multipart-mixed-alternative.eml',
+                "No one has ever seen God.\n",
+            ],
+        ];
     }
 }
