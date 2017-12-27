@@ -101,12 +101,24 @@ class MailMessage extends Message
         // and that gets out of control
         // https://github.com/zendframework/zend-mail/pull/159
 
-        // use rfc compliant "\r\n" EOL
         try {
+            // use RFC compliant "\r\n" EOL
             Mime\Decode::splitMessage($raw, $headers, $content, "\r\n");
         } catch (Mail\Exception\RuntimeException $e) {
-            // retry with heuristic
-            Mime\Decode::splitMessage($raw, $headers, $content);
+            try {
+                // retry with heuristic
+                Mime\Decode::splitMessage($raw, $headers, $content);
+            } catch (Mail\Exception\RuntimeException $e) {
+                // retry with manual \r\n splitting
+                // retry our own splitting
+                // message likely corrupted by Eventum itself
+                list($headers, $content) = explode("\r\n\r\n", $raw, 2);
+
+                // split by \r\n, but \r may be optional
+                $headers = preg_split("/\r?\n/", $headers);
+                // strip any leftover \r
+                $headers = array_map('trim', $headers);
+            }
         }
 
         $message = new self(['root' => true, 'headers' => $headers, 'content' => $content]);
