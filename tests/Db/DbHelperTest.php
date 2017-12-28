@@ -50,8 +50,8 @@ class DbHelperTest extends TestCase
         $this->assertEquals($exp, $res);
 
         // test in a sql
-        $res = 'DELETE FROM {{%product}} WHERE pro_id IN (' . DB_Helper::buildList($ids) . ')';
-        $exp = 'DELETE FROM {{%product}} WHERE pro_id IN (?, ?, ?, ?)';
+        $res = 'DELETE FROM `product` WHERE pro_id IN (' . DB_Helper::buildList($ids) . ')';
+        $exp = 'DELETE FROM `product` WHERE pro_id IN (?, ?, ?, ?)';
         $this->assertEquals($exp, $res);
 
         // test combining params with a list

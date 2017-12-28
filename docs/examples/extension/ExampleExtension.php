@@ -13,7 +13,7 @@
 
 namespace Eventum\Extension;
 
-use Eventum\Event\CryptoSubscriber;
+use Eventum\Event;
 
 /**
  * Example Eventum Extension.
@@ -36,7 +36,7 @@ class ExampleExtension extends AbstractExtension
     public function registerAutoloader($loader)
     {
         $phpDir = '/usr/share/php';
-        $baseDir = '/usr/src/eventum-workflow';
+        $baseDir = dirname(dirname(dirname(__DIR__)));
 
         $classmap = [
             'example_Workflow_Backend' => $baseDir . '/src/Workflow/example_Workflow_Backend.php',
@@ -45,7 +45,7 @@ class ExampleExtension extends AbstractExtension
             'Pimple\\' => $phpDir,
         ];
         $psr4 = [
-            'Eventum\\Example\\' => [$baseDir . '/src'],
+            'Eventum\\Event\\' => [$baseDir . '/docs/examples/extension/Event'],
         ];
 
         $loader->addClassMap($classmap);
@@ -67,7 +67,9 @@ class ExampleExtension extends AbstractExtension
     public function getAvailableWorkflows()
     {
         return [
+            /*
             'example_Workflow_Backend',
+            */
         ];
     }
 
@@ -90,8 +92,10 @@ class ExampleExtension extends AbstractExtension
     public function getAvailablePartners()
     {
         return [
+            /*
             'PartnerBackend',
             'Example\\PartnerX',
+            */
         ];
     }
 
@@ -103,7 +107,9 @@ class ExampleExtension extends AbstractExtension
     public function getAvailableCRMs()
     {
         return [
+            /*
             'Example\\CRM',
+            */
         ];
     }
 
@@ -117,7 +123,10 @@ class ExampleExtension extends AbstractExtension
     public function getSubscribers()
     {
         return [
-            CryptoSubscriber::class,
+            Event\CryptoSubscriber::class,
+            Event\HistorySubscriber::class,
+            Event\UserSubscriber::class,
+            Event\CommitSubscriber::class,
         ];
     }
 }

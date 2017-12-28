@@ -27,6 +27,8 @@ class Table
         // keep this list sorted for better git diffs
         return [
             'api_token',
+            'attachment_chunk',
+            'attachment_path',
             'columns_to_display',
             'commit',
             'commit_file',
@@ -50,6 +52,7 @@ class Table
             'issue_association',
             'issue_attachment',
             'issue_attachment_file',
+            'issue_attachment_file_path',
             'issue_checkin',
             'issue_commit',
             'issue_custom_field',

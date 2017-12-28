@@ -11,9 +11,6 @@
  * that were distributed with this source code.
  */
 
-define('APP_URL', 'https://github.com/eventum/eventum');
-define('APP_VERSION', '3.2.2-dev');
-
 // base path
 define('APP_PATH', __DIR__);
 define('APP_CONFIG_PATH', APP_PATH . '/config');
@@ -26,6 +23,5 @@ define('APP_VAR_PATH', APP_PATH . '/var');
 // define other paths
 define('APP_TPL_PATH', APP_PATH . '/templates');
 define('APP_TPL_COMPILE_PATH', APP_VAR_PATH . '/cache');
-define('APP_LOCKS_PATH', APP_VAR_PATH . '/lock');
 define('APP_LOG_PATH', APP_VAR_PATH . '/log');
 define('APP_ERROR_LOG', APP_LOG_PATH . '/errors.log');

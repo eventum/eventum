@@ -61,7 +61,7 @@
         <tr>
           <td valign="top">
             <label>{t}Assigned{/t}<br />
-            <select name="users">
+            <select name="users[]" multiple size="10">
               {html_options options=$users selected=$options.cst_users|default:''}
             </select>
             </label>
@@ -69,11 +69,9 @@
           {if $cats|@count > 0}
           <td>
             <label>{t}Category{/t}<br />
-            <select name="category">
-              <option value="">{t}any{/t}</option>
-              {foreach key=prc_id item=prc_title from=$cats}
-              <option value="{$prc_id}" {if $prc_id == $options.cst_iss_prc_id|default:''}selected{/if}>{$prc_title}</option>
-              {/foreach}
+            <select name="category[]" multiple size="10">
+              <option value="" {if !isset($options.cst_categories) || $options.cst_categories[0] == ""}selected{/if}>{t}any{/t}</option>
+              {html_options options=$cats selected=$options.cst_categories|default:''}
             </select>
             </label>
           </td>
@@ -81,33 +79,27 @@
           {if $priorities|@count > 0}
           <td>
             <label>{t}Priority{/t}<br />
-            <select name="priority">
-              <option value="">{t}any{/t}</option>
-              {section name="i" loop=$priorities}
-              <option value="{$priorities[i].pri_id}" {if $priorities[i].pri_id == $options.cst_iss_pri_id|default:''}selected{/if}>{$priorities[i].pri_title}</option>
-              {/section}
+            <select name="priority[]" multiple size="10">
+              <option value="" {if !isset($options.cst_priorities) || $options.cst_priorities[0] == ""}selected{/if}>{t}any{/t}</option>
+              {html_options options=$priorities selected=$options.cst_priorities|default:''}
             </select>
             </label>
           </td>
           {/if}
           {if $severities|@count > 0}
           <td>
-            <span class="default">{t}Severity{/t}:</span><br />
-            <select name="severity" class="default">
-              <option value="">{t}any{/t}</option>
-              {section name="i" loop=$severities}
-              <option value="{$severities[i].sev_id}" {if $severities[i].sev_id == $options.cst_iss_sev_id|default:''}selected{/if}>{$severities[i].sev_title}</option>
-              {/section}
+            <label>{t}Severity{/t}<br />
+            <select name="severity[]" multiple size="10">
+              <option value="" {if !isset($options.cst_severities) || $options.cst_severities[0] == ""}selected{/if}>{t}any{/t}</option>
+              {html_options options=$severities selected=$options.cst_severities|default:''}
             </select>
           </td>
           {/if}
           <td valign="top">
             <label>{t}Status{/t}<br />
-            <select name="status">
-              <option value="">{t}any{/t}</option>
-              {foreach key=sta_id item=sta_title from=$status}
-              <option value="{$sta_id}" {if $sta_id == $options.cst_iss_sta_id|default:''}selected{/if}>{$sta_title}</option>
-              {/foreach}
+            <select name="status[]" multiple size="10">
+              <option value="" {if !isset($options.cst_statuses) || $options.cst_statuses[0] == ""}selected{/if}>{t}any{/t}</option>
+              {html_options options=$status selected=$options.cst_statuses|default:''}
             </select>
             </label>
           </td>
@@ -115,32 +107,28 @@
         <tr>
           <td>
             <label>{t}Reporter{/t}<br />
-            <select name="reporter">
-              <option value="">{t}Any{/t}</option>
-              {html_options options=$reporters selected=$options.cst_reporter|default:''}
+            <select name="reporter[]" multiple size="10">
+              <option value="" {if !isset($options.cst_reporters) || $options.cst_reporters[0] == ""}selected{/if}>{t}Any{/t}</option>
+              {html_options options=$reporters selected=$options.cst_reporters|default:''}
             </select>
             </label>
           </td>
           {if $releases|@count > 0}
           <td>
             <label>{t}Release{/t}<br />
-            <select name="release">
-              <option value="">{t}any{/t}</option>
-              {foreach key=pre_id item=pre_title from=$releases}
-              <option value="{$pre_id}" {if $pre_id == $options.cst_iss_pre_id|default:''}selected{/if}>{$pre_title}</option>
-              {/foreach}
+            <select name="release[]" multiple size="10">
+              <option value="" {if !isset($options.cst_releases) || $options.cst_releases[0] == ""}selected{/if}>{t}any{/t}</option>
+              {html_options options=$releases selected=$options.cst_releases|default:''}
             </select>
             </label>
           </td>
           {/if}
           {if $products|@count > 0}
           <td>
-            <span class="default">{t}Product{/t}:</span><br />
-            <select name="product" class="default">
-              <option value="">{t}any{/t}</option>
-              {foreach key=pro_id item=pro_title from=$products}
-              <option value="{$pro_id}" {if $pro_id == $options.cst_pro_id|default:''}selected{/if}>{$pro_title}</option>
-              {/foreach}
+            <label>{t}Product{/t}<br />
+            <select name="product[]" multiple size="10">
+              <option value="" {if !isset($options.cst_products) || $options.cst_products[0] == ""}selected{/if}>{t}any{/t}</option>
+              {html_options options=$products selected=$options.cst_products|default:''}
             </select>
           </td>
           {/if}

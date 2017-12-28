@@ -16,10 +16,6 @@ use Eventum\Db\Adapter\NullAdapter;
 use Eventum\Db\DatabaseException;
 use Eventum\Monolog\Logger;
 
-/**
- * Class to manage all tasks related to the DB abstraction module. This is only
- * useful to maintain a data dictionary of the current database schema tables.
- */
 class DB_Helper
 {
     const DEFAULT_ADAPTER = 'PdoAdapter';
@@ -27,7 +23,6 @@ class DB_Helper
     /**
      * @param bool $fallback
      * @throws DatabaseException
-     * @throws Exception
      * @return AdapterInterface
      */
     public static function getInstance($fallback = true)
@@ -79,44 +74,12 @@ class DB_Helper
 
     /**
      * Get database config.
-     * load it from setup, fall back to legacy config.php constants
      *
      * @return array
      */
     public static function getConfig()
     {
         return Setup::get()->database->toArray();
-    }
-
-    /**
-     * Processes a SQL statement by quoting table and column names that are enclosed within double brackets.
-     * Tokens enclosed within double curly brackets are treated as table names, while
-     * tokens enclosed within double square brackets are column names. They will be quoted accordingly.
-     * Also, the percentage character "%" at the beginning or ending of a table name will be replaced
-     * with [[tablePrefix]].
-     *
-     * @param AdapterInterface $db
-     * @param string $tablePrefix
-     * @param string $sql
-     * @return string
-     * @see https://github.com/yiisoft/yii2/blob/2.0.0/framework/db/Connection.php#L761-L783
-     * @internal
-     */
-    public static function quoteTableName(AdapterInterface $db, $tablePrefix, $sql)
-    {
-        $sql = preg_replace_callback(
-            '/(\\{\\{(%?[\w\-\. ]+%?)\\}\\}|\\[\\[([\w\-\. ]+)\\]\\])/',
-            function ($matches) use ($db, $tablePrefix) {
-                if (isset($matches[3])) {
-                    return $db->quoteIdentifier($matches[3]);
-                }
-
-                return str_replace('%', $tablePrefix, $db->quoteIdentifier($matches[2]));
-            },
-            $sql
-        );
-
-        return $sql;
     }
 
     /**

@@ -18,7 +18,6 @@ use Auth;
 use Issue;
 use Mail_Queue;
 use Note;
-use User;
 
 class ViewNoteController extends BaseController
 {
@@ -33,6 +32,11 @@ class ViewNoteController extends BaseController
 
     /** @var int */
     private $issue_id;
+
+    /**
+     * @var array
+     */
+    private $note_details;
 
     /**
      * {@inheritdoc}
@@ -52,16 +56,13 @@ class ViewNoteController extends BaseController
         Auth::checkAuthentication();
 
         $this->usr_id = Auth::getUserID();
-        $this->issue_id = Note::getIssueID($this->note_id);
-
-        if (!Access::canViewInternalNotes($this->issue_id, $this->usr_id)) {
+        $this->note_details = Note::getDetails($this->note_id);
+        if (!$this->note_details || $this->note_details['not_removed'] == 1) {
             return false;
         }
+        $this->issue_id = $this->note_details['not_iss_id'];
 
-        // FIXME: is this superfluous? Access::canViewInternalNotes does all the checks?
-        $prj_id = Issue::getProjectID($this->issue_id);
-        $role_id = User::getRoleByUser($this->usr_id, $prj_id);
-        if ($role_id < User::ROLE_USER) {
+        if (!Access::canViewInternalNotes($this->issue_id, $this->usr_id)) {
             return false;
         }
 
@@ -80,21 +81,12 @@ class ViewNoteController extends BaseController
      */
     protected function prepareTemplate()
     {
-        $note = Note::getDetails($this->note_id);
-        if (!$note) {
-            $this->tpl->assign('note', '');
-
-            return;
-        }
-
-        $note['message'] = $note['not_note'];
-
         $seq_no = Note::getNoteSequenceNumber($this->issue_id, $this->note_id);
         // TRANSLATORS: %1: note sequence number, %2: note title
-        $extra_title = ev_gettext('Note #%1$s: %2$s', $seq_no, $note['not_title']);
+        $extra_title = ev_gettext('Note #%1$s: %2$s', $seq_no, $this->note_details['not_title']);
         $this->tpl->assign(
             [
-                'note' => $note,
+                'note' => $this->note_details,
                 'issue_id' => $this->issue_id,
                 'extra_title' => $extra_title,
                 'recipients' => Mail_Queue::getMessageRecipients('notes', $this->note_id),

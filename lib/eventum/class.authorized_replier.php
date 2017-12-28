@@ -40,8 +40,8 @@ class Authorized_Replier
                     if (iur_usr_id = ?, iur_email, usr_full_name) replier,
                     if (iur_usr_id = ?, 'other', 'user') replier_type
                  FROM
-                    {{%issue_user_replier}},
-                    {{%user}}
+                    `issue_user_replier`,
+                    `user`
                  WHERE
                     iur_iss_id=? AND
                     iur_usr_id=usr_id";
@@ -90,7 +90,7 @@ class Authorized_Replier
         $stmt = "SELECT
                     iur_iss_id
                  FROM
-                    {{%issue_user_replier}}
+                    `issue_user_replier`
                  WHERE
                     iur_id IN ($iur_list)";
         try {
@@ -102,7 +102,7 @@ class Authorized_Replier
         foreach ($iur_ids as $id) {
             $replier = self::getReplier($id);
             $stmt = "DELETE FROM
-                        {{%issue_user_replier}}
+                        `issue_user_replier`
                      WHERE
                         iur_id IN ($iur_list)";
             try {
@@ -154,7 +154,7 @@ class Authorized_Replier
         }
 
         $stmt = 'INSERT INTO
-                    {{%issue_user_replier}}
+                    `issue_user_replier`
                  (
                     iur_iss_id,
                     iur_usr_id,
@@ -195,7 +195,7 @@ class Authorized_Replier
         }
 
         $stmt = 'INSERT INTO
-                    {{%issue_user_replier}}
+                    `issue_user_replier`
                  (
                     iur_iss_id,
                     iur_usr_id
@@ -247,7 +247,7 @@ class Authorized_Replier
         $stmt = 'SELECT
                     COUNT(*) AS total
                  FROM
-                    {{%issue_user_replier}}
+                    `issue_user_replier`
                  WHERE
                     iur_iss_id=? AND
                     iur_email=?';
@@ -276,7 +276,7 @@ class Authorized_Replier
         $stmt = 'SELECT
                     count(iur_id)
                  FROM
-                    {{%issue_user_replier}}
+                    `issue_user_replier`
                  WHERE
                     iur_iss_id = ? AND
                     iur_usr_id = ?';
@@ -296,8 +296,8 @@ class Authorized_Replier
         $stmt = "SELECT
                     if (iur_usr_id = '" . APP_SYSTEM_USER_ID . "', iur_email, usr_full_name) replier
                  FROM
-                    {{%issue_user_replier}},
-                    {{%user}}
+                    `issue_user_replier`,
+                    `user`
                  WHERE
                     iur_usr_id = usr_id AND
                     iur_id = ?";
@@ -306,37 +306,6 @@ class Authorized_Replier
             $res = DB_Helper::getInstance()->getOne($stmt, [$iur_id]);
         } catch (DatabaseException $e) {
             return '';
-        }
-
-        return $res;
-    }
-
-    /**
-     * Returns the replier based on the given issue and email address combo.
-     *
-     * @param   int $issue_id the id of the issue
-     * @param   string $email The email address of the user
-     * @return  int The id of the replier
-     * @deprecated method not used
-     */
-    public static function getReplierIDByEmail($issue_id, $email)
-    {
-        $stmt = 'SELECT
-                    iur_id
-                 FROM
-                    {{%issue_user_replier}}
-                    LEFT JOIN
-                        {{%user}}
-                    ON
-                        iur_usr_id = usr_id
-                 WHERE
-                    iur_iss_id = ? AND
-                    (iur_email = ? OR usr_email = ?)';
-
-        try {
-            $res = DB_Helper::getInstance()->getOne($stmt, [$issue_id, $email, $email]);
-        } catch (DatabaseException $e) {
-            return 0;
         }
 
         return $res;

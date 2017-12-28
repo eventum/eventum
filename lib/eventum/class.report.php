@@ -60,16 +60,16 @@ class Report
                     sta_color
                  FROM
                     (
-                    {{%issue}},
-                    {{%issue_user}},
-                    {{%user}}
+                    `issue`,
+                    `issue_user`,
+                    `user`
                     )
                  LEFT JOIN
-                    {{%status}}
+                    `status`
                  ON
                     iss_sta_id=sta_id
                  LEFT JOIN
-                    {{%user_group}}
+                    `user_group`
                  ON
                     ugr_grp_id=usr_id
                  WHERE
@@ -166,13 +166,13 @@ class Report
                     sta_color
                  FROM
                     (
-                    {{%issue}},
-                    {{%issue_user}},
-                    {{%user}} as assignee,
-                    {{%user}} as reporter
+                    `issue`,
+                    `issue_user`,
+                    `user` as assignee,
+                    `user` as reporter
                     )
                  LEFT JOIN
-                    {{%status}}
+                    `status`
                  ON
                     iss_sta_id=sta_id
                  WHERE
@@ -249,12 +249,12 @@ class Report
                     sta_color
                  FROM
                     (
-                    {{%issue}},
-                    {{%issue_user}},
-                    {{%user}}
+                    `issue`,
+                    `issue_user`,
+                    `user`
                     )
                  LEFT JOIN
-                    {{%status}}
+                    `status`
                  ON
                     iss_sta_id=sta_id
                  WHERE
@@ -330,9 +330,9 @@ class Report
         $stmt = 'SELECT
                     COUNT(*)
                  FROM
-                    {{%issue}},
-                    {{%issue_user}},
-                    {{%status}}
+                    `issue`,
+                    `issue_user`,
+                    `status`
                  WHERE
                     iss_id = isu_iss_id AND
                     iss_sta_id = sta_id AND
@@ -428,9 +428,9 @@ class Report
                     SUM(if (pru_role > 3, 1, 0)) as dev_events,
                     SUM(if (pru_role > 3, 0, 1)) as cust_events
                  FROM
-                    {{%issue_history}},
-                    {{%user}},
-                    {{%project_user}}
+                    `issue_history`,
+                    `user`,
+                    `project_user`
                  WHERE
                     his_usr_id = usr_id AND
                     usr_id = pru_usr_id AND
@@ -516,7 +516,7 @@ class Report
                     hour(sup_date) AS time_period,
                     count(*) as events
                  FROM
-                    {{%support_email}}
+                    `support_email`
                  GROUP BY
                     time_period';
         try {
@@ -538,7 +538,7 @@ class Report
                     hour(sup_date) AS time_period,
                     count(*) as events
                  FROM
-                    {{%support_email}}
+                    `support_email`
                  WHERE
                     sup_from IN($list)
                  GROUP BY
@@ -690,15 +690,15 @@ class Report
             }
             $sql .= '
                     FROM
-                        {{%custom_field}},';
+                        `custom_field`,';
             if (count($options) > 0) {
                 $sql .= '
-                        {{%custom_field_option}},';
+                        `custom_field_option`,';
             }
             $sql .= '
-                        {{%issue_custom_field}},
-                        {{%issue}},
-                        {{%issue_user}}
+                        `issue_custom_field`,
+                        `issue`,
+                        `issue_user`
                     WHERE
                         fld_id = icf_fld_id AND';
             if (count($options) > 0) {
@@ -778,9 +778,9 @@ class Report
             $stmt .= "
                         COUNT(DISTINCT $group_by_field)
                     FROM
-                        {{%issue_custom_field}},
-                        {{%issue}},
-                        {{%issue_user}}
+                        `issue_custom_field`,
+                        `issue`,
+                        `issue_user`
                     WHERE
                         icf_iss_id = iss_id AND
                         isu_iss_id = iss_id AND
@@ -826,9 +826,9 @@ class Report
         $stmt = "SELECT
                     COUNT(DISTINCT $group_by_field)
                 FROM
-                    {{%custom_field_option}},
-                    {{%issue_custom_field}},
-                    {{%issue}}
+                    `custom_field_option`,
+                    `issue_custom_field`,
+                    `issue`
                 WHERE
                     cfo_id = icf_value AND
                     icf_iss_id = iss_id AND
@@ -877,14 +877,14 @@ class Report
         }
         $sql .= '
                  FROM
-                    {{%time_tracking}},';
+                    `time_tracking`,';
 
         if ($per_user) {
-            $sql .= '{{%user}}, ';
+            $sql .= '`user`, ';
         }
 
         $sql .= '
-                        {{%issue}}
+                        `issue`
                     WHERE
                         iss_prj_id=? AND
                         ttr_created_date BETWEEN ? AND ? AND
@@ -906,7 +906,7 @@ class Report
                 SELECT
                     count(*)
                 FROM
-                    {{%issue_custom_field}} a
+                    `issue_custom_field` a
                 WHERE
                     a.icf_fld_id = ? AND
                     a.icf_value IN($list) AND
@@ -993,7 +993,7 @@ class Report
                     DATE_FORMAT(iss_created_date, ?),
                     count(*)
                  FROM
-                    {{%issue}}
+                    `issue`
                  WHERE
                     iss_prj_id=? AND
                     iss_created_date BETWEEN ? AND ?';
@@ -1042,12 +1042,12 @@ class Report
                     DATE_FORMAT(sup_date, ?),
                     count(*)
                  FROM
-                    {{%support_email}},
-                    {{%email_account}}';
+                    `support_email`,
+                    `email_account`';
         $params[] = $format;
         if (!empty($category_id)) {
             $stmt .= ',
-                     {{%issue}}';
+                     `issue`';
         }
         $stmt .= '
                  WHERE
@@ -1111,9 +1111,9 @@ class Report
         	prc_title,
         	SUM(iss_dev_time) as dev_time
         FROM
-        	{{%issue}},
-        	{{%project_category}},
-        	{{%status}}
+            `issue`,
+            `project_category`,
+            `status`
         WHERE
         	iss_prc_id = prc_id AND
         	iss_sta_id = sta_id AND
@@ -1123,7 +1123,7 @@ class Report
         	iss_prc_id';
         try {
             $res = DB_Helper::getInstance()->getAll($sql, [$prj_id]);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return null;
         }
 
@@ -1151,14 +1151,14 @@ class Report
                     = 'SELECT
                     count(*)
                 FROM
-                    {{%issue}}
+                    `issue`
                 WHERE
                     iss_prj_id = ? AND
                     iss_sta_id = ? AND
                     iss_prc_id = ?';
                 try {
                     $res = DB_Helper::getInstance()->getOne($sql, [$prj_id, $sta_id, $cat_id]);
-                } catch (DbException $e) {
+                } catch (DatabaseException $e) {
                     break 2;
                 }
                 $data[$cat_id]['statuses'][$sta_id] = [

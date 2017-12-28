@@ -149,10 +149,10 @@
             {elseif $field_name == 'iss_summary'}
               <a href="view.php?id={$list[i].iss_id}" title="{t}view issue details{/t}">{$list[i].iss_summary|escape:"html"}</a>
               {if $list[i].redeemed|default:0}
-                  {t}[Redeemed]{/t}
+                  [{t}Redeemed{/t}]
               {/if}
               {if $list[i].iss_access_level != 'normal'}
-                  <b>{t}[{$list[i].access_level_name}]{/t}</b>
+                  <b>[{t}{$list[i].access_level_name}{/t}]</b>
               {/if}
             {/if}
           </td>

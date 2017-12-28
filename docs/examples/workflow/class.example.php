@@ -11,6 +11,7 @@
  * that were distributed with this source code.
  */
 
+use Eventum\Attachment\AttachmentGroup;
 use Eventum\Db\DatabaseException;
 
 /**
@@ -39,10 +40,16 @@ class Example_Workflow_Backend extends Abstract_Workflow_Backend
      * @param   int $prj_id The projectID
      * @param   int $issue_id the ID of the issue
      * @param   int $usr_id the id of the user who locked the issue
+     * @param   AttachmentGroup $attachment_group The attachment object
      */
-    public function handleAttachment($prj_id, $issue_id, $usr_id)
+    public function handleAttachment($prj_id, $issue_id, $usr_id, AttachmentGroup $attachment_group)
     {
         echo "Workflow: File attached<br />\n";
+        echo '<ul>';
+        foreach ($attachment_group->getAttachments() as $attachment) {
+            echo "<li>{$attachment->filename}: {$attachment->filesize}</li>\n";
+        }
+        echo '</ul>';
     }
 
     /**
@@ -156,8 +163,8 @@ class Example_Workflow_Backend extends Abstract_Workflow_Backend
         echo "Workflow: Returning allowed statuses<br />\n";
         $statuses = Status::getAssocStatusList($prj_id, false);
         unset($statuses[4], $statuses[3]);
-       // you should perform any logic and remove any statuses you need to here.
-       return $statuses;
+        // you should perform any logic and remove any statuses you need to here.
+        return $statuses;
     }
 
     /**
@@ -207,7 +214,7 @@ class Example_Workflow_Backend extends Abstract_Workflow_Backend
     public function handleIssueClosed($prj_id, $issue_id, $send_notification, $resolution_id, $status_id, $reason, $usr_id)
     {
         $sql = "UPDATE
-                    {{%issue}}
+                    `issue`
                 SET
                     iss_percent_complete = '100%'
                 WHERE

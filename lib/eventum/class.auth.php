@@ -13,6 +13,8 @@
 
 use Eventum\Monolog\Logger;
 use Eventum\Session;
+use Symfony\Component\Filesystem\Exception\IOException;
+use Symfony\Component\Filesystem\Filesystem;
 
 /**
  * Class to handle authentication issues.
@@ -46,9 +48,11 @@ class Auth
 
         $contents = '<' . "?php\n\$private_key = " . var_export($private_key, 1) . ";\n";
 
-        $res = file_put_contents($path, $contents);
-        if ($res === false) {
-            throw new RuntimeException("Can't write {$path}", -2);
+        try {
+            $fs = new Filesystem();
+            $fs->dumpFile($path, $contents);
+        } catch (IOException $e) {
+            throw new RuntimeException($e->getMessage(), -2);
         }
     }
 
@@ -64,7 +68,7 @@ class Auth
     public static function saveLoginAttempt($email, $type, $extra = null)
     {
         $msg = "Login attempt by '$email' was ";
-        if ($type == 'success') {
+        if ($type === 'success') {
             $msg .= 'successful.';
         } else {
             $msg .= "not successful because of '$extra'.";
@@ -98,7 +102,7 @@ class Auth
                     Session::init($anon_usr_id);
                 } else {
                     // check for valid HTTP_BASIC params
-                    if (isset($_SERVER['PHP_AUTH_USER']) && isset($_SERVER['PHP_AUTH_PW'])) {
+                    if (isset($_SERVER['PHP_AUTH_USER'], $_SERVER['PHP_AUTH_PW'])) {
                         if (self::isCorrectPassword($_SERVER['PHP_AUTH_USER'], $_SERVER['PHP_AUTH_PW'])) {
                             $usr_id = User::getUserIDByEmail($_SERVER['PHP_AUTH_USER'], true);
                             $prj_id = reset(array_keys(Project::getAssocList($usr_id)));
@@ -421,7 +425,7 @@ class Auth
     {
         $prj_id = self::getCurrentProject();
         $usr_id = self::getUserID();
-        if ((!empty($prj_id)) && (!empty($usr_id))) {
+        if ($prj_id && $usr_id) {
             return User::getRoleByUser($usr_id, $prj_id);
         }
 

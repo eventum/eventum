@@ -1,0 +1,57 @@
+<h4>{t}LDAP Authentication{/t}</h4>
+
+<p>
+  {t escape="no"}Eventum can be used with an LDAP directory service for centralized authentication. To enable this feature, set the following option in <b>config.php</b>:{/t}
+</p>
+
+<pre>
+  {literal}define('APP_AUTH_BACKEND', 'LDAP_Auth_Backend');{/literal}
+</pre>
+
+<p>
+  {t}The following parameters need to be configured to enable LDAP integration:{/t}
+</p>
+
+<dl>
+  <dt><b>{t}Host{/t}</b></dt>
+  <dd>{t}The host name or IP address of the LDAP server{/t}</dd>
+  <dt><b>{t}Port{/t}</b></dt>
+  <dd>{t}The TCP port of the LDAP directory service. The default LDAP port is 389.{/t}</dd>
+  <dt><b>{t}Bind DN{/t}</b></dt>
+  <dd>{t}The DN of the LDAP principal used for directory lookups{/t}</dd>
+  <dt><b>{t}Bind PW{/t}</b></dt>
+  <dd>{t}The password for the principal specified as Bind DN{/t}</dd>
+  <dt><b>{t}Base DN{/t}</b></dt>
+  <dd>{t}The path of the LDAP container to be used when looking up user accounts{/t}</dd>
+  <dt><b>{t}User ID attribute{/t}</b></dt>
+  <dd>{t}The name of an LDAP attribute containing the DN (or its user-specific part) of an LDAP account. This is used as bind DN when checking the entered password. If unsure leave blank to use the default value "uid".{/t}</dd>
+  <dt><b>{t}User DN{/t}</b></dt>
+  <dd>{t escape="no"}The DN used for verifying the entered user password. The placeholder <code>%UID</code> will be replaced with the value of the User ID attribute. Multiple DNs to be tried may be separated with | characters.{/t}</dd>
+  <dt><b>{t}User Filter (optional){/t}</b></dt>
+  <dd>{t escape="no"}LDAP filter to be used when searching for an account matching the Eventum login name. The placeholder <code>{literal}{username}{/literal}</code> will be replaced with the entered login name. If unsure leave blank.{/t}</dd>
+  <dt><b>{t}Customer ID attribute (optional){/t}</b></dt>
+  <dd>{t}The name of an LDAP attribute containing the customer ID for a user{/t}</dd>
+  <dt><b>{t}Contact ID attribute (optional){/t}</b></dt>
+  <dd>{t}The name of an LDAP attribute containing the contatct ID for a user{/t}</dd>
+  <dt><b>{t}DN for active users (optional){/t}</b></dt>
+  <dd>{t escape="no"}The path of an LDAP container containing active accounts. This is used by the <code>ldapsync</code> utility to update or create Eventum users. Leave blank to skip that step.{/t}</dd>
+  <dt><b>{t}DN for inactive users (optional){/t}</b></dt>
+  <dd>{t escape="no"}The path of an LDAP container containing inactive accounts. This is used by the <code>ldapsync</code> utility to disable accounts. Leave blank to skip that step. {/t}</dd>
+  <dt><b>{t}Create Users{/t}</b></dt>
+  <dd>{t}Automatically create Eventum users for successfully authenticated LDAP accounts{/t}</dd>
+  <dt><b>{t}Default Roles{/t}</b></dt>
+  <dd>{t}The default set of roles for automatically created Eventum users{/t}</dd>
+</dl>
+
+<h4>{t}Integration with Microsoft Active Directory{/t}</h4>
+
+<p>
+  {t}Active Directory uses a few non-standard attribute names, so it requires some special configuration:{/t}
+</p>
+
+<table>
+  <tr> <td><b>{t}Port{/t}</b></td> <td>{t}389 (local domain) or 3268 (global catalog){/t}</td> </tr>
+  <tr> <td><b>{t}User ID attribute{/t}</b></td> <td><code>userPrincipalName</code></td> </tr>
+  <tr> <td><b>{t}User DN{/t}</b></td> <td><code>%UID</code></td> </tr>
+  <tr> <td><b>{t}User Filter{/t}</b></td> <td><code>{literal}(|(mail={username})(userPrincipalName={username})){/literal}</code></td> </tr>
+</table>

@@ -14,11 +14,11 @@
 namespace Eventum\Controller;
 
 use Access;
-use Attachment;
 use Auth;
 use Draft;
 use Email_Account;
 use Email_Response;
+use Eventum\Attachment\AttachmentManager;
 use History;
 use Issue;
 use Mail_Helper;
@@ -52,6 +52,7 @@ class SendController extends BaseController
     /** @var int */
     private $prj_id;
 
+    // TODO: $ema_id is likely not needed
     /** @var int */
     private $ema_id;
 
@@ -158,8 +159,8 @@ class SendController extends BaseController
                 'canned_responses' => Email_Response::getAssocList($this->prj_id),
                 'js_canned_responses' => Email_Response::getAssocListBodies($this->prj_id),
                 'issue_access' => Access::getIssueAccessArray($this->issue_id, $this->usr_id),
-                'max_attachment_size' => Attachment::getMaxAttachmentSize(),
-                'max_attachment_bytes' => Attachment::getMaxAttachmentSize(true),
+                'max_attachment_size' => AttachmentManager::getMaxAttachmentSize(),
+                'max_attachment_bytes' => AttachmentManager::getMaxAttachmentSize(true),
                 'time_categories' => Time_Tracking::getAssocCategories($this->prj_id),
                 'email_category_id' => Time_Tracking::getCategoryId($this->prj_id, 'Email Discussion'),
             ]
@@ -203,7 +204,7 @@ class SendController extends BaseController
         $new_status = $post->get('new_status');
         if ($new_status && Access::canChangeStatus($this->issue_id, $this->usr_id)) {
             $res = Issue::setStatus($this->issue_id, $new_status);
-            if ($res != -1) {
+            if ($res == 1) {
                 $status_title = Status::getStatusTitle($new_status);
                 History::add(
                     $this->issue_id, $this->usr_id, 'status_changed',
@@ -302,7 +303,7 @@ class SendController extends BaseController
             return;
         }
 
-        $email = Support::getEmailDetails($this->ema_id, $get->getInt('id'));
+        $email = Support::getEmailDetails($get->getInt('id'));
         $header = Misc::formatReplyPreamble($email['timestamp'], $email['sup_from']);
         $email['seb_body'] = $header . Misc::formatReply($email['seb_body']);
         $this->tpl->assign(

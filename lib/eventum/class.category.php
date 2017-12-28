@@ -29,7 +29,7 @@ class Category
         $stmt = 'SELECT
                     *
                  FROM
-                    {{%project_category}}
+                    `project_category`
                  WHERE
                     prc_id=?';
         try {
@@ -51,7 +51,7 @@ class Category
     {
         $items = $_POST['items'];
         $stmt = 'DELETE FROM
-                    {{%project_category}}
+                    `project_category`
                  WHERE
                     prc_id IN (' . DB_Helper::buildList($items) . ')';
         try {
@@ -76,7 +76,7 @@ class Category
             return -2;
         }
         $stmt = 'UPDATE
-                    {{%project_category}}
+                    `project_category`
                  SET
                     prc_title=?
                  WHERE
@@ -103,7 +103,7 @@ class Category
         }
 
         $stmt = 'INSERT INTO
-                    {{%project_category}}
+                    `project_category`
                  (
                     prc_prj_id,
                     prc_title
@@ -132,7 +132,7 @@ class Category
                     prc_id,
                     prc_title
                  FROM
-                    {{%project_category}}
+                    `project_category`
                  WHERE
                     prc_prj_id=?
                  ORDER BY
@@ -165,7 +165,7 @@ class Category
                     prc_id,
                     prc_title
                  FROM
-                    {{%project_category}}
+                    `project_category`
                  WHERE
                     prc_prj_id=?
                  ORDER BY
@@ -192,7 +192,7 @@ class Category
         $stmt = 'SELECT
                     prc_title
                  FROM
-                    {{%project_category}}
+                    `project_category`
                  WHERE
                     prc_id=?';
         try {

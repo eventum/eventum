@@ -1,0 +1,8 @@
+# https://github.com/eventum/eventum/pull/325
+# configure .po/.pot differ
+#
+# invoke from shell:
+# git config --add include.path $(git rev-parse --show-toplevel)/contrib/git/gitconfig-podiff
+
+[diff "msgcat"]
+    textconv = msgcat --no-location --no-wrap --sort-output

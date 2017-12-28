@@ -37,7 +37,7 @@ class Edit_Reporter
         }
 
         $sql = 'UPDATE
-                    {{%issue}}
+                    `issue`
                 SET
                     iss_usr_id = ?
                 WHERE

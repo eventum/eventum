@@ -105,8 +105,8 @@ class PostNoteController extends BaseController
             $this->postNoteAction();
         } elseif ($this->cat == 'reply' && ($note_id = $get->getInt('id'))) {
             $this->replyAction($note_id);
-        } elseif ($this->cat == 'email_reply' && ($sup_id = $get->getInt('id')) && ($ema_id = $get->getInt('ema_id'))) {
-            $this->replyEmailAction($sup_id, $ema_id);
+        } elseif ($this->cat == 'email_reply' && ($sup_id = $get->getInt('id'))) {
+            $this->replyEmailAction($sup_id);
         } elseif ($this->cat == 'issue_reply') {
             $this->replyIssueAction();
         }
@@ -136,11 +136,10 @@ class PostNoteController extends BaseController
 
     /**
      * @param int $sup_id
-     * @param int $ema_id
      */
-    private function replyEmailAction($sup_id, $ema_id)
+    private function replyEmailAction($sup_id)
     {
-        $email = Support::getEmailDetails($ema_id, $sup_id);
+        $email = Support::getEmailDetails($sup_id);
         $header = Misc::formatReplyPreamble($email['timestamp'], $email['sup_from']);
         $note = [];
         $note['not_body'] = $header . Misc::formatReply($email['message']);
@@ -217,7 +216,7 @@ class PostNoteController extends BaseController
     private function setIssueStatus($status)
     {
         $res = Issue::setStatus($this->issue_id, $status);
-        if ($res == -1) {
+        if ($res != 1) {
             return;
         }
 

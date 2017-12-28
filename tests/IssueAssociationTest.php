@@ -13,22 +13,25 @@
 
 namespace Eventum\Test;
 
-use DB_Helper;
+use Eventum\Db\Doctrine;
 use Eventum\Model\Repository\IssueAssociationRepository;
 use InvalidArgumentException;
 
 /**
  * @group db
  */
-class IssueAssociation extends TestCase
+class IssueAssociationTest extends TestCase
 {
+    /** @var \Doctrine\ORM\EntityRepository|IssueAssociationRepository */
+    private $repo;
+
     public function setUp()
     {
-        $db = DB_Helper::getInstance();
-        $issues = '12,13,14,15';
-        $db->query(
-            "delete FROM {{%issue_association}} WHERE isa_issue_id in ($issues) OR isa_associated_id in($issues)"
-        );
+        $em = $this->getEntityManager();
+        $this->repo = Doctrine::getIssueAssociationRepository();
+
+        $issues = [12, 13, 14, 15];
+        $this->repo->deleteAllRelations($issues);
     }
 
     public function testAssociateIssue()
@@ -37,11 +40,9 @@ class IssueAssociation extends TestCase
         $iss1_id = 12;
         $iss2_id = 13;
 
-        $repo = IssueAssociationRepository::create();
-
-        $repo->addIssueAssociation($usr_id, $iss1_id, $iss2_id);
-        $assoc1 = $repo->getAssociatedIssues($iss1_id);
-        $assoc2 = $repo->getAssociatedIssues($iss2_id);
+        $this->repo->addIssueAssociation($usr_id, $iss1_id, $iss2_id);
+        $assoc1 = $this->repo->getAssociatedIssues($iss1_id);
+        $assoc2 = $this->repo->getAssociatedIssues($iss2_id);
 
         // the association exists both ways
         $this->assertEquals([$iss2_id], $assoc1);
@@ -49,29 +50,29 @@ class IssueAssociation extends TestCase
 
         // adding association again throws
         try {
-            $repo->addIssueAssociation($usr_id, $iss1_id, $iss2_id);
+            $this->repo->addIssueAssociation($usr_id, $iss1_id, $iss2_id);
             $this->fail();
         } catch (InvalidArgumentException $e) {
             $this->assertEquals("Issue $iss1_id already associated to $iss2_id", $e->getMessage());
         }
         try {
-            $repo->addIssueAssociation($usr_id, $iss2_id, $iss1_id);
+            $this->repo->addIssueAssociation($usr_id, $iss2_id, $iss1_id);
             $this->fail();
         } catch (InvalidArgumentException $e) {
             $this->assertEquals("Issue $iss2_id already associated to $iss1_id", $e->getMessage());
         }
 
         // now remove the association
-        $repo->removeAssociation($usr_id, $iss1_id, $iss2_id);
+        $this->repo->removeAssociation($usr_id, $iss1_id, $iss2_id);
         // second remove should fail both sides
         try {
-            $repo->removeAssociation($usr_id, $iss1_id, $iss2_id);
+            $this->repo->removeAssociation($usr_id, $iss1_id, $iss2_id);
             $this->fail();
         } catch (InvalidArgumentException $e) {
             $this->assertEquals("Issue $iss1_id not associated to $iss2_id", $e->getMessage());
         }
         try {
-            $repo->removeAssociation($usr_id, $iss2_id, $iss1_id);
+            $this->repo->removeAssociation($usr_id, $iss2_id, $iss1_id);
             $this->fail();
         } catch (InvalidArgumentException $e) {
             $this->assertEquals("Issue $iss2_id not associated to $iss1_id", $e->getMessage());
@@ -82,31 +83,30 @@ class IssueAssociation extends TestCase
     {
         $usr_id = APP_SYSTEM_USER_ID;
         $issue_id = 12;
-        $repo = IssueAssociationRepository::create();
 
         $associated_issues = [$issue_id, '13', '14', 15, $issue_id, 13, 'lol', -1, null, '', false];
-        $res = $repo->updateAssociations($usr_id, $issue_id, $associated_issues);
+        $res = $this->repo->updateAssociations($usr_id, $issue_id, $associated_issues);
 
         $this->assertNotEmpty($res);
         $this->assertEquals('"lol" was not valid Issue Id and was removed.', $res[0]);
         $this->assertEquals('"-1" was not valid Issue Id and was removed.', $res[1]);
 
-        $res = $repo->getAssociatedIssues($issue_id);
+        $res = $this->repo->getAssociatedIssues($issue_id);
         $exp = [13, 14, 15];
         $this->assertEquals($exp, $res);
 
         // test that removing also works
         $associated_issues = ['13'];
-        $res = $repo->updateAssociations($usr_id, $issue_id, $associated_issues);
+        $res = $this->repo->updateAssociations($usr_id, $issue_id, $associated_issues);
         $this->assertEmpty($res);
-        $res = $repo->getAssociatedIssues($issue_id);
+        $res = $this->repo->getAssociatedIssues($issue_id);
         $exp = [13];
         $this->assertEquals($exp, $res);
     }
 
     /**
-     * @test Issue::getAssociatedIssuesDetails();
-     * @test Issue::getAssociatedIssues();
+     * @see \Issue::getAssociatedIssuesDetails();
+     * @see \Issue::getAssociatedIssues();
      */
     public function testGetDetails()
     {
@@ -114,12 +114,11 @@ class IssueAssociation extends TestCase
         $iss1_id = 12;
         $iss2_id = 13;
 
-        $repo = IssueAssociationRepository::create();
-        $repo->addIssueAssociation($usr_id, $iss1_id, $iss2_id);
+        $this->repo->addIssueAssociation($usr_id, $iss1_id, $iss2_id);
 
         // direct view
-        $associated_issues = $repo->getAssociatedIssues($iss1_id);
-        $associated_issues_details = $repo->getIssueDetails($associated_issues);
+        $associated_issues = $this->repo->getAssociatedIssues($iss1_id);
+        $associated_issues_details = $this->repo->getIssueDetails($associated_issues);
 
         $this->assertEquals([$iss2_id], $associated_issues);
         // array(
@@ -131,8 +130,8 @@ class IssueAssociation extends TestCase
         $this->assertEquals($iss2_id, $associated_issues_details[0]['associated_issue']);
 
         // reverse view
-        $associated_issues = $repo->getAssociatedIssues($iss2_id);
-        $associated_issues_details = $repo->getIssueDetails($associated_issues);
+        $associated_issues = $this->repo->getAssociatedIssues($iss2_id);
+        $associated_issues_details = $this->repo->getIssueDetails($associated_issues);
 
         $this->assertEquals([$iss1_id], $associated_issues);
         // array(

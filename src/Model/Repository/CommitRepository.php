@@ -13,35 +13,60 @@
 
 namespace Eventum\Model\Repository;
 
-use Date_Helper;
+use Doctrine\ORM\EntityRepository;
+use Eventum\Db\Doctrine;
+use Eventum\Event\SystemEvents;
+use Eventum\EventDispatcher\EventManager;
 use Eventum\Model\Entity;
+use Eventum\Scm\Payload;
 use History;
+use InvalidArgumentException;
 use Issue;
-use Link_Filter;
+use Symfony\Component\EventDispatcher\GenericEvent;
 use Workflow;
 
-class CommitRepository extends BaseRepository
+class CommitRepository extends EntityRepository
 {
     /**
-     * Method called on Commit to allow workflow update project name/commit author or user id
-     *
-     * @param int $prj_id The project ID.     *
-     * @param Entity\Commit $ci
-     * @param Entity\GitlabScmPayload|Entity\StdScmPayload $payload
+     * @param int $id
+     * @return null|object|Entity\Commit
      */
-    public function preCommit($prj_id, Entity\Commit $ci, $payload)
+    public function findById($id)
     {
+        return $this->findOneBy(['com_id' => $id]);
+    }
+
+    /**
+     * @param string $changeset
+     * @return null|object|Entity\Commit
+     */
+    public function findOneByChangeset($changeset)
+    {
+        return $this->findOneBy(['com_changeset' => $changeset]);
+    }
+
+    /**
+     * Method called on before storing Commit,
+     * to allow workflow update project name/commit author or user id.
+     *
+     * @param int $prj_id The project ID
+     * @param Entity\Commit $ci
+     * @param Payload\PayloadInterface $payload
+     * @since 3.4.0 dispatches SystemEvents::SCM_COMMIT_BEFORE event
+     */
+    public function preCommit($prj_id, Entity\Commit $ci, Payload\PayloadInterface $payload)
+    {
+        $event = new GenericEvent($ci, ['payload' => $payload]);
+        EventManager::dispatch(SystemEvents::SCM_COMMIT_BEFORE, $event);
+
         Workflow::preScmCommit($prj_id, $ci, $payload);
     }
 
     /**
-     * Associate commit to an existing issue,
-     * additionally notifies workflow about new commit
-     *
      * @param int $issue_id the ID of the issue
      * @param Entity\Commit $commit
      */
-    public function addCommit($issue_id, Entity\Commit $commit)
+    public function notifyNewCommit($issue_id, Entity\Commit $commit)
     {
         $prj_id = Issue::getProjectID($issue_id);
 
@@ -65,13 +90,16 @@ class CommitRepository extends BaseRepository
     /**
      * Add commit files from $commit array
      *
+     * @param Entity\Commit $ci
      * @param array $commit
      */
     public function addCommitFiles(Entity\Commit $ci, $commit)
     {
+        $em = Doctrine::getEntityManager();
+
         foreach ($commit['added'] as $filename) {
-            $cf = Entity\CommitFile::create()
-                ->setCommitId($ci->getId())
+            $cf = (new Entity\CommitFile())
+                ->setCommit($ci)
                 ->setAdded(true)
                 ->setFilename($filename);
 
@@ -79,13 +107,13 @@ class CommitRepository extends BaseRepository
                 $this->setFileVersions($cf, $commit['versions'][$filename]);
             }
 
-            $cf->save();
+            $em->persist($cf);
             $ci->addFile($cf);
         }
 
         foreach ($commit['modified'] as $filename) {
-            $cf = Entity\CommitFile::create()
-                ->setCommitId($ci->getId())
+            $cf = (new Entity\CommitFile())
+                ->setCommit($ci)
                 ->setModified(true)
                 ->setFilename($filename);
 
@@ -93,13 +121,13 @@ class CommitRepository extends BaseRepository
                 $this->setFileVersions($cf, $commit['versions'][$filename]);
             }
 
-            $cf->save();
+            $em->persist($cf);
             $ci->addFile($cf);
         }
 
         foreach ($commit['removed'] as $filename) {
-            $cf = Entity\CommitFile::create()
-                ->setCommitId($ci->getId())
+            $cf = (new Entity\CommitFile())
+                ->setCommit($ci)
                 ->setRemoved(true)
                 ->setFilename($filename);
 
@@ -107,8 +135,41 @@ class CommitRepository extends BaseRepository
                 $this->setFileVersions($cf, $commit['versions'][$filename]);
             }
 
-            $cf->save();
+            $em->persist($cf);
             $ci->addFile($cf);
+        }
+    }
+
+    /**
+     * Add commit to issues. Associate commit to (several) issues.
+     *
+     * @param Entity\Commit $ci
+     * @param int[] $issues
+     * @since 3.3.4 dispatches SystemEvents::SCM_COMMIT_ASSOCIATED event
+     */
+    public function addIssues(Entity\Commit $ci, $issues)
+    {
+        $em = Doctrine::getEntityManager();
+        $ir = Doctrine::getIssueRepository();
+
+        // add issue association
+        foreach ($issues as $issue_id) {
+            /** @var Entity\Issue $issue */
+            $issue = $ir->findOneBy(['id' => $issue_id]);
+            if (!$issue) {
+                throw new InvalidArgumentException("Invalid issue: $issue_id");
+            }
+            $issue->addCommit($ci);
+            $em->persist($issue);
+
+            $this->notifyNewCommit($issue_id, $ci);
+
+            $event = new GenericEvent($ci);
+            EventManager::dispatch(SystemEvents::SCM_COMMIT_ASSOCIATED, $event);
+
+            // print report to stdout of commits so hook could report status back to commiter
+            $details = Issue::getDetails($issue_id);
+            echo "#$issue_id - {$issue->getSummary()} ({$details['sta_title']})\n";
         }
     }
 
@@ -124,97 +185,5 @@ class CommitRepository extends BaseRepository
         if (isset($versions[1])) {
             $cf->setNewVersion($versions[1]);
         }
-    }
-
-    /**
-     * @param int $issue_id
-     * @return Entity\Commit[]
-     */
-    public function getIssueCommits($issue_id)
-    {
-        $res = [];
-
-        $ics = Entity\IssueCommit::create()->findByIssueId($issue_id);
-        if (!$ics) {
-            return [];
-        }
-
-        // associate commits
-        foreach ($ics as $ic) {
-            $c = Entity\Commit::create()->findById($ic->getCommitId());
-            // associate files
-            $files = Entity\CommitFile::create()->findByCommitId($c->getId()) ?: [];
-            foreach ($files as $cf) {
-                $c->addFile($cf);
-            }
-            $res[] = $c;
-        }
-
-        // order by date
-        // need userspace sort as the sort column is in commit table
-        // but we select from issue_commit table
-        $sorter = function (Entity\Commit $ca, Entity\Commit $cb) {
-            $a = $ca->getCommitDate()->getTimestamp();
-            $b = $cb->getCommitDate()->getTimestamp();
-
-            return ($a < $b) ? -1 : (($a > $b) ? 1 : 0);
-        };
-
-        uasort($res, $sorter);
-
-        return $res;
-    }
-
-    /**
-     * Get commits related to issue formatted to array for templating
-     *
-     * @param   int $issue_id The issue ID
-     * @return  array The list of checkins
-     */
-    public function getIssueCommitsArray($issue_id)
-    {
-        $res = $this->getIssueCommits($issue_id);
-
-        $checkins = [];
-        foreach ($res as $c) {
-            $scm = $c->getCommitRepo();
-
-            $checkin = $c->toArray();
-            $checkin['isc_commit_date'] = Date_Helper::convertDateGMT($checkin['com_commit_date']);
-            $checkin['isc_commit_msg'] = Link_Filter::processText(
-                Issue::getProjectID($issue_id), nl2br(htmlspecialchars($checkin['com_message']))
-            );
-            $checkin['author'] = $c->getAuthor();
-            $checkin['project_name'] = $c->getProjectName();
-            $checkin['branch'] = $c->getBranch();
-            $checkin['commit_short'] = $c->getChangeset(true);
-            $checkin['changeset_url'] = $scm->getChangesetUrl($c);
-            $checkin['branch_url'] = $scm->getBranchUrl($c);
-            $checkin['project_url'] = $scm->getProjectUrl($c);
-            $checkin['files'] = [];
-            foreach ($c->getFiles() as $cf) {
-                $f = $cf->toArray();
-
-                $f['added'] = $cf->isAdded();
-                $f['removed'] = $cf->isRemoved();
-                $f['modified'] = $cf->isModified();
-
-                // flag indicating whether file has versions
-                $f['versions'] = $cf->hasVersions();
-
-                // fill for url builder
-                $f['project_name'] = $c->getProjectName();
-
-                // fill urls
-                $f['checkout_url'] = $scm->getCheckoutUrl($c, $cf);
-                $f['diff_url'] = $scm->getDiffUrl($c, $cf);
-                $f['scm_log_url'] = $scm->getLogUrl($c, $cf);
-
-                $checkin['files'][] = $f;
-            }
-            $checkins[] = $checkin;
-        }
-
-        return $checkins;
     }
 }

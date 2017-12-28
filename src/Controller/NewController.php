@@ -14,7 +14,6 @@
 namespace Eventum\Controller;
 
 use Access;
-use Attachment;
 use Auth;
 use AuthCookie;
 use Category;
@@ -22,8 +21,7 @@ use CRM;
 use CRMException;
 use Custom_Field;
 use Date_Helper;
-use DB_Helper;
-use Email_Account;
+use Eventum\Attachment\AttachmentManager;
 use Group;
 use Issue;
 use Mail_Helper;
@@ -122,9 +120,9 @@ class NewController extends BaseController
                 FROM
                     {{%issue}}
                 WHERE
-                    iss_customer_id = ? AND 
-                    iss_customer_contact_id = ? AND 
-                    iss_summary = ? AND 
+                    iss_customer_id = ? AND
+                    iss_customer_contact_id = ? AND
+                    iss_summary = ? AND
                     iss_created_date >= DATE_SUB(?, INTERVAL 1 MINUTE)";
         $params = [
             $_POST['customer'],
@@ -184,7 +182,7 @@ class NewController extends BaseController
         // if we are dealing with just one message, use the subject line as the
         // summary for the issue, and the body as the description
         if (count($item) == 1) {
-            $email_details = Support::getEmailDetails(Email_Account::getAccountByEmail($item[0]), $item[0]);
+            $email_details = Support::getEmailDetails($item[0]);
             $this->tpl->assign(
                 [
                     'issue_summary' => $email_details['sup_subject'],
@@ -219,8 +217,8 @@ class NewController extends BaseController
                 'users' => Project::getUserAssocList($this->prj_id, 'active', User::ROLE_CUSTOMER),
                 'releases' => Release::getAssocList($this->prj_id),
                 'custom_fields' => Custom_Field::getListByProject($this->prj_id, 'report_form', false, true),
-                'max_attachment_size' => Attachment::getMaxAttachmentSize(),
-                'max_attachment_bytes' => Attachment::getMaxAttachmentSize(true),
+                'max_attachment_size' => AttachmentManager::getMaxAttachmentSize(),
+                'max_attachment_bytes' => AttachmentManager::getMaxAttachmentSize(true),
                 'field_display_settings' => Project::getFieldDisplaySettings($this->prj_id),
                 'groups' => Group::getAssocList($this->prj_id),
                 'products' => Product::getList(false),
@@ -299,7 +297,7 @@ class NewController extends BaseController
             'defaults' => $defaults,
         ];
 
-        if (isset($details['customer']) && isset($details['contact'])) {
+        if (isset($details['customer'], $details['contact'])) {
             $vars += [
                 'customer_id' => $details['iss_customer_id'],
                 'contact_id' => $details['iss_customer_contact_id'],

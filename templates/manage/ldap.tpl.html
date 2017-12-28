@@ -1,10 +1,7 @@
 {extends "manage/manage.tpl.html"}
 
-{block "manage_content"}
-{if $auth_backend == 'ldap_auth_backend'}
-
+{block "javascripts" append}
 <script type="text/javascript">
-    <!--
     function validateForm()
     {
         if (Validation.isFieldWhitespace('host')) {
@@ -34,102 +31,50 @@
     $().ready(function() {
         $('#ldap_form').submit(validateForm);
     })
-
-    //-->
 </script>
+{/block}
 
-<form id="ldap_form" method="post">
+{function name="table_row" title="" field="" size="50" help="" type="text"}
+  <tr>
+    <th width="120">
+      {$title}:
+    </th>
+    <td>
+      {if $type == "password"}
+        <input type="password" name="{$field}" size="{$size}" value="">
+      {else}
+        <input type="text" name="{$field}" size="{$size}" value="{$setup.$field|escape:"html"|default:''}">
+      {/if}
+      {if $help}
+        <span>{$help}</span>
+      {/if}
+      {include file="error_icon.tpl.html" field=$field}
+    </td>
+  </tr>
+{/function}
+
+{block "manage_content"}
+  {if $auth_backend == 'ldap_auth_backend'}
+    <form id="ldap_form" method="post">
     <input type="hidden" name="cat" value="update">
     <table class="bordered">
         <tr class="title">
             <th colspan="2">
-                {t}LDAP Setup{/t}
+                {t}LDAP Setup{/t} {include file="help_link.tpl.html" topic="ldap"}
             </th>
         </tr>
-        <tr>
-            <th width="120">
-                {t}Host{/t}:
-            </th>
-            <td>
-                <input type="text" name="host" size="50" value="{$setup.host|escape:"html"|default:''}">
-                {include file="error_icon.tpl.html" field="host"}
-            </td>
-        </tr>
-        <tr>
-            <th width="120">
-                {t}Port{/t}:
-            </th>
-            <td>
-                <input type="text" name="port" size="5" value="{$setup.port|escape:"html"|default:''}">
-                <span class="small_default">(default: 389)</span>
-                {include file="error_icon.tpl.html" field="port"}
-            </td>
-        </tr>
-        <tr>
-            <th width="120">
-                {t}Bind DN{/t}:
-            </th>
-            <td>
-                <input type="text" name="binddn" size="50" value="{$setup.binddn|escape:"html"|default:''}">
-                {include file="error_icon.tpl.html" field="binddn"}
-            </td>
-        </tr>
-        <tr>
-            <th width="120">
-                {t}Bind PW{/t}:
-            </th>
-            <td>
-                <input type="password" name="bindpw" size="50" value="">
-                {include file="error_icon.tpl.html" field="bindpw"}
-            </td>
-        </tr>
-        <tr>
-            <th width="120">
-                {t}Base DN{/t}:
-            </th>
-            <td>
-                <input type="text" name="basedn" size="50" value="{$setup.basedn|escape:"html"|default:''}">
-                {include file="error_icon.tpl.html" field="basedn"}
-            </td>
-        </tr>
-        <tr>
-            <th width="120">
-                {t}User DN{/t}:
-            </th>
-            <td>
-                <input type="text" name="userdn" size="50" value="{$setup.userdn|escape:"html"|default:''}">
-                <span>Use %UID% to specify where the UID should be substituted.</span>
-                {include file="error_icon.tpl.html" field="userdn"}
-            </td>
-        </tr>
-        <tr>
-            <th width="120">
-                {t}User Filter{/t}:
-            </th>
-            <td>
-                <input type="text" name="user_filter" size="50" value="{$setup.user_filter|escape:"html"|default:''}">
-                <span>Optional filter when binding the user</span>
-                {include file="error_icon.tpl.html" field="user_filter"}
-            </td>
-        </tr>
-        <tr>
-            <th width="120">
-                {t}Customer ID attribute{/t}:
-            </th>
-            <td>
-                <input type="text" name="customer_id_attribute" size="50" value="{$setup.customer_id_attribute|escape:"html"|default:''}">
-                {include file="error_icon.tpl.html" field="customer_id_attribute"}
-            </td>
-        </tr>
-        <tr>
-            <th width="120">
-                {t}Contact ID attribute{/t}:
-            </th>
-            <td>
-                <input type="text" name="contact_id_attribute" size="50" value="{$setup.contact_id_attribute|escape:"html"|default:''}">
-                {include file="error_icon.tpl.html" field="contact_id_attribute"}
-            </td>
-        </tr>
+        {table_row field="host" title="{t}Host{/t}"}
+        {table_row field="port" title="{t}Port{/t}" size="5" help="{t}(default: 389){/t}"}
+        {table_row field="binddn" title="{t}Bind DN{/t}" help="{t}Leave empty to clear saved Bind PW{/t}"}
+        {table_row field="bindpw" title="{t}Bind PW{/t}" type="password" help="{t}Leave empty to keep current password{/t}"}
+        {table_row field="basedn" title="{t}Base DN{/t}"}
+        {table_row field="user_id_attribute" title="{t}User ID attribute{/t}" help="{t}LDAP attribute containing a unique user identifier (default: 'uid'){/t}"}
+        {table_row field="userdn" title="{t}User DN{/t}" help="{t}Use %UID% to specify where the UID should be substituted.{/t}"}
+        {table_row field="user_filter" title="{t}User Filter{/t}" help="{t}Optional filter when binding the user{/t}"}
+        {table_row field="customer_id_attribute" title="{t}Customer ID attribute{/t}"}
+        {table_row field="contact_id_attribute" title="{t}Contact ID attribute{/t}"}
+        {table_row field="active_dn" title="{t}DN for active users{/t}" help="{t}ldapsync: DN to search for active users{/t}"}
+        {table_row field="inactive_dn" title="{t}DN for inactive users{/t}" help="{t}ldapsync: DN to search for inactive users{/t}"}
         <tr>
             <th width="120">
                 {t}Create Users{/t}:

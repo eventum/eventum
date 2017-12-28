@@ -16,23 +16,6 @@ use Eventum\Db\DatabaseException;
 class Draft
 {
     /**
-     * Method used to save the routed draft into a backup directory.
-     *
-     * @param   string $message The full body of the draft
-     */
-    public static function saveRoutedMessage($message)
-    {
-        if (!defined('APP_ROUTED_MAILS_SAVEDIR') || !APP_ROUTED_MAILS_SAVEDIR) {
-            return;
-        }
-        list($usec) = explode(' ', microtime());
-        $filename = date('Y-m-d_H-i-s_') . $usec . '.draft.txt';
-        $file = APP_ROUTED_MAILS_SAVEDIR . '/routed_drafts/' . $filename;
-        file_put_contents($file, $message);
-        chmod($file, 0644);
-    }
-
-    /**
      * Method used to save the draft response in the database for
      * further use.
      *
@@ -58,7 +41,7 @@ class Draft
             $usr_id = Auth::getUserID();
         }
         $stmt = 'INSERT INTO
-                    {{%email_draft}}
+                    `email_draft`
                  (
                     emd_updated_date,
                     emd_usr_id,
@@ -130,7 +113,7 @@ class Draft
 
         // update previous draft and insert new record
         $stmt = "UPDATE
-                    {{%email_draft}}
+                    `email_draft`
                  SET
                     emd_updated_date=?,
                     emd_status = 'edited'
@@ -161,34 +144,11 @@ class Draft
     public static function remove($emd_id)
     {
         $stmt = "UPDATE
-                    {{%email_draft}}
+                    `email_draft`
                  SET
                     emd_status = 'sent'
                  WHERE
                     emd_id=?";
-        try {
-            DB_Helper::getInstance()->query($stmt, [$emd_id]);
-        } catch (DatabaseException $e) {
-            return false;
-        }
-
-        return true;
-    }
-
-    /**
-     * Method used to remove the recipients associated with the given
-     * email draft response.
-     *
-     * @param   int $emd_id The email draft ID
-     * @return  bool
-     * @deprecated method not used
-     */
-    public static function removeRecipients($emd_id)
-    {
-        $stmt = 'DELETE FROM
-                    {{%email_draft_recipient}}
-                 WHERE
-                    edr_emd_id=?';
         try {
             DB_Helper::getInstance()->query($stmt, [$emd_id]);
         } catch (DatabaseException $e) {
@@ -212,7 +172,7 @@ class Draft
         $is_cc = $is_cc ? 1 : 0;
         $email = trim($email);
         $stmt = 'INSERT INTO
-                    {{%email_draft_recipient}}
+                    `email_draft_recipient`
                  (
                     edr_emd_id,
                     edr_is_cc,
@@ -245,7 +205,7 @@ class Draft
         $stmt = 'SELECT
                     *
                  FROM
-                    {{%email_draft}}
+                    `email_draft`
                  WHERE
                     emd_id=?';
 
@@ -282,7 +242,7 @@ class Draft
                     emd_unknown_user,
                     emd_status
                  FROM
-                    {{%email_draft}}
+                    `email_draft`
                  WHERE
                     emd_iss_id=?\n";
         $params = [$issue_id];
@@ -326,7 +286,7 @@ class Draft
                     edr_email,
                     edr_is_cc
                  FROM
-                    {{%email_draft_recipient}}
+                    `email_draft_recipient`
                  WHERE
                     edr_emd_id=?';
         try {
@@ -367,7 +327,7 @@ class Draft
         $stmt = "SELECT
                     emd_id
                 FROM
-                    {{%email_draft}}
+                    `email_draft`
                 WHERE
                     emd_iss_id = ? AND
                     emd_status = 'pending'
@@ -408,33 +368,6 @@ class Draft
         $res = Support::sendEmail($draft['emd_iss_id'], null, $from, $to, $cc, $subject, $draft['emd_body'], $options);
         if ($res == 1) {
             self::remove($draft_id);
-        }
-
-        return $res;
-    }
-
-    /**
-     * Returns the number of drafts by a user in a time range.
-     *
-     * @param   string $usr_id The ID of the user
-     * @param   int $start The timestamp of the start date
-     * @param   int $end The timestanp of the end date
-     * @return  int the number of note by the user
-     * @deprecated method not used
-     */
-    public static function getCountByUser($usr_id, $start, $end)
-    {
-        $stmt = 'SELECT
-                    COUNT(emd_id)
-                 FROM
-                    {{%email_draft}}
-                 WHERE
-                    emd_updated_date BETWEEN ? AND ? AND
-                    emd_usr_id = ?';
-        try {
-            $res = DB_Helper::getInstance()->getOne($stmt, [$start, $end, $usr_id]);
-        } catch (DatabaseException $e) {
-            return '';
         }
 
         return $res;

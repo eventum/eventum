@@ -65,7 +65,7 @@ class Reminder
             $index = array_search($new_rank, $ranks);
             $replaced_rem_id = $ids[$index];
             $stmt = 'UPDATE
-                        {{%reminder_level}}
+                        `reminder_level`
                      SET
                         rem_rank=?
                      WHERE
@@ -73,7 +73,7 @@ class Reminder
             DB_Helper::getInstance()->query($stmt, [$ranking[$rem_id], $replaced_rem_id]);
         }
         $stmt = 'UPDATE
-                    {{%reminder_level}}
+                    `reminder_level`
                  SET
                     rem_rank=?
                  WHERE
@@ -95,7 +95,7 @@ class Reminder
                     rem_id,
                     rem_rank
                  FROM
-                    {{%reminder_level}}
+                    `reminder_level`
                  ORDER BY
                     rem_rank ASC';
         try {
@@ -135,7 +135,7 @@ class Reminder
         $stmt = 'SELECT
                     rem_title
                  FROM
-                    {{%reminder_level}}
+                    `reminder_level`
                  WHERE
                     rem_id=?';
         try {
@@ -158,7 +158,7 @@ class Reminder
         $stmt = 'SELECT
                     rem_prj_id
                  FROM
-                    {{%reminder_level}}
+                    `reminder_level`
                  WHERE
                     rem_id=?';
         try {
@@ -181,7 +181,7 @@ class Reminder
         $stmt = 'SELECT
                     *
                  FROM
-                    {{%reminder_level}}
+                    `reminder_level`
                  WHERE
                     rem_id=?';
         try {
@@ -232,7 +232,7 @@ class Reminder
         $stmt = 'SELECT
                     rep_pri_id
                  FROM
-                    {{%reminder_priority}}
+                    `reminder_priority`
                  WHERE
                     rep_rem_id=?';
         try {
@@ -249,7 +249,7 @@ class Reminder
         $stmt = 'SELECT
                     rpr_pro_id
                  FROM
-                    {{%reminder_product}}
+                    `reminder_product`
                  WHERE
                     rpr_rem_id=?';
         try {
@@ -273,7 +273,7 @@ class Reminder
         $stmt = 'SELECT
                     rms_sev_id
                  FROM
-                    {{%reminder_severity}}
+                    `reminder_severity`
                  WHERE
                     rms_rem_id=?';
         try {
@@ -296,7 +296,7 @@ class Reminder
     public static function addSupportLevelAssociation($rem_id, $support_level_id)
     {
         $stmt = 'INSERT INTO
-                    {{%reminder_requirement}}
+                    `reminder_requirement`
                  (
                     rer_rem_id,
                     rer_support_level_id
@@ -322,7 +322,7 @@ class Reminder
     public static function addIssueAssociation($rem_id, $issue_id)
     {
         $stmt = 'INSERT INTO
-                    {{%reminder_requirement}}
+                    `reminder_requirement`
                  (
                     rer_rem_id,
                     rer_iss_id
@@ -349,7 +349,7 @@ class Reminder
     public static function addCustomerAssociation($rem_id, $customer_id)
     {
         $stmt = 'INSERT INTO
-                    {{%reminder_requirement}}
+                    `reminder_requirement`
                  (
                     rer_rem_id,
                     rer_customer_id
@@ -374,7 +374,7 @@ class Reminder
     public static function associateAllIssues($rem_id)
     {
         $stmt = 'INSERT INTO
-                    {{%reminder_requirement}}
+                    `reminder_requirement`
                  (
                     rer_rem_id,
                     rer_trigger_all_issues
@@ -400,7 +400,7 @@ class Reminder
     public static function addPriorityAssociation($rem_id, $priority_id)
     {
         $stmt = 'INSERT INTO
-                    {{%reminder_priority}}
+                    `reminder_priority`
                  (
                     rep_rem_id,
                     rep_pri_id
@@ -419,7 +419,7 @@ class Reminder
     public static function addProductAssociation($rem_id, $pro_id)
     {
         $stmt = 'INSERT INTO
-                    {{%reminder_product}}
+                    `reminder_product`
                  (
                     rpr_rem_id,
                     rpr_pro_id
@@ -445,7 +445,7 @@ class Reminder
     public static function addSeverityAssociation($rem_id, $severity_id)
     {
         $stmt = 'INSERT INTO
-                    {{%reminder_severity}}
+                    `reminder_severity`
                  (
                     rms_rem_id,
                     rms_sev_id
@@ -475,25 +475,25 @@ class Reminder
         $itemlist = DB_Helper::buildList($rem_id);
 
         $stmt = "DELETE FROM
-                    {{%reminder_requirement}}
+                    `reminder_requirement`
                  WHERE
                     rer_rem_id IN ($itemlist)";
         DB_Helper::getInstance()->query($stmt, $rem_id);
 
         $stmt = "DELETE FROM
-                    {{%reminder_priority}}
+                    `reminder_priority`
                  WHERE
                     rep_rem_id IN ($itemlist)";
         DB_Helper::getInstance()->query($stmt, $rem_id);
 
         $stmt = "DELETE FROM
-                    {{%reminder_product}}
+                    `reminder_product`
                  WHERE
                     rpr_rem_id IN ($itemlist)";
         DB_Helper::getInstance()->query($stmt, $rem_id);
 
         $stmt = "DELETE FROM
-                    {{%reminder_severity}}
+                    `reminder_severity`
                  WHERE
                     rms_rem_id IN ($itemlist)";
         DB_Helper::getInstance()->query($stmt, $rem_id);
@@ -507,7 +507,7 @@ class Reminder
     public static function insert()
     {
         $stmt = 'INSERT INTO
-                    {{%reminder_level}}
+                    `reminder_level`
                  (
                     rem_created_date,
                     rem_rank,
@@ -574,7 +574,7 @@ class Reminder
     public static function update()
     {
         $stmt = 'UPDATE
-                    {{%reminder_level}}
+                    `reminder_level`
                  SET
                     rem_last_updated_date=?,
                     rem_rank=?,
@@ -645,7 +645,7 @@ class Reminder
         $itemlist = DB_Helper::buildList($items);
 
         $stmt = "DELETE FROM
-                    {{%reminder_level}}
+                    `reminder_level`
                  WHERE
                     rem_id IN ($itemlist)";
         try {
@@ -658,7 +658,7 @@ class Reminder
         $stmt = "SELECT
                     rma_id
                  FROM
-                    {{%reminder_action}}
+                    `reminder_action`
                  WHERE
                     rma_rem_id IN ($itemlist)";
         $actions = DB_Helper::getInstance()->getColumn($stmt, $items);
@@ -684,7 +684,7 @@ class Reminder
                     rer_support_level_id,
                     rer_trigger_all_issues
                  FROM
-                    {{%reminder_requirement}}
+                    `reminder_requirement`
                  WHERE
                     rer_rem_id=?';
         try {
@@ -727,11 +727,11 @@ class Reminder
     public static function getAdminList()
     {
         $stmt = 'SELECT
-                    {{%reminder_level}}.*,
+                    `reminder_level`.*,
                     prj_title
                  FROM
-                    {{%reminder_level}},
-                    {{%project}}
+                    `reminder_level`,
+                    `project`
                  WHERE
                     rem_prj_id=prj_id
                  ORDER BY
@@ -772,14 +772,10 @@ class Reminder
         $stmt = 'SELECT
                     *
                  FROM
-                    {{%reminder_level}}
+                    `reminder_level`
                  ORDER BY
                     rem_rank ASC';
-        try {
-            $res = DB_Helper::getInstance()->getAll($stmt);
-        } catch (DatabaseException $e) {
-            return [];
-        }
+        $res = DB_Helper::getInstance()->getAll($stmt);
 
         if (empty($res)) {
             return [];
@@ -814,12 +810,12 @@ class Reminder
                     iss_id,
                     iss_prj_id
                  FROM
-                    {{%issue}}';
+                    `issue`';
 
         $products = self::getAssociatedProducts($reminder['rem_id']);
         if (count($products) > 0) {
             $stmt .= ',
-                    {{%issue_product_version}}';
+                    `issue_product_version`';
         }
 
         $stmt .= self::getWhereClause($reminder, $conditions);
@@ -912,11 +908,11 @@ class Reminder
                     $cond['rmo_sql_representation'], $sql_field);
             } else {
                 // date field values are always saved as number of hours, so let's calculate them now as seconds
-                if (stristr($cond['rmf_title'], 'date')) {
+                if (stripos($cond['rmf_title'], 'date') !== false) {
                     // support NULL as values for a date field
-                    if (strtoupper($cond['rlc_value']) == 'NULL') {
+                    if (strtoupper($cond['rlc_value']) === 'NULL') {
                         $cond['rmf_sql_representation'] = $cond['rmf_sql_field'];
-                    } elseif (strtoupper($cond['rlc_value']) == 'NOW') {
+                    } elseif (strtoupper($cond['rlc_value']) === 'NOW') {
                         $cond['rmf_sql_representation'] = 'UNIX_TIMESTAMP(' .
                             $cond['rmf_sql_field'] . ')';
                         $cond['rlc_value'] = 'UNIX_TIMESTAMP()';
@@ -952,7 +948,7 @@ class Reminder
         $stmt = 'SELECT
                     iss_id
                  FROM
-                    {{%issue}}';
+                    `issue`';
         $products = self::getAssociatedProducts($reminder['rem_id']);
         if (count($products) > 0) {
             $stmt .= ',
@@ -978,8 +974,8 @@ class Reminder
                     rmh_created_date,
                     rma_title
                  FROM
-                    {{%reminder_history}},
-                    {{%reminder_action}}
+                    `reminder_history`,
+                    `reminder_action`
                  WHERE
                     rmh_iss_id=? AND
                     rmh_rma_id=rma_id

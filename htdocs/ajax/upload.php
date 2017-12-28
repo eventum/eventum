@@ -11,6 +11,7 @@
  * that were distributed with this source code.
  */
 
+use Eventum\Attachment\AttachmentManager;
 use Eventum\Monolog\Logger;
 
 require_once __DIR__ . '/../../init.php';
@@ -33,10 +34,10 @@ try {
         throw new InvalidArgumentException(ev_gettext('No files uploaded'));
     }
 
-    $iaf_id = Attachment::addFiles($_FILES[$file]);
+    $iaf_ids = AttachmentManager::addFiles($_FILES[$file]);
     $res = [
         'error' => 0,
-        'iaf_id' => $iaf_id,
+        'iaf_id' => $iaf_ids,
     ];
 } catch (Exception $e) {
     $code = $e->getCode();

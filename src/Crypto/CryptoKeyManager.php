@@ -15,6 +15,8 @@ namespace Eventum\Crypto;
 
 use Crypto;
 use RandomLib;
+use Symfony\Component\Filesystem\Exception\IOException;
+use Symfony\Component\Filesystem\Filesystem;
 
 /**
  * Class CryptoKeyManager dealing with key loading and generating
@@ -94,9 +96,12 @@ final class CryptoKeyManager
     private function storePrivateKey()
     {
         $this->canUpdate();
-        $res = file_put_contents($this->keyfile, $this->key);
-        if (!$res) {
-            throw new CryptoException("Unable to store secret file '{$this->keyfile}'");
+
+        try {
+            $fs = new Filesystem();
+            $fs->dumpFile($this->keyfile, $this->key);
+        } catch (IOException $e) {
+            throw new CryptoException("Unable to store secret file '{$this->keyfile}': {$e->getMessage()}");
         }
     }
 }

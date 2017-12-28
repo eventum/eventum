@@ -13,10 +13,10 @@
 
 use Eventum\RPC\RemoteApi;
 
-$_displayed_confirmation = false;
-
 class Command_Line
 {
+    private static $_displayed_confirmation = null;
+
     /**
      * Prompts the user for a resolution option, and returns the ID of the
      * selected one.
@@ -291,22 +291,22 @@ class Command_Line
         $details = $client->getFile($auth[0], $auth[1], (int) $file_id);
 
         // check if the file already exists
-        if (file_exists($details['iaf_filename'])) {
-            $msg = "The requested file ('" . $details['iaf_filename'] . "') already exists in the current directory. Would you like to overwrite this file? [y/n]";
+        if (file_exists($details['name'])) {
+            $msg = "The requested file ('" . $details['name'] . "') already exists in the current directory. Would you like to overwrite this file? [y/n]";
             $ret = CLI_Misc::prompt($msg, false);
             if (strtolower($ret) == 'y') {
-                unlink($details['iaf_filename']);
-                if (file_exists($details['iaf_filename'])) {
+                unlink($details['name']);
+                if (file_exists($details['name'])) {
                     self::quit('No permission to remove the file');
                 }
             } else {
                 self::quit('Download halted');
             }
         }
-        $fp = fopen($details['iaf_filename'], 'w');
-        fwrite($fp, $details['iaf_file']);
+        $fp = fopen($details['name'], 'w');
+        fwrite($fp, base64_decode($details['contents']));
         fclose($fp);
-        echo "OK - File '" . $details['iaf_filename'] . "' successfully downloaded to the local directory\n";
+        echo "OK - File '" . $details['name'] . "' successfully downloaded to the local directory\n";
     }
 
     /**
@@ -320,7 +320,7 @@ class Command_Line
     public function checkIssueAssignment($client, $auth, $issue_id)
     {
         // check if the confirmation message was already displayed
-        if (isset($GLOBALS['_displayed_confirmation']) && !$GLOBALS['_displayed_confirmation']) {
+        if (isset(self::$_displayed_confirmation) && !self::$_displayed_confirmation) {
             // check if the current user is allowed to change the given issue
             $may_change_issue = $client->mayChangeIssue($auth[0], $auth[1], $issue_id);
 
@@ -1160,7 +1160,7 @@ Account Manager: ' . @$details['customer']['account_manager_name'];
     public static function promptConfirmation($client, $auth, $issue_id, $args)
     {
         // this is needed to prevent multiple confirmations from being shown to the user
-        $GLOBALS['_displayed_confirmation'] = true;
+        self::$_displayed_confirmation = true;
 
         // get summary, customer status and assignment of issue, then show confirmation prompt to user
         $details = $client->getSimpleIssueDetails($auth[0], $auth[1], $issue_id);

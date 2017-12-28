@@ -13,6 +13,9 @@
 
 use Eventum\Db\Adapter\AdapterInterface;
 use Eventum\Db\DatabaseException;
+use Eventum\Db\Doctrine;
+use Eventum\Model\Entity;
+use Eventum\Model\Repository;
 
 /**
  * Class to handle the business logic related to the administration
@@ -41,7 +44,7 @@ class Project
                     prj_sender_flag,
                     prj_sender_flag_location
                  FROM
-                    {{%project}}
+                    `project`
                  WHERE
                     prj_id=?';
         try {
@@ -68,22 +71,11 @@ class Project
      *
      * @param   int $prj_id The project ID
      * @return  int The status ID
+     * @deprecated fetch project entity instead of this method
      */
     public static function getInitialStatus($prj_id)
     {
-        $stmt = 'SELECT
-                    prj_initial_sta_id
-                 FROM
-                    {{%project}}
-                 WHERE
-                    prj_id=?';
-        try {
-            $res = DB_Helper::getInstance()->getOne($stmt, [$prj_id]);
-        } catch (DatabaseException $e) {
-            return '';
-        }
-
-        return $res;
+        return self::getRepository()->findById($prj_id)->getInitialStatusId();
     }
 
     /**
@@ -98,7 +90,7 @@ class Project
         $stmt = 'SELECT
                     prj_anonymous_post_options
                  FROM
-                    {{%project}}
+                    `project`
                  WHERE
                     prj_id=?';
         try {
@@ -119,7 +111,7 @@ class Project
     public static function updateAnonymousPost($prj_id)
     {
         $stmt = 'UPDATE
-                    {{%project}}
+                    `project`
                  SET
                     prj_anonymous_post=?,
                     prj_anonymous_post_options=?
@@ -147,7 +139,7 @@ class Project
                     prj_id,
                     prj_title
                  FROM
-                    {{%project}}
+                    `project`
                  WHERE
                     prj_anonymous_post='enabled'
                  ORDER BY
@@ -172,7 +164,7 @@ class Project
         $stmt = 'SELECT
                     COUNT(*) AS total
                  FROM
-                    {{%project}}
+                    `project`
                  WHERE
                     prj_id=?';
         try {
@@ -199,7 +191,7 @@ class Project
         $stmt = 'SELECT
                     prj_id
                  FROM
-                    {{%project}}
+                    `project`
                  WHERE
                     prj_title=?';
         try {
@@ -228,7 +220,7 @@ class Project
         $stmt = 'SELECT
                     prj_title
                  FROM
-                    {{%project}}
+                    `project`
                  WHERE
                     prj_id=?';
         try {
@@ -259,7 +251,7 @@ class Project
         $stmt = 'SELECT
                     prj_segregate_reporter
                  FROM
-                    {{%project}}
+                    `project`
                  WHERE
                     prj_id=?';
         try {
@@ -291,7 +283,7 @@ class Project
         $stmt = 'SELECT
                     *
                  FROM
-                    {{%project}}
+                    `project`
                  WHERE
                     prj_id=?';
         try {
@@ -320,7 +312,7 @@ class Project
     public static function removeUserByProjects($ids, $users_to_not_remove = null)
     {
         $stmt = 'DELETE FROM
-                    {{%project_user}}
+                    `project_user`
                  WHERE
                     pru_prj_id IN (' . DB_Helper::buildList($ids) . ')';
         $params = $ids;
@@ -350,7 +342,7 @@ class Project
         }
 
         $stmt = 'UPDATE
-                    {{%project}}
+                    `project`
                  SET
                     prj_title=?,
                     prj_status=?,
@@ -424,7 +416,7 @@ class Project
         $sql = 'SELECT
                     pru_id
                 FROM
-                    {{%project_user}}
+                    `project_user`
                 WHERE
                     pru_prj_id = ? AND
                     pru_usr_id = ?';
@@ -436,7 +428,7 @@ class Project
 
         if (empty($res)) {
             $stmt = 'INSERT INTO
-                        {{%project_user}}
+                        `project_user`
                      (
                         pru_usr_id,
                         pru_prj_id,
@@ -467,7 +459,7 @@ class Project
             return -2;
         }
         $stmt = 'INSERT INTO
-                    {{%project}}
+                    `project`
                  (
                     prj_created_date,
                     prj_title,
@@ -540,8 +532,8 @@ class Project
                     prj_status,
                     usr_full_name
                  FROM
-                    {{%project}},
-                    {{%user}}
+                    `project`,
+                    `user`
                  WHERE
                     prj_lead_usr_id=usr_id
                  ORDER BY
@@ -582,8 +574,8 @@ class Project
         }
         $stmt .= '
                  FROM
-                    {{%project}},
-                    {{%project_user}}
+                    `project`,
+                    `project_user`
                  WHERE
                     prj_id=pru_prj_id AND
                     pru_usr_id=? AND
@@ -632,8 +624,8 @@ class Project
                     usr_id,
                     usr_full_name
                  FROM
-                    {{%user}},
-                    {{%project_user}}
+                    `user`,
+                    `project_user`
                  WHERE
                     pru_prj_id=? AND
                     pru_usr_id=usr_id AND
@@ -670,8 +662,8 @@ class Project
         $stmt = 'SELECT
                     usr_id
                  FROM
-                    {{%user}},
-                    {{%project_user}}
+                    `user`,
+                    `project_user`
                  WHERE
                     pru_prj_id=? AND
                     pru_usr_id=usr_id
@@ -699,7 +691,7 @@ class Project
                     prj_id,
                     prj_title
                  FROM
-                    {{%project}}';
+                    `project`';
         if (!$include_no_customer_association) {
             $stmt .= " WHERE prj_customer_backend <> '' AND prj_customer_backend IS NOT NULL ";
         }
@@ -804,8 +796,8 @@ class Project
                     usr_full_name,
                     usr_email
                  FROM
-                    {{%user}},
-                    {{%project_user}}
+                    `user`,
+                    `project_user`
                  WHERE
                     pru_prj_id=? AND
                     pru_usr_id=usr_id AND
@@ -849,7 +841,7 @@ class Project
                     prj_id,
                     prj_title
                  FROM
-                    {{%project}}
+                    `project`
                  WHERE
                     prj_remote_invocation='enabled'
                  ORDER BY
@@ -858,53 +850,6 @@ class Project
             $res = DB_Helper::getInstance()->getPair($stmt);
         } catch (DatabaseException $e) {
             return '';
-        }
-
-        return $res;
-    }
-
-    /**
-     * Method used to get the list of projects assigned to a given user that
-     * allow remote invocation of issues.
-     *
-     * @param   int $usr_id The user ID
-     * @param   bool $only_customer_projects Whether to only include projects with customer integration or not
-     * @return  array The list of projects
-     */
-    public static function getRemoteAssocListByUser($usr_id, $only_customer_projects = false)
-    {
-        static $returns;
-
-        if ((!$only_customer_projects) && (!empty($returns[$usr_id]))) {
-            return $returns[$usr_id];
-        }
-
-        $stmt = "SELECT
-                    prj_id,
-                    prj_title
-                 FROM
-                    {{%project}},
-                    {{%project_user}}
-                 WHERE
-                    prj_id=pru_prj_id AND
-                    pru_usr_id=? AND
-                    pru_role > ? AND
-                    prj_remote_invocation='enabled'";
-        if ($only_customer_projects) {
-            $stmt .= " AND prj_customer_backend <> '' AND prj_customer_backend IS NOT NULL ";
-        }
-        $stmt .= '
-                 ORDER BY
-                    prj_title';
-        try {
-            $res = DB_Helper::getInstance()->getPair($stmt, [$usr_id, User::ROLE_CUSTOMER]);
-        } catch (DatabaseException $e) {
-            return '';
-        }
-
-        // don't cache the results when the optional argument is used to avoid getting bogus results
-        if (!$only_customer_projects) {
-            $returns[$usr_id] = $res;
         }
 
         return $res;
@@ -929,8 +874,8 @@ class Project
                     usr_id,
                     usr_email
                  FROM
-                    {{%user}},
-                    {{%project_user}}
+                    `user`,
+                    `project_user`
                  WHERE
                     pru_prj_id=? AND
                     pru_usr_id=usr_id';
@@ -968,9 +913,9 @@ class Project
                     DISTINCT usr_id,
                     usr_full_name
                  FROM
-                    {{%user}},
-                    {{%project_user}},
-                    {{%issue}}
+                    `user`,
+                    `project_user`,
+                    `issue`
                  WHERE
                     pru_prj_id = ? AND
                     iss_prj_id = ? AND
@@ -998,7 +943,7 @@ class Project
     {
         // delete current settings
         $stmt = 'DELETE FROM
-                    {{%project_field_display}}
+                    `project_field_display`
                  WHERE
                     pfd_prj_id = ?';
         try {
@@ -1010,7 +955,7 @@ class Project
         // insert new values
         foreach ($settings as $field => $details) {
             $stmt = 'INSERT INTO
-                        {{%project_field_display}}
+                        `project_field_display`
                      (
                         pfd_prj_id,
                         pfd_field,
@@ -1043,7 +988,7 @@ class Project
                     pfd_min_role as min_role,
                     pfd_required as required
                  FROM
-                    {{%project_field_display}}
+                    `project_field_display`
                  WHERE
                     pfd_prj_id = ?';
         try {
@@ -1140,5 +1085,17 @@ class Project
             ];
         }
         self::updateFieldDisplaySettings($prj_id, $settings);
+    }
+
+    /**
+     * @return Repository\ProjectRepository|\Doctrine\ORM\EntityRepository
+     */
+    protected static function getRepository()
+    {
+        static $repo;
+
+        return $repo
+            ?: $repo = Doctrine::getEntityManager()
+                ->getRepository(Entity\Project::class);
     }
 }

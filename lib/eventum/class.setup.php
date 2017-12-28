@@ -12,6 +12,8 @@
  */
 
 use Eventum\Monolog\Logger;
+use Symfony\Component\Filesystem\Exception\IOException;
+use Symfony\Component\Filesystem\Filesystem;
 use Zend\Config\Config;
 
 /**
@@ -34,15 +36,6 @@ class Setup
         }
 
         return $config;
-    }
-
-    /**
-     * @return Config
-     * @deprecated wrapper for Setup::get() for legacy compatibility
-     */
-    public static function load()
-    {
-        return self::get();
     }
 
     /**
@@ -118,12 +111,7 @@ class Setup
     private static function initialize()
     {
         $config = new Config(self::getDefaults(), true);
-        $config->merge(new Config(self::loadConfigFile(APP_SETUP_FILE, $migrate)));
-
-        if ($migrate) {
-            // save config in new format
-            self::saveConfig(APP_SETUP_FILE, $config);
-        }
+        $config->merge(new Config(self::loadConfigFile(APP_SETUP_FILE)));
 
         // some subtrees are saved to different files
         $extra_configs = [
@@ -135,12 +123,8 @@ class Setup
                 continue;
             }
 
-            $subconfig = self::loadConfigFile($filename, $migrate);
+            $subconfig = self::loadConfigFile($filename);
             if ($subconfig) {
-                if ($migrate) {
-                    // save config in new format
-                    self::saveConfig($filename, new Config($subconfig));
-                }
                 $config->merge(new Config([$section => $subconfig]));
             }
         }
@@ -155,11 +139,8 @@ class Setup
      * @param string $path
      * @return array
      */
-    private static function loadConfigFile($path, &$migrate)
+    private static function loadConfigFile($path)
     {
-        $eventum_setup_string = $eventum_setup = null;
-        $ldap_setup = null;
-
         // return empty array if the file is empty
         // this is to help eventum installation wizard to proceed
         if (!file_exists($path) || !filesize($path)) {
@@ -168,26 +149,7 @@ class Setup
 
         // config array is supposed to be returned from that path
         /** @noinspection PhpIncludeInspection */
-        $config = require $path;
-        // fall back to old modes:
-        // 1. $eventum_setup string
-        // 2. base64 encoded $eventum_setup_string
-        // 3. $ldap_setup
-        if (isset($eventum_setup)) {
-            $config = $eventum_setup;
-            $migrate = true;
-        } elseif (isset($eventum_setup_string)) {
-            $config = unserialize(base64_decode($eventum_setup_string));
-            $migrate = true;
-        } elseif (isset($ldap_setup)) {
-            $config = $ldap_setup;
-            $migrate = true;
-        } elseif ($config == 1) {
-            // something went wrong, do not return "1", but empty array
-            $config = [];
-        }
-
-        return $config;
+        return require $path;
     }
 
     /**
@@ -198,25 +160,14 @@ class Setup
      */
     private static function saveConfig($path, Config $config)
     {
-        // if file exists, the file must be writable
-        if (file_exists($path)) {
-            if (!is_writable($path)) {
-                throw new RuntimeException("File '$path' is not writable'", -2);
-            }
-        } else {
-            // if file does not exist, it's parent dir must be writable
-            $dir = dirname($path);
-            if (!is_writable($dir)) {
-                throw new RuntimeException("Directory '$dir' is not writable'", -1);
-            }
-        }
-
         $contents = self::dumpConfig($config);
-        $res = file_put_contents($path, $contents);
-        if ($res === false) {
-            throw new RuntimeException("Can't write {$path}", -2);
+
+        try {
+            $fs = new Filesystem();
+            $fs->dumpFile($path, $contents);
+        } catch (IOException $e) {
+            throw new RuntimeException($e->getMessage(), -2);
         }
-        clearstatcache(true, $path);
     }
 
     /**
@@ -278,6 +229,11 @@ class Setup
 
             'relative_date' => 'enabled',
             'audit_trail' => 'disabled',
+
+            'attachments' => [
+                'default_adapter' => 'pdo',
+                'adapters' => [],
+            ],
         ];
 
         return $defaults;

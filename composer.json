@@ -31,8 +31,9 @@
 		"component-baseurl": "/components",
 		"component-dir": "htdocs/components",
 		"platform": {
-			"php": "5.5.0"
-		}
+			"php": "5.6.0"
+		},
+		"sort-packages": true
 	},
 	"scripts": {
 		"test": "phpunit"
@@ -53,7 +54,7 @@
 	"minimum-stability": "dev",
 	"prefer-stable": true,
 	"require": {
-		"defuse/php-encryption": "~1.2.1",
+		"php": "^5.6.0 || ^7.0",
 		"ext-filter": "*",
 		"ext-iconv": "*",
 		"ext-json": "*",
@@ -62,23 +63,25 @@
 		"ext-pdo_mysql": "*",
 		"ext-session": "*",
 		"ext-spl": "*",
+		"defuse/php-encryption": "~1.2.1",
+		"doctrine/dbal": "^2.5",
+		"doctrine/orm": "^2.5",
 		"fonts/liberation": "*",
 		"ircmaxell/random-lib": "~1.1.0",
+		"league/flysystem": "^1.0",
 		"malkusch/lock": "^0.4.0",
+		"mnapoli/silly": "^1.5",
 		"monolog/monolog": "^1.22.0",
-		"pear-pear.php.net/mail_mimedecode": "*",
 		"pear-pear.php.net/math_stats": "*",
-		"pear-pear.php.net/net_ldap2": "~2.1",
 		"pear-pear.php.net/net_pop3": "*",
 		"pear-pear.php.net/net_url": "*",
 		"pear-pear.php.net/text_diff": "*",
 		"pear/auth_sasl": "*",
-		"pear/mail_mime": "*",
 		"pear/net_smartirc": "~1.1.0",
 		"pear/net_smtp": "1.6.*",
 		"pear/net_socket": "*",
 		"pear/pear-core-minimal": "^1.10",
-		"php": "^5.5.0 || ^7.0",
+		"phlib/flysystem-pdo": "^1.0",
 		"php-gettext/php-gettext": "1.0.*",
 		"phplot/phplot": "~6.1.0",
 		"phpxmlrpc/phpxmlrpc": "^4.1",
@@ -86,11 +89,13 @@
 		"smarty-gettext/smarty-gettext": "~1.0",
 		"smarty/smarty": "~3.1.12",
 		"sphinx/php-sphinxapi": "2.0.*",
-		"symfony/event-dispatcher": "~2.7.0",
-		"symfony/filesystem": "~2.7.0",
-		"symfony/http-foundation": "~2.7.0",
-		"theorchard/monolog-cascade": "^0.3.1",
-		"willdurand/email-reply-parser": "dev-set-sig-regex",
+		"symfony/console": "^3.2.0",
+		"symfony/event-dispatcher": "^2.7 || ^3.0",
+		"symfony/filesystem": "^2.7 || ^3.0",
+		"symfony/http-foundation": "^2.7 || ^3.0",
+		"symfony/ldap": "^2.7 || ^3.3",
+		"theorchard/monolog-cascade": "^0.5.0",
+		"willdurand/email-reply-parser": "^2.7.0",
 		"zendframework/zend-config": "2.4.*",
 		"zendframework/zend-mail": "dev-develop-2.4",
 		"zendframework/zend-servicemanager": "2.4.*"
@@ -98,6 +103,7 @@
 	"replace": {
 		"symfony/polyfill-mbstring": "1.1.1",
 		"symfony/polyfill-php55": "1.1.1",
+		"symfony/polyfill-php56": "1.6.0",
 		"zendframework/zend-crypt": "2.4.9"
 	},
 	"require-dev": {
@@ -119,11 +125,12 @@
 		"rmm5t/jquery-timeago": "*",
 		"roave/security-advisories": "dev-master",
 		"robloach/component-installer": "*",
+		"sentry/sentry": "^1.7",
+		"symfony/thanks": "^1.0",
 		"symfony/var-dumper": "~2.7.3",
 		"widernet/cmd-ctrl-enter": "~0.2.0"
 	},
 	"suggest": {
-		"ext-imap": "Support for fetching mail over IMAP/POP3",
-		"ext-ldap": "Adds support for LDAP auth backend"
+		"ext-imap": "Support for fetching mail over IMAP/POP3"
 	}
 }

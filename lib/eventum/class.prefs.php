@@ -40,7 +40,7 @@ class Prefs
             'auto_append_email_sig' => 'no',
             'auto_append_note_sig' => 'no',
             'close_popup_windows' => 1,
-            'relative_date' => (int) ($setup['relative_date'] == 'enabled'),
+            'relative_date' => (int) ($setup['relative_date'] === 'enabled'),
             'collapsed_emails' => 1,
         ];
 
@@ -82,7 +82,7 @@ class Prefs
                     upr_relative_date as relative_date,
                     upr_collapsed_emails as collapsed_emails
                 FROM
-                    {{%user_preference}}
+                    `user_preference`
                 WHERE
                     upr_usr_id=?';
         try {
@@ -115,7 +115,7 @@ class Prefs
                     upp_receive_new_issue_email as receive_new_issue_email,
                     upp_receive_copy_of_own_action as receive_copy_of_own_action
                 FROM
-                    {{%user_project_preference}}
+                    `user_project_preference`
                 WHERE
                     upp_usr_id = ?';
         try {
@@ -144,7 +144,7 @@ class Prefs
     {
         // set global preferences
         $sql = 'REPLACE INTO
-                    {{%user_preference}}
+                    `user_preference`
                 SET
                     upr_usr_id = ?,
                     upr_timezone = ?,
@@ -180,7 +180,7 @@ class Prefs
         $projects = Project::getAssocList($usr_id);
         foreach ($projects as $prj_id => $project_name) {
             $sql = 'REPLACE INTO
-                        {{%user_project_preference}}
+                        `user_project_preference`
                     SET
                         upp_usr_id = ?,
                         upp_prj_id = ?,

@@ -26,7 +26,7 @@ class Product
                     pro_removed,
                     pro_email
                 FROM
-                    {{%product}}';
+                    `product`';
         if ($include_removed !== null) {
             $sql .= '
                 WHERE
@@ -63,7 +63,7 @@ class Product
         }
         $params = [$title, $version_howto, $rank, $removed, $email];
         $sql = 'INSERT INTO
-                    {{%product}}
+                    `product`
                 SET
                     pro_title = ?,
                     pro_version_howto = ?,
@@ -86,7 +86,7 @@ class Product
         }
         $params = [$title, $version_howto, $rank, $removed, $email, $id];
         $sql = 'UPDATE
-                    {{%product}}
+                    `product`
                 SET
                     pro_title = ?,
                     pro_version_howto = ?,
@@ -107,7 +107,7 @@ class Product
     public static function remove($ids)
     {
         $sql = 'DELETE FROM
-                    {{%product}}
+                    `product`
                 WHERE
                     pro_id IN (' . DB_Helper::buildList($ids) . ')';
 
@@ -130,7 +130,7 @@ class Product
                     pro_removed,
                     pro_email
                 FROM
-                    {{%product}}
+                    `product`
                 WHERE
                     pro_id = ?';
 
@@ -157,7 +157,7 @@ class Product
         }
 
         $sql = 'INSERT INTO
-                    {{%issue_product_version}}
+                    `issue_product_version`
                 SET
                     ipv_iss_id = ?,
                     ipv_pro_id = ?,
@@ -181,8 +181,8 @@ class Product
                     ipv_version as version,
                     pro_email
                 FROM
-                    {{%issue_product_version}},
-                    {{%product}}
+                    `issue_product_version`,
+                    `product`
                 WHERE
                     ipv_pro_id = pro_id AND
                     ipv_iss_id = ?';
@@ -225,13 +225,13 @@ class Product
     {
         if ($pro_id == -1) {
             $sql = 'DELETE FROM
-                        {{%issue_product_version}}
+                        `issue_product_version`
                     WHERE
                         ipv_id = ?';
             $params = [$ipv_id];
         } else {
             $sql = 'UPDATE
-                        {{%issue_product_version}}
+                        `issue_product_version`
                     SET
                         ipv_pro_id = ?,
                         ipv_version = ?

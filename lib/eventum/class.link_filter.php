@@ -11,6 +11,7 @@
  * that were distributed with this source code.
  */
 
+use Eventum\Attachment\AttachmentManager;
 use Eventum\Db\Adapter\AdapterInterface;
 use Eventum\Db\DatabaseException;
 
@@ -34,7 +35,7 @@ class Link_Filter
                     lfi_pattern,
                     lfi_replacement
                 FROM
-                    {{%link_filter}}
+                    `link_filter`
                 WHERE
                     lfi_id = ?';
         try {
@@ -47,7 +48,7 @@ class Link_Filter
             $sql = 'SELECT
                         plf_prj_id
                     FROM
-                        {{%project_link_filter}}
+                        `project_link_filter`
                     WHERE
                         plf_lfi_id = ?';
             try {
@@ -79,7 +80,7 @@ class Link_Filter
                     lfi_pattern,
                     lfi_replacement
                 FROM
-                    {{%link_filter}}
+                    `link_filter`
                 ORDER BY
                     lfi_id';
         try {
@@ -93,8 +94,8 @@ class Link_Filter
                         plf_prj_id,
                         prj_title
                     FROM
-                        {{%project_link_filter}},
-                        {{%project}}
+                        `project_link_filter`,
+                        `project`
                     WHERE
                         prj_id = plf_prj_id AND
                         plf_lfi_id = ?';
@@ -122,7 +123,7 @@ class Link_Filter
     public static function insert()
     {
         $sql = 'INSERT INTO
-                    {{%link_filter}}
+                    `link_filter`
                 (
                     lfi_pattern,
                     lfi_replacement,
@@ -141,7 +142,7 @@ class Link_Filter
         $lfi_id = DB_Helper::get_last_insert_id();
         foreach ($_REQUEST['projects'] as $prj_id) {
             $sql = 'INSERT INTO
-                        {{%project_link_filter}}
+                        `project_link_filter`
                     (
                         plf_prj_id,
                         plf_lfi_id
@@ -169,7 +170,7 @@ class Link_Filter
         $itemlist = DB_Helper::buildList($items);
 
         $sql = "DELETE FROM
-                    {{%link_filter}}
+                    `link_filter`
                 WHERE
                     lfi_id IN ($itemlist)";
         try {
@@ -179,7 +180,7 @@ class Link_Filter
         }
 
         $sql = "DELETE FROM
-                    {{%project_link_filter}}
+                    `project_link_filter`
                 WHERE
                     plf_lfi_id IN ($itemlist)";
         try {
@@ -199,7 +200,7 @@ class Link_Filter
     public static function update()
     {
         $sql = 'UPDATE
-                    {{%link_filter}}
+                    `link_filter`
                 SET
                     lfi_pattern = ?,
                     lfi_replacement = ?,
@@ -220,7 +221,7 @@ class Link_Filter
         }
 
         $sql = 'DELETE FROM
-                    {{%project_link_filter}}
+                    `project_link_filter`
                 WHERE
                     plf_lfi_id = ?';
         try {
@@ -231,7 +232,7 @@ class Link_Filter
 
         foreach ($_REQUEST['projects'] as $prj_id) {
             $sql = 'INSERT INTO
-                        {{%project_link_filter}}
+                        `project_link_filter`
                     (
                         plf_prj_id,
                         plf_lfi_id
@@ -298,7 +299,7 @@ class Link_Filter
         // build list of files to replace, so duplicate matches will always
         // take last matching filename.
         $files = [];
-        foreach (Attachment::getList($issue_id) as $attachment) {
+        foreach (AttachmentManager::getList($issue_id) as $attachment) {
             foreach ($attachment['files'] as $file) {
                 // TRANSLATORS: %1: iaf_filename, %2: iaf_filesize
                 $title = ev_gettext('download file (%1$s - %2$s)', $file['iaf_filename'], $file['iaf_filesize']);
@@ -355,8 +356,8 @@ class Link_Filter
                     CONCAT('/', lfi_pattern, '/i'),
                     lfi_replacement
                 FROM
-                    {{%link_filter}},
-                    {{%project_link_filter}}
+                    `link_filter`,
+                    `project_link_filter`
                 WHERE
                     lfi_id = plf_lfi_id AND
                     lfi_usr_role < ? AND

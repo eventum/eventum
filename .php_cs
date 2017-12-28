@@ -119,7 +119,10 @@ $rules = $risky_rules + $symfony_rules + [
     'strict_comparison' => false,
 ];
 
+$cacheFile = sprintf('vendor/php_cs-%s.cache', PhpCsFixer\Console\Application::VERSION);
+error_log("Cache: $cacheFile");
+
 return $config
     ->setRiskyAllowed(true)
-    ->setCacheFile('vendor/php_cs.cache')
+    ->setCacheFile($cacheFile)
     ->setRules($rules);

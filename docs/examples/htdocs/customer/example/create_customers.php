@@ -31,7 +31,7 @@ foreach ($customers as $customer_id => $customer_name) {
         $contact_id = User::getUserIDByContactID($contact['contact_id']);
         if (empty($contact_id)) {
             $sql = 'INSERT INTO
-                        {{%user}}
+                        `user`
                     SET
                         usr_created_date = ?,
                         usr_full_name = ?,

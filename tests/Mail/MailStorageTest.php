@@ -13,6 +13,7 @@
 
 namespace Eventum\Test\Mail;
 
+use Eventum\Mail\ImapMessage;
 use Eventum\Mail\MailStorage;
 use Eventum\Test\TestCase;
 use Setup;
@@ -31,24 +32,24 @@ class MailStorageTest extends TestCase
 
     public function setUp()
     {
-        $setup = &Setup::load();
+        $setup = Setup::get();
 
-        if (!isset($setup['imap_account'])) {
-            $this->markTestSkipped("Define 'imap_account' array in setup.php for testing");
+        if (!isset($setup['tests.imap-account'])) {
+            $this->markTestSkipped("Define 'tests.imap-account' array in setup.php for testing");
         }
 
         /*
          * It should be something like:
-          'imap_account' => array(
+          'tests.imap-account' => [
              'ema_hostname' => 'localhost',
              'ema_port' => 143,
              'ema_type' => 'imap/notls',
              'ema_folder' => 'INBOX',
              'ema_username' => '',
              'ema_password' => '',
-           )
+           ]
         */
-        $this->account = $setup['imap_account'];
+        $this->account = $setup['tests.imap-account'];
     }
 
     public function testNewMails()
@@ -56,17 +57,17 @@ class MailStorageTest extends TestCase
         $mbox = new MailStorage($this->account);
         $flags = [
             Mail\Storage::FLAG_UNSEEN,
-            //            'UNDELETED',
-            //            'UNANSWERED',
         ];
-        var_dump($mbox->countMessages($flags));
+        $count = $mbox->countMessages($flags);
+        $this->assertEquals(0, $count);
     }
 
-    public function testGetEmailInfo()
+    public function testProcessMessages()
     {
         $mbox = new MailStorage($this->account);
-        $flags = [];
-        var_dump($mbox->countMessages($flags));
+
+        $maxMessage = $mbox->countMessages();
+        $this->assertGreaterThan(0, $maxMessage);
 
         // not sure how to iterate messages over flags
         // as no way to set flags other than countMessages
@@ -79,6 +80,22 @@ class MailStorageTest extends TestCase
 //            isset($mail->cc) and var_export($mail->cc);
 //            !empty($mail->fromaddress) and var_export($mail->fromaddress);
         }
+    }
+
+    public function testImapHeaderStructure()
+    {
+        $mbox = Support::connectEmailServer($this->account);
+        $emails = Support::getNewEmails($mbox);
+        $this->assertNotEmpty($emails);
+
+        foreach ($emails as $i) {
+            $mail = ImapMessage::createFromImap($mbox, $i, $this->account);
+
+            // array of emails
+            $cc = $mail->getAddresses('To');
+            var_dump($cc);
+        }
+        die;
     }
 
     public function testSearch()
@@ -102,7 +119,7 @@ class MailStorageTest extends TestCase
         $mbox = Support::connectEmailServer($this->account);
         $message1 = $this->readImapMessage($mbox, 1);
 
-        /** @see Support::getEmailInfo */
+        /** @see Support::processMailMessage */
         $storage = new MailStorage($this->account);
         $message2 = $storage->getStorage()->getMessage(1);
 

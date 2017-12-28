@@ -11,7 +11,9 @@
  * that were distributed with this source code.
  */
 
+use Eventum\Attachment\AttachmentManager;
 use Eventum\Db\DatabaseException;
+use Eventum\Mail\MailMessage;
 
 /**
  * Class to handle the business logic related to adding, updating or
@@ -32,7 +34,7 @@ class Note
         $stmt = 'SELECT
                     not_id
                  FROM
-                    {{%note}}
+                    `note`
                  WHERE
                     not_iss_id=? AND
                     not_removed = 0
@@ -62,47 +64,40 @@ class Note
      * Retrieves the details about a given note.
      *
      * @param   int $note_id The note ID
-     * @return  array The note details
+     * @return  bool|array The note details
      */
     public static function getDetails($note_id)
     {
         $stmt = 'SELECT
-                    {{%note}}.*,
+                    `note`.*,
                     not_full_message,
                     usr_full_name
                  FROM
-                    {{%note}},
-                    {{%user}}
+                    `note`,
+                    `user`
                  WHERE
                     not_usr_id=usr_id AND
                     not_id=?';
-        try {
-            $res = DB_Helper::getInstance()->getRow($stmt, [$note_id]);
-        } catch (DatabaseException $e) {
-            return '';
+
+        $res = DB_Helper::getInstance()->getRow($stmt, [$note_id]);
+        if (!$res) {
+            throw new InvalidArgumentException("Could not fetch note: $note_id");
         }
 
-        if (count($res) > 0) {
-            $res['timestamp'] = Date_Helper::getUnixTimestamp($res['not_created_date'], 'GMT');
+        $res['timestamp'] = Date_Helper::getUnixTimestamp($res['not_created_date'], 'GMT');
+        $res['has_blocked_message'] = $res['not_is_blocked'] == 1;
 
-            if ($res['not_is_blocked'] == 1) {
-                $res['has_blocked_message'] = true;
-            } else {
-                $res['has_blocked_message'] = false;
-            }
-            if (!empty($res['not_unknown_user'])) {
-                $res['not_from'] = $res['not_unknown_user'];
-            } else {
-                $res['not_from'] = User::getFullName($res['not_usr_id']);
-            }
-            if ($res['not_has_attachment']) {
-                $res['attachments'] = Mime_Helper::getAttachmentCIDs($res['not_full_message']);
-            }
-
-            return $res;
+        if (!empty($res['not_unknown_user'])) {
+            $res['not_from'] = $res['not_unknown_user'];
+        } else {
+            $res['not_from'] = User::getFullName($res['not_usr_id']);
+        }
+        if ($res['not_has_attachment']) {
+            $mail = MailMessage::createFromString($res['not_full_message']);
+            $res['attachments'] = $mail->getAttachment()->getAttachments();
         }
 
-        return '';
+        return $res;
     }
 
     /**
@@ -123,7 +118,7 @@ class Note
                     not_id,
                     not_iss_id
                 FROM
-                    {{%note}}
+                    `note`
                 WHERE
                     not_iss_id = ? AND
                     not_removed = 0
@@ -149,26 +144,23 @@ class Note
     }
 
     /**
-     * Returns the blocked email message body associated with the given note ID.
+     * Returns the blocked email message associated with the given note ID.
      *
      * @param   int $note_id The note ID
-     * @return  string The blocked email message body
+     * @return MailMessage
      */
     public static function getBlockedMessage($note_id)
     {
         $stmt = 'SELECT
                     not_full_message
                  FROM
-                    {{%note}}
+                    `note`
                  WHERE
                     not_id=?';
-        try {
-            $res = DB_Helper::getInstance()->getOne($stmt, [$note_id]);
-        } catch (DatabaseException $e) {
-            throw new RuntimeException("Can't find note");
-        }
 
-        return $res;
+        $blocked_message = DB_Helper::getInstance()->getOne($stmt, [$note_id]);
+
+        return MailMessage::createFromString($blocked_message);
     }
 
     /**
@@ -182,7 +174,7 @@ class Note
         $stmt = 'SELECT
                     not_iss_id
                  FROM
-                    {{%note}}
+                    `note`
                  WHERE
                     not_id=?';
         try {
@@ -207,7 +199,7 @@ class Note
         $stmt = "SELECT
                     not_id
                 FROM
-                    {{%note}}
+                    `note`
                 WHERE
                     not_iss_id = ? AND
                     not_removed = 0
@@ -234,7 +226,7 @@ class Note
         $sql = 'SELECT
                     not_unknown_user
                 FROM
-                    {{%note}}
+                    `note`
                  WHERE
                     not_id=?';
         try {
@@ -244,23 +236,6 @@ class Note
         }
 
         return $res;
-    }
-
-    /**
-     * Method used to save the routed note into a backup directory.
-     *
-     * @param   string $message The full body of the note
-     */
-    public static function saveRoutedNote($message)
-    {
-        if (!defined('APP_ROUTED_MAILS_SAVEDIR') || !APP_ROUTED_MAILS_SAVEDIR) {
-            return;
-        }
-        list($usec) = explode(' ', microtime());
-        $filename = date('Y-m-d_H-i-s_') . $usec . '.note.txt';
-        $file = APP_ROUTED_MAILS_SAVEDIR . '/routed_notes/' . $filename;
-        file_put_contents($file, $message);
-        chmod($file, 0644);
     }
 
     /**
@@ -331,7 +306,7 @@ class Note
             'add_extra_recipients' => false,
 
             'message_id' => null,
-            'cc' => null,
+            'cc' => [],
             'full_message' => null,
             'parent_id' => null,
         ], $options);
@@ -388,7 +363,7 @@ class Note
         }
 
         $stmt = 'INSERT INTO
-                    {{%note}}
+                    `note`
                  SET ' . DB_Helper::buildSet($params);
 
         try {
@@ -436,7 +411,7 @@ class Note
                     not_usr_id,
                     not_is_blocked AS has_blocked_message
                  FROM
-                    {{%note}}
+                    `note`
                  WHERE
                     not_id=?';
 
@@ -445,8 +420,10 @@ class Note
             return -2;
         }
 
+        // Notes are not deleted so a record of the the not_message_id is
+        // preserved to prevent duplicates from being downloaded.
         $stmt = 'UPDATE
-                    {{%note}}
+                    `note`
                  SET
                     not_removed = 1
                  WHERE
@@ -458,13 +435,11 @@ class Note
         }
 
         // also remove any internal-only files associated with this note
-        $stmt = "DELETE FROM
-                    {{%issue_attachment}}
-                 WHERE
-                    iat_not_id=? AND
-                    iat_status='internal'";
-
-        DB_Helper::getInstance()->query($stmt, [$note_id]);
+        $attachment_groups = AttachmentManager::getList($details['not_iss_id'], User::ROLE_USER, $note_id);
+        foreach ($attachment_groups as $group_info) {
+            $group = AttachmentManager::getGroup($group_info['iat_id']);
+            $group->delete(true);
+        }
 
         Issue::markAsUpdated($details['not_iss_id']);
         if ($log) {
@@ -497,8 +472,8 @@ class Note
                     not_is_blocked AS has_blocked_message,
                     usr_full_name
                  FROM
-                    {{%note}},
-                    {{%user}}
+                    `note`,
+                    `user`
                  WHERE
                     not_usr_id=usr_id AND
                     not_iss_id=? AND
@@ -545,37 +520,31 @@ class Note
     {
         $issue_id = self::getIssueID($note_id);
         $email_account_id = Email_Account::getEmailAccount();
-        $blocked_message = self::getBlockedMessage($note_id);
+        $mail = self::getBlockedMessage($note_id);
         $unknown_user = self::getUnknownUser($note_id);
-        $structure = Mime_Helper::decode($blocked_message, true, true);
-        $body = $structure->body;
-        $sender_email = Mail_Helper::getEmailAddress($structure->headers['from']);
+        $sender_email = $mail->getSender();
+        $usr_id = Auth::getUserID();
 
-        $current_usr_id = Auth::getUserID();
         if ($target == 'email') {
-            if (Mime_Helper::hasAttachments($structure)) {
-                $has_attachments = 1;
-            } else {
-                $has_attachments = 0;
-            }
-            list($blocked_message, $headers) = Mail_Helper::rewriteThreadingHeaders($issue_id, $blocked_message, @$structure->headers);
-            $t = [
+            Mail_Helper::rewriteThreadingHeaders($mail, $issue_id);
+            $email_options = [
                 'issue_id' => $issue_id,
                 'ema_id' => $email_account_id,
-                'message_id' => @$structure->headers['message-id'],
-                'date' => Date_Helper::getCurrentDateGMT(),
-                'from' => @$structure->headers['from'],
-                'to' => @$structure->headers['to'],
-                'cc' => @$structure->headers['cc'],
-                'subject' => @$structure->headers['subject'],
-                'body' => @$body,
-                'full_email' => @$blocked_message,
-                'has_attachment' => $has_attachments,
-                'headers' => $headers,
+                'date' => Date_Helper::convertDateGMT($mail->getDate()),
+                // these below are likely unused by Support::insertEmail
+                'message_id' => $mail->messageId,
+                'from' => $mail->from,
+                'to' => $mail->to,
+                'cc' => $mail->cc,
+                'subject' => $mail->subject,
+                'body' => $mail->getMessageBody(),
+                'full_email' => $mail->getRawContent(), // for Notification::notifyNewEmail
+                'headers' => $mail->getHeadersArray(), // for Notification::notifyNewEmail
             ];
 
             // need to check for a possible customer association
-            if (!empty($structure->headers['from'])) {
+            if ($mail->from) {
+                // FIXME: how can 'from' be missing?
                 $details = Email_Account::getDetails($email_account_id);
                 // check from the associated project if we need to lookup any customers by this email address
                 if (CRM::hasCustomerIntegration($details['ema_prj_id'])) {
@@ -585,59 +554,58 @@ class Note
                         $contact = $crm->getContactByEmail($sender_email);
                         $issue_contract = $crm->getContract(Issue::getContractID($issue_id));
                         if ($contact->canAccessContract($issue_contract)) {
-                            $t['customer_id'] = $issue_contract->getCustomerID();
+                            $email_options['customer_id'] = $issue_contract->getCustomerID();
                         }
                     } catch (CRMException $e) {
                     }
                 }
             }
-            if (empty($t['customer_id'])) {
+            if (empty($email_options['customer_id'])) {
                 $update_type = 'staff response';
-                $t['customer_id'] = null;
+                $email_options['customer_id'] = null;
             } else {
                 $update_type = 'customer action';
             }
 
-            $res = Support::insertEmail($t, $structure, $sup_id);
-            if ($res != -1) {
-                Support::extractAttachments($issue_id, $structure);
+            $sup_id = Support::insertEmail($mail, $email_options);
+            if ($sup_id) {
+                Support::extractAttachments($issue_id, $mail);
                 // notifications about new emails are always external
-                $internal_only = false;
                 // special case when emails are bounced back, so we don't want to notify the customer about those
-                if (Notification::isBounceMessage($sender_email)) {
-                    $internal_only = true;
-                }
-                Notification::notifyNewEmail($current_usr_id, $issue_id, $t, $internal_only, false, '', $sup_id);
+                $email_options['internal_only'] = $mail->isBounceMessage();
+                $email_options['sup_id'] = $sup_id;
+                $email_options['usr_id'] = $usr_id;
+                $email_options['issue_id'] = $issue_id;
+                Notification::notifyNewEmail($mail, $email_options);
                 Issue::markAsUpdated($issue_id, $update_type);
                 self::remove($note_id, false);
-                History::add($issue_id, $current_usr_id, 'note_converted_email', 'Note converted to e-mail (from: {from}) by {user}', [
-                    'from' => @$structure->headers['from'],
-                    'user' => User::getFullName($current_usr_id),
+                History::add($issue_id, $usr_id, 'note_converted_email', 'Note converted to e-mail (from: {from}) by {user}', [
+                    'from' => $mail->from,
+                    'user' => User::getFullName($usr_id),
                 ]);
                 // now add sender as an authorized replier
                 if ($authorize_sender) {
-                    Authorized_Replier::manualInsert($issue_id, @$structure->headers['from']);
+                    Authorized_Replier::manualInsert($issue_id, $mail->from);
                 }
             }
 
-            return $res;
+            return $sup_id ? 1 : -1;
         }
 
         // save message as a draft
         $res = Draft::saveEmail($issue_id,
-            $structure->headers['to'],
-            $structure->headers['cc'],
-            $structure->headers['subject'],
-            $body,
+            $mail->to,
+            $mail->cc,
+            $mail->subject,
+            $mail->getMessageBody(),
             false, $unknown_user);
 
         // remove the note, if the draft was created successfully
         if ($res) {
             self::remove($note_id, false);
-            $usr_id = $current_usr_id;
             History::add($issue_id, $usr_id, 'note_converted_draft', 'Note converted to draft (from: {from}) by {user}', [
-                'from' => @$structure->headers['from'],
-                'user' => User::getFullName($current_usr_id),
+                'from' => $mail->from,
+                'user' => User::getFullName($usr_id),
             ]);
         }
 
@@ -657,8 +625,8 @@ class Note
         $stmt = 'SELECT
                     COUNT(not_id)
                  FROM
-                    {{%note}},
-                    {{%issue}}
+                    `note`,
+                    `issue`
                  WHERE
                     not_iss_id = iss_id AND
                     iss_prj_id = ? AND
@@ -684,7 +652,7 @@ class Note
     public static function setAttachmentFlag($note_id)
     {
         $stmt = 'UPDATE
-                    {{%note}}
+                    `note`
                  SET
                     not_has_attachment=1
                  WHERE
@@ -696,31 +664,6 @@ class Note
         }
 
         return true;
-    }
-
-    /**
-     * Returns the total number of notes associated to the given issue ID.
-     *
-     * @param   string $issue_id The issue ID
-     * @return  int The number of notes
-     * @deprecated method not used
-     */
-    public static function getTotalNotesByIssue($issue_id)
-    {
-        $stmt = 'SELECT
-                    COUNT(*)
-                 FROM
-                    {{%note}}
-                 WHERE
-                    not_iss_id=? AND
-                    not_removed = 0';
-        try {
-            $res = DB_Helper::getInstance()->getOne($stmt, [$issue_id]);
-        } catch (DatabaseException $e) {
-            return 0;
-        }
-
-        return $res;
     }
 
     /**
@@ -738,7 +681,7 @@ class Note
         $stmt = 'SELECT
                     not_iss_id
                  FROM
-                    {{%note}}
+                    `note`
                  WHERE
                     not_message_id=?';
         try {
@@ -764,8 +707,8 @@ class Note
         $sql = 'SELECT
                     parent.not_message_id
                 FROM
-                    {{%note}} child,
-                    {{%note}} parent
+                    `note` child,
+                    `note` parent
                 WHERE
                     parent.not_id = child.not_parent_id AND
                     child.not_message_id = ?';
@@ -797,7 +740,7 @@ class Note
         $stmt = 'SELECT
                     not_id
                  FROM
-                    {{%note}}
+                    `note`
                  WHERE
                     not_message_id=?';
         try {
@@ -825,7 +768,7 @@ class Note
         $stmt = 'SELECT
                     not_message_id
                  FROM
-                    {{%note}}
+                    `note`
                  WHERE
                     not_id=?';
         try {
@@ -852,7 +795,7 @@ class Note
         $sql = 'SELECT
                     count(*)
                 FROM
-                    {{%note}}
+                    `note`
                 WHERE
                     not_message_id = ?';
         try {

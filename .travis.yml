@@ -7,12 +7,24 @@ git:
   submodules: false
 
 jobs:
+  allow_failures:
+    - php: "7.1"
+    - php: "nightly"
   include:
-    - php: "5.5"
     - php: "5.6"
     - php: "7.0"
     - php: "7.1"
     - php: "nightly"
+
+    - php: "5.6"
+      services:
+        - mysql
+      env:
+        - MIGRATIONS=1
+      script: |
+        mysql -e 'CREATE DATABASE IF NOT EXISTS e_test'
+        cp -p tests/travis/*.php config
+        php bin/upgrade.php
 
     # TODO: would be nice to have two separate stages, one for build, and other for actually publishing
     - stage: GitHub Release

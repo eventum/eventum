@@ -21,3 +21,9 @@
 /tests export-ignore
 
 /CHANGELOG.md merge=union
+
+# need to configure .git/config or ~/.gitconfig as well:
+# git config --add include.path $(git rev-parse --show-toplevel)/contrib/git/gitconfig-podiff
+# https://github.com/eventum/eventum/pull/325
+*.pot diff=msgcat
+*.po diff=msgcat

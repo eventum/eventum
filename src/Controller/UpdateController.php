@@ -90,7 +90,13 @@ class UpdateController extends BaseController
         $iss_prj_id = Issue::getProjectID($this->issue_id);
         if ($iss_prj_id && $iss_prj_id != $this->prj_id && in_array($iss_prj_id, $associated_projects)) {
             AuthCookie::setProjectCookie($iss_prj_id);
-            $this->messages->addInfoMessage(ev_gettext('Note: Project automatically switched to "%1$s" from "%2$s".', Project::getName($iss_prj_id), Project::getName($this->prj_id)));
+            // XXX the same logic also present in view_form template
+            $message = ev_gettext(
+                'Note: Project automatically switched from "%1$s" to "%2$s".',
+                Project::getName($this->prj_id),
+                Project::getName($iss_prj_id)
+            );
+            $this->messages->addInfoMessage($message);
             $this->prj_id = $iss_prj_id;
         }
 
@@ -98,7 +104,7 @@ class UpdateController extends BaseController
         if (($this->role_id == User::ROLE_CUSTOMER) && (!$details || (User::getCustomerID($this->usr_id) != $details['iss_customer_id']))
             || !Issue::canAccess($this->issue_id, $this->usr_id)
             || !($this->role_id > User::ROLE_REPORTER)
-            || !Issue::canUpdate($this->issue_id, $this->usr_id)
+            || !Access::canUpdateIssue($this->issue_id, $this->usr_id)
         ) {
             $this->error(ev_gettext('Sorry, you do not have the required privileges to update this issue.'));
         }
@@ -134,7 +140,7 @@ class UpdateController extends BaseController
             $this->redirect(APP_RELATIVE_URL . 'view.php?id=' . $this->issue_id);
         }
 
-        if ($this->cat == 'update') {
+        if ($this->cat === 'update') {
             if ($issue_lock) {
                 $this->error(ev_gettext("Sorry, you can't update issue if it's locked by another user"));
             }

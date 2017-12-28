@@ -13,60 +13,90 @@
 
 namespace Eventum\Model\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Eventum\Scm\ScmRepository;
+
 /**
- * Commit
+ * @Table(name="commit")
+ * @Entity(repositoryClass="Eventum\Model\Repository\CommitRepository")
  */
-class Commit extends BaseModel
+class Commit
 {
-    /**
-     * @var int
-     */
+    /** @Id @Column(type="integer") @GeneratedValue */
     protected $com_id;
 
     /**
      * @var string
+     * @Column(type="string", length=255, nullable=false)
      */
     protected $com_scm_name;
 
     /**
      * @var string
+     * @Column(type="string", length=255, nullable=true)
      */
     protected $com_project_name;
 
     /**
      * @var string
+     * @Column(type="string", length=40, nullable=false)
      */
     protected $com_changeset;
 
     /**
      * @var string
+     * @Column(type="string", length=255, nullable=true)
      */
     protected $com_branch;
 
     /**
      * @var int
+     * @Column(type="integer", nullable=true)
      */
     protected $com_usr_id;
 
     /**
      * @var string
+     *
+     * @Column(type="string", length=255, nullable=true)
      */
     protected $com_author_email;
 
     /**
      * @var string
+     * @Column(type="string", length=255, nullable=true)
      */
     protected $com_author_name;
 
     /**
      * @var \DateTime
+     * @Column(type="datetime", nullable=false)
      */
     protected $com_commit_date;
 
     /**
      * @var string
+     * @Column(type="text", length=16777215, nullable=true)
      */
     protected $com_message;
+
+    /**
+     * @var Issue
+     */
+    private $issue;
+
+    /**
+     * Bidirectional - One-To-Many (INVERSE SIDE)
+     *
+     * @var CommitFile[]
+     * @OneToMany(targetEntity="Eventum\Model\Entity\CommitFile", mappedBy="commit", cascade={"persist", "remove"})
+     */
+    private $files;
+
+    public function __construct()
+    {
+        $this->files = new ArrayCollection();
+    }
 
     /**
      * @param int $id
@@ -302,12 +332,17 @@ class Commit extends BaseModel
         return $this->com_message;
     }
 
-    /** @var CommitFile[] */
-    private $files = [];
-
+    /**
+     * @param CommitFile $cf
+     * @return Commit
+     */
     public function addFile(CommitFile $cf)
     {
+        $cf->setCommit($this);
+
         $this->files[] = $cf;
+
+        return $this;
     }
 
     /**
@@ -316,6 +351,25 @@ class Commit extends BaseModel
     public function getFiles()
     {
         return $this->files;
+    }
+
+    /**
+     * @return Issue
+     */
+    public function getIssue()
+    {
+        return $this->issue;
+    }
+
+    /**
+     * @param Issue $issue
+     * @return Commit
+     */
+    public function setIssue($issue)
+    {
+        $this->issue = $issue;
+
+        return $this;
     }
 
     /**
@@ -334,32 +388,18 @@ class Commit extends BaseModel
     }
 
     /**
-     * @param string $changeset
-     * @return Commit
-     */
-    public function findOneByChangeset($changeset)
-    {
-        $res = $this->findAllByConditions(['com_changeset' => $changeset], 1);
-
-        return $res ? $res[0] : null;
-    }
-
-    /**
-     * @param int $id
-     * @return Commit
-     */
-    public function findById($id)
-    {
-        $res = $this->findAllByConditions(['com_id' => $id], 1);
-
-        return $res ? $res[0] : null;
-    }
-
-    /**
-     * @return CommitRepo
+     * @return ScmRepository
      */
     public function getCommitRepo()
     {
-        return new CommitRepo($this->getScmName());
+        return new ScmRepository($this->getScmName());
+    }
+
+    /**
+     * @return array
+     */
+    public function toArray()
+    {
+        return get_object_vars($this);
     }
 }

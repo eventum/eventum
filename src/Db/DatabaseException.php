@@ -13,8 +13,15 @@
 
 namespace Eventum\Db;
 
-use RuntimeException;
+use PDOException;
 
-class DatabaseException extends RuntimeException
+class DatabaseException extends PDOException
 {
+    public function __construct($message = '', $code = 0, $previous = null)
+    {
+        parent::__construct($message, 0, $previous);
+
+        // PDOException code is 'HY000' in MySQL workaround
+        $this->code = $code;
+    }
 }

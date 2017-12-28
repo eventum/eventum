@@ -11,7 +11,8 @@
  * that were distributed with this source code.
  */
 
-use Eventum\DebugBar;
+use Eventum\AppInfo;
+use Eventum\DebugBarManager;
 use Eventum\Templating;
 
 /**
@@ -28,9 +29,10 @@ class Template_Helper
     private $tpl_name;
 
     /**
-     * Constructor of the class
+     * @param string $templateName
+     * @throws SmartyException
      */
-    public function __construct($tpl_name = null)
+    public function __construct($templateName = null)
     {
         $smarty = new Smarty();
         $smarty->setTemplateDir([APP_LOCAL_PATH . '/templates', APP_TPL_PATH]);
@@ -57,8 +59,8 @@ class Template_Helper
             $smarty->registerPlugin('block', 't', 'smarty_block_t');
         }
 
-        if ($tpl_name) {
-            $this->setTemplate($tpl_name);
+        if ($templateName) {
+            $this->setTemplate($templateName);
         }
 
         $this->smarty = $smarty;
@@ -124,37 +126,6 @@ class Template_Helper
         return $this->smarty->fetch($this->tpl_name);
     }
 
-    private static function getVcsVersion()
-    {
-        // Try APP_VERSION match:
-        // "Eventum 2.3.3-148-g78b3368"
-        // "Eventum 2.4.0-pre1-285-g298325e"
-        if (preg_match('/^[\d.]+(?:-[^-]+)(?:-\d+)?-g(?P<hash>[0-9a-f]+)$/', APP_VERSION, $m)) {
-            return $m['hash'];
-        }
-
-        // if version ends with "-dev", try look into VCS
-        if (substr(APP_VERSION, -4) == '-dev' && file_exists($file = APP_PATH . '/.git/HEAD')) {
-            $hash = file_get_contents($file);
-            // it can be branch:
-            // "ref: refs/heads/master"
-            // or some tag:
-            // "fc334abadfd480820071c1415723c7de0216eb6f"
-            if (substr($hash, 0, 4) == 'ref:') {
-                list(, $refname) = explode(': ', $hash);
-                if (!file_exists($file = APP_PATH . '/.git/' . trim($refname))) {
-                    return null;
-                }
-                $hash = file_get_contents($file);
-            }
-
-            return substr($hash, 0, 7);
-        }
-
-        // probably release version
-        return null;
-    }
-
     /**
      * Processes the template and assign common variables automatically.
      *
@@ -163,27 +134,18 @@ class Template_Helper
     private function processTemplate()
     {
         $setup = Setup::get();
+        $appInfo = AppInfo::getInstance();
         $core = [
             'rel_url' => APP_RELATIVE_URL,
             'base_url' => APP_BASE_URL,
             'app_title' => APP_NAME,
-            'app_version' => APP_VERSION,
+            'app_version' => $appInfo->getVersion(),
+            'app_version_link' => $appInfo->getVersionLink(),
             'app_setup' => Setup::get(),
             'roles' => User::getAssocRoleIDs(),
             'template_id' => str_replace(['/', '.tpl.html'], ['_'], $this->tpl_name),
-            'handle_clock_in' => $setup['handle_clock_in'] == 'enabled',
+            'handle_clock_in' => $setup['handle_clock_in'] === 'enabled',
         ];
-
-        // If VCS version is present "Eventum 2.3.3-148-g78b3368", link ref to github
-        $vcsVersion = self::getVcsVersion();
-        if ($vcsVersion) {
-            $link = "https://github.com/eventum/eventum/commit/{$vcsVersion}";
-            $core['application_version_link'] = $link;
-            // append VCS version if not yet there
-            if (!preg_match('/-g[0-9a-f]+$/', APP_VERSION)) {
-                $core['app_version'] = "v{$core['app_version']}-g{$vcsVersion}";
-            }
-        }
 
         $usr_id = Auth::getUserID();
         if ($usr_id) {
@@ -192,14 +154,14 @@ class Template_Helper
             if (!empty($prj_id)) {
                 $role_id = User::getRoleByUser($usr_id, $prj_id);
                 $has_crm = CRM::hasCustomerIntegration($prj_id);
-                $core = $core + [
-                        'project_id' => $prj_id,
-                        'project_name' => Auth::getCurrentProjectName(),
-                        'has_crm' => $has_crm,
-                        'current_role' => $role_id,
-                        'current_role_name' => User::getRole($role_id),
-                        'feature_access' => Access::getFeatureAccessArray($usr_id),
-                    ];
+                $core += [
+                    'project_id' => $prj_id,
+                    'project_name' => Auth::getCurrentProjectName(),
+                    'has_crm' => $has_crm,
+                    'current_role' => $role_id,
+                    'current_role_name' => User::getRole($role_id),
+                    'feature_access' => Access::getFeatureAccessArray($usr_id),
+                ];
                 if ($has_crm) {
                     $crm = CRM::getInstance($prj_id);
                     $core['crm_template_path'] = $crm->getTemplatePath();
@@ -217,7 +179,7 @@ class Template_Helper
             $raw_projects = Project::getAssocList($usr_id, false, true);
             $active_projects = [];
             foreach ($raw_projects as $prj_id => $prj_info) {
-                if ($prj_info['status'] == 'archived') {
+                if ($prj_info['status'] === 'archived') {
                     $prj_info['prj_title'] .= ' ' . ev_gettext('(archived)');
                 }
                 $active_projects[$prj_id] = $prj_info['prj_title'];
@@ -236,11 +198,11 @@ class Template_Helper
         }
         $this->assign('core', $core);
 
-        $userfile = new Templating\UserFile($this->smarty, APP_LOCAL_PATH);
-        $userfile();
+        $userFile = new Templating\UserFile($this->smarty, APP_LOCAL_PATH);
+        $userFile();
 
         if (isset($role_id) && $role_id >= User::ROLE_ADMINISTRATOR) {
-            DebugBar::register($this->smarty);
+            DebugBarManager::register($this->smarty);
         }
 
         return $this;

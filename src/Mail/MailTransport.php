@@ -14,6 +14,7 @@
 namespace Eventum\Mail;
 
 use Eventum\Monolog\Logger;
+use Mail_Helper;
 use Setup;
 use Zend\Mail\Transport;
 
@@ -30,38 +31,28 @@ class MailTransport
      *              each RFC822 valid. This may contain recipients not
      *              specified in the headers, for Bcc:, resending
      *              messages, etc.
-     *
-     * @param array $headers The array of headers to send with the mail, in an
-     *              associative array, where the array key is the
-     *              header name (e.g., 'Subject'), and the array value
-     *              is the header value (e.g., 'test'). The header
-     *              produced from those values would be 'Subject:
-     *              test'.
-     *
-     * @param string $body the full text of the message body, including any
-     *               MIME parts, etc
-     *
+     * @param MailMessage $mail
      * @return mixed Returns true on success, or a exception class
      *               containing a descriptive error message on
      *               failure
      */
-    public function send($recipient, $headers, $body)
+    public function send($recipient, MailMessage $mail)
     {
         $transport = $this->getTransport();
 
         $envelope = new Transport\Envelope();
-        $envelope->setTo($recipient);
+        // SMTP wants just Address
+        $envelope->setTo(Mail_Helper::getEmailAddress($recipient));
         $transport->setEnvelope($envelope);
 
         try {
-            $message = MailMessage::createFromHeaderBody($headers, $body);
-
-            $transport->send($message->toMessage());
+            $transport->send($mail->toMessage());
             $res = true;
         } catch (\Exception $e) {
             $traceFile = $this->getTraceFile();
             if ($traceFile) {
-                file_put_contents($traceFile, json_encode([$recipient, $headers, $body]));
+                // this is largely useless, as the exception likely happens in toMessage call above
+                file_put_contents($traceFile, json_encode([$recipient, $mail->getHeadersArray(), $mail->getContent()]));
             }
             Logger::app()->error($e->getMessage(), ['traceFile' => $traceFile, 'exception' => $e]);
             $res = $e;
@@ -95,7 +86,7 @@ class MailTransport
      */
     private function getTraceFile()
     {
-        $id = uniqid('zf-mail-');
+        $id = uniqid('zf-mail-', true);
         $traceFile = APP_LOG_PATH . "/$id.json";
 
         return $traceFile;
@@ -115,7 +106,7 @@ class MailTransport
             $options['host'] = $setup['host'];
         }
         if ($setup['port']) {
-            $options['port'] = $setup['port'];
+            $options['port'] = (int)$setup['port'];
         }
 
         if (file_exists('/etc/mailname')) {
@@ -123,10 +114,14 @@ class MailTransport
         }
 
         if ($setup['auth']) {
+            $ssl = $options['port'] === 587 ? 'tls' : 'ssl';
             $options['connection_class'] = 'login';
             $options['connection_config'] = [
                 'username' => $setup['username'],
                 'password' => $setup['password'],
+                /** @see \Zend\Mail\Protocol\Smtp */
+                // possible values: tls, ssl
+                'ssl' => $setup['ssl'] ?: $ssl,
             ];
         }
 

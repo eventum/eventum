@@ -56,6 +56,26 @@ class Search
     }
 
     /**
+     * Method used to get a specific array parameter in the issue listing cookie.
+     *
+     * @param string $name The name of the parameter
+     * @param bool $request_only If only $_GET and $_POST should be checked
+     * @return array
+     */
+    public static function getArrayParam($name, $request_only)
+    {
+        $value = self::getParam($name, $request_only);
+        if ($value == 'last') {
+            $value = self::getParam('last_' . $name, $request_only);
+        }
+        if (!is_array($value)) {
+            $value = [$value];
+        }
+
+        return $value;
+    }
+
+    /**
      * Method used to save the current search parameters in a cookie.
      * TODO: split to buildSearchParams() and actual saveSearchParams()
      *
@@ -94,19 +114,19 @@ class Search
             'match_mode' => self::getParam('match_mode', $request_only),
             'hide_excerpts' => self::getParam('hide_excerpts', $request_only),
             'search_type' => Misc::stripHTML($search_type),
-            'users' => Misc::escapeString(self::getParam('users', $request_only)),
-            'status' => Misc::escapeInteger(self::getParam('status', $request_only)),
-            'priority' => Misc::escapeInteger(self::getParam('priority', $request_only)),
-            'severity' => Misc::escapeInteger(self::getParam('severity', $request_only)),
-            'category' => Misc::escapeInteger(self::getParam('category', $request_only)),
+            'users' => Misc::escapeInteger(self::getArrayParam('users', $request_only)),
+            'status' => Misc::escapeInteger(self::getArrayParam('status', $request_only)),
+            'priority' => Misc::escapeInteger(self::getArrayParam('priority', $request_only)),
+            'severity' => Misc::escapeInteger(self::getArrayParam('severity', $request_only)),
+            'category' => Misc::escapeInteger(self::getArrayParam('category', $request_only)),
             'customer_email' => Misc::stripHTML(self::getParam('customer_email', $request_only)),
             // advanced search form
             'show_authorized_issues' => Misc::escapeString(self::getParam('show_authorized_issues', $request_only)),
             'show_notification_list_issues' => Misc::escapeString(self::getParam('show_notification_list_issues', $request_only)),
-            'reporter' => Misc::escapeInteger(self::getParam('reporter', $request_only)),
-            'product' => Misc::escapeInteger(self::getParam('product', $request_only)),
+            'reporter' => Misc::escapeInteger(self::getArrayParam('reporter', $request_only)),
+            'product' => Misc::escapeInteger(self::getArrayParam('product', $request_only)),
             // other fields
-            'release' => Misc::escapeInteger(self::getParam('release', $request_only)),
+            'release' => Misc::escapeInteger(self::getArrayParam('release', $request_only)),
             // custom fields
             'custom_field' => Misc::stripHTML($custom_field),
         ];
@@ -216,8 +236,8 @@ class Search
                     iss_access_level
                  FROM
                     (
-                    {{%issue}},
-                    {{%user}}";
+                    `issue`,
+                    `user`";
 
         // join custom fields if we are searching by custom fields
         if ((is_array($options['custom_field'])) && (count($options['custom_field']) > 0)) {
@@ -235,10 +255,10 @@ class Search
                 if ($field['fld_type'] == 'multiple') {
                     $search_value = Misc::escapeString($search_value);
                     foreach ($search_value as $cfo_id) {
-                        $stmt .= ",\n{{%issue_custom_field}} as `cf" . $fld_id . '_' . $cfo_id . "`\n";
+                        $stmt .= ",\n`issue_custom_field` as `cf" . $fld_id . '_' . $cfo_id . "`\n";
                     }
                 } else {
-                    $stmt .= ",\n{{%issue_custom_field}} as `cf" . $fld_id . "`\n";
+                    $stmt .= ",\n`issue_custom_field` as `cf" . $fld_id . "`\n";
                 }
             }
         }
@@ -248,82 +268,82 @@ class Search
         if (strstr($options['sort_by'], 'custom_field') !== false) {
             $fld_id = str_replace('custom_field_', '', $options['sort_by']);
             $stmt .= "\n LEFT JOIN \n
-                    {{%issue_custom_field}} as cf_sort
+                    `issue_custom_field` as cf_sort
                 ON
                     (cf_sort.icf_iss_id = iss_id AND cf_sort.icf_fld_id = $fld_id) \n";
         }
 
         $stmt .= '
              LEFT JOIN
-                {{%issue_user}}
+                `issue_user`
              ON
                 isu_iss_id=iss_id';
         if (!empty($usr_details['usr_par_code'])) {
             // restrict partners
             $stmt .= '
                  LEFT JOIN
-                    {{%issue_partner}}
+                    `issue_partner`
                  ON
                     ipa_iss_id=iss_id';
         }
         if ((!empty($options['show_authorized_issues'])) || (($role_id == User::ROLE_REPORTER) && (Project::getSegregateReporters($prj_id)))) {
             $stmt .= '
                  LEFT JOIN
-                    {{%issue_user_replier}}
+                    `issue_user_replier`
                  ON
                     iur_iss_id=iss_id';
         }
         if (!empty($options['show_notification_list_issues'])) {
             $stmt .= '
                  LEFT JOIN
-                    {{%subscription}}
+                    `subscription`
                  ON
                     sub_iss_id=iss_id';
         }
         if (!empty($options['product'])) {
             $stmt .= '
                  LEFT JOIN
-                    {{%issue_product_version}}
+                    `issue_product_version`
                  ON
                     ipv_iss_id=iss_id';
         }
         $stmt .= "
                  LEFT JOIN
-                    {{%group}}
+                    `group`
                  ON
                     iss_grp_id=grp_id
                  LEFT JOIN
-                    {{%project_category}}
+                    `project_category`
                  ON
                     iss_prc_id=prc_id
                  LEFT JOIN
-                    {{%project_release}}
+                    `project_release`
                  ON
                     iss_pre_id = pre_id
                  LEFT JOIN
-                    {{%status}}
+                    `status`
                  ON
                     iss_sta_id=sta_id
                  LEFT JOIN
-                    {{%project_priority}}
+                    `project_priority`
                  ON
                     iss_pri_id=pri_id
                  LEFT JOIN
-                    {{%project_severity}}
+                    `project_severity`
                  ON
                     iss_sev_id=sev_id
                  LEFT JOIN
-                    {{%issue_quarantine}}
+                    `issue_quarantine`
                  ON
                     iss_id=iqu_iss_id AND
                     (iqu_expiration > '" . Date_Helper::getCurrentDateGMT() . "' OR iqu_expiration IS NULL)
                  LEFT JOIN
-                    {{%issue_access_list}}
+                    `issue_access_list`
                  ON
                     iss_id = ial_iss_id AND
                     ial_usr_id = " . $usr_id . '
                  LEFT JOIN
-                    {{%user_group}}
+                    `user_group`
                  ON
                     ugr_usr_id = ' . $usr_id . '
                  WHERE
@@ -491,35 +511,46 @@ class Search
         }
 
         if (!empty($options['users'])) {
-            $stmt .= " AND (\n";
-            if (stristr($options['users'], 'grp') !== false) {
-                $chunks = explode(':', $options['users']);
-                $stmt .= 'iss_grp_id = ' . Misc::escapeInteger($chunks[1]);
-            } else {
-                if ($options['users'] == '-1') {
-                    $stmt .= 'isu_usr_id IS NULL';
-                } elseif ($options['users'] == '-2') {
-                    $stmt .= 'isu_usr_id IS NULL OR isu_usr_id=' . $usr_id;
-                } elseif ($options['users'] == '-3') {
-                    $stmt .= 'isu_usr_id = ' . $usr_id;
-                    $user_groups = User::getGroupIDs($usr_id);
-                    if (count($user_groups) > 0) {
-                        $stmt .= ' OR iss_grp_id IN(' . implode(',', $user_groups) . ')';
+            if (count($options['users']) > 0 && $options['users'][0] != '') {
+                $stmt .= " AND (\n";
+                $first = true;
+                foreach ($options['users'] as $my_user) {
+                    if (!$first) {
+                        $stmt .= ' OR ';
                     }
-                } elseif ($options['users'] == '-4') {
-                    $stmt .= 'isu_usr_id IS NULL OR isu_usr_id = ' . $usr_id;
-                    $user_groups = User::getGroupIDs($usr_id);
-                    if (count($user_groups) > 0) {
-                        $stmt .= ' OR iss_grp_id IN(' . implode(',', $user_groups) . ')';
+                    $first = false;
+                    $stmt .= '(';
+                    if (stripos($my_user, 'grp') !== false) {
+                        $chunks = explode(':', $my_user);
+                        $stmt .= 'iss_grp_id = ' . Misc::escapeInteger($chunks[1]);
+                    } else {
+                        if ($my_user == '-1') {
+                            $stmt .= 'isu_usr_id IS NULL';
+                        } elseif ($my_user == '-2') {
+                            $stmt .= 'isu_usr_id IS NULL OR isu_usr_id=' . $usr_id;
+                        } elseif ($my_user == '-3') {
+                            $stmt .= 'isu_usr_id = ' . $usr_id;
+                            $user_groups = User::getGroupIDs($usr_id);
+                            if (count($user_groups) > 0) {
+                                $stmt .= ' OR iss_grp_id IN(' . implode(',', $user_groups) . ')';
+                            }
+                        } elseif ($my_user == '-4') {
+                            $stmt .= 'isu_usr_id IS NULL OR isu_usr_id = ' . $usr_id;
+                            $user_groups = User::getGroupIDs($usr_id);
+                            if (count($user_groups) > 0) {
+                                $stmt .= ' OR iss_grp_id IN(' . implode(',', $user_groups) . ')';
+                            }
+                        } else {
+                            $stmt .= 'isu_usr_id =' . Misc::escapeInteger($my_user);
+                        }
                     }
-                } else {
-                    $stmt .= 'isu_usr_id =' . Misc::escapeInteger($options['users']);
+                    $stmt .= ')';
                 }
+                $stmt .= ')';
             }
-            $stmt .= ')';
         }
-        if (!empty($options['reporter'])) {
-            $stmt .= ' AND iss_usr_id = ' . Misc::escapeInteger($options['reporter']);
+        if (!empty($options['reporter']) && count($options['reporter']) > 0 && $options['reporter'][0] != '') {
+            $stmt .= ' AND iss_usr_id IN (' . implode(', ', Misc::escapeInteger($options['reporter'])) . ')';
         }
         if (!empty($options['show_authorized_issues'])) {
             $stmt .= " AND (iur_usr_id=$usr_id)";
@@ -550,29 +581,26 @@ class Search
         if (!empty($options['customer_id'])) {
             $stmt .= " AND iss_customer_id='" . Misc::escapeString($options['customer_id']) . "'";
         }
-        if (!empty($options['priority'])) {
-            $stmt .= ' AND iss_pri_id=' . Misc::escapeInteger($options['priority']);
+        if (!empty($options['priority']) && count($options['priority']) > 0 && $options['priority'][0] != '') {
+            $stmt .= ' AND iss_pri_id IN (' . implode(', ', Misc::escapeInteger($options['priority'])) . ')';
         }
-        if (!empty($options['severity'])) {
-            $stmt .= ' AND iss_sev_id=' . Misc::escapeInteger($options['severity']);
+        if (!empty($options['severity']) && count($options['severity']) > 0 && $options['severity'][0] != '') {
+            $stmt .= ' AND iss_sev_id IN (' . implode(', ', Misc::escapeInteger($options['severity'])) . ')';
         }
-        if (!empty($options['status'])) {
-            $stmt .= ' AND iss_sta_id=' . Misc::escapeInteger($options['status']);
+        if (!empty($options['status']) && count($options['status']) > 0 && $options['status'][0] != '') {
+            $stmt .= ' AND iss_sta_id IN (' . implode(', ', Misc::escapeInteger($options['status'])) . ')';
         }
-        if (!empty($options['category'])) {
-            if (!is_array($options['category'])) {
-                $options['category'] = [$options['category']];
-            }
-            $stmt .= ' AND iss_prc_id IN(' . implode(', ', Misc::escapeInteger($options['category'])) . ')';
+        if (!empty($options['category']) && count($options['category']) > 0 && $options['category'][0] != '') {
+            $stmt .= ' AND iss_prc_id IN (' . implode(', ', Misc::escapeInteger($options['category'])) . ')';
         }
         if (!empty($options['hide_closed'])) {
             $stmt .= ' AND sta_is_closed=0';
         }
-        if (!empty($options['release'])) {
-            $stmt .= ' AND iss_pre_id = ' . Misc::escapeInteger($options['release']);
+        if (!empty($options['release']) && count($options['release']) > 0 && $options['release'][0] != '') {
+            $stmt .= ' AND iss_pre_id IN (' . implode(', ', Misc::escapeInteger($options['release'])) . ')';
         }
-        if (!empty($options['product'])) {
-            $stmt .= ' AND ipv_pro_id = ' . Misc::escapeInteger($options['product']);
+        if (!empty($options['product']) && count($options['product']) > 0 && $options['product'][0] != '') {
+            $stmt .= ' AND ipv_pro_id IN (' . implode(', ', Misc::escapeInteger($options['product'])) . ')';
         }
         // now for the date fields
         $date_fields = [

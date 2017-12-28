@@ -13,30 +13,37 @@
 
 namespace Eventum\Mail;
 
+use Zend\Mail\Protocol;
+use Zend\Mail\Storage;
+
 /**
  * Class MailStorage
  */
 class MailStorage
 {
-    /** @var \Zend\Mail\Protocol\Imap|\Zend\Mail\Protocol\Pop3 */
+    /** @var Protocol\Imap|Protocol\Pop3 */
     private $protocol;
 
-    /** @var \Zend\Mail\Storage\Imap|\Zend\Mail\Storage\Pop3 */
+    /** @var Storage\Imap|Storage\Pop3 */
     private $storage;
 
     public function __construct($options)
     {
         $params = $this->convertParams($options);
 
+        /** @var Protocol\Imap|Protocol\Pop3 $class */
         $class = $params['protocol_class'];
+
         $this->protocol = new $class($params['host'], $params['port'], $params['ssl']);
         $this->protocol->login($params['user'], $params['password']);
 
+        /** @var Storage\Imap|Storage\Pop3 $class */
         $class = $params['storage_class'];
         $this->storage = new $class($this->protocol);
+        $this->storage->selectFolder($params['folder']);
     }
 
-    public function countMessages($flags)
+    public function countMessages($flags = null)
     {
         return $this->storage->countMessages($flags);
     }

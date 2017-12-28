@@ -30,7 +30,7 @@ class Reminder_Condition
         $stmt = 'SELECT
                     *
                  FROM
-                    {{%reminder_level_condition}}
+                    `reminder_level_condition`
                  WHERE
                     rlc_id=?';
         try {
@@ -50,7 +50,7 @@ class Reminder_Condition
     public static function insert()
     {
         $stmt = 'INSERT INTO
-                    {{%reminder_level_condition}}
+                    `reminder_level_condition`
                  (
                     rlc_created_date,
                     rlc_rma_id,
@@ -86,7 +86,7 @@ class Reminder_Condition
     public static function update()
     {
         $stmt = 'UPDATE
-                    {{%reminder_level_condition}}
+                    `reminder_level_condition`
                  SET
                     rlc_last_updated_date=?,
                     rlc_rmf_id=?,
@@ -123,7 +123,7 @@ class Reminder_Condition
     {
         $items = $_POST['items'];
         $stmt = 'DELETE FROM
-                    {{%reminder_level_condition}}
+                    `reminder_level_condition`
                  WHERE
                     rlc_id IN (' . DB_Helper::buildList($items) . ')';
         DB_Helper::getInstance()->query($stmt, $items);
@@ -141,9 +141,9 @@ class Reminder_Condition
         $stmt = 'SELECT
                     *
                  FROM
-                    {{%reminder_level_condition}},
-                    {{%reminder_field}},
-                    {{%reminder_operator}}
+                    `reminder_level_condition`,
+                    `reminder_field`,
+                    `reminder_operator`
                  WHERE
                     rlc_rma_id=? AND
                     rlc_rmf_id=rmf_id AND
@@ -177,9 +177,9 @@ class Reminder_Condition
                     rmf_title,
                     rmo_title
                  FROM
-                    {{%reminder_level_condition}},
-                    {{%reminder_field}},
-                    {{%reminder_operator}}
+                    `reminder_level_condition`,
+                    `reminder_field`,
+                    `reminder_operator`
                  WHERE
                     rlc_rmf_id=rmf_id AND
                     rlc_rmo_id=rmo_id AND
@@ -220,7 +220,7 @@ class Reminder_Condition
         $stmt = 'SELECT
                     rmf_title
                  FROM
-                    {{%reminder_field}}
+                    `reminder_field`
                  WHERE
                     rmf_id=?';
         try {
@@ -243,7 +243,7 @@ class Reminder_Condition
         $stmt = 'SELECT
                     rmf_sql_field
                  FROM
-                    {{%reminder_field}}
+                    `reminder_field`
                  WHERE
                     rmf_id=?';
         try {
@@ -268,7 +268,7 @@ class Reminder_Condition
                     rmf_id,
                     rmf_title
                  FROM
-                    {{%reminder_field}}\n";
+                    `reminder_field`\n";
         if ($comparable_only == true) {
             $stmt .= "WHERE rmf_allow_column_compare = 1\n";
         }
@@ -295,7 +295,7 @@ class Reminder_Condition
                     rmo_id,
                     rmo_title
                  FROM
-                    {{%reminder_operator}}
+                    `reminder_operator`
                  ORDER BY
                     rmo_title ASC';
         try {
@@ -318,7 +318,7 @@ class Reminder_Condition
         $stmt = 'SELECT
                     rmf_allow_column_compare
                  FROM
-                    {{%reminder_field}}
+                    `reminder_field`
                  WHERE
                     rmf_id=?';
         try {

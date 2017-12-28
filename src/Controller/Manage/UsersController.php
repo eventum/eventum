@@ -13,11 +13,12 @@
 
 namespace Eventum\Controller\Manage;
 
-use Auth;
-use Eventum\Controller\Helper\MessagesHelper;
 use Eventum\Extension\ExtensionManager;
+use Eventum\Monolog\Logger;
+use Exception;
 use Group;
 use Project;
+use Symfony\Component\HttpFoundation\ParameterBag;
 use User;
 
 class UsersController extends ManageBaseController
@@ -50,13 +51,13 @@ class UsersController extends ManageBaseController
      */
     protected function defaultAction()
     {
-        if ($this->cat == 'new') {
+        if ($this->cat === 'new') {
             $this->newAction();
-        } elseif ($this->cat == 'update') {
+        } elseif ($this->cat === 'update') {
             $this->updateAction();
-        } elseif ($this->cat == 'change_status') {
+        } elseif ($this->cat === 'change_status') {
             $this->changeStatusAction();
-        } elseif ($this->cat == 'edit') {
+        } elseif ($this->cat === 'edit') {
             $this->editAction();
         } else {
             $this->indexAction();
@@ -65,12 +66,22 @@ class UsersController extends ManageBaseController
 
     private function newAction()
     {
-        $res = User::insertFromPost();
-        $map = [
-            1 => [ev_gettext('Thank you, the user was added successfully.'), MessagesHelper::MSG_INFO],
-            -1 => [ev_gettext('An error occurred while trying to add the new user.'), MessagesHelper::MSG_ERROR],
-        ];
-        $this->messages->mapMessages($res, $map);
+        $post = $this->getRequest()->request;
+        $user = $this->getUserFromPost($post);
+
+        try {
+            $usr_id = User::insert($user);
+        } catch (Exception $e) {
+            $message = ev_gettext('An error occurred while trying to add the new user.');
+            $this->messages->addErrorMessage($message);
+
+            return;
+        }
+
+        $message = ev_gettext('Thank you, the user was added successfully.');
+        $this->messages->addInfoMessage($message);
+
+        $this->redirect("users.php?cat=edit&id={$usr_id}");
     }
 
     private function updateAction()
@@ -79,7 +90,7 @@ class UsersController extends ManageBaseController
 
         $this->user_details = User::getDetails($post->getInt('id'));
 
-        if (Auth::getCurrentRole() != User::ROLE_ADMINISTRATOR) {
+        if ($this->role_id != User::ROLE_ADMINISTRATOR) {
             // don't let managers edit any users that have a role of administrator
             foreach ($this->user_details['roles'] as $prj_id => $role) {
                 if ($role['pru_role'] == User::ROLE_ADMINISTRATOR) {
@@ -88,21 +99,26 @@ class UsersController extends ManageBaseController
             }
 
             // don't let manager elevate the role of any user to administrator
-            foreach ($_POST['role'] as $prj_id => $role) {
+            foreach ($post->get('role') as $prj_id => $role) {
                 if ($role >= User::ROLE_ADMINISTRATOR) {
                     $this->error(ev_gettext('Sorry, you cannot perform that action.'));
                 }
             }
         }
 
-        $res = User::updateFromPost();
-        $map = [
-            1 => [ev_gettext('Thank you, the user was updated successfully.'), MessagesHelper::MSG_INFO],
-            -1 => [ev_gettext('An error occurred while trying to update the user information.'), MessagesHelper::MSG_ERROR],
-        ];
-        $this->messages->mapMessages($res, $map);
-
         $usr_id = $post->getInt('id');
+        $user = $this->getUserFromPost($post);
+
+        try {
+            User::update($usr_id, $user);
+            $message = ev_gettext('Thank you, the user was updated successfully.');
+            $this->messages->addInfoMessage($message);
+        } catch (Exception $e) {
+            Logger::app()->error($e);
+            $message = ev_gettext('An error occurred while trying to update the user information.');
+            $this->messages->addErrorMessage($message);
+        }
+
         $this->redirect("users.php?cat=edit&id={$usr_id}");
     }
 
@@ -119,7 +135,7 @@ class UsersController extends ManageBaseController
 
         $this->user_details = User::getDetails($get->getInt('id'));
 
-        if (Auth::getCurrentRole() != User::ROLE_ADMINISTRATOR) {
+        if ($this->role_id !== User::ROLE_ADMINISTRATOR) {
             foreach ($this->user_details['roles'] as $prj_id => $role) {
                 if ($role['pru_role'] == User::ROLE_ADMINISTRATOR) {
                     $this->error(ev_gettext('Sorry, you are not allowed to access this page.'));
@@ -180,7 +196,7 @@ class UsersController extends ManageBaseController
         $project_roles = [];
         foreach ($project_list as $prj_id => $prj_title) {
             $excluded_roles = [User::ROLE_CUSTOMER];
-            if ($this->role_id == User::ROLE_MANAGER) {
+            if ($this->role_id === User::ROLE_MANAGER) {
                 $excluded_roles[] = User::ROLE_ADMINISTRATOR;
             }
             if (isset($user_details['roles'][$prj_id])
@@ -228,5 +244,27 @@ class UsersController extends ManageBaseController
         }
 
         return $partners;
+    }
+
+    private function getUserFromPost(ParameterBag $post)
+    {
+        $user = [
+            'password' => $post->get('password'),
+            'full_name' => $post->get('full_name'),
+            'email' => $post->get('email'),
+            'role' => $post->get('role'),
+        ];
+
+        if ($post->has('par_code')) {
+            $user['par_code'] = $post->get('par_code');
+        }
+
+        if ($post->has('groups')) {
+            $user['groups'] = $post->get('groups');
+        } else {
+            $user['groups'] = [];
+        }
+
+        return $user;
     }
 }

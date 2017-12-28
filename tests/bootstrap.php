@@ -15,8 +15,9 @@
 // needing actual config being present.
 use Eventum\Monolog\Logger;
 
-define('APP_PATH', realpath(__DIR__ . '/..'));
+define('APP_PATH', dirname(__DIR__));
 define('APP_CONFIG_PATH', __DIR__);
+define('APP_VAR_PATH', APP_PATH . '/var');
 define('APP_SETUP_FILE', APP_CONFIG_PATH . '/_setup.php');
 // FIXME: HHVM: Warning: Constants may only evaluate to scalar values
 define('APP_ERROR_LOG', STDERR);
@@ -46,7 +47,6 @@ define('APP_LOCAL_PATH', APP_CONFIG_PATH);
 define('APP_TPL_COMPILE_PATH', APP_CONFIG_PATH . '/tpl_c');
 define('APP_TPL_PATH', APP_PATH . '/templates');
 define('APP_NAME', 'Eventum Tests');
-define('APP_VERSION', '3.x.y-dev');
 define('APP_AUTH_BACKEND', 'mysql_auth_backend');
 define('APP_SITE_NAME', 'Eventum');
 
@@ -65,7 +65,6 @@ if (!file_exists(APP_SETUP_FILE)) {
             'username' => 'mysql',
             'password' => '',
             'port' => 3306,
-            'table_prefix' => '',
         ],
 
         // used for tests

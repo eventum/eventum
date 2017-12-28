@@ -11,13 +11,16 @@
  * that were distributed with this source code.
  */
 
+use Eventum\Attachment\AttachmentGroup;
+use Eventum\Mail\ImapMessage;
+use Eventum\Mail\MailMessage;
 use Eventum\Model\Entity;
 
 /**
  * Abstract Class that all workflow backends should extend. This is so any new
  * workflow methods added in future releases will not break current backends.
  */
-class Abstract_Workflow_Backend
+abstract class Abstract_Workflow_Backend
 {
     /**
      * Project Id this Workflow was created for.
@@ -155,9 +158,10 @@ class Abstract_Workflow_Backend
      *
      * @param   int $prj_id The projectID
      * @param   int $issue_id the ID of the issue
-     * @param   int $usr_id the id of the user who locked the issue
+     * @param   int $usr_id the id of the user who attached this file
+     * @param   AttachmentGroup $attachment_group The attachment group object
      */
-    public function handleAttachment($prj_id, $issue_id, $usr_id)
+    public function handleAttachment($prj_id, $issue_id, $usr_id, AttachmentGroup $attachment_group)
     {
     }
 
@@ -268,15 +272,16 @@ class Abstract_Workflow_Backend
     }
 
     /**
-     * Called when a new message is received.
+     * Called when an email is received.
      *
-     * @param   int $prj_id The projectID
+     * @param   int $prj_id The project ID
      * @param   int $issue_id the ID of the issue
-     * @param   object $message An object containing the new email
+     * @param   MailMessage $mail The Mail object
      * @param   array $row the array of data that was inserted into the database
      * @param   bool $closing if we are closing the issue
+     * @since 3.4.0 uses new signature, see #263
      */
-    public function handleNewEmail($prj_id, $issue_id, $message, $row = null, $closing = false)
+    public function handleNewEmail($prj_id, $issue_id, MailMessage $mail, $row, $closing = false)
     {
     }
 
@@ -334,13 +339,6 @@ class Abstract_Workflow_Backend
     public function handleSubscription($prj_id, $issue_id, &$subscriber_usr_id, &$email, &$actions)
     {
         return true;
-    }
-
-    /**
-     * @deprecated removed since 3.1.0, use handleScmCommit
-     */
-    public function handleSCMCheckins($prj_id, $issue_id, $module, $files, $username, $commit_msg, $scm, $commitid)
-    {
     }
 
     /**
@@ -415,11 +413,12 @@ class Abstract_Workflow_Backend
      *
      * @param int $prj_id The project ID
      * @param int $issue_id The issue ID
-     * @param string $email The email address to check
-     * @param object $structure Parsed email structure
-     * @return  bool True if the note should be added, false otherwise
+     * @param string $sender_email The email address to check
+     * @param MailMessage $mail
+     * @return bool True if the note should be added, false otherwise
+     * @since 3.4.0 uses new signature, see #263
      */
-    public function canSendNote($prj_id, $issue_id, $email, $structure)
+    public function canSendNote($prj_id, $issue_id, $sender_email, MailMessage $mail)
     {
         return null;
     }
@@ -441,15 +440,11 @@ class Abstract_Workflow_Backend
      * rest of the email code will not be executed.
      *
      * @param   int $prj_id The project ID
-     * @param   array $info an array containing the information on the email account
-     * @param   resource $mbox The imap connection resource
-     * @param   int $num The sequential email number
-     * @param   string $message The complete email message
-     * @param   object $email An object containing the decoded email
-     * @param   object $structure An object containing the decoded email
+     * @param   ImapMessage $mail The Imap Mail Message object
      * @return  mixed null by default, -1 if the rest of the email script should not be processed
+     * @since 3.4.0 uses new signature, see #263
      */
-    public function preEmailDownload($prj_id, $info, $mbox, $num, &$message, $email, $structure = null)
+    public function preEmailDownload($prj_id, ImapMessage $mail)
     {
         return null;
     }
@@ -485,16 +480,11 @@ class Abstract_Workflow_Backend
      *
      * @param   int $prj_id The ID of the project
      * @param   array $info an array of info about the email account
-     * @param   string $headers the headers of the email
-     * @param   string $message_body the body of the message
-     * @param   string $date The date this message was sent
-     * @param   string $from the name and email address of the sender
-     * @param   string $subject the subject of this message
-     * @param   array $to An array of to addresses
-     * @param   array $cc An array of cc addresses
+     * @param   MailMessage $mail The Mail object
      * @return int
+     * @since 3.4.0 uses new signature, see #263
      */
-    public function getIssueIDforNewEmail($prj_id, $info, $headers, $message_body, $date, $from, $subject, $to, $cc)
+    public function getIssueIDforNewEmail($prj_id, $info, MailMessage $mail)
     {
         return null;
     }
@@ -504,14 +494,11 @@ class Abstract_Workflow_Backend
      *
      * @param   int $prj_id
      * @param   string $recipient
-     * @param   array $headers
-     * @param   string $body
-     * @param   int $issue_id
-     * @param   string $type the type of message this is
-     * @param   int $sender_usr_id the id of the user sending this email
-     * @param   int $type_id The ID of the event that triggered this notification (issue_id, sup_id, not_id, etc)
+     * @param MailMessage $mail The Mail object
+     * @param array $options Optional options, see Mail_Queue::queue
+     * @since 3.4.0 uses new signature, see #263
      */
-    public function modifyMailQueue($prj_id, &$recipient, &$headers, &$body, $issue_id, $type, $sender_usr_id, $type_id)
+    public function modifyMailQueue($prj_id, $recipient, MailMessage $mail, $options)
     {
     }
 

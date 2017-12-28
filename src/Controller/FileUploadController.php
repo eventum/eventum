@@ -13,10 +13,11 @@
 
 namespace Eventum\Controller;
 
-use Attachment;
 use Auth;
+use Eventum\Attachment\AttachmentManager;
 use Eventum\Monolog\Logger;
 use Exception;
+use User;
 
 class FileUploadController extends BaseController
 {
@@ -68,16 +69,14 @@ class FileUploadController extends BaseController
         $post = $this->getRequest()->request;
         $usr_id = Auth::getUserID();
 
-        // attachment status (public or internal)
-        $status = $post->getAlpha('status');
-        $internal_only = $status == 'internal';
+        $minimum_role = $post->getInt('minimum_role', User::ROLE_VIEWER);
 
         $iaf_ids = $this->attach->getAttachedFileIds();
         // description for attachments
         $file_description = $post->get('file_description');
 
         try {
-            Attachment::attachFiles($this->issue_id, $usr_id, $iaf_ids, $internal_only, $file_description);
+            $attachment_group = AttachmentManager::attachFiles($this->issue_id, $usr_id, $iaf_ids, $minimum_role, $file_description);
             $res = 1;
         } catch (Exception $e) {
             Logger::app()->error($e);
@@ -95,8 +94,9 @@ class FileUploadController extends BaseController
         $this->tpl->assign(
             [
                 'issue_id' => $this->issue_id,
-                'max_attachment_size' => Attachment::getMaxAttachmentSize(),
-                'max_attachment_bytes' => Attachment::getMaxAttachmentSize(true),
+                'max_attachment_size' => AttachmentManager::getMaxAttachmentSize(),
+                'max_attachment_bytes' => AttachmentManager::getMaxAttachmentSize(true),
+                'roles' => User::getRoles(),
             ]
         );
     }

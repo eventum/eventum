@@ -16,6 +16,7 @@ namespace Eventum\Controller\Setup;
 use Auth;
 use Date_Helper;
 use DB_Helper;
+use Eventum\AppInfo;
 use Eventum\Controller\BaseController;
 use Eventum\Monolog\Logger;
 use Eventum\Setup\DatabaseSetup;
@@ -66,6 +67,7 @@ class SetupController extends BaseController
 
     protected function prepareTemplate()
     {
+        $appInfo = new AppInfo();
         $request = $this->getRequest();
         $relative_url = rtrim(dirname($request->getBaseUrl()), '/') . '/';
         $this->tpl->assign(
@@ -73,8 +75,8 @@ class SetupController extends BaseController
                 'core' => [
                     'rel_url' => $relative_url,
                     'app_title' => APP_NAME,
-                    'app_version' => APP_VERSION,
-                    'php_version' => phpversion(),
+                    'app_version' => $appInfo->getVersion(),
+                    'php_version' => PHP_VERSION,
                     'template_id' => 'setup',
                 ],
                 'userstyle' => '',
@@ -116,7 +118,7 @@ class SetupController extends BaseController
         }
         clearstatcache();
         if (!is_writable($file)) {
-            if (!stristr(PHP_OS, 'win')) {
+            if (stripos(PHP_OS, 'win') === false) {
                 // let's try to change the permissions ourselves
                 @chmod($file, 0644);
                 clearstatcache();
@@ -127,7 +129,7 @@ class SetupController extends BaseController
                 return $this->getPermissionError($file, $desc, $is_directory, true);
             }
         }
-        if (stristr(PHP_OS, 'win')) {
+        if (stripos(PHP_OS, 'win') !== false) {
             // need to check whether we can really create files in this directory or not
             // since is_writable() is not trustworthy on windows platforms
             if (is_dir($file)) {
@@ -290,10 +292,6 @@ class SetupController extends BaseController
             define('APP_DEFAULT_TIMEZONE', $tz ?: 'UTC');
         }
 
-        // and APP_VERSION
-        if (!defined('APP_VERSION')) {
-            define('APP_VERSION', '3.x');
-        }
         Logger::initialize();
     }
 
@@ -357,9 +355,6 @@ class SetupController extends BaseController
             'password' => $post->get('db_password'),
             'port' => 3306,
             'socket' => $socket,
-
-            // table prefix
-            'table_prefix' => '',
         ];
 
         Setup::save($setup);

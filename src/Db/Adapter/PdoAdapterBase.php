@@ -32,6 +32,7 @@ abstract class PdoAdapterBase
      * Get connect DSN for PDO
      *
      * @param array $config
+     * @throws BadMethodCallException
      * @return string
      */
     protected function getDsn($config)
@@ -42,7 +43,7 @@ abstract class PdoAdapterBase
         $dsn = "{$driver}:host={$config['hostname']};dbname={$config['database']};charset={$charset}";
 
         // if we are using some non-standard mysql port, pass that value in the dsn
-        if ($driver == 'mysql' && $config['port'] != 3306) {
+        if ($driver === 'mysql' && $config['port'] != 3306) {
             $dsn .= ";port={$config['port']}";
         }
 
@@ -72,6 +73,7 @@ abstract class PdoAdapterBase
      * Get PDO driver name.
      *
      * @param array $config
+     * @throws BadMethodCallException
      * @return string
      */
     protected function getDriverName($config)
@@ -82,7 +84,7 @@ abstract class PdoAdapterBase
         }
 
         $driver = isset($config['driver']) ? $config['driver'] : self::DEFAULT_DRIVER;
-        if ($driver == 'mysqli') {
+        if ($driver === 'mysqli') {
             $driver = 'mysql';
         }
 
@@ -98,17 +100,18 @@ abstract class PdoAdapterBase
     /**
      * Convert Eventum\Db\DbInterface fetchmode to PDO Fetch mode
      *
-     * @param int $fetchmode
+     * @param int $fetchMode
+     * @throws UnexpectedValueException
      */
-    protected function convertFetchMode(&$fetchmode)
+    protected function convertFetchMode(&$fetchMode)
     {
-        switch ($fetchmode) {
+        switch ($fetchMode) {
             case AdapterInterface::DB_FETCHMODE_ASSOC:
-                $fetchmode = PDO::FETCH_ASSOC;
+                $fetchMode = PDO::FETCH_ASSOC;
                 break;
 
             case AdapterInterface::DB_FETCHMODE_DEFAULT:
-                $fetchmode = PDO::FETCH_NUM;
+                $fetchMode = PDO::FETCH_NUM;
                 break;
 
             default:

@@ -172,7 +172,7 @@ class Round_Robin
     {
         $prr_id = self::getID($prj_id);
         $stmt = 'UPDATE
-                    {{%round_robin_user}}
+                    `round_robin_user`
                  SET
                     rru_next=0
                  WHERE
@@ -184,7 +184,7 @@ class Round_Robin
         }
 
         $stmt = 'UPDATE
-                    {{%round_robin_user}}
+                    `round_robin_user`
                  SET
                     rru_next=1
                  WHERE
@@ -210,7 +210,7 @@ class Round_Robin
         $stmt = 'SELECT
                     prr_id
                  FROM
-                    {{%project_round_robin}}
+                    `project_round_robin`
                  WHERE
                     prr_prj_id=?';
         try {
@@ -237,9 +237,9 @@ class Round_Robin
                     prr_blackout_start,
                     prr_blackout_end
                  FROM
-                    {{%project_round_robin}},
-                    {{%round_robin_user}},
-                    {{%user}}
+                    `project_round_robin`,
+                    `round_robin_user`,
+                    `user`
                  WHERE
                     prr_prj_id=? AND
                     prr_id=rru_prr_id AND
@@ -282,7 +282,7 @@ class Round_Robin
         $blackout_start = $_POST['blackout_start']['Hour'] . ':' . $_POST['blackout_start']['Minute'] . ':00';
         $blackout_end = $_POST['blackout_end']['Hour'] . ':' . $_POST['blackout_end']['Minute'] . ':00';
         $stmt = 'INSERT INTO
-                    {{%project_round_robin}}
+                    `project_round_robin`
                  (
                     prr_prj_id,
                     prr_blackout_start,
@@ -315,7 +315,7 @@ class Round_Robin
     public static function addUserAssociation($prr_id, $usr_id)
     {
         $stmt = 'INSERT INTO
-                    {{%round_robin_user}}
+                    `round_robin_user`
                  (
                     rru_prr_id,
                     rru_usr_id,
@@ -344,8 +344,8 @@ class Round_Robin
                     prr_id,
                     prj_title
                  FROM
-                    {{%project_round_robin}},
-                    {{%project}}
+                    `project_round_robin`,
+                    `project`
                  WHERE
                     prr_prj_id=prj_id
                  ORDER BY
@@ -377,8 +377,8 @@ class Round_Robin
                     usr_id,
                     usr_full_name
                  FROM
-                    {{%round_robin_user}},
-                    {{%user}}
+                    `round_robin_user`,
+                    `user`
                  WHERE
                     rru_usr_id=usr_id AND
                     rru_prr_id=?
@@ -404,7 +404,7 @@ class Round_Robin
         $stmt = 'SELECT
                     *
                  FROM
-                    {{%project_round_robin}}
+                    `project_round_robin`
                  WHERE
                     prr_id=?';
         try {
@@ -429,7 +429,7 @@ class Round_Robin
         $blackout_start = $_POST['blackout_start']['Hour'] . ':' . $_POST['blackout_start']['Minute'] . ':00';
         $blackout_end = $_POST['blackout_end']['Hour'] . ':' . $_POST['blackout_end']['Minute'] . ':00';
         $stmt = 'UPDATE
-                    {{%project_round_robin}}
+                    `project_round_robin`
                  SET
                     prr_prj_id=?,
                     prr_blackout_start=?,
@@ -465,7 +465,7 @@ class Round_Robin
         }
         $items = DB_Helper::buildList($prr_id);
         $stmt = "DELETE FROM
-                    {{%round_robin_user}}
+                    `round_robin_user`
                  WHERE
                     rru_prr_id IN ($items)";
         try {
@@ -488,7 +488,7 @@ class Round_Robin
         $itemlist = DB_Helper::buildList($items);
 
         $stmt = "DELETE FROM
-                    {{%project_round_robin}}
+                    `project_round_robin`
                  WHERE
                     prr_id IN ($itemlist)";
         try {

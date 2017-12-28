@@ -50,6 +50,8 @@ require_once APP_CONFIG_PATH . '/config.php';
 $define('APP_LOCAL_PATH', APP_CONFIG_PATH);
 $define('APP_COOKIE', 'eventum');
 
+$define('APP_LOCKS_PATH', APP_VAR_PATH . '/lock');
+
 // define the user_id of system user
 $define('APP_SYSTEM_USER_ID', 1);
 
@@ -123,5 +125,5 @@ if (APP_MAINTENANCE) {
 $define('APP_EVENTUM_IRC_CATEGORY_DEFAULT', 'default');
 $define('APP_EVENTUM_IRC_CATEGORY_REMINDER', APP_EVENTUM_IRC_CATEGORY_DEFAULT);
 
-Eventum\DebugBar::initialize();
+Eventum\DebugBarManager::initialize();
 Eventum\Extension\ExtensionManager::getManager();

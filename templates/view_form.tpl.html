@@ -27,7 +27,8 @@
 
 {if $project_auto_switched|default:0 == 1}
 <div class="note_box">
-    {t}Note: Project automatically switched to '{$core.project_name}' from '{$old_project}'.{/t}
+  {* XXX the same logic also present in update controller *}
+  {t 1=$old_project 2=$core.project_name}Note: Project automatically switched from '%1' to '%2'.{/t}
 </div>
 {/if}
 

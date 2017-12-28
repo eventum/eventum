@@ -12,6 +12,9 @@
  */
 
 use Eventum\Db\DatabaseException;
+use Eventum\Event;
+use Eventum\EventDispatcher\EventManager;
+use Eventum\Mail\MailBuilder;
 use Eventum\Monolog\Logger;
 
 /**
@@ -66,13 +69,14 @@ class User
      *
      * @param   int $customer_contact_id The customer contact ID
      * @return  int The user ID
+     * @deprecated use UserRepository
      */
     public static function getUserIDByContactID($customer_contact_id)
     {
         $stmt = 'SELECT
                     usr_id
                  FROM
-                    {{%user}}
+                    `user`
                  WHERE
                     usr_customer_contact_id=?';
 
@@ -91,13 +95,14 @@ class User
      *
      * @param   int $customer_contact_id The customer contact ID
      * @return  string The user's email address
+     * @deprecated use UserRepository
      */
     public static function getEmailByContactID($customer_contact_id)
     {
         $stmt = 'SELECT
                     usr_email
                  FROM
-                    {{%user}}
+                    `user`
                  WHERE
                     usr_customer_contact_id=?';
         try {
@@ -121,7 +126,7 @@ class User
         $stmt = 'SELECT
                     usr_sms_email
                  FROM
-                    {{%user}}
+                    `user`
                  WHERE
                     usr_id=?';
         try {
@@ -144,7 +149,7 @@ class User
     public static function updateSMS($usr_id, $sms_email)
     {
         $stmt = 'UPDATE
-                    {{%user}}
+                    `user`
                  SET
                     usr_sms_email=?
                  WHERE
@@ -170,7 +175,7 @@ class User
         $stmt = 'SELECT
                     usr_customer_contact_id
                  FROM
-                    {{%user}}
+                    `user`
                  WHERE
                     usr_id=?';
         try {
@@ -200,7 +205,7 @@ class User
         $stmt = 'SELECT
                     usr_customer_id
                  FROM
-                    {{%user}}
+                    `user`
                  WHERE
                     usr_id=?';
         try {
@@ -223,7 +228,7 @@ class User
     public static function confirmVisitorAccount($email)
     {
         $stmt = "UPDATE
-                    {{%user}}
+                    `user`
                  SET
                     usr_status='active'
                  WHERE
@@ -251,7 +256,7 @@ class User
         $stmt = 'SELECT
                     usr_full_name
                  FROM
-                    {{%user}}
+                    `user`
                  WHERE
                     usr_email=?';
         try {
@@ -281,25 +286,30 @@ class User
      */
     public static function createVisitorAccount($role, $projects)
     {
+        $usr_email = $_POST['email'];
+        $full_name = $_POST['full_name'];
+        $passwd = $_POST['passwd'];
+
         // check for double submits
-        if (Auth::userExists($_POST['email'])) {
+        if (Auth::userExists($usr_email)) {
             return -2;
         }
 
         $stmt = 'INSERT INTO
-                    {{%user}}
+                    `user`
                  (
                     usr_created_date,
                     usr_full_name,
                     usr_email,
                     usr_status
                  ) VALUES (?, ?, ?, ?)';
+
         try {
             DB_Helper::getInstance()->query(
                 $stmt, [
                     Date_Helper::getCurrentDateGMT(),
-                    $_POST['full_name'],
-                    $_POST['email'],
+                    $full_name,
+                    $usr_email,
                     'pending',
                 ]
             );
@@ -310,7 +320,7 @@ class User
         $usr_id = DB_Helper::get_last_insert_id();
 
         try {
-            self::updatePassword($usr_id, $_POST['passwd']);
+            self::updatePassword($usr_id, $passwd);
         } catch (Exception $e) {
             Logger::app()->error($e);
 
@@ -325,24 +335,27 @@ class User
         Prefs::set($usr_id, Prefs::getDefaults($projects));
 
         // send confirmation email to user
-        $hash = md5($_POST['full_name'] . $_POST['email'] . Auth::privateKey());
+        $hash = md5($full_name . $usr_email . Auth::privateKey());
 
         $tpl = new Template_Helper();
         $tpl->setTemplate('notifications/visitor_account.tpl.text');
         $tpl->assign([
             'app_title' => Misc::getToolCaption(),
-            'email' => $_POST['email'],
+            'email' => $usr_email,
             'hash' => $hash,
         ]);
         $text_message = $tpl->getTemplateContents();
 
-        $setup = Setup::get();
-        $mail = new Mail_Helper();
-        $mail->setTextBody($text_message);
-
         // TRANSLATORS: %1 - APP_SHORT_NAME
         $subject = ev_gettext('%s: New Account - Confirmation Required', APP_SHORT_NAME);
-        $mail->send($setup['smtp']['from'], $_POST['email'], $subject);
+
+        $builder = new MailBuilder();
+        $builder->addTextPart($text_message)
+            ->getMessage()
+            ->setSubject($subject)
+            ->setTo($usr_email);
+
+        Mail_Queue::queue($builder, $usr_email);
 
         return 1;
     }
@@ -357,7 +370,8 @@ class User
     {
         $info = self::getDetails($usr_id);
         // send confirmation email to user
-        $hash = md5($info['usr_full_name'] . $info['usr_email'] . Auth::privateKey());
+        $usr_email = $info['usr_email'];
+        $hash = md5($info['usr_full_name'] . $usr_email . Auth::privateKey());
 
         $tpl = new Template_Helper();
         $tpl->setTemplate('notifications/password_confirmation.tpl.text');
@@ -368,13 +382,16 @@ class User
         ]);
         $text_message = $tpl->getTemplateContents();
 
-        $setup = Setup::get();
-        $mail = new Mail_Helper();
-        $mail->setTextBody($text_message);
-
         // TRANSLATORS: %s - APP_SHORT_NAME
         $subject = ev_gettext('%s: New Password - Confirmation Required', APP_SHORT_NAME);
-        $mail->send($setup['smtp']['from'], $info['usr_email'], $subject);
+
+        $builder = new MailBuilder();
+        $builder->addTextPart($text_message)
+            ->getMessage()
+            ->setSubject($subject)
+            ->setTo($usr_email);
+
+        Mail_Queue::queue($builder, $usr_email);
     }
 
     /**
@@ -391,21 +408,20 @@ class User
         self::updatePassword($usr_id, $password, true);
     }
 
+    /**
+     * @param int $external_id
+     * @return int
+     */
     public static function getUserIDByExternalID($external_id)
     {
         $sql = 'SELECT
                     usr_id
                 FROM
-                    {{%user}}
+                    `user`
                 WHERE
                     usr_external_id=?';
-        try {
-            $res = DB_Helper::getInstance()->getOne($sql, [$external_id]);
-        } catch (DatabaseException $e) {
-            return null;
-        }
 
-        return $res;
+        return DB_Helper::getInstance()->getOne($sql, [$external_id]);
     }
 
     /**
@@ -438,7 +454,7 @@ class User
         $stmt = 'SELECT
                     usr_id
                  FROM
-                    {{%user}}
+                    `user`
                  WHERE
                     usr_email=?';
         $res = DB_Helper::getInstance()->getOne($stmt, [$email]);
@@ -497,12 +513,12 @@ class User
                     usr_id,
                     usr_full_name
                  FROM
-                    {{%user}}';
+                    `user`';
         $params = [];
 
         if ($prj_id) {
             $stmt .= ',
-                    {{%project_user}}';
+                    `project_user`';
         }
         $stmt .= "
                  WHERE
@@ -586,24 +602,6 @@ class User
     }
 
     /**
-     * Method used to get the role ID for a specific role title.
-     *
-     * @param   string $role_title The role title
-     * @return  int The role ID
-     * @deprecated use ROLE_ constant directly
-     */
-    public static function getRoleID($role_title)
-    {
-        foreach (self::$roles as $role_id => $role) {
-            if (strtolower($role) == strtolower($role_title)) {
-                return $role_id;
-            }
-        }
-
-        return null;
-    }
-
-    /**
      * Method used to get the role for a specific user and project.
      *
      * @param   int $usr_id The user ID
@@ -625,19 +623,14 @@ class User
         $stmt = 'SELECT
                     pru_role
                  FROM
-                    {{%project_user}}
+                    `project_user`
                  WHERE
                     pru_usr_id=? AND
                     pru_prj_id=?';
-        try {
-            $res = DB_Helper::getInstance()->getOne($stmt, [$usr_id, $prj_id]);
-        } catch (DatabaseException $e) {
-            return '';
-        }
 
-        $returns[$usr_id][$prj_id] = $res;
+        $res = (int)DB_Helper::getInstance()->getOne($stmt, [$usr_id, $prj_id]);
 
-        return $res;
+        return $returns[$usr_id][$prj_id] = $res;
     }
 
     /**
@@ -674,8 +667,8 @@ class User
                         usr.*,
                         GROUP_CONCAT(ual_email) ual_email
                      FROM
-                        {{%user}} usr
-                     LEFT JOIN {{%user_alias}} ual ON ual.ual_usr_id=usr.usr_id
+                        `user` usr
+                     LEFT JOIN `user_alias` ual ON ual.ual_usr_id=usr.usr_id
                      WHERE
                         usr_id IN ($itemlist)
                      GROUP BY usr_id
@@ -744,7 +737,7 @@ class User
         $stmt = "SELECT
                     usr_full_name
                  FROM
-                    {{%user}}
+                    `user`
                  WHERE
                     usr_id IN ($itemlist)";
         try {
@@ -765,8 +758,10 @@ class User
     /**
      * Method used to get the email address of the specified user.
      *
-     * @param   int|array $usr_id The user ID or user ids
-     * @return  string The user' full name
+     * TODO: fix api to be stable, always strings or always arrays in/out
+     *
+     * @param   int|int[] $usr_id The user ID or user ids
+     * @return  string|string[] The user' full name
      */
     public static function getEmail($usr_id)
     {
@@ -796,21 +791,14 @@ class User
         $stmt = "SELECT
                     usr_email
                  FROM
-                    {{%user}}
+                    `user`
                  WHERE
                     usr_id IN ($itemlist)";
-        try {
-            if (!is_array($usr_id)) {
-                $res = DB_Helper::getInstance()->getOne($stmt, $items);
-            } else {
-                $res = DB_Helper::getInstance()->getColumn($stmt, $items);
-            }
-        } catch (DatabaseException $e) {
-            if (!is_array($usr_id)) {
-                return '';
-            }
 
-            return [];
+        if (!is_array($usr_id)) {
+            $res = DB_Helper::getInstance()->getOne($stmt, $items);
+        } else {
+            $res = DB_Helper::getInstance()->getColumn($stmt, $items);
         }
 
         $returns[$key] = $res;
@@ -836,8 +824,8 @@ class User
                   ugr_grp_id,
                   grp_name
                 FROM
-                    {{%user_group}},
-                    {{%group}}
+                    `user_group`,
+                    `group`
                 WHERE
                     ugr_grp_id = grp_id AND
                     ugr_usr_id = ?';
@@ -882,7 +870,7 @@ class User
         $stmt = 'SELECT
                     usr_status
                  FROM
-                    {{%user}}
+                    `user`
                  WHERE
                     usr_email=?';
         try {
@@ -903,9 +891,9 @@ class User
      * Method used to change the status of users, making them inactive
      * or active.
      *
-     * @param int[] $usr_ids
+     * @param int[]|int $usr_ids
      * @param string $status
-     * @return  bool
+     * @return bool
      */
     public static function changeStatus($usr_ids, $status)
     {
@@ -914,7 +902,7 @@ class User
             $stmt = 'SELECT
                     COUNT(*)
                  FROM
-                    {{%user}}
+                    `user`
                  WHERE
                     usr_status=?';
 
@@ -927,17 +915,13 @@ class User
         $usr_ids = (array) $usr_ids;
         $items = DB_Helper::buildList($usr_ids);
         $stmt = "UPDATE
-                    {{%user}}
+                    `user`
                  SET
                     usr_status=?
                  WHERE
                     usr_id IN ($items)";
         $params = array_merge([$status], $usr_ids);
-        try {
-            DB_Helper::getInstance()->query($stmt, $params);
-        } catch (DatabaseException $e) {
-            return false;
-        }
+        DB_Helper::getInstance()->query($stmt, $params);
 
         return true;
     }
@@ -952,7 +936,7 @@ class User
     {
         $full_name = trim(strip_tags($_POST['full_name']));
         $stmt = 'UPDATE
-                    {{%user}}
+                    `user`
                  SET
                     usr_full_name=?
                  WHERE
@@ -977,7 +961,7 @@ class User
     public static function updateEmail($usr_id)
     {
         $stmt = 'UPDATE
-                    {{%user}}
+                    `user`
                  SET
                     usr_email=?
                  WHERE
@@ -1019,99 +1003,62 @@ class User
         }
     }
 
-    public static function updateFromPost()
-    {
-        $usr_id = $_POST['id'];
-        $data = [
-            'full_name' => $_POST['full_name'],
-            'email' => $_POST['email'],
-            'password' => $_POST['password'],
-            'role' => $_POST['role'],
-        ];
-
-        if (isset($_POST['par_code'])) {
-            $data['par_code'] = $_POST['par_code'];
-        }
-
-        if (isset($_POST['groups'])) {
-            $data['groups'] = $_POST['groups'];
-        } else {
-            $data['groups'] = [];
-        }
-
-        return self::update($usr_id, $data);
-    }
-
     /**
      * Method used to update the account details for a specific user.
      *
-     * @param $usr_id
-     * @param $data
+     * @param int $usr_id
+     * @param array $user The array of user information
      * @param bool $notify
-     * @return  int 1 if the update worked, -1 otherwise
+     * @return bool
      */
-    public static function update($usr_id, $data, $notify = true)
+    public static function update($usr_id, array $user, $notify = true)
     {
         // system account should not be updateable
         if ($usr_id == APP_SYSTEM_USER_ID) {
-            return 1;
+            return false;
         }
 
         $params = [
-            'usr_email' => $data['email'],
+            'usr_email' => $user['email'],
         ];
 
-        if (isset($data['full_name'])) {
-            $params['usr_full_name'] = $data['full_name'];
+        if (isset($user['full_name'])) {
+            $params['usr_full_name'] = $user['full_name'];
         }
 
-        if (isset($data['external_id'])) {
-            $params['usr_external_id'] = $data['external_id'];
+        if (isset($user['external_id'])) {
+            $params['usr_external_id'] = $user['external_id'];
         }
 
-        if (isset($data['par_code'])) {
-            $params['usr_par_code'] = $data['par_code'];
+        if (isset($user['par_code'])) {
+            $params['usr_par_code'] = $user['par_code'];
         }
 
         $stmt = 'UPDATE
-                    {{%user}}
+                    `user`
                  SET ' . DB_Helper::buildSet($params) . ' WHERE usr_id=?';
         $params[] = $usr_id;
 
-        try {
-            DB_Helper::getInstance()->query($stmt, $params);
-        } catch (DatabaseException $e) {
-            return -1;
+        DB_Helper::getInstance()->query($stmt, $params);
+
+        if (!empty($user['password'])) {
+            self::updatePassword($usr_id, $user['password']);
         }
 
-        if (!empty($data['password'])) {
-            try {
-                self::updatePassword($usr_id, $data['password']);
-            } catch (Exception $e) {
-                Logger::app()->error($e);
-
-                return -1;
-            }
-        }
-
-        if (isset($data['role'])) {
+        if (isset($user['role'])) {
             // update the project associations now
             $stmt = 'DELETE FROM
-                        {{%project_user}}
+                        `project_user`
                      WHERE
                         pru_usr_id=?';
-            try {
-                DB_Helper::getInstance()->query($stmt, [$usr_id]);
-            } catch (DatabaseException $e) {
-                return -1;
-            }
+            DB_Helper::getInstance()->query($stmt, [$usr_id]);
 
-            foreach ($data['role'] as $prj_id => $role) {
+            foreach ($user['role'] as $prj_id => $role) {
                 if ($role < 1) {
                     continue;
                 }
                 $stmt = 'INSERT INTO
-                            {{%project_user}}
+                            `project_user`
                          (
                             pru_prj_id,
                             pru_usr_id,
@@ -1119,98 +1066,60 @@ class User
                          ) VALUES (
                             ?, ?, ?
                          )';
-                try {
-                    DB_Helper::getInstance()->query(
-                        $stmt, [
-                            $prj_id, $usr_id, $role,
-                        ]
-                    );
-                } catch (DatabaseException $e) {
-                    return -1;
-                }
+                $params = [$prj_id, $usr_id, $role];
+                DB_Helper::getInstance()->query($stmt, $params);
             }
         }
 
-        if (isset($data['groups'])) {
+        if (isset($user['groups'])) {
             $stmt = 'DELETE FROM
-                        {{%user_group}}
+                        `user_group`
                      WHERE
                         ugr_usr_id=?';
-            try {
-                DB_Helper::getInstance()->query($stmt, [$usr_id]);
-            } catch (DatabaseException $e) {
-                return -1;
-            }
+            DB_Helper::getInstance()->query($stmt, [$usr_id]);
 
-            foreach ($data['groups'] as $grp_id) {
+            foreach ($user['groups'] as $grp_id) {
                 Group::addUser($usr_id, $grp_id);
             }
         }
 
         if ($notify == true) {
-            if (!empty($data['password'])) {
-                Notification::notifyUserPassword($usr_id, $data['password']);
+            if (!empty($user['password'])) {
+                Notification::notifyUserPassword($usr_id, $user['password']);
             } else {
                 Notification::notifyUserAccount($usr_id);
             }
         }
 
-        return 1;
-    }
+        // add user id and do not expose password to event
+        $user['id'] = $usr_id;
+        unset($user['password']);
 
-    public static function insertFromPost()
-    {
-        $user = [
-            'password' => $_POST['password'],
-            'full_name' => $_POST['full_name'],
-            'email' => $_POST['email'],
-            'role' => $_POST['role'],
-            'external_id' => '',
-        ];
+        $event = new Event\UnstructuredEvent(null, $user);
+        EventManager::dispatch(Event\SystemEvents::USER_UPDATE, $event);
 
-        if (isset($_POST['par_code'])) {
-            $user['par_code'] = $_POST['par_code'];
-        }
-
-        if (isset($_POST['groups'])) {
-            $user['groups'] = $_POST['groups'];
-        }
-
-        $insert = self::insert($user);
-        if ($insert != -1) {
-            return 1;
-        }
-
-        return -1;
+        return true;
     }
 
     /**
      * Method used to add a new user to the system.
      *
      * @param   array $user The array of user information
-     * @return  int 1 if the update worked, -1 otherwise
+     * @return  int usr_id being created
      */
-    public static function insert($user)
+    public static function insert(array $user)
     {
-        $projects = [];
-        foreach ($user['role'] as $prj_id => $role) {
-            if ($role < 1) {
-                continue;
-            }
-            $projects[] = $prj_id;
-        }
-
         $params = [
             isset($user['customer_id']) ? $user['customer_id'] : null,
             isset($user['contact_id']) ? $user['contact_id'] : null,
             Date_Helper::getCurrentDateGMT(),
             $user['full_name'],
             $user['email'],
-            $user['external_id'],
+            isset($user['external_id']) ? $user['external_id'] : null,
             isset($user['par_code']) ? $user['par_code'] : null,
         ];
         $stmt = 'INSERT INTO
-                    {{%user}}
+                    `user`
                  (
                     usr_customer_id,
                     usr_customer_contact_id,
@@ -1222,20 +1131,13 @@ class User
                  ) VALUES (
                     ?, ?, ?, ?, ?, ?, ?
                  )';
-        try {
-            DB_Helper::getInstance()->query($stmt, $params);
-        } catch (DatabaseException $e) {
-            return -1;
-        }
+
+        DB_Helper::getInstance()->query($stmt, $params);
 
         $usr_id = DB_Helper::get_last_insert_id();
 
-        if ($user['password'] != '') {
-            try {
-                self::updatePassword($usr_id, $user['password']);
-            } catch (Exception $e) {
-                return -1;
-            }
+        if (isset($user['password']) && $user['password'] !== '') {
+            self::updatePassword($usr_id, $user['password']);
         }
 
         // add the project associations!
@@ -1259,6 +1161,13 @@ class User
         // send email to user
         Notification::notifyNewUser($usr_id, $user['password']);
 
+        // add user id and do not expose password to event
+        $user['id'] = $usr_id;
+        unset($user['password']);
+
+        $event = new Event\UnstructuredEvent(null, $user);
+        EventManager::dispatch(Event\SystemEvents::USER_CREATE, $event);
+
         return $usr_id;
     }
 
@@ -1279,7 +1188,7 @@ class User
         $stmt = 'SELECT
                     usr_id
                  FROM
-                    {{%user}}
+                    `user`
                  WHERE
                     usr_id != ?';
         $params = [APP_SYSTEM_USER_ID];
@@ -1354,7 +1263,7 @@ class User
                     LOWER(usr_email),
                     usr_id
                  FROM
-                    {{%user}}';
+                    `user`';
         try {
             $res = DB_Helper::getInstance()->getPair($stmt);
         } catch (DatabaseException $e) {
@@ -1378,7 +1287,7 @@ class User
                     usr_id,
                     usr_full_name
                  FROM
-                    {{%user}}
+                    `user`
                  ORDER BY
                     usr_full_name ASC';
         try {
@@ -1409,7 +1318,7 @@ class User
                     usr_full_name,
                     usr_email
                  FROM
-                    {{%user}}
+                    `user`
                  WHERE
                     usr_id=?';
         $res = DB_Helper::getInstance()->getRow($stmt, [$usr_id]);
@@ -1445,7 +1354,7 @@ class User
                     usr_full_name,
                     usr_email
                  FROM
-                    {{%user}}
+                    `user`
                  WHERE
                     usr_clocked_in=1';
         try {
@@ -1466,7 +1375,7 @@ class User
     public static function clockIn($usr_id)
     {
         $stmt = 'UPDATE
-                    {{%user}}
+                    `user`
                  SET
                     usr_clocked_in = 1
                  WHERE
@@ -1489,7 +1398,7 @@ class User
     public static function clockOut($usr_id)
     {
         $stmt = 'UPDATE
-                    {{%user}}
+                    `user`
                  SET
                     usr_clocked_in = 0
                  WHERE
@@ -1519,7 +1428,7 @@ class User
         $stmt = 'SELECT
                     usr_clocked_in
                  FROM
-                    {{%user}}
+                    `user`
                  WHERE
                     usr_id = ?';
         try {
@@ -1543,7 +1452,7 @@ class User
             $sql = 'SELECT
                         usr_lang
                     FROM
-                        {{%user}}
+                        `user`
                     WHERE
                         usr_id = ?';
             try {
@@ -1568,7 +1477,7 @@ class User
     public static function setLang($usr_id, $language)
     {
         $sql = 'UPDATE
-                    {{%user}}
+                    `user`
                 SET
                     usr_lang = ?
                 WHERE
@@ -1590,7 +1499,7 @@ class User
         $sql = 'SELECT
                     ual_email
                 FROM
-                    {{%user_alias}}
+                    `user_alias`
                 WHERE
                     ual_usr_id = ?';
         try {
@@ -1618,7 +1527,7 @@ class User
         }
 
         $sql = 'INSERT INTO
-                    {{%user_alias}}
+                    `user_alias`
                 SET
                     ual_usr_id = ?,
                     ual_email = ?';
@@ -1638,7 +1547,7 @@ class User
     public static function removeAlias($usr_id, $email)
     {
         $sql = 'DELETE FROM
-                    {{%user_alias}}
+                    `user_alias`
                 WHERE
                     ual_usr_id = ? AND
                     ual_email = ?';
@@ -1656,7 +1565,7 @@ class User
         $sql = 'SELECT
                     ual_usr_id
                 FROM
-                    {{%user_alias}}
+                    `user_alias`
                 WHERE
                     ual_email = ?';
         try {
@@ -1673,7 +1582,7 @@ class User
         $sql = 'SELECT
                     usr_par_code
                 FROM
-                    {{%user}}
+                    `user`
                 WHERE
                     usr_id = ?';
         try {
@@ -1693,7 +1602,7 @@ class User
         $sql = 'SELECT
                     usr_par_code
                 FROM
-                    {{%user}}
+                    `user`
                 WHERE
                     usr_id = ?';
         try {
@@ -1713,7 +1622,7 @@ class User
         $sql = 'SELECT
                     usr_external_id
                 FROM
-                    {{%user}}
+                    `user`
                 WHERE
                     usr_id = ?';
 
@@ -1723,7 +1632,7 @@ class User
     public static function unlock($usr_id)
     {
         $stmt = 'UPDATE
-                    {{%user}}
+                    `user`
                  SET
                     usr_failed_logins = 0
                  WHERE

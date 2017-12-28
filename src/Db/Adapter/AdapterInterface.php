@@ -83,11 +83,11 @@ interface AdapterInterface
      *
      * @param string $query the SQL query
      * @param mixed $params array, string or numeric data
-     * @param int $fetchmode the fetch mode to use
+     * @param int $fetchMode the fetch mode to use
      * @throws DatabaseException on failure
      * @return array the nested array
      */
-    public function getAll($query, $params = [], $fetchmode = self::DB_FETCHMODE_ASSOC);
+    public function getAll($query, $params = [], $fetchMode = self::DB_FETCHMODE_ASSOC);
 
     /**
      * Fetches an entire query result and returns it as an
@@ -98,10 +98,10 @@ interface AdapterInterface
      *
      * @param string $query
      * @param mixed $params
-     * @param int $fetchmode
+     * @param int $fetchMode
      * @throws DatabaseException on failure
      */
-    public function fetchAssoc($query, $params = [], $fetchmode = self::DB_FETCHMODE_DEFAULT);
+    public function fetchAssoc($query, $params = [], $fetchMode = self::DB_FETCHMODE_DEFAULT);
 
     /**
      * Fetches a first column from a query result and returns it as an

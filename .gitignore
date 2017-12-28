@@ -11,7 +11,7 @@ Session.vim
 [._]s[a-w][a-z]
 .netrwhist
 /.idea
-/.php_cs*.cache
+/.php_cs*cache
 /.phplint.cache
 /.project
 /.settings
@@ -66,11 +66,11 @@ Session.vim
 /tests/ldap.php
 /tests/private_key.php
 /tests/secret_key.php
-/tests/_output/*
-/tests/_support/_generated/*
-/tests/acceptance.suite.yml
-/tests/functional.suite.yml
-/tests/unit.suite.yml
+/tests/Codeception/_output/*
+/tests/Codeception/_support/_generated/*
+/tests/Codeception/acceptance.suite.yml
+/tests/Codeception/functional.suite.yml
+/tests/Codeception/unit.suite.yml
 /codeception.yml
 
 /misc/routed_emails/*
@@ -82,3 +82,5 @@ Session.vim
 !/var/lock/README
 /var/log/*
 !/var/log/README
+/var/storage/*
+!/var/storage/README

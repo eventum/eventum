@@ -30,7 +30,7 @@ class Release
         $stmt = 'SELECT
                     COUNT(*)
                  FROM
-                    {{%project_release}}
+                    `project_release`
                  WHERE
                     pre_id=? AND
                     pre_status=?';
@@ -61,7 +61,7 @@ class Release
                     MONTH(pre_scheduled_date) AS scheduled_month,
                     YEAR(pre_scheduled_date) AS scheduled_year
                  FROM
-                    {{%project_release}}
+                    `project_release`
                  WHERE
                     pre_id=?';
         try {
@@ -84,7 +84,7 @@ class Release
         $stmt = 'SELECT
                     pre_title
                  FROM
-                    {{%project_release}}
+                    `project_release`
                  WHERE
                     pre_id=?';
         try {
@@ -108,7 +108,7 @@ class Release
         $stmt = 'SELECT
                     pre_id
                  FROM
-                    {{%project_release}}
+                    `project_release`
                  WHERE
                     pre_title=? AND
                     pre_prj_id=?';
@@ -134,7 +134,7 @@ class Release
 
         // gotta fix the issues that are using this release
         $stmt = "UPDATE
-                    {{%issue}}
+                    `issue`
                  SET
                     iss_pre_id=0
                  WHERE
@@ -146,7 +146,7 @@ class Release
         }
 
         $stmt = "DELETE FROM
-                    {{%project_release}}
+                    `project_release`
                  WHERE
                     pre_id IN ($itemlist)";
         try {
@@ -175,7 +175,7 @@ class Release
         }
         $scheduled_date = $_POST['scheduled_date']['Year'] . '-' . $_POST['scheduled_date']['Month'] . '-' . $_POST['scheduled_date']['Day'];
         $stmt = 'UPDATE
-                    {{%project_release}}
+                    `project_release`
                  SET
                     pre_title=?,
                     pre_scheduled_date=?,
@@ -209,7 +209,7 @@ class Release
         }
         $scheduled_date = $_POST['scheduled_date']['Year'] . '-' . $_POST['scheduled_date']['Month'] . '-' . $_POST['scheduled_date']['Day'];
         $stmt = 'INSERT INTO
-                    {{%project_release}}
+                    `project_release`
                  (
                     pre_prj_id,
                     pre_title,
@@ -248,7 +248,7 @@ class Release
                     pre_scheduled_date,
                     pre_status
                  FROM
-                    {{%project_release}}
+                    `project_release`
                  WHERE
                     pre_prj_id=?
                  ORDER BY
@@ -276,7 +276,7 @@ class Release
                     pre_id,
                     pre_title
                  FROM
-                    {{%project_release}}
+                    `project_release`
                  WHERE
                     pre_prj_id=? AND
                     (

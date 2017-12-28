@@ -45,7 +45,7 @@ class LdapController extends ManageBaseController
      */
     protected function defaultAction()
     {
-        if ($this->cat == 'update') {
+        if ($this->cat === 'update') {
             $this->updateAction();
         }
     }
@@ -54,7 +54,8 @@ class LdapController extends ManageBaseController
     {
         $post = $this->getRequest()->request;
 
-        $setup = Setup::get()->ldap->toArray();
+        $config = Setup::get();
+        $setup = $config['ldap']->toArray();
 
         // special handling for binddn/bindpw:
         // update bindpw only if submitted new value
@@ -64,20 +65,26 @@ class LdapController extends ManageBaseController
         if ($post->get('bindpw')) {
             $setup['bindpw'] = $post->get('bindpw');
         }
-        if ($setup['binddn'] == '') {
+        if ($setup['binddn'] === '') {
             $setup['bindpw'] = '';
         }
 
         $setup['host'] = $post->get('host');
         $setup['port'] = $post->get('port');
         $setup['basedn'] = $post->get('basedn');
+        $setup['user_id_attribute'] = $post->get('user_id_attribute');
         $setup['userdn'] = $post->get('userdn');
         $setup['user_filter'] = $post->get('user_filter');
         $setup['customer_id_attribute'] = $post->get('customer_id_attribute');
         $setup['contact_id_attribute'] = $post->get('contact_id_attribute');
+        $setup['active_dn'] = $post->get('active_dn');
+        $setup['inactive_dn'] = $post->get('inactive_dn');
         $setup['create_users'] = $post->get('create_users');
         $setup['default_role'] = $post->get('default_role');
 
+        // clear default_role first, otherwise values will be appended by Zend\Config
+        // https://github.com/eventum/eventum/pull/315#issuecomment-335593325
+        $config['ldap']['default_role'] = [];
         $res = Setup::save(['ldap' => $setup]);
 
         // FIXME: translations
@@ -95,7 +102,7 @@ class LdapController extends ManageBaseController
         ];
         $this->messages->mapMessages($res, $map);
 
-        $this->tpl->assign('result', $res);
+        $this->redirect('ldap.php');
     }
 
     /**

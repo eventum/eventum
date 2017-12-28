@@ -64,8 +64,6 @@ class YiiAdapter extends PdoAdapterBase implements AdapterInterface
                     'username' => $config['username'],
                     'password' => $config['password'],
                     'charset' => $this->getCharset(),
-
-                    'tablePrefix' => $config['table_prefix'],
                 ],
             ],
         ];
@@ -73,27 +71,27 @@ class YiiAdapter extends PdoAdapterBase implements AdapterInterface
         return $yiiConfig;
     }
 
-    public function getAll($query, $params = [], $fetchmode = AdapterInterface::DB_FETCHMODE_ASSOC)
+    public function getAll($query, $params = [], $fetchMode = AdapterInterface::DB_FETCHMODE_ASSOC)
     {
-        $this->convertParams($params, $fetchmode);
-        $this->convertFetchMode($fetchmode);
+        $this->convertParams($params, $fetchMode);
+        $this->convertFetchMode($fetchMode);
         $command = $this->connection->createCommand($query, $params);
 
-        return $command->queryAll($fetchmode);
+        return $command->queryAll($fetchMode);
     }
 
-    public function fetchAssoc($query, $params = [], $fetchmode = AdapterInterface::DB_FETCHMODE_DEFAULT)
+    public function fetchAssoc($query, $params = [], $fetchMode = AdapterInterface::DB_FETCHMODE_DEFAULT)
     {
         $this->convertParams($params);
         $command = $this->connection->createCommand($query, $params);
 
         $flags = PDO::FETCH_GROUP | PDO::FETCH_UNIQUE;
-        if ($fetchmode == AdapterInterface::DB_FETCHMODE_ASSOC) {
+        if ($fetchMode == AdapterInterface::DB_FETCHMODE_ASSOC) {
             $flags |= PDO::FETCH_ASSOC;
-        } elseif ($fetchmode == AdapterInterface::DB_FETCHMODE_DEFAULT) {
+        } elseif ($fetchMode == AdapterInterface::DB_FETCHMODE_DEFAULT) {
             $flags |= PDO::FETCH_NUM;
         } else {
-            throw new UnexpectedValueException(__FUNCTION__ . ' unsupported fetchmode: ' . $fetchmode);
+            throw new UnexpectedValueException(__FUNCTION__ . ' unsupported fetchmode: ' . $fetchMode);
         }
 
         return $command->queryAll($flags);

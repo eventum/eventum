@@ -39,7 +39,8 @@
 				<include name="**/.coveralls.yml"/>
 				<include name="**/.gitattributes"/>
 				<include name="**/.gitignore"/>
-				<include name="**/.php_cs"/>
+				<include name="**/.php_cs*"/>
+				<include name="**/.scrutinizer.yml"/>
 				<include name="**/.travis.yml"/>
 				<include name="**/AUTHORS"/>
 				<include name="**/COPYING*"/>
@@ -48,19 +49,27 @@
 				<include name="**/Makefile*"/>
 				<include name="**/NEWS"/>
 				<include name="**/README*"/>
+				<include name="**/UPGRADE*"/>
 				<include name="**/appveyor.yml"/>
 				<include name="**/benchmark.php"/>
 				<include name="**/box.json"/>
+				<include name="**/build.properties"/>
+				<include name="**/build.xml"/>
 				<include name="**/composer.json"/>
 				<include name="**/composer.lock"/>
+				<include name="**/couscous.yml"/>
 				<include name="**/example.php"/>
+				<include name="**/humbug.json*"/>
 				<include name="**/package.xml"/>
 				<include name="**/pakefile.php"/>
+				<include name="**/phpmd.xml*"/>
 				<include name="**/phpstan.neon"/>
 				<include name="**/phpunit.xml*"/>
 				<include name="**/travis.ini"/>
-				<!-- traits are not used -->
+				<!-- traits are not commonly used -->
 				<include name="**/*Trait.php"/>
+				<exclude name="league/flysystem/src/ConfigAwareTrait.php"/>
+				<exclude name="league/flysystem/src/Plugin/PluggableTrait.php"/>
 			</fileset>
 
 			<!-- whole dirs -->
@@ -173,6 +182,64 @@
 
 			<fileset dir="${vendor}/symfony/event-dispatcher">
 				<include name="Debug/**"/>
+			</fileset>
+
+			<fileset dir="${vendor}/phlib/flysystem-pdo">
+				<include name="schema/**"/>
+			</fileset>
+
+			<fileset dir="${vendor}/mnapoli/silly">
+				<include name="website/**"/>
+			</fileset>
+
+			<fileset dir="${vendor}/doctrine/dbal">
+				<include name="bin/**"/>
+			</fileset>
+
+			<fileset dir="${vendor}/doctrine/dbal/lib/Doctrine/DBAL">
+				<include name="Driver/**DB2*"/>
+				<include name="Driver/**Drizzle**"/>
+				<include name="Driver/**Mysqli**"/>
+				<include name="Driver/**OCI**"/>
+				<include name="Driver/**Oracle**"/>
+				<include name="Driver/**PDOIbm**"/>
+				<include name="Driver/**PDOPgSql**"/>
+				<include name="Driver/**PDOSqlite**"/>
+				<include name="Driver/**PDOSqlsrv**"/>
+				<include name="Driver/**Postgre**"/>
+				<include name="Driver/**SQLAnywhere**"/>
+				<include name="Driver/**SQLServer**"/>
+				<include name="Driver/**SQLite**"/>
+				<include name="Driver/SQLSrv/*"/>
+				<include name="Event/Listeners/Oracle*"/>
+				<include name="Platforms/**DB2**"/>
+				<include name="Platforms/**Drizzle**"/>
+				<include name="Platforms/**MsSQL**"/>
+				<include name="Platforms/**Oracle**"/>
+				<include name="Platforms/**SQLAnywhere**"/>
+				<include name="Platforms/**SQLite**"/>
+				<include name="Platforms/Keywords/DB2*"/>
+				<include name="Platforms/Keywords/Drizzle*"/>
+				<include name="Platforms/Keywords/MsSQL*"/>
+				<include name="Platforms/Keywords/Oracle*"/>
+				<include name="Platforms/Keywords/Postgre*"/>
+				<include name="Platforms/Keywords/SQL*"/>
+				<include name="Platforms/Postgre**"/>
+				<include name="Platforms/SQL*"/>
+				<include name="Platforms/Sql*"/>
+				<include name="Schema/DB2*"/>
+				<include name="Schema/Drizzle*"/>
+				<include name="Schema/Oracle*"/>
+				<include name="Schema/PostgreSql*"/>
+				<include name="Schema/SQLAnywhere*"/>
+				<include name="Schema/SQLServer*"/>
+				<include name="Schema/Sqlite*"/>
+				<include name="Sharding/SQLAzure/**"/>
+				<include name="Tools/**"/>
+			</fileset>
+
+			<fileset dir="${vendor}/doctrine/orm">
+				<include name="**/*.xsd"/>
 			</fileset>
 		</delete>
 	</target>

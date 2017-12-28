@@ -14,7 +14,6 @@
 namespace Eventum\Controller;
 
 use Access;
-use Attachment;
 use Auth;
 use AuthCookie;
 use Authorized_Replier;
@@ -24,10 +23,12 @@ use Custom_Field;
 use Date_Helper;
 use Draft;
 use Email_Account;
-use Eventum\Model\Repository\CommitRepository;
+use Eventum\Attachment\AttachmentManager;
+use Eventum\Db\Doctrine;
 use Group;
 use Issue;
 use Issue_Field;
+use Link_Filter;
 use Note;
 use Notification;
 use Partner;
@@ -167,15 +168,15 @@ class ViewController extends BaseController
                 'previous_issue' => $sides['previous'],
                 'subscribers' => Notification::getSubscribers($this->issue_id),
                 'custom_fields' => Custom_Field::getListByIssue($this->prj_id, $this->issue_id),
-                'files' => Attachment::getList($this->issue_id),
+                'files' => AttachmentManager::getList($this->issue_id),
                 'emails' => Support::getEmailsByIssue($this->issue_id),
                 'zones' => Date_Helper::getTimezoneList(),
                 'users' => Project::getUserAssocList($this->prj_id, 'active', User::ROLE_CUSTOMER),
                 'ema_id' => Email_Account::getEmailAccount(),
-                'max_attachment_size' => Attachment::getMaxAttachmentSize(),
+                'max_attachment_size' => AttachmentManager::getMaxAttachmentSize(),
                 'quarantine' => Issue::getQuarantineInfo($this->issue_id),
                 'grid' => $this->getColumnsForDisplay(),
-                'can_update' => Issue::canUpdate($this->issue_id, $this->usr_id),
+                'can_update' => Access::canUpdateIssue($this->issue_id, $this->usr_id),
                 'enabled_partners' => Partner::getPartnersByProject($this->prj_id),
                 'partners' => Partner::getPartnersByIssue($this->issue_id),
                 'issue_access' => Access::getIssueAccessArray($this->issue_id, $this->usr_id),
@@ -217,7 +218,7 @@ class ViewController extends BaseController
                 'is_user_authorized' => Authorized_Replier::isUserAuthorizedReplier($this->issue_id, $this->usr_id),
                 'phone_entries' => Phone_Support::getListing($this->issue_id),
                 'phone_categories' => Phone_Support::getCategoryAssocList($this->prj_id),
-                'checkins' => CommitRepository::create()->getIssueCommitsArray($this->issue_id),
+                'checkins' => $this->getIssueCommits($this->issue_id),
                 'time_categories' => Time_Tracking::getAssocCategories($this->prj_id),
                 'time_entries' => $time_entries['list'],
                 'total_time_by_user' => $time_entries['total_time_by_user'],
@@ -383,5 +384,60 @@ class ViewController extends BaseController
         }
 
         return $columns;
+    }
+
+    /**
+     * Get commits related to issue formatted to array for templating
+     *
+     * @param   int $issue_id The issue ID
+     * @return  array The list of checkins
+     */
+    private function getIssueCommits($issue_id)
+    {
+        $commit = Doctrine::getIssueRepository()->getCommits($issue_id);
+
+        $checkins = [];
+        foreach ($commit as $c) {
+            $scm = $c->getCommitRepo();
+
+            $checkin = $c->toArray();
+            $checkin['isc_commit_date'] = Date_Helper::convertDateGMT($checkin['com_commit_date']);
+            $checkin['isc_commit_msg'] = Link_Filter::processText(
+                Issue::getProjectID($issue_id), nl2br(htmlspecialchars($checkin['com_message']))
+            );
+            $checkin['author'] = $c->getAuthor();
+            $checkin['project_name'] = $c->getProjectName();
+            $checkin['branch'] = $c->getBranch();
+            $checkin['commit_short'] = $c->getChangeset(true);
+            $checkin['changeset_url'] = $scm->getChangesetUrl($c);
+            $checkin['branch_url'] = $scm->getBranchUrl($c);
+            $checkin['project_url'] = $scm->getProjectUrl($c);
+            $checkin['files'] = [];
+
+            foreach ($c->getFiles() as $cf) {
+                $f = $cf->toArray();
+
+                $f['added'] = $cf->isAdded();
+                $f['removed'] = $cf->isRemoved();
+                $f['modified'] = $cf->isModified();
+
+                // flag indicating whether file has versions
+                $f['versions'] = $cf->hasVersions();
+
+                // fill for url builder
+                $f['project_name'] = $c->getProjectName();
+
+                // fill urls
+                $f['checkout_url'] = $scm->getCheckoutUrl($c, $cf);
+                $f['diff_url'] = $scm->getDiffUrl($c, $cf);
+                $f['scm_log_url'] = $scm->getLogUrl($c, $cf);
+
+                $checkin['files'][] = $f;
+            }
+
+            $checkins[] = $checkin;
+        }
+
+        return $checkins;
     }
 }

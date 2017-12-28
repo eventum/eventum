@@ -1,0 +1,105 @@
+#!/bin/sh
+# https://git-scm.com/docs/githooks
+#
+# This is hook that updates composer
+# if branch change included change in composer.json
+#
+# additionally, if vendor dir is under (separate!) git repo,
+# the result can be speed up by switching and keeping git branch up to date
+# there as well.
+
+# to install this hook:
+#  copy it to .git/hooks/post-checkout of project root
+#
+# Author: Elan Ruusamäe <glen@pld-linux.org>
+# Date: 2016-02-18
+# URL: https://gist.github.com/glensc/94020d11ae803cc0fc21
+
+# enable for debug log
+#exec 2>>.post-checkout.log; set -x; env | grep GIT | sort; echo ""; date
+
+old_ref=$1
+new_ref=$2
+flag=$3
+
+checkout_vendor() {
+	# skip this if vendor is not git repo
+	test -d vendor/.git || return
+
+	cd vendor
+	# switch branch if exists
+	if [ -n "$(git branch --list $branch)" ]; then
+		git checkout -f $branch
+	else
+		# otherwise create the branch
+		git checkout -b $branch || { echo >&2 Branch Create Fail; }
+		git add -A .
+		# remove composer.lock if it's new branch in vendor/.git
+		git rm -f composer.lock
+		git commit -am "created branch $branch"
+	fi
+	# restore copy of lock
+	test -f composer.lock && cp -f composer.lock ..
+	cd ..
+}
+
+checkin_vendor() {
+	# skip this if vendor is not git repo
+	test -d vendor/.git || return
+
+	# take copy of lock
+	cp -p composer.lock vendor
+
+	cd vendor
+	git add -A .
+	git commit -am "updated branch $branch"
+	cd ..
+}
+
+update_composer() {
+	branch=$(git rev-parse --abbrev-ref HEAD)
+
+	# handle rebases
+	# $ git rev-parse --abbrev-ref HEAD
+	# HEAD
+	# $ git branch
+	# * (HEAD detached from refs/heads/zf-mailqueue)
+	test "$branch" = "HEAD" && return
+
+	# rm lock, so if there's no lock from vendor dir we do "composer update"
+	test -f composer.lock && rm composer.lock
+
+	checkout_vendor
+	composer "${@:-install}"
+	checkin_vendor
+}
+
+check_composer_json() {
+	local c
+
+	c=$(git diff $old_ref..$new_ref --name-only -- composer.json)
+	test "$c" = "composer.json" || return
+	echo "[post-checkout] composer.json changed"
+
+	# TODO: process:
+	# Warning: The lock file is not up to date with the latest changes in
+	# composer.json. You may be getting outdated dependencies. Run update to
+	# update them.
+	update_composer
+}
+
+# if ran directly, assume user wants to force update vendor/ dir
+if [ -z "$GIT_DIR" ]; then
+	rm -f composer.lock vendor/composer.lock
+	update_composer "$@"
+	exit $?
+fi
+
+# file checkout, nothing to do
+[ "$flag" = "0" ] && exit 0
+
+# TODO: need to hook when rebasing,
+# as then composer.json updates get in but vendor gets out of sync
+
+check_composer_json
+exit 0

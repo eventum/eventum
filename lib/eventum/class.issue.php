@@ -11,7 +11,10 @@
  * that were distributed with this source code.
  */
 
+use Eventum\Attachment\AttachmentManager;
 use Eventum\Db\DatabaseException;
+use Eventum\Db\Doctrine;
+use Eventum\Mail\MailMessage;
 use Eventum\Model\Repository\IssueAssociationRepository;
 
 /**
@@ -32,7 +35,7 @@ class Issue
         $stmt = 'SELECT
                     COUNT(*)
                  FROM
-                    {{%issue}}
+                    `issue`
                  WHERE
                     iss_id=?';
         $params = [$issue_id];
@@ -87,7 +90,7 @@ class Issue
                     iss_id,
                     iss_summary
                  FROM
-                    {{%issue}}
+                    `issue`
                  WHERE
                     iss_prj_id=?
                  ORDER BY
@@ -118,7 +121,7 @@ class Issue
         $stmt = 'SELECT
                     iss_sta_id
                  FROM
-                    {{%issue}}
+                    `issue`
                  WHERE
                     iss_id=?';
         try {
@@ -141,7 +144,7 @@ class Issue
     public static function recordLastCustomerAction($issue_id)
     {
         $stmt = "UPDATE
-                    {{%issue}}
+                    `issue`
                  SET
                     iss_last_customer_action_date=?,
                     iss_last_public_action_date=?,
@@ -175,7 +178,7 @@ class Issue
         $stmt = 'SELECT
                     iss_customer_id
                  FROM
-                    {{%issue}}
+                    `issue`
                  WHERE
                     iss_id=?';
         try {
@@ -206,73 +209,7 @@ class Issue
         $stmt = 'SELECT
                     iss_customer_contract_id
                  FROM
-                    {{%issue}}
-                 WHERE
-                    iss_id=?';
-        try {
-            $res = DB_Helper::getInstance()->getOne($stmt, [$issue_id]);
-        } catch (DatabaseException $e) {
-            return '';
-        }
-
-        $returns[$issue_id] = $res;
-
-        return $res;
-    }
-
-    /**
-     * Sets the contract ID for a specific issue.
-     *
-     * @param   int $issue_id The issue ID
-     * @param   int $contract_id The contract ID
-     * @return  int 1 if the update worked, -1 otherwise
-     * @deprecated method not used?
-     */
-    public static function setContractID($issue_id, $contract_id)
-    {
-        $old_contract_id = self::getContractID($issue_id);
-
-        $stmt = 'UPDATE
-                    {{%issue}}
-                SET
-                    iss_customer_contract_id = ?
-                 WHERE
-                    iss_id=?';
-        try {
-            DB_Helper::getInstance()->query($stmt, [$contract_id, $issue_id]);
-        } catch (DatabaseException $e) {
-            return -1;
-        }
-
-        $usr_id = Auth::getUserID();
-        History::add($issue_id, $usr_id, 'contract_changed', 'Contract changed from {old_contract_id} to {contract_id} by {user}', [
-            'old_contract_id' => $old_contract_id,
-            'contract_id' => $contract_id,
-            'user' => User::getFullName($usr_id),
-        ]);
-
-        return 1;
-    }
-
-    /**
-     * Returns the customer ID associated with the given issue ID.
-     *
-     * @param   int $issue_id The issue ID
-     * @return  int The customer ID associated with the issue
-     * @deprecated method not used?
-     */
-    public static function getContactID($issue_id)
-    {
-        static $returns;
-
-        if (!empty($returns[$issue_id])) {
-            return $returns[$issue_id];
-        }
-
-        $stmt = 'SELECT
-                    iss_customer_contact_id
-                 FROM
-                    {{%issue}}
+                    `issue`
                  WHERE
                     iss_id=?';
         try {
@@ -304,14 +241,10 @@ class Issue
         $stmt = 'SELECT
                     iss_prj_id
                  FROM
-                    {{%issue}}
+                    `issue`
                  WHERE
                     iss_id=?';
-        try {
-            $res = DB_Helper::getInstance()->getOne($stmt, [$issue_id]);
-        } catch (DatabaseException $e) {
-            return '';
-        }
+        $res = DB_Helper::getInstance()->getOne($stmt, [$issue_id]);
 
         $returns[$issue_id] = $res;
 
@@ -352,7 +285,7 @@ class Issue
      * @param   int $issue_id The issue ID
      * @param   int $status_id The new status ID
      * @param   bool $notify if a notification should be sent about this change
-     * @return  int 1 if the update worked, -1 otherwise
+     * @return  int 1 if the update worked, -2 if no change is made, -1 on error
      */
     public static function setStatus($issue_id, $status_id, $notify = false)
     {
@@ -363,14 +296,14 @@ class Issue
 
         // check if the status is already set to the 'new' one
         if (self::getStatusID($issue_id) == $status_id) {
-            return -1;
+            return -2;
         }
 
         $old_status = self::getStatusID($issue_id);
         $old_details = Status::getDetails($old_status);
 
         $stmt = "UPDATE
-                    {{%issue}}
+                    `issue`
                  SET
                     iss_sta_id=?,
                     iss_updated_date=?,
@@ -406,30 +339,6 @@ class Issue
     }
 
     /**
-     * Method used to remotely set the status of a given issue.
-     *
-     * @param   int $issue_id The issue ID
-     * @param   int $usr_id The user ID of the person performing this change
-     * @param   int $new_status The new status ID
-     * @return  int 1 if the update worked, -1 otherwise
-     */
-    public static function setRemoteStatus($issue_id, $usr_id, $new_status)
-    {
-        $sta_id = Status::getStatusID($new_status);
-
-        $res = self::setStatus($issue_id, $sta_id);
-        if ($res == 1) {
-            // record history entry
-            History::add($issue_id, $usr_id, 'remote_status_change', "Status remotely changed to '{status}' by {user}", [
-                'status' => $new_status,
-                'user' => User::getFullName($usr_id),
-            ]);
-        }
-
-        return $res;
-    }
-
-    /**
      * Method used to set the release of an issue
      *
      * @param   int $issue_id The ID of the issue
@@ -440,7 +349,7 @@ class Issue
     {
         if ($pre_id != self::getRelease($issue_id)) {
             $sql = 'UPDATE
-                        {{%issue}}
+                        `issue`
                     SET
                         iss_pre_id = ?
                     WHERE
@@ -466,7 +375,7 @@ class Issue
         $sql = 'SELECT
                     iss_pre_id
                 FROM
-                    {{%issue}}
+                    `issue`
                 WHERE
                     iss_id = ?';
         try {
@@ -489,7 +398,7 @@ class Issue
     {
         if ($pri_id != self::getPriority($issue_id)) {
             $sql = 'UPDATE
-                        {{%issue}}
+                        `issue`
                     SET
                         iss_pri_id = ?
                     WHERE
@@ -515,7 +424,7 @@ class Issue
         $sql = 'SELECT
                     iss_pri_id
                 FROM
-                    {{%issue}}
+                    `issue`
                 WHERE
                     iss_id = ?';
         try {
@@ -538,7 +447,7 @@ class Issue
     {
         if ($sev_id != self::getSeverity($issue_id)) {
             $sql = 'UPDATE
-                        {{%issue}}
+                        `issue`
                     SET
                         iss_sev_id = ?
                     WHERE
@@ -564,7 +473,7 @@ class Issue
         $sql = 'SELECT
                     iss_sev_id
                 FROM
-                    {{%issue}}
+                    `issue`
                 WHERE
                     iss_id = ?';
         try {
@@ -589,7 +498,7 @@ class Issue
         if ($expected_resolution_date != $current) {
             $expected_resolution_date = $expected_resolution_date ?: null;
             $sql = 'UPDATE
-                        {{%issue}}
+                        `issue`
                     SET
                         iss_expected_resolution_date = ?
                     WHERE
@@ -624,7 +533,7 @@ class Issue
         $sql = 'SELECT
                     iss_expected_resolution_date
                 FROM
-                    {{%issue}}
+                    `issue`
                 WHERE
                     iss_id = ?';
         try {
@@ -647,7 +556,7 @@ class Issue
     {
         if ($prc_id != self::getPriority($issue_id)) {
             $sql = 'UPDATE
-                        {{%issue}}
+                        `issue`
                     SET
                         iss_prc_id = ?
                     WHERE
@@ -673,76 +582,13 @@ class Issue
         $sql = 'SELECT
                     iss_prc_id
                 FROM
-                    {{%issue}}
+                    `issue`
                 WHERE
                     iss_id = ?';
         try {
             $res = DB_Helper::getInstance()->getOne($sql, [$issue_id]);
         } catch (DatabaseException $e) {
             return -1;
-        }
-
-        return $res;
-    }
-
-    /**
-     * Method used to get all issues associated with a status that doesn't have
-     * the 'closed' context.
-     *
-     * @param   int $prj_id The project ID to list issues from
-     * @param   int $usr_id The user ID of the user requesting this information
-     * @param   bool $show_all_issues Whether to show all open issues, or just the ones assigned to the given email address
-     * @param   int $status_id The status ID to be used to restrict results
-     * @return  array The list of open issues
-     */
-    public static function getOpenIssues($prj_id, $usr_id, $show_all_issues, $status_id)
-    {
-        $projects = Project::getRemoteAssocListByUser($usr_id);
-        if (count($projects) == 0) {
-            return '';
-        }
-
-        $stmt = 'SELECT
-                    iss_id,
-                    iss_summary,
-                    sta_title
-                 FROM
-                    (
-                    {{%issue}},
-                    {{%status}}
-                    )
-                 LEFT JOIN
-                    {{%issue_user}}
-                 ON
-                    isu_iss_id=iss_id
-                 WHERE ';
-        $params = [];
-
-        if (!empty($status_id)) {
-            $stmt .= ' sta_id=? AND ';
-            $params[] = $status_id;
-        }
-
-        $stmt .= '
-                    iss_prj_id=? AND
-                    sta_id=iss_sta_id AND
-                    sta_is_closed=0';
-        $params[] = $prj_id;
-        if ($show_all_issues == false) {
-            $stmt .= ' AND
-                    isu_usr_id=?';
-            $params[] = $usr_id;
-        }
-        $stmt .= "\nGROUP BY
-                        iss_id";
-        try {
-            $res = DB_Helper::getInstance()->getAll($stmt, $params);
-        } catch (DatabaseException $e) {
-            return '';
-        }
-
-        if (count($res) > 0) {
-            self::getAssignedUsersByIssues($res);
         }
 
         return $res;
@@ -765,8 +611,8 @@ class Issue
                     iss_description AS description,
                     iss_summary AS sup_subject
                  FROM
-                    {{%issue}},
-                    {{%user}}
+                    `issue`,
+                    `user`
                  WHERE
                     iss_usr_id=usr_id AND
                     iss_id=?';
@@ -795,7 +641,7 @@ class Issue
     {
         $public = ['staff response', 'customer action', 'file uploaded', 'user response'];
         $stmt = "UPDATE
-                    {{%issue}}
+                    `issue`
                  SET
                     iss_updated_date=?\n";
         $params = [
@@ -826,7 +672,7 @@ class Issue
         // update last response dates if this is a staff response
         if ($type == 'staff response') {
             $stmt = 'UPDATE
-                        {{%issue}}
+                        `issue`
                      SET
                         iss_last_response_date=?
                      WHERE
@@ -834,7 +680,7 @@ class Issue
             DB_Helper::getInstance()->query($stmt, [Date_Helper::getCurrentDateGMT(), $issue_id]);
 
             $stmt = 'UPDATE
-                        {{%issue}}
+                        `issue`
                      SET
                         iss_first_response_date=?
                      WHERE
@@ -858,7 +704,7 @@ class Issue
         $stmt = 'SELECT
                     COUNT(iss_id)
                  FROM
-                    {{%issue}}
+                    `issue`
                  WHERE
                     iss_duplicated_iss_id=?';
         try {
@@ -885,7 +731,7 @@ class Issue
         }
         $ids = array_keys($ids);
         $stmt = "UPDATE
-                    {{%issue}}
+                    `issue`
                  SET
                     iss_updated_date=?,
                     iss_last_internal_action_date=?,
@@ -975,8 +821,8 @@ class Issue
                     sta_title current_status,
                     sta_is_closed is_closed
                  FROM
-                    {{%issue}},
-                    {{%status}}
+                    `issue`,
+                    `status`
                  WHERE
                     iss_sta_id=sta_id AND
                     iss_duplicated_iss_id=?';
@@ -1000,7 +846,7 @@ class Issue
     public static function clearDuplicateStatus($issue_id)
     {
         $stmt = "UPDATE
-                    {{%issue}}
+                    `issue`
                  SET
                     iss_updated_date=?,
                     iss_last_internal_action_date=?,
@@ -1038,7 +884,7 @@ class Issue
         }
 
         $stmt = "UPDATE
-                    {{%issue}}
+                    `issue`
                  SET
                     iss_updated_date=?,
                     iss_last_internal_action_date=?,
@@ -1075,7 +921,7 @@ class Issue
         $sql = 'SELECT
                     count(iss_id)
                 FROM
-                    {{%issue}}
+                    `issue`
                 WHERE
                     iss_id = ? AND
                     iss_duplicated_iss_id IS NULL';
@@ -1101,8 +947,8 @@ class Issue
                     usr_id,
                     usr_status
                  FROM
-                    {{%issue_user}},
-                    {{%user}}
+                    `issue_user`,
+                    `user`
                  WHERE
                     isu_iss_id=? AND
                     isu_usr_id=usr_id';
@@ -1126,7 +972,7 @@ class Issue
         $stmt = 'SELECT
                     iss_summary
                  FROM
-                    {{%issue}}
+                    `issue`
                  WHERE
                     iss_id=?';
         try {
@@ -1136,30 +982,6 @@ class Issue
         }
 
         return $res;
-    }
-
-    /**
-     * Method used to get the issue ID associated with a specific summary.
-     *
-     * @param   string $summary The summary to look for
-     * @return  int The issue ID
-     * @deprecated method not used
-     */
-    public static function getIssueID($summary)
-    {
-        $stmt = 'SELECT
-                    iss_id
-                 FROM
-                    {{%issue}}
-                 WHERE
-                    iss_summary=?';
-        try {
-            $res = DB_Helper::getInstance()->getOne($stmt, [$summary]);
-        } catch (DatabaseException $e) {
-            return 0;
-        }
-
-        return !empty($res) ? $res : 0;
     }
 
     /**
@@ -1192,7 +1014,7 @@ class Issue
             $params['iss_sta_id'] = $initial_status;
         }
 
-        $stmt = 'INSERT INTO {{%issue}} SET ' . DB_Helper::buildSet($params);
+        $stmt = 'INSERT INTO `issue` SET ' . DB_Helper::buildSet($params);
 
         try {
             DB_Helper::getInstance()->query($stmt, $params);
@@ -1207,10 +1029,10 @@ class Issue
         // process any files being uploaded
         // TODO: handle ajax uploads
         if (isset($_FILES['file'])) {
-            $iaf_ids = Attachment::addFiles($_FILES['file']);
+            $iaf_ids = AttachmentManager::addFiles($_FILES['file']);
 
             if ($iaf_ids) {
-                Attachment::attachFiles($issue_id, $usr_id, $iaf_ids, false, 'Files uploaded anonymously');
+                AttachmentManager::attachFiles($issue_id, $usr_id, $iaf_ids, User::ROLE_VIEWER, 'Files uploaded anonymously');
             }
         }
 
@@ -1271,7 +1093,7 @@ class Issue
             $params['iss_res_id'] = $resolution_id;
         }
 
-        $stmt = 'UPDATE {{%issue}} SET ' . DB_Helper::buildSet($params) . ' WHERE iss_id=?';
+        $stmt = 'UPDATE `issue` SET ' . DB_Helper::buildSet($params) . ' WHERE iss_id=?';
         $params[] = $issue_id;
 
         try {
@@ -1288,28 +1110,23 @@ class Issue
             'user' => User::getFullName($usr_id),
         ]);
 
-        if ($send_notification_to == 'all') {
+        if ($send_notification_to === 'all') {
             $from = User::getFromHeader($usr_id);
-            $message_id = Mail_Helper::generateMessageID();
-            $full_email = Support::buildFullHeaders($issue_id, $message_id, $from,
+            $mail = Support::buildMail($issue_id, $from,
                 '', '', ev_gettext('Issue closed comments'), $reason, '');
 
-            $structure = Mime_Helper::decode($full_email, true, false);
-
-            $email = [
-                'ema_id' => Email_Account::getEmailAccount(self::getProjectID($issue_id)),
+            $email_options = [
+                'ema_id' => Email_Account::getEmailAccount($prj_id),
                 'issue_id' => $issue_id,
-                'message_id' => $message_id,
-                'date' => Date_Helper::getCurrentDateGMT(),
-                'subject' => ev_gettext('Issue closed comments'),
-                'from' => $from,
-                'has_attachment' => 0,
-                'body' => $reason,
-                'full_email' => $full_email,
-                'headers' => $structure->headers,
+                'date' => Date_Helper::convertDateGMT($mail->getDate()),
+                'closing' => true,
+                // these below are likely unused by Support::insertEmail
+                'message_id' => $mail->messageId,
+                'subject' => $mail->subject,
+                'from' => $mail->from,
+                'body' => $mail->getContent(),
             ];
-            $sup_id = null;
-            Support::insertEmail($email, $structure, $sup_id, true);
+            $sup_id = Support::insertEmail($mail, $email_options);
             $ids = $sup_id;
         } else {
             // add note with the reason to close the issue
@@ -1328,7 +1145,7 @@ class Issue
                 $stmt = 'SELECT
                             iss_customer_contact_id
                          FROM
-                            {{%issue}}
+                            `issue`
                          WHERE
                             iss_id=?';
                 $customer_contact_id = DB_Helper::getInstance()->getOne($stmt, [$issue_id]);
@@ -1341,8 +1158,10 @@ class Issue
                 }
             }
             // send notifications for the issue being closed
-            Notification::notify($issue_id, 'closed', $ids, ($send_notification_to != 'all'));
+            $internal_only = $send_notification_to !== 'all';
+            Notification::notify($issue_id, 'closed', $ids, $internal_only);
         }
+
         Workflow::handleIssueClosed($prj_id, $issue_id, $send_notification, $resolution_id, $status_id, $reason, $usr_id);
 
         return 1;
@@ -1358,7 +1177,7 @@ class Issue
      */
     private static function updateAssociatedIssuesRelations($usr_id, $issue_id, $associated_issues)
     {
-        $repo = IssueAssociationRepository::create();
+        $repo = Doctrine::getIssueAssociationRepository();
         $res = $repo->updateAssociations($usr_id, $issue_id, $associated_issues);
 
         global $errors;
@@ -1480,7 +1299,7 @@ class Issue
             $params['iss_pre_id'] = $_POST['scheduled_release'];
         }
 
-        $stmt = 'UPDATE {{%issue}} SET ' . DB_Helper::buildSet($params) . ' WHERE iss_id=?';
+        $stmt = 'UPDATE `issue` SET ' . DB_Helper::buildSet($params) . ' WHERE iss_id=?';
         $params[] = $issue_id;
 
         try {
@@ -1647,7 +1466,7 @@ class Issue
 
         $values = [$new_prj_id];
         $stmt = 'UPDATE
-              {{%issue}}
+              `issue`
           SET
               iss_prj_id = ?';
         foreach ($mapping as $fld_name => $fld_value) {
@@ -1723,7 +1542,7 @@ class Issue
     public static function addUserAssociation($usr_id, $issue_id, $assignee_usr_id, $add_history = true)
     {
         $stmt = 'INSERT INTO
-                    {{%issue_user}}
+                    `issue_user`
                  (
                     isu_iss_id,
                     isu_usr_id,
@@ -1761,7 +1580,7 @@ class Issue
         $list = DB_Helper::buildList($issues);
 
         $stmt = "DELETE FROM
-                    {{%issue_user}}
+                    `issue_user`
                  WHERE
                     isu_iss_id IN ($list)";
         try {
@@ -1790,7 +1609,7 @@ class Issue
     public static function deleteUserAssociation($issue_id, $usr_id, $add_history = true)
     {
         $stmt = 'DELETE FROM
-                    {{%issue_user}}
+                    `issue_user`
                  WHERE
                     isu_iss_id = ? AND
                     isu_usr_id = ?';
@@ -1814,29 +1633,38 @@ class Issue
     /**
      * Creates an issue with the given email information.
      *
-     * @param   int $prj_id The project ID
-     * @param   int $usr_id The user responsible for this action
-     * @param   string $sender The original sender of this email
-     * @param   string $summary The issue summary
-     * @param   string $description The issue description
-     * @param   int $category The category ID
-     * @param   int $priority The priority ID
-     * @param   array $assignment The list of users to assign this issue to
-     * @param   string $date the date the email was originally sent
-     * @param   string $msg_id the message ID of the email we are creating this issue from
-     * @param   int $severity
-     * @param   string $customer_id
-     * @param   string $contact_id
-     * @param   string $contract_id
+     * @param MailMessage $mail The Mail object
+     * @param array $options
+     * - int $prj_id The project ID
+     * - int $usr_id The user responsible for this action
+     * - int $category The category ID
+     * - int $priority The priority ID
+     * - array $assignment The list of users to assign this issue to
+     * - int $severity
+     * - string $customer_id
+     * - string $contact_id
+     * - string $contract_id
      * @return int
      */
-    public static function createFromEmail($prj_id, $usr_id, $sender, $summary, $description, $category, $priority, $assignment,
-                             $date, $msg_id, $severity, $customer_id, $contact_id, $contract_id)
+    public static function createFromEmail(MailMessage $mail, $options)
     {
+        $category = isset($options['category']) ? $options['category'] : null;
+        $priority = isset($options['priority']) ? $options['priority'] : null;
+        $assignment = isset($options['users']) ? $options['users'] : null;
+        $prj_id = $options['prj_id'];
+        $usr_id = $options['usr_id'];
+        $severity = $options['severity'];
+        $customer_id = $options['customer_id'];
+        $contact_id = $options['contact_id'];
+        $contract_id = $options['contract_id'];
+
+        $description = $mail->getMessageBody();
+        $msg_id = $mail->messageId;
+
         $exclude_list = [];
         $managers = [];
 
-        $sender_email = Mail_Helper::getEmailAddress($sender);
+        $sender_email = Mail_Helper::getEmailAddress($mail->from);
         $sender_usr_id = User::getUserIDByEmail($sender_email, true);
         if (!empty($sender_usr_id)) {
             $reporter = $sender_usr_id;
@@ -1850,7 +1678,7 @@ class Issue
             'priority' => $priority,
             'severity' => $severity,
             'description' => $description,
-            'summary' => $summary,
+            'summary' => $mail->subject,
             'msg_id' => $msg_id,
             'customer' => false,
             'contact' => false,
@@ -1920,7 +1748,7 @@ class Issue
         $has_RR = false;
         // log the creation of the issue
         History::add($issue_id, $usr_id, 'issue_opened', 'Issue opened by {sender}', [
-            'sender' => $sender,
+            'sender' => $mail->from,
         ]);
 
         $emails = [];
@@ -1932,7 +1760,7 @@ class Issue
             }
         }
         // add the reporter to the notification list
-        $emails[] = $sender;
+        $emails[] = $mail->from;
         $emails = array_unique($emails);
         $actions = Notification::getDefaultActions($issue_id, false, 'issue_from_email');
         foreach ($emails as $address) {
@@ -1944,7 +1772,7 @@ class Issue
         $has_TAM = false;
         if ((CRM::hasCustomerIntegration($prj_id)) && (count($managers) > 0)) {
             foreach ($managers as $manager) {
-                if ($manager['cam_type'] == 'intpart') {
+                if ($manager['cam_type'] === 'intpart') {
                     continue;
                 }
                 $users[] = $manager['cam_usr_id'];
@@ -1956,7 +1784,7 @@ class Issue
             $has_TAM = true;
         }
         // now add the user/issue association
-        if (@count($assignment) > 0) {
+        if ($assignment) {
             foreach ($assignment as $ass_usr_id) {
                 Notification::subscribeUser($reporter, $issue_id, $ass_usr_id, $actions);
                 self::addUserAssociation(APP_SYSTEM_USER_ID, $issue_id, $ass_usr_id);
@@ -1984,7 +1812,8 @@ class Issue
         Workflow::handleNewIssue($prj_id, $issue_id, $has_TAM, $has_RR);
 
         // send special 'an issue was auto-created for you' notification back to the sender
-        Notification::notifyAutoCreatedIssue($prj_id, $issue_id, $sender, $date, $summary);
+        $date = isset($options['date']) ? $options['date'] : Date_Helper::getRFC822Date($mail->date);
+        Notification::notifyAutoCreatedIssue($prj_id, $issue_id, $mail->from, $date, $mail->subject);
 
         // also notify any users that want to receive emails anytime a new issue is created
         Notification::notifyNewIssue($prj_id, $issue_id, $exclude_list);
@@ -2063,7 +1892,7 @@ class Issue
                 'issue_id' => $issue_id,
             ]);
 
-            IssueAssociationRepository::create()
+            Doctrine::getIssueAssociationRepository()
                 ->addIssueAssociation($usr_id, $issue_id, $clone_iss_id);
         }
 
@@ -2148,10 +1977,10 @@ class Issue
         // if no iaf_ids passed, perhaps it's old style upload
         // TODO: verify that the uploaded file(s) owner is same as attachment owner.
         if (!$iaf_ids && isset($_FILES['file'])) {
-            $iaf_ids = Attachment::addFiles($_FILES['file']);
+            $iaf_ids = AttachmentManager::addFiles($_FILES['file']);
         }
         if ($iaf_ids) {
-            Attachment::attachFiles($issue_id, $usr_id, $iaf_ids, false, 'Files uploaded at issue creation time');
+            AttachmentManager::attachFiles($issue_id, $usr_id, $iaf_ids, User::ROLE_VIEWER, 'Files uploaded at issue creation time');
         }
 
         // need to associate any emails ?
@@ -2287,7 +2116,7 @@ class Issue
             $params['iss_contact_timezone'] = $data['contact_timezone'];
         }
 
-        $stmt = 'INSERT INTO {{%issue}} SET ' . DB_Helper::buildSet($params);
+        $stmt = 'INSERT INTO `issue` SET ' . DB_Helper::buildSet($params);
 
         try {
             DB_Helper::getInstance()->query($stmt, $params);
@@ -2471,8 +2300,8 @@ class Issue
         $stmt = 'SELECT
                     usr_id
                  FROM
-                    {{%issue_user}},
-                    {{%user}}
+                    `issue_user`,
+                    `user`
                  WHERE
                     isu_iss_id=? AND
                     isu_usr_id=usr_id';
@@ -2503,42 +2332,6 @@ class Issue
     }
 
     /**
-     * Method used to get the full list of reporters associated with a given
-     * list of issues.
-     *
-     * @param   array $result The result set
-     * @deprecated method not used
-     */
-    public static function getReportersByIssues(&$result)
-    {
-        $ids = [];
-        foreach ($result as $res) {
-            $ids[] = $res['iss_id'];
-        }
-        $ids = implode(', ', $ids);
-        $stmt = "SELECT
-                    iss_id,
-                    CONCAT(usr_full_name, ' <', usr_email, '>') AS usr_full_name
-                 FROM
-                    {{%issue}},
-                    {{%user}}
-                 WHERE
-                    iss_usr_id=usr_id AND
-                    iss_id IN ($ids)";
-
-        try {
-            $res = DB_Helper::getInstance()->getPair($stmt);
-        } catch (DatabaseException $e) {
-            return;
-        }
-
-        // now populate the $result variable again
-        foreach ($result as &$row) {
-            $row['reporter'] = $res[$row['iss_id']];
-        }
-    }
-
-    /**
      * Method used to get the full list of assigned users by a list
      * of issues. This was originally created to optimize the issue
      * listing page.
@@ -2559,8 +2352,8 @@ class Issue
                     isu_iss_id,
                     usr_full_name
                  FROM
-                    {{%issue_user}},
-                    {{%user}}
+                    `issue_user`,
+                    `user`
                  WHERE
                     isu_usr_id=usr_id AND
                     isu_iss_id IN ($ids)";
@@ -2606,7 +2399,7 @@ class Issue
                     iss_id,
                     iss_description
                  FROM
-                    {{%issue}}
+                    `issue`
                  WHERE
                     iss_id in ($ids)";
         try {
@@ -2632,8 +2425,8 @@ class Issue
         $stmt = 'SELECT
                     usr_full_name
                  FROM
-                    {{%issue_user}},
-                    {{%user}}
+                    `issue_user`,
+                    `user`
                  WHERE
                     isu_iss_id=? AND
                     isu_usr_id=usr_id';
@@ -2644,34 +2437,6 @@ class Issue
         }
 
         return $res;
-    }
-
-    /**
-     * Method used to get the full list of users (the email usernames) assigned to a
-     * specific issue.
-     *
-     * @param   int $issue_id The issue ID
-     * @return  array The list of users
-     * @deprecated method not used
-     */
-    public static function getAssignedUserEmailHandles($issue_id)
-    {
-        $stmt = "SELECT
-                    usr_id,
-                    SUBSTRING(usr_email, 1, INSTR(usr_email, '@')-1) AS handle
-                 FROM
-                    {{%issue_user}},
-                    {{%user}}
-                 WHERE
-                    isu_iss_id=? AND
-                    isu_usr_id=usr_id";
-        try {
-            $res = DB_Helper::getInstance()->getPair($stmt, [$issue_id]);
-        } catch (DatabaseException $e) {
-            return [];
-        }
-
-        return array_values($res);
     }
 
     /**
@@ -2694,7 +2459,7 @@ class Issue
         }
 
         $stmt = 'SELECT
-                    {{%issue}}.*,
+                    `issue`.*,
                     prj_title,
                     prc_title,
                     pre_title,
@@ -2707,27 +2472,27 @@ class Issue
                     sta_is_closed
                  FROM
                     (
-                    {{%issue}},
-                    {{%project}}
+                    `issue`,
+                    `project`
                     )
                  LEFT JOIN
-                    {{%project_priority}}
+                    `project_priority`
                  ON
                     iss_pri_id=pri_id
                  LEFT JOIN
-                    {{%project_severity}}
+                    `project_severity`
                  ON
                     iss_sev_id=sev_id
                  LEFT JOIN
-                    {{%status}}
+                    `status`
                  ON
                     iss_sta_id=sta_id
                  LEFT JOIN
-                    {{%project_category}}
+                    `project_category`
                  ON
                     iss_prc_id=prc_id
                  LEFT JOIN
-                    {{%project_release}}
+                    `project_release`
                  ON
                     iss_pre_id=pre_id
                  WHERE
@@ -2796,7 +2561,7 @@ class Issue
             $res['is_current_user_assigned'] = 0;
         }
 
-        $repo = IssueAssociationRepository::create();
+        $repo = Doctrine::getIssueAssociationRepository();
         $res['associated_issues'] = $repo->getAssociatedIssues($res['iss_id']);
         $res['associated_issues_details'] = $repo->getIssueDetails($res['associated_issues']);
 
@@ -2848,8 +2613,8 @@ class Issue
                     sta_title current_status,
                     sta_is_closed is_closed
                  FROM
-                    {{%issue}},
-                    {{%status}}
+                    `issue`,
+                    `status`
                  WHERE
                     iss_sta_id=sta_id AND
                     iss_id=?';
@@ -2902,8 +2667,8 @@ class Issue
                             isu_usr_id,
                             usr_full_name
                          FROM
-                            {{%issue_user}},
-                            {{%user}}
+                            `issue_user`,
+                            `user`
                          WHERE
                             isu_usr_id = usr_id AND
                             isu_iss_id = ?';
@@ -2928,7 +2693,7 @@ class Issue
                     $stmt = 'SELECT
                                 COUNT(*) AS total
                              FROM
-                                {{%issue_user}}
+                                `issue_user`
                              WHERE
                                 isu_iss_id=? AND
                                 isu_usr_id=?';
@@ -2937,8 +2702,8 @@ class Issue
                         continue;
                     }
                     $new_assignees[] = $usr_id;
-                        // add the assignment
-                        self::addUserAssociation(Auth::getUserID(), $issue_id, $usr_id, false);
+                    // add the assignment
+                    self::addUserAssociation(Auth::getUserID(), $issue_id, $usr_id, false);
                     Notification::subscribeUser(Auth::getUserID(), $issue_id, $usr_id, Notification::getAllActions());
                 }
 
@@ -3024,7 +2789,7 @@ class Issue
         $stmt = 'SELECT
                     iss_id
                  FROM
-                    {{%issue}}
+                    `issue`
                  WHERE
                     iss_prj_id=' . Auth::getCurrentProject();
         if (!empty($extra_condition)) {
@@ -3043,38 +2808,6 @@ class Issue
     }
 
     /**
-     * Method used to get the full list of issue IDs and their respective
-     * titles.
-     *
-     * @param   string $extra_condition An extra condition in the WHERE clause
-     * @return  array The list of issues
-     * @deprecated method not used
-     */
-    public static function getAssocList($extra_condition = null)
-    {
-        $stmt = 'SELECT
-                    iss_id,
-                    iss_summary
-                 FROM
-                    {{%issue}}
-                 WHERE
-                    iss_prj_id=' . Auth::getCurrentProject();
-        if (!empty($extra_condition)) {
-            $stmt .= " AND $extra_condition ";
-        }
-        $stmt .= '
-                 ORDER BY
-                    iss_id ASC';
-        try {
-            $res = DB_Helper::getInstance()->getPair($stmt);
-        } catch (DatabaseException $e) {
-            return '';
-        }
-
-        return $res;
-    }
-
-    /**
      * Method used to check whether an issue was already closed or not.
      *
      * @param   int $issue_id The issue ID
@@ -3085,8 +2818,8 @@ class Issue
         $stmt = 'SELECT
                     COUNT(*)
                  FROM
-                    {{%issue}},
-                    {{%status}}
+                    `issue`,
+                    `status`
                  WHERE
                     iss_id=? AND
                     iss_sta_id=sta_id AND
@@ -3113,8 +2846,8 @@ class Issue
                     iss_id,
                     iss_summary
                  FROM
-                    {{%issue}},
-                    {{%issue_quarantine}}
+                    `issue`,
+                    `issue_quarantine`
                  WHERE
                     iqu_iss_id=iss_id AND
                     iqu_expiration >= ? AND
@@ -3143,7 +2876,7 @@ class Issue
                     iqu_status,
                     iqu_expiration
                  FROM
-                    {{%issue_quarantine}}
+                    `issue_quarantine`
                  WHERE
                     iqu_iss_id = ? AND
                         (iqu_expiration > ? OR
@@ -3180,7 +2913,7 @@ class Issue
         $stmt = 'SELECT
                     COUNT(*)
                  FROM
-                    {{%issue_quarantine}}
+                    `issue_quarantine`
                  WHERE
                     iqu_iss_id = ?';
         try {
@@ -3192,7 +2925,7 @@ class Issue
         if ($res > 0) {
             // update
             $stmt = 'UPDATE
-                        {{%issue_quarantine}}
+                        `issue_quarantine`
                      SET
                         iqu_status = ?';
             $params = [$status];
@@ -3228,55 +2961,13 @@ class Issue
         if (!empty($expiration)) {
             $params['iqu_expiration'] = $expiration;
         }
-        $stmt = 'INSERT INTO {{%issue_quarantine}} SET ' . DB_Helper::buildSet($params);
+        $stmt = 'INSERT INTO `issue_quarantine` SET ' . DB_Helper::buildSet($params);
 
         try {
             DB_Helper::getInstance()->query($stmt, $params);
         } catch (DatabaseException $e) {
             return -1;
         }
-
-        return 1;
-    }
-
-    /**
-     * Sets the group of the issue.
-     *
-     * @param   int $issue_id The ID of the issue
-     * @param   int $group_id The ID of the group
-     * @return  int 1 if successful, -1 or -2 otherwise
-     * @deprecated method not used
-     */
-    public static function setGroup($issue_id, $group_id)
-    {
-        $issue_id = (int) $issue_id;
-        $group_id = (int) $group_id;
-
-        $current = self::getDetails($issue_id);
-        if ($current['iss_grp_id'] == $group_id) {
-            return -2;
-        }
-        $stmt = 'UPDATE
-                    {{%issue}}
-                 SET
-                    iss_grp_id = ?
-                 WHERE
-                    iss_id = ?';
-        try {
-            DB_Helper::getInstance()->query($stmt, [$group_id, $issue_id]);
-        } catch (DatabaseException $e) {
-            return -1;
-        }
-
-        $usr_id = Auth::getUserID();
-        if (!$usr_id) {
-            $usr_id = APP_SYSTEM_USER_ID;
-        }
-
-        History::add($issue_id, $usr_id, 'group_changed', 'Group changed ({changes}) by {user}', [
-            'changes' => History::formatChanges(Group::getName($current['iss_grp_id']), Group::getName($group_id)),
-            'user' => User::getFullName($usr_id),
-        ]);
 
         return 1;
     }
@@ -3292,7 +2983,7 @@ class Issue
         $stmt = 'SELECT
                     iss_grp_id
                  FROM
-                    {{%issue}}
+                    `issue`
                  WHERE
                     iss_id=?';
         try {
@@ -3317,18 +3008,6 @@ class Issue
     }
 
     /**
-     * Returns true if the user can update the issue
-     *
-     * @param   int $issue_id the ID of the issue
-     * @param   int $usr_id The ID of the user
-     * @return  bool If the user can update the issue
-     */
-    public static function canUpdate($issue_id, $usr_id)
-    {
-        return Access::canUpdateIssue($issue_id, $usr_id);
-    }
-
-    /**
      * Clears closed information from an issues.
      *
      * @param   int $issue_id The ID of the issue
@@ -3337,7 +3016,7 @@ class Issue
     public static function clearClosed($issue_id)
     {
         $stmt = 'UPDATE
-                    {{%issue}}
+                    `issue`
                  SET
                     iss_closed_date = null,
                     iss_res_id = null
@@ -3363,7 +3042,7 @@ class Issue
         $sql = 'SELECT
                     iss_root_message_id
                 FROM
-                    {{%issue}}
+                    `issue`
                 WHERE
                     iss_id=?';
 
@@ -3387,7 +3066,7 @@ class Issue
         $sql = 'SELECT
                     iss_id
                 FROM
-                    {{%issue}}
+                    `issue`
                 WHERE
                     iss_root_message_id = ?';
         try {
@@ -3468,7 +3147,7 @@ class Issue
         }
 
         $stmt = 'UPDATE
-                    {{%issue}}
+                    `issue`
                  SET
                     iss_access_level = ?
                  WHERE
@@ -3498,7 +3177,7 @@ class Issue
         $stmt = 'SELECT
                     iss_access_level
                  FROM
-                    {{%issue}}
+                    `issue`
                  WHERE
                     iss_id=?';
         try {

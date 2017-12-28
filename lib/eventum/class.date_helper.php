@@ -90,17 +90,6 @@ class Date_Helper
     }
 
     /**
-     * Returns the current UNIX timestamp in the GMT timezone.
-     *
-     * @return  int The current UNIX timestamp in GMT
-     * @deprecated just use time() function
-     */
-    public static function getCurrentUnixTimestampGMT()
-    {
-        return time();
-    }
-
-    /**
      * Method used to get a pretty-like formatted time output for the
      * difference in time between two dates.
      *
@@ -309,7 +298,7 @@ class Date_Helper
      * Method used to convert the user date (that is in a specific timezone) to
      * a GMT date.
      *
-     * @param string $ts The date in users timezone
+     * @param DateTime|string $ts The date in users timezone
      * @return string The date in the GMT timezone
      */
     public static function convertDateGMT($ts)

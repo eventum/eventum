@@ -14,6 +14,7 @@
 namespace Eventum\Test\Mail;
 
 use Date_Helper;
+use Eventum\Mail\MailBuilder;
 use Eventum\Mail\MailMessage;
 use Eventum\Test\TestCase;
 use Mail_Helper;
@@ -164,66 +165,6 @@ class MailMessageTest extends TestCase
         $this->assertFalse($message->isBounceMessage());
     }
 
-    public function testHasAttachments()
-    {
-        $raw = "Message-ID: <33@JON>X-foo: 1\r\n\r\nada";
-        $message = MailMessage::createFromString($raw);
-        $has_attachments = $message->countParts();
-        $multipart = $message->isMultipart();
-        $this->assertFalse($multipart);
-        $this->assertEquals(0, $has_attachments);
-        $this->assertFalse($message->hasAttachments());
-
-        $message = MailMessage::createFromFile(__DIR__ . '/../data/bug684922.txt');
-        $multipart = $message->isMultipart();
-        $this->assertTrue($multipart);
-        $has_attachments = $message->countParts();
-        $this->assertEquals(2, $has_attachments);
-        $this->assertTrue($message->hasAttachments());
-
-        // this one does not have "Attachments" even it is multipart
-        $message = MailMessage::createFromFile(__DIR__ . '/../data/multipart-text-html.txt');
-        $this->assertFalse($message->hasAttachments());
-    }
-
-    public function testGetAttachments()
-    {
-        $raw = $this->readDataFile('bug684922.txt');
-
-        // old code
-        $mail = Mime_Helper::decode($raw, true, true);
-        $att1 = Mime_Helper::getAttachments($mail);
-        // it returned in reverse order. wtf. but ok
-        $att1 = array_reverse($att1);
-
-        $this->assertEquals(2, count($att1));
-        $att = $att1[0];
-        /**
-         * [filename] => smiley-money-mouth1.gif
-         * [cid] => <smiley-money-mouth2.gif>
-         * [filetype] => image/gif
-         * [blob] =>
-         */
-        $this->assertArrayHasKey('filename', $att);
-        $this->assertArrayHasKey('cid', $att);
-        $this->assertArrayHasKey('filetype', $att);
-        $this->assertArrayHasKey('blob', $att);
-
-        // new code
-        $mail = MailMessage::createFromString($raw);
-        $this->assertTrue($mail->hasAttachments());
-        $att2 = $mail->getAttachments();
-
-        $this->assertEquals(2, count($att2));
-        $att = $att2[0];
-        $this->assertArrayHasKey('filename', $att);
-        $this->assertArrayHasKey('cid', $att);
-        $this->assertArrayHasKey('filetype', $att);
-        $this->assertArrayHasKey('blob', $att);
-
-        $this->assertSame($att1, $att2);
-    }
-
     public function testReferenceMessageId()
     {
         $message = MailMessage::createFromFile(__DIR__ . '/../data/in-reply-to.txt');
@@ -235,17 +176,29 @@ class MailMessageTest extends TestCase
         $this->assertEquals('<4d36173add8b60.67944236@origin.com>', $reference_id);
     }
 
-    /**
-     * @covers Mail_Helper::getAllReferences()
-     */
     public function testReferences()
     {
         $mail = MailMessage::createFromFile(__DIR__ . '/../data/in-reply-to.txt');
 
-        $ref1 = Mail_Helper::getAllReferences($mail->getHeaders()->toString());
-        $ref2 = $mail->getAllReferences();
-
-        $this->assertSame(implode("\n", $ref1), implode("\n", $ref2));
+        $references = $mail->getAllReferences();
+        $exp = [
+            '<CAG5u9y_0RRMmCf_o28KmfmyCn5UN9PVM1=avWp4wWqbHGgojsA@4.example.org>',
+            '<CAAaem7eL8Tz0LBqncnX6O+SVBPBXZe+-YFmfdCPfuAFLfjk2YQ@4.example.org>',
+            '<55D2DF21.4090409@3.example.org>',
+            '<CAAaem7eobVjOPoZSUbG34AXkwVhoK19HpW+Bc-VgXRqmCc_3FA@4.example.org>',
+            '<55D44224.6050503@3.example.org>',
+            '<CAAaem7fhEfPyksxO45NKph7VQ=F-4r2KwP2P3hzQB0yT=Z-Okg@4.example.org>',
+            '<55DEC5DF.8030103@3.example.org>',
+            '<CAG5u9y8dtK1-9Dx3uvetcJOENiYM6yT7N0kmiT8kLyQYahnKeA@4.example.org>',
+            '<55DED903.9080304@3.example.org>',
+            '<55E59719.5010303@3.example.org>',
+            '<CAG5u9y9xfjVDL4nb=dGpZG2vpEuUgCTaNbxsVxh_Nd5MLRrJrQ@4.example.org>',
+            '<55E59AF9.7040903@3.example.org>',
+            '<CAG5u9y9384O3zSZcp4DZEkXt5Fjh3Ga+0wvQnKg5CUTpyeFbOw@4.example.org>',
+            '<CAG5u9y-V1Qfwfv0jQzpspQ=6ak55vD1=9y6B4kqkcj1sR5fXHQ@4.example.org>',
+            '<55E6A4E4.4060201@3.example.org>',
+        ];
+        $this->assertSame($exp, $references);
     }
 
     /**
@@ -349,14 +302,6 @@ class MailMessageTest extends TestCase
         $headers = $message->getHeaders();
         $this->assertTrue($headers->has('From'));
         $this->assertSame(null, $message->getFrom());
-    }
-
-    public function testModifyBody()
-    {
-        $message = MailMessage::createFromFile(__DIR__ . '/../data/bug684922.txt');
-
-        $content = Mail_Helper::stripWarningMessage($message->getContent());
-        $message->setContent($content);
     }
 
     public function testRemoveCc()
@@ -469,7 +414,7 @@ class MailMessageTest extends TestCase
             'precedence' => 'bulk', // the 'classic' way, works with e.g. the unix 'vacation' tool
             'Auto-submitted' => 'auto-generated', // the RFC 3834 way
         ];
-        $mail->setHeaders($headers);
+        $mail->addHeaders($headers);
 
         $exp = implode(
             "\r\n", [
@@ -494,20 +439,41 @@ class MailMessageTest extends TestCase
         $this->assertEquals($exp, $mail->getHeaders()->toString());
     }
 
-    /**
-     * @test $structure->body getting textual mail body from multipart message
-     */
-    public function testGetMailBody()
+    public function testAddHeadersMultiValue()
     {
-        $filename = __DIR__ . '/../data/multipart-text-html.txt';
-        $message = $this->readFile($filename);
+        $raw = "Message-ID: <33@JON>\n\n\nbody";
+        $mail = MailMessage::createFromString($raw);
 
-        $structure = Mime_Helper::decode($message, true, true);
-        $body1 = $structure->body;
+        // References is single value header, must join to string
+        // but do not worry about wordwrap
+        $references = ['a', 'b', str_repeat('de de', 40)];
+        $add_headers = [
+            'References' => implode(' ', $references),
+        ];
 
-        $mail = MailMessage::createFromFile($filename);
-        $body2 = $mail->getMessageBody();
-        $this->assertEquals($body1, $body2);
+        $mail->addHeaders($add_headers);
+        $raw = $mail->getRawContent();
+        $this->assertContains("dede\r\n dede", $raw, 'value has been wrapped');
+    }
+
+    /**
+     * test different access modes or X-Priority header.
+     */
+    public function testXPriority()
+    {
+        $content = $this->readDataFile('duplicate-msgid.txt');
+        $mail = MailMessage::createFromString($content);
+
+        $this->assertEquals('3', $mail->XPriority);
+        $this->assertEquals('3', $mail->xpriority);
+        $this->assertEquals('3', $mail->x_priority);
+        $this->assertEquals('3', $mail->{'x-priority'});
+        $this->assertEquals('3', $mail->{'X-Priority'});
+
+        // this is how optional headers are to be handled
+        $has_priority = $mail->getHeaders()->has('XX-Priority');
+        $priority = $has_priority ? $mail->xpriority : null;
+        $this->assertEquals(null, $priority);
     }
 
     /**
@@ -528,12 +494,8 @@ class MailMessageTest extends TestCase
         ];
         Setup::set(['smtp' => $smtp]);
 
-        // send email (use PEAR's classes)
-        $mail = new Mail_Helper();
-        $mail->setTextBody($text_message);
         $from = Setup::get()->smtp->from;
-        $to = $mail->getFormattedName($info['usr_full_name'], $info['usr_email']);
-        $mail->send($from, $to, $subject);
+        $to = Mail_Helper::getFormattedName($info['usr_full_name'], $info['usr_email']);
 
         // the same but with ZF
         $mail = MailMessage::createNew();
@@ -541,29 +503,7 @@ class MailMessageTest extends TestCase
         $mail->setFrom($from);
         $mail->setTo($to);
         $mail->setContent($text_message);
-        Mail_Queue::addMail($mail, $to);
-    }
-
-    /**
-     * Test mail sending with Mail_Helper
-     * @group db
-     */
-    public function testMailSendMH()
-    {
-        $text_message = 'tere';
-        $issue_id = 1;
-        $from = 'Eventum <support@example.org>';
-        $recipient = 'Eventum <support@example.org>';
-        $subject = '[#1] Issue Created';
-        $msg_id = '<eventum@eventum.example.org>';
-
-        $mail = new Mail_Helper();
-        $mail->setTextBody($text_message);
-        $headers = [
-            'Message-ID' => $msg_id,
-        ];
-        $mail->setHeaders($headers);
-        $mail->send($from, $recipient, $subject, 0, $issue_id, 'auto_created_issue');
+        Mail_Queue::queue($mail, $to);
     }
 
     /**
@@ -587,7 +527,7 @@ class MailMessageTest extends TestCase
         $mail->setTo($recipient);
 
         // add($recipient, $headers, $body, $save_email_copy = 0, $issue_id = false, $type = '', $sender_usr_id = false, $type_id = false)
-        $res = Mail_Queue::addMail($mail, $recipient);
+        Mail_Queue::queue($mail, $recipient);
     }
 
     public function testMailFromHeaderBody()
@@ -625,12 +565,6 @@ class MailMessageTest extends TestCase
         $subject = '[#3] Note: Re: pläh';
         $type = 'assignment';
 
-        // send email (use PEAR's classes)
-        $mail = new Mail_Helper();
-        $mail->setTextBody($text_message);
-        $mail->setHeaders(Mail_Helper::getBaseThreadingHeaders($issue_id));
-        $mail->send($from, $to, $subject, true, $issue_id, $type);
-
         // using zend\mail
         $mail = MailMessage::createNew();
         $mail->setContent($text_message);
@@ -640,13 +574,13 @@ class MailMessageTest extends TestCase
         $headers = Mail_Helper::getBaseThreadingHeaders($issue_id);
         // do not overwrite message-id
         unset($headers['Message-ID']);
-        $mail->setHeaders($headers);
+        $mail->addHeaders($headers);
         $options = [
             'save_email_copy' => true,
             'issue_id' => $issue_id,
             'type' => $type,
         ];
-        Mail_Queue::addMail($mail, $to, $options);
+        Mail_Queue::queue($mail, $to, $options);
 
         $mail = new \Zend\Mail\Message();
         $mail->setBody('This is the text of the email.');
@@ -669,33 +603,7 @@ class MailMessageTest extends TestCase
         $mail = MailMessage::createNew();
         $headers = [];
         $headers['Message-ID'] = Mail_Helper::generateMessageID();
-        $mail->setHeaders($headers);
-    }
-
-    /**
-     * @see http://framework.zend.com/manual/current/en/modules/zend.mail.message.html
-     * @see http://framework.zend.com/manual/current/en/modules/zend.mail.attachments.html
-     */
-    public function testZendMime()
-    {
-        $textContent = 'textõ';
-        $text = new Zend\Mime\Part($textContent);
-        $text->type = 'text/plain';
-        $text->setCharset('UTF-8');
-
-        $body = new Zend\Mime\Message();
-        $body->addPart($text);
-
-        $message = new Zend\Mail\Message();
-        $message->setBody($body);
-
-//        echo $message->toString();
-
-        $mail = MailMessage::createFromMessage($message);
-//        echo $mail->getRawContent();
-
-        $mail = MailMessage::createNew();
-        $mime = $mail->addMimePart($textContent, 'text/plain', 'UTF-8');
+        $mail->addHeaders($headers);
     }
 
     public function testZFPlainMail()
@@ -707,24 +615,22 @@ class MailMessageTest extends TestCase
         $subject = '[#3] Note: Re: pläh';
         $type = 'assignment';
 
-        // send email (use PEAR's classes)
-        $mail = new Mail_Helper();
-        $mail->setTextBody($text_message);
-        $mail->send($from, $to, $subject);
-
-        // use zend mime
-        $mail = MailMessage::createNew();
-        $mail->setTextPart($text_message);
-        $mail->setFrom($from);
-        $mail->setTo($to);
-        $mail->setSubject($subject);
+        // use mail builder
+        $builder = new MailBuilder();
+        $builder
+            ->addTextPart($text_message)
+            ->getMessage()
+            ->setFrom($from)
+            ->setTo($to)
+            ->setSubject($subject);
+        $mail = $builder->toMailMessage();
 
         $options = [
             'save_email_copy' => true,
             'issue_id' => $issue_id,
             'type' => $type,
         ];
-        Mail_Queue::addMail($mail, $to, $options);
+        Mail_Queue::queue($mail, $to, $options);
     }
 
     /**
@@ -750,14 +656,12 @@ class MailMessageTest extends TestCase
         $value = '[#77675] New Issue:xxxxxxxxx xxxxxxx xxxxxxxx xxxxxxxxxxxxx xxxxxxxxxx xxxxxxxx, tähtaeg xx.xx, xxxx';
         try {
             // it fails with line length exactly 76, but suceeds with anything else, like 75 or 77
-            $v = iconv_mime_encode('x-test', $value, ['scheme' => 'Q', 'line-length' => '76', 'line-break-chars' => ' ']);
+            $v = iconv_mime_encode(
+                'x-test', $value, ['scheme' => 'Q', 'line-length' => '76', 'line-break-chars' => ' ']
+            );
         } catch (PHPUnit_Framework_Error_Notice $e) {
             error_log($e->getMessage());
         }
-
-        // the same handled better in encodeQuotedPrintable
-        $v = Mime_Helper::encodeQuotedPrintable($value);
-//        var_dump($v);
 
         // this works too
         $v = \Zend\Mail\Header\HeaderWrap::mimeEncodeValue($value, 'UTF-8');

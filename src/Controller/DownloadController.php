@@ -15,7 +15,9 @@ namespace Eventum\Controller;
 
 use Attachment;
 use Auth;
+use Eventum\Attachment\AttachmentManager;
 use Issue;
+use User;
 
 class DownloadController extends BaseController
 {
@@ -60,33 +62,32 @@ class DownloadController extends BaseController
      */
     protected function defaultAction()
     {
-        if (stristr(APP_BASE_URL, 'https:')) {
+        if (stripos(APP_BASE_URL, 'https:') !== false) {
             // fix for IE 5.5/6 with SSL sites
             header('Pragma: cache');
         }
         // fix for IE6 (KB812935)
         header('Cache-Control: must-revalidate');
 
-        if ($this->cat == 'attachment') {
+        if ($this->cat === 'attachment') {
             $this->attachmentAction();
         }
     }
 
     private function attachmentAction()
     {
-        $file = Attachment::getDetails($this->iaf_id);
+        $file = AttachmentManager::getAttachment($this->iaf_id);
         if (!$file) {
             $this->error(ev_gettext('No such attachment'));
         }
 
-        if (!Issue::canAccess($file['iat_iss_id'], $this->usr_id)) {
+        $group = $file->getGroup();
+        if (!Issue::canAccess($group->issue_id, $this->usr_id) ||
+                User::getRoleByUser($this->usr_id, Issue::getProjectID($group->issue_id)) < $group->minimum_role) {
             $this->error(ev_gettext('No access to requested attachment'));
         }
 
-        Attachment::outputDownload(
-            $file['iaf_file'], $file['iaf_filename'], $file['iaf_filesize'],
-            $file['iaf_filetype'], $this->force_inline
-        );
+        $file->outputDownload($this->force_inline);
         exit;
     }
 
