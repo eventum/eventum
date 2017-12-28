@@ -16,12 +16,13 @@ namespace Eventum\Mail;
 use Eventum\Mail\Helper\DecodePart;
 use Zend\Mail;
 use Zend\Mail\Header\ContentType;
+use Zend\Mail\Storage;
 use Zend\Mail\Storage\Message;
 use Zend\Mime\Part;
 
 class MailAttachment
 {
-    /** @var MailMessage */
+    /** @var MailMessage|Storage\Part\PartInterface */
     private $message;
 
     public function __construct(MailMessage $message)
@@ -34,6 +35,7 @@ class MailAttachment
      * inline text messages are not accounted as attachments.
      *
      * TODO: handle application/pgp-signature, application/ms-tnef?
+     *
      * @see https://github.com/eventum/eventum/blob/v3.2.1/lib/eventum/class.mime_helper.php#L740-L753
      *
      * @return  bool
@@ -45,39 +47,13 @@ class MailAttachment
             return false;
         }
 
-        $has_attachments = 0;
-
-        // check what really the attachments are
-        /** @var MailMessage $part */
         foreach ($this->message as $part) {
-            $is_attachment = 0;
-            $disposition = $filename = null;
-
-            $ctype = $part->getHeaderField('Content-Type');
-            if ($part->getHeaders()->has('Content-Disposition')) {
-                $disposition = $part->getHeaderField('Content-Disposition');
-                $filename = $part->getHeaderField('Content-Disposition', 'filename');
-                $is_attachment = $disposition === 'attachment' || $filename;
-            }
-
-            if (in_array($ctype, ['text/plain', 'text/html', 'text/enriched'])) {
-                $has_attachments |= $is_attachment;
-            } elseif ($ctype === 'multipart/related') {
-                // multipart/related may have subparts (inline html)
-                $attachment = new self($part);
-                $has_attachments |= $attachment->hasAttachments();
-            } else {
-                // avoid treating forwarded messages as attachments
-                $is_attachment |= ($disposition === 'inline' && $ctype !== 'message/rfc822');
-                // handle inline images
-                $type = current(explode('/', $ctype));
-                $is_attachment |= $type === 'image';
-
-                $has_attachments |= $is_attachment;
+            if ($this->isAttachment($part)) {
+                return true;
             }
         }
 
-        return (bool)$has_attachments;
+        return false;
     }
 
     /**
@@ -99,6 +75,28 @@ class MailAttachment
 
             // multipart/alternative should have text/plain and text/html, none of them are "attachments"
             if ($type === 'multipart/alternative') {
+                continue;
+            }
+
+            if ($type === 'multipart/related') {
+                // get attachments from multipart/related
+                $subpart = new self($part);
+
+                // only include non text/html
+                // this will resemble previous eventum behavior
+                // whether that's correct is another topic
+                foreach ($subpart->getAttachments() as $attachment) {
+                    if ($attachment['filetype'] === 'text/html') {
+                        continue;
+                    }
+                    $attachments[] = $attachment;
+                }
+
+                // don't add related part itself
+                continue;
+            }
+
+            if (!$this->isAttachment($part)) {
                 continue;
             }
 
@@ -126,23 +124,44 @@ class MailAttachment
                 'filetype' => $type,
                 'blob' => (new DecodePart($part))->decode(),
             ];
-
-            if ($type === 'multipart/related') {
-                // get attachments from multipart/related
-                $subpart = new self($part);
-
-                // only include non text/html
-                // this will resemble previous eventum behavior
-                // whether that's correct is another topic
-                foreach ($subpart->getAttachments() as $attachment) {
-                    if ($attachment['filetype'] === 'text/html') {
-                        continue;
-                    }
-                    $attachments[] = $attachment;
-                }
-            }
         }
 
         return $attachments;
+    }
+
+    /**
+     * @param MailMessage $part
+     * @return bool
+     */
+    private function isAttachment(MailMessage $part)
+    {
+        $is_attachment = false;
+        $disposition = $filename = null;
+
+        $ctype = $part->getHeaderField('Content-Type');
+        if ($part->getHeaders()->has('Content-Disposition')) {
+            $disposition = $part->getHeaderField('Content-Disposition');
+            $filename = $part->getHeaderField('Content-Disposition', 'filename');
+            $is_attachment = $disposition === 'attachment' || $filename;
+        }
+
+        if (in_array($ctype, ['text/plain', 'text/html', 'text/enriched'], true)) {
+            return $is_attachment;
+        }
+
+        if ($ctype === 'multipart/related') {
+            // multipart/related may have subparts (inline html)
+            return (new self($part))->hasAttachments();
+        }
+
+        // avoid treating forwarded messages as attachments
+        if ($disposition === 'inline' && $ctype !== 'message/rfc822') {
+            return true;
+        }
+
+        // handle inline images
+        $type = current(explode('/', $ctype));
+
+        return $type === 'image';
     }
 }

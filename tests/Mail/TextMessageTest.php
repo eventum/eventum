@@ -24,7 +24,8 @@ class TextMessageTest extends TestCase
     public function testTextMessage($dataFile, $expectedText)
     {
         $mail = MailMessage::createFromFile($this->getDataFile($dataFile));
-        $this->assertEquals($expectedText, $mail->getMessageBody());
+        $textBody = trim($mail->getMessageBody());
+        $this->assertEquals($expectedText, $textBody);
     }
 
     public function testCases()
@@ -32,7 +33,7 @@ class TextMessageTest extends TestCase
         return [
             'Test that HTML entities used in text/html part get decoded' => [
                 'encoding.txt',
-                "\npöördumise töötaja.\n<b>Võtame</b> töösse võimalusel.\npöördumisele süsteemis\n\n",
+                "pöördumise töötaja.\n<b>Võtame</b> töösse võimalusel.\npöördumisele süsteemis",
             ],
             'testBug684922' => [
                 'bug684922.txt',
@@ -40,12 +41,16 @@ class TextMessageTest extends TestCase
             ],
             'test $structure->body getting textual mail body from multipart message' => [
                 'multipart-text-html.txt',
-                "Commit in MAIN\n",
+                'Commit in MAIN',
             ],
 
             'test with multipart/mixed mail with multipart/alternative attachment' => [
                 'multipart-mixed-alternative.eml',
-                "No one has ever seen God.\n",
+                'No one has ever seen God.',
+            ],
+            'process multipart/related, add it unless plain text content already present' => [
+                'multipart-related.eml',
+                "Labas,\n\nsu pšventėmis :)",
             ],
         ];
     }

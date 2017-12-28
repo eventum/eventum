@@ -32,7 +32,7 @@ class TextMessage
 
     public function getMessageBody()
     {
-        $text = $html = [];
+        $text = $alttext = $html = [];
         foreach ($this->message as $part) {
             $headers = $part->getHeaders();
             $ctype = $part->getHeaderField('Content-Type');
@@ -44,6 +44,15 @@ class TextMessage
             $charset = $part->getHeaderField('Content-Type', 'charset');
 
             switch ($ctype) {
+                case 'multipart/related':
+                    // multipart/related is likely a container for html with image multiparts
+                    // see https://tools.ietf.org/html/rfc2387
+                    //
+                    // from multipart related, extract body if text parts are missing.
+                    $alttext[] = (new self($part))->getMessageBody();
+
+                    break;
+
                 case 'multipart/alternative':
                     $text[] = (new self($part))->getMessageBody();
                     break;
@@ -85,6 +94,11 @@ class TextMessage
                         $text[] = $part->getContent();
                     }
             }
+        }
+
+        // alternative text present but no main text, fill it
+        if ($alttext && !$text) {
+            $text = $alttext;
         }
 
         if ($text) {

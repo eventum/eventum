@@ -15,7 +15,10 @@ namespace Eventum\Mail;
 
 use Date_Helper;
 use DateTime;
+use Eventum\Event\SystemEvents;
+use Eventum\EventDispatcher\EventManager;
 use InvalidArgumentException;
+use Symfony\Component\EventDispatcher\GenericEvent;
 use Zend\Mail\Header\GenericHeader;
 use Zend\Mail\Storage as ZendMailStorage;
 use Zend\Mail\Storage\Message;
@@ -87,7 +90,8 @@ class ImapMessage extends MailMessage
             }
         }
 
-        $message = new self(['root' => true, 'headers' => $headers, 'content' => $content, 'flags' => $flags]);
+        $parameters = ['root' => true, 'headers' => $headers, 'content' => $content, 'flags' => $flags];
+        $message = new self($parameters);
 
         // set MailDate to $message object, as it's not available in message headers, only in IMAP itself
         // this likely "message received date"
@@ -99,6 +103,9 @@ class ImapMessage extends MailMessage
         $message->num = $num;
         $message->info = $info;
         $message->imapheaders = $imapheaders;
+
+        $event = new GenericEvent($message, $parameters);
+        EventManager::dispatch(SystemEvents::MAIL_LOADED_IMAP, $event);
 
         return $message;
     }
