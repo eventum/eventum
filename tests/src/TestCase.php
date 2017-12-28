@@ -52,9 +52,12 @@ class TestCase extends \PHPUnit\Framework\TestCase
         return $stub;
     }
 
-    protected function getDataFile($filename)
+    protected function getDataFile($fileName)
     {
-        return __DIR__ . '/../data/' . $filename;
+        $dataFile = dirname(__DIR__) . '/data/' . $fileName;
+        $this->assertFileExists($dataFile);
+
+        return $dataFile;
     }
 
     /**
