@@ -78,6 +78,28 @@ class MailAttachment
                 continue;
             }
 
+            if ($type === 'multipart/related') {
+                // get attachments from multipart/related
+                $subpart = new self($part);
+
+                // only include non text/html
+                // this will resemble previous eventum behavior
+                // whether that's correct is another topic
+                foreach ($subpart->getAttachments() as $attachment) {
+                    if ($attachment['filetype'] === 'text/html') {
+                        continue;
+                    }
+                    $attachments[] = $attachment;
+                }
+
+                // don't add related part itself
+                continue;
+            }
+
+            if (!$this->isAttachment($part)) {
+                continue;
+            }
+
             // attempt to extract filename
             // 1. try Content-Type: name parameter
             // 2. try Content-Disposition: filename parameter
@@ -102,21 +124,6 @@ class MailAttachment
                 'filetype' => $type,
                 'blob' => (new DecodePart($part))->decode(),
             ];
-
-            if ($type === 'multipart/related') {
-                // get attachments from multipart/related
-                $subpart = new self($part);
-
-                // only include non text/html
-                // this will resemble previous eventum behavior
-                // whether that's correct is another topic
-                foreach ($subpart->getAttachments() as $attachment) {
-                    if ($attachment['filetype'] === 'text/html') {
-                        continue;
-                    }
-                    $attachments[] = $attachment;
-                }
-            }
         }
 
         return $attachments;
