@@ -50,4 +50,12 @@ final class SystemEvents
      * @see CommitRepository::addIssues
      */
     const SCM_COMMIT_ASSOCIATED = 'scm.commit.associated';
+
+    /**
+     * Event Fired when MailMessage was created from IMAP Connection.
+     *
+     * @since 3.4.0
+     * @see ImapMessage::createFromImap
+     */
+    const MAIL_LOADED_IMAP = 'mail.loaded.imap';
 }
