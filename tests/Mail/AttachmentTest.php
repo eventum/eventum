@@ -118,4 +118,19 @@ class AttachmentTest extends TestCase
         $attachments = $attachment->getAttachments();
         $this->assertCount(1, $attachments);
     }
+
+    /**
+     * process multipart/related,
+     * should not consider text/plain and multipart/related as attachments.
+     */
+    public function testMultipartRelatedWithText()
+    {
+        $content = $this->readDataFile('multipart-related.eml');
+        $mail = MailMessage::createFromString($content);
+        $attachment = $mail->getAttachment();
+
+        $this->assertTrue($attachment->hasAttachments());
+        $attachments = $attachment->getAttachments();
+        $this->assertCount(1, $attachments);
+    }
 }

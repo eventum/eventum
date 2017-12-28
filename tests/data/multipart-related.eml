@@ -1,0 +1,53 @@
+Subject: Fwd: [#97563] Updated
+To: "support@example.org" <support@example.org>
+From: Alina <alina@example.org>
+Message-ID: <22e40752-d4c6-8a00-29b9-ec16fab4e78a@example.org>
+Date: Wed, 27 Dec 2017 14:44:19 +0200
+MIME-Version: 1.0
+Content-Type: multipart/alternative;
+	boundary="------------7E9A30E282AA98E24563DF61"
+
+This is a multi-part message in MIME format.
+--------------7E9A30E282AA98E24563DF61
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+
+Labas,
+
+su pšventėmis :)
+
+
+--------------7E9A30E282AA98E24563DF61
+Content-Type: multipart/related;
+ boundary="------------AF85922D7263D4EB6025A866"
+
+
+--------------AF85922D7263D4EB6025A866
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: 8bit
+
+<html>
+  <head>
+
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  </head>
+  <body text="#000000" bgcolor="#FFFFFF">
+    <p>Labas,</p>
+    <p>su pšventėmis :) <br>
+    </p>
+  </body>
+</html>
+
+--------------AF85922D7263D4EB6025A866
+Content-Type: image/png;
+ name="s.gif"
+Content-Transfer-Encoding: base64
+Content-ID: <part3.CEDAD0F3.C6CEC096@example.org>
+Content-Disposition: inline;
+ filename="s.gif"
+
+R0lGODlhAQABAID/AMDAwAAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==
+
+--------------AF85922D7263D4EB6025A866--
+
+--------------7E9A30E282AA98E24563DF61--
