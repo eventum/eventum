@@ -1052,7 +1052,7 @@ class Notification
                 // show the title of the note, not the issue summary
                 $extra_subject = $data['note']['not_title'];
                 // don't add the "[#3333] Note: " prefix to messages that already have that in the subject line
-                if (strstr($extra_subject, "[#$issue_id] $subject: ")) {
+                if (strpos($extra_subject, "[#$issue_id] $subject: ") !== false) {
                     $pos = strpos($extra_subject, "[#$issue_id] $subject: ");
                     $full_subject = substr($extra_subject, $pos);
                 } else {
