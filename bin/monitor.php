@@ -13,8 +13,8 @@
 
 require_once __DIR__ . '/../init.php';
 
-use Eventum\Command\MonitorCommand as Command;
 use Eventum\Console\Application;
+use Eventum\Console\Command\MonitorCommand as Command;
 
 $app = new Application();
 $app->command(Command::USAGE, [new Command(), 'execute']);

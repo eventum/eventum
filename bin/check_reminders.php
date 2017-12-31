@@ -13,8 +13,8 @@
 
 require_once __DIR__ . '/../init.php';
 
-use Eventum\Command\ReminderCheckCommand as Command;
 use Eventum\Console\Application;
+use Eventum\Console\Command\ReminderCheckCommand as Command;
 
 $app = new Application();
 $app->command(Command::USAGE, [new Command(), 'execute']);

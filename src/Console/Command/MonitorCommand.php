@@ -11,7 +11,7 @@
  * that were distributed with this source code.
  */
 
-namespace Eventum\Command;
+namespace Eventum\Console\Command;
 
 use DB_Helper;
 use Eventum\Db;
