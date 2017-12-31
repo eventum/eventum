@@ -298,7 +298,7 @@ class Routing
             throw RoutingException::noIssuePermission($issue_id);
         }
 
-        if (empty($sender_usr_id)) {
+        if (!$sender_usr_id) {
             $sender_usr_id = APP_SYSTEM_USER_ID;
             $unknown_user = $mail->from;
         } else {
