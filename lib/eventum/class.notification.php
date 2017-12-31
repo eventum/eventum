@@ -222,7 +222,7 @@ class Notification
             if ($flag_location === 'before') {
                 $info['sender_name'] = '"' . $flag . substr($info['sender_name'], 1);
             } else {
-                $info['sender_name'] = substr($info['sender_name'], 0, strlen($info['sender_name']) - 1) . ' ' . trim($flag) . '"';
+                $info['sender_name'] = substr($info['sender_name'], 0, -1) . ' ' . trim($flag) . '"';
             }
         } else {
             if ($flag_location === 'before') {
