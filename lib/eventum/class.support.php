@@ -556,7 +556,7 @@ class Support
             AuthCookie::setAuthCookie(APP_SYSTEM_USER_ID);
             AuthCookie::setProjectCookie($prj_id);
         }
-        if ($should_create_array['type'] == 'note') {
+        if ($should_create_array['type'] === 'note') {
             // assume that this is not a valid note
             $res = -1;
 
