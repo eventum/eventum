@@ -18,4 +18,10 @@ use Silly\Application as BaseApplication;
 
 class Application extends BaseApplication
 {
+    public function __construct($name = 'UNKNOWN', $version = 'UNKNOWN')
+    {
+        $this->setDispatcher(EventManager::getEventDispatcher());
+
+        parent::__construct($name, $version);
+    }
 }
