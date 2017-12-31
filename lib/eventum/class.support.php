@@ -913,8 +913,7 @@ class Support
     {
         $closing = isset($email_options['closing']) ? $email_options['closing'] : false;
 
-        // get usr_id from FROM header
-        $usr_id = User::getUserIDByEmail($mail->from);
+        $usr_id = User::getUserIDByEmail($mail->getSender());
 
         if (!empty($usr_id) && empty($email_options['customer_id'])) {
             $email_options['customer_id'] = User::getCustomerID($usr_id);
