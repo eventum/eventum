@@ -1664,7 +1664,7 @@ class Issue
         $exclude_list = [];
         $managers = [];
 
-        $sender_email = Mail_Helper::getEmailAddress($mail->from);
+        $sender_email = $mail->getSender();
         $sender_usr_id = User::getUserIDByEmail($sender_email, true);
         if (!empty($sender_usr_id)) {
             $reporter = $sender_usr_id;
