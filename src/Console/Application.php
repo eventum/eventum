@@ -1,5 +1,5 @@
-#!/usr/bin/php
 <?php
+
 /*
  * This file is part of the Eventum (Issue Tracking System) package.
  *
@@ -11,12 +11,11 @@
  * that were distributed with this source code.
  */
 
-require_once __DIR__ . '/../init.php';
+namespace Eventum\Console;
 
-use Eventum\Command\MonitorCommand as Command;
-use Eventum\Console\Application;
+use Eventum\EventDispatcher\EventManager;
+use Silly\Application as BaseApplication;
 
-$app = new Application();
-$app->command(Command::USAGE, [new Command(), 'execute']);
-$app->setDefaultCommand(Command::DEFAULT_COMMAND, true);
-$app->run();
+class Application extends BaseApplication
+{
+}
