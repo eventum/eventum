@@ -52,7 +52,8 @@ class AttachmentTest extends TestCase
     {
         $content = $this->readDataFile('attachment-bug.txt');
         $message = MailMessage::createFromString($content);
-        $this->assertTrue($message->getAttachment()->hasAttachments());
+        $attachments = $message->getAttachment();
+        $this->assertTrue($attachments->hasAttachments());
     }
 
     public function testGetAttachments()
@@ -85,24 +86,19 @@ class AttachmentTest extends TestCase
 
         $this->assertTrue($attachment->hasAttachments());
         $attachments = $attachment->getAttachments();
-        $this->assertCount(3, $attachments);
+        // just 1 attachment from related multipart
+        $this->assertCount(1, $attachments);
     }
 
-    /**
-     * Test that $mail->getAttachments can be called if no attachments present
-     *
-     * @see Support::getEmailDetails()
-     */
-    public function testGetAttachmentsWhenNonePresent()
+    public function testAttachmentWithDeliveryStatus()
     {
         $content = $this->readDataFile('attachment-bug.txt');
         $mail = MailMessage::createFromString($content);
         $attachment = $mail->getAttachment();
         $this->assertTrue($attachment->hasAttachments());
         $attachments = $attachment->getAttachments();
-        $this->assertContains('i cannot get any cursed header', $attachments[0]['blob']);
-        $content = $mail->getMessageBody();
-        $this->assertContains('i cannot get any cursed header', $content);
+        $this->assertCount(1, $attachments);
+        $this->assertEquals('message/delivery-status', $attachments[0]['filetype']);
     }
 
     /**
