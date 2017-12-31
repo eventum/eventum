@@ -13,6 +13,7 @@ NOTE: Mail related Workflow methods changed signature, see #263
 - Make LDAP user ID attribute configurable, add help page (@inguin, #329)
 - Drop `pear/mime_decode`, `pear/mail_mime` in favor of `Zend\Mail` (@glensc, #263, #333, #334, #335)
 - Use `symfony/filesystem` for file writes (@glensc, #331)
+- Add `EventDispatcher` to console commands (@glensc, #337)
 
 [3.4.0]: https://github.com/eventum/eventum/compare/v3.3.3...master
 

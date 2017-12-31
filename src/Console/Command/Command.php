@@ -11,11 +11,11 @@
  * that were distributed with this source code.
  */
 
-namespace Eventum\Command;
+namespace Eventum\Console\Command;
 
 use Symfony\Component\Console\Output\OutputInterface;
 
-class BaseCommand
+abstract class Command
 {
     // compact constants for writeln
     const DEBUG = OutputInterface::VERBOSITY_DEBUG;

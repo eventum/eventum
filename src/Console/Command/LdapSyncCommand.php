@@ -11,16 +11,17 @@
  * that were distributed with this source code.
  */
 
-namespace Eventum\Command;
+namespace Eventum\Console\Command;
 
 use AuthException;
 use Eventum\Auth\Ldap\UserEntry;
+use Eventum\Console\Command\Command;
 use InvalidArgumentException;
 use LDAP_Auth_Backend;
 use RuntimeException;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class LdapSyncCommand extends BaseCommand
+class LdapSyncCommand extends Command
 {
     const DEFAULT_COMMAND = 'ldap:sync';
     const USAGE = self::DEFAULT_COMMAND . ' [--dry-run] [--create-users] [--no-update] [--no-disable]';
