@@ -136,9 +136,9 @@ class BotCommands extends AbstractBotCommands
         $email = $this->bot->getEmailByNickname($data->nick);
         $usr_id = User::getUserIDByEmail($email);
 
-        if ($command == 'in') {
+        if ($command === 'in') {
             $res = User::clockIn($usr_id);
-        } elseif ($command == 'out') {
+        } elseif ($command === 'out') {
             $res = User::clockOut($usr_id);
         } else {
             if (User::isClockedIn($usr_id)) {

@@ -320,7 +320,7 @@ class RemoteApi
 
         // check if the assignee is even allowed to be in the given project
         $projects = self::getRemoteAssocListByUser($assignee);
-        if (!in_array($project_id, array_keys($projects))) {
+        if (!array_key_exists($project_id, $projects)) {
             throw new RemoteApiException(
                 "The selected developer is not permitted in the project associated with issue #$issue_id"
             );
@@ -388,7 +388,7 @@ class RemoteApi
         if (!empty($replier_usr_id)) {
             // check if the assignee is even allowed to be in the given project
             $projects = self::getRemoteAssocListByUser($replier_usr_id);
-            if (!in_array($project_id, array_keys($projects))) {
+            if (!array_key_exists($project_id, $projects)) {
                 throw new RemoteApiException(
                     "The given user is not permitted in the project associated with issue #$issue_id"
                 );

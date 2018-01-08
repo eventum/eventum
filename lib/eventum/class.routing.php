@@ -298,7 +298,7 @@ class Routing
             throw RoutingException::noIssuePermission($issue_id);
         }
 
-        if (empty($sender_usr_id)) {
+        if (!$sender_usr_id) {
             $sender_usr_id = APP_SYSTEM_USER_ID;
             $unknown_user = $mail->from;
         } else {
@@ -412,14 +412,14 @@ class Routing
         $sender_email = $mail->getSender();
 
         $sender_usr_id = User::getUserIDByEmail($sender_email, true);
-        if (!empty($sender_usr_id)) {
+        if ($sender_usr_id) {
             $sender_role = User::getRoleByUser($sender_usr_id, $prj_id);
             if ($sender_role < User::ROLE_USER) {
                 throw RoutingException::noIssuePermission($issue_id);
             }
         }
 
-        AuthCookie::setAuthCookie(User::getUserIDByEmail($sender_email));
+        AuthCookie::setAuthCookie($sender_usr_id);
         AuthCookie::setProjectCookie($prj_id);
 
         Draft::saveEmail($issue_id, $mail->to, $mail->cc, $mail->subject, $mail->getMessageBody(), false, false, false);

@@ -163,7 +163,7 @@ class Notification
     public static function getFixedFromHeader($issue_id, $sender, $type)
     {
         $setup = Setup::get();
-        if ($type == 'issue') {
+        if ($type === 'issue') {
             $routing = 'email_routing';
         } else {
             $routing = 'note_routing';
@@ -195,7 +195,7 @@ class Notification
             $flag = '[' . $setup[$routing]['recipient_type_flag'] . '] ';
             $flag_location = $setup[$routing]['flag_location'];
         }
-        if ($setup[$routing]['status'] != 'enabled') {
+        if ($setup[$routing]['status'] !== 'enabled') {
             // let's use the custom outgoing sender address
             $project_info = Project::getOutgoingSenderAddress($project_id);
             if (empty($project_info['email'])) {
@@ -218,14 +218,14 @@ class Notification
             }
         }
         // also check where we need to append/prepend a special string to the sender name
-        if (substr($info['sender_name'], strlen($info['sender_name']) - 1) == '"') {
-            if ($flag_location == 'before') {
+        if (substr($info['sender_name'], strlen($info['sender_name']) - 1) === '"') {
+            if ($flag_location === 'before') {
                 $info['sender_name'] = '"' . $flag . substr($info['sender_name'], 1);
             } else {
-                $info['sender_name'] = substr($info['sender_name'], 0, strlen($info['sender_name']) - 1) . ' ' . trim($flag) . '"';
+                $info['sender_name'] = substr($info['sender_name'], 0, -1) . ' ' . trim($flag) . '"';
             }
         } else {
-            if ($flag_location == 'before') {
+            if ($flag_location === 'before') {
                 $info['sender_name'] = '"' . $flag . $info['sender_name'] . '"';
             } else {
                 $info['sender_name'] = '"' . $info['sender_name'] . ' ' . trim($flag) . '"';
@@ -1052,7 +1052,7 @@ class Notification
                 // show the title of the note, not the issue summary
                 $extra_subject = $data['note']['not_title'];
                 // don't add the "[#3333] Note: " prefix to messages that already have that in the subject line
-                if (strstr($extra_subject, "[#$issue_id] $subject: ")) {
+                if (strpos($extra_subject, "[#$issue_id] $subject: ") !== false) {
                     $pos = strpos($extra_subject, "[#$issue_id] $subject: ");
                     $full_subject = substr($extra_subject, $pos);
                 } else {

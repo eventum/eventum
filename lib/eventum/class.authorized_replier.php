@@ -131,6 +131,8 @@ class Authorized_Replier
      */
     public static function manualInsert($issue_id, $email, $add_history = true)
     {
+        $email = Mail_Helper::getEmailAddress($email);
+
         if (Validation::isWhitespace($email)) {
             return -1;
         }
@@ -138,8 +140,6 @@ class Authorized_Replier
         if (self::isAuthorizedReplier($issue_id, $email)) {
             return -1;
         }
-
-        $email = Mail_Helper::getEmailAddress($email);
 
         $workflow = Workflow::handleAuthorizedReplierAdded(Issue::getProjectID($issue_id), $issue_id, $email);
         if ($workflow === false) {

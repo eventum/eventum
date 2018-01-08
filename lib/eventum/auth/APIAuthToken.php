@@ -53,7 +53,7 @@ class APIAuthToken
             $usr_id = User::getUserIDByEmail($email, true);
             $active_tokens = self::getTokensForUser($usr_id);
             foreach ($active_tokens as $row) {
-                if ($row['token'] == $token) {
+                if ($row['token'] === $token) {
                     return true;
                 }
             }
