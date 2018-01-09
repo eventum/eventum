@@ -3,6 +3,7 @@ Eventum Issue Tracking System
 
 [![Build Status][travis-badge]][travis-url]
 [![Join the Chat][gitter-badge]][gitter-url]
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Feventum%2Feventum.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Feventum%2Feventum?ref=badge_shield)
 
 Eventum is a user friendly and very flexible issue tracking system, that can
 be used by a support department to track incoming technical support requests,
@@ -31,3 +32,7 @@ The Eventum Team
 [travis-url]: https://travis-ci.org/eventum/eventum
 [gitter-badge]: https://badges.gitter.im/Join%20Chat.svg
 [gitter-url]: https://gitter.im/eventum/eventum
+
+
+## License
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Feventum%2Feventum.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Feventum%2Feventum?ref=badge_large)
