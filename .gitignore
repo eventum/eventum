@@ -33,6 +33,7 @@ Session.vim
 
 /composer.lock
 /vendor
+/local
 
 /config/cas.php
 /config/config.php
@@ -45,6 +46,7 @@ Session.vim
 /config/sphinx.conf
 /config/userscript.js
 /config/userstyle.css
+/config/skysf_dsn.php
 
 /config/custom_field/
 /config/templates/

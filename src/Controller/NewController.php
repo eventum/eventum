@@ -114,6 +114,28 @@ class NewController extends BaseController
 
     private function reportAction()
     {
+        // MARIADB-CSTM: Prevent duplicates
+        $sql = "SELECT
+                    iss_id
+                FROM
+                    {{%issue}}
+                WHERE
+                    iss_customer_id = ? AND
+                    iss_customer_contact_id = ? AND
+                    iss_summary = ? AND
+                    iss_created_date >= DATE_SUB(?, INTERVAL 1 MINUTE)";
+        $params = [
+            $_POST['customer'],
+            $_POST['contact'],
+            $_POST['summary'],
+            Date_Helper::getCurrentDateGMT(),
+        ];
+        $duplicate_issue = DB_Helper::getInstance()->getOne($sql, $params);
+        if ($duplicate_issue) {
+            $this->redirect("view.php?id=" . $duplicate_issue);
+        }
+
+
         $res = Issue::createFromPost();
         if ($res != -1) {
             // redirect to view issue page

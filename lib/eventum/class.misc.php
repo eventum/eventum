@@ -112,6 +112,30 @@ class Misc
     }
 
     /**
+     * Process string with callback function. Input can be string or array of strings
+     *
+     * @param string|string[] $mixed
+     * @param callable $callback
+     * @return string|string[]
+     */
+    private static function recursiveWalk($mixed, $callback)
+    {
+        if (!$mixed) {
+            return $mixed;
+        }
+
+        if (is_array($mixed)) {
+            foreach ($mixed as $i => $item) {
+                $mixed[$i] = self::recursiveWalk($item, $callback);
+            }
+
+            return $mixed;
+        } else {
+            return $callback($mixed);
+        }
+    }
+
+    /**
      * Lowercase string, it can be array of strings
      *
      * @param string|string[] $mixed

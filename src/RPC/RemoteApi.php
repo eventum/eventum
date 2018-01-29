@@ -230,6 +230,11 @@ class RemoteApi
         if (isset($res['contract'])) {
             $res['contract'] = $res['contract']->getDetails();
         }
+        if (isset($res['contact'])) {
+            $res['contact'] = $res['contact']->getDetails();
+        }
+        // Remove any objects as this can break XMLRPC
+        $res = Misc::removeNestedObjects($res);
 
         if (empty($res)) {
             throw new RemoteApiException("Issue #$issue_id could not be found");

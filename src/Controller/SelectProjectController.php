@@ -95,6 +95,9 @@ class SelectProjectController extends BaseController
 
         $this->projects = Project::getAssocList($this->usr_id);
 
+        // MARIADB-CSTM: Remove hidden projects
+        $this->projects = \MariaDB_Helper::removeHiddenProjects($this->usr_id, $this->projects);
+
         // FIXME: why here? investigate deb5dbe6
         Language::setPreference();
 
