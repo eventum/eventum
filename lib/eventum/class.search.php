@@ -691,7 +691,7 @@ class Search
                 } else {
                     $stmt .= " AND\n (iss_id = cf" . $fld_id . '.icf_iss_id';
                     $stmt .= " AND\n cf" . $fld_id . ".icf_fld_id = $fld_id";
-                    if ($field['fld_type'] == 'combo') {
+                    if ($field['fld_type'] == 'combo' || $field['fld_type'] == 'checkbox') {
                         $stmt .= ' AND cf' . $fld_id . '.' . $fld_db_name . " IN('" . implode("', '", Misc::escapeString($search_value)) . "')";
                     } else {
                         $stmt .= ' AND cf' . $fld_id . '.' . $fld_db_name . " LIKE '%" . Misc::escapeString($search_value) . "%'";
