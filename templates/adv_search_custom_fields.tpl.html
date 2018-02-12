@@ -30,7 +30,7 @@
             <option value="lt" {if $cmp == 'lt'}selected{/if}>{t}Less Than{/t}</option>
           </select>
           <input type="text" size="8" name="custom_field[{$field.fld_id}][value]" value="{$options.cst_custom_field[$field.fld_id].value|default:''}" disabled>
-          {elseif $field.fld_type == 'combo' OR $field.fld_type == 'multiple'}
+          {elseif $field.fld_type == 'combo' OR $field.fld_type == 'multiple' OR $field.fld_type == 'checkbox'}
           <select name="custom_field[{$field.fld_id}][]" multiple
             {if $field.field_options|@count > 10}
               size="10"

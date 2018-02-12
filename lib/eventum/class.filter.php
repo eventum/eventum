@@ -680,7 +680,7 @@ class Filter
                         default:
                             $display = $filter_details['value'];
                     }
-                } elseif (in_array($filter['fld_type'], ['multiple', 'combo'])) {
+                } elseif (in_array($filter['fld_type'], ['multiple', 'combo', 'checkbox'])) {
                     $display = implode(', ', Custom_Field::getOptions($fld_id, $options['custom_field'][$fld_id]));
                 } else {
                     $display = $options['custom_field'][$fld_id];
