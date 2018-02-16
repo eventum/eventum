@@ -177,4 +177,6 @@ Asking Questions
 
 To ask questions or get more information please join/mail our mailing list: <http://lists.mysql.org/#eventum>
 
-Note: It appears that there no longer an Eventum mailing list hosted at MySQL.org.  To follow project progress, you can follow https://github.com/eventum/eventum on GitHub.
+Note: It appears that there is no longer an Eventum mailing list hosted at MySQL.org.  To follow project progress, you can follow https://github.com/eventum/eventum on GitHub.  
+
+Issues and questions can be posted at: https://github.com/eventum/eventum/issues
