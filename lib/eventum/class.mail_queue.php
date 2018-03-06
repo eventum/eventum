@@ -112,6 +112,7 @@ class Mail_Queue
             'maq_body' => $mail->getContent(),
             'maq_iss_id' => $issue_id ?: null,
             'maq_subject' => $mail->subject,
+            'maq_message_id' => $mail->messageId,
             'maq_type' => $type,
         ];
 
