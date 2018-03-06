@@ -15,7 +15,6 @@ namespace Eventum\Console\Command;
 
 use AuthException;
 use Eventum\Auth\Ldap\UserEntry;
-use Eventum\Console\Command\Command;
 use InvalidArgumentException;
 use LDAP_Auth_Backend;
 use RuntimeException;
