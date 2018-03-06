@@ -158,4 +158,32 @@ abstract class AbstractMigration extends PhinxAbstractMigration
         }
         throw new LogicException('primary_key column not found');
     }
+
+    /**
+     * Run SQL Query, return single column.
+     *
+     * @param string $sql
+     * @param string $column
+     * @return array
+     */
+    protected function queryColumn($sql, $column)
+    {
+        $st = $this->query($sql);
+        $rows = [];
+        foreach ($st as $row) {
+            $rows[] = $row[$column];
+        }
+
+        return $rows;
+    }
+
+    /**
+     * output $message to console
+     *
+     * @param string $message
+     */
+    protected function output($message)
+    {
+        echo "$message\n";
+    }
 }
