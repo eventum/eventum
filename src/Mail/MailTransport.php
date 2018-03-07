@@ -44,7 +44,6 @@ class MailTransport
         $envelope->setTo(Mail_Helper::getEmailAddress($recipient));
         $transport->setEnvelope($envelope);
 
-        $exception = null;
         try {
             $transport->send($mail->toMessage());
         } catch (Exception $e) {
