@@ -11,7 +11,6 @@
  * that were distributed with this source code.
  */
 
-use Eventum\Db\DatabaseException;
 use Eventum\Mail\MailBuilder;
 use Eventum\Mail\MailMessage;
 use Eventum\Mail\MailTransport;
@@ -128,7 +127,7 @@ class Mail_Queue
      *
      * @param   string $status The status of the messages that need to be sent
      * @param   int $limit The limit of emails that we should send at one time
-     * @param   bool $merge whether or not to send one merged email for multiple entries with the same status and type
+     * @param   bool $merge whether or not to send one merged email for multiple entries with the same status and type. Functionality DROPPED
      */
     public static function send($status, $limit = null, $merge = false)
     {
@@ -147,37 +146,25 @@ class Mail_Queue
 
             try {
                 $mail = MailMessage::createFromHeaderBody($entry['headers'], $entry['body']);
-                self::_sendEmail($entry['recipient'], $mail);
+                $headers = $mail->getHeaders();
+
+                // remove any Reply-To:/Return-Path: values from outgoing messages
+                $headers->removeHeader('Reply-To');
+                $headers->removeHeader('Return-Path');
+
+                $transport = new MailTransport();
+                $transport->send($entry['recipient'], $mail);
+
+                self::_saveStatusLog($entry['id'], 'sent');
+                if ($entry['save_copy']) {
+                    Mail_Helper::saveOutgoingEmailCopy($mail, $entry['maq_iss_id'], $entry['maq_type']);
+                }
             } catch (Exception $e) {
                 $details = $e->getMessage();
                 echo "Mail_Queue: issue #{$entry['maq_iss_id']}: Can't send mail $maq_id (retry $errors): $details\n";
                 self::_saveStatusLog($entry['id'], 'error', $details);
-                continue;
-            }
-
-            self::_saveStatusLog($entry['id'], 'sent');
-            if ($entry['save_copy']) {
-                Mail_Helper::saveOutgoingEmailCopy($mail, $entry['maq_iss_id'], $entry['maq_type']);
             }
         }
-    }
-
-    /**
-     * Connects to the SMTP server and sends the queued message.
-     *
-     * @param string $recipient The recipient of this message
-     * @param MailMessage $mail
-     */
-    private static function _sendEmail($recipient, MailMessage $mail)
-    {
-        $headers = $mail->getHeaders();
-
-        // remove any Reply-To:/Return-Path: values from outgoing messages
-        $headers->removeHeader('Reply-To');
-        $headers->removeHeader('Return-Path');
-
-        $transport = new MailTransport();
-        $transport->send($recipient, $mail);
     }
 
     /**
@@ -189,7 +176,7 @@ class Mail_Queue
      */
     private static function _getList($status, $limit)
     {
-        $limit = (int) $limit;
+        $limit = (int)$limit;
         $sql = "SELECT
                     maq_id id
                  FROM
@@ -200,13 +187,8 @@ class Mail_Queue
                     maq_id ASC
                  LIMIT
                     $limit OFFSET 0";
-        try {
-            $res = DB_Helper::getInstance()->getColumn($sql, [$status]);
-        } catch (DatabaseException $e) {
-            return [];
-        }
 
-        return $res;
+        return DB_Helper::getInstance()->getColumn($sql, [$status]);
     }
 
     /**
@@ -245,7 +227,7 @@ class Mail_Queue
         $sql = 'select count(*) from `mail_queue_log` where mql_maq_id=? and mql_status=?';
         $res = DB_Helper::getInstance()->getOne($sql, [$maq_id, 'error']);
 
-        return (int) $res;
+        return (int)$res;
     }
 
     /**
