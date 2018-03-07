@@ -15,7 +15,6 @@ use Eventum\Db\DatabaseException;
 use Eventum\Mail\MailBuilder;
 use Eventum\Mail\MailMessage;
 use Eventum\Mail\MailTransport;
-use Zend\Mail\AddressList;
 use Zend\Mail\Header\To;
 
 class Mail_Queue
@@ -134,49 +133,7 @@ class Mail_Queue
     public static function send($status, $limit = null, $merge = false)
     {
         if ($merge !== false) {
-            // TODO: handle self::MAX_RETRIES, but that should be done per queue item
-            foreach (self::_getMergedList($status, $limit) as $maq_ids) {
-                $entries = self::_getEntries($maq_ids);
-
-                $addresslist = new AddressList();
-                foreach ($entries as $entry) {
-                    $recipient = $entry['recipient'];
-                    if (Mime_Helper::is8bit($recipient)) {
-                        $recipient = Mime_Helper::encode($recipient);
-                    }
-
-                    $addresslist->addFromString($recipient);
-                }
-
-                $entry = $entries[0];
-                $mail = MailMessage::createFromHeaderBody($entry['headers'], $entry['body']);
-                $mail->setTo($addresslist);
-
-                $e = self::_sendEmail($mail->to, $mail);
-
-                if ($e instanceof Exception) {
-                    $maq_id = implode(',', $maq_ids);
-                    $details = $e->getMessage();
-                    echo "Mail_Queue: issue #{$entry['maq_iss_id']}: Can't send merged mail $maq_id: $details\n";
-
-                    foreach ($entries as $entry) {
-                        self::_saveStatusLog($entry['id'], 'error', $details);
-                    }
-
-                    continue;
-                }
-
-                foreach ($entries as $entry) {
-                    self::_saveStatusLog($entry['id'], 'sent', '');
-
-                    if ($entry['save_copy']) {
-                        $mail = MailMessage::createFromHeaderBody($entry['headers'], $entry['body']);
-                        Mail_Helper::saveOutgoingEmailCopy($mail, $entry['maq_iss_id'], $entry['maq_type']);
-                    }
-                }
-            }
-            // FIXME: should not process the list again?
-            //return;
+            throw new RuntimeException('Merged list no longer supported');
         }
 
         foreach (self::_getList($status, $limit) as $maq_id) {
@@ -263,42 +220,6 @@ class Mail_Queue
     }
 
     /**
-     * Retrieves the list of queued email messages ids, given a status, merged together by type
-     *
-     * @param   string $status The status of the messages
-     * @param   int $limit The limit on the number of messages that need to be returned
-     * @return  array The list of queued email messages
-     */
-    private static function _getMergedList($status, $limit = null)
-    {
-        $sql = 'SELECT
-                    GROUP_CONCAT(maq_id) ids
-                 FROM
-                    `mail_queue`
-                 WHERE
-                    maq_status=?
-                 AND
-                    maq_type_id > 0
-                 GROUP BY
-                    maq_type_id
-                 ORDER BY
-                    MIN(maq_id) ASC';
-
-        $limit = (int) $limit;
-        if ($limit) {
-            $sql .= " LIMIT 0, $limit";
-        }
-
-        $res = DB_Helper::getInstance()->getAll($sql, [$status]);
-
-        foreach ($res as &$value) {
-            $value = explode(',', $value['ids']);
-        }
-
-        return $res;
-    }
-
-    /**
      * Retrieves queued email by maq_id.
      *
      * @param   int $maq_id ID of queue entry
@@ -321,31 +242,6 @@ class Mail_Queue
                     maq_id=?';
 
         return DB_Helper::getInstance()->getRow($stmt, [$maq_id]);
-    }
-
-    /**
-     * Retrieves queued email by maq_ids.
-     *
-     * @param   array $maq_ids IDs of queue entries
-     * @return  array The queued email message
-     */
-    private static function _getEntries($maq_ids)
-    {
-        $stmt = 'SELECT
-                    maq_id id,
-                    maq_iss_id,
-                    maq_save_copy save_copy,
-                    maq_recipient recipient,
-                    maq_headers headers,
-                    maq_body body,
-                    maq_type,
-                    maq_usr_id
-                 FROM
-                    `mail_queue`
-                 WHERE
-                    maq_id IN (' . implode(',', $maq_ids) . ')';
-
-        return DB_Helper::getInstance()->getAll($stmt);
     }
 
     /**
@@ -452,9 +348,6 @@ class Mail_Queue
         return DB_Helper::getInstance()->getRow($stmt, [$maq_id]);
     }
 
-    /**
-     * @param int $type_id
-     */
     /**
      * @param string[]|string $types
      * @param int $type_id
