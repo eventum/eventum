@@ -182,13 +182,21 @@ class Mail_Queue
         foreach (self::_getList($status, $limit) as $maq_id) {
             $errors = self::getQueueErrorCount($maq_id);
             if ($errors > self::MAX_RETRIES) {
-                // TODO: mark as status 'failed'
+                // TODO: mark as status 'failed' otherwise we hit $limit and process only 1 message a time
                 continue;
             }
 
             $entry = self::_getEntry($maq_id);
 
-            $mail = MailMessage::createFromHeaderBody($entry['headers'], $entry['body']);
+            try {
+                $mail = MailMessage::createFromHeaderBody($entry['headers'], $entry['body']);
+            } catch (Exception $e) {
+                $details = $e->getMessage();
+                echo "Mail_Queue: issue #{$entry['maq_iss_id']}: Can't send mail $maq_id (retry $errors): $details\n";
+                self::_saveStatusLog($entry['id'], 'error', $details);
+                continue;
+            }
+
             $e = self::_sendEmail($entry['recipient'], $mail);
 
             if ($e instanceof Exception) {
