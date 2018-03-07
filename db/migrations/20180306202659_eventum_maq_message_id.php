@@ -48,7 +48,7 @@ class EventumMaqMessageId extends AbstractMigration
                     "skipped maq_id={$maqId}, exception: {$e->getMessage()}"
                 );
 
-                return null;
+                continue;
             }
 
             if (!$messageId) {
