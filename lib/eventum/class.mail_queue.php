@@ -23,6 +23,11 @@ class Mail_Queue
      */
     const MAX_RETRIES = 20;
 
+    const STATUS_PENDING = 'pending';
+    const STATUS_ERROR = 'error';
+    const STATUS_SENT = 'sent';
+    const STATUS_TRUNCATED = 'truncated';
+
     /**
      * Adds an email to the outgoing mail queue.
      *
@@ -155,14 +160,14 @@ class Mail_Queue
                 $transport = new MailTransport();
                 $transport->send($entry['recipient'], $mail);
 
-                self::_saveStatusLog($entry['id'], 'sent');
+                self::_saveStatusLog($entry['id'], self::STATUS_SENT);
                 if ($entry['save_copy']) {
                     Mail_Helper::saveOutgoingEmailCopy($mail, $entry['maq_iss_id'], $entry['maq_type']);
                 }
             } catch (Exception $e) {
                 $details = $e->getMessage();
                 echo "Mail_Queue: issue #{$entry['maq_iss_id']}: Can't send mail $maq_id (retry $errors): $details\n";
-                self::_saveStatusLog($entry['id'], 'error', $details);
+                self::_saveStatusLog($entry['id'], self::STATUS_ERROR, $details);
             }
         }
     }
@@ -225,7 +230,7 @@ class Mail_Queue
     private static function getQueueErrorCount($maq_id)
     {
         $sql = 'select count(*) from `mail_queue_log` where mql_maq_id=? and mql_status=?';
-        $res = DB_Helper::getInstance()->getOne($sql, [$maq_id, 'error']);
+        $res = DB_Helper::getInstance()->getOne($sql, [$maq_id, self::STATUS_ERROR]);
 
         return (int)$res;
     }
@@ -362,10 +367,10 @@ class Mail_Queue
                     `mail_queue`
                 SET
                   maq_body = '',
-                  maq_status = 'truncated'
+                  maq_status = ?
                 WHERE
-                    maq_status = 'sent' AND
+                    maq_status = ? AND
                     maq_queued_date <= DATE_SUB(NOW(), INTERVAL $interval)";
-        DB_Helper::getInstance()->query($sql);
+        DB_Helper::getInstance()->query($sql, [self::STATUS_TRUNCATED, self::STATUS_SENT]);
     }
 }

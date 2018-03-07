@@ -38,10 +38,10 @@ class MailQueueProcessCommand
     {
         // handle only pending emails
         $limit = 50;
-        Mail_Queue::send('pending', $limit);
+        Mail_Queue::send(Mail_Queue::STATUS_PENDING, $limit);
 
         // handle emails that we tried to send before, but an error happened...
         $limit = 50;
-        Mail_Queue::send('error', $limit);
+        Mail_Queue::send(Mail_Queue::STATUS_ERROR, $limit);
     }
 }
