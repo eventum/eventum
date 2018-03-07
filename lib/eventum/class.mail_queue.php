@@ -27,7 +27,7 @@ class Mail_Queue
 
     const STATUS_PENDING = 'pending';
     const STATUS_ERROR = 'error';
-    const STATUS_BLOCKED = 'blocked';
+    const STATUS_FAILED = 'failed';
     const STATUS_SENT = 'sent';
     const STATUS_TRUNCATED = 'truncated';
 

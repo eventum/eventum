@@ -73,7 +73,7 @@ class MailQueueListener implements EventSubscriberInterface
         $this->addStatusLog($event['id'], $status, $errorMessage);
 
         if ($errorCount >= Mail_Queue::MAX_RETRIES) {
-            $status = Mail_Queue::STATUS_BLOCKED;
+            $status = Mail_Queue::STATUS_FAILED;
         }
         $this->setStatus($event['id'], $status);
     }

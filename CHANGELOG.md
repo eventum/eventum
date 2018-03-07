@@ -16,7 +16,7 @@ NOTE: Mail related Workflow methods changed signature, see #263
 - Add `EventDispatcher` to console commands (@glensc, #337)
 - Mail-Download: fix `user_id` fetch using email header (@glensc, #336)
 - Added support for "checkbox" custom fields on advanced search page (@balsdorf, #347)
-- Mail Queue: set message status blocked after 20 retries (@glensc, #353)
+- Mail Queue: set message status failed after 20 retries (@glensc, #353)
 
 [3.4.0]: https://github.com/eventum/eventum/compare/v3.3.3...master
 
