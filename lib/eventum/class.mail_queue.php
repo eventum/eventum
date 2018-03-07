@@ -187,6 +187,15 @@ class Mail_Queue
         $items = DB_Helper::getInstance()->getColumn($sql, [$status]);
 
         foreach ($items as $maq_id) {
+            // to avoid re-sending very old errored mails
+            // add this backward compat block.
+            // drop in 3.5.0 and convert to db migrations to set those as 'blocked'
+            $sql = 'select count(*) from `mail_queue_log` where mql_maq_id=? and mql_status=?';
+            $res = DB_Helper::getInstance()->getOne($sql, [$maq_id, Mail_Queue::STATUS_ERROR]);
+            if ((int)$res > self::MAX_RETRIES) {
+                continue;
+            }
+
             yield self::_getEntry($maq_id);
         }
     }
