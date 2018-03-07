@@ -11,14 +11,12 @@
  * that were distributed with this source code.
  */
 
-use Eventum\Event\MailQueueListener;
 use Eventum\Event\SystemEvents;
 use Eventum\EventDispatcher\EventManager;
 use Eventum\Mail\MailBuilder;
 use Eventum\Mail\MailMessage;
 use Eventum\Mail\MailTransport;
 use Symfony\Component\EventDispatcher\GenericEvent;
-use Zend\Mail\Header\To;
 
 class Mail_Queue
 {
@@ -29,6 +27,7 @@ class Mail_Queue
 
     const STATUS_PENDING = 'pending';
     const STATUS_ERROR = 'error';
+    const STATUS_BLOCKED = 'blocked';
     const STATUS_SENT = 'sent';
     const STATUS_TRUNCATED = 'truncated';
 

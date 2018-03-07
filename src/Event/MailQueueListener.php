@@ -49,6 +49,7 @@ class MailQueueListener implements EventSubscriberInterface
         /** @var MailMessage $mail */
         $mail = $event->getSubject();
         $this->addStatusLog($event['id'], Mail_Queue::STATUS_SENT);
+        $this->setStatus($event['id'], Mail_Queue::STATUS_SENT);
 
         if ($event['save_copy']) {
             Mail_Helper::saveOutgoingEmailCopy($mail, $event['maq_iss_id'], $event['maq_type']);
@@ -60,10 +61,21 @@ class MailQueueListener implements EventSubscriberInterface
         /** @var Exception $e */
         $e = $event->getSubject();
 
-        $details = $e->getMessage();
-        $errors = $this->getQueueErrorCount($event['id']);
-        echo "Mail_Queue: issue #{$event['maq_iss_id']}: Can't send mail {$event['id']} (retry $errors): $details\n";
-        self::addStatusLog($event['id'], Mail_Queue::STATUS_ERROR, $details);
+        $errorMessage = $e->getMessage();
+        $errorCount = $this->getQueueErrorCount($event['id']);
+
+        if ($event['maq_iss_id']) {
+            $errorMessage = "issue #{$event['maq_iss_id']}: $errorMessage";
+        }
+        echo "Mail_Queue: Can't send mail {$event['id']} ($errorCount tries): $errorMessage\n";
+
+        $status = Mail_Queue::STATUS_ERROR;
+        $this->addStatusLog($event['id'], $status, $errorMessage);
+
+        if ($errorCount >= Mail_Queue::MAX_RETRIES) {
+            $status = Mail_Queue::STATUS_BLOCKED;
+        }
+        $this->setStatus($event['id'], $status);
     }
 
     /**
@@ -73,7 +85,6 @@ class MailQueueListener implements EventSubscriberInterface
      * @param   int $maq_id The queued email message ID
      * @param   string $status The status of the attempt ('sent' or 'error')
      * @param   string $server_message The full message from the SMTP server, in case of an error
-     * @return  bool
      */
     private function addStatusLog($maq_id, $status, $server_message = '')
     {
@@ -94,7 +105,10 @@ class MailQueueListener implements EventSubscriberInterface
             $server_message,
         ];
         DB_Helper::getInstance()->query($stmt, $params);
+    }
 
+    private function setStatus($maq_id, $status)
+    {
         $stmt = 'UPDATE
                     `mail_queue`
                  SET
@@ -103,8 +117,6 @@ class MailQueueListener implements EventSubscriberInterface
                     maq_id=?';
 
         DB_Helper::getInstance()->query($stmt, [$status, $maq_id]);
-
-        return true;
     }
 
     /**
