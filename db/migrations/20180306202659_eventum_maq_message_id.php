@@ -12,6 +12,7 @@
  */
 
 use Eventum\Db\AbstractMigration;
+use Eventum\Mail\MailMessage;
 use Eventum\Monolog\Logger;
 use Psr\Log\LoggerInterface;
 use Zend\Mail\Headers;
@@ -69,16 +70,20 @@ class EventumMaqMessageId extends AbstractMigration
         $this->logger->info("Updated $changed out of $total entries");
     }
 
-    private function getMessageId($maq_id)
+    private function getMessageId($maqId)
     {
-        $headers = $this->getHeaders($maq_id);
-        $headers = Headers::fromString($headers);
+        $textHeaders = $this->getHeaders($maqId);
+        $headers = Headers::fromString($textHeaders);
         $messageId = $headers->get('Message-Id');
         if ($messageId) {
             return $messageId->getFieldValue();
         }
 
-        return null;
+        // Message-Id header missing, load whole email, and let SanitizeHeaders build it
+        $body = $this->getBody($maqId);
+        $message = MailMessage::createFromHeaderBody($textHeaders, $body);
+
+        return $message->messageId;
     }
 
     private function getQueueIds()
@@ -94,6 +99,15 @@ class EventumMaqMessageId extends AbstractMigration
         $sql = "SELECT maq_headers FROM `mail_queue` WHERE maq_id=$maq_id";
 
         $rows = $this->queryColumn($sql, 'maq_headers');
+
+        return $rows[0];
+    }
+
+    private function getBody($maq_id)
+    {
+        $sql = "SELECT maq_body FROM `mail_queue` WHERE maq_id=$maq_id";
+
+        $rows = $this->queryColumn($sql, 'maq_body');
 
         return $rows[0];
     }
