@@ -27,10 +27,12 @@ class EventumMaqMessageId extends AbstractMigration
 
         if (!$total) {
             // nothing to do
+            $this->writeln("Total $total rows, nothing to do");
+
             return;
         }
 
-        $this->output("Total $total rows, this may take time. Please be patient.");
+        $this->writeln("Total $total rows, this may take time. Please be patient.");
         foreach ($maq_ids as $maq_id) {
             $current++;
 
@@ -62,7 +64,7 @@ class EventumMaqMessageId extends AbstractMigration
 
             if ($current % 5000 == 0) {
                 $p = round($current / $total * 100, 2);
-                $this->output("... updated $current rows, $p%");
+                $this->writeln("... updated $current rows, $p%");
             }
         }
 
