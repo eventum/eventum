@@ -13,13 +13,17 @@
 
 use Eventum\Db\AbstractMigration;
 use Eventum\Monolog\Logger;
+use Psr\Log\LoggerInterface;
 use Zend\Mail\Headers;
 
 class EventumMaqMessageId extends AbstractMigration
 {
+    /** @var LoggerInterface */
+    private $logger;
+
     public function up()
     {
-        $logger = Logger::getInstance('db');
+        $this->logger = Logger::getInstance('db');
 
         $maq_ids = $this->getQueueIds();
         $total = count($maq_ids);
@@ -33,33 +37,27 @@ class EventumMaqMessageId extends AbstractMigration
         }
 
         $this->writeln("Total $total rows, this may take time. Please be patient.");
-        foreach ($maq_ids as $maq_id) {
+        foreach ($maq_ids as $maqId) {
             $current++;
 
-            $maq_headers = $this->getHeaders($maq_id);
-
             try {
-                $headers = Headers::fromString($maq_headers);
+                $messageId = $this->getMessageId($maqId);
             } catch (Exception $e) {
-                $logger->info(
-                    "skipped maq_id={$maq_id}, exception: {$e->getMessage()}"
+                $this->logger->info(
+                    "skipped maq_id={$maqId}, exception: {$e->getMessage()}"
                 );
-                continue;
-            }
-            $message_id = $headers->get('Message-Id');
-            if (!$message_id) {
-                $logger->info(
-                    "skipped maq_id={$maq_id}, no message-id header"
-                );
-                continue;
-            }
-            $message_id = $message_id->getFieldValue();
 
-            $logger->info(
-                "updated maq_id={$maq_id}", ['maq_id' => $maq_id, 'message_id' => $message_id]
+                return null;
+            }
+
+            if (!$messageId) {
+                continue;
+            }
+
+            $this->setMessageId($maqId, $messageId);
+            $this->logger->info(
+                "updated maq_id={$maqId}", ['maq_id' => $maqId, 'message_id' => $messageId]
             );
-
-            $this->setMessageId($maq_id, $message_id);
             $changed++;
 
             if ($current % 5000 == 0) {
@@ -68,7 +66,19 @@ class EventumMaqMessageId extends AbstractMigration
             }
         }
 
-        $logger->info("Updated $changed out of $total entries");
+        $this->logger->info("Updated $changed out of $total entries");
+    }
+
+    private function getMessageId($maq_id)
+    {
+        $headers = $this->getHeaders($maq_id);
+        $headers = Headers::fromString($headers);
+        $messageId = $headers->get('Message-Id');
+        if ($messageId) {
+            return $messageId->getFieldValue();
+        }
+
+        return null;
     }
 
     private function getQueueIds()
