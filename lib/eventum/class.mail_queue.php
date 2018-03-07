@@ -147,6 +147,7 @@ class Mail_Queue
 
             try {
                 $mail = MailMessage::createFromHeaderBody($entry['headers'], $entry['body']);
+                self::_sendEmail($entry['recipient'], $mail);
             } catch (Exception $e) {
                 $details = $e->getMessage();
                 echo "Mail_Queue: issue #{$entry['maq_iss_id']}: Can't send mail $maq_id (retry $errors): $details\n";
@@ -154,16 +155,7 @@ class Mail_Queue
                 continue;
             }
 
-            $e = self::_sendEmail($entry['recipient'], $mail);
-
-            if ($e instanceof Exception) {
-                $details = $e->getMessage();
-                echo "Mail_Queue: issue #{$entry['maq_iss_id']}: Can't send mail $maq_id (retry $errors): $details\n";
-                self::_saveStatusLog($entry['id'], 'error', $details);
-                continue;
-            }
-
-            self::_saveStatusLog($entry['id'], 'sent', '');
+            self::_saveStatusLog($entry['id'], 'sent');
             if ($entry['save_copy']) {
                 Mail_Helper::saveOutgoingEmailCopy($mail, $entry['maq_iss_id'], $entry['maq_type']);
             }
@@ -175,7 +167,6 @@ class Mail_Queue
      *
      * @param string $recipient The recipient of this message
      * @param MailMessage $mail
-     * @return true or a Exception object
      */
     private static function _sendEmail($recipient, MailMessage $mail)
     {
@@ -186,8 +177,7 @@ class Mail_Queue
         $headers->removeHeader('Return-Path');
 
         $transport = new MailTransport();
-
-        return $transport->send($recipient, $mail);
+        $transport->send($recipient, $mail);
     }
 
     /**
@@ -267,7 +257,7 @@ class Mail_Queue
      * @param   string $server_message The full message from the SMTP server, in case of an error
      * @return  bool
      */
-    private static function _saveStatusLog($maq_id, $status, $server_message)
+    private static function _saveStatusLog($maq_id, $status, $server_message = '')
     {
         $stmt = 'INSERT INTO
                     `mail_queue_log`
