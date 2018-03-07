@@ -58,4 +58,13 @@ final class SystemEvents
      * @see ImapMessage::createFromImap
      */
     const MAIL_LOADED_IMAP = 'mail.loaded.imap';
+
+    /**
+     * @since 3.4.0
+     * @see Mail_Queue::send()
+     * @see MailQueueListener
+     */
+    const MAIL_QUEUE_SEND = 'mail.queue.send';
+    const MAIL_QUEUE_SENT = 'mail.queue.sent';
+    const MAIL_QUEUE_ERROR = 'mail.queue.error';
 }
