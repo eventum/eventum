@@ -81,9 +81,8 @@ class EventumMaqMessageId extends AbstractMigration
 
         // Message-Id header missing, load whole email, and let SanitizeHeaders build it
         $body = $this->getBody($maqId);
-        $message = MailMessage::createFromHeaderBody($textHeaders, $body);
 
-        return $message->messageId;
+        return MailMessage::createFromHeaderBody($textHeaders, $body)->messageId;
     }
 
     private function getQueueIds()
