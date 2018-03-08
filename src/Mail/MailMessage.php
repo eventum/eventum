@@ -114,20 +114,23 @@ class MailMessage extends Message
                 // message likely corrupted by Eventum itself
                 list($headers, $content) = explode("\r\n\r\n", $raw, 2);
 
+                // unfold message headers
+                $headers = preg_replace("/\r?\n/", "\r\n", $headers);
+                $headers = preg_replace("/\r\n(\t| )+/", ' ', $headers);
+
                 // split by \r\n, but \r may be optional
                 $headers = preg_split("/\r?\n/", $headers);
+
                 // strip any leftover \r
                 $headers = array_map('trim', $headers);
             }
         }
 
-        $message = new self(['root' => true, 'headers' => $headers, 'content' => $content]);
-
-        return $message;
+        return new self(['root' => true, 'headers' => $headers, 'content' => $content]);
     }
 
     /**
-     * Create Mail object from headers array and body string
+     * Create Mail object from headers array (or string) and body string
      *
      * @param string|array $headers
      * @param string $content
@@ -135,6 +138,11 @@ class MailMessage extends Message
      */
     public static function createFromHeaderBody($headers, $content)
     {
+        if (is_string($headers)) {
+            // create from string which is more relax for broken mails
+            return self::createFromString($headers . "\r\n\r\n" . $content);
+        }
+
         if (is_array($headers)) {
             foreach ($headers as $k => $v) {
                 // Zend\Mail does not like empty headers, "Cc:" for example
@@ -149,9 +157,7 @@ class MailMessage extends Message
             }
         }
 
-        $message = new self(['root' => true, 'headers' => $headers, 'content' => $content]);
-
-        return $message;
+        return new self(['root' => true, 'headers' => $headers, 'content' => $content]);
     }
 
     /**
@@ -162,9 +168,7 @@ class MailMessage extends Message
      */
     public static function createFromFile($filename)
     {
-        $message = new self(['root' => true, 'file' => $filename]);
-
-        return $message;
+        return new self(['root' => true, 'file' => $filename]);
     }
 
     /**
@@ -175,9 +179,7 @@ class MailMessage extends Message
      */
     public static function createFromMessage(Mail\Message $message)
     {
-        $message = self::createFromString($message->toString());
-
-        return $message;
+        return self::createFromString($message->toString());
     }
 
     /**

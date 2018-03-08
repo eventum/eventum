@@ -14,6 +14,7 @@
 namespace Eventum\Mail;
 
 use Eventum\Monolog\Logger;
+use Exception;
 use Mail_Helper;
 use Setup;
 use Zend\Mail\Transport;
@@ -32,9 +33,7 @@ class MailTransport
      *              specified in the headers, for Bcc:, resending
      *              messages, etc.
      * @param MailMessage $mail
-     * @return mixed Returns true on success, or a exception class
-     *               containing a descriptive error message on
-     *               failure
+     * @throws Exception
      */
     public function send($recipient, MailMessage $mail)
     {
@@ -47,21 +46,19 @@ class MailTransport
 
         try {
             $transport->send($mail->toMessage());
-            $res = true;
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $traceFile = $this->getTraceFile();
             if ($traceFile) {
                 // this is largely useless, as the exception likely happens in toMessage call above
                 file_put_contents($traceFile, json_encode([$recipient, $mail->getHeadersArray(), $mail->getContent()]));
             }
             Logger::app()->error($e->getMessage(), ['traceFile' => $traceFile, 'exception' => $e]);
-            $res = $e;
+
+            throw $e;
         } finally {
             // avoid leaking recipient in case of transport reuse
             $transport->setEnvelope(new Transport\Envelope());
         }
-
-        return $res;
     }
 
     /**

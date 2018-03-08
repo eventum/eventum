@@ -13,6 +13,7 @@
 
 namespace Eventum\EventDispatcher;
 
+use Eventum\Event\MailQueueListener;
 use Eventum\Extension\ExtensionManager;
 use Symfony\Component\EventDispatcher\Event;
 use Symfony\Component\EventDispatcher\EventDispatcher;
@@ -36,6 +37,9 @@ class EventManager
             foreach ($subscribers as $subscriber) {
                 $dispatcher->addSubscriber($subscriber);
             }
+
+            // TODO: figure out how to add builtins
+            $dispatcher->addSubscriber(new MailQueueListener());
         }
 
         return $dispatcher;
