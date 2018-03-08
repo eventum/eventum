@@ -20,7 +20,7 @@ NOTE: Mail related Workflow methods changed signature, see #263
 - Mail Queue: fill Message-Id column (@glensc, #352)
 - Mail Queue: Fix empty from header check (@glensc, #350, #351)
 
-[3.4.0]: https://github.com/eventum/eventum/compare/v3.3.3...master
+[3.4.0]: https://github.com/eventum/eventum/compare/v3.3.4...master
 
 ## [3.3.4] - 2017-11-24
 
