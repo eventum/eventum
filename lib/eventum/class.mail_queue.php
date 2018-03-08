@@ -191,7 +191,7 @@ class Mail_Queue
             // add this backward compat block.
             // drop in 3.5.0 and convert to db migrations to set those as 'blocked'
             $sql = 'select count(*) from `mail_queue_log` where mql_maq_id=? and mql_status=?';
-            $res = DB_Helper::getInstance()->getOne($sql, [$maq_id, Mail_Queue::STATUS_ERROR]);
+            $res = DB_Helper::getInstance()->getOne($sql, [$maq_id, self::STATUS_ERROR]);
             if ((int)$res > self::MAX_RETRIES) {
                 continue;
             }
