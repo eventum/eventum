@@ -17,6 +17,7 @@ use LogicException;
 use Phinx;
 use Phinx\Db\Adapter\MysqlAdapter;
 use Phinx\Migration\AbstractMigration as PhinxAbstractMigration;
+use Symfony\Component\Console\Output\OutputInterface;
 
 abstract class AbstractMigration extends PhinxAbstractMigration
 {
@@ -157,5 +158,34 @@ abstract class AbstractMigration extends PhinxAbstractMigration
             }
         }
         throw new LogicException('primary_key column not found');
+    }
+
+    /**
+     * Run SQL Query, return single column.
+     *
+     * @param string $sql
+     * @param string $column
+     * @return array
+     */
+    protected function queryColumn($sql, $column)
+    {
+        $st = $this->query($sql);
+        $rows = [];
+        foreach ($st as $row) {
+            $rows[] = $row[$column];
+        }
+
+        return $rows;
+    }
+
+    /**
+     * Writes a message to the output and adds a newline at the end.
+     *
+     * @param string|array $messages The message as an array of lines of a single string
+     * @param int $options A bitmask of options (one of the OUTPUT or VERBOSITY constants)
+     */
+    protected function writeln($messages, $options = OutputInterface::OUTPUT_NORMAL | OutputInterface::VERBOSITY_NORMAL)
+    {
+        $this->output->writeln($messages, $options);
     }
 }

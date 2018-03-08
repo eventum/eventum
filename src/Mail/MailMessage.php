@@ -16,10 +16,10 @@ namespace Eventum\Mail;
 use Date_Helper;
 use DateTime;
 use DomainException;
+use Eventum\Mail\Helper\MailLoader;
 use Eventum\Mail\Helper\SanitizeHeaders;
 use Eventum\Mail\Helper\TextMessage;
 use InvalidArgumentException;
-use Mime_Helper;
 use Zend\Mail;
 use Zend\Mail\Address;
 use Zend\Mail\AddressList;
@@ -94,37 +94,7 @@ class MailMessage extends Message
      */
     public static function createFromString($raw)
     {
-        // do our own header-body splitting.
-        //
-        // \Zend\Mail\Storage\Message is unable to process mails that contain \n\n in text body
-        // because it has heuristic which headers separator to use
-        // and that gets out of control
-        // https://github.com/zendframework/zend-mail/pull/159
-
-        try {
-            // use RFC compliant "\r\n" EOL
-            Mime\Decode::splitMessage($raw, $headers, $content, "\r\n");
-        } catch (Mail\Exception\RuntimeException $e) {
-            try {
-                // retry with heuristic
-                Mime\Decode::splitMessage($raw, $headers, $content);
-            } catch (Mail\Exception\RuntimeException $e) {
-                // retry with manual \r\n splitting
-                // retry our own splitting
-                // message likely corrupted by Eventum itself
-                list($headers, $content) = explode("\r\n\r\n", $raw, 2);
-
-                // unfold message headers
-                $headers = preg_replace("/\r?\n/", "\r\n", $headers);
-                $headers = preg_replace("/\r\n(\t| )+/", ' ', $headers);
-
-                // split by \r\n, but \r may be optional
-                $headers = preg_split("/\r?\n/", $headers);
-
-                // strip any leftover \r
-                $headers = array_map('trim', $headers);
-            }
-        }
+        MailLoader::splitMessage($raw, $headers, $content);
 
         return new self(['root' => true, 'headers' => $headers, 'content' => $content]);
     }
@@ -144,17 +114,7 @@ class MailMessage extends Message
         }
 
         if (is_array($headers)) {
-            foreach ($headers as $k => $v) {
-                // Zend\Mail does not like empty headers, "Cc:" for example
-                if ($v === '') {
-                    unset($headers[$k]);
-                }
-
-                // also it doesn't like 8bit headers
-                if (Mime_Helper::is8bit($v)) {
-                    $headers[$k] = Mime_Helper::encode($v);
-                }
-            }
+            MailLoader::encodeHeaders($headers);
         }
 
         return new self(['root' => true, 'headers' => $headers, 'content' => $content]);
