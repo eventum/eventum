@@ -240,6 +240,7 @@ class RemoteDataController extends BaseController
         }
 
         $raw = $res['maq_headers'] . "\n" . $res['maq_body'];
+
         return nl2br(htmlspecialchars($raw, ENT_SUBSTITUTE));
     }
 
