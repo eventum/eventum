@@ -73,10 +73,16 @@ class EventumMaqMessageId extends AbstractMigration
     private function getMessageId($maqId)
     {
         $textHeaders = $this->getHeaders($maqId);
-        $headers = Headers::fromString($textHeaders);
-        $messageId = $headers->get('Message-Id');
-        if ($messageId) {
-            return $messageId->getFieldValue();
+
+        try {
+            $headers = Headers::fromString($textHeaders);
+            $messageId = $headers->get('Message-Id');
+            if ($messageId) {
+                return $messageId->getFieldValue();
+            }
+        } catch (Exception $e) {
+            // will fallback and retry with MailMessage
+            $this->logger->debug($e->getMessage());
         }
 
         // Message-Id header missing, load whole email, and let SanitizeHeaders build it
