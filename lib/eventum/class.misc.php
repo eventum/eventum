@@ -221,8 +221,9 @@ class Misc
      */
     public static function return_bytes($val)
     {
-        $val = (int)trim($val);
+        $val = trim($val);
         $last = strtolower($val[strlen($val) - 1]);
+        $val = (float)$val;
         switch ($last) {
             // The 'G' modifier is available since PHP 5.1.0
             /** @noinspection PhpMissingBreakStatementInspection */
@@ -237,7 +238,8 @@ class Misc
                 $val *= 1024;
         }
 
-        return $val;
+        // try to return int if it fits, otherwise float
+        return $val > PHP_INT_MAX ? $val : (int)$val;
     }
 
     /**
