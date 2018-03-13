@@ -115,7 +115,6 @@ class Table
             'user_group',
             'user_preference',
             'user_project_preference',
-            'version',
         ];
     }
 }
