@@ -26,6 +26,7 @@ use Eventum\Console\Command\Command as BaseCommand;
 use Eventum\Db\Adapter\AdapterInterface;
 use League\Flysystem\Adapter\Local;
 use League\Flysystem\Filesystem;
+use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Output\OutputInterface;
 
 require_once __DIR__ . '/../init.php';
@@ -47,9 +48,6 @@ class Command extends BaseCommand
     /** @var string */
     private $target_adapter;
 
-    /** @var int */
-    private $chunksize;
-
     public function execute(OutputInterface $output, $source_adapter, $target_adapter, $chunksize = 100, $yes)
     {
         $this->output = $output;
@@ -57,41 +55,45 @@ class Command extends BaseCommand
 
         $this->source_adapter = $source_adapter;
         $this->target_adapter = $target_adapter;
-        $this->chunksize = (int)$chunksize;
 
         $this->db = DB_Helper::getInstance();
         $this->sm = StorageManager::get();
-        $this->migrateAttachments();
+        $this->migrateAttachments((int)$chunksize);
         $this->postUpgradeNotice();
     }
 
-    private function migrateAttachments()
+    private function migrateAttachments($chunkSize)
     {
         $this->writeln("Migrating data from '{$this->source_adapter}://' to '{$this->target_adapter}://'");
         $total = $this->prepareTemporaryTable();
 
-        $chunks = 1;
-        $nchunks = ceil($total / $this->chunksize);
-        $moved = 0;
-        $this->writeln("Move $total files");
-        while ($chunks <= $nchunks) {
-            $this->writeln("Getting chunk $chunks/$nchunks");
-            $files = $this->getChunk();
+        if (!$total) {
+            $this->writeln('Nothing to migrate');
+
+            return;
+        }
+
+        ProgressBar::setFormatDefinition('custom', ' %current%/%max% [%bar%] %percent:3s%% (%id%: %filename%)  %elapsed:6s%/%estimated:-6s% %memory:6s%');
+        $progressBar = new ProgressBar($this->output, $total);
+        $progressBar->setFormat('custom');
+        $progressBar->start();
+
+        for ($i = 0, $nchunks = ceil($total / $chunkSize); $i < $nchunks; $i++) {
+            $files = $this->getChunk($chunkSize);
             if (empty($files)) {
-                $this->writeln('No more attachments to migrate');
                 break;
             }
 
-            $count = count($files);
-            $this->writeln("Moving $count file(s)...");
             foreach ($files as $file) {
+                $progressBar->setMessage($file['iaf_id'], 'id');
+                $progressBar->setMessage($file['iap_flysystem_path'], 'filename');
                 $this->moveFile($file);
-                $moved++;
             }
-            $chunks++;
+            $progressBar->advance($chunkSize);
         }
 
-        $this->writeln("Moved $moved files");
+        $progressBar->finish();
+        $this->writeln('');
     }
 
     private function moveFile($file)
@@ -102,8 +104,6 @@ class Command extends BaseCommand
         $old_path = $file['iap_flysystem_path'];
         $file_path = AttachmentManager::generatePath($iaf_id, $filename, $issue_id);
         $new_path = str_replace("{$this->sm->getDefaultAdapter()}://", "{$this->target_adapter}://", $file_path);
-
-        $this->writeln("Moving $iaf_id '{$filename}' from $old_path to $new_path");
 
         // throws League\Flysystem\Exception
         // we let it abort whole process
@@ -170,7 +170,7 @@ class Command extends BaseCommand
         return (int)$total;
     }
 
-    private function getChunk()
+    private function getChunk($limit)
     {
         $sql
             = "SELECT
@@ -183,7 +183,7 @@ class Command extends BaseCommand
                 `migrate_storage_adapter`
             ORDER BY
                 iaf_id ASC
-            LIMIT {$this->chunksize}";
+            LIMIT {$limit}";
 
         return $this->db->getAll($sql);
     }
