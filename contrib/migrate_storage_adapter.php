@@ -78,17 +78,26 @@ class Command
             "Migrating data from '{$this->source_adapter}://' to '{$this->target_adapter}://'"
         );
 
+        $chunks = 1;
+        $moved = 0;
         while (true) {
+            $this->output->writeln("Getting chunk $chunks... Please wait");
             $files = $this->getChunk();
             if (empty($files)) {
                 echo "No more attachments to migrate\n";
                 break;
             }
 
+            $count = count($files);
+            $this->output->writeln("Moving $count file(s)...");
             foreach ($files as $file) {
                 $this->moveFile($file);
+                $moved++;
             }
+            $chunks++;
         }
+
+        $this->output->writeln("Moved $moved files");
     }
 
     private function moveFile($file)
