@@ -29,6 +29,7 @@ use LogicException;
 use Misc;
 use Notification;
 use RuntimeException;
+use SplFileInfo;
 use User;
 use Workflow;
 
@@ -343,11 +344,23 @@ class AttachmentManager
     public static function generatePath($iaf_id, $filename, $issue_id = null)
     {
         $sm = StorageManager::get();
-        if ($issue_id) {
-            return "{$sm->getDefaultAdapter()}://{$issue_id}/{$iaf_id}-{$filename}";
-        }
+        $prefix = "{$sm->getDefaultAdapter()}://";
+        $prefix .= $issue_id ?: 'unassociated';
+        $prefix .= "/{$iaf_id}-";
 
-        return "{$sm->getDefaultAdapter()}://unassociated/{$iaf_id}-{$filename}";
+        // make whole path not exceed 255 bytes
+        // https://github.com/eventum/eventum/pull/355#issuecomment-372784072
+        $fi = new SplFileInfo($filename);
+        $extension = $fi->getExtension() ? '.' . $fi->getExtension() : '';
+        $maxLength = 255 - strlen($prefix) - strlen($extension);
+        // cut with unicode, but test with byte length
+        // this ensures we don't break unicode and not exceed given length
+        do {
+            $filename = $prefix . mb_strimwidth($fi->getBasename($extension), 0, $maxLength, '', 'UTF-8') . $extension;
+            $maxLength--;
+        } while (strlen($filename) > 255);
+
+        return $filename;
     }
 
     /**
