@@ -68,12 +68,14 @@ class Command extends BaseCommand
     private function migrateAttachments()
     {
         $this->writeln("Migrating data from '{$this->source_adapter}://' to '{$this->target_adapter}://'");
-        $this->prepare();
+        $total = $this->prepareTemporaryTable();
 
         $chunks = 1;
+        $nchunks = ceil($total / $this->chunksize);
         $moved = 0;
-        while (true) {
-            $this->writeln("Getting chunk $chunks");
+        $this->writeln("Move $total files");
+        while ($chunks <= $nchunks) {
+            $this->writeln("Getting chunk $chunks/$nchunks");
             $files = $this->getChunk();
             if (empty($files)) {
                 $this->writeln('No more attachments to migrate');
@@ -140,7 +142,7 @@ class Command extends BaseCommand
      * Build temporary table for work, because the query is made on columns that are not indexed
      * and running chunked query on that is very slow.
      */
-    private function prepare()
+    private function prepareTemporaryTable()
     {
         $this->writeln('Preparing temporary table. Please wait...');
         $sql = "
@@ -161,7 +163,11 @@ class Command extends BaseCommand
                 iat_id = iaf_iat_id AND
                 iap_flysystem_path LIKE '{$this->source_adapter}://%'";
 
-        return $this->db->query($sql);
+        $this->db->query($sql);
+
+        $total = $this->db->getOne('SELECT COUNT(*) FROM `migrate_storage_adapter`');
+
+        return (int)$total;
     }
 
     private function getChunk()
