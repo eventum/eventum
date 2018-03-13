@@ -68,14 +68,15 @@ class Command extends BaseCommand
     private function migrateAttachments()
     {
         $this->writeln("Migrating data from '{$this->source_adapter}://' to '{$this->target_adapter}://'");
+        $this->prepare();
 
         $chunks = 1;
         $moved = 0;
         while (true) {
-            $this->writeln("Getting chunk $chunks... Please wait");
+            $this->writeln("Getting chunk $chunks");
             $files = $this->getChunk();
             if (empty($files)) {
-                $this->writeln("No more attachments to migrate");
+                $this->writeln('No more attachments to migrate');
                 break;
             }
 
@@ -105,15 +106,7 @@ class Command extends BaseCommand
         // throws League\Flysystem\Exception
         // we let it abort whole process
         $this->sm->moveFile($old_path, $new_path);
-
-        $sql = 'UPDATE
-                    `issue_attachment_file_path`
-                SET
-                    iap_flysystem_path = ?
-                WHERE
-                    iap_iaf_id = ?';
-        DB_Helper::getInstance()->query($sql, [$new_path, $iaf_id]);
-
+        $this->moveFileDatabase($iaf_id, $new_path);
         $this->touchLocalFile($new_path, $file);
     }
 
@@ -143,6 +136,34 @@ class Command extends BaseCommand
         }
     }
 
+    /**
+     * Build temporary table for work, because the query is made on columns that are not indexed
+     * and running chunked query on that is very slow.
+     */
+    private function prepare()
+    {
+        $this->writeln('Preparing temporary table. Please wait...');
+        $sql = "
+          CREATE TEMPORARY TABLE
+                `migrate_storage_adapter`
+          SELECT
+                iaf_id,
+                iaf_filename,
+                iap_flysystem_path,
+                iat_iss_id,
+                iat_created_date
+          FROM
+                `issue_attachment_file`,
+                `issue_attachment_file_path`,
+                `issue_attachment`
+          WHERE
+                iap_iaf_id = iaf_id AND
+                iat_id = iaf_iat_id AND
+                iap_flysystem_path LIKE '{$this->source_adapter}://%'";
+
+        return $this->db->query($sql);
+    }
+
     private function getChunk()
     {
         $sql
@@ -153,18 +174,19 @@ class Command extends BaseCommand
                 iat_iss_id,
                 iat_created_date
             FROM
-                `issue_attachment_file`,
-                `issue_attachment_file_path`,
-                `issue_attachment`
-            WHERE
-                iap_iaf_id = iaf_id AND
-                iat_id = iaf_iat_id AND
-                iap_flysystem_path LIKE '{$this->source_adapter}://%'
+                `migrate_storage_adapter`
             ORDER BY
                 iaf_id ASC
             LIMIT {$this->chunksize}";
 
         return $this->db->getAll($sql);
+    }
+
+    private function moveFileDatabase($iaf_id, $path)
+    {
+        $sql = 'UPDATE `issue_attachment_file_path` SET iap_flysystem_path = ? WHERE iap_iaf_id = ?';
+        $this->db->query($sql, [$path, $iaf_id]);
+        $this->db->query('DELETE FROM `migrate_storage_adapter` WHERE iaf_id=?', [$iaf_id]);
     }
 
     private function assertInput($source_adapter, $target_adapter, $migrate)
