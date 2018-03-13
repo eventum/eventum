@@ -65,7 +65,9 @@ class Command extends BaseCommand
     private function migrateAttachments($chunkSize)
     {
         $this->writeln("Migrating data from '{$this->source_adapter}://' to '{$this->target_adapter}://'");
+        $this->writeln('Preparing temporary table. Please wait...');
         $total = $this->prepareTemporaryTable();
+        $this->writeln("Moving $total file(s)");
 
         if (!$total) {
             $this->writeln('Nothing to migrate');
@@ -73,7 +75,7 @@ class Command extends BaseCommand
             return;
         }
 
-        ProgressBar::setFormatDefinition('custom', ' %current%/%max% [%bar%] %percent:3s%% (%id%: %filename%)  %elapsed:6s%/%estimated:-6s% %memory:6s%');
+        ProgressBar::setFormatDefinition('custom', ' %current%/%max% [%bar%] %percent:3s%% %elapsed:6s%/%estimated:-6s% %memory:6s% (%id%: %filename%)');
         $progressBar = new ProgressBar($this->output, $total);
         $progressBar->setFormat('custom');
         $progressBar->start();
@@ -88,8 +90,8 @@ class Command extends BaseCommand
                 $progressBar->setMessage($file['iaf_id'], 'id');
                 $progressBar->setMessage($file['iap_flysystem_path'], 'filename');
                 $this->moveFile($file);
+                $progressBar->advance();
             }
-            $progressBar->advance($chunkSize);
         }
 
         $progressBar->finish();
@@ -144,7 +146,6 @@ class Command extends BaseCommand
      */
     private function prepareTemporaryTable()
     {
-        $this->writeln('Preparing temporary table. Please wait...');
         $sql = "
           CREATE TEMPORARY TABLE
                 `migrate_storage_adapter`
