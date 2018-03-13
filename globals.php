@@ -25,3 +25,4 @@ define('APP_TPL_PATH', APP_PATH . '/templates');
 define('APP_TPL_COMPILE_PATH', APP_VAR_PATH . '/cache');
 define('APP_LOG_PATH', APP_VAR_PATH . '/log');
 define('APP_ERROR_LOG', APP_LOG_PATH . '/errors.log');
+define('APP_LOCKS_PATH', APP_VAR_PATH . '/lock');
