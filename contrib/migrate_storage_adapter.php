@@ -213,6 +213,12 @@ class Command extends BaseCommand
                 'to reclaim space from the database';
             $this->writeln("<error>$message</error>");
         }
+
+        if ($this->source_adapter === 'pdo') {
+            $message = "You might need to run 'OPTIMIZE TABLE attachment_chunk' " .
+                'to reclaim space from the database';
+            $this->writeln("<error>$message</error>");
+        }
     }
 }
 
