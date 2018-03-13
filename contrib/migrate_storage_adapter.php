@@ -23,6 +23,8 @@
 use Eventum\Attachment\AttachmentManager;
 use Eventum\Attachment\StorageManager;
 use Eventum\Db\Adapter\AdapterInterface;
+use League\Flysystem\Adapter\Local;
+use League\Flysystem\Filesystem;
 use Symfony\Component\Console\Output\OutputInterface;
 
 require_once __DIR__ . '/../init.php';
@@ -95,8 +97,8 @@ class Command
         $filename = $file['iaf_filename'];
         $issue_id = $file['iat_iss_id'];
         $old_path = $file['iap_flysystem_path'];
-        $new_path = AttachmentManager::generatePath($iaf_id, $filename, $issue_id);
-        $new_path = str_replace("{$this->sm->getDefaultAdapter()}://", "{$this->target_adapter}://", $new_path);
+        $file_path = AttachmentManager::generatePath($iaf_id, $filename, $issue_id);
+        $new_path = str_replace("{$this->sm->getDefaultAdapter()}://", "{$this->target_adapter}://", $file_path);
 
         $this->output->writeln("Moving $iaf_id '{$filename}' from $old_path to $new_path");
 
@@ -112,11 +114,32 @@ class Command
                     iap_iaf_id = ?';
         DB_Helper::getInstance()->query($sql, [$new_path, $iaf_id]);
 
-        if ($this->target_adapter === 'local') {
-            // try to set the timestamp on the filesystem to match what is stored in the database
-            $fs_path = str_replace('local://', StorageManager::STORAGE_PATH, $new_path);
-            $created_date = strtotime($file['iat_created_date']);
-            touch($fs_path, $created_date);
+        $this->touchLocalFile($new_path, $file);
+    }
+
+    /**
+     * Try to set the timestamp on the filesystem to match what is stored in the database
+     *
+     * @param string $path
+     * @param array $file
+     */
+    private function touchLocalFile($path, array $file)
+    {
+        /** @var Filesystem $fs */
+        $fs = $this->sm->getFile($path)->getFilesystem();
+        $adapter = $fs->getAdapter();
+        if (!$adapter instanceof Local) {
+            return;
+        }
+
+        $filesystemPath = $adapter->applyPathPrefix(str_replace('local://', '', $path));
+
+        $date = new DateTime($file['iat_created_date'], new DateTimeZone('UTC'));
+        $created_date = $date->getTimestamp();
+
+        $res = touch($filesystemPath, $created_date);
+        if ($res !== true) {
+            throw new RuntimeException();
         }
     }
 
