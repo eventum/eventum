@@ -22,6 +22,7 @@
 
 use Eventum\Attachment\AttachmentManager;
 use Eventum\Attachment\StorageManager;
+use Eventum\Console\Command\Command as BaseCommand;
 use Eventum\Db\Adapter\AdapterInterface;
 use League\Flysystem\Adapter\Local;
 use League\Flysystem\Filesystem;
@@ -29,18 +30,10 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 require_once __DIR__ . '/../init.php';
 
-$app = new Silly\Application();
-$app->command(Command::USAGE, [new Command(), 'execute']);
-$app->setDefaultCommand(Command::DEFAULT_COMMAND, true);
-$app->run();
-
-class Command
+class Command extends BaseCommand
 {
     const DEFAULT_COMMAND = 'migrate:attachments';
     const USAGE = self::DEFAULT_COMMAND . ' [source_adapter] [target_adapter] [--chunksize=] [--yes]';
-
-    /** @var OutputInterface */
-    private $output;
 
     /** @var AdapterInterface */
     private $db;
@@ -74,22 +67,20 @@ class Command
 
     private function migrateAttachments()
     {
-        $this->output->writeln(
-            "Migrating data from '{$this->source_adapter}://' to '{$this->target_adapter}://'"
-        );
+        $this->writeln("Migrating data from '{$this->source_adapter}://' to '{$this->target_adapter}://'");
 
         $chunks = 1;
         $moved = 0;
         while (true) {
-            $this->output->writeln("Getting chunk $chunks... Please wait");
+            $this->writeln("Getting chunk $chunks... Please wait");
             $files = $this->getChunk();
             if (empty($files)) {
-                echo "No more attachments to migrate\n";
+                $this->writeln("No more attachments to migrate");
                 break;
             }
 
             $count = count($files);
-            $this->output->writeln("Moving $count file(s)...");
+            $this->writeln("Moving $count file(s)...");
             foreach ($files as $file) {
                 $this->moveFile($file);
                 $moved++;
@@ -97,7 +88,7 @@ class Command
             $chunks++;
         }
 
-        $this->output->writeln("Moved $moved files");
+        $this->writeln("Moved $moved files");
     }
 
     private function moveFile($file)
@@ -109,7 +100,7 @@ class Command
         $file_path = AttachmentManager::generatePath($iaf_id, $filename, $issue_id);
         $new_path = str_replace("{$this->sm->getDefaultAdapter()}://", "{$this->target_adapter}://", $file_path);
 
-        $this->output->writeln("Moving $iaf_id '{$filename}' from $old_path to $new_path");
+        $this->writeln("Moving $iaf_id '{$filename}' from $old_path to $new_path");
 
         // throws League\Flysystem\Exception
         // we let it abort whole process
@@ -198,7 +189,12 @@ class Command
         if ($this->source_adapter === 'legacy') {
             $message = "You might need to run 'OPTIMIZE TABLE issue_attachment_file' " .
                 'to reclaim space from the database';
-            $this->output->writeln("<error>$message</error>");
+            $this->writeln("<error>$message</error>");
         }
     }
 }
+
+$app = new Silly\Application();
+$app->command(Command::USAGE, [new Command(), 'execute']);
+$app->setDefaultCommand(Command::DEFAULT_COMMAND, true);
+$app->run();
