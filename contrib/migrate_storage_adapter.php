@@ -22,25 +22,19 @@
 
 use Eventum\Attachment\AttachmentManager;
 use Eventum\Attachment\StorageManager;
+use Eventum\Console\Command\Command as BaseCommand;
 use Eventum\Db\Adapter\AdapterInterface;
 use League\Flysystem\Adapter\Local;
 use League\Flysystem\Filesystem;
+use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Output\OutputInterface;
 
 require_once __DIR__ . '/../init.php';
 
-$app = new Silly\Application();
-$app->command(Command::USAGE, [new Command(), 'execute']);
-$app->setDefaultCommand(Command::DEFAULT_COMMAND, true);
-$app->run();
-
-class Command
+class Command extends BaseCommand
 {
     const DEFAULT_COMMAND = 'migrate:attachments';
     const USAGE = self::DEFAULT_COMMAND . ' [source_adapter] [target_adapter] [--chunksize=] [--yes]';
-
-    /** @var OutputInterface */
-    private $output;
 
     /** @var AdapterInterface */
     private $db;
@@ -54,9 +48,6 @@ class Command
     /** @var string */
     private $target_adapter;
 
-    /** @var int */
-    private $chunksize;
-
     public function execute(OutputInterface $output, $source_adapter, $target_adapter, $chunksize = 100, $yes)
     {
         $this->output = $output;
@@ -64,40 +55,47 @@ class Command
 
         $this->source_adapter = $source_adapter;
         $this->target_adapter = $target_adapter;
-        $this->chunksize = (int)$chunksize;
 
         $this->db = DB_Helper::getInstance();
         $this->sm = StorageManager::get();
-        $this->migrateAttachments();
+        $this->migrateAttachments((int)$chunksize);
         $this->postUpgradeNotice();
     }
 
-    private function migrateAttachments()
+    private function migrateAttachments($chunkSize)
     {
-        $this->output->writeln(
-            "Migrating data from '{$this->source_adapter}://' to '{$this->target_adapter}://'"
-        );
+        $this->writeln("Migrating data from '{$this->source_adapter}://' to '{$this->target_adapter}://'");
+        $this->writeln('Preparing temporary table. Please wait...');
+        $total = $this->prepareTemporaryTable();
+        $this->writeln("Moving $total file(s)");
 
-        $chunks = 1;
-        $moved = 0;
-        while (true) {
-            $this->output->writeln("Getting chunk $chunks... Please wait");
-            $files = $this->getChunk();
+        if (!$total) {
+            $this->writeln('Nothing to migrate');
+
+            return;
+        }
+
+        ProgressBar::setFormatDefinition('custom', ' %current%/%max% [%bar%] %percent:3s%% %elapsed:6s%/%estimated:-6s% %memory:6s% (%id%: %filename%)');
+        $progressBar = new ProgressBar($this->output, $total);
+        $progressBar->setFormat('custom');
+        $progressBar->start();
+
+        for ($i = 0, $nchunks = ceil($total / $chunkSize); $i < $nchunks; $i++) {
+            $files = $this->getChunk($chunkSize);
             if (empty($files)) {
-                echo "No more attachments to migrate\n";
                 break;
             }
 
-            $count = count($files);
-            $this->output->writeln("Moving $count file(s)...");
             foreach ($files as $file) {
+                $progressBar->setMessage($file['iaf_id'], 'id');
+                $progressBar->setMessage($file['iap_flysystem_path'], 'filename');
                 $this->moveFile($file);
-                $moved++;
+                $progressBar->advance();
             }
-            $chunks++;
         }
 
-        $this->output->writeln("Moved $moved files");
+        $progressBar->finish();
+        $this->writeln('');
     }
 
     private function moveFile($file)
@@ -109,20 +107,10 @@ class Command
         $file_path = AttachmentManager::generatePath($iaf_id, $filename, $issue_id);
         $new_path = str_replace("{$this->sm->getDefaultAdapter()}://", "{$this->target_adapter}://", $file_path);
 
-        $this->output->writeln("Moving $iaf_id '{$filename}' from $old_path to $new_path");
-
         // throws League\Flysystem\Exception
         // we let it abort whole process
         $this->sm->moveFile($old_path, $new_path);
-
-        $sql = 'UPDATE
-                    `issue_attachment_file_path`
-                SET
-                    iap_flysystem_path = ?
-                WHERE
-                    iap_iaf_id = ?';
-        DB_Helper::getInstance()->query($sql, [$new_path, $iaf_id]);
-
+        $this->moveFileDatabase($iaf_id, $new_path);
         $this->touchLocalFile($new_path, $file);
     }
 
@@ -152,7 +140,38 @@ class Command
         }
     }
 
-    private function getChunk()
+    /**
+     * Build temporary table for work, because the query is made on columns that are not indexed
+     * and running chunked query on that is very slow.
+     */
+    private function prepareTemporaryTable()
+    {
+        $sql = "
+          CREATE TEMPORARY TABLE
+                `migrate_storage_adapter`
+          SELECT
+                iaf_id,
+                iaf_filename,
+                iap_flysystem_path,
+                iat_iss_id,
+                iat_created_date
+          FROM
+                `issue_attachment_file`,
+                `issue_attachment_file_path`,
+                `issue_attachment`
+          WHERE
+                iap_iaf_id = iaf_id AND
+                iat_id = iaf_iat_id AND
+                iap_flysystem_path LIKE '{$this->source_adapter}://%'";
+
+        $this->db->query($sql);
+
+        $total = $this->db->getOne('SELECT COUNT(*) FROM `migrate_storage_adapter`');
+
+        return (int)$total;
+    }
+
+    private function getChunk($limit)
     {
         $sql
             = "SELECT
@@ -162,18 +181,19 @@ class Command
                 iat_iss_id,
                 iat_created_date
             FROM
-                `issue_attachment_file`,
-                `issue_attachment_file_path`,
-                `issue_attachment`
-            WHERE
-                iap_iaf_id = iaf_id AND
-                iat_id = iaf_iat_id AND
-                iap_flysystem_path LIKE '{$this->source_adapter}://%'
+                `migrate_storage_adapter`
             ORDER BY
                 iaf_id ASC
-            LIMIT {$this->chunksize}";
+            LIMIT {$limit}";
 
         return $this->db->getAll($sql);
+    }
+
+    private function moveFileDatabase($iaf_id, $path)
+    {
+        $sql = 'UPDATE `issue_attachment_file_path` SET iap_flysystem_path = ? WHERE iap_iaf_id = ?';
+        $this->db->query($sql, [$path, $iaf_id]);
+        $this->db->query('DELETE FROM `migrate_storage_adapter` WHERE iaf_id=?', [$iaf_id]);
     }
 
     private function assertInput($source_adapter, $target_adapter, $migrate)
@@ -198,7 +218,18 @@ class Command
         if ($this->source_adapter === 'legacy') {
             $message = "You might need to run 'OPTIMIZE TABLE issue_attachment_file' " .
                 'to reclaim space from the database';
-            $this->output->writeln("<error>$message</error>");
+            $this->writeln("<error>$message</error>");
+        }
+
+        if ($this->source_adapter === 'pdo') {
+            $message = "You might need to run 'OPTIMIZE TABLE attachment_chunk' " .
+                'to reclaim space from the database';
+            $this->writeln("<error>$message</error>");
         }
     }
 }
+
+$app = new Silly\Application();
+$app->command(Command::USAGE, [new Command(), 'execute']);
+$app->setDefaultCommand(Command::DEFAULT_COMMAND, true);
+$app->run();
