@@ -57,6 +57,7 @@
 		"php": "^5.6.0 || ^7.0",
 		"ext-filter": "*",
 		"ext-iconv": "*",
+		"ext-intl": "*",
 		"ext-json": "*",
 		"ext-mbstring": "*",
 		"ext-pcre": "*",

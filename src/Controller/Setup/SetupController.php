@@ -186,6 +186,8 @@ class SetupController extends BaseController
                            'You need to install this extension. If you do not install this extension localization will be disabled.', ],
             'iconv' => [true, 'The ICONV extension is not enabled in your PHP installation. ' .
                         'You need to install this extension for optimal operation. If you do not install this extension some unicode data will be corrupted.', ],
+            'intl' => [false, 'The intl extension is not enabled in your PHP installation. ' .
+                        'For optional performance you should install intl extension', ],
         ];
 
         foreach ($extensions as $extension => $value) {
