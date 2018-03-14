@@ -31,7 +31,6 @@ Session.vim
 /cli/*.phar
 /cli/build/
 
-/composer.lock
 /vendor
 
 /config/cas.php
