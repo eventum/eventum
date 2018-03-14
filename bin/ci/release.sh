@@ -129,7 +129,6 @@ clean_whitespace() {
 composer_install() {
 	# this dir does not exist in git export, but referenced in composer.json
 	install -d tests/src
-	$quick && test -f ../composer.lock && cp ../composer.lock .
 
 	# first install with dev to get assets installed
 	$composer install --prefer-dist
