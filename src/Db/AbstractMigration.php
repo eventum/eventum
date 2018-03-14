@@ -18,6 +18,7 @@ use PDO;
 use Phinx;
 use Phinx\Db\Adapter\MysqlAdapter;
 use Phinx\Migration\AbstractMigration as PhinxAbstractMigration;
+use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Output\OutputInterface;
 
 abstract class AbstractMigration extends PhinxAbstractMigration
@@ -221,5 +222,14 @@ abstract class AbstractMigration extends PhinxAbstractMigration
     protected function writeln($messages, $options = OutputInterface::OUTPUT_NORMAL | OutputInterface::VERBOSITY_NORMAL)
     {
         $this->output->writeln($messages, $options);
+    }
+
+    /**
+     * @param int $total
+     * @return ProgressBar
+     */
+    protected function createProgressBar($total)
+    {
+        return new ProgressBar($this->output, $total);
     }
 }
