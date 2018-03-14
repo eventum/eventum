@@ -193,6 +193,26 @@ abstract class AbstractMigration extends PhinxAbstractMigration
     }
 
     /**
+     * Run SQL Query, return key => value pairs
+     *
+     * @param string $sql
+     * @param string $keyColumn
+     * @param string $valueColumn
+     * @return array
+     */
+    protected function queryPair($sql, $keyColumn, $valueColumn)
+    {
+        $rows = [];
+        foreach ($this->query($sql) as $row) {
+            $key = $row[$keyColumn];
+
+            $rows[$key] = $row[$valueColumn];
+        }
+
+        return $rows;
+    }
+
+    /**
      * Writes a message to the output and adds a newline at the end.
      *
      * @param string|array $messages The message as an array of lines of a single string
