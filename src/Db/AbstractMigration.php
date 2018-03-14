@@ -126,15 +126,15 @@ abstract class AbstractMigration extends PhinxAbstractMigration
      *
      * @see https://github.com/robmorgan/phinx/pull/850
      * @param string $value
+     * @param int $parameter_type
      * @return string
      */
-    protected function quoteValue($value)
+    protected function quote($value, $parameter_type = PDO::PARAM_STR)
     {
         /** @var MysqlAdapter $adapter */
         $adapter = $this->getAdapter();
-        $connection = $adapter->getConnection();
 
-        return $connection->quote($value);
+        return $adapter->getConnection()->quote($value, $parameter_type);
     }
 
     /**
@@ -160,19 +160,6 @@ abstract class AbstractMigration extends PhinxAbstractMigration
             }
         }
         throw new LogicException('primary_key column not found');
-    }
-
-    /**
-     * @param string $value
-     * @param int $parameter_type
-     * @return string
-     */
-    protected function quote($value, $parameter_type = PDO::PARAM_STR)
-    {
-        /** @var MysqlAdapter $adapter */
-        $adapter = $this->getAdapter();
-
-        return $adapter->getConnection()->quote($value, $parameter_type);
     }
 
     /**
