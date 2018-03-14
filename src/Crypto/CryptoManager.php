@@ -13,11 +13,10 @@
 
 namespace Eventum\Crypto;
 
-use CannotPerformOperationException;
-use Crypto;
-use CryptoTestFailedException;
+use Defuse\Crypto\Crypto;
+use Defuse\Crypto\Exception\EnvironmentIsBrokenException;
+use Defuse\Crypto\RuntimeTests;
 use InvalidArgumentException;
-use InvalidCiphertextException;
 use Setup;
 
 /**
@@ -33,13 +32,15 @@ final class CryptoManager
      */
     public static function encryptionEnabled()
     {
-        return Setup::get()->encryption == 'enabled';
+        return Setup::get()->encryption === 'enabled';
     }
 
     /**
      * Checks if system can perform encryption:
-     * - has mcrypt extension
+     * - has openssl extension
      * - some other tests performed by Crypto library
+     *
+     * Checks for extensions presence because defuse/php-encryption is very cryptic about it errors.
      *
      * @throws CryptoException if it can't be enabled
      * @return bool
@@ -49,12 +50,9 @@ final class CryptoManager
         if (!function_exists('openssl_encrypt')) {
             throw new CryptoException('openssl extension not enabled');
         }
-        if (!function_exists('mcrypt_create_iv')) {
-            throw new CryptoException('mcrypt extension not enabled');
-        }
         try {
-            Crypto::RuntimeTest();
-        } catch (CryptoTestFailedException $e) {
+            RuntimeTests::runtimeTest();
+        } catch (EnvironmentIsBrokenException $e) {
             throw new CryptoException($e->getMessage(), $e->getCode(), $e);
         }
 
@@ -82,14 +80,10 @@ final class CryptoManager
         }
 
         try {
-            $ciphertext = Crypto::Encrypt($plaintext, $key ?: self::getKey());
-        } catch (CryptoTestFailedException $e) {
-            throw new CryptoException('Cannot safely perform encryption: Crypto test failed');
-        } catch (CannotPerformOperationException $e) {
-            throw new CryptoException('Cannot safely perform encryption: Cannot perform operation: ' . $e->getMessage());
+            return Crypto::encrypt($plaintext, $key ?: self::getKey());
+        } catch (EnvironmentIsBrokenException $e) {
+            throw new CryptoException('Cannot perform operation: ' . $e->getMessage());
         }
-
-        return rtrim(base64_encode($ciphertext), '=');
     }
 
     /**
@@ -107,22 +101,10 @@ final class CryptoManager
         }
 
         try {
-            $decrypted = Crypto::Decrypt(base64_decode($ciphertext), self::getKey());
-        } catch (InvalidCiphertextException $e) {
-            // VERY IMPORTANT
-            // Either:
-            //   1. The ciphertext was modified by the attacker,
-            //   2. The key is wrong, or
-            //   3. $ciphertext is not a valid ciphertext or was corrupted.
-            // Assume the worst.
-            throw new CryptoException('The ciphertext has been tampered with');
-        } catch (CryptoTestFailedException $e) {
-            throw new CryptoException('Cannot safely perform encryption: Crypto test failed');
-        } catch (CannotPerformOperationException $e) {
-            throw new CryptoException('Cannot safely perform encryption: Cannot perform operation: ' . $e->getMessage());
+            return Crypto::decrypt($ciphertext, self::getKey());
+        } catch (EnvironmentIsBrokenException $e) {
+            throw new CryptoException('Cannot perform operation: ' . $e->getMessage());
         }
-
-        return $decrypted;
     }
 
     private static function getKey()

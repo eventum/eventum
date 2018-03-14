@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "19c92800876dca53a9acc362c09bfd97",
+    "content-hash": "0bd2b3b06237c00086d0cda577bbe228",
     "packages": [
         {
             "name": "cebe/markdown",
@@ -99,28 +99,35 @@
         },
         {
             "name": "defuse/php-encryption",
-            "version": "v1.2.1",
+            "version": "v2.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/defuse/php-encryption.git",
-                "reference": "b87737b2eec06b13f025cabea847338fa203d1b4"
+                "reference": "5176f5abb38d3ea8a6e3ac6cd3bbb54d8185a689"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/defuse/php-encryption/zipball/b87737b2eec06b13f025cabea847338fa203d1b4",
-                "reference": "b87737b2eec06b13f025cabea847338fa203d1b4",
+                "url": "https://api.github.com/repos/defuse/php-encryption/zipball/5176f5abb38d3ea8a6e3ac6cd3bbb54d8185a689",
+                "reference": "5176f5abb38d3ea8a6e3ac6cd3bbb54d8185a689",
                 "shasum": ""
             },
             "require": {
-                "ext-mcrypt": "*",
                 "ext-openssl": "*",
+                "paragonie/random_compat": "~2.0",
                 "php": ">=5.4.0"
             },
+            "require-dev": {
+                "nikic/php-parser": "^2.0|^3.0",
+                "phpunit/phpunit": "^4|^5"
+            },
+            "bin": [
+                "bin/generate-defuse-key"
+            ],
             "type": "library",
             "autoload": {
-                "files": [
-                    "Crypto.php"
-                ]
+                "psr-4": {
+                    "Defuse\\Crypto\\": "src"
+                }
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
@@ -129,18 +136,29 @@
             "authors": [
                 {
                     "name": "Taylor Hornby",
-                    "email": "havoc@defuse.ca"
+                    "email": "taylor@defuse.ca",
+                    "homepage": "https://defuse.ca/"
+                },
+                {
+                    "name": "Scott Arciszewski",
+                    "email": "info@paragonie.com",
+                    "homepage": "https://paragonie.com"
                 }
             ],
             "description": "Secure PHP Encryption Library",
             "keywords": [
                 "aes",
+                "authenticated encryption",
                 "cipher",
+                "crypto",
+                "cryptography",
+                "encrypt",
                 "encryption",
-                "mcrypt",
-                "security"
+                "openssl",
+                "security",
+                "symmetric key cryptography"
             ],
-            "time": "2015-03-14T20:27:45+00:00"
+            "time": "2017-05-18T21:28:48+00:00"
         },
         {
             "name": "doctrine/annotations",
