@@ -24,6 +24,7 @@ class EventumFilenameSanitize extends AbstractMigration
         $progressBar = $this->createProgressBar($total);
         $progressBar->start();
         $progressBar->setRedrawFrequency($total / 10);
+        $updated = 0;
 
         foreach ($files as $iaf_id => $fileName) {
             $normalizedName = Normalizer::normalize($fileName);
@@ -36,6 +37,7 @@ class EventumFilenameSanitize extends AbstractMigration
 
         $progressBar->finish();
         $this->writeln('');
+        $this->writeln("Updated $updated filenames out of $total");
     }
 
     private function getFiles()
