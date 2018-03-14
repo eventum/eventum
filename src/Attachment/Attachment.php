@@ -19,6 +19,7 @@ use DB_Helper;
 use Eventum\Attachment\Exceptions\AttachmentException;
 use Eventum\Db\DatabaseException;
 use Exception;
+use glen\FilenameNormalizer\Normalizer;
 use History;
 use Issue;
 use Misc;
@@ -103,6 +104,7 @@ class Attachment
     public static function create($filename, $filetype, $blob)
     {
         try {
+            $filename = Normalizer::normalize($filename);
             $attachment = new self($filename, $filetype);
             $attachment->blob = $blob;
             $attachment->save();

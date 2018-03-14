@@ -67,6 +67,7 @@
 		"doctrine/dbal": "^2.5",
 		"doctrine/orm": "^2.5",
 		"fonts/liberation": "*",
+		"glen/filename-normalizer": "^2.0",
 		"ircmaxell/random-lib": "~1.1.0",
 		"league/flysystem": "^1.0",
 		"malkusch/lock": "^0.4.0",

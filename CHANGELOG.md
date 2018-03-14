@@ -19,6 +19,7 @@ NOTE: Mail related Workflow methods changed signature, see #263
 - Mail Queue: set message status failed after 20 retries (@glensc, #353)
 - Mail Queue: fill Message-Id column (@glensc, #352)
 - Mail Queue: Fix empty from header check (@glensc, #350, #351)
+- Use filename-normalizer for attachment filenames extracted from emails (@glensc, #356)
 
 [3.4.0]: https://github.com/eventum/eventum/compare/v3.3.4...master
 
