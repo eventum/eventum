@@ -93,15 +93,21 @@ final class CryptoKeyManager
         if (!is_readable($this->keyfile)) {
             throw new CryptoException("Secret file '{$this->keyfile}' not readable");
         }
+
         // load first to see that it's php script
         // this would avoid printing secret key to output if in old or invalid format
         $key = file_get_contents($this->keyfile);
         if (!$key) {
             throw new CryptoException("Unable to read secret file '{$this->keyfile}");
         }
+
+        // support legacy key format
         if (substr($key, 0, 5) !== '<?php') {
-            throw new CryptoException('Secret key legacy format');
+            $this->key = $key;
+
+            return true;
         }
+
         $key = require $this->keyfile;
         if (!$key) {
             throw new CryptoException("Secret file corrupted: {$this->keyfile}");
