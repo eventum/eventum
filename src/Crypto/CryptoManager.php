@@ -14,10 +14,8 @@
 namespace Eventum\Crypto;
 
 use Defuse\Crypto\Crypto;
-use Defuse\Crypto\Exception\EnvironmentIsBrokenException;
 use Defuse\Crypto\Key;
 use Defuse\Crypto\RuntimeTests;
-use InvalidArgumentException;
 use Setup;
 
 /**
@@ -81,10 +79,12 @@ final class CryptoManager
         }
 
         try {
-            return Crypto::encrypt($plaintext, $key ?: self::getKey());
+            $ciphertext = Crypto::encrypt($plaintext, $key ?: self::getKey(), true);
         } catch (CryptoException $e) {
             throw new CryptoException('Cannot perform operation: ' . $e->getMessage());
         }
+
+        return rtrim(base64_encode($ciphertext), '=');
     }
 
     /**
@@ -101,15 +101,20 @@ final class CryptoManager
             return $ciphertext;
         }
 
+        $ciphertext = base64_decode($ciphertext);
+        if (!$ciphertext) {
+            throw new CryptoException('Unable to decode ciphertext');
+        }
+
         try {
             $key = self::getKey();
 
             if ($key instanceof Key) {
-                return Crypto::decrypt($ciphertext, $key);
+                return Crypto::decrypt($ciphertext, $key, true);
             }
 
             // support legacy decrypt
-            return Crypto::legacyDecrypt(base64_decode($ciphertext), $key);
+            return Crypto::legacyDecrypt($ciphertext, $key);
         } catch (CryptoException $e) {
             throw new CryptoException('Cannot perform operation: ' . $e->getMessage());
         }
