@@ -53,7 +53,7 @@ final class CryptoManager
         }
         try {
             RuntimeTests::runtimeTest();
-        } catch (EnvironmentIsBrokenException $e) {
+        } catch (CryptoException $e) {
             throw new CryptoException($e->getMessage(), $e->getCode(), $e);
         }
 
@@ -73,7 +73,7 @@ final class CryptoManager
     public static function encrypt($plaintext, $key = null)
     {
         if ($plaintext === null || $plaintext === false) {
-            throw new InvalidArgumentException('Refusing to encrypt empty value');
+            throw new CryptoException('Refusing to encrypt empty value');
         }
 
         if (!self::encryptionEnabled()) {
@@ -82,7 +82,7 @@ final class CryptoManager
 
         try {
             return Crypto::encrypt($plaintext, $key ?: self::getKey());
-        } catch (EnvironmentIsBrokenException $e) {
+        } catch (CryptoException $e) {
             throw new CryptoException('Cannot perform operation: ' . $e->getMessage());
         }
     }
@@ -110,7 +110,7 @@ final class CryptoManager
 
             // support legacy decrypt
             return Crypto::legacyDecrypt(base64_decode($ciphertext), $key);
-        } catch (EnvironmentIsBrokenException $e) {
+        } catch (CryptoException $e) {
             throw new CryptoException('Cannot perform operation: ' . $e->getMessage());
         }
     }
