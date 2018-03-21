@@ -17,14 +17,23 @@ use Eventum\Db\AbstractMigration;
 
 class EventumCrypto2Upgrade extends AbstractMigration
 {
-    /**
-     * There is no downgrade support.
-     */
     public function up()
     {
         if (CryptoManager::encryptionEnabled()) {
             $cm = new CryptoUpgradeManager();
             $cm->regenerateKey();
+        }
+    }
+
+    /**
+     * We can not migrate back to old key format,
+     * so just to keep installation usable, disable encryption.
+     */
+    public function down()
+    {
+        if (CryptoManager::encryptionEnabled()) {
+            $cm = new CryptoUpgradeManager();
+            $cm->disable();
         }
     }
 }
