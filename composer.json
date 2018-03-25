@@ -83,7 +83,7 @@
 		"pear/net_smtp": "1.6.*",
 		"pear/net_socket": "*",
 		"pear/pear-core-minimal": "^1.10",
-		"phlib/flysystem-pdo": "dev-ver-1.1 as 1.1.0",
+		"phlib/flysystem-pdo": "^1.1",
 		"php-gettext/php-gettext": "1.0.*",
 		"phplot/phplot": "~6.1.0",
 		"phpxmlrpc/phpxmlrpc": "^4.1",

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "3f29ab98f618a580a1046b95bcbb98b0",
+    "content-hash": "892b8a0ffe63b0cbbfa33df79b5b4734",
     "packages": [
         {
             "name": "container-interop/container-interop",
@@ -1616,16 +1616,16 @@
         },
         {
             "name": "phlib/flysystem-pdo",
-            "version": "dev-ver-1.1",
+            "version": "1.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phlib/flysystem-pdo.git",
-                "reference": "0f69f244fae084ee1b75e00c5fcba628adb80737"
+                "reference": "c55272885db35bca3e21bb5efd8acb9dfaf34ad7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phlib/flysystem-pdo/zipball/0f69f244fae084ee1b75e00c5fcba628adb80737",
-                "reference": "0f69f244fae084ee1b75e00c5fcba628adb80737",
+                "url": "https://api.github.com/repos/phlib/flysystem-pdo/zipball/c55272885db35bca3e21bb5efd8acb9dfaf34ad7",
+                "reference": "c55272885db35bca3e21bb5efd8acb9dfaf34ad7",
                 "shasum": ""
             },
             "require": {
@@ -1655,7 +1655,7 @@
                 }
             ],
             "description": "A Flysystem adapter for storing files in a database using PDO",
-            "time": "2017-11-10T10:47:20+00:00"
+            "time": "2018-03-24T11:57:16+00:00"
         },
         {
             "name": "php-di/invoker",
@@ -4552,17 +4552,9 @@
             ]
         }
     ],
-    "aliases": [
-        {
-            "alias": "1.1.0",
-            "alias_normalized": "1.1.0.0",
-            "version": "dev-ver-1.1",
-            "package": "phlib/flysystem-pdo"
-        }
-    ],
+    "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
-        "phlib/flysystem-pdo": 20,
         "zendframework/zend-mail": 20,
         "components/jquery-blockui": 20,
         "roave/security-advisories": 20
