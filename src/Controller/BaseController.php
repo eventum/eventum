@@ -14,6 +14,7 @@
 namespace Eventum\Controller;
 
 use Auth;
+use Enrise\Uri;
 use InvalidArgumentException;
 use ReflectionClass;
 use Symfony\Component\HttpFoundation\Request;
@@ -159,12 +160,19 @@ abstract class BaseController
      *
      * @param string $url
      * @param array $params
+     * @param bool $allow_external If external urls should be allowed
      */
-    protected function redirect($url, $params = [])
+    protected function redirect($url, $params = [], $allow_external = false)
     {
         if ($params) {
             $q = strstr($url, '?') ? '&' : '?';
             $url .= $q . http_build_query($params, null, '&');
+        }
+
+        $uri = new Uri($url);
+        if (!$allow_external && !$uri->isRelative()) {
+            $this->error('Redirecting to the specified URL is not allowed');
+            exit;
         }
 
         // TODO: drop Auth::redirect once this is only place Auth::redirect is used

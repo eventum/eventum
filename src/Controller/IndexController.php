@@ -74,7 +74,7 @@ class IndexController extends BaseController
         }
 
         if (Auth::autoRedirectToExternalLogin()) {
-            $this->redirect(Auth::getExternalLoginURL());
+            $this->redirect(Auth::getExternalLoginURL(), [], true);
         }
     }
 

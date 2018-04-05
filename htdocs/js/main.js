@@ -480,7 +480,7 @@ Eventum.calcDateDiff = function(f, type, element)
 
 Eventum.changeClockStatus = function()
 {
-    window.location.href = Eventum.rel_url + 'clock_status.php?current_page=' + window.location.href;
+    window.location.href = Eventum.rel_url + 'clock_status.php?current_page=' + window.location.pathname;
     return false;
 };
 

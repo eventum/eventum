@@ -62,6 +62,7 @@
 		"ext-pdo_mysql": "*",
 		"ext-session": "*",
 		"ext-spl": "*",
+		"enrise/urihelper": "^1.0",
 		"fonts/liberation": "*",
 		"ircmaxell/random-lib": "~1.1.0",
 		"league/flysystem": "^1.0",
