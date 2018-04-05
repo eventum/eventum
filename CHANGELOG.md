@@ -20,6 +20,7 @@ NOTE: Mail related Workflow methods changed signature, see #263
 - Mail Queue: fill Message-Id column (@glensc, #352)
 - Mail Queue: Fix empty from header check (@glensc, #350, #351)
 - Use filename-normalizer for attachment filenames extracted from emails (@glensc, #356)
+- Fix Open Redirect vulnerability found by NetSparker (https://www.netsparker.com/, @balsdorf)
 
 [3.4.0]: https://github.com/eventum/eventum/compare/v3.3.4...master
 

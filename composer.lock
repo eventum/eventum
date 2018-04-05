@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "892b8a0ffe63b0cbbfa33df79b5b4734",
+    "content-hash": "58c1dca728ce4202377f801e3a841fc4",
     "packages": [
         {
             "name": "container-interop/container-interop",
@@ -681,6 +681,49 @@
                 "orm"
             ],
             "time": "2017-12-17T02:57:51+00:00"
+        },
+        {
+            "name": "enrise/urihelper",
+            "version": "1.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Enrise/UriHelper.git",
+                "reference": "b43b1ba2d12775339a14359c9b1c7d35cb88bba4"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Enrise/UriHelper/zipball/b43b1ba2d12775339a14359c9b1c7d35cb88bba4",
+                "reference": "b43b1ba2d12775339a14359c9b1c7d35cb88bba4",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~4.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Enrise\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache 2.0"
+            ],
+            "authors": [
+                {
+                    "name": "Rob Quist"
+                }
+            ],
+            "description": "A general URI helper class for PHP",
+            "homepage": "https://github.com/Enrise/UriHelper",
+            "keywords": [
+                "collections",
+                "types"
+            ],
+            "time": "2015-04-21T08:40:25+00:00"
         },
         {
             "name": "fonts/liberation",

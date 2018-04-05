@@ -118,7 +118,7 @@ class NewController extends BaseController
         if ($res != -1) {
             // redirect to view issue page
             $this->messages->addInfoMessage(ev_gettext('Your issue was created successfully.'));
-            $this->redirect(APP_BASE_URL . 'view.php?id=' . $res);
+            $this->redirect(APP_RELATIVE_URL . 'view.php?id=' . $res);
         }
 
         // need to show everything again
