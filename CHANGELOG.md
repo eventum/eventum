@@ -1,5 +1,12 @@
 # Eventum Issue Tracking System
 
+## [3.3.5] - 2018-04-05
+
+Upgrading to 3.3.x versions requires that you upgrade to 3.2.0 version first.
+Eventum 3.3.x requires PHP 5.6.
+
+[3.3.5]: https://github.com/eventum/eventum/compare/v3.3.4...v3.3.5
+
 ## [3.3.4] - 2017-11-24
 
 Upgrading to 3.3.x versions requires that you upgrade to 3.2.0 version first.
