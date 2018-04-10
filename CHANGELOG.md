@@ -22,7 +22,16 @@ NOTE: Mail related Workflow methods changed signature, see #263
 - Use filename-normalizer for attachment filenames extracted from emails (@glensc, #356)
 - Fix Open Redirect vulnerability found by NetSparker (https://www.netsparker.com/, @balsdorf)
 
-[3.4.0]: https://github.com/eventum/eventum/compare/v3.3.4...master
+[3.4.0]: https://github.com/eventum/eventum/compare/v3.3.5...master
+
+## [3.3.5] - 2018-04-05
+
+Upgrading to 3.3.x versions requires that you upgrade to 3.2.0 version first.
+Eventum 3.3.x requires PHP 5.6.
+
+- Fix Open Redirect vulnerability found by NetSparker (https://www.netsparker.com/, @balsdorf)
+
+[3.3.5]: https://github.com/eventum/eventum/compare/v3.3.4...v3.3.5
 
 ## [3.3.4] - 2017-11-24
 
