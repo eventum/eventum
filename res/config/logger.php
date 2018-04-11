@@ -55,6 +55,7 @@ $handlers = [
     ],
     'error_handler' => [
         'class' => 'Monolog\\Handler\\ErrorLogHandler',
+        'level' => 'INFO',
         'formatter' => 'error_handler',
     ],
     'error_mailer' => [
