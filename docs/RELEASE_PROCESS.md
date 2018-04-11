@@ -15,9 +15,10 @@ $ make snapshot
 
 # Test before release
 
-- Create and download snapshot tarball
+- Create PR to update composer dependencies. [example](https://github.com/eventum/eventum/pull/360)
 - Make sure [src/Db/Table.php](src/Db/Table.php) lists all created tables in install process (even ones no longer used)
-- install twice to same database, second time select drop tables, install must not fail
+- Create and download snapshot tarball
+- Install twice to same database, second time select drop tables, install must not fail
 if it fails the error is something like `DB Error: already exists`
 - Test the new release directory with a quick installation
   * see if a new issue can be created
@@ -28,8 +29,7 @@ if it fails the error is something like `DB Error: already exists`
   * Commit eventum.pot and push
   * this should be done day before release so launchpad cron would update .po files.
 
-Release process
----------------
+# Release process
 
 - Update `CHANGELOG.md` file with the correct version number and release date
 
@@ -48,7 +48,6 @@ Commit both changes
 ```
 git commit -am 'prepare for 3.3.1 release'
 ```
-
 
 - Create git tag
 ```
@@ -71,8 +70,7 @@ git tag v3.3.1
 git push origin v3.3.1
 ```
 
-After release
--------------
+# After release
 
 - add `launchpad` named remote and configure it to push only `master` and named tags
 ```
