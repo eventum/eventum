@@ -450,17 +450,22 @@ class Link_Filter
 
     /**
      * Whether markdown renderer enabled.
-     * Can be enabled from setup as experiment.
+     * Can be enabled from setup/preferences as experiment.
      *
      * @return bool
      */
     public static function markdownEnabled()
     {
         static $markdown;
-        if ($markdown === null) {
-            $markdown = Setup::get()['markdown'] === 'enable';
+
+        $usr_id = Auth::getUserID() ?: APP_SYSTEM_USER_ID;
+
+        if (!isset($markdown[$usr_id])) {
+            $prefs = Prefs::get($usr_id);
+
+            $markdown[$usr_id]['markdown'] = $prefs['markdown'] == '1';
         }
 
-        return $markdown;
+        return $markdown[$usr_id]['markdown'];
     }
 }
