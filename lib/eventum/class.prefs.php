@@ -12,7 +12,6 @@
  */
 
 use Eventum\Db\Adapter\AdapterInterface;
-use Eventum\Db\DatabaseException;
 
 /**
  * Class to handle the business logic related to the user preferences
@@ -41,6 +40,7 @@ class Prefs
             'auto_append_note_sig' => 'no',
             'close_popup_windows' => 1,
             'relative_date' => (int) ($setup['relative_date'] === 'enabled'),
+            'markdown' => (int) ($setup['markdown'] === 'enabled'),
             'collapsed_emails' => 1,
         ];
 
@@ -80,16 +80,14 @@ class Prefs
                     upr_auto_append_note_sig as auto_append_note_sig,
                     upr_auto_close_popup_window as close_popup_windows,
                     upr_relative_date as relative_date,
+                    upr_markdown as markdown,
                     upr_collapsed_emails as collapsed_emails
                 FROM
                     `user_preference`
                 WHERE
                     upr_usr_id=?';
-        try {
-            $res = DB_Helper::getInstance()->getRow($sql, [$usr_id]);
-        } catch (DatabaseException $e) {
-            $res = null;
-        }
+
+        $res = DB_Helper::getInstance()->getRow($sql, [$usr_id]);
 
         if (!$res) {
             return self::getDefaults(array_keys(Project::getAssocList($usr_id, false, true)));
@@ -118,11 +116,8 @@ class Prefs
                     `user_project_preference`
                 WHERE
                     upp_usr_id = ?';
-        try {
-            $res = DB_Helper::getInstance()->fetchAssoc($sql, [$usr_id], AdapterInterface::DB_FETCHMODE_ASSOC);
-        } catch (DatabaseException $e) {
-            return $returns[$usr_id];
-        }
+
+        $res = DB_Helper::getInstance()->fetchAssoc($sql, [$usr_id], AdapterInterface::DB_FETCHMODE_ASSOC);
 
         foreach ($res as $prj_id => $project_prefs) {
             $returns[$usr_id]['receive_assigned_email'][$prj_id] = $project_prefs['receive_assigned_email'];
@@ -156,25 +151,24 @@ class Prefs
                     upr_auto_append_note_sig = ?,
                     upr_auto_close_popup_window = ?,
                     upr_relative_date = ?,
+                    upr_markdown  = ?,
                     upr_collapsed_emails = ?
                 ';
-        try {
-            DB_Helper::getInstance()->query($sql, [
-                $usr_id,
-                @$preferences['timezone'],
-                @$preferences['week_firstday'],
-                @$preferences['list_refresh_rate'],
-                @$preferences['email_refresh_rate'],
-                @$preferences['email_signature'],
-                @$preferences['auto_append_email_sig'],
-                @$preferences['auto_append_note_sig'],
-                @$preferences['close_popup_windows'],
-                @$preferences['relative_date'],
-                @$preferences['collapsed_emails'],
-            ]);
-        } catch (DatabaseException $e) {
-            return -1;
-        }
+
+        DB_Helper::getInstance()->query($sql, [
+            $usr_id,
+            @$preferences['timezone'],
+            @$preferences['week_firstday'],
+            @$preferences['list_refresh_rate'],
+            @$preferences['email_refresh_rate'],
+            @$preferences['email_signature'],
+            @$preferences['auto_append_email_sig'],
+            @$preferences['auto_append_note_sig'],
+            @$preferences['close_popup_windows'],
+            @$preferences['relative_date'],
+            @$preferences['markdown'],
+            @$preferences['collapsed_emails'],
+        ]);
 
         // set per project preferences
         $projects = Project::getAssocList($usr_id);
@@ -188,17 +182,13 @@ class Prefs
                         upp_receive_new_issue_email = ?,
                         upp_receive_copy_of_own_action = ?';
 
-            try {
-                DB_Helper::getInstance()->query($sql, [
-                    $usr_id,
-                    $prj_id,
-                    $preferences['receive_assigned_email'][$prj_id],
-                    $preferences['receive_new_issue_email'][$prj_id],
-                    $preferences['receive_copy_of_own_action'][$prj_id],
-                ]);
-            } catch (DatabaseException $e) {
-                return -1;
-            }
+            DB_Helper::getInstance()->query($sql, [
+                $usr_id,
+                $prj_id,
+                $preferences['receive_assigned_email'][$prj_id],
+                $preferences['receive_new_issue_email'][$prj_id],
+                $preferences['receive_copy_of_own_action'][$prj_id],
+            ]);
         }
 
         return 1;

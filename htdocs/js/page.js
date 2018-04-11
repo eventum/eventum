@@ -288,7 +288,7 @@ issue_view.ready = function(page_id)
 
     $('.mark_duplicate').click(function() { window.location.href='duplicate.php?id=' + issue_view.get_issue_id(); });
     $('.close_issue').click(function() { window.location.href='close.php?id=' + issue_view.get_issue_id(); });
-    $('.display_fixed_width').click(function() { Eventum.displayFixedWidth($('#issue_description')); });
+    $('.display_fixed_width').click(function() { issue_view.toggle_plain_view(); });
 
 
 
@@ -315,6 +315,23 @@ issue_view.display_description_collapse_message = function()
         hidden.show();
     }
 };
+
+issue_view.toggle_plain_view = function()
+{
+    var formatted = $('#description_formatted');
+    var plain = $('#description_plain');
+    var link = $('#fixed_width_link');
+
+    if (!plain.is(':visible')) {
+        formatted.hide();
+        plain.show();
+        link.text(link.attr('data-normal'));
+    } else {
+        plain.hide();
+        formatted.show();
+        link.text(link.attr('data-fixed'));
+    }
+}
 
 issue_view.toggle_issue_section = function(id)
 {

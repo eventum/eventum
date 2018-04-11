@@ -2538,7 +2538,6 @@ class Issue
 
         $res['iss_original_description'] = $res['iss_description'];
         $res['iss_original_percent_complete'] = $res['iss_percent_complete'];
-        $res['iss_description'] = nl2br(htmlspecialchars($res['iss_description']));
         $res['iss_resolution'] = Resolution::getTitle($res['iss_res_id']);
         $res['iss_created_date_ts'] = $created_date_ts;
         $res['assignments'] = @implode(', ', array_values(self::getAssignedUsers($res['iss_id'])));

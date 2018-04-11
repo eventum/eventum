@@ -23,7 +23,7 @@
 				Priority: {$issue.pri_title}&lt;BR&gt;
 				Category: {$issue.prc_title}&lt;BR&gt;
 				&lt;BR&gt;
-				{$issue.iss_description|nl2br|activateLinks:"link"|escape:html}&lt;BR&gt;
+				{$issue.iss_description|textFormat:$issue.iss_id|escape:html}&lt;BR&gt;
 			</description>
 			<author>{* FIXME: reporter is not present
 				{$issue.reporter|escape:html} *}</author>

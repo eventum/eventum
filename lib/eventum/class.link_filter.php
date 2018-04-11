@@ -11,6 +11,7 @@
  * that were distributed with this source code.
  */
 
+use cebe\markdown\GithubMarkdown;
 use Eventum\Attachment\AttachmentManager;
 use Eventum\Db\Adapter\AdapterInterface;
 use Eventum\Db\DatabaseException;
@@ -250,6 +251,24 @@ class Link_Filter
     }
 
     /**
+     * @param string $text
+     * @return string
+     */
+    public static function markdownFormat($text)
+    {
+        static $parser;
+
+        if (!$parser) {
+            $parser = new GithubMarkdown();
+            $parser->enableNewlines = true;
+        }
+
+        $text = $parser->parseParagraph($text);
+
+        return $text;
+    }
+
+    /**
      * Processes text through all link filters.
      *
      * @param   int $prj_id The ID of the project
@@ -260,10 +279,15 @@ class Link_Filter
     public static function processText($prj_id, $text, $class = 'link')
     {
         // process issue link separatly since it has to do something special
-        $text = Misc::activateLinks($text, $class);
+        if (!self::markdownEnabled()) {
+            // conflicts with markdown
+            $text = Misc::activateLinks($text, $class);
+        }
 
-        $filters = array_merge(self::getFilters(), self::getFiltersByProject($prj_id), Workflow::getLinkFilters($prj_id));
-        foreach ((array) $filters as $filter) {
+        $filters = array_merge(
+            self::getFilters(), self::getFiltersByProject($prj_id), Workflow::getLinkFilters($prj_id)
+        );
+        foreach ($filters as $filter) {
             list($pattern, $replacement) = $filter;
             // replacement may be a callback, provided by workflow
             if (is_callable($replacement)) {
@@ -271,6 +295,11 @@ class Link_Filter
             } else {
                 $text = preg_replace($pattern, $replacement, $text);
             }
+        }
+
+        // enable markdown
+        if (self::markdownEnabled()) {
+            $text = self::markdownFormat($text);
         }
 
         return $text;
@@ -285,6 +314,24 @@ class Link_Filter
     public static function activateLinks($text)
     {
         return self::processText(Auth::getCurrentProject(), $text);
+    }
+
+    /**
+     * @param string $text
+     * @param int $issue_id
+     * @return string
+     */
+    public static function textFormat($text, $issue_id)
+    {
+        if (!self::markdownEnabled()) {
+            // this used to be in Issue::getDetails
+            $text = nl2br(htmlspecialchars($text));
+        }
+
+        $text = self::activateLinks($text);
+        $text = self::activateAttachmentLinks($text, $issue_id);
+
+        return $text;
     }
 
     /**
@@ -399,5 +446,26 @@ class Link_Filter
         $match = isset($matches['match']) ? $matches['match'] : "issue {$issue_id}";
 
         return "<a title=\"{$link_title}\" class=\"{$class}\" href=\"view.php?id={$matches['issue_id']}\">{$match}</a>";
+    }
+
+    /**
+     * Whether markdown renderer enabled.
+     * Can be enabled from setup/preferences as experiment.
+     *
+     * @return bool
+     */
+    public static function markdownEnabled()
+    {
+        static $markdown;
+
+        $usr_id = Auth::getUserID() ?: APP_SYSTEM_USER_ID;
+
+        if (!isset($markdown[$usr_id])) {
+            $prefs = Prefs::get($usr_id);
+
+            $markdown[$usr_id]['markdown'] = $prefs['markdown'] == '1';
+        }
+
+        return $markdown[$usr_id]['markdown'];
     }
 }

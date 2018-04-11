@@ -1668,7 +1668,7 @@ class Custom_Field
     public static function formatValue($value, $fld_id, $issue_id)
     {
         $backend = self::getBackend($fld_id);
-        if ((is_object($backend)) && (method_exists($backend, 'formatValue'))) {
+        if (is_object($backend) && method_exists($backend, 'formatValue')) {
             return $backend->formatValue($value, $fld_id, $issue_id);
         }
 
