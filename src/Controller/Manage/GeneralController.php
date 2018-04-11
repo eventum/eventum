@@ -77,6 +77,7 @@ class GeneralController extends ManageBaseController
             'email_reminder' => $post->get('email_reminder'),
             'handle_clock_in' => $post->get('handle_clock_in'),
             'relative_date' => $post->get('relative_date'),
+            'markdown' => $post->get('markdown'),
             'audit_trail' => $post->get('audit_trail'),
         ];
         $res = Setup::save($setup);

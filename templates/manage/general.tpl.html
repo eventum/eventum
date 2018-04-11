@@ -724,6 +724,24 @@ $().ready(function() {
           </tr>
           <tr>
             <th width="120">
+              {t}Markdown rendering{/t}
+            </th>
+            <td>
+                <label>
+                  <input type="radio" name="markdown" value="enabled" {if $setup.markdown == 'enabled'}checked{/if}>
+                  {t}Enabled{/t}
+                </label>
+                <label>
+                  <input type="radio" name="markdown" value="disabled" {if $setup.markdown != 'enabled'}checked{/if}>
+                  {t}Disabled{/t}
+                </label>
+                <div>
+                    &nbsp;&nbsp;{t}Users can set this on their preferences page. This provides the default for new users.{/t}
+                </div>
+            </td>
+          </tr>
+          <tr>
+            <th width="120">
               {t}Audit Trail{/t}
             </th>
             <td>

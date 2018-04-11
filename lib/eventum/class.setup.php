@@ -228,6 +228,7 @@ class Setup
             'issue_lock' => 300,
 
             'relative_date' => 'enabled',
+            'markdown' => 'disabled',
             'audit_trail' => 'disabled',
 
             'attachments' => [

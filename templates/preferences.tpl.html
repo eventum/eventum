@@ -152,6 +152,16 @@
         </tr>
 
         <tr>
+            <th width="190">
+                {t}Markdown rendering{/t}:
+            </th>
+            <td colspan="{$assigned_projects|@count}">
+                <label><input type="radio" name="markdown" {if $user_prefs.markdown == "1"}checked{/if} value="1"> {t}Yes{/t}</label>
+                <label><input type="radio" name="markdown" {if $user_prefs.markdown != "1"}checked{/if} value="0"> {t}No{/t}</label>
+            </td>
+        </tr>
+
+        <tr>
           <th width="190">
             {t}Collapse email replies{/t}:
           </th>
