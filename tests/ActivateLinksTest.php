@@ -13,6 +13,7 @@
 
 namespace Eventum\Test;
 
+use Link_Filter;
 use Misc;
 
 /**
@@ -20,6 +21,11 @@ use Misc;
  */
 class ActivateLinksTest extends TestCase
 {
+    public function setUp()
+    {
+        Link_Filter::markdownEnabled(true);
+    }
+
     /**
      * @dataProvider ActivateLinksData
      * @see Misc::activateLinks
