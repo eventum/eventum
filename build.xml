@@ -235,7 +235,6 @@
 				<include name="Schema/SQLServer*"/>
 				<include name="Schema/Sqlite*"/>
 				<include name="Sharding/SQLAzure/**"/>
-				<include name="Tools/**"/>
 			</fileset>
 
 			<fileset dir="${vendor}/doctrine/orm">
