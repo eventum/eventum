@@ -23,10 +23,6 @@ namespace Eventum\Test;
 use Eventum\Db\Doctrine;
 use Eventum\Extension\ExtensionManager;
 
-if (!class_exists('\PHPUnit\Framework\TestCase')) {
-    require_once __DIR__ . '/phpunit-compat.php';
-}
-
 class TestCase extends \PHPUnit\Framework\TestCase
 {
     /**
