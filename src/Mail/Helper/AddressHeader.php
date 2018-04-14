@@ -110,6 +110,7 @@ class AddressHeader
      * Get Address object of the AddressList.
      * The input may contain only one address.
      *
+     * @throws InvalidArgumentException
      * @return Address
      */
     public function getAddress()

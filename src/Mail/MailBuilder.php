@@ -63,7 +63,7 @@ class MailBuilder
     /**
      * Add $attachment object as attachment to message
      *
-     * @param MailAttachment $attachment
+     * @param Attachment $attachment
      * @return $this
      */
     public function addAttachment(Attachment $attachment)
@@ -81,7 +81,7 @@ class MailBuilder
     /**
      * Convert to MailMessage.
      *
-     * it's not recommended to call this message more than once on same object
+     * it's not recommended to call this message more than once on same object,
      * the behavior is undefined.
      *
      * @return MailMessage
