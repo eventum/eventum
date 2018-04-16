@@ -12,24 +12,29 @@
  */
 
 use Eventum\Monolog\Logger;
+use Psr\Log\LoggerInterface;
 
 class Sphinx_Fulltext_Search extends Abstract_Fulltext_Search
 {
+    /** @var SphinxClient */
     private $sphinx;
 
     private $keywords;
+    /** @var string */
     private $excerpt_placeholder;
+    private $matches = [];
+    private $match_mode = '';
+    /** @var LoggerInterface */
+    private $logger;
 
     public function __construct()
     {
         $this->sphinx = new SphinxClient();
         $this->sphinx->SetServer(SPHINX_SEARCHD_HOST, SPHINX_SEARCHD_PORT);
-        $this->matches = [];
-
-        $this->match_mode = '';
 
         // generate unique placeholder
         $this->excerpt_placeholder = 'excerpt' . rand() . 'placeholder';
+        $this->logger = Logger::app();
     }
 
     public function getIssueIDs($options)
@@ -62,13 +67,13 @@ class Sphinx_Fulltext_Search extends Abstract_Fulltext_Search
         // TODO: report these somehow back to the UI
         // probably easy to do with Logger framework (add new handler?)
         if (method_exists($this->sphinx, 'IsConnectError') && $this->sphinx->IsConnectError()) {
-            Logger::app()->error('sphinx_fulltext_search: Network Error');
+            $this->logger->error('sphinx_fulltext_search: Network Error');
         }
         if ($this->sphinx->GetLastWarning()) {
-            Logger::app()->warning('sphinx_fulltext_search: ' . $this->sphinx->GetLastWarning());
+            $this->logger->warning('sphinx_fulltext_search: ' . $this->sphinx->GetLastWarning());
         }
         if ($this->sphinx->GetLastError()) {
-            Logger::app()->error('sphinx_fulltext_search: ' . $this->sphinx->GetLastError());
+            $this->logger->error('sphinx_fulltext_search: ' . $this->sphinx->GetLastError());
         }
 
         $issue_ids = [];
