@@ -140,10 +140,14 @@ class Sphinx_Fulltext_Search extends Abstract_Fulltext_Search
                         $excerpt['issue']['description'] = self::cleanUpExcerpt($res[0]);
                     }
                 } elseif ($match['index'] == 'email') {
-                    $email = Support::getEmailDetails($match['match_id']);
-                    $documents = [$email['sup_subject'] . "\n" . $email['message']];
-                    $res = $this->sphinx->BuildExcerpts($documents, 'email_stemmed', $this->keywords, $excerpt_options);
-                    $excerpt['email'][Support::getSequenceByID($match['match_id'])] = self::cleanUpExcerpt($res[0]);
+                    try {
+                        $email = Support::getEmailDetails($match['match_id']);
+                        $documents = [$email['sup_subject'] . "\n" . $email['message']];
+                        $res = $this->sphinx->BuildExcerpts($documents, 'email_stemmed', $this->keywords, $excerpt_options);
+                        $excerpt['email'][Support::getSequenceByID($match['match_id'])] = self::cleanUpExcerpt($res[0]);
+                    } catch (Zend\Mail\Header\Exception\InvalidArgumentException $e) {
+                        $this->logger->error("Error loading email {$match['match_id']}", $match);
+                    }
                 } elseif ($match['index'] == 'phone') {
                     $phone_call = Phone_Support::getDetails($match['match_id']);
                     $documents = [$phone_call['phs_description']];
