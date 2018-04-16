@@ -32,11 +32,12 @@ class CryptoUpgradeManager
      * Perform few checks that enable/disable can be performed
      *
      * @param bool $enable TRUE if action is to enable, FALSE if action is to disable
+     * @throws CryptoException
      */
     private function canPerform($enable)
     {
         $enabled = CryptoManager::encryptionEnabled();
-        if ($enabled && $enable || (!$enabled && !$enable)) {
+        if (($enabled && $enable) || (!$enabled && !$enable)) {
             $state = $enabled ? 'enabled' : 'disabled';
             throw new CryptoException("Can not perform, already $state");
         }

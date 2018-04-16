@@ -13,8 +13,8 @@
 
 namespace Eventum\Crypto;
 
-use RuntimeException;
+use Defuse\Crypto\Exception\CryptoException as DefuseCryptoException;
 
-class CryptoException extends RuntimeException
+class CryptoException extends DefuseCryptoException
 {
 }

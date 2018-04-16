@@ -22,6 +22,7 @@ NOTE: Mail related Workflow methods changed signature, see #263
 - Use filename-normalizer for attachment filenames extracted from emails (@glensc, #356)
 - Fix Open Redirect vulnerability found by NetSparker (https://www.netsparker.com/, @balsdorf)
 - Add experimental markdown rendering (@glensc, #291)
+- Update to defuse/php-encryption 2.1 (@glensc, #358)
 
 [3.4.0]: https://github.com/eventum/eventum/compare/v3.3.5...master
 

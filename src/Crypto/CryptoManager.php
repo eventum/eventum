@@ -13,11 +13,9 @@
 
 namespace Eventum\Crypto;
 
-use CannotPerformOperationException;
-use Crypto;
-use CryptoTestFailedException;
-use InvalidArgumentException;
-use InvalidCiphertextException;
+use Defuse\Crypto\Crypto;
+use Defuse\Crypto\Key;
+use Defuse\Crypto\RuntimeTests;
 use Setup;
 
 /**
@@ -33,13 +31,15 @@ final class CryptoManager
      */
     public static function encryptionEnabled()
     {
-        return Setup::get()->encryption == 'enabled';
+        return Setup::get()->encryption === 'enabled';
     }
 
     /**
      * Checks if system can perform encryption:
-     * - has mcrypt extension
+     * - has openssl extension
      * - some other tests performed by Crypto library
+     *
+     * Checks for extensions presence because defuse/php-encryption is very cryptic about it errors.
      *
      * @throws CryptoException if it can't be enabled
      * @return bool
@@ -49,12 +49,9 @@ final class CryptoManager
         if (!function_exists('openssl_encrypt')) {
             throw new CryptoException('openssl extension not enabled');
         }
-        if (!function_exists('mcrypt_create_iv')) {
-            throw new CryptoException('mcrypt extension not enabled');
-        }
         try {
-            Crypto::RuntimeTest();
-        } catch (CryptoTestFailedException $e) {
+            RuntimeTests::runtimeTest();
+        } catch (CryptoException $e) {
             throw new CryptoException($e->getMessage(), $e->getCode(), $e);
         }
 
@@ -74,7 +71,7 @@ final class CryptoManager
     public static function encrypt($plaintext, $key = null)
     {
         if ($plaintext === null || $plaintext === false) {
-            throw new InvalidArgumentException('Refusing to encrypt empty value');
+            throw new CryptoException('Refusing to encrypt empty value');
         }
 
         if (!self::encryptionEnabled()) {
@@ -82,11 +79,9 @@ final class CryptoManager
         }
 
         try {
-            $ciphertext = Crypto::Encrypt($plaintext, $key ?: self::getKey());
-        } catch (CryptoTestFailedException $e) {
-            throw new CryptoException('Cannot safely perform encryption: Crypto test failed');
-        } catch (CannotPerformOperationException $e) {
-            throw new CryptoException('Cannot safely perform encryption: Cannot perform operation: ' . $e->getMessage());
+            $ciphertext = Crypto::encrypt($plaintext, $key ?: self::getKey(), true);
+        } catch (CryptoException $e) {
+            throw new CryptoException('Cannot perform operation: ' . $e->getMessage());
         }
 
         return rtrim(base64_encode($ciphertext), '=');
@@ -106,23 +101,23 @@ final class CryptoManager
             return $ciphertext;
         }
 
-        try {
-            $decrypted = Crypto::Decrypt(base64_decode($ciphertext), self::getKey());
-        } catch (InvalidCiphertextException $e) {
-            // VERY IMPORTANT
-            // Either:
-            //   1. The ciphertext was modified by the attacker,
-            //   2. The key is wrong, or
-            //   3. $ciphertext is not a valid ciphertext or was corrupted.
-            // Assume the worst.
-            throw new CryptoException('The ciphertext has been tampered with');
-        } catch (CryptoTestFailedException $e) {
-            throw new CryptoException('Cannot safely perform encryption: Crypto test failed');
-        } catch (CannotPerformOperationException $e) {
-            throw new CryptoException('Cannot safely perform encryption: Cannot perform operation: ' . $e->getMessage());
+        $ciphertext = base64_decode($ciphertext);
+        if (!$ciphertext) {
+            throw new CryptoException('Unable to decode ciphertext');
         }
 
-        return $decrypted;
+        try {
+            $key = self::getKey();
+
+            if ($key instanceof Key) {
+                return Crypto::decrypt($ciphertext, $key, true);
+            }
+
+            // support legacy decrypt
+            return Crypto::legacyDecrypt($ciphertext, $key);
+        } catch (CryptoException $e) {
+            throw new CryptoException('Cannot perform operation: ' . $e->getMessage());
+        }
     }
 
     private static function getKey()

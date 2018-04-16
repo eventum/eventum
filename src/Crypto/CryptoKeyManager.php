@@ -13,8 +13,7 @@
 
 namespace Eventum\Crypto;
 
-use Crypto;
-use RandomLib;
+use Defuse\Crypto\Key;
 use Symfony\Component\Filesystem\Exception\IOException;
 use Symfony\Component\Filesystem\Filesystem;
 
@@ -26,6 +25,7 @@ final class CryptoKeyManager
     /** @var string */
     private $keyfile;
 
+    /** @var Key */
     private $key;
 
     public function __construct()
@@ -40,6 +40,7 @@ final class CryptoKeyManager
 
     /**
      * Checks if key file can be updated
+     * @throws CryptoException
      */
     public function canUpdate()
     {
@@ -51,7 +52,8 @@ final class CryptoKeyManager
     /**
      * Load or generate secret key used for crypt
      *
-     * @return string
+     * @throws CryptoException
+     * @return Key
      */
     public function getKey()
     {
@@ -66,16 +68,23 @@ final class CryptoKeyManager
         return $this->key;
     }
 
+    /**
+     * @throws CryptoException
+     */
     private function generateKey()
     {
-        // use RandomLib to get most compatible implementation
-        // Crypto uses mcrypt *ONLY* without any fallback
-        $factory = new RandomLib\Factory();
-        $generator = $factory->getMediumStrengthGenerator();
-        $this->key = $generator->generate(Crypto::KEY_BYTE_SIZE);
-        $this->storePrivateKey();
+        try {
+            $this->key = Key::createNewRandomKey();
+            $this->storePrivateKey();
+        } catch (CryptoException $e) {
+            throw new CryptoException('Cannot perform operation: ' . $e->getMessage());
+        }
     }
 
+    /**
+     * @throws CryptoException
+     * @return bool|null
+     */
     private function loadPrivateKey()
     {
         if (!file_exists($this->keyfile) || !filesize($this->keyfile)) {
@@ -84,22 +93,46 @@ final class CryptoKeyManager
         if (!is_readable($this->keyfile)) {
             throw new CryptoException("Secret file '{$this->keyfile}' not readable");
         }
-        $key = trim(file_get_contents($this->keyfile));
+
+        // load first to see that it's php script
+        // this would avoid printing secret key to output if in old or invalid format
+        $key = file_get_contents($this->keyfile);
         if (!$key) {
             throw new CryptoException("Unable to read secret file '{$this->keyfile}");
         }
-        $this->key = $key;
+
+        // support legacy key format
+        if (substr($key, 0, 5) !== '<?php') {
+            $this->key = $key;
+
+            return true;
+        }
+
+        $key = require $this->keyfile;
+        if (!$key) {
+            throw new CryptoException("Secret file corrupted: {$this->keyfile}");
+        }
+
+        try {
+            $this->key = Key::loadFromAsciiSafeString($key);
+        } catch (CryptoException $e) {
+            throw new CryptoException('Cannot perform operation: ' . $e->getMessage());
+        }
 
         return true;
     }
 
+    /**
+     * @throws CryptoException
+     */
     private function storePrivateKey()
     {
         $this->canUpdate();
 
         try {
             $fs = new Filesystem();
-            $fs->dumpFile($this->keyfile, $this->key);
+            $content = sprintf('<' . '?php return %s;', var_export($this->key->saveToAsciiSafeString(), 1));
+            $fs->dumpFile($this->keyfile, $content);
         } catch (IOException $e) {
             throw new CryptoException("Unable to store secret file '{$this->keyfile}': {$e->getMessage()}");
         }

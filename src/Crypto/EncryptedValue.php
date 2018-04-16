@@ -13,8 +13,6 @@
 
 namespace Eventum\Crypto;
 
-use InvalidArgumentException;
-
 /**
  * Class Encrypted Value
  *
@@ -43,6 +41,7 @@ final class EncryptedValue
      * The encrypted value is stored in object property.
      *
      * @param string $plaintext
+     * @throws CryptoException
      */
     public function setValue($plaintext)
     {
@@ -52,12 +51,13 @@ final class EncryptedValue
     /**
      * Return plain text value
      *
+     * @throws CryptoException
      * @return string
      */
     public function getValue()
     {
         if ($this->ciphertext === null) {
-            throw new InvalidArgumentException('Value not initialized yet');
+            throw new CryptoException('Value not initialized yet');
         }
 
         return CryptoManager::decrypt($this->ciphertext);
@@ -66,12 +66,13 @@ final class EncryptedValue
     /**
      * Get encrypted value, for storing it to Database or Config
      *
+     * @throws CryptoException
      * @return string
      */
     public function getEncrypted()
     {
         if ($this->ciphertext === null) {
-            throw new InvalidArgumentException('Value not initialized yet');
+            throw new CryptoException('Value not initialized yet');
         }
 
         return $this->ciphertext;

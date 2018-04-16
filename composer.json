@@ -65,7 +65,7 @@
 		"ext-session": "*",
 		"ext-spl": "*",
 		"cebe/markdown": "~1.1.1",
-		"defuse/php-encryption": "~1.2.1",
+		"defuse/php-encryption": "^2.1",
 		"doctrine/dbal": "^2.5",
 		"doctrine/orm": "^2.5",
 		"enrise/urihelper": "^1.0",
