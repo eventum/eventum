@@ -12,24 +12,29 @@
  */
 
 use Eventum\Monolog\Logger;
+use Psr\Log\LoggerInterface;
 
 class Sphinx_Fulltext_Search extends Abstract_Fulltext_Search
 {
+    /** @var SphinxClient */
     private $sphinx;
 
     private $keywords;
+    /** @var string */
     private $excerpt_placeholder;
+    private $matches = [];
+    private $match_mode = '';
+    /** @var LoggerInterface */
+    private $logger;
 
     public function __construct()
     {
         $this->sphinx = new SphinxClient();
         $this->sphinx->SetServer(SPHINX_SEARCHD_HOST, SPHINX_SEARCHD_PORT);
-        $this->matches = [];
-
-        $this->match_mode = '';
 
         // generate unique placeholder
         $this->excerpt_placeholder = 'excerpt' . rand() . 'placeholder';
+        $this->logger = Logger::app();
     }
 
     public function getIssueIDs($options)
@@ -62,13 +67,13 @@ class Sphinx_Fulltext_Search extends Abstract_Fulltext_Search
         // TODO: report these somehow back to the UI
         // probably easy to do with Logger framework (add new handler?)
         if (method_exists($this->sphinx, 'IsConnectError') && $this->sphinx->IsConnectError()) {
-            Logger::app()->error('sphinx_fulltext_search: Network Error');
+            $this->logger->error('sphinx_fulltext_search: Network Error');
         }
         if ($this->sphinx->GetLastWarning()) {
-            Logger::app()->warning('sphinx_fulltext_search: ' . $this->sphinx->GetLastWarning());
+            $this->logger->warning('sphinx_fulltext_search: ' . $this->sphinx->GetLastWarning());
         }
         if ($this->sphinx->GetLastError()) {
-            Logger::app()->error('sphinx_fulltext_search: ' . $this->sphinx->GetLastError());
+            $this->logger->error('sphinx_fulltext_search: ' . $this->sphinx->GetLastError());
         }
 
         $issue_ids = [];
@@ -135,10 +140,14 @@ class Sphinx_Fulltext_Search extends Abstract_Fulltext_Search
                         $excerpt['issue']['description'] = self::cleanUpExcerpt($res[0]);
                     }
                 } elseif ($match['index'] == 'email') {
-                    $email = Support::getEmailDetails($match['match_id']);
-                    $documents = [$email['sup_subject'] . "\n" . $email['message']];
-                    $res = $this->sphinx->BuildExcerpts($documents, 'email_stemmed', $this->keywords, $excerpt_options);
-                    $excerpt['email'][Support::getSequenceByID($match['match_id'])] = self::cleanUpExcerpt($res[0]);
+                    try {
+                        $email = Support::getEmailDetails($match['match_id']);
+                        $documents = [$email['sup_subject'] . "\n" . $email['message']];
+                        $res = $this->sphinx->BuildExcerpts($documents, 'email_stemmed', $this->keywords, $excerpt_options);
+                        $excerpt['email'][Support::getSequenceByID($match['match_id'])] = self::cleanUpExcerpt($res[0]);
+                    } catch (Zend\Mail\Header\Exception\InvalidArgumentException $e) {
+                        $this->logger->error("Error loading email {$match['match_id']}", $match);
+                    }
                 } elseif ($match['index'] == 'phone') {
                     $phone_call = Phone_Support::getDetails($match['match_id']);
                     $documents = [$phone_call['phs_description']];

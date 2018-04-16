@@ -15,6 +15,7 @@ namespace Eventum\Mail\Helper;
 
 use Mime_Helper;
 use Zend\Mail;
+use Zend\Mail\Header;
 use Zend\Mime;
 
 class MailLoader
@@ -43,6 +44,8 @@ class MailLoader
             try {
                 Mime\Decode::splitMessage($raw, $headers, $content);
             } catch (Mail\Exception\RuntimeException $e) {
+                static::fallbackMessageSplit($raw, $headers, $content);
+            } catch (Mail\Exception\InvalidArgumentException $e) {
                 static::fallbackMessageSplit($raw, $headers, $content);
             }
         }
@@ -81,5 +84,27 @@ class MailLoader
         $headers = array_map('trim', $headers);
 
         static::encodeHeaders($headers);
+
+        static::fixBrokenHeaders($headers);
+    }
+
+    /**
+     * Attempt to fix some known headers brokenness.
+     *
+     * @param string[] $headers
+     */
+    private static function fixBrokenHeaders(&$headers)
+    {
+        foreach ($headers as $name => &$value) {
+            try {
+                Header\GenericHeader::splitHeaderLine($value);
+            } catch (Header\Exception\InvalidArgumentException $e) {
+                if ($e->getMessage() == 'Invalid header value detected' && strstr($value, "\r")) {
+                    // it's very broken, at least attempt to strip \r
+                    $value = str_replace("\r", '', $value);
+                    Header\GenericHeader::splitHeaderLine($value);
+                }
+            }
+        }
     }
 }
