@@ -1,6 +1,6 @@
 # Eventum Issue Tracking System
 
-## [3.4.0]
+## [3.4.0] - 2018-04-22
 
 Upgrading to 3.4.x versions requires that you upgrade to 3.2.0 version first.
 
@@ -24,7 +24,7 @@ NOTE: Mail related Workflow methods changed signature, see #263
 - Add experimental markdown rendering (@glensc, #291)
 - Update to defuse/php-encryption 2.1 (@glensc, #358)
 
-[3.4.0]: https://github.com/eventum/eventum/compare/v3.3.5...master
+[3.4.0]: https://github.com/eventum/eventum/compare/v3.3.5...v3.4.0
 
 ## [3.3.5] - 2018-04-05
 
