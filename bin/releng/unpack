@@ -1,0 +1,12 @@
+#!/bin/sh
+set -xe
+
+tarball=$(readlink -f $1)
+tarname=$(basename $tarball .tar.xz)
+
+unpack $tarball
+ln -snf $tarname eventum
+cd eventum
+../../bin/releng/setup-perms.sh
+
+exec php -S 127.0.0.1:8013 -t htdocs
