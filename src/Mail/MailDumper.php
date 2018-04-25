@@ -59,10 +59,10 @@ class MailDumper
             'note' => 'note',
         ];
 
-        list($usec, $timestamp) = microtime();
+        list($usec, $timestamp) = explode(" ", microtime());
 
         return sprintf(
-            "%s/{$dirMap[$type]}/%s{$usec}.{$nameMap['type']}.txt",
+            "%s/{$dirMap[$type]}/%s{$usec}.{$nameMap[$type]}.txt",
             APP_ROUTED_MAILS_SAVEDIR,
             date('Y-m-d_H-i-s_', $timestamp)
         );

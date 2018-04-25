@@ -6,6 +6,7 @@ Upgrading to 3.4.x versions requires that you upgrade to 3.2.0 version first.
 Eventum 3.4.x requires PHP 5.6.
 
 - Fix bug with project switcher not redirecting to previous page (@balsdorf)
+- Fix bug dumping routed mail to save directory (@balsdorf)
 
 [3.4.1]: https://github.com/eventum/eventum/compare/v3.4.0...master
 
