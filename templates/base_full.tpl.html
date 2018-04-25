@@ -21,7 +21,7 @@
                 {if $core.active_projects|@count == 1}
                     {t}Project{/t}: <b>{$core.project_name|escape:"html"}</b>
                 {else}
-                  <form method="post" action="{$core.rel_url}switch.php">
+                  <form method="post" action="{$core.rel_url}switch.php?current_page={$smarty.server.REQUEST_URI}">
                     <select name="current_project">
                       {html_options options=$core.active_projects selected=$core.project_id}
                     </select>
