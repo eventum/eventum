@@ -8,6 +8,7 @@ Eventum 3.4.x requires PHP 5.6.
 - Fix bug with project switcher not redirecting to previous page (@balsdorf)
 - Fix bug dumping routed mail to save directory (@balsdorf)
 - Update cebe/markdown to 1.2.1 (@glensc, #365)
+- Fix bug with adding sender to authorized repliers list when unblocking an email (@balsdorf, #364)
 
 [3.4.1]: https://github.com/eventum/eventum/compare/v3.4.0...master
 
