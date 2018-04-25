@@ -64,7 +64,7 @@
 		"ext-pdo_mysql": "*",
 		"ext-session": "*",
 		"ext-spl": "*",
-		"cebe/markdown": "~1.1.1",
+		"cebe/markdown": "^1.2",
 		"defuse/php-encryption": "^2.1",
 		"doctrine/dbal": "^2.5",
 		"doctrine/orm": "^2.5",
