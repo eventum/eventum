@@ -323,6 +323,10 @@ class Notification
      */
     public static function notifyNewEmail(MailMessage $mail, array $options = [])
     {
+        // create copy of message object to prevent modifications made in this method from
+        // being seen in calling method.
+        $mail = MailMessage::createFromMessage($mail->toMessage());
+
         $internal_only = isset($options['internal_only']) ? $options['internal_only'] : false;
         $assignee_only = isset($options['assignee_only']) ? $options['assignee_only'] : false;
         $type = isset($options['type']) ? $options['type'] : '';
