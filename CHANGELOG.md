@@ -1,6 +1,6 @@
 # Eventum Issue Tracking System
 
-## [3.4.1]
+## [3.4.1] - 2018-04-28
 
 Upgrading to 3.4.x versions requires that you upgrade to 3.2.0 version first.
 Eventum 3.4.x requires PHP 5.6.
@@ -10,7 +10,7 @@ Eventum 3.4.x requires PHP 5.6.
 - Update cebe/markdown to 1.2.1 (@glensc, #365)
 - Fix bug with adding sender to authorized repliers list when unblocking an email (@balsdorf, #364)
 
-[3.4.1]: https://github.com/eventum/eventum/compare/v3.4.0...master
+[3.4.1]: https://github.com/eventum/eventum/compare/v3.4.0...v3.4.1
 
 ## [3.4.0] - 2018-04-22
 
