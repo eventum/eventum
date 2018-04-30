@@ -70,7 +70,7 @@ final class SystemEvents
 
     /**
      * @since 3.4.2
-     * @see Workflow::handleIssueClosed()
+     * @see Workflow::handleNewEmail()
      */
     const MAIL_PENDING = 'mail.pending';
 

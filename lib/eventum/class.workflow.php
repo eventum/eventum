@@ -307,13 +307,12 @@ class Workflow
         $arguments = [
             'prj_id' => $prj_id,
             'issue_id' => $issue_id,
-            'mail' => $mail,
             'data' => $row,
             'closing' => $closing,
         ];
 
         if (empty($row['issue_id'])) {
-            $event = new GenericEvent(null, $arguments);
+            $event = new GenericEvent($mail, $arguments);
             EventManager::dispatch(SystemEvents::MAIL_PENDING, $event);
         }
 
