@@ -125,6 +125,7 @@ final class SystemEvents
     /**
      * @since 3.4.2
      * @see Notification::notifyIRCBlockedMessage()
+     * @deprecated implement the logic in your own Subscriber
      */
     const IRC_NOTIFY_BLOCKED_MESSAGE = 'irc.notify.blocked.message';
 }

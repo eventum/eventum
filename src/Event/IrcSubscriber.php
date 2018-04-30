@@ -41,9 +41,15 @@ class IrcSubscriber implements EventSubscriberInterface
     /**
      * Method used to send an IRC notification about a blocked email that was
      * saved into an internal note.
+     *
+     * @deprecated implement the logic in your own Subscriber
      */
     public function notifyBlockedMessage(GenericEvent $event)
     {
+        if ($event['irc_legacy_handled']) {
+            return;
+        }
+
         $issue_id = $event['issue_id'];
         $from = $event['from'];
 
@@ -59,8 +65,16 @@ class IrcSubscriber implements EventSubscriberInterface
         Notification::notifyIRC($prj_id, $notice, $issue_id);
     }
 
+    /**
+     * @param GenericEvent $event
+     * @deprecated implement the logic in your own Subscriber
+     */
     public function reminderAction(GenericEvent $event)
     {
+        if ($event['irc_legacy_handled']) {
+            return;
+        }
+
         $issue_id = $event['issue_id'];
         $action = $event['action'];
 
@@ -92,9 +106,16 @@ class IrcSubscriber implements EventSubscriberInterface
 
     /**
      * Notify new issue to irc channel
+     *
+     * @param GenericEvent $event
+     * @deprecated implement the logic in your own Subscriber
      */
     public function notifyIssueCreated(GenericEvent $event)
     {
+        if ($event['irc_legacy_handled']) {
+            return;
+        }
+
         $issue_id = $event['issue_id'];
         $prj_id = $event['prj_id'];
         $data = $event['data'];

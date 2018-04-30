@@ -13,6 +13,7 @@
 
 namespace Eventum\EventDispatcher;
 
+use Eventum\Event\IrcSubscriber;
 use Eventum\Event\MailQueueListener;
 use Eventum\Extension\ExtensionManager;
 use Symfony\Component\EventDispatcher\Event;
@@ -38,8 +39,9 @@ class EventManager
                 $dispatcher->addSubscriber($subscriber);
             }
 
-            // TODO: figure out how to add builtins
+            // load builtin even subscribers
             $dispatcher->addSubscriber(new MailQueueListener());
+            $dispatcher->addSubscriber(new IrcSubscriber());
         }
 
         return $dispatcher;
