@@ -375,9 +375,24 @@ class Workflow
      * @param   int $status_id The status ID
      * @param   string $reason The reason for closing this issue
      * @param   int $usr_id The ID of the user closing this issue
+     * @since 3.4.2 emits ISSUE_CLOSED event
+     * @deprecated since 3.4.2
      */
     public static function handleIssueClosed($prj_id, $issue_id, $send_notification, $resolution_id, $status_id, $reason, $usr_id)
     {
+        $arguments = [
+            'prj_id' => $prj_id,
+            'issue_id' => $issue_id,
+            'send_notification' => $send_notification,
+            'resolution_id' => $resolution_id,
+            'status_id' => $status_id,
+            'reason' => $reason,
+            'usr_id' => $usr_id,
+        ];
+
+        $event = new GenericEvent(null, $arguments);
+        EventManager::dispatch(SystemEvents::ISSUE_CLOSED, $event);
+
         if (!self::hasWorkflowIntegration($prj_id)) {
             return;
         }
@@ -653,7 +668,7 @@ class Workflow
      * Can also return an array containing 'customer_id', 'contact_id' and 'contract_id', 'sev_id'
      *
      * @param   int $prj_id The ID of the project
-     * @param   array   $info an array of info about the email account
+     * @param   array $info an array of info about the email account
      * @param   MailMessage $mail The Mail object
      * @return  string|array
      */

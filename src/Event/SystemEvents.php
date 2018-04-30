@@ -88,6 +88,12 @@ final class SystemEvents
 
     /**
      * @since 3.4.2
+     * @see Workflow::handleIssueClosed()
+     */
+    const ISSUE_CLOSED = 'issue.closed';
+
+    /**
+     * @since 3.4.2
      * @see Notification::notifyNewIssue()
      */
     const NOTIFY_ISSUE_CREATED = 'notify.issue.created';
