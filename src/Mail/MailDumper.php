@@ -59,7 +59,7 @@ class MailDumper
             'note' => 'note',
         ];
 
-        list($usec, $timestamp) = explode(" ", microtime());
+        list($usec, $timestamp) = explode(' ', microtime());
 
         return sprintf(
             "%s/{$dirMap[$type]}/%s{$usec}.{$nameMap[$type]}.txt",
