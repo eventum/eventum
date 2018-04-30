@@ -13,7 +13,7 @@
 
 namespace Eventum\Extension;
 
-use Eventum\Event\IrcSubscriber;
+use Eventum\Event\IrcLegacySubscriber;
 use Setup;
 
 class IrcNotifyExtension extends AbstractExtension
@@ -27,7 +27,7 @@ class IrcNotifyExtension extends AbstractExtension
 
         $setup = Setup::get();
         if ($setup['irc_notification'] === 'enabled') {
-            $subscribers[] = IrcSubscriber::class;
+            $subscribers[] = IrcLegacySubscriber::class;
         }
 
         return $subscribers;
