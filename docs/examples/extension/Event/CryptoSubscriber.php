@@ -11,10 +11,11 @@
  * that were distributed with this source code.
  */
 
-namespace Eventum\Event;
+namespace Example\Event;
 
 use Eventum\Crypto\CryptoManager;
 use Eventum\Crypto\EncryptedValue;
+use Eventum\Event\WorkflowEvents;
 use Setup;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 

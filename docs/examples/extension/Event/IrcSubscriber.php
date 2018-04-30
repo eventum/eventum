@@ -11,8 +11,9 @@
  * that were distributed with this source code.
  */
 
-namespace Eventum\Event;
+namespace Example\Event;
 
+use Eventum\Event\SystemEvents;
 use Eventum\Mail\MailMessage;
 use Group;
 use Issue;
