@@ -246,9 +246,23 @@ class Workflow
      * @param   array $issue_details the old details of the issue
      * @param   array $new_assignees the new assignees of this issue
      * @param   bool $remote_assignment if this issue was remotely assigned
+     * @since 3.4.2 emits ISSUE_ASSIGNMENT_CHANGE event
+     * @deprecated since 3.4.2
      */
     public static function handleAssignmentChange($prj_id, $issue_id, $usr_id, $issue_details, $new_assignees, $remote_assignment = false)
     {
+        $arguments = [
+            'prj_id' => $prj_id,
+            'issue_id' => $issue_id,
+            'usr_id' => $usr_id,
+            'issue_details' => $issue_details,
+            'new_assignees' => $new_assignees,
+            'remote_assignment' => $remote_assignment,
+        ];
+
+        $event = new GenericEvent(null, $arguments);
+        EventManager::dispatch(SystemEvents::ISSUE_ASSIGNMENT_CHANGE, $event);
+
         if (!self::hasWorkflowIntegration($prj_id)) {
             return;
         }

@@ -82,6 +82,12 @@ final class SystemEvents
 
     /**
      * @since 3.4.2
+     * @see Workflow::handleAssignmentChange()
+     */
+    const ISSUE_ASSIGNMENT_CHANGE = 'issue.assignment_change';
+
+    /**
+     * @since 3.4.2
      * @see Notification::notifyNewIssue()
      */
     const NOTIFY_ISSUE_CREATED = 'notify.issue.created';
