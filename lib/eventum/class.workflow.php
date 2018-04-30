@@ -380,6 +380,8 @@ class Workflow
      */
     public static function handleIssueClosed($prj_id, $issue_id, $send_notification, $resolution_id, $status_id, $reason, $usr_id)
     {
+        $issue_details = Issue::getDetails($issue_id, true);
+
         $arguments = [
             'prj_id' => $prj_id,
             'issue_id' => $issue_id,
@@ -388,6 +390,7 @@ class Workflow
             'status_id' => $status_id,
             'reason' => $reason,
             'usr_id' => $usr_id,
+            'issue_details' => $issue_details,
         ];
 
         $event = new GenericEvent(null, $arguments);
