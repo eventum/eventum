@@ -15,8 +15,7 @@ namespace Eventum\Event;
 
 use Group;
 use Issue;
-use Notification;
-use Reminder;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
@@ -44,9 +43,12 @@ class IrcLegacySubscriber implements EventSubscriberInterface
      * Method used to send an IRC notification about a blocked email that was
      * saved into an internal note.
      *
+     * @param GenericEvent $event
+     * @param string $eventName
+     * @param EventDispatcherInterface $dispatcher
      * @deprecated implement the logic in your own Subscriber
      */
-    public function notifyBlockedMessage(GenericEvent $event)
+    public function notifyBlockedMessage(GenericEvent $event, $eventName, EventDispatcherInterface $dispatcher)
     {
         if ($event['irc_legacy_handled']) {
             return;
@@ -63,15 +65,16 @@ class IrcLegacySubscriber implements EventSubscriberInterface
         }
         $notice .= "BLOCKED email from '$from')";
 
-        $prj_id = Issue::getProjectID($issue_id);
-        Notification::notifyIRC($prj_id, $notice, $issue_id);
+        $this->notifyIrc($dispatcher, $event, $notice);
     }
 
     /**
      * @param GenericEvent $event
+     * @param string $eventName
+     * @param EventDispatcherInterface $dispatcher
      * @deprecated implement the logic in your own Subscriber
      */
-    public function reminderAction(GenericEvent $event)
+    public function reminderAction(GenericEvent $event, $eventName, EventDispatcherInterface $dispatcher)
     {
         if ($event['irc_legacy_handled']) {
             return;
@@ -102,17 +105,18 @@ class IrcLegacySubscriber implements EventSubscriberInterface
         }
         $irc_notice .= "), Reminder action '" . $action['rma_title'] . "' was just triggered; " . $action['rma_boilerplate'];
 
-        $prj_id = Issue::getProjectID($issue_id);
-        Notification::notifyIRC($prj_id, $irc_notice, $issue_id, false, APP_EVENTUM_IRC_CATEGORY_REMINDER);
+        $this->notifyIrc($dispatcher, $event, $irc_notice, APP_EVENTUM_IRC_CATEGORY_REMINDER);
     }
 
     /**
      * Notify new issue to irc channel
      *
      * @param GenericEvent $event
+     * @param string $eventName
+     * @param EventDispatcherInterface $dispatcher
      * @deprecated implement the logic in your own Subscriber
      */
-    public function notifyIssueCreated(GenericEvent $event)
+    public function notifyIssueCreated(GenericEvent $event, $eventName, EventDispatcherInterface $dispatcher)
     {
         if ($event['irc_legacy_handled']) {
             return;
@@ -146,7 +150,28 @@ class IrcLegacySubscriber implements EventSubscriberInterface
         }
 
         $irc_notice .= $data['iss_summary'];
+        $this->notifyIrc($dispatcher, $event, $irc_notice, null, 'new_issue');
+    }
 
-        Notification::notifyIRC($prj_id, $irc_notice, $issue_id, false, false, 'new_issue');
+    /**
+     * @param EventDispatcherInterface $dispatcher
+     * @param GenericEvent $sourceEvent
+     * @param string $notice
+     * @param string $category
+     * @param string $type
+     */
+    private function notifyIrc(EventDispatcherInterface $dispatcher, GenericEvent $sourceEvent, $notice, $category = null, $type = null)
+    {
+        $arguments = [
+            'prj_id' => $sourceEvent['project_id'],
+            'issue_id' => $sourceEvent['issue_id'],
+            'notice' => $notice,
+            'usr_id' => null,
+            'category' => $category ?: false,
+            'type' => $type ?: false,
+        ];
+
+        $event = new GenericEvent(null, $arguments);
+        $dispatcher->dispatch(SystemEvents::IRC_NOTIFY, $event);
     }
 }

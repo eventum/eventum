@@ -15,7 +15,6 @@ namespace Eventum\Event;
 
 use Date_Helper;
 use DB_Helper;
-use Issue;
 use Setup;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
