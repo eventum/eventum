@@ -70,6 +70,12 @@ final class SystemEvents
 
     /**
      * @since 3.4.2
+     * @see Workflow::handleIssueClosed()
+     */
+    const MAIL_PENDING = 'mail.pending';
+
+    /**
+     * @since 3.4.2
      * @see Notification::notifyIRC()
      */
     const IRC_NOTIFY = 'irc.notify';

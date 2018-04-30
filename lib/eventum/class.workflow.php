@@ -297,10 +297,25 @@ class Workflow
      * @param   MailMessage $mail The Mail object
      * @param   array $row the array of data that was inserted into the database
      * @param   bool $closing if we are closing the issue
+     * @since 3.4.2 emits MAIL_PENDING event
+     * @deprecated since 3.4.2
      */
     public static function handleNewEmail($prj_id, $issue_id, MailMessage $mail, $row, $closing = false)
     {
         Partner::handleNewEmail($issue_id, $row['sup_id']);
+
+        $arguments = [
+            'prj_id' => $prj_id,
+            'issue_id' => $issue_id,
+            'mail' => $mail,
+            'data' => $row,
+            'closing' => $closing,
+        ];
+
+        if (empty($row['issue_id'])) {
+            $event = new GenericEvent(null, $arguments);
+            EventManager::dispatch(SystemEvents::MAIL_PENDING, $event);
+        }
 
         if (!self::hasWorkflowIntegration($prj_id)) {
             return;
