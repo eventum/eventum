@@ -1403,6 +1403,7 @@ class Notification
      * @api
      * @param   int $issue_id The issue ID
      * @param   string $from The sender of the blocked email message
+     * @deprecated since 3.4.2, see https://github.com/eventum/eventum/pull/368
      */
     public static function notifyIRCBlockedMessage($issue_id, $from)
     {
@@ -1424,7 +1425,7 @@ class Notification
      * @param   bool $usr_id The ID of the user to notify
      * @param   bool|string $category The category of this notification
      * @param   bool|string $type The type of notification (new_issue, etc)
-     * @deprecated since 3.4.2, emit SystemEvents::IRC_NOTIFY event yourself
+     * @deprecated since 3.4.2, emit SystemEvents::IRC_NOTIFY event yourself, see https://github.com/eventum/eventum/pull/368
      */
     public static function notifyIRC($project_id, $notice, $issue_id = null, $usr_id = null, $category = false, $type = false)
     {
