@@ -316,6 +316,9 @@ class Workflow
             EventManager::dispatch(SystemEvents::MAIL_PENDING, $event);
         }
 
+        $event = new GenericEvent($mail, $arguments);
+        EventManager::dispatch(SystemEvents::MAIL_CREATED, $event);
+
         if (!self::hasWorkflowIntegration($prj_id)) {
             return;
         }
