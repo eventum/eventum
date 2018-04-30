@@ -129,10 +129,13 @@ class IrcSubscriber implements EventSubscriberInterface
 
     public function notifyIRC(GenericEvent $event)
     {
+        $category = $event['category'];
         $notice = Workflow::formatIRCMessage(
             $event['prj_id'], $event['notice'], $event['issue_id'],
-            $event['usr_id'], $event['category'], $event['type']
+            $event['usr_id'], $category, $event['type']
         );
+        // assign back in case workflow modified value
+        $event['category'] = $category;
 
         if ($notice === false) {
             return;
@@ -143,7 +146,7 @@ class IrcSubscriber implements EventSubscriberInterface
             'ino_created_date' => Date_Helper::getCurrentDateGMT(),
             'ino_status' => 'pending',
             'ino_message' => $event['notice'],
-            'ino_category' => $event['category'],
+            'ino_category' => $category,
         ];
 
         if ($event['issue_id']) {
