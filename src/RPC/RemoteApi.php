@@ -64,7 +64,7 @@ class RemoteApi
             throw new RemoteApiException('There are currently no projects setup for remote invocation');
         }
         // check if this project allows remote invocation
-        if (!in_array($prj_id, array_keys($res))) {
+        if (!array_key_exists($prj_id, $res)) {
             throw new RemoteApiException('This project does not allow remote invocation');
         }
 
