@@ -33,6 +33,7 @@ use InvalidArgumentException;
 use Issue;
 use Misc;
 use Note;
+use PhpXmlRpc\Value;
 use Project;
 use Report;
 use Resolution;
@@ -945,9 +946,8 @@ class RemoteApi
 
         // enrich the response
         foreach ($res as &$row) {
-            // contains IRC escapes
-            $row['ino_message_base64'] = base64_encode($row['ino_message']);
-            unset($row['ino_message']);
+            // ino_message contains IRC escapes, need to encode it
+            $row['ino_message'] = new Value($row['ino_message'], 'base64');
 
             if (!empty($row['ino_target_usr_id'])) {
                 $row['usr_email'] = User::getEmail($row['ino_target_usr_id']);
