@@ -859,6 +859,19 @@ class RemoteApi
     }
 
     /**
+     * Returns the list of all users who are currently marked as
+     * clocked-in.
+     *
+     * @return array Returns pairs of usr_full_name => usr_email
+     * @access protected
+     * @since 3.4.2
+     */
+    public function getClockedInList()
+    {
+        return User::getClockedInList();
+    }
+
+    /**
      * @param int $issue_id
      * @return array
      * @access protected
