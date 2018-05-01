@@ -2341,9 +2341,10 @@ class Issue
     public static function getAssignedUsersByIssues(&$result)
     {
         $ids = [];
-        foreach ($result as $res) {
-            $ids[] = $res['iss_id'];
+        foreach ($result as $item) {
+            $ids[] = $item['iss_id'];
         }
+
         if (count($ids) < 1) {
             return;
         }
@@ -2357,11 +2358,8 @@ class Issue
                  WHERE
                     isu_usr_id=usr_id AND
                     isu_iss_id IN ($ids)";
-        try {
-            $res = DB_Helper::getInstance()->getAll($stmt);
-        } catch (DatabaseException $e) {
-            return;
-        }
+
+        $res = DB_Helper::getInstance()->getAll($stmt);
 
         $t = [];
         foreach ($res as &$row) {
@@ -2371,6 +2369,7 @@ class Issue
                 $t[$row['isu_iss_id']] = $row['usr_full_name'];
             }
         }
+        unset($row);
 
         // now populate the $result variable again
         foreach ($result as &$res) {
