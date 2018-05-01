@@ -19,5 +19,5 @@ require_once __DIR__ . '/../../init.php';
 // close session
 session_write_close();
 
-$api = new RemoteApi();
-$server = new XmlRpcServer($api);
+$server = new XmlRpcServer(new RemoteApi());
+$server->run();
