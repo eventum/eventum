@@ -891,16 +891,40 @@ class RemoteApi
     }
 
     /**
+     * @param string $projectTitle
+     * @return array
+     * @access protected
+     * @since 3.4.2
+     */
+    public function getProjectByName($projectTitle)
+    {
+        $prj_id = Project::getID($projectTitle);
+        if (!$prj_id) {
+            return null;
+        }
+
+        return Project::getDetails($prj_id);
+    }
+
+    /**
      * Get messages from irc_notice table that are not yet handled.
      * Used by the IRC bot.
      *
+     * @param int $prj_id
      * @param int $limit
      * @return array
      * @access protected
      * @since 3.4.2
      */
-    public function getPendingMessages($limit)
+    public function getPendingMessages($prj_id, $limit)
     {
+        // restrict access to admin user
+        $usr_id = Auth::getUserID();
+        $role_id = User::getRoleByUser($usr_id, $prj_id);
+        if ($role_id < User::ROLE_ADMINISTRATOR) {
+            throw new RemoteApiException("You don't have the appropriate permissions for this method");
+        }
+
         $stmt = 'SELECT
                     ino_id,
                     ino_iss_id,
@@ -915,9 +939,9 @@ class RemoteApi
                  ON
                     iss_id=ino_iss_id
                  WHERE
-                    ino_status=?
+                    ino_status=? and ino_prj_id=?
                  LIMIT ' . (int)$limit;
-        $res = DB_Helper::getInstance()->getAll($stmt, ['pending']);
+        $res = DB_Helper::getInstance()->getAll($stmt, ['pending', $prj_id]);
 
         // enrich the response
         foreach ($res as &$row) {
@@ -944,19 +968,27 @@ class RemoteApi
      * Mark event as sent.
      * Used by the IRC bot.
      *
+     * @param int $prj_id
      * @param int $ino_id
      * @access protected
      * @since 3.4.2
      */
-    public function markEventSent($ino_id)
+    public function markEventSent($prj_id, $ino_id)
     {
+        // restrict access to admin user
+        $usr_id = Auth::getUserID();
+        $role_id = User::getRoleByUser($usr_id, $prj_id);
+        if ($role_id < User::ROLE_ADMINISTRATOR) {
+            throw new RemoteApiException("You don't have the appropriate permissions for this method");
+        }
+
         $stmt = "UPDATE
                     `irc_notice`
                  SET
                     ino_status='sent'
                  WHERE
-                    ino_id=?";
-        DB_Helper::getInstance()->query($stmt, [$ino_id]);
+                    ino_id=? and ino_prj_id=?";
+        DB_Helper::getInstance()->query($stmt, [$ino_id, $prj_id]);
     }
 
     /**
