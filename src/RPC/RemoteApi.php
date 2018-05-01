@@ -814,9 +814,7 @@ class RemoteApi
             ]
         );
 
-        $ret = strip_tags($tpl->getTemplateContents()) . "\n";
-
-        return $ret;
+        return strip_tags($tpl->getTemplateContents()) . "\n";
     }
 
     /**
@@ -825,9 +823,7 @@ class RemoteApi
      */
     public function getResolutionAssocList()
     {
-        $res = Resolution::getAssocList();
-
-        return $res;
+        return Resolution::getAssocList();
     }
 
     /**
@@ -841,9 +837,9 @@ class RemoteApi
         // TODO: is the email printing necessary?
         $email = User::getEmail($usr_id);
 
-        if ($action == 'in') {
+        if ($action === 'in') {
             $res = User::clockIn($usr_id);
-        } elseif ($action == 'out') {
+        } elseif ($action === 'out') {
             $res = User::clockOut($usr_id);
         } else {
             if (User::isClockedIn($usr_id)) {
@@ -869,9 +865,7 @@ class RemoteApi
      */
     public function getDraftListing($issue_id)
     {
-        $drafts = Draft::getList($issue_id);
-
-        return $drafts;
+        return Draft::getList($issue_id);
     }
 
     /**
