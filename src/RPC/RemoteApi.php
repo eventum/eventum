@@ -891,6 +891,75 @@ class RemoteApi
     }
 
     /**
+     * Get messages from irc_notice table that are not yet handled.
+     * Used by the IRC bot.
+     *
+     * @param int $limit
+     * @return array
+     * @access protected
+     * @since 3.4.2
+     */
+    public function getPendingMessages($limit)
+    {
+        $stmt = 'SELECT
+                    ino_id,
+                    ino_iss_id,
+                    ino_prj_id,
+                    ino_message,
+                    ino_target_usr_id,
+                    ino_category
+                 FROM
+                    `irc_notice`
+                 LEFT JOIN
+                    `issue`
+                 ON
+                    iss_id=ino_iss_id
+                 WHERE
+                    ino_status=?
+                 LIMIT ' . (int)$limit;
+        $res = DB_Helper::getInstance()->getAll($stmt, ['pending']);
+
+        // enrich the response
+        foreach ($res as &$row) {
+            // contains IRC escapes
+            $row['ino_message_base64'] = base64_encode($row['ino_message']);
+            unset($row['ino_message']);
+
+            if (!empty($row['ino_target_usr_id'])) {
+                $row['usr_email'] = User::getEmail($row['ino_target_usr_id']);
+            }
+
+            if ($row['ino_iss_id'] > 0) {
+                $row['issue_url'] = APP_BASE_URL . 'view.php?id=' . $row['ino_iss_id'];
+            } elseif (strpos($row['ino_message'], 'New Pending Email') === 0) {
+                $row['emails_url'] = APP_BASE_URL . 'emails.php';
+            }
+            $row['project_name'] = Project::getName($row['ino_prj_id']);
+        }
+
+        return $res;
+    }
+
+    /**
+     * Mark event as sent.
+     * Used by the IRC bot.
+     *
+     * @param int $ino_id
+     * @access protected
+     * @since 3.4.2
+     */
+    public function markEventSent($ino_id)
+    {
+        $stmt = "UPDATE
+                    `irc_notice`
+                 SET
+                    ino_status='sent'
+                 WHERE
+                    ino_id=?";
+        DB_Helper::getInstance()->query($stmt, [$ino_id]);
+    }
+
+    /**
      * @param int $issue_id
      * @return array
      * @access protected
