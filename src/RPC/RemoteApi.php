@@ -141,13 +141,15 @@ class RemoteApi
      */
     public function isValidLogin($email, $password)
     {
-        if (!Auth::isCorrectPassword($email, $password) && !APIAuthToken::isTokenValidForEmail($password, $email)) {
-            $is_valid = false;
-        } else {
-            $is_valid = true;
+        if (!Auth::isActiveUser($email)) {
+            return false;
         }
 
-        return $is_valid;
+        if (!Auth::isCorrectPassword($email, $password) && !APIAuthToken::isTokenValidForEmail($password, $email)) {
+            return false;
+        }
+
+        return true;
     }
 
     /**

@@ -873,11 +873,8 @@ class User
                     `user`
                  WHERE
                     usr_email=?';
-        try {
-            $res = DB_Helper::getInstance()->getOne($stmt, [$email]);
-        } catch (DatabaseException $e) {
-            return '';
-        }
+
+        $res = DB_Helper::getInstance()->getOne($stmt, [$email]);
 
         $returns[$email] = $res;
 
