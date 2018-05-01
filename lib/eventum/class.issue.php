@@ -2851,11 +2851,7 @@ class Issue
                     iqu_expiration >= ? AND
                     iqu_expiration IS NOT NULL';
         $params = [Date_Helper::getCurrentDateGMT()];
-        try {
-            $res = DB_Helper::getInstance()->getAll($stmt, $params);
-        } catch (DatabaseException $e) {
-            return [];
-        }
+        $res = DB_Helper::getInstance()->getAll($stmt, $params);
 
         self::getAssignedUsersByIssues($res);
 

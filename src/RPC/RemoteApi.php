@@ -872,6 +872,25 @@ class RemoteApi
     }
 
     /**
+     * Returns a simple list of issues that are currently set to some
+     * form of quarantine. This is mainly used by the IRC interface.
+     *
+     * @return array List of quarantined issues
+     * @access protected
+     * @since 3.4.2
+     */
+    public function getQuarantinedIssueList()
+    {
+        $list = Issue::getQuarantinedIssueList();
+
+        foreach ($list as &$row) {
+            $row['issue_url'] = APP_BASE_URL . 'view.php?id=' . $row['iss_id'];
+        }
+
+        return $list;
+    }
+
+    /**
      * @param int $issue_id
      * @return array
      * @access protected
