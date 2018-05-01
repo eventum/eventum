@@ -2896,12 +2896,11 @@ class Issue
      * @param   int $issue_id The issue ID
      * @param   int $status The quarantine status
      * @param   string $expiration The expiration date of quarantine (default empty)
-     * @return int
      */
     public static function setQuarantine($issue_id, $status, $expiration = '')
     {
-        $issue_id = (int) $issue_id;
-        $status = (int) $status;
+        $issue_id = (int)$issue_id;
+        $status = (int)$status;
 
         // see if there is an existing record
         $stmt = 'SELECT
@@ -2910,11 +2909,8 @@ class Issue
                     `issue_quarantine`
                  WHERE
                     iqu_iss_id = ?';
-        try {
-            $res = DB_Helper::getInstance()->getOne($stmt, [$issue_id]);
-        } catch (DatabaseException $e) {
-            return -1;
-        }
+
+        $res = DB_Helper::getInstance()->getOne($stmt, [$issue_id]);
 
         if ($res > 0) {
             // update
@@ -2930,21 +2926,18 @@ class Issue
             $stmt .= "\nWHERE
                         iqu_iss_id = ?";
             $params[] = $issue_id;
-            try {
-                DB_Helper::getInstance()->query($stmt, $params);
-            } catch (DatabaseException $e) {
-                return -1;
-            }
+
+            DB_Helper::getInstance()->query($stmt, $params);
 
             // add history entry about this change taking place
-            if ($status == 0) {
+            if ($status === 0) {
                 $usr_id = Auth::getUserID();
                 History::add($issue_id, $usr_id, 'issue_quarantine_removed', 'Issue quarantine status cleared by {user}', [
                     'user' => User::getFullName(Auth::getUserID()),
                 ]);
             }
 
-            return 1;
+            return;
         }
 
         // insert
@@ -2957,13 +2950,7 @@ class Issue
         }
         $stmt = 'INSERT INTO `issue_quarantine` SET ' . DB_Helper::buildSet($params);
 
-        try {
-            DB_Helper::getInstance()->query($stmt, $params);
-        } catch (DatabaseException $e) {
-            return -1;
-        }
-
-        return 1;
+        DB_Helper::getInstance()->query($stmt, $params);
     }
 
     /**
