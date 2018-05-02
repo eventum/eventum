@@ -904,7 +904,17 @@ class RemoteApi
             return null;
         }
 
-        return Project::getDetails($prj_id);
+        $details = Project::getDetails($prj_id);
+        $preserveKeys = [
+            'prj_id',
+            'prj_created_date',
+            'prj_remote_invocation',
+            'prj_segregate_reporter',
+            'prj_status',
+            'prj_title',
+        ];
+
+        return Misc::filterKeys($details, $preserveKeys);
     }
 
     /**
