@@ -11,9 +11,10 @@
  * that were distributed with this source code.
  */
 
-namespace Eventum\Extension;
+namespace Example\Extension;
 
-use Eventum\Event;
+use Eventum\Extension\AbstractExtension;
+use Example\Event;
 
 /**
  * Example Eventum Extension.

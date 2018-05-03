@@ -12,12 +12,14 @@
  */
 
 use Eventum\Attachment\AttachmentGroup;
+use Eventum\Event\SystemEvents;
 use Eventum\Event\WorkflowEvents;
 use Eventum\EventDispatcher\EventManager;
 use Eventum\Extension\ExtensionLoader;
 use Eventum\Mail\ImapMessage;
 use Eventum\Mail\MailMessage;
 use Eventum\Model\Entity;
+use Symfony\Component\EventDispatcher\GenericEvent;
 
 class Workflow
 {
@@ -211,9 +213,22 @@ class Workflow
      * @param   int $issue_id the ID of the issue
      * @param   array $email_details Details of the issue
      * @param   string $type what type of blocked email this is
+     * @param MailMessage $mail
+     * @since 3.4.2 emits BLOCKED_EMAIL event
+     * @deprecated use SystemEvents::EMAIL_BLOCKED event listener
      */
-    public static function handleBlockedEmail($prj_id, $issue_id, $email_details, $type)
+    public static function handleBlockedEmail($prj_id, $issue_id, $email_details, $type, $mail = null)
     {
+        $arguments = [
+            'prj_id' => $prj_id,
+            'issue_id' => $issue_id,
+            'email_details' => $email_details,
+            'type' => $type,
+            'mail' => $mail,
+        ];
+        $event = new GenericEvent(null, $arguments);
+        EventManager::dispatch(SystemEvents::EMAIL_BLOCKED, $event);
+
         if (!self::hasWorkflowIntegration($prj_id)) {
             return;
         }
@@ -231,9 +246,23 @@ class Workflow
      * @param   array $issue_details the old details of the issue
      * @param   array $new_assignees the new assignees of this issue
      * @param   bool $remote_assignment if this issue was remotely assigned
+     * @since 3.4.2 emits ISSUE_ASSIGNMENT_CHANGE event
+     * @deprecated since 3.4.2
      */
     public static function handleAssignmentChange($prj_id, $issue_id, $usr_id, $issue_details, $new_assignees, $remote_assignment = false)
     {
+        $arguments = [
+            'prj_id' => $prj_id,
+            'issue_id' => $issue_id,
+            'usr_id' => $usr_id,
+            'issue_details' => $issue_details,
+            'new_assignees' => $new_assignees,
+            'remote_assignment' => $remote_assignment,
+        ];
+
+        $event = new GenericEvent(null, $arguments);
+        EventManager::dispatch(SystemEvents::ISSUE_ASSIGNMENT_CHANGE, $event);
+
         if (!self::hasWorkflowIntegration($prj_id)) {
             return;
         }
@@ -268,10 +297,27 @@ class Workflow
      * @param   MailMessage $mail The Mail object
      * @param   array $row the array of data that was inserted into the database
      * @param   bool $closing if we are closing the issue
+     * @since 3.4.2 emits MAIL_PENDING event
+     * @deprecated since 3.4.2
      */
     public static function handleNewEmail($prj_id, $issue_id, MailMessage $mail, $row, $closing = false)
     {
         Partner::handleNewEmail($issue_id, $row['sup_id']);
+
+        $arguments = [
+            'prj_id' => $prj_id,
+            'issue_id' => $issue_id,
+            'data' => $row,
+            'closing' => $closing,
+        ];
+
+        if (empty($row['issue_id'])) {
+            $event = new GenericEvent($mail, $arguments);
+            EventManager::dispatch(SystemEvents::MAIL_PENDING, $event);
+        }
+
+        $event = new GenericEvent($mail, $arguments);
+        EventManager::dispatch(SystemEvents::MAIL_CREATED, $event);
 
         if (!self::hasWorkflowIntegration($prj_id)) {
             return;
@@ -346,9 +392,27 @@ class Workflow
      * @param   int $status_id The status ID
      * @param   string $reason The reason for closing this issue
      * @param   int $usr_id The ID of the user closing this issue
+     * @since 3.4.2 emits ISSUE_CLOSED event
+     * @deprecated since 3.4.2
      */
     public static function handleIssueClosed($prj_id, $issue_id, $send_notification, $resolution_id, $status_id, $reason, $usr_id)
     {
+        $issue_details = Issue::getDetails($issue_id, true);
+
+        $arguments = [
+            'prj_id' => $prj_id,
+            'issue_id' => $issue_id,
+            'send_notification' => $send_notification,
+            'resolution_id' => $resolution_id,
+            'status_id' => $status_id,
+            'reason' => $reason,
+            'usr_id' => $usr_id,
+            'issue_details' => $issue_details,
+        ];
+
+        $event = new GenericEvent(null, $arguments);
+        EventManager::dispatch(SystemEvents::ISSUE_CLOSED, $event);
+
         if (!self::hasWorkflowIntegration($prj_id)) {
             return;
         }
@@ -624,7 +688,7 @@ class Workflow
      * Can also return an array containing 'customer_id', 'contact_id' and 'contract_id', 'sev_id'
      *
      * @param   int $prj_id The ID of the project
-     * @param   array   $info an array of info about the email account
+     * @param   array $info an array of info about the email account
      * @param   MailMessage $mail The Mail object
      * @return  string|array
      */
@@ -786,15 +850,39 @@ class Workflow
         return $backend->getActiveGroup($prj_id);
     }
 
-    public static function formatIRCMessage($prj_id, $notice, $issue_id = false, $usr_id = false, &$category = false,
-                                            $type = false)
+    /**
+     * @param int $prj_id
+     * @param string $notice
+     * @param int $issue_id
+     * @param int $usr_id
+     * @param string $category
+     * @param string $type
+     * @return string
+     * @since 3.4.2 emits IRC_FORMAT_MESSAGE event
+     * @deprecated since 3.4.2 use Event instead
+     */
+    public static function formatIRCMessage($prj_id, $notice, $issue_id = null, $usr_id = null, &$category = null, $type = null)
     {
-        if (!self::hasWorkflowIntegration($prj_id)) {
-            return $notice;
-        }
-        $backend = self::_getBackend($prj_id);
+        $arguments = [
+            'prj_id' => $prj_id,
+            'notice' => $notice,
+            'issue_id' => $issue_id,
+            'usr_id' => $usr_id,
+            'category' => $category,
+            'type' => $type,
+        ];
+        $event = new GenericEvent(null, $arguments);
+        EventManager::dispatch(SystemEvents::IRC_FORMAT_MESSAGE, $event);
 
-        return $backend->formatIRCMessage($prj_id, $notice, $issue_id, $usr_id, $category, $type);
+        if (self::hasWorkflowIntegration($prj_id)) {
+            $backend = self::_getBackend($prj_id);
+            $event['notice'] = $backend->formatIRCMessage($prj_id, $notice, $issue_id, $usr_id, $category, $type);
+        }
+
+        // might have been updated by workflow
+        $category = $event['category'];
+
+        return $event['notice'];
     }
 
     /**

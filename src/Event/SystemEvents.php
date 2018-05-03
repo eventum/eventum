@@ -67,4 +67,65 @@ final class SystemEvents
     const MAIL_QUEUE_SEND = 'mail.queue.send';
     const MAIL_QUEUE_SENT = 'mail.queue.sent';
     const MAIL_QUEUE_ERROR = 'mail.queue.error';
+
+    /**
+     * @since 3.4.2
+     * @see Workflow::handleNewEmail()
+     */
+    const MAIL_PENDING = 'mail.pending';
+
+    /**
+     * @since 3.4.2
+     * @see Workflow::handleNewEmail()
+     */
+    const MAIL_CREATED = 'mail.created';
+
+    /**
+     * @since 3.4.2
+     * @see Notification::notifyIRC()
+     */
+    const IRC_NOTIFY = 'irc.notify';
+
+    /**
+     * @since 3.4.2
+     * @see Workflow::handleBlockedEmail()
+     */
+    const EMAIL_BLOCKED = 'email.blocked';
+
+    /**
+     * @since 3.4.2
+     * @see Workflow::handleAssignmentChange()
+     */
+    const ISSUE_ASSIGNMENT_CHANGE = 'issue.assignment_change';
+
+    /**
+     * @since 3.4.2
+     * @see Workflow::handleIssueClosed()
+     */
+    const ISSUE_CLOSED = 'issue.closed';
+
+    /**
+     * @since 3.4.2
+     * @see Notification::notifyNewIssue()
+     */
+    const NOTIFY_ISSUE_CREATED = 'notify.issue.created';
+
+    /**
+     * @since 3.4.2
+     * @see Reminder_Action::perform()
+     */
+    const REMINDER_ACTION_PERFORM = 'reminder.action.perform';
+
+    /**
+     * @since 3.4.2
+     * @see Workflow::formatIRCMessage()
+     */
+    const IRC_FORMAT_MESSAGE = 'irc.format.message';
+
+    /**
+     * @since 3.4.2
+     * @see Notification::notifyIRCBlockedMessage()
+     * @deprecated implement the logic in your own Subscriber
+     */
+    const IRC_NOTIFY_BLOCKED_MESSAGE = 'irc.notify.blocked.message';
 }

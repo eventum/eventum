@@ -13,10 +13,13 @@
 
 use Eventum\Attachment\AttachmentManager;
 use Eventum\Db\DatabaseException;
+use Eventum\Event\SystemEvents;
+use Eventum\EventDispatcher\EventManager;
 use Eventum\Mail\Helper\AddressHeader;
 use Eventum\Mail\Helper\WarningMessage;
 use Eventum\Mail\MailBuilder;
 use Eventum\Mail\MailMessage;
+use Symfony\Component\EventDispatcher\GenericEvent;
 
 /**
  * Class to handle all of the business logic related to sending email
@@ -1201,28 +1204,8 @@ class Notification
         $data = Issue::getDetails($issue_id, true);
         $data['attachments'] = AttachmentManager::getList($issue_id);
 
-        // notify new issue to irc channel
-        $irc_notice = "New Issue #$issue_id (";
-        $quarantine = Issue::getQuarantineInfo($issue_id);
-        if (!empty($quarantine)) {
-            $irc_notice .= 'Quarantined; ';
-        }
-        $irc_notice .= 'Priority: ' . $data['pri_title'];
-        // also add information about the assignee, if any
-        $assignment = Issue::getAssignedUsers($issue_id);
-        if (count($assignment) > 0) {
-            $irc_notice .= '; Assignment: ' . implode(', ', $assignment);
-        }
-        if (!empty($data['iss_grp_id'])) {
-            $irc_notice .= '; Group: ' . Group::getName($data['iss_grp_id']);
-        }
-        $irc_notice .= '), ';
-        if (@isset($data['customer'])) {
-            $irc_notice .= $data['customer']['name'] . ', ';
-        }
-        $irc_notice .= $data['iss_summary'];
-        self::notifyIRC($prj_id, $irc_notice, $issue_id, false, false, 'new_issue');
-        $data['custom_fields'] = [];// empty place holder so notifySubscribers will fill it in with appropriate data for the user
+        // empty place holder so notifySubscribers will fill it in with appropriate data for the user
+        $data['custom_fields'] = [];
         $subject = ev_gettext('New Issue');
         // generate new Message-ID
         $message_id = Mail_Helper::generateMessageID();
@@ -1232,6 +1215,15 @@ class Notification
 
         // remove excluded emails
         $emails = array_diff($emails, $exclude_list);
+
+        $arguments = [
+            'issue_id' => (int)$issue_id,
+            'prj_id' => $prj_id,
+            'data' => $data,
+        ];
+
+        $event = new GenericEvent(null, $arguments);
+        EventManager::dispatch(SystemEvents::NOTIFY_ISSUE_CREATED, $event);
 
         self::notifySubscribers($issue_id, $emails, 'new_issue', $data, $subject, false, false, $headers);
     }
@@ -1411,17 +1403,17 @@ class Notification
      * @api
      * @param   int $issue_id The issue ID
      * @param   string $from The sender of the blocked email message
+     * @deprecated since 3.4.2, see https://github.com/eventum/eventum/pull/368
      */
     public static function notifyIRCBlockedMessage($issue_id, $from)
     {
-        $notice = "Issue #$issue_id updated (";
-        // also add information about the assignee, if any
-        $assignment = Issue::getAssignedUsers($issue_id);
-        if (count($assignment) > 0) {
-            $notice .= 'Assignment: ' . implode(', ', $assignment) . '; ';
-        }
-        $notice .= "BLOCKED email from '$from')";
-        self::notifyIRC(Issue::getProjectID($issue_id), $notice, $issue_id);
+        $arguments = [
+            'issue_id' => $issue_id,
+            'prj_id' => Issue::getProjectID($issue_id),
+            'from' => $from,
+        ];
+        $event = new GenericEvent(null, $arguments);
+        EventManager::dispatch(SystemEvents::IRC_NOTIFY_BLOCKED_MESSAGE, $event);
     }
 
     /**
@@ -1433,38 +1425,21 @@ class Notification
      * @param   bool $usr_id The ID of the user to notify
      * @param   bool|string $category The category of this notification
      * @param   bool|string $type The type of notification (new_issue, etc)
+     * @deprecated since 3.4.2, emit SystemEvents::IRC_NOTIFY event yourself, see https://github.com/eventum/eventum/pull/368
      */
     public static function notifyIRC($project_id, $notice, $issue_id = null, $usr_id = null, $category = false, $type = false)
     {
-        // don't save any irc notification if this feature is disabled
-        $setup = Setup::get();
-        if ($setup['irc_notification'] != 'enabled') {
-            return;
-        }
-
-        $notice = Workflow::formatIRCMessage($project_id, $notice, $issue_id, $usr_id, $category, $type);
-
-        if ($notice === false) {
-            return;
-        }
-
-        $params = [
-            'ino_prj_id' => $project_id,
-            'ino_created_date' => Date_Helper::getCurrentDateGMT(),
-            'ino_status' => 'pending',
-            'ino_message' => $notice,
-            'ino_category' => $category,
+        $arguments = [
+            'prj_id' => $project_id,
+            'notice' => $notice,
+            'issue_id' => $issue_id,
+            'usr_id' => $usr_id,
+            'category' => $category,
+            'type' => $type,
         ];
 
-        if ($issue_id) {
-            $params['ino_iss_id'] = $issue_id;
-        }
-        if ($usr_id) {
-            $params['ino_target_usr_id'] = $usr_id;
-        }
-
-        $stmt = 'INSERT INTO `irc_notice` SET ' . DB_Helper::buildSet($params);
-        DB_Helper::getInstance()->query($stmt, $params);
+        $event = new GenericEvent(null, $arguments);
+        EventManager::dispatch(SystemEvents::IRC_NOTIFY, $event);
     }
 
     /**
