@@ -26,11 +26,6 @@ use User;
 
 class IrcSubscriber implements EventSubscriberInterface
 {
-    /*
-     * Higher equals more important and therefore that the listener will be triggered earlier
-     */
-    const PRIORITY_EARLY = 100;
-
     public static function getSubscribedEvents()
     {
         return [
@@ -38,7 +33,8 @@ class IrcSubscriber implements EventSubscriberInterface
             SystemEvents::ISSUE_ASSIGNMENT_CHANGE => 'assignmentChange',
             SystemEvents::ISSUE_CLOSED => 'issueClosed',
             SystemEvents::MAIL_PENDING => 'mailPending',
-            SystemEvents::NOTIFY_ISSUE_CREATED => ['notifyIssueCreated', self::PRIORITY_EARLY],
+            SystemEvents::NOTIFY_ISSUE_CREATED => 'notifyIssueCreated',
+            SystemEvents::REMINDER_ACTION_PERFORM => 'reminderAction',
         ];
     }
 
@@ -47,10 +43,9 @@ class IrcSubscriber implements EventSubscriberInterface
      * @param string $eventName
      * @param EventDispatcherInterface $dispatcher
      */
-    public function emailBlocked(GenericEvent $event, $eventName, $dispatcher)
+    public function emailBlocked(GenericEvent $event, $eventName, EventDispatcherInterface $dispatcher)
     {
         $issue_id = $event['issue_id'];
-        $prj_id = $event['prj_id'];
         $email_details = $event['email_details'];
         $from = $email_details['from'];
 
@@ -66,10 +61,10 @@ class IrcSubscriber implements EventSubscriberInterface
         }
         $notice .= "BLOCKED email from '$from')";
 
-        Notification::notifyIRC($prj_id, $notice, $issue_id);
+        $this->notifyIrc($dispatcher, $event, $notice);
     }
 
-    public function assignmentChange(GenericEvent $event)
+    public function assignmentChange(GenericEvent $event, $eventName, EventDispatcherInterface $dispatcher)
     {
         $new_assignees = $event['new_assignees'];
 
@@ -105,50 +100,45 @@ class IrcSubscriber implements EventSubscriberInterface
 
         $notice .= '; New Assignment: ' . implode(', ', User::getFullName($new_assignees)) . ')';
 
-        Notification::notifyIRC($event['prj_id'], $notice, $event['issue_id']);
+        $this->notifyIrc($dispatcher, $event, $notice);
     }
 
-    public function issueClosed(GenericEvent $event)
+    public function issueClosed(GenericEvent $event, $eventName, EventDispatcherInterface $dispatcher)
     {
-        $prj_id = $event['prj_id'];
-        $issue_id = $event['issue_id'];
         $issue_details = $event['issue_details'];
 
         $fields = [];
         $fields[] = 'Status: ' . $issue_details['sta_title'];
         $fields[] = 'Resolution: ' . $issue_details['iss_resolution'];
 
-        $irc_message = "Issue #$issue_id closed";
+        $irc_message = "Issue #{$event['issue_id']} closed";
         $irc_message .= ' (' . implode('; ', $fields) . ')';
         $irc_message .= ' ' . $issue_details['iss_summary'];
 
-        Notification::notifyIRC($prj_id, $irc_message, $issue_id);
+        $this->notifyIrc($dispatcher, $event, $irc_message);
     }
 
-    public function mailPending(GenericEvent $event)
+    public function mailPending(GenericEvent $event, $eventName, EventDispatcherInterface $dispatcher)
     {
         /** @var MailMessage $mail */
         $mail = $event->getSubject();
-        $prj_id = $event['prj_id'];
         $subject = $mail->subject;
 
         // email not associated with issue
         $irc_message = "New Pending Email (Subject: {$subject})";
-        Notification::notifyIRC($prj_id, $irc_message, 0);
+        $this->notifyIrc($dispatcher, $event, $irc_message);
     }
 
     /**
      * Notify new issue to irc channel
      *
      * @param GenericEvent $event
+     * @param string $eventName
+     * @param EventDispatcherInterface $dispatcher
      */
-    public function notifyIssueCreated(GenericEvent $event)
+    public function notifyIssueCreated(GenericEvent $event, $eventName, EventDispatcherInterface $dispatcher)
     {
-        // avoid calling eventum own handler
-        $event['irc_legacy_handled'] = true;
-
         $issue_id = $event['issue_id'];
-        $prj_id = $event['prj_id'];
         $data = $event['data'];
 
         $irc_notice = "New Issue #$issue_id (";
@@ -175,7 +165,63 @@ class IrcSubscriber implements EventSubscriberInterface
         }
 
         $irc_notice .= $data['iss_summary'];
+        $this->notifyIrc($dispatcher, $event, $irc_notice, null, 'new_issue');
+    }
 
-        Notification::notifyIRC($prj_id, $irc_notice, $issue_id, false, false, 'new_issue');
+    /**
+     * @param GenericEvent $event
+     * @param string $eventName
+     * @param EventDispatcherInterface $dispatcher
+     */
+    public function reminderAction(GenericEvent $event, $eventName, EventDispatcherInterface $dispatcher)
+    {
+        $issue_id = $event['issue_id'];
+        $action = $event['action'];
+
+        // alert IRC if needed
+        if (!$action['rma_alert_irc']) {
+            return;
+        }
+
+        $irc_notice = "Issue #$issue_id (";
+        if (!empty($data['pri_title'])) {
+            $irc_notice .= 'Priority: ' . $data['pri_title'];
+        }
+        if (!empty($data['sev_title'])) {
+            $irc_notice .= 'Severity: ' . $data['sev_title'];
+        }
+        // also add information about the assignee, if any
+        $assignment = Issue::getAssignedUsers($issue_id);
+        if (count($assignment) > 0) {
+            $irc_notice .= '; Assignment: ' . implode(', ', $assignment);
+        }
+        if (!empty($data['iss_grp_id'])) {
+            $irc_notice .= '; Group: ' . Group::getName($data['iss_grp_id']);
+        }
+        $irc_notice .= "), Reminder action '" . $action['rma_title'] . "' was just triggered; " . $action['rma_boilerplate'];
+
+        $this->notifyIrc($dispatcher, $event, $irc_notice, APP_EVENTUM_IRC_CATEGORY_REMINDER);
+    }
+
+    /**
+     * @param EventDispatcherInterface $dispatcher
+     * @param GenericEvent $sourceEvent
+     * @param string $notice
+     * @param string $category
+     * @param string $type
+     */
+    private function notifyIrc(EventDispatcherInterface $dispatcher, GenericEvent $sourceEvent, $notice, $category = null, $type = null)
+    {
+        $arguments = [
+            'prj_id' => $sourceEvent['project_id'],
+            'issue_id' => $sourceEvent['issue_id'],
+            'notice' => $notice,
+            'usr_id' => null,
+            'category' => $category ?: false,
+            'type' => $type ?: false,
+        ];
+
+        $event = new GenericEvent(null, $arguments);
+        $dispatcher->dispatch(SystemEvents::IRC_NOTIFY, $event);
     }
 }
