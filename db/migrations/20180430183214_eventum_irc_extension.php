@@ -29,16 +29,22 @@ class EventumIrcExtension extends AbstractMigration
     private function registerExtension()
     {
         $setup = Setup::get();
-        $rf = new ReflectionClass(IrcNotifyExtension::class);
-        $setup['extensions'][$rf->getName()] = $rf->getFileName();
-        Setup::save();
+
+        if ($setup['irc_notification'] === 'enabled') {
+            $rf = new ReflectionClass(IrcNotifyExtension::class);
+            $setup['extensions'][$rf->getName()] = $rf->getFileName();
+            Setup::save();
+        }
     }
 
     private function unregisterExtension()
     {
         $setup = Setup::get();
-        $rf = new ReflectionClass(IrcNotifyExtension::class);
-        unset($setup['extensions'][$rf->getName()]);
-        Setup::save();
+
+        if ($setup['irc_notification'] === 'enabled') {
+            $rf = new ReflectionClass(IrcNotifyExtension::class);
+            unset($setup['extensions'][$rf->getName()]);
+            Setup::save();
+        }
     }
 }

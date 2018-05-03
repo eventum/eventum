@@ -20,7 +20,7 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
 /**
- * @deprecated
+ * @deprecated will be removed in 3.5.0 along with irc bot code
  *
  * events listened, created from this class need to be implemented in user subscriber classes
  * will be dropped from eventum core at some point
