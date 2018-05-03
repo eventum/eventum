@@ -16,9 +16,9 @@ namespace Eventum\Event;
 use Date_Helper;
 use DB_Helper;
 use Setup;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
-use Workflow;
 
 class IrcSubscriber implements EventSubscriberInterface
 {
@@ -28,7 +28,7 @@ class IrcSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return [
-            SystemEvents::IRC_NOTIFY => 'notifyIRC',
+            SystemEvents::IRC_NOTIFY => 'notifyIrc',
         ];
     }
 
@@ -36,22 +36,20 @@ class IrcSubscriber implements EventSubscriberInterface
      * Save event details to irc_notice table.
      *
      * @param GenericEvent $event
+     * @param string $eventName
+     * @param EventDispatcherInterface $dispatcher
      */
-    public function notifyIRC(GenericEvent $event)
+    public function notifyIrc(GenericEvent $event, $eventName, EventDispatcherInterface $dispatcher)
     {
         if (!$this->notificationEnabled()) {
             return;
         }
 
-        $category = $event['category'];
-        $notice = Workflow::formatIRCMessage(
-            $event['prj_id'], $event['notice'], $event['issue_id'],
-            $event['usr_id'], $category, $event['type']
-        );
-        // assign back in case workflow modified value
-        $event['category'] = $category;
+        $dispatcher->dispatch(SystemEvents::IRC_FORMAT_MESSAGE, $event);
 
-        if ($notice === false) {
+        // if notice is empty, skip insert
+        // this can be used in event handler to skip event handling.
+        if (!$event['notice']) {
             return;
         }
 
@@ -60,7 +58,7 @@ class IrcSubscriber implements EventSubscriberInterface
             'ino_created_date' => Date_Helper::getCurrentDateGMT(),
             'ino_status' => 'pending',
             'ino_message' => $event['notice'],
-            'ino_category' => $category,
+            'ino_category' => $event['category'],
         ];
 
         if ($event['issue_id']) {

@@ -608,12 +608,6 @@ abstract class Abstract_Workflow_Backend
         return null;
     }
 
-    public function formatIRCMessage($prj_id, $notice, $issue_id = false, $usr_id = false, $category = false,
-                                            $type = false)
-    {
-        return $notice;
-    }
-
     /**
      * Returns an array of additional access levels an issue can be set to
      *
