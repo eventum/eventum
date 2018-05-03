@@ -18,7 +18,6 @@ use Eventum\Mail\MailMessage;
 use Group;
 use Issue;
 use Misc;
-use Notification;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
@@ -49,10 +48,6 @@ class IrcSubscriber implements EventSubscriberInterface
         $email_details = $event['email_details'];
         $from = $email_details['from'];
 
-        /**
-         * @see Notification::notifyIRCBlockedMessage
-         * @see \Eventum\Event\IrcSubscriber::notifyBlockedMessage
-         */
         $notice = "Issue #$issue_id updated (";
         // also add information about the assignee, if any
         $assignment = Issue::getAssignedUsers($issue_id);

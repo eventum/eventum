@@ -1397,26 +1397,6 @@ class Notification
     }
 
     /**
-     * Method used to send an IRC notification about a blocked email that was
-     * saved into an internal note.
-     *
-     * @api
-     * @param   int $issue_id The issue ID
-     * @param   string $from The sender of the blocked email message
-     * @deprecated since 3.4.2, see https://github.com/eventum/eventum/pull/368
-     */
-    public static function notifyIRCBlockedMessage($issue_id, $from)
-    {
-        $arguments = [
-            'issue_id' => $issue_id,
-            'prj_id' => Issue::getProjectID($issue_id),
-            'from' => $from,
-        ];
-        $event = new GenericEvent(null, $arguments);
-        EventManager::dispatch(SystemEvents::IRC_NOTIFY_BLOCKED_MESSAGE, $event);
-    }
-
-    /**
      * Method used to save the IRC notification message in the queue table.
      *
      * @param   int $project_id the ID of the project
