@@ -2341,9 +2341,10 @@ class Issue
     public static function getAssignedUsersByIssues(&$result)
     {
         $ids = [];
-        foreach ($result as $res) {
-            $ids[] = $res['iss_id'];
+        foreach ($result as $item) {
+            $ids[] = $item['iss_id'];
         }
+
         if (count($ids) < 1) {
             return;
         }
@@ -2357,11 +2358,8 @@ class Issue
                  WHERE
                     isu_usr_id=usr_id AND
                     isu_iss_id IN ($ids)";
-        try {
-            $res = DB_Helper::getInstance()->getAll($stmt);
-        } catch (DatabaseException $e) {
-            return;
-        }
+
+        $res = DB_Helper::getInstance()->getAll($stmt);
 
         $t = [];
         foreach ($res as &$row) {
@@ -2371,6 +2369,7 @@ class Issue
                 $t[$row['isu_iss_id']] = $row['usr_full_name'];
             }
         }
+        unset($row);
 
         // now populate the $result variable again
         foreach ($result as &$res) {
@@ -2852,11 +2851,7 @@ class Issue
                     iqu_expiration >= ? AND
                     iqu_expiration IS NOT NULL';
         $params = [Date_Helper::getCurrentDateGMT()];
-        try {
-            $res = DB_Helper::getInstance()->getAll($stmt, $params);
-        } catch (DatabaseException $e) {
-            return [];
-        }
+        $res = DB_Helper::getInstance()->getAll($stmt, $params);
 
         self::getAssignedUsersByIssues($res);
 
@@ -2901,12 +2896,11 @@ class Issue
      * @param   int $issue_id The issue ID
      * @param   int $status The quarantine status
      * @param   string $expiration The expiration date of quarantine (default empty)
-     * @return int
      */
     public static function setQuarantine($issue_id, $status, $expiration = '')
     {
-        $issue_id = (int) $issue_id;
-        $status = (int) $status;
+        $issue_id = (int)$issue_id;
+        $status = (int)$status;
 
         // see if there is an existing record
         $stmt = 'SELECT
@@ -2915,11 +2909,8 @@ class Issue
                     `issue_quarantine`
                  WHERE
                     iqu_iss_id = ?';
-        try {
-            $res = DB_Helper::getInstance()->getOne($stmt, [$issue_id]);
-        } catch (DatabaseException $e) {
-            return -1;
-        }
+
+        $res = DB_Helper::getInstance()->getOne($stmt, [$issue_id]);
 
         if ($res > 0) {
             // update
@@ -2935,21 +2926,18 @@ class Issue
             $stmt .= "\nWHERE
                         iqu_iss_id = ?";
             $params[] = $issue_id;
-            try {
-                DB_Helper::getInstance()->query($stmt, $params);
-            } catch (DatabaseException $e) {
-                return -1;
-            }
+
+            DB_Helper::getInstance()->query($stmt, $params);
 
             // add history entry about this change taking place
-            if ($status == 0) {
+            if ($status === 0) {
                 $usr_id = Auth::getUserID();
                 History::add($issue_id, $usr_id, 'issue_quarantine_removed', 'Issue quarantine status cleared by {user}', [
                     'user' => User::getFullName(Auth::getUserID()),
                 ]);
             }
 
-            return 1;
+            return;
         }
 
         // insert
@@ -2962,13 +2950,7 @@ class Issue
         }
         $stmt = 'INSERT INTO `issue_quarantine` SET ' . DB_Helper::buildSet($params);
 
-        try {
-            DB_Helper::getInstance()->query($stmt, $params);
-        } catch (DatabaseException $e) {
-            return -1;
-        }
-
-        return 1;
+        DB_Helper::getInstance()->query($stmt, $params);
     }
 
     /**

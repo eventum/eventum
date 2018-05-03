@@ -19,6 +19,7 @@ use AuthCookie;
 use Eventum\Monolog\Logger;
 use Exception;
 use PhpXmlRpc;
+use Psr\Log\LoggerInterface;
 use ReflectionClass;
 use ReflectionMethod;
 
@@ -36,10 +37,10 @@ class XmlRpcServer
     /** @var PhpXmlRpc\Encoder */
     protected $encoder;
 
-    /** @var \Monolog\Logger */
+    /** @var LoggerInterface */
     protected $logger;
 
-    public function __construct($api)
+    public function __construct(RemoteApi $api)
     {
         $this->api = $api;
         $this->reflectionClass = new ReflectionClass($this->api);
@@ -47,7 +48,12 @@ class XmlRpcServer
         $this->logger = Logger::cli();
 
         $services = $this->getXmlRpcMethodSignatures();
-        $this->server = new PhpXmlRpc\Server($services);
+        $this->server = new PhpXmlRpc\Server($services, false);
+    }
+
+    public function run($data = null)
+    {
+        $this->server->service($data);
     }
 
     /**

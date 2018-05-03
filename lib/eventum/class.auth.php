@@ -248,11 +248,8 @@ class Auth
     public static function isActiveUser($email)
     {
         $status = User::getStatusByEmail($email);
-        if ($status != 'active') {
-            return false;
-        }
 
-        return true;
+        return $status === 'active';
     }
 
     /**

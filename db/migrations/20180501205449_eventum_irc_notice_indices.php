@@ -11,13 +11,15 @@
  * that were distributed with this source code.
  */
 
-use Eventum\RPC\RemoteApi;
-use Eventum\RPC\XmlRpcServer;
+use Eventum\Db\AbstractMigration;
 
-require_once __DIR__ . '/../../init.php';
-
-// close session
-session_write_close();
-
-$server = new XmlRpcServer(new RemoteApi());
-$server->run();
+class EventumIrcNoticeIndices extends AbstractMigration
+{
+    public function change()
+    {
+        $this->table('irc_notice')
+            ->removeIndex(['ino_status'])
+            ->addIndex(['ino_status', 'ino_prj_id'])
+            ->update();
+    }
+}

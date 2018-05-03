@@ -76,6 +76,17 @@ class Misc
     }
 
     /**
+     * Return $input array containing only keys in $preserveKeys.
+     * @param array $input
+     * @param array $preserveKeys
+     * @return array
+     */
+    public static function filterKeys($input, $preserveKeys = [])
+    {
+        return array_intersect_key($input, array_flip($preserveKeys));
+    }
+
+    /**
      * Return bytes count of $data, even in the presence of
      * mbstring.func_overload
      *

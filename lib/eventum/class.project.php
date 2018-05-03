@@ -194,13 +194,8 @@ class Project
                     `project`
                  WHERE
                     prj_title=?';
-        try {
-            $res = DB_Helper::getInstance()->getOne($stmt, [$prj_title]);
-        } catch (DatabaseException $e) {
-            return '';
-        }
 
-        return $res;
+        return DB_Helper::getInstance()->getOne($stmt, [$prj_title]);
     }
 
     /**
@@ -286,10 +281,7 @@ class Project
                     `project`
                  WHERE
                     prj_id=?';
-        try {
-            $res = DB_Helper::getInstance()->getRow($stmt, [$prj_id]);
-        } catch (DatabaseException $e) {
-        }
+        $res = DB_Helper::getInstance()->getRow($stmt, [$prj_id]);
 
         if (empty($res)) {
             return [];

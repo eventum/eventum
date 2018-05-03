@@ -33,6 +33,7 @@ use InvalidArgumentException;
 use Issue;
 use Misc;
 use Note;
+use PhpXmlRpc\Value;
 use Project;
 use Report;
 use Resolution;
@@ -64,7 +65,7 @@ class RemoteApi
             throw new RemoteApiException('There are currently no projects setup for remote invocation');
         }
         // check if this project allows remote invocation
-        if (!in_array($prj_id, array_keys($res))) {
+        if (!array_key_exists($prj_id, $res)) {
             throw new RemoteApiException('This project does not allow remote invocation');
         }
 
@@ -141,13 +142,15 @@ class RemoteApi
      */
     public function isValidLogin($email, $password)
     {
-        if (!Auth::isCorrectPassword($email, $password) && !APIAuthToken::isTokenValidForEmail($password, $email)) {
-            $is_valid = false;
-        } else {
-            $is_valid = true;
+        if (!Auth::isActiveUser($email)) {
+            return false;
         }
 
-        return $is_valid;
+        if (!Auth::isCorrectPassword($email, $password) && !APIAuthToken::isTokenValidForEmail($password, $email)) {
+            return false;
+        }
+
+        return true;
     }
 
     /**
@@ -812,9 +815,7 @@ class RemoteApi
             ]
         );
 
-        $ret = strip_tags($tpl->getTemplateContents()) . "\n";
-
-        return $ret;
+        return strip_tags($tpl->getTemplateContents()) . "\n";
     }
 
     /**
@@ -823,9 +824,7 @@ class RemoteApi
      */
     public function getResolutionAssocList()
     {
-        $res = Resolution::getAssocList();
-
-        return $res;
+        return Resolution::getAssocList();
     }
 
     /**
@@ -839,9 +838,9 @@ class RemoteApi
         // TODO: is the email printing necessary?
         $email = User::getEmail($usr_id);
 
-        if ($action == 'in') {
+        if ($action === 'in') {
             $res = User::clockIn($usr_id);
-        } elseif ($action == 'out') {
+        } elseif ($action === 'out') {
             $res = User::clockOut($usr_id);
         } else {
             if (User::isClockedIn($usr_id)) {
@@ -861,15 +860,155 @@ class RemoteApi
     }
 
     /**
+     * Returns the list of all users who are currently marked as
+     * clocked-in.
+     *
+     * @return array Returns pairs of usr_full_name => usr_email
+     * @access protected
+     * @since 3.4.2
+     */
+    public function getClockedInList()
+    {
+        return User::getClockedInList();
+    }
+
+    /**
+     * Returns a simple list of issues that are currently set to some
+     * form of quarantine. This is mainly used by the IRC interface.
+     *
+     * @return array List of quarantined issues
+     * @access protected
+     * @since 3.4.2
+     */
+    public function getQuarantinedIssueList()
+    {
+        $list = Issue::getQuarantinedIssueList();
+
+        foreach ($list as &$row) {
+            $row['issue_url'] = APP_BASE_URL . 'view.php?id=' . $row['iss_id'];
+        }
+
+        return $list;
+    }
+
+    /**
+     * @param string $projectTitle
+     * @return array
+     * @access protected
+     * @since 3.4.2
+     */
+    public function getProjectByName($projectTitle)
+    {
+        $prj_id = Project::getID($projectTitle);
+        if (!$prj_id) {
+            return null;
+        }
+
+        $details = Project::getDetails($prj_id);
+        $preserveKeys = [
+            'prj_id',
+            'prj_created_date',
+            'prj_remote_invocation',
+            'prj_segregate_reporter',
+            'prj_status',
+            'prj_title',
+        ];
+
+        return Misc::filterKeys($details, $preserveKeys);
+    }
+
+    /**
+     * Get messages from irc_notice table that are not yet handled.
+     * Used by the IRC bot.
+     *
+     * @param int $prj_id
+     * @param int $limit
+     * @return array
+     * @access protected
+     * @since 3.4.2
+     */
+    public function getPendingMessages($prj_id, $limit)
+    {
+        // restrict access to admin user
+        $usr_id = Auth::getUserID();
+        $role_id = User::getRoleByUser($usr_id, $prj_id);
+        if ($role_id < User::ROLE_ADMINISTRATOR) {
+            throw new RemoteApiException("You don't have the appropriate permissions for this method");
+        }
+
+        $stmt = 'SELECT
+                    ino_id,
+                    ino_iss_id,
+                    ino_prj_id,
+                    ino_message,
+                    ino_target_usr_id,
+                    ino_category
+                 FROM
+                    `irc_notice`
+                 LEFT JOIN
+                    `issue`
+                 ON
+                    iss_id=ino_iss_id
+                 WHERE
+                    ino_status=? and ino_prj_id=?
+                 LIMIT ' . (int)$limit;
+        $res = DB_Helper::getInstance()->getAll($stmt, ['pending', $prj_id]);
+
+        // enrich the response
+        foreach ($res as &$row) {
+            // ino_message contains IRC escapes, need to encode it
+            $row['ino_message'] = new Value($row['ino_message'], 'base64');
+
+            if (!empty($row['ino_target_usr_id'])) {
+                $row['usr_email'] = User::getEmail($row['ino_target_usr_id']);
+            }
+
+            if ($row['ino_iss_id'] > 0) {
+                $row['issue_url'] = APP_BASE_URL . 'view.php?id=' . $row['ino_iss_id'];
+            } elseif (strpos($row['ino_message'], 'New Pending Email') === 0) {
+                $row['emails_url'] = APP_BASE_URL . 'emails.php';
+            }
+            $row['project_name'] = Project::getName($row['ino_prj_id']);
+        }
+
+        return $res;
+    }
+
+    /**
+     * Mark event as sent.
+     * Used by the IRC bot.
+     *
+     * @param int $prj_id
+     * @param int $ino_id
+     * @access protected
+     * @since 3.4.2
+     */
+    public function markEventSent($prj_id, $ino_id)
+    {
+        // restrict access to admin user
+        $usr_id = Auth::getUserID();
+        $role_id = User::getRoleByUser($usr_id, $prj_id);
+        if ($role_id < User::ROLE_ADMINISTRATOR) {
+            throw new RemoteApiException("You don't have the appropriate permissions for this method");
+        }
+
+        $stmt = "UPDATE
+                    `irc_notice`
+                 SET
+                    ino_status='sent'
+                 WHERE
+                    ino_id=? and ino_prj_id=?";
+        DB_Helper::getInstance()->query($stmt, [$ino_id, $prj_id]);
+    }
+
+    /**
      * @param int $issue_id
      * @return array
      * @access protected
      */
     public function getDraftListing($issue_id)
     {
-        $drafts = Draft::getList($issue_id);
-
-        return $drafts;
+        return Draft::getList($issue_id);
     }
 
     /**

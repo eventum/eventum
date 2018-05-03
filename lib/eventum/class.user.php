@@ -873,11 +873,8 @@ class User
                     `user`
                  WHERE
                     usr_email=?';
-        try {
-            $res = DB_Helper::getInstance()->getOne($stmt, [$email]);
-        } catch (DatabaseException $e) {
-            return '';
-        }
+
+        $res = DB_Helper::getInstance()->getOne($stmt, [$email]);
 
         $returns[$email] = $res;
 
@@ -1357,13 +1354,8 @@ class User
                     `user`
                  WHERE
                     usr_clocked_in=1';
-        try {
-            $res = DB_Helper::getInstance()->getPair($stmt);
-        } catch (DatabaseException $e) {
-            return [];
-        }
 
-        return $res;
+        return DB_Helper::getInstance()->getPair($stmt);
     }
 
     /**

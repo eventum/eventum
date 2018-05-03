@@ -16,6 +16,7 @@ namespace Eventum\Controller;
 use Auth;
 use Authorized_Replier;
 use Eventum\Attachment\AttachmentManager;
+use Eventum\Db\DatabaseException;
 use Filter;
 use History;
 use Issue;
@@ -184,7 +185,12 @@ class PopupController extends BaseController
 
             case 'remove_quarantine':
                 if (Auth::getCurrentRole() > User::ROLE_DEVELOPER) {
-                    $res = Issue::setQuarantine($this->issue_id, 0);
+                    try {
+                        Issue::setQuarantine($this->issue_id, 0);
+                        $res = 1;
+                    } catch (DatabaseException $e) {
+                        $res = -1;
+                    }
                     $this->tpl->assign('remove_quarantine_result', $res);
                 }
 
