@@ -15,7 +15,7 @@ namespace Example\Event;
 
 use Eventum\Event\SystemEvents;
 use Eventum\Model\Entity;
-use Notification;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
@@ -44,7 +44,7 @@ class CommitSubscriber implements EventSubscriberInterface
         }
     }
 
-    public function onAssociate(GenericEvent $event)
+    public function onAssociate(GenericEvent $event, $eventName, EventDispatcherInterface $dispatcher)
     {
         /** @var Entity\Commit $commit */
         $commit = $event->getSubject();
@@ -56,6 +56,26 @@ class CommitSubscriber implements EventSubscriberInterface
         // XXX: complex logic figuring out what to say to IRC
         $irc_message = sprintf('commits added to #%d', $issue_id);
 
-        Notification::notifyIRC($prj_id, $irc_message, $issue_id);
+        $this->notifyIrc($dispatcher, $event, $irc_message);
+    }
+
+    /**
+     * @param EventDispatcherInterface $dispatcher
+     * @param GenericEvent $sourceEvent
+     * @param string $notice
+     */
+    private function notifyIrc(EventDispatcherInterface $dispatcher, GenericEvent $sourceEvent, $notice)
+    {
+        $arguments = [
+            'prj_id' => $sourceEvent['project_id'],
+            'issue_id' => $sourceEvent['issue_id'],
+            'notice' => $notice,
+            'usr_id' => null,
+            'category' => false,
+            'type' => false,
+        ];
+
+        $event = new GenericEvent(null, $arguments);
+        $dispatcher->dispatch(SystemEvents::IRC_NOTIFY, $event);
     }
 }

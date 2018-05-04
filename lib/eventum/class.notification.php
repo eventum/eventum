@@ -1397,32 +1397,6 @@ class Notification
     }
 
     /**
-     * Method used to save the IRC notification message in the queue table.
-     *
-     * @param   int $project_id the ID of the project
-     * @param   string $notice The notification summary that should be displayed on IRC
-     * @param   int $issue_id The issue ID
-     * @param   bool $usr_id The ID of the user to notify
-     * @param   bool|string $category The category of this notification
-     * @param   bool|string $type The type of notification (new_issue, etc)
-     * @deprecated since 3.4.2, emit SystemEvents::IRC_NOTIFY event yourself, see https://github.com/eventum/eventum/pull/368
-     */
-    public static function notifyIRC($project_id, $notice, $issue_id = null, $usr_id = null, $category = false, $type = false)
-    {
-        $arguments = [
-            'prj_id' => $project_id,
-            'notice' => $notice,
-            'issue_id' => $issue_id,
-            'usr_id' => $usr_id,
-            'category' => $category,
-            'type' => $type,
-        ];
-
-        $event = new GenericEvent(null, $arguments);
-        EventManager::dispatch(SystemEvents::IRC_NOTIFY, $event);
-    }
-
-    /**
      * Method used to send an email notification when the account
      * details of an user is changed.
      *

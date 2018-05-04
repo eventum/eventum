@@ -82,7 +82,6 @@ final class SystemEvents
 
     /**
      * @since 3.4.2
-     * @see Notification::notifyIRC()
      */
     const IRC_NOTIFY = 'irc.notify';
 
