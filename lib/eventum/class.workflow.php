@@ -18,7 +18,6 @@ use Eventum\EventDispatcher\EventManager;
 use Eventum\Extension\ExtensionLoader;
 use Eventum\Mail\ImapMessage;
 use Eventum\Mail\MailMessage;
-use Eventum\Model\Entity;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
 class Workflow
@@ -459,23 +458,6 @@ class Workflow
         $backend = self::_getBackend($prj_id);
 
         return $backend->handleSubscription($prj_id, $issue_id, $subscriber_usr_id, $email, $types);
-    }
-
-    /**
-     * @param int $prj_id the project ID
-     * @param int $issue_id the ID of the issue
-     * @param Entity\Commit $commit
-     * @since 3.1.0
-     * @deprecated since 3.4.0 use SystemEvents::SCM_COMMIT_ASSOCIATED event
-     */
-    public static function handleScmCommit($prj_id, $issue_id, Entity\Commit $commit)
-    {
-        if (!self::hasWorkflowIntegration($prj_id)) {
-            return;
-        }
-
-        $backend = self::_getBackend($prj_id);
-        $backend->handleScmCommit($prj_id, $issue_id, $commit);
     }
 
     /**

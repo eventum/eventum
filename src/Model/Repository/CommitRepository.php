@@ -66,8 +66,6 @@ class CommitRepository extends EntityRepository
      */
     public function notifyNewCommit($issue_id, Entity\Commit $commit)
     {
-        $prj_id = Issue::getProjectID($issue_id);
-
         Issue::markAsUpdated($issue_id, 'scm checkin');
 
         // TODO: add workflow pre method first, so it may setup username, etc
@@ -80,9 +78,6 @@ class CommitRepository extends EntityRepository
                 'user' => $commit->getAuthor(),
             ]
         );
-
-        // notify workflow about new commit
-        Workflow::handleScmCommit($prj_id, $issue_id, $commit);
     }
 
     /**

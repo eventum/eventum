@@ -14,7 +14,6 @@
 use Eventum\Attachment\AttachmentGroup;
 use Eventum\Mail\ImapMessage;
 use Eventum\Mail\MailMessage;
-use Eventum\Model\Entity;
 
 /**
  * Abstract Class that all workflow backends should extend. This is so any new
@@ -339,18 +338,6 @@ abstract class Abstract_Workflow_Backend
     public function handleSubscription($prj_id, $issue_id, &$subscriber_usr_id, &$email, &$actions)
     {
         return true;
-    }
-
-    /**
-     * Handle commit associated to issue
-     *
-     * @param int $prj_id the project ID
-     * @param int $issue_id the ID of the issue
-     * @param Entity\Commit $commit
-     * @since 3.0.12
-     */
-    public function handleScmCommit($prj_id, $issue_id, Entity\Commit $commit)
-    {
     }
 
     /**
