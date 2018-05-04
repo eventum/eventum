@@ -18,7 +18,7 @@ get_commit_message() {
 	Created on $date from $commit on $branch branch.
 	Uploaded by Travis. Use at your own risk.
 
-	If the snapshot tarball (eventum-${version#v}.tar.gz) is not appearing here,
+	If the snapshot tarball (eventum-${version#v}.tar.xz) is not appearing here,
 	check Travis CI for errors: https://travis-ci.org/eventum/eventum
 	EOF
 }

@@ -46,7 +46,7 @@ jobs:
         api_key: $GITHUB_API_TOKEN
         file_glob: true
         file:
-          - eventum-*.tar.gz
+          - eventum-*.tar.xz
         skip_cleanup: true
         overwrite: true
         on:
