@@ -13,7 +13,6 @@
 
 use Eventum\Attachment\AttachmentGroup;
 use Eventum\Event\SystemEvents;
-use Eventum\Event\WorkflowEvents;
 use Eventum\EventDispatcher\EventManager;
 use Eventum\Extension\ExtensionLoader;
 use Eventum\Mail\ImapMessage;
@@ -897,42 +896,6 @@ class Workflow
         $backend = self::_getBackend($prj_id);
 
         return $backend->getAdditionalAccessSQL($prj_id, $usr_id);
-    }
-
-    /**
-     * Upgrade config so that values contain EncryptedValue where some secrecy is wanted
-     * NOTE: this isn't really project specific, therefore it uses hardcoded project id to obtain workflow class
-     *
-     * @since 3.1.0 workflow method added
-     * @since 3.2.1 dispatches WorkflowEvents::CRYPTO_DOWNGRADE event
-     * @deprecated since 3.4.0 use Extension EventSubscriber
-     */
-    public static function cryptoUpgradeConfig($prj_id = 1)
-    {
-        EventManager::dispatch(WorkflowEvents::CONFIG_CRYPTO_UPGRADE);
-
-        if (!self::hasWorkflowIntegration($prj_id)) {
-            return;
-        }
-        self::_getBackend($prj_id)->cryptoUpgradeConfig();
-    }
-
-    /**
-     * Downgrade config: remove all EncryptedValue elements.
-     * NOTE: this isn't really project specific, therefore it uses hardcoded project id to obtain workflow class
-     *
-     * @since 3.1.0 workflow method added
-     * @since 3.2.1 dispatches WorkflowEvents::CRYPTO_DOWNGRADE event
-     * @deprecated since 3.4.0 use Extension EventSubscriber
-     */
-    public static function cryptoDowngradeConfig($prj_id = 1)
-    {
-        EventManager::dispatch(WorkflowEvents::CONFIG_CRYPTO_DOWNGRADE);
-
-        if (!self::hasWorkflowIntegration($prj_id)) {
-            return;
-        }
-        self::_getBackend($prj_id)->cryptoDowngradeConfig();
     }
 
     /**
