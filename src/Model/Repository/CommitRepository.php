@@ -58,8 +58,6 @@ class CommitRepository extends EntityRepository
     {
         $event = new GenericEvent($ci, ['payload' => $payload]);
         EventManager::dispatch(SystemEvents::SCM_COMMIT_BEFORE, $event);
-
-        Workflow::preScmCommit($prj_id, $ci, $payload);
     }
 
     /**

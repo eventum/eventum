@@ -479,25 +479,6 @@ class Workflow
     }
 
     /**
-     * Method called on Commit to allow workflow update project name/commit author or user id
-     *
-     * @param int $prj_id the project ID
-     * @param Entity\Commit $commit
-     * @param mixed $payload
-     * @since 3.1.0
-     * @deprecated since 3.4.0 use SystemEvents::SCM_COMMIT_BEFORE event
-     */
-    public static function preScmCommit($prj_id, $commit, $payload)
-    {
-        if (!self::hasWorkflowIntegration($prj_id)) {
-            return;
-        }
-
-        $backend = self::_getBackend($prj_id);
-        $backend->preScmCommit($prj_id, $commit, $payload);
-    }
-
-    /**
      * Determines if the address should should be emailed.
      *
      * @param int $prj_id the project ID
