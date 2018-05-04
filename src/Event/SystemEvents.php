@@ -38,6 +38,20 @@ final class SystemEvents
     const USER_UPDATE = 'user.update';
 
     /**
+     * Upgrade config so that values contain EncryptedValue where some secrecy is wanted
+     *
+     * @since 3.5.0
+     */
+    const CONFIG_CRYPTO_UPGRADE = 'config.crypto_upgrade';
+
+    /**
+     * Downgrade config: remove all EncryptedValue elements.
+     *
+     * @since 3.5.0
+     */
+    const CONFIG_CRYPTO_DOWNGRADE = 'config.crypto_downgrade';
+
+    /**
      * @since 3.4.0
      * @see CommitRepository::preCommit
      */

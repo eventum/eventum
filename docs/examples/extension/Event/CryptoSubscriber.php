@@ -15,7 +15,7 @@ namespace Example\Event;
 
 use Eventum\Crypto\CryptoManager;
 use Eventum\Crypto\EncryptedValue;
-use Eventum\Event\WorkflowEvents;
+use Eventum\Event\SystemEvents;
 use Setup;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
@@ -27,8 +27,8 @@ class CryptoSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return [
-            WorkflowEvents::CONFIG_CRYPTO_UPGRADE => 'upgradeConfig',
-            WorkflowEvents::CONFIG_CRYPTO_DOWNGRADE => 'downgradeConfig',
+            SystemEvents::CONFIG_CRYPTO_UPGRADE => 'upgradeConfig',
+            SystemEvents::CONFIG_CRYPTO_DOWNGRADE => 'downgradeConfig',
         ];
     }
 
