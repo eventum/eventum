@@ -68,8 +68,7 @@ class CommitRepository extends EntityRepository
     {
         Issue::markAsUpdated($issue_id, 'scm checkin');
 
-        // TODO: add workflow pre method first, so it may setup username, etc
-        $usr_id = APP_SYSTEM_USER_ID;
+        $usr_id = $commit->getUserId() ?: APP_SYSTEM_USER_ID;
 
         // need to save a history entry for this
         // TRANSLATORS: %1: scm username
