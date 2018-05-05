@@ -41,7 +41,6 @@ class EventManager
 
             // load builtin even subscribers
             $dispatcher->addSubscriber(new MailQueueListener());
-            $dispatcher->addSubscriber(new IrcSubscriber());
         }
 
         return $dispatcher;
