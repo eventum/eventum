@@ -163,7 +163,7 @@ class IrcLegacySubscriber implements EventSubscriberInterface
     private function notifyIrc(EventDispatcherInterface $dispatcher, GenericEvent $sourceEvent, $notice, $category = null, $type = null)
     {
         $arguments = [
-            'prj_id' => $sourceEvent['project_id'],
+            'prj_id' => $sourceEvent['prj_id'],
             'issue_id' => $sourceEvent['issue_id'],
             'notice' => $notice,
             'usr_id' => null,
