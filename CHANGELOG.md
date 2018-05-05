@@ -14,7 +14,7 @@ Eventum 3.4.x requires PHP 5.6.
 - XMLRPC: Add methods to support eventum/irc-bot over xmlrpc (@glensc, #369)
 - Decouple IRC logic to events (@glensc, #368)
 
-[3.4.2]: https://github.com/eventum/eventum/compare/v3.4.2...v3.4.2
+[3.4.2]: https://github.com/eventum/eventum/compare/v3.4.1...v3.4.2
 
 ## [3.4.1] - 2018-04-28
 
