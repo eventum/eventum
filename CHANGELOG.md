@@ -8,6 +8,9 @@ Eventum 3.4.x requires PHP 5.6.
 - Minor bug fixes to Irc Extension (@glensc, #368)
 
 [3.4.3]: https://github.com/eventum/eventum/compare/v3.4.2...v3.4.3
+- Fix corrupted note body on blocked multi-part emails (@balsdorf)
+
+[3.5.0]: https://github.com/eventum/eventum/compare/v3.4.2...master
 
 ## [3.4.2] - 2018-05-04
 
