@@ -4,6 +4,8 @@
 
 Upgrading to 3.5.x versions requires that you upgrade to 3.2.0 version first.
 
+- Fix corrupted note body on blocked multi-part emails (@balsdorf)
+
 [3.5.0]: https://github.com/eventum/eventum/compare/v3.4.2...master
 
 ## [3.4.2] - 2018-05-04

@@ -17,6 +17,7 @@ use Eventum\Attachment\Exceptions\AttachmentException;
 use Eventum\Db\DatabaseException;
 use Eventum\Mail\Exception\RoutingException;
 use Eventum\Mail\Helper\AddressHeader;
+use Eventum\Mail\Helper\TextMessage;
 use Eventum\Mail\Helper\WarningMessage;
 use Eventum\Mail\ImapMessage;
 use Eventum\Mail\MailBuilder;
@@ -2397,7 +2398,7 @@ class Support
                 'message_id' => $mail->messageId,
             ];
 
-            $body = Mail_Helper::getCannedBlockedMsgExplanation() . $mail->getContent();
+            $body = Mail_Helper::getCannedBlockedMsgExplanation() . (new TextMessage($mail))->getMessageBody();
             $usr_id = Auth::getUserID();
             $res = Note::insertNote($usr_id, $issue_id, $mail->subject, $body, $options);
 
