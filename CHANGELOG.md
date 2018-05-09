@@ -1,5 +1,14 @@
 # Eventum Issue Tracking System
 
+## [3.4.4] - 2018-05-09
+
+Upgrading to 3.4.x versions requires that you upgrade to 3.2.0 version first.
+Eventum 3.4.x requires PHP 5.6.
+
+- Fix corrupted note body on blocked multi-part emails (@balsdorf)
+
+[3.4.4]: https://github.com/eventum/eventum/compare/v3.4.3...v3.4.4
+
 ## [3.4.3] - 2018-05-05
 
 Upgrading to 3.4.x versions requires that you upgrade to 3.2.0 version first.
