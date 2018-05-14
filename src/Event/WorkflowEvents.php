@@ -15,6 +15,7 @@ namespace Eventum\Event;
 
 /**
  * Contains all events known in workflow.
+ * @deprecated class deprecated since 3.5.0, use SystemEvents constants.
  */
 final class WorkflowEvents
 {
@@ -22,13 +23,15 @@ final class WorkflowEvents
      * Upgrade config so that values contain EncryptedValue where some secrecy is wanted
      *
      * @since 3.2.1
+     * @deprecated since 3.5.0 use new constant
      */
-    const CONFIG_CRYPTO_UPGRADE = 'workflow.config.crypto_upgrade';
+    const CONFIG_CRYPTO_UPGRADE = SystemEvents::CONFIG_CRYPTO_UPGRADE;
 
     /**
      * Downgrade config: remove all EncryptedValue elements.
      *
      * @since 3.2.1
+     * @deprecated since 3.5.0 use new constant
      */
-    const CONFIG_CRYPTO_DOWNGRADE = 'workflow.config.crypto_downgrade';
+    const CONFIG_CRYPTO_DOWNGRADE = SystemEvents::CONFIG_CRYPTO_DOWNGRADE;
 }

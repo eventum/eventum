@@ -58,8 +58,6 @@ class CommitRepository extends EntityRepository
     {
         $event = new GenericEvent($ci, ['payload' => $payload]);
         EventManager::dispatch(SystemEvents::SCM_COMMIT_BEFORE, $event);
-
-        Workflow::preScmCommit($prj_id, $ci, $payload);
     }
 
     /**
@@ -68,12 +66,9 @@ class CommitRepository extends EntityRepository
      */
     public function notifyNewCommit($issue_id, Entity\Commit $commit)
     {
-        $prj_id = Issue::getProjectID($issue_id);
-
         Issue::markAsUpdated($issue_id, 'scm checkin');
 
-        // TODO: add workflow pre method first, so it may setup username, etc
-        $usr_id = APP_SYSTEM_USER_ID;
+        $usr_id = $commit->getUserId() ?: APP_SYSTEM_USER_ID;
 
         // need to save a history entry for this
         // TRANSLATORS: %1: scm username
@@ -82,9 +77,6 @@ class CommitRepository extends EntityRepository
                 'user' => $commit->getAuthor(),
             ]
         );
-
-        // notify workflow about new commit
-        Workflow::handleScmCommit($prj_id, $issue_id, $commit);
     }
 
     /**

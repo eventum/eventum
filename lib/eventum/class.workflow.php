@@ -13,12 +13,10 @@
 
 use Eventum\Attachment\AttachmentGroup;
 use Eventum\Event\SystemEvents;
-use Eventum\Event\WorkflowEvents;
 use Eventum\EventDispatcher\EventManager;
 use Eventum\Extension\ExtensionLoader;
 use Eventum\Mail\ImapMessage;
 use Eventum\Mail\MailMessage;
-use Eventum\Model\Entity;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
 class Workflow
@@ -462,42 +460,6 @@ class Workflow
     }
 
     /**
-     * @param int $prj_id the project ID
-     * @param int $issue_id the ID of the issue
-     * @param Entity\Commit $commit
-     * @since 3.1.0
-     * @deprecated since 3.4.0 use SystemEvents::SCM_COMMIT_ASSOCIATED event
-     */
-    public static function handleScmCommit($prj_id, $issue_id, Entity\Commit $commit)
-    {
-        if (!self::hasWorkflowIntegration($prj_id)) {
-            return;
-        }
-
-        $backend = self::_getBackend($prj_id);
-        $backend->handleScmCommit($prj_id, $issue_id, $commit);
-    }
-
-    /**
-     * Method called on Commit to allow workflow update project name/commit author or user id
-     *
-     * @param int $prj_id the project ID
-     * @param Entity\Commit $commit
-     * @param mixed $payload
-     * @since 3.1.0
-     * @deprecated since 3.4.0 use SystemEvents::SCM_COMMIT_BEFORE event
-     */
-    public static function preScmCommit($prj_id, $commit, $payload)
-    {
-        if (!self::hasWorkflowIntegration($prj_id)) {
-            return;
-        }
-
-        $backend = self::_getBackend($prj_id);
-        $backend->preScmCommit($prj_id, $commit, $payload);
-    }
-
-    /**
      * Determines if the address should should be emailed.
      *
      * @param int $prj_id the project ID
@@ -899,42 +861,6 @@ class Workflow
         $backend = self::_getBackend($prj_id);
 
         return $backend->getAdditionalAccessSQL($prj_id, $usr_id);
-    }
-
-    /**
-     * Upgrade config so that values contain EncryptedValue where some secrecy is wanted
-     * NOTE: this isn't really project specific, therefore it uses hardcoded project id to obtain workflow class
-     *
-     * @since 3.1.0 workflow method added
-     * @since 3.2.1 dispatches WorkflowEvents::CRYPTO_DOWNGRADE event
-     * @deprecated since 3.4.0 use Extension EventSubscriber
-     */
-    public static function cryptoUpgradeConfig($prj_id = 1)
-    {
-        EventManager::dispatch(WorkflowEvents::CONFIG_CRYPTO_UPGRADE);
-
-        if (!self::hasWorkflowIntegration($prj_id)) {
-            return;
-        }
-        self::_getBackend($prj_id)->cryptoUpgradeConfig();
-    }
-
-    /**
-     * Downgrade config: remove all EncryptedValue elements.
-     * NOTE: this isn't really project specific, therefore it uses hardcoded project id to obtain workflow class
-     *
-     * @since 3.1.0 workflow method added
-     * @since 3.2.1 dispatches WorkflowEvents::CRYPTO_DOWNGRADE event
-     * @deprecated since 3.4.0 use Extension EventSubscriber
-     */
-    public static function cryptoDowngradeConfig($prj_id = 1)
-    {
-        EventManager::dispatch(WorkflowEvents::CONFIG_CRYPTO_DOWNGRADE);
-
-        if (!self::hasWorkflowIntegration($prj_id)) {
-            return;
-        }
-        self::_getBackend($prj_id)->cryptoDowngradeConfig();
     }
 
     /**

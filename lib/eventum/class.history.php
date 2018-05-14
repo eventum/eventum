@@ -14,6 +14,7 @@
 use Eventum\Db\DatabaseException;
 use Eventum\Event;
 use Eventum\EventDispatcher\EventManager;
+use Symfony\Component\EventDispatcher\GenericEvent;
 
 /**
  * Class to handle the business logic related to the history information for
@@ -76,7 +77,7 @@ class History
         $params['his_id'] = DB_Helper::get_last_insert_id();
         $params['prj_id'] = Auth::getCurrentProject();
 
-        $event = new Event\UnstructuredEvent(null, $params);
+        $event = new GenericEvent(null, $params);
         EventManager::dispatch(Event\SystemEvents::HISTORY_ADD, $event);
     }
 

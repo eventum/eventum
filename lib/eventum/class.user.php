@@ -16,6 +16,7 @@ use Eventum\Event;
 use Eventum\EventDispatcher\EventManager;
 use Eventum\Mail\MailBuilder;
 use Eventum\Monolog\Logger;
+use Symfony\Component\EventDispatcher\GenericEvent;
 
 /**
  * Class to handle the business logic related to the administration
@@ -1092,7 +1093,7 @@ class User
         $user['id'] = $usr_id;
         unset($user['password']);
 
-        $event = new Event\UnstructuredEvent(null, $user);
+        $event = new GenericEvent(null, $user);
         EventManager::dispatch(Event\SystemEvents::USER_UPDATE, $event);
 
         return true;
@@ -1162,7 +1163,7 @@ class User
         $user['id'] = $usr_id;
         unset($user['password']);
 
-        $event = new Event\UnstructuredEvent(null, $user);
+        $event = new GenericEvent(null, $user);
         EventManager::dispatch(Event\SystemEvents::USER_CREATE, $event);
 
         return $usr_id;
