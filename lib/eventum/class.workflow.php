@@ -124,7 +124,6 @@ class Workflow
 
         $backend = self::_getBackend($prj_id);
         $backend->handleIssueUpdated($prj_id, $issue_id, $usr_id, $old_details, $raw_post);
-
     }
 
     /**

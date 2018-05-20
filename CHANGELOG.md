@@ -12,6 +12,7 @@ This version drops IRC Bot from Eventum Core, see #371
 - Deprecate config loading from workflow class (@glensc, #378)
 - Use less global constants (@glensc, #377)
 - Update Phinx to 0.9.x (@glensc, #370)
+- Add events to issue created/updated related events (@glensc, #379)
 
 [3.5.0]: https://github.com/eventum/eventum/compare/v3.4.2...master
 
