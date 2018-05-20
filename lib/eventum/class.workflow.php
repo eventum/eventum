@@ -98,16 +98,28 @@ class Workflow
      * @param   int $usr_id the ID of the user
      * @param   array $old_details the old details of the issues
      * @param   array $changes The changes that were applied to this issue (the $_POST)
+     * @since 3.5.0 emits ISSUE_UPDATED event
      */
     public static function handleIssueUpdated($prj_id, $issue_id, $usr_id, $old_details, $changes)
     {
         Partner::handleIssueChange($issue_id, $usr_id, $old_details, $changes);
+
+        $arguments = [
+            'issue_id' => $issue_id,
+            'prj_id' => $prj_id,
+            'usr_id' => $usr_id,
+            'old_details' => $old_details,
+            'changes' => $changes,
+        ];
+        EventManager::dispatch(SystemEvents::ISSUE_UPDATED, new GenericEvent(null, $arguments));
+
         if (!self::hasWorkflowIntegration($prj_id)) {
             return;
         }
 
         $backend = self::_getBackend($prj_id);
         $backend->handleIssueUpdated($prj_id, $issue_id, $usr_id, $old_details, $changes);
+
     }
 
     /**
