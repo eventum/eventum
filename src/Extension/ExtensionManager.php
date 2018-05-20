@@ -108,27 +108,36 @@ class ExtensionManager
      */
     protected function createInstances($methodName)
     {
-        $classes = [];
-        foreach ($this->extensions as $extension) {
-            $classes = array_merge($classes, $extension->$methodName());
-        }
-
         $instances = [];
-        foreach ($classes as $classname) {
-            $instances[$classname] = $this->createInstance($classname);
+        foreach ($this->extensions as $extension) {
+            foreach ($extension->$methodName() as $className) {
+                $instances[$className] = $this->createInstance($extension, $className);
+            }
         }
 
         return $instances;
     }
 
     /**
-     * Create new instance of named class
+     * Create new instance of named class,
+     * use factory method from extension if extension provides it.
      *
+     * @param ExtensionInterface $extension
      * @param string $classname
      * @return object
      */
-    protected function createInstance($classname)
+    protected function createInstance(ExtensionInterface $extension, $classname)
     {
+        if ($extension instanceof ExtensionFactoryInterface) {
+            $object = $extension->factory($classname);
+
+            // extension may not provide factory for the class
+            // fall back to plain autoloading
+            if ($object) {
+                return $object;
+            }
+        }
+
         if (!class_exists($classname)) {
             throw new InvalidArgumentException("Class '$classname' does not exist");
         }
