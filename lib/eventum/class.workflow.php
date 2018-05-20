@@ -138,6 +138,7 @@ class Workflow
             'issue_id' => $issue_id,
             'prj_id' => $prj_id,
             'usr_id' => $usr_id,
+            'issue_details' => Issue::getDetails($issue_id),
             'changes' => $changes,
             // 'true' to continue, anything else to cancel the change and return the value
             'bubble' => true,
