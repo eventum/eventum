@@ -288,9 +288,18 @@ class Workflow
      * @param   int $issue_id the ID of the issue
      * @param   bool $has_TAM if this issue has a technical account manager
      * @param   bool $has_RR if Round Robin was used to assign this issue
+     * @since 3.5.0 emits ISSUE_CREATED event
      */
     public static function handleNewIssue($prj_id, $issue_id, $has_TAM, $has_RR)
     {
+        $arguments = [
+            'issue_id' => $issue_id,
+            'prj_id' => $prj_id,
+            'has_TAM' => $has_TAM,
+            'has_RR' => $has_RR,
+        ];
+        EventManager::dispatch(SystemEvents::ISSUE_CREATED, new GenericEvent(null, $arguments));
+
         if (!self::hasWorkflowIntegration($prj_id)) {
             return;
         }
