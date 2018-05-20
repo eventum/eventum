@@ -124,6 +124,12 @@ final class SystemEvents
     const ISSUE_UPDATED = 'issue.updated';
 
     /**
+     * @since 3.5.0
+     * @see Workflow::handleNewNote()
+     */
+    const NOTE_CREATED = 'note.created';
+
+    /**
      * @since 3.4.2
      * @see Notification::notifyNewIssue()
      */

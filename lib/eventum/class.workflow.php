@@ -361,10 +361,20 @@ class Workflow
      * @param   int $usr_id The user ID of the person posting this new note
      * @param   bool $closing If the issue is being closed
      * @param   int $note_id The ID of the new note
+     * @since 3.5.0 emits NOTE_CREATED event
      */
     public static function handleNewNote($prj_id, $issue_id, $usr_id, $closing, $note_id)
     {
         Partner::handleNewNote($issue_id, $note_id);
+
+        $arguments = [
+            'issue_id' => $issue_id,
+            'prj_id' => $prj_id,
+            'usr_id' => $usr_id,
+            'note_id' => $note_id,
+            'closing' => $closing,
+        ];
+        EventManager::dispatch(SystemEvents::NOTE_CREATED, new GenericEvent(null, $arguments));
 
         if (!self::hasWorkflowIntegration($prj_id)) {
             return;
