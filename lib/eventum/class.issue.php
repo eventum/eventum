@@ -1199,13 +1199,13 @@ class Issue
         $usr_id = Auth::getUserID();
         $prj_id = self::getProjectID($issue_id);
 
-        $workflow = Workflow::preIssueUpdated($prj_id, $issue_id, $usr_id, $_POST);
+        // get all of the 'current' information of this issue
+        $current = self::getDetails($issue_id);
+
+        $workflow = Workflow::preIssueUpdated($prj_id, $issue_id, $usr_id, $_POST, $current);
         if ($workflow !== true) {
             return $workflow;
         }
-
-        // get all of the 'current' information of this issue
-        $current = self::getDetails($issue_id);
 
         $associated_issues = isset($_POST['associated_issues']) ? explode(',', $_POST['associated_issues']) : [];
         self::updateAssociatedIssuesRelations($usr_id, $issue_id, $associated_issues);
@@ -1302,11 +1302,7 @@ class Issue
         $stmt = 'UPDATE `issue` SET ' . DB_Helper::buildSet($params) . ' WHERE iss_id=?';
         $params[] = $issue_id;
 
-        try {
-            DB_Helper::getInstance()->query($stmt, $params);
-        } catch (DatabaseException $e) {
-            return -1;
-        }
+        DB_Helper::getInstance()->query($stmt, $params);
 
         // change product
         if (isset($_POST['product'])) {
@@ -1433,7 +1429,8 @@ class Issue
             Workflow::handleAssignmentChange(self::getProjectID($issue_id), $issue_id, $usr_id, self::getDetails($issue_id), @$_POST['assignments'], false);
         }
 
-        Workflow::handleIssueUpdated($prj_id, $issue_id, $usr_id, $current, $_POST);
+        Workflow::handleIssueUpdated($prj_id, $issue_id, $usr_id, $current, $_POST, $updated_fields, $updated_custom_fields);
+
         // Move issue to another project
         if (isset($_POST['move_issue']) and (User::getRoleByUser($usr_id, $prj_id) >= User::ROLE_DEVELOPER)) {
             $new_prj_id = (int) @$_POST['new_prj'];

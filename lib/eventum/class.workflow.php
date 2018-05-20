@@ -97,19 +97,24 @@ class Workflow
      * @param   int $issue_id the ID of the issue
      * @param   int $usr_id the ID of the user
      * @param   array $old_details the old details of the issues
-     * @param   array $changes The changes that were applied to this issue (the $_POST)
+     * @param   array $raw_post The changes that were applied to this issue (the $_POST)
+     * @param array $updated_fields
+     * @param array $updated_custom_fields
      * @since 3.5.0 emits ISSUE_UPDATED event
      */
-    public static function handleIssueUpdated($prj_id, $issue_id, $usr_id, $old_details, $changes)
+    public static function handleIssueUpdated($prj_id, $issue_id, $usr_id, $old_details, $raw_post, $updated_fields, $updated_custom_fields)
     {
-        Partner::handleIssueChange($issue_id, $usr_id, $old_details, $changes);
+        Partner::handleIssueChange($issue_id, $usr_id, $old_details, $raw_post);
 
         $arguments = [
             'issue_id' => $issue_id,
             'prj_id' => $prj_id,
             'usr_id' => $usr_id,
+            'issue_details' => Issue::getDetails($issue_id),
+            'updated_fields' => $updated_fields,
+            'updated_custom_fields' => $updated_custom_fields,
             'old_details' => $old_details,
-            'changes' => $changes,
+            'raw_post' => $raw_post,
         ];
         EventManager::dispatch(SystemEvents::ISSUE_UPDATED, new GenericEvent(null, $arguments));
 
@@ -118,7 +123,7 @@ class Workflow
         }
 
         $backend = self::_getBackend($prj_id);
-        $backend->handleIssueUpdated($prj_id, $issue_id, $usr_id, $old_details, $changes);
+        $backend->handleIssueUpdated($prj_id, $issue_id, $usr_id, $old_details, $raw_post);
 
     }
 
@@ -132,13 +137,13 @@ class Workflow
      * @return  mixed. True to continue, anything else to cancel the change and return the value
      * @since 3.5.0 emits ISSUE_CREATED_BEFORE event
      */
-    public static function preIssueUpdated($prj_id, $issue_id, $usr_id, &$changes)
+    public static function preIssueUpdated($prj_id, $issue_id, $usr_id, &$changes, $issue_details)
     {
         $arguments = [
             'issue_id' => $issue_id,
             'prj_id' => $prj_id,
             'usr_id' => $usr_id,
-            'issue_details' => Issue::getDetails($issue_id),
+            'issue_details' => $issue_details,
             'changes' => $changes,
             // 'true' to continue, anything else to cancel the change and return the value
             'bubble' => true,
