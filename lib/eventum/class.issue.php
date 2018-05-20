@@ -2590,6 +2590,9 @@ class Issue
 
         $res['access_level_name'] = Access::getAccessLevelName($res['iss_access_level']);
 
+        // simplify client apps
+        $res['issue_url'] = APP_BASE_URL . '/view.php?id=' . $issue_id;
+
         $returns[$issue_id] = $res;
 
         return $res;
