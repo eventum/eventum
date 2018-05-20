@@ -1090,7 +1090,7 @@ class User
         }
 
         // add user id and do not expose password to event
-        $user['id'] = $usr_id;
+        $user['id'] = (int)$usr_id;
         unset($user['password']);
 
         $event = new GenericEvent(null, $user);
@@ -1160,7 +1160,7 @@ class User
         Notification::notifyNewUser($usr_id, $user['password']);
 
         // add user id and do not expose password to event
-        $user['id'] = $usr_id;
+        $user['id'] = (int)$usr_id;
         unset($user['password']);
 
         $event = new GenericEvent(null, $user);

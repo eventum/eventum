@@ -112,10 +112,34 @@ final class SystemEvents
     const ISSUE_ASSIGNMENT_CHANGE = 'issue.assignment_change';
 
     /**
+     * @since 3.5.0
+     * @see Workflow::preIssueUpdated
+     */
+    const ISSUE_UPDATED_BEFORE = 'issue.updated.before';
+
+    /**
+     * @since 3.5.0
+     * @see Workflow::handleNewIssue
+     */
+    const ISSUE_CREATED = 'issue.created';
+
+    /**
      * @since 3.4.2
      * @see Workflow::handleIssueClosed()
      */
     const ISSUE_CLOSED = 'issue.closed';
+
+    /**
+     * @since 3.5.0
+     * @see Workflow::handleIssueUpdated()
+     */
+    const ISSUE_UPDATED = 'issue.updated';
+
+    /**
+     * @since 3.5.0
+     * @see Workflow::handleNewNote()
+     */
+    const NOTE_CREATED = 'note.created';
 
     /**
      * @since 3.4.2

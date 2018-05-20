@@ -1218,7 +1218,7 @@ class Notification
 
         $arguments = [
             'issue_id' => (int)$issue_id,
-            'prj_id' => $prj_id,
+            'prj_id' => (int)$prj_id,
             'data' => $data,
         ];
 

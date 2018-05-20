@@ -97,17 +97,33 @@ class Workflow
      * @param   int $issue_id the ID of the issue
      * @param   int $usr_id the ID of the user
      * @param   array $old_details the old details of the issues
-     * @param   array $changes The changes that were applied to this issue (the $_POST)
+     * @param   array $raw_post The changes that were applied to this issue (the $_POST)
+     * @param array $updated_fields
+     * @param array $updated_custom_fields
+     * @since 3.5.0 emits ISSUE_UPDATED event
      */
-    public static function handleIssueUpdated($prj_id, $issue_id, $usr_id, $old_details, $changes)
+    public static function handleIssueUpdated($prj_id, $issue_id, $usr_id, $old_details, $raw_post, $updated_fields, $updated_custom_fields)
     {
-        Partner::handleIssueChange($issue_id, $usr_id, $old_details, $changes);
+        Partner::handleIssueChange($issue_id, $usr_id, $old_details, $raw_post);
+
+        $arguments = [
+            'issue_id' => (int)$issue_id,
+            'prj_id' => (int)$prj_id,
+            'usr_id' => (int)$usr_id,
+            'issue_details' => Issue::getDetails($issue_id, true),
+            'updated_fields' => $updated_fields,
+            'updated_custom_fields' => $updated_custom_fields,
+            'old_details' => $old_details,
+            'raw_post' => $raw_post,
+        ];
+        EventManager::dispatch(SystemEvents::ISSUE_UPDATED, new GenericEvent(null, $arguments));
+
         if (!self::hasWorkflowIntegration($prj_id)) {
             return;
         }
 
         $backend = self::_getBackend($prj_id);
-        $backend->handleIssueUpdated($prj_id, $issue_id, $usr_id, $old_details, $changes);
+        $backend->handleIssueUpdated($prj_id, $issue_id, $usr_id, $old_details, $raw_post);
     }
 
     /**
@@ -118,9 +134,26 @@ class Workflow
      * @param   int $usr_id the ID of the user changing the issue
      * @param   array $changes
      * @return  mixed. True to continue, anything else to cancel the change and return the value
+     * @since 3.5.0 emits ISSUE_CREATED_BEFORE event
      */
-    public static function preIssueUpdated($prj_id, $issue_id, $usr_id, &$changes)
+    public static function preIssueUpdated($prj_id, $issue_id, $usr_id, &$changes, $issue_details)
     {
+        $arguments = [
+            'issue_id' => (int)$issue_id,
+            'prj_id' => (int)$prj_id,
+            'usr_id' => (int)$usr_id,
+            'issue_details' => $issue_details,
+            'changes' => $changes,
+            // 'true' to continue, anything else to cancel the change and return the value
+            'bubble' => true,
+        ];
+
+        $event = EventManager::dispatch(SystemEvents::ISSUE_UPDATED_BEFORE, new GenericEvent(null, $arguments));
+
+        if ($event['bubble'] !== true) {
+            return $event['bubble'];
+        }
+
         if (!self::hasWorkflowIntegration($prj_id)) {
             return true;
         }
@@ -218,8 +251,8 @@ class Workflow
     public static function handleBlockedEmail($prj_id, $issue_id, $email_details, $type, $mail = null)
     {
         $arguments = [
-            'prj_id' => $prj_id,
-            'issue_id' => $issue_id,
+            'prj_id' => (int)$prj_id,
+            'issue_id' => (int)$issue_id,
             'email_details' => $email_details,
             'type' => $type,
             'mail' => $mail,
@@ -250,9 +283,9 @@ class Workflow
     public static function handleAssignmentChange($prj_id, $issue_id, $usr_id, $issue_details, $new_assignees, $remote_assignment = false)
     {
         $arguments = [
-            'prj_id' => $prj_id,
-            'issue_id' => $issue_id,
-            'usr_id' => $usr_id,
+            'prj_id' => (int)$prj_id,
+            'issue_id' => (int)$issue_id,
+            'usr_id' => (int)$usr_id,
             'issue_details' => $issue_details,
             'new_assignees' => $new_assignees,
             'remote_assignment' => $remote_assignment,
@@ -276,9 +309,21 @@ class Workflow
      * @param   int $issue_id the ID of the issue
      * @param   bool $has_TAM if this issue has a technical account manager
      * @param   bool $has_RR if Round Robin was used to assign this issue
+     * @since 3.5.0 emits ISSUE_CREATED event
      */
     public static function handleNewIssue($prj_id, $issue_id, $has_TAM, $has_RR)
     {
+        $usr_id = Auth::getUserID() ?: APP_SYSTEM_USER_ID;
+        $arguments = [
+            'issue_id' => (int)$issue_id,
+            'prj_id' => (int)$prj_id,
+            'usr_id' => (int)$usr_id,
+            'has_TAM' => $has_TAM,
+            'has_RR' => $has_RR,
+            'issue_details' => Issue::getDetails($issue_id),
+        ];
+        EventManager::dispatch(SystemEvents::ISSUE_CREATED, new GenericEvent(null, $arguments));
+
         if (!self::hasWorkflowIntegration($prj_id)) {
             return;
         }
@@ -303,10 +348,10 @@ class Workflow
         Partner::handleNewEmail($issue_id, $row['sup_id']);
 
         $arguments = [
-            'prj_id' => $prj_id,
-            'issue_id' => $issue_id,
+            'prj_id' => (int)$prj_id,
+            'issue_id' => (int)$issue_id,
             'data' => $row,
-            'closing' => $closing,
+            'closing' => (bool)$closing,
         ];
 
         if (empty($row['issue_id'])) {
@@ -349,10 +394,20 @@ class Workflow
      * @param   int $usr_id The user ID of the person posting this new note
      * @param   bool $closing If the issue is being closed
      * @param   int $note_id The ID of the new note
+     * @since 3.5.0 emits NOTE_CREATED event
      */
     public static function handleNewNote($prj_id, $issue_id, $usr_id, $closing, $note_id)
     {
         Partner::handleNewNote($issue_id, $note_id);
+
+        $arguments = [
+            'issue_id' => (int)$issue_id,
+            'prj_id' => (int)$prj_id,
+            'usr_id' => (int)$usr_id,
+            'note_id' => (int)$note_id,
+            'closing' => $closing,
+        ];
+        EventManager::dispatch(SystemEvents::NOTE_CREATED, new GenericEvent(null, $arguments));
 
         if (!self::hasWorkflowIntegration($prj_id)) {
             return;
@@ -398,13 +453,13 @@ class Workflow
         $issue_details = Issue::getDetails($issue_id, true);
 
         $arguments = [
-            'prj_id' => $prj_id,
-            'issue_id' => $issue_id,
+            'prj_id' => (int)$prj_id,
+            'issue_id' => (int)$issue_id,
             'send_notification' => $send_notification,
-            'resolution_id' => $resolution_id,
-            'status_id' => $status_id,
+            'resolution_id' => (int)$resolution_id,
+            'status_id' => (int)$status_id,
             'reason' => $reason,
-            'usr_id' => $usr_id,
+            'usr_id' => (int)$usr_id,
             'issue_details' => $issue_details,
         ];
 
