@@ -314,6 +314,7 @@ class Workflow
             'prj_id' => $prj_id,
             'has_TAM' => $has_TAM,
             'has_RR' => $has_RR,
+            'issue_details' => Issue::getDetails($issue_id),
         ];
         EventManager::dispatch(SystemEvents::ISSUE_CREATED, new GenericEvent(null, $arguments));
 
