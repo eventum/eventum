@@ -54,6 +54,7 @@ abstract class Abstract_Workflow_Backend
      *
      * @param string $option
      * @return mixed
+     * @deprecated since 3.5.0, implement such loading on your own
      */
     public function getConfig($option = null)
     {
@@ -68,6 +69,7 @@ abstract class Abstract_Workflow_Backend
      * loadConfig()
      * merges the workflow's default settings with any local settings
      * this function is automatically called through getConfig()
+     * @deprecated since 3.5.0, implement such loading on your own
      */
     private function loadConfig()
     {
@@ -99,6 +101,7 @@ abstract class Abstract_Workflow_Backend
     /**
      * If you made changes to config, you may call this to persist the changes
      * back to disk
+     * @deprecated since 3.5.0, implement such loading on your own
      */
     protected function saveConfig()
     {
@@ -111,6 +114,7 @@ abstract class Abstract_Workflow_Backend
 
     /**
      * You should override this in your workflow class
+     * @deprecated since 3.5.0, implement such loading on your own
      */
     protected function getConfigDefaults()
     {
