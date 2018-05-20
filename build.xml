@@ -63,9 +63,12 @@
 				<include name="**/travis.ini"/>
 				<!-- traits are not commonly used -->
 				<include name="**/*Trait.php"/>
+				<!-- exclusions to above greedy cleanup rules -->
+				<exclude name="cebe/markdown/*/*Trait.php"/>
 				<exclude name="league/flysystem/src/ConfigAwareTrait.php"/>
 				<exclude name="league/flysystem/src/Plugin/PluggableTrait.php"/>
-				<exclude name="cebe/markdown/*/*Trait.php"/>
+				<exclude name="robmorgan/phinx/composer.json"/>
+				<exclude name="robmorgan/phinx/src/Phinx/Config/NamespaceAwareTrait.php"/>
 			</fileset>
 
 			<!-- whole dirs -->
