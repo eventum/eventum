@@ -82,6 +82,9 @@ class Setup
      */
     public static function save($options = [])
     {
+        $configPath = dirname(dirname(__DIR__)) . '/config';
+        $setupFile = $configPath . '/setup.php';
+
         $config = self::set($options);
         try {
             $clone = clone $config;
@@ -89,9 +92,9 @@ class Setup
             $ldap = $clone->ldap;
             unset($clone->ldap);
 
-            self::saveConfig(APP_SETUP_FILE, $clone);
+            self::saveConfig($setupFile, $clone);
             if ($ldap) {
-                self::saveConfig(APP_CONFIG_PATH . '/ldap.php', $ldap);
+                self::saveConfig($configPath . '/ldap.php', $ldap);
             }
         } catch (Exception $e) {
             $code = $e->getCode();
@@ -110,12 +113,15 @@ class Setup
      */
     private static function initialize()
     {
+        $configPath = dirname(dirname(__DIR__)) . '/config';
+        $setupFile = $configPath . '/setup.php';
+
         $config = new Config(self::getDefaults(), true);
-        $config->merge(new Config(self::loadConfigFile(APP_SETUP_FILE)));
+        $config->merge(new Config(self::loadConfigFile($setupFile)));
 
         // some subtrees are saved to different files
         $extra_configs = [
-            'ldap' => APP_CONFIG_PATH . '/ldap.php',
+            'ldap' => $configPath . '/ldap.php',
         ];
 
         foreach ($extra_configs as $section => $filename) {
@@ -188,13 +194,15 @@ class Setup
      */
     private static function getDefaults()
     {
+        $appPath = dirname(dirname(__DIR__));
+
         // at minimum should define top level array elements
         // so that fluent access works without errors and notices
         $defaults = [
             'monitor' => [
                 'diskcheck' => [
                     'status' => 'enabled',
-                    'partition' => APP_PATH,
+                    'partition' => $appPath,
                 ],
                 'paths' => [
                     'status' => 'enabled',
