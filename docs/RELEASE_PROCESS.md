@@ -46,13 +46,13 @@ cd ../..
 
 Commit both changes
 ```
-git commit -am 'prepare for 3.3.1 release'
+git commit -am 'prepare for 3.5.0 release'
 ```
 
 - Create git tag
 ```
-$ git tag -s v3.3.1 -m 'release v3.3.1'
-$ git push origin v3.3.1
+$ git tag -s v3.5.0 -m 'release v3.5.0'
+$ git push origin v3.5.0
 
 ```
 - wait for Travis-CI to build release tarball, download and test it again
@@ -61,13 +61,13 @@ $ git push origin v3.3.1
 - upload tarball and signature to the release
 - to create a digital signature, use the following command:
 ```
-% gpg --armor --sign --detach-sig eventum-3.3.1.tar.gz
+% gpg --armor --sign --detach-sig eventum-3.5.0.tar.xz
 ```
 - create tag also in wiki submodule
 ```
 cd docs/wiki
-git tag v3.3.1
-git push origin v3.3.1
+git tag v3.5.0
+git push origin v3.5.0
 ```
 
 # After release
