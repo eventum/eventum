@@ -207,22 +207,25 @@ class SetupController extends BaseController
                 = "The 'file_uploads' directive needs to be enabled in your PHP.INI file in order for Eventum to work properly.";
         }
 
-        $error = $this->checkPermissions(APP_CONFIG_PATH, "Directory '" . APP_CONFIG_PATH . "'", true);
+        $configPath = Setup::getConfigPath();
+        $setupFile = Setup::getSetupFile();
+
+        $error = $this->checkPermissions($configPath, "Directory '" . $configPath . "'", true);
         if (!empty($error)) {
             $errors[] = $error;
         }
-        $error = $this->checkPermissions(APP_SETUP_FILE, "File '" . APP_SETUP_FILE . "'");
+        $error = $this->checkPermissions($setupFile, "File '" . $setupFile . "'");
         if (!empty($error)) {
             $errors[] = $error;
         }
         $error = $this->checkPermissions(
-            APP_CONFIG_PATH . '/private_key.php', "File '" . APP_CONFIG_PATH . '/private_key.php' . "'"
+            $configPath . '/private_key.php', "File '" . $configPath . '/private_key.php' . "'"
         );
         if (!empty($error)) {
             $errors[] = $error;
         }
         $error = $this->checkPermissions(
-            APP_CONFIG_PATH . '/config.php', "File '" . APP_CONFIG_PATH . '/config.php' . "'"
+            $configPath . '/config.php', "File '" . $configPath . '/config.php' . "'"
         );
         if (!empty($error)) {
             $errors[] = $error;

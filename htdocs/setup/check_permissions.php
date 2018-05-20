@@ -21,11 +21,12 @@ echo '<html>
 </head>
 <body>';
 
+$setupFile = Setup::getSetupFile();
 echo "<p class=\"default\">This script checks your eventum directory for permission problems. Since different hosts will have
 permissions setup differently this script cannot automatically fix permission problems.</p>
 <p class=\"default\">As a general rule, your webserver should be running as 'nobody' (a user with few permissions)
 and your files should not be writable from the web. Only your logs (" . APP_LOG_PATH . ') and setup (' .
-APP_SETUP_FILE . ') files need to be writable by the web server.</p>
+    $setupFile . ') files need to be writable by the web server.</p>
 
 <p>The commands listed in the comments are only examples and may not work for every installation.';
 
@@ -46,7 +47,7 @@ check_file('Log Directory', APP_LOG_PATH, 'Log directory should be writable by y
     server should <b>NOT</b> be able to read this directory to prevent outsiders from viewing your logs.
                 <em>chmod -R a-r ' . APP_LOG_PATH . '</em>', 'w');
 
-check_file('Setup File', APP_SETUP_FILE, "The setup file should be both readable and writable from your web server.
+check_file('Setup File', $setupFile, "The setup file should be both readable and writable from your web server.
     The setup file is used to store general settings.<br /><b>Note:</b> Once you have eventum configured, you can
     mark this file as 'read only' if you want.", 'rw');
 

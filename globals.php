@@ -13,8 +13,10 @@
 
 // base path
 define('APP_PATH', __DIR__);
+// @deprecated since 3.5.0
 define('APP_CONFIG_PATH', APP_PATH . '/config');
 define('APP_INC_PATH', APP_PATH . '/lib/eventum');
+// @deprecated since 3.5.0
 define('APP_SETUP_FILE', APP_CONFIG_PATH . '/setup.php');
 
 // /var path for writable data
