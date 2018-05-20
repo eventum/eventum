@@ -208,6 +208,12 @@ class ExtensionManager
      */
     protected function getAutoloader()
     {
-        return require APP_PATH . '/vendor/autoload.php';
+        foreach ([APP_PATH . '/vendor/autoload.php', APP_PATH . '/../../../vendor/autoload.php'] as $autoload) {
+            if (file_exists($autoload)) {
+                break;
+            }
+        }
+
+        return require $autoload;
     }
 }
