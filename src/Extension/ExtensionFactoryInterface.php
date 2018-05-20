@@ -19,7 +19,7 @@ interface ExtensionFactoryInterface
      * Create instance of $className
      *
      * @param string $className
-     * @return object
+     * @return object|null
      * @since 3.5.0
      */
     public function factory($className);
