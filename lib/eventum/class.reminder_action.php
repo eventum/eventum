@@ -659,7 +659,7 @@ class Reminder_Action
 
         $arguments = [
             // $issue_id, $reminder, $action
-            'issue_id' => $issue_id,
+            'issue_id' => (int)$issue_id,
             'reminder' => $reminder,
             'action' => $action,
             'to' => $to,

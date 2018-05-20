@@ -107,10 +107,10 @@ class Workflow
         Partner::handleIssueChange($issue_id, $usr_id, $old_details, $raw_post);
 
         $arguments = [
-            'issue_id' => $issue_id,
-            'prj_id' => $prj_id,
-            'usr_id' => $usr_id,
-            'issue_details' => Issue::getDetails($issue_id),
+            'issue_id' => (int)$issue_id,
+            'prj_id' => (int)$prj_id,
+            'usr_id' => (int)$usr_id,
+            'issue_details' => Issue::getDetails($issue_id, true),
             'updated_fields' => $updated_fields,
             'updated_custom_fields' => $updated_custom_fields,
             'old_details' => $old_details,
@@ -140,9 +140,9 @@ class Workflow
     public static function preIssueUpdated($prj_id, $issue_id, $usr_id, &$changes, $issue_details)
     {
         $arguments = [
-            'issue_id' => $issue_id,
-            'prj_id' => $prj_id,
-            'usr_id' => $usr_id,
+            'issue_id' => (int)$issue_id,
+            'prj_id' => (int)$prj_id,
+            'usr_id' => (int)$usr_id,
             'issue_details' => $issue_details,
             'changes' => $changes,
             // 'true' to continue, anything else to cancel the change and return the value
@@ -252,8 +252,8 @@ class Workflow
     public static function handleBlockedEmail($prj_id, $issue_id, $email_details, $type, $mail = null)
     {
         $arguments = [
-            'prj_id' => $prj_id,
-            'issue_id' => $issue_id,
+            'prj_id' => (int)$prj_id,
+            'issue_id' => (int)$issue_id,
             'email_details' => $email_details,
             'type' => $type,
             'mail' => $mail,
@@ -284,9 +284,9 @@ class Workflow
     public static function handleAssignmentChange($prj_id, $issue_id, $usr_id, $issue_details, $new_assignees, $remote_assignment = false)
     {
         $arguments = [
-            'prj_id' => $prj_id,
-            'issue_id' => $issue_id,
-            'usr_id' => $usr_id,
+            'prj_id' => (int)$prj_id,
+            'issue_id' => (int)$issue_id,
+            'usr_id' => (int)$usr_id,
             'issue_details' => $issue_details,
             'new_assignees' => $new_assignees,
             'remote_assignment' => $remote_assignment,
@@ -314,10 +314,11 @@ class Workflow
      */
     public static function handleNewIssue($prj_id, $issue_id, $has_TAM, $has_RR)
     {
+        $usr_id = Auth::getUserID() ?: APP_SYSTEM_USER_ID;
         $arguments = [
-            'issue_id' => $issue_id,
-            'prj_id' => $prj_id,
-            'usr_id' => Auth::getUserID(),
+            'issue_id' => (int)$issue_id,
+            'prj_id' => (int)$prj_id,
+            'usr_id' => (int)$usr_id,
             'has_TAM' => $has_TAM,
             'has_RR' => $has_RR,
             'issue_details' => Issue::getDetails($issue_id),
@@ -348,10 +349,10 @@ class Workflow
         Partner::handleNewEmail($issue_id, $row['sup_id']);
 
         $arguments = [
-            'prj_id' => $prj_id,
-            'issue_id' => $issue_id,
+            'prj_id' => (int)$prj_id,
+            'issue_id' => (int)$issue_id,
             'data' => $row,
-            'closing' => $closing,
+            'closing' => (bool)$closing,
         ];
 
         if (empty($row['issue_id'])) {
@@ -401,10 +402,10 @@ class Workflow
         Partner::handleNewNote($issue_id, $note_id);
 
         $arguments = [
-            'issue_id' => $issue_id,
-            'prj_id' => $prj_id,
-            'usr_id' => $usr_id,
-            'note_id' => $note_id,
+            'issue_id' => (int)$issue_id,
+            'prj_id' => (int)$prj_id,
+            'usr_id' => (int)$usr_id,
+            'note_id' => (int)$note_id,
             'closing' => $closing,
         ];
         EventManager::dispatch(SystemEvents::NOTE_CREATED, new GenericEvent(null, $arguments));
@@ -453,13 +454,13 @@ class Workflow
         $issue_details = Issue::getDetails($issue_id, true);
 
         $arguments = [
-            'prj_id' => $prj_id,
-            'issue_id' => $issue_id,
+            'prj_id' => (int)$prj_id,
+            'issue_id' => (int)$issue_id,
             'send_notification' => $send_notification,
-            'resolution_id' => $resolution_id,
-            'status_id' => $status_id,
+            'resolution_id' => (int)$resolution_id,
+            'status_id' => (int)$status_id,
             'reason' => $reason,
-            'usr_id' => $usr_id,
+            'usr_id' => (int)$usr_id,
             'issue_details' => $issue_details,
         ];
 
