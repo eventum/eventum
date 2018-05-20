@@ -18,7 +18,6 @@ use Eventum\Monolog\Logger;
 define('APP_PATH', dirname(__DIR__));
 define('APP_CONFIG_PATH', __DIR__);
 define('APP_VAR_PATH', APP_PATH . '/var');
-define('APP_SETUP_FILE', APP_CONFIG_PATH . '/_setup.php');
 // FIXME: HHVM: Warning: Constants may only evaluate to scalar values
 define('APP_ERROR_LOG', STDERR);
 define('APP_INC_PATH', APP_PATH . '/lib/eventum');
@@ -54,23 +53,6 @@ require_once APP_PATH . '/autoload.php';
 
 // set default timezone
 date_default_timezone_set(APP_DEFAULT_TIMEZONE);
-
-// create dummy file
-if (!file_exists(APP_SETUP_FILE)) {
-    // create new config
-    Setup::save([
-        'database' => [
-            'hostname' => 'localhost',
-            'database' => 'eventum',
-            'username' => 'mysql',
-            'password' => '',
-            'port' => 3306,
-        ],
-
-        // used for tests
-        'admin_user' => 2,
-    ]);
-}
 
 if (!getenv('TRAVIS')) {
     // init these from setup file

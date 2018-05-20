@@ -62,6 +62,7 @@ cache:
 
 before_install:
   - bin/ci/configure.sh
+  - cp config/setup.phpunit.php config/setup.php
 
 install:
   - composer install --no-interaction --prefer-dist
