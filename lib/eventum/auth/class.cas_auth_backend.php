@@ -280,7 +280,7 @@ class CAS_Auth_Backend implements Auth_Backend_Interface
         static $setup;
         if (empty($setup) || $force == true) {
             $setup = [];
-            $configfile = APP_CONFIG_PATH . '/cas.php';
+            $configfile = Setup::getConfigPath() . '/cas.php';
 
             if (file_exists($configfile)) {
                 /** @noinspection PhpIncludeInspection */

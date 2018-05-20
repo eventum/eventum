@@ -63,9 +63,10 @@ class Logger extends Registry
         /** @var \Zend\Config\Config $setup */
         $setup = Setup::get();
 
+        $configPath = Setup::getConfigPath();
         $files = [
             APP_PATH . '/res/config/logger.php',
-            APP_CONFIG_PATH . '/logger.php',
+            $configPath . '/logger.php',
         ];
         $config = [];
         foreach ($files as $file) {

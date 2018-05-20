@@ -368,14 +368,15 @@ class SetupController extends BaseController
     private function write_config()
     {
         $post = $this->getRequest()->request;
-        $config_file_path = APP_CONFIG_PATH . '/config.php';
+        $configPath = Setup::getConfigPath();
+        $configFilePath = $configPath . '/config.php';
 
         // disable the full-text search feature for certain mysql server users
         $mysql_version = DB_Helper::getInstance(false)->getOne('SELECT VERSION()');
         preg_match('/(\d{1,2}\.\d{1,2}\.\d{1,2})/', $mysql_version, $matches);
         $enable_fulltext = $matches[1] > '4.0.23';
 
-        $protocol_type = $post->get('is_ssl') == 'yes' ? 'https://' : 'http://';
+        $protocol_type = $post->get('is_ssl') === 'yes' ? 'https://' : 'http://';
 
         $replace = [
             "'%{APP_HOSTNAME}%'" => $this->e($post->get('hostname')),
@@ -387,11 +388,11 @@ class SetupController extends BaseController
             "'%{APP_ENABLE_FULLTEXT}%'" => $this->e($enable_fulltext),
         ];
 
-        $config_contents = file_get_contents(APP_CONFIG_PATH . '/config.dist.php');
+        $config_contents = file_get_contents($configPath . '/config.dist.php');
         $config_contents = str_replace(array_keys($replace), array_values($replace), $config_contents);
 
         $fs = new Filesystem();
-        $fs->dumpFile($config_file_path, $config_contents, null);
+        $fs->dumpFile($configFilePath, $config_contents, null);
     }
 
     private function install()
