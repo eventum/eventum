@@ -2450,10 +2450,10 @@ class Issue
         static $returns;
 
         if (empty($issue_id)) {
-            return '';
+            return [];
         }
 
-        if (!empty($returns[$issue_id]) && $force_refresh != true) {
+        if (!empty($returns[$issue_id]) && $force_refresh !== true) {
             return $returns[$issue_id];
         }
 
@@ -2497,14 +2497,11 @@ class Issue
                  WHERE
                     iss_id=? AND
                     iss_prj_id=prj_id';
-        try {
-            $res = DB_Helper::getInstance()->getRow($stmt, [$issue_id]);
-        } catch (DatabaseException $e) {
-            return '';
-        }
+
+        $res = DB_Helper::getInstance()->getRow($stmt, [$issue_id]);
 
         if (empty($res)) {
-            return '';
+            return [];
         }
 
         $created_date_ts = Date_Helper::getUnixTimestamp($res['iss_created_date'], Date_Helper::getDefaultTimezone());
@@ -2592,6 +2589,9 @@ class Issue
         $res['products'] = Product::getProductsByIssue($res['iss_id']);
 
         $res['access_level_name'] = Access::getAccessLevelName($res['iss_access_level']);
+
+        // simplify client apps
+        $res['issue_url'] = APP_BASE_URL . '/view.php?id=' . $issue_id;
 
         $returns[$issue_id] = $res;
 
