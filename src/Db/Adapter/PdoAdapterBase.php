@@ -38,7 +38,7 @@ abstract class PdoAdapterBase
     protected function getDsn($config)
     {
         $driver = $this->getDriverName($config);
-        $charset = $this->getCharset();
+        $charset = isset($config['charset']) ? $config['charset'] : $this->getCharset();
 
         $dsn = "{$driver}:host={$config['hostname']};dbname={$config['database']};charset={$charset}";
 
@@ -59,6 +59,7 @@ abstract class PdoAdapterBase
      * Get charset suitable for PDO mysql driver
      *
      * @return string
+     * @deprecated when dropping handle EventumDbCharsetConfig migration as well
      */
     protected function getCharset()
     {

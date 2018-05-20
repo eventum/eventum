@@ -14,7 +14,13 @@
 // this needs to be setup before autoload itself
 define('APP_PHP_GETTEXT_PATH', APP_PATH . '/vendor/php-gettext/php-gettext');
 
-if (!file_exists($autoload = APP_PATH . '/vendor/autoload.php')) {
+foreach ([APP_PATH . '/vendor/autoload.php', APP_PATH . '/../../../vendor/autoload.php'] as $autoload) {
+    if (file_exists($autoload)) {
+        break;
+    }
+}
+
+if (!file_exists($autoload)) {
     echo <<<EOF
 
     You must set up the project dependencies, run the following commands:

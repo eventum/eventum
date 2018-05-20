@@ -25,7 +25,8 @@ define('APP_CHARSET', 'UTF-8');
 
 header('Content-Type: text/html; charset=' . APP_CHARSET);
 
-$have_config = file_exists(APP_CONFIG_PATH . '/config.php') && filesize(APP_CONFIG_PATH . '/config.php');
+$configPath = Setup::getConfigPath();
+$have_config = file_exists($configPath . '/config.php') && filesize($configPath . '/config.php');
 // get out if already configured
 if ($have_config) {
     header('Location: ../');
@@ -39,7 +40,7 @@ date_default_timezone_set(@date_default_timezone_get());
 
 define('APP_NAME', 'Eventum');
 define('APP_DEFAULT_LOCALE', 'en_US');
-define('APP_LOCAL_PATH', APP_CONFIG_PATH);
+define('APP_LOCAL_PATH', $configPath);
 define('APP_RELATIVE_URL', '../');
 define('APP_SITE_NAME', 'Eventum');
 define('APP_COOKIE', 'eventum');

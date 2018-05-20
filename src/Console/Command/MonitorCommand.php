@@ -43,8 +43,9 @@ class MonitorCommand
         $this->output = $output;
 
         // the owner, group and filesize settings should be changed to match the correct permissions on your server.
+        $configPath = Setup::getConfigPath();
         $required_files = [
-            APP_CONFIG_PATH . '/config.php' => [
+            $configPath . '/config.php' => [
                 'check_owner' => true,
                 'owner' => 'apache',
                 'check_group' => true,
@@ -52,7 +53,7 @@ class MonitorCommand
                 'check_permission' => true,
                 'permission' => 640,
             ],
-            APP_CONFIG_PATH . '/setup.php' => [
+            $configPath . '/setup.php' => [
                 'check_owner' => true,
                 'owner' => 'apache',
                 'check_group' => true,

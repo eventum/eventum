@@ -10,6 +10,7 @@ This version drops IRC Bot from Eventum Core, see #371
 - Fix parsing of link references in markdown (@glensc, #367)
 - Add Factory support for Extension to construct it's own classes (@glensc, #375)
 - Deprecate config loading from workflow class (@glensc, #378)
+- Use less global constants (@glensc, #377)
 
 [3.5.0]: https://github.com/eventum/eventum/compare/v3.4.2...master
 

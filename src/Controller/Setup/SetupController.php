@@ -207,22 +207,25 @@ class SetupController extends BaseController
                 = "The 'file_uploads' directive needs to be enabled in your PHP.INI file in order for Eventum to work properly.";
         }
 
-        $error = $this->checkPermissions(APP_CONFIG_PATH, "Directory '" . APP_CONFIG_PATH . "'", true);
+        $configPath = Setup::getConfigPath();
+        $setupFile = Setup::getSetupFile();
+
+        $error = $this->checkPermissions($configPath, "Directory '" . $configPath . "'", true);
         if (!empty($error)) {
             $errors[] = $error;
         }
-        $error = $this->checkPermissions(APP_SETUP_FILE, "File '" . APP_SETUP_FILE . "'");
+        $error = $this->checkPermissions($setupFile, "File '" . $setupFile . "'");
         if (!empty($error)) {
             $errors[] = $error;
         }
         $error = $this->checkPermissions(
-            APP_CONFIG_PATH . '/private_key.php', "File '" . APP_CONFIG_PATH . '/private_key.php' . "'"
+            $configPath . '/private_key.php', "File '" . $configPath . '/private_key.php' . "'"
         );
         if (!empty($error)) {
             $errors[] = $error;
         }
         $error = $this->checkPermissions(
-            APP_CONFIG_PATH . '/config.php', "File '" . APP_CONFIG_PATH . '/config.php' . "'"
+            $configPath . '/config.php', "File '" . $configPath . '/config.php' . "'"
         );
         if (!empty($error)) {
             $errors[] = $error;
@@ -365,14 +368,15 @@ class SetupController extends BaseController
     private function write_config()
     {
         $post = $this->getRequest()->request;
-        $config_file_path = APP_CONFIG_PATH . '/config.php';
+        $configPath = Setup::getConfigPath();
+        $configFilePath = $configPath . '/config.php';
 
         // disable the full-text search feature for certain mysql server users
         $mysql_version = DB_Helper::getInstance(false)->getOne('SELECT VERSION()');
         preg_match('/(\d{1,2}\.\d{1,2}\.\d{1,2})/', $mysql_version, $matches);
         $enable_fulltext = $matches[1] > '4.0.23';
 
-        $protocol_type = $post->get('is_ssl') == 'yes' ? 'https://' : 'http://';
+        $protocol_type = $post->get('is_ssl') === 'yes' ? 'https://' : 'http://';
 
         $replace = [
             "'%{APP_HOSTNAME}%'" => $this->e($post->get('hostname')),
@@ -384,11 +388,11 @@ class SetupController extends BaseController
             "'%{APP_ENABLE_FULLTEXT}%'" => $this->e($enable_fulltext),
         ];
 
-        $config_contents = file_get_contents(APP_CONFIG_PATH . '/config.dist.php');
+        $config_contents = file_get_contents($configPath . '/config.dist.php');
         $config_contents = str_replace(array_keys($replace), array_values($replace), $config_contents);
 
         $fs = new Filesystem();
-        $fs->dumpFile($config_file_path, $config_contents, null);
+        $fs->dumpFile($configFilePath, $config_contents, null);
     }
 
     private function install()

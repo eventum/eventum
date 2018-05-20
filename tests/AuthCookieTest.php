@@ -15,6 +15,7 @@ namespace Eventum\Test;
 
 use Auth;
 use AuthCookie;
+use Setup;
 
 /**
  * @group db
@@ -23,7 +24,7 @@ class AuthCookieTest extends TestCase
 {
     public static function setupBeforeClass()
     {
-        if (file_exists(APP_CONFIG_PATH . '/private_key.php')) {
+        if (file_exists(Setup::getConfigPath() . '/private_key.php')) {
             return;
         }
         Auth::generatePrivateKey();

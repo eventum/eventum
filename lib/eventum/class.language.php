@@ -41,7 +41,10 @@ class Language
      */
     public static function setup()
     {
-        self::set(APP_DEFAULT_LOCALE);
+        if (!defined('APP_NO_GETTEXT')) {
+            self::set(APP_DEFAULT_LOCALE);
+        }
+
         self::initEncoding();
     }
 

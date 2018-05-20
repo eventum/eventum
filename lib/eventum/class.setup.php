@@ -89,9 +89,9 @@ class Setup
             $ldap = $clone->ldap;
             unset($clone->ldap);
 
-            self::saveConfig(APP_SETUP_FILE, $clone);
+            self::saveConfig(self::getSetupFile(), $clone);
             if ($ldap) {
-                self::saveConfig(APP_CONFIG_PATH . '/ldap.php', $ldap);
+                self::saveConfig(self::getConfigPath() . '/ldap.php', $ldap);
             }
         } catch (Exception $e) {
             $code = $e->getCode();
@@ -104,6 +104,24 @@ class Setup
     }
 
     /**
+     * @return string
+     * @since 3.5.0
+     */
+    public static function getConfigPath()
+    {
+        return dirname(dirname(__DIR__)) . '/config';
+    }
+
+    /**
+     * @return string
+     * @since 3.5.0
+     */
+    public static function getSetupFile()
+    {
+        return self::getConfigPath() . '/setup.php';
+    }
+
+    /**
      * Initialize config object, load it from setup files, merge defaults.
      *
      * @return Config
@@ -111,11 +129,11 @@ class Setup
     private static function initialize()
     {
         $config = new Config(self::getDefaults(), true);
-        $config->merge(new Config(self::loadConfigFile(APP_SETUP_FILE)));
+        $config->merge(new Config(self::loadConfigFile(self::getSetupFile())));
 
         // some subtrees are saved to different files
         $extra_configs = [
-            'ldap' => APP_CONFIG_PATH . '/ldap.php',
+            'ldap' => self::getConfigPath() . '/ldap.php',
         ];
 
         foreach ($extra_configs as $section => $filename) {
@@ -188,13 +206,15 @@ class Setup
      */
     private static function getDefaults()
     {
+        $appPath = dirname(dirname(__DIR__));
+
         // at minimum should define top level array elements
         // so that fluent access works without errors and notices
         $defaults = [
             'monitor' => [
                 'diskcheck' => [
                     'status' => 'enabled',
-                    'partition' => APP_PATH,
+                    'partition' => $appPath,
                 ],
                 'paths' => [
                     'status' => 'enabled',

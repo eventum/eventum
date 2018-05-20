@@ -14,6 +14,7 @@
 namespace Eventum\Crypto;
 
 use Defuse\Crypto\Key;
+use Setup;
 use Symfony\Component\Filesystem\Exception\IOException;
 use Symfony\Component\Filesystem\Filesystem;
 
@@ -30,7 +31,7 @@ final class CryptoKeyManager
 
     public function __construct()
     {
-        $this->keyfile = APP_CONFIG_PATH . '/secret_key.php';
+        $this->keyfile = Setup::getConfigPath() . '/secret_key.php';
     }
 
     public function regen()

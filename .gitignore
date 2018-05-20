@@ -56,7 +56,6 @@ Session.vim
 /localization/*/
 /po
 
-/tests/_setup.php
 /tests/_locales.stamp
 !/tests/_bootstrap.php
 /tests/ldap.php

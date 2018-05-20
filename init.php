@@ -76,7 +76,7 @@ $define('APP_DEFAULT_TIMEZONE', 'UTC');
 $define('APP_DEFAULT_WEEKDAY', 0);
 
 if (!defined('APP_EMAIL_ENCODING')) {
-    if (APP_CHARSET == 'UTF-8') {
+    if (APP_CHARSET === 'UTF-8') {
         define('APP_EMAIL_ENCODING', '8bit');
     } else {
         define('APP_EMAIL_ENCODING', '7bit');
