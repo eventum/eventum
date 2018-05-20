@@ -6,7 +6,7 @@ set -e
 upload_snapshot_changelog() {
 	date=$(LC_ALL=C TZ=UTC date)
 	version=$(git describe --tags --abbrev=8 HEAD)
-	tarball=eventum-${version#v}.tar.gz
+	tarball=eventum-${version#v}.tar.xz
 	url=https://github.com/$TRAVIS_REPO_SLUG/releases/download/$TRAVIS_TAG/$tarball
 
 	# Info about Travis ENV variables:
