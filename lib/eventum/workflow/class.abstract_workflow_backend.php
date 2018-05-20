@@ -624,27 +624,6 @@ abstract class Abstract_Workflow_Backend
     }
 
     /**
-     * Upgrade config so that values contain EncryptedValue where some secrecy is wanted
-     *
-     * @see \Eventum\Crypto\CryptoUpgradeManager::upgradeConfig
-     * @since 3.1.0
-     */
-    public function cryptoUpgradeConfig()
-    {
-    }
-
-    /**
-     * Downgrade config: remove all EncryptedValue elements
-     *
-     * @see \Eventum\Crypto\CryptoUpgradeManager::downgradeConfig
-     *
-     * @since 3.1.0
-     */
-    public function cryptoDowngradeConfig()
-    {
-    }
-
-    /**
      * Called when an issue is moved from this project to another.
      *
      * @param $prj_id integer
