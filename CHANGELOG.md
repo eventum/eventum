@@ -1,6 +1,6 @@
 # Eventum Issue Tracking System
 
-## [3.5.0]
+## [3.5.0] - 2018-05-21
 
 Upgrading to 3.5.x versions requires that you upgrade to 3.2.0 version first.
 This version drops IRC Bot from Eventum Core, see #371
@@ -14,7 +14,25 @@ This version drops IRC Bot from Eventum Core, see #371
 - Update Phinx to 0.9.x (@glensc, #370)
 - Add events to issue created/updated related events (@glensc, #379)
 
-[3.5.0]: https://github.com/eventum/eventum/compare/v3.4.2...master
+[3.5.0]: https://github.com/eventum/eventum/compare/v3.4.4...v3.5.0
+
+## [3.4.4] - 2018-05-09
+
+Upgrading to 3.4.x versions requires that you upgrade to 3.2.0 version first.
+Eventum 3.4.x requires PHP 5.6.
+
+- Fix corrupted note body on blocked multi-part emails (@balsdorf)
+
+[3.4.4]: https://github.com/eventum/eventum/compare/v3.4.3...v3.4.4
+
+## [3.4.3] - 2018-05-05
+
+Upgrading to 3.4.x versions requires that you upgrade to 3.2.0 version first.
+Eventum 3.4.x requires PHP 5.6.
+
+- Minor bug fixes to Irc Extension (@glensc, #368)
+
+[3.4.3]: https://github.com/eventum/eventum/compare/v3.4.2...v3.4.3
 
 ## [3.4.2] - 2018-05-04
 
