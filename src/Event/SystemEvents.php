@@ -115,7 +115,7 @@ final class SystemEvents
      * @since 3.5.0
      * @see Workflow::preIssueUpdated
      */
-    const ISSUE_CREATED_BEFORE = 'issue.created.before';
+    const ISSUE_UPDATED_BEFORE = 'issue.updated.before';
 
     /**
      * @since 3.5.0

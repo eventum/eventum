@@ -144,7 +144,7 @@ class Workflow
             'bubble' => true,
         ];
 
-        $event = EventManager::dispatch(SystemEvents::ISSUE_CREATED_BEFORE, new GenericEvent(null, $arguments));
+        $event = EventManager::dispatch(SystemEvents::ISSUE_UPDATED_BEFORE, new GenericEvent(null, $arguments));
 
         if ($event['bubble'] !== true) {
             return $event['bubble'];
