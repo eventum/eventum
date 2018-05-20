@@ -130,9 +130,25 @@ class Workflow
      * @param   int $usr_id the ID of the user changing the issue
      * @param   array $changes
      * @return  mixed. True to continue, anything else to cancel the change and return the value
+     * @since 3.5.0 emits ISSUE_CREATED_BEFORE event
      */
     public static function preIssueUpdated($prj_id, $issue_id, $usr_id, &$changes)
     {
+        $arguments = [
+            'issue_id' => $issue_id,
+            'prj_id' => $prj_id,
+            'usr_id' => $usr_id,
+            'changes' => $changes,
+            // 'true' to continue, anything else to cancel the change and return the value
+            'bubble' => true,
+        ];
+
+        $event = EventManager::dispatch(SystemEvents::ISSUE_CREATED_BEFORE, new GenericEvent(null, $arguments));
+
+        if ($event['bubble'] !== true) {
+            return $event['bubble'];
+        }
+
         if (!self::hasWorkflowIntegration($prj_id)) {
             return true;
         }
