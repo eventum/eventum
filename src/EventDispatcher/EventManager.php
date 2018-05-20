@@ -13,7 +13,6 @@
 
 namespace Eventum\EventDispatcher;
 
-use Eventum\Event\IrcSubscriber;
 use Eventum\Event\MailQueueListener;
 use Eventum\Extension\ExtensionManager;
 use Symfony\Component\EventDispatcher\Event;
