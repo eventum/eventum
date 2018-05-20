@@ -312,6 +312,7 @@ class Workflow
         $arguments = [
             'issue_id' => $issue_id,
             'prj_id' => $prj_id,
+            'usr_id' => Auth::getUserID(),
             'has_TAM' => $has_TAM,
             'has_RR' => $has_RR,
             'issue_details' => Issue::getDetails($issue_id),
