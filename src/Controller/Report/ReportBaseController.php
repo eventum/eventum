@@ -54,8 +54,8 @@ abstract class ReportBaseController extends BaseController
         $request = $this->getRequest();
 
         return
-            $request->get("{$field}[Year]", null, true)
-            && $request->get("{$field}[Month]", null, true)
-            && $request->get("{$field}[Day]", null, true);
+            $request->get($field)['Year']
+            && $request->get($field)['Month']
+            && $request->get($field)['Day'];
     }
 }
