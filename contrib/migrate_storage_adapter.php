@@ -34,7 +34,7 @@ require_once __DIR__ . '/../init.php';
 class Command extends BaseCommand
 {
     const DEFAULT_COMMAND = 'migrate:attachments';
-    const USAGE = self::DEFAULT_COMMAND . ' [source_adapter] [target_adapter] [--chunksize=] [--yes]';
+    const USAGE = self::DEFAULT_COMMAND . ' [source_adapter] [target_adapter] [--chunksize=] [--yes] [--verify]';
 
     /** @var AdapterInterface */
     private $db;
@@ -48,18 +48,57 @@ class Command extends BaseCommand
     /** @var string */
     private $target_adapter;
 
-    public function execute(OutputInterface $output, $source_adapter, $target_adapter, $chunksize = 100, $yes)
+    public function execute(OutputInterface $output, $source_adapter, $target_adapter, $chunksize = 100, $yes, $verify)
     {
         $this->output = $output;
-        $this->assertInput($source_adapter, $target_adapter, $yes);
+        $this->assertInput($source_adapter, $target_adapter, $yes, $verify);
 
         $this->source_adapter = $source_adapter;
         $this->target_adapter = $target_adapter;
 
         $this->db = DB_Helper::getInstance();
         $this->sm = StorageManager::get();
-        $this->migrateAttachments((int)$chunksize);
-        $this->postUpgradeNotice();
+        if ($verify) {
+            $this->verifyAttachments((int)$chunksize);
+        } else {
+            $this->migrateAttachments((int)$chunksize);
+            $this->postUpgradeNotice();
+        }
+    }
+
+    private function verifyAttachments($chunkSize)
+    {
+        $this->writeln("Verifying data in '{$this->source_adapter}://' Adapter");
+        $this->writeln('Preparing temporary table. Please wait...');
+        $total = $this->prepareTemporaryTable();
+        $this->writeln("Verifying $total file(s)");
+
+        if (!$total) {
+            $this->writeln('Nothing to verify');
+
+            return;
+        }
+
+        for ($i = 0, $nchunks = ceil($total / $chunkSize); $i < $nchunks; $i++) {
+            $files = $this->getChunk($chunkSize);
+            if (empty($files)) {
+                break;
+            }
+
+            foreach ($files as $entry) {
+                try {
+                    $this->sm->getFile($entry['iap_flysystem_path']);
+                } catch (League\Flysystem\FileNotFoundException $e) {
+                    $this->writeln("<error>ERROR</error>: {$e->getMessage()}");
+                    continue;
+                } catch (Exception $e) {
+                    $this->writeln("<error>ERROR</error>: {$e->getMessage()}");
+                    continue;
+                }
+            }
+        }
+
+        $this->writeln('');
     }
 
     private function migrateAttachments($chunkSize)
@@ -196,9 +235,9 @@ class Command extends BaseCommand
         $this->db->query('DELETE FROM `migrate_storage_adapter` WHERE iaf_id=?', [$iaf_id]);
     }
 
-    private function assertInput($source_adapter, $target_adapter, $migrate)
+    private function assertInput($source_adapter, $target_adapter, $migrate, $verify)
     {
-        if (!$migrate) {
+        if (!$migrate && !$verify) {
             throw new RuntimeException(
                 'WARNING: Migrating data has risks. ' .
                 "Make sure all your data is backed up before continuing.\n" .
@@ -208,8 +247,12 @@ class Command extends BaseCommand
             );
         }
 
-        if (!$source_adapter || !$target_adapter) {
-            throw new RuntimeException('Must specify source and target adapters');
+        if ($migrate && !$source_adapter) {
+            throw new RuntimeException('Verify: Must specify source adapters');
+        }
+
+        if (!$source_adapter || (!$target_adapter && !$verify)) {
+            throw new RuntimeException('Migrate: Must specify source and target adapters');
         }
     }
 
