@@ -163,6 +163,24 @@ abstract class AbstractMigration extends PhinxAbstractMigration
     }
 
     /**
+     * Run SQL Query, return single result.
+     *
+     * @param string $sql
+     * @param string $column
+     * @return mixed|null
+     */
+    protected function queryOne($sql, $column)
+    {
+        $rows = $this->queryColumn($sql, $column);
+
+        if (!$rows) {
+            return null;
+        }
+
+        return $rows[0];
+    }
+
+    /**
      * Run SQL Query, return single column.
      *
      * @param string $sql
