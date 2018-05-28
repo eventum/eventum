@@ -38,12 +38,12 @@ class EventumMailQueueState extends AbstractMigration
     {
         $sql = "SELECT COUNT(*) c FROM `mail_queue_log` WHERE mql_maq_id=$maqId";
 
-        return $this->queryColumn($sql, 'c');
+        return $this->queryOne($sql, 'c');
     }
 
     private function getEntries()
     {
-        $statuses = join(', ', [
+        $statuses = implode(', ', [
             $this->quote(Mail_Queue::STATUS_ERROR),
             $this->quote(Mail_Queue::STATUS_PENDING),
         ]);
