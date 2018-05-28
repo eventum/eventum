@@ -129,7 +129,7 @@ class MonitorCommand
      */
     protected function checkMailQueue()
     {
-        $stmt = "select maq_status,count(*) from mail_queue group by maq_status";
+        $stmt = 'select maq_status,count(*) from mail_queue group by maq_status';
         try {
             $status = DB_Helper::getInstance()->getPair($stmt);
         } catch (DatabaseException $e) {
@@ -157,7 +157,7 @@ class MonitorCommand
             return;
         }
 
-        $message = join(', ', $messages);
+        $message = implode(', ', $messages);
         $this->error(ev_gettext('ERROR: There are mails with errors: %s', $message));
     }
 
