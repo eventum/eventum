@@ -17,6 +17,7 @@ use DB_Helper;
 use Eventum\Db;
 use Eventum\Db\DatabaseException;
 use Exception;
+use Mail_Queue;
 use Setup;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -128,29 +129,36 @@ class MonitorCommand
      */
     protected function checkMailQueue()
     {
-        $stmt
-            = "SELECT
-                    maq_id
-                 FROM
-                    `mail_queue`,
-                    `mail_queue_log`
-                 WHERE
-                    maq_status='error' AND
-                    maq_id=mql_maq_id
-                 GROUP BY
-                    maq_id";
+        $stmt = "select maq_status,count(*) from mail_queue group by maq_status";
         try {
-            $queue_ids = DB_Helper::getInstance()->getColumn($stmt);
+            $status = DB_Helper::getInstance()->getPair($stmt);
         } catch (DatabaseException $e) {
             $this->error(ev_gettext('ERROR: There was a DB error checking the mail queue status'));
 
             return;
         }
 
-        $errors = count($queue_ids);
-        if ($errors) {
-            $this->error(ev_gettext('ERROR: There is a total of %d queued emails with errors.', $errors));
+        // un-interesting states
+        unset(
+            $status[Mail_Queue::STATUS_SENT],
+            $status[Mail_Queue::STATUS_TRUNCATED],
+            $status[Mail_Queue::STATUS_FAILED]
+        );
+
+        $messages = [];
+        foreach ($status as $name => $count) {
+            if ($count) {
+                $messages[] = "$name: $count";
+            }
         }
+
+        if (!$messages) {
+            // all well. bye
+            return;
+        }
+
+        $message = join(', ', $messages);
+        $this->error(ev_gettext('ERROR: There are mails with errors: %s', $message));
     }
 
     /**
