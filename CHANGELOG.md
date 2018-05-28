@@ -5,6 +5,7 @@
 Upgrading to 3.5.x versions requires that you upgrade to 3.2.0 version first.
 
 - Fix for reports date picker (@hueyplong, #380)
+- Make mail queue monitoring useful: monitor pending state (@glensc, #381)
 
 [3.5.1]: https://github.com/eventum/eventum/compare/v3.5.0...master
 
