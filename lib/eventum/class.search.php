@@ -99,7 +99,7 @@ class Search
         }
         $custom_field = self::getParam('custom_field', $request_only);
         if (is_string($custom_field)) {
-            $custom_field = unserialize(urldecode($custom_field));
+            $custom_field = json_decode(urldecode($custom_field));
         }
         $cookie = [
             'rows' => Misc::escapeString($rows ? $rows : APP_DEFAULT_PAGER_SIZE),
