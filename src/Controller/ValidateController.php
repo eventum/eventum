@@ -61,7 +61,7 @@ class ValidateController extends BaseController
     {
         $request = $this->getRequest();
 
-        $issues = explode(',', $request->get('values'));
+        $issues = filter_var_array(explode(',', $request->get('values')), FILTER_SANITIZE_FULL_SPECIAL_CHARS);
         $check_project = $request->get('check_project') != 0;
         $exclude_issue = $request->get('exclude_issue');
         $exclude_duplicates = $request->get('exclude_duplicates') == 1;
@@ -72,7 +72,7 @@ class ValidateController extends BaseController
                 || ($issue_id != '' && !Issue::exists($issue_id, $check_project))
                 || ($exclude_duplicates && Issue::isDuplicate($issue_id))
             ) {
-                $bad_issues[] = $issue_id;
+                $bad_issues[] = htmlspecialchars($issue_id);
             }
         }
 

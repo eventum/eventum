@@ -16,7 +16,7 @@ require_once __DIR__ . '/../../init.php';
 // check login
 Auth::checkAuthentication();
 
-$field_name = !empty($_POST['field_name']) ? $_POST['field_name'] : null;
+$field_name = filter_var(!empty($_POST['field_name']) ? $_POST['field_name'] : null, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 $issue_id = !empty($_POST['issue_id']) ? (int) $_POST['issue_id'] : null;
 
 // check if correct issue id was sent
