@@ -69,6 +69,10 @@ class UsersController extends ManageBaseController
         $post = $this->getRequest()->request;
         $user = $this->getUserFromPost($post);
 
+        if (!$this->csrf->isValid('manage-users', $post->get('token'))) {
+            $this->error('Invalid CSRF Token');
+        }
+
         try {
             $usr_id = User::insert($user);
         } catch (Exception $e) {
@@ -87,6 +91,10 @@ class UsersController extends ManageBaseController
     private function updateAction()
     {
         $post = $this->getRequest()->request;
+
+        if (!$this->csrf->isValid('manage-users', $post->get('token'))) {
+            $this->error('Invalid CSRF Token');
+        }
 
         $this->user_details = User::getDetails($post->getInt('id'));
 
@@ -125,6 +133,10 @@ class UsersController extends ManageBaseController
     private function changeStatusAction()
     {
         $post = $this->getRequest()->request;
+
+        if (!$this->csrf->isValid('manage-users', $post->get('token'))) {
+            $this->error('Invalid CSRF Token');
+        }
 
         User::changeStatus($post->get('items'), $post->get('status'));
     }
@@ -231,6 +243,7 @@ class UsersController extends ManageBaseController
                 'project_roles' => $this->getProjectRoles($project_list, $this->user_details),
                 'group_list' => Group::getAssocListAllProjects(),
                 'partners' => $this->getPartnersList(),
+                'csrf_token' => $this->csrf->getToken('manage-users'),
             ]
         );
     }

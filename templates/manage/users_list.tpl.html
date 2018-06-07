@@ -80,6 +80,7 @@
 {block "manage_content" append}
 
 <form id="delete_form" method="post">
+  <input type="hidden" name="token" value="{$csrf_token}">
   <input type="hidden" name="cat" value="change_status">
 
   <div id="spinner" class="note_box">

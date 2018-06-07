@@ -28,6 +28,7 @@ use Template_Helper;
  * @property-read Helper\HtmlHelper $html
  * @property-read Helper\PlotHelper $plot
  * @property-read Helper\MessagesHelper $messages
+ * @property-read Helper\CsrfHelper $csrf
  */
 abstract class BaseController
 {

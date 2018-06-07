@@ -44,6 +44,7 @@
 {block "manage_content" append}
 
 <form id="user_form" method="post" action="{$core.rel_url}manage/users.php">
+  <input type="hidden" name="token" value="{$csrf_token}">
   {if $cat == 'edit'}
     <input type="hidden" name="cat" value="update">
     <input type="hidden" name="id" value="{$smarty.get.id|intval|default:''}">

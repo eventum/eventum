@@ -58,6 +58,9 @@ class ProjectsController extends ManageBaseController
 
     private function newAction()
     {
+        if (!$this->csrf->isValid('manage-projects', $this->getRequest()->request->get('token'))) {
+            $this->error('Invalid CSRF Token');
+        }
         $map = [
             1 => [ev_gettext('Thank you, the project was added successfully.'), MessagesHelper::MSG_INFO],
             -1 => [ev_gettext('An error occurred while trying to add the new project.'), MessagesHelper::MSG_ERROR],
@@ -68,6 +71,9 @@ class ProjectsController extends ManageBaseController
 
     private function updateAction()
     {
+        if (!$this->csrf->isValid('manage-projects', $this->getRequest()->request->get('token'))) {
+            $this->error('Invalid CSRF Token');
+        }
         $map = [
             1 => [ev_gettext('Thank you, the project was updated successfully.'), MessagesHelper::MSG_INFO],
             -1 => [ev_gettext('An error occurred while trying to update the project information.'), MessagesHelper::MSG_ERROR],
@@ -97,6 +103,7 @@ class ProjectsController extends ManageBaseController
                 'status_options' => Status::getAssocList(),
                 'customer_backends' => $this->getCustomerBackends(),
                 'workflow_backends' => $this->getWorkflowBackends(),
+                'csrf_token' => $this->csrf->getToken('manage-projects'),
             ]
         );
     }
