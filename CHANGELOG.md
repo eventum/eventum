@@ -5,6 +5,8 @@
 Upgrading to 3.5.x versions requires that you upgrade to 3.2.0 version first.
 
 - Storage adapter: add verify option (@glensc, #384)
+- Add CSRF protection to user and project admin pages (@balsdorf)
+- XSS and other security fixes (@balsdorf)
 
 [3.5.2]: https://github.com/eventum/eventum/compare/v3.5.1...master
 
@@ -15,7 +17,6 @@ Upgrading to 3.5.x versions requires that you upgrade to 3.2.0 version first.
 - Fix for reports date picker (@hueyplong, #380)
 - Make mail queue monitoring useful: monitor pending state (@glensc, #381)
 - Fix issue with associating emails to exising tickets. (@spoollord, #387, #341)
-- Add CSRF protection to user and project admin pages (@balsdorf)
 
 [3.5.1]: https://github.com/eventum/eventum/compare/v3.5.0...v3.5.1
 
