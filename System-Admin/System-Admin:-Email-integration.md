@@ -55,11 +55,8 @@ For user on a Unix/Linux system, the timing is generally set [using cron](Adding
 
 Look in the INSTALL file for information on how to set up the mail scripts.
 
-`If you are running under PHP5 on Unix/Linux, you may have a problem getting the process_mail_queue.php script to  work. `
-`Edit your local configuration file (php.ini) and increase the amount of memory a script may have (memory_limit).  The default is 8M. `
-`I have increased mine to 32M, though if memory is tight, you may want to experiment to find the minimum that will work.`
-`You may also want to increase max_execution_time and max_input_time in the php.ini to allow the scripts enough time on complete.`
-`Finally, if only command line script OR web invocation is not working, make sure you are using the same php.ini for both web and command line interface.`
+If you are running under PHP on Unix/Linux, you may have a problem getting the process_mail_queue.php script to work.
+Edit your local configuration file (php.ini) and increase the amount of memory a script may have (memory_limit).
 
 The `download_emails.php` script requires [some parameters](Doing a fresh install#Email_Download_(crons/download_emails.php) "wikilink"). Look in the source of that file or run from commandline to see what they are (username, hostname). You must provide these parameters when setting up your cron.
 
