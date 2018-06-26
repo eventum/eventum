@@ -5,8 +5,13 @@
 Upgrading to 3.5.x versions requires that you upgrade to 3.2.0 version first.
 
 - Storage adapter: add verify option (@glensc, #384)
-- Add CSRF protection to user and project admin pages (@balsdorf)
-- XSS and other security fixes (@balsdorf)
+- [CVE-2018-12628] Add CSRF protection to user and project admin pages (@balsdorf, Yaroslav Babin)
+- [CVE-2018-12621] Fixed open redirect (@balsdorf, Yaroslav Babin)
+- [CVE-2018-11569] Fixed remote code execution vulnerability (@balsdorf, Yaroslav Babin)
+- [CVE-2018-12622, CVE-2018-12623, CVE-2018-12624, CVE-2018-12625, CVE-2018-12626, CVE-2018-12627] XSS fixes (@balsdorf, Yaroslav Babin)
+
+Special thanks to Yaroslav Babin of Positive Technologies for reporting the security issues
+fixed in this release.
 
 [3.5.2]: https://github.com/eventum/eventum/compare/v3.5.1...master
 
