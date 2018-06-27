@@ -6,7 +6,7 @@
 <script type="text/javascript">
     <!--
     {if $garlic_prefix|default:'' != ''}
-    Eventum.clearAutoSave('{$garlic_prefix}');
+    Eventum.clearAutoSave('{$garlic_prefix|escape}');
     {/if}
     {if $core.current_user_prefs.close_popup_windows}
         setTimeout('Eventum.close_and_refresh()', 2000);

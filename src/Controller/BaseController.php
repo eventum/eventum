@@ -28,6 +28,7 @@ use Template_Helper;
  * @property-read Helper\HtmlHelper $html
  * @property-read Helper\PlotHelper $plot
  * @property-read Helper\MessagesHelper $messages
+ * @property-read Helper\CsrfHelper $csrf
  */
 abstract class BaseController
 {
@@ -164,6 +165,7 @@ abstract class BaseController
      */
     protected function redirect($url, $params = [], $allow_external = false)
     {
+        $url = trim($url);
         if ($params) {
             $q = strstr($url, '?') ? '&' : '?';
             $url .= $q . http_build_query($params, null, '&');

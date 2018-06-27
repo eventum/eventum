@@ -167,7 +167,7 @@ class Filter
                     unset($_POST[$fld_id]);
                 }
             }
-            $custom_field_string = serialize($_POST['custom_field']);
+            $custom_field_string = json_encode($_POST['custom_field']);
         } else {
             $custom_field_string = '';
         }
@@ -584,7 +584,7 @@ class Filter
         }
 
         if (is_string($res['cst_custom_field'])) {
-            $res['cst_custom_field'] = unserialize($res['cst_custom_field']);
+            $res['cst_custom_field'] = json_decode($res['cst_custom_field']);
         }
 
         return $res;

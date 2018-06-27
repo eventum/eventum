@@ -99,7 +99,7 @@ class Search
         }
         $custom_field = self::getParam('custom_field', $request_only);
         if (is_string($custom_field)) {
-            $custom_field = unserialize(urldecode($custom_field));
+            $custom_field = json_decode(urldecode($custom_field));
         }
         $cookie = [
             'rows' => Misc::escapeString($rows ? $rows : APP_DEFAULT_PAGER_SIZE),
@@ -121,8 +121,8 @@ class Search
             'category' => Misc::escapeInteger(self::getArrayParam('category', $request_only)),
             'customer_email' => Misc::stripHTML(self::getParam('customer_email', $request_only)),
             // advanced search form
-            'show_authorized_issues' => Misc::escapeString(self::getParam('show_authorized_issues', $request_only)),
-            'show_notification_list_issues' => Misc::escapeString(self::getParam('show_notification_list_issues', $request_only)),
+            'show_authorized_issues' => Misc::escapeString(self::getParam('show_authorized_issues', $request_only, ['yes', 'no'])),
+            'show_notification_list_issues' => Misc::escapeString(self::getParam('show_notification_list_issues', $request_only, ['yes', 'no'])),
             'reporter' => Misc::escapeInteger(self::getArrayParam('reporter', $request_only)),
             'product' => Misc::escapeInteger(self::getArrayParam('product', $request_only)),
             // other fields

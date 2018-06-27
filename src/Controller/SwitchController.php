@@ -15,6 +15,7 @@ namespace Eventum\Controller;
 
 use Auth;
 use AuthCookie;
+use Project;
 
 class SwitchController extends BaseController
 {
@@ -46,6 +47,10 @@ class SwitchController extends BaseController
      */
     protected function defaultAction()
     {
+        if (!Project::exists($this->prj_id)) {
+            $this->error("The specified project does not exist");
+        }
+
         AuthCookie::setProjectCookie($this->prj_id);
         $this->messages->addInfoMessage(ev_gettext('The project has been switched'));
 
