@@ -405,7 +405,7 @@ class Support
         $tpl->assign([
             'error_code' => $e->getCode(),
             'error_message' => $e->getMessage(),
-            'date' => $mail->getMailDate(),
+            'date' => $mail->date,
             'subject' => $mail->subject,
             'from' => $mail->from,
             'to' => $mail->to,
