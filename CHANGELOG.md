@@ -9,6 +9,7 @@ Upgrading to 3.5.x versions requires that you upgrade to 3.2.0 version first.
 - [CVE-2018-12621] Fixed open redirect (@balsdorf, Yaroslav Babin)
 - [CVE-2018-11569] Fixed remote code execution vulnerability (@balsdorf, Yaroslav Babin)
 - [CVE-2018-12622, CVE-2018-12623, CVE-2018-12624, CVE-2018-12625, CVE-2018-12626, CVE-2018-12627] XSS fixes (@balsdorf, Yaroslav Babin)
+- Fix bounce emails not to produce errors (@glensc, #396)
 
 Special thanks to Yaroslav Babin of Positive Technologies for reporting the security issues
 fixed in this release.
