@@ -127,7 +127,6 @@
 		"jquery-form/form": "^4.2",
 		"maximebf/debugbar": "1.*",
 		"rmm5t/jquery-timeago": "*",
-		"roave/security-advisories": "dev-master",
 		"robloach/component-installer": "*",
 		"sentry/sentry": "^1.7",
 		"symfony/thanks": "^1.0",
