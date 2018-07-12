@@ -16,6 +16,7 @@ namespace Eventum\Mail;
 use Date_Helper;
 use DateTime;
 use DomainException;
+use Eventum\Mail\Exception\InvalidMessageException;
 use Eventum\Mail\Helper\MailLoader;
 use Eventum\Mail\Helper\SanitizeHeaders;
 use Eventum\Mail\Helper\TextMessage;
@@ -62,7 +63,11 @@ class MailMessage extends Message
      */
     public function __construct(array $params = [])
     {
-        parent::__construct($params);
+        try {
+            parent::__construct($params);
+        } catch (Mail\Exception\InvalidArgumentException  $e) {
+            throw new InvalidMessageException($e->getMessage(), $e->getCode());
+        }
 
         // do not do this for "child" messages (attachments)
         if (!empty($params['root'])) {
