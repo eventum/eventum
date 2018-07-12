@@ -71,7 +71,14 @@ class MailLoader
         // retry with manual \r\n splitting
         // retry our own splitting
         // message likely corrupted by Eventum itself
-        list($headers, $content) = explode("\r\n\r\n", $raw, 2);
+        $parts = explode("\r\n\r\n", $raw, 2);
+
+        if (count($parts) === 1) {
+            // not \r\n separated. retry with \n\n
+            $parts = explode("\n\n", $raw, 2);
+        }
+
+        list($headers, $content) = $parts;
 
         // unfold message headers
         $headers = preg_replace("/\r?\n/", "\r\n", $headers);
