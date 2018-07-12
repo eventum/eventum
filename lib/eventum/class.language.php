@@ -139,9 +139,8 @@ class Language
 
         if ($lang == null) {
             // fall back to system default
-            define('APP_CURRENT_LOCALE', APP_DEFAULT_LOCALE);
             // we don't need to set language again as APP_DEFAULT_LOCALE was set by self::setup()
-            // self::set(APP_CURRENT_LOCALE);
+            define('APP_CURRENT_LOCALE', APP_DEFAULT_LOCALE);
         } else {
             define('APP_CURRENT_LOCALE', $lang);
         }
