@@ -37,7 +37,6 @@ use Zend\Mail\Header\To;
 use Zend\Mail\Headers;
 use Zend\Mail\Storage;
 use Zend\Mail\Storage\Message;
-use Zend\Mime;
 
 /**
  * Class MailMessage
@@ -65,8 +64,8 @@ class MailMessage extends Message
     {
         try {
             parent::__construct($params);
-        } catch (Mail\Exception\InvalidArgumentException  $e) {
-            throw new InvalidMessageException($e->getMessage(), $e->getCode());
+        } catch (Mail\Exception\InvalidArgumentException $e) {
+            throw InvalidMessageException::create($e, $params);
         }
 
         // do not do this for "child" messages (attachments)

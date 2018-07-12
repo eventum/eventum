@@ -13,8 +13,28 @@
 
 namespace Eventum\Mail\Exception;
 
+use Exception;
 use RuntimeException;
+use Zend\Mail;
 
 class InvalidMessageException extends RuntimeException
 {
+    public static function create(Exception $e, array $params)
+    {
+        if (isset($params['headers'])) {
+            // test loading each header to identify which one fails with better error message
+            $headers = new Mail\Headers();
+            foreach ($params['headers'] as $i => $header) {
+                try {
+                    $headers->addHeaderLine($header);
+                } catch (Mail\Exception\InvalidArgumentException $e) {
+                    $message = $e->getMessage() . '; Header: ' . $header;
+
+                    return new self($message, $e->getCode());
+                }
+            }
+        }
+
+        return new self($e->getMessage(), $e->getCode());
+    }
 }
