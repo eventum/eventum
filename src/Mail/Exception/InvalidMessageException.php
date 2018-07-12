@@ -13,6 +13,7 @@
 
 namespace Eventum\Mail\Exception;
 
+use Eventum\Mail\Helper\MailLoader;
 use Exception;
 use RuntimeException;
 use Zend\Mail;
@@ -22,6 +23,10 @@ class InvalidMessageException extends RuntimeException
     public static function create(Exception $e, array $params)
     {
         if (isset($params['headers'])) {
+            if (!is_array($params['headers'])) {
+                MailLoader::convertHeaders($params['headers']);
+            }
+
             // test loading each header to identify which one fails with better error message
             $headers = new Mail\Headers();
             foreach ($params['headers'] as $i => $header) {

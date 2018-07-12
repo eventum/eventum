@@ -66,6 +66,22 @@ class MailLoader
         }
     }
 
+    public static function convertHeaders(&$headers)
+    {
+        // unfold message headers
+        $headers = preg_replace("/\r?\n/", "\r\n", $headers);
+        $headers = preg_replace("/\r\n(\t| )+/", ' ', $headers);
+
+        // split by \r\n, but \r may be optional
+        $headers = preg_split("/\r?\n/", $headers);
+
+        // strip any leftover \r
+        $headers = array_map('trim', $headers);
+
+        static::encodeHeaders($headers);
+        static::fixBrokenHeaders($headers);
+    }
+
     private static function fallbackMessageSplit($raw, &$headers, &$content)
     {
         // retry with manual \r\n splitting
@@ -80,19 +96,7 @@ class MailLoader
 
         list($headers, $content) = $parts;
 
-        // unfold message headers
-        $headers = preg_replace("/\r?\n/", "\r\n", $headers);
-        $headers = preg_replace("/\r\n(\t| )+/", ' ', $headers);
-
-        // split by \r\n, but \r may be optional
-        $headers = preg_split("/\r?\n/", $headers);
-
-        // strip any leftover \r
-        $headers = array_map('trim', $headers);
-
-        static::encodeHeaders($headers);
-
-        static::fixBrokenHeaders($headers);
+        self::convertHeaders($headers);
     }
 
     /**
