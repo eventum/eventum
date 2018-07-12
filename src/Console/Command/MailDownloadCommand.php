@@ -15,7 +15,9 @@ namespace Eventum\Console\Command;
 
 use Email_Account;
 use Eventum\ConcurrentLock;
+use Eventum\Mail\Exception\InvalidMessageException;
 use Eventum\Mail\ImapMessage;
+use Eventum\Monolog\Logger;
 use InvalidArgumentException;
 use RuntimeException;
 use Support;
@@ -70,7 +72,12 @@ class MailDownloadCommand
 
             if (is_array($emails)) {
                 foreach ($emails as $i) {
-                    $mail = ImapMessage::createFromImap($mbox, $i, $account);
+                    try {
+                        $mail = ImapMessage::createFromImap($mbox, $i, $account);
+                    } catch (InvalidMessageException $e) {
+                        Logger::app()->error($e->getMessage(), ['num' => $i]);
+                        continue;
+                    }
                     Support::processMailMessage($mail, $account);
                     if ($this->limit && $limit++ > $this->limit) {
                         break;
@@ -82,7 +89,12 @@ class MailDownloadCommand
 
             if ($total_emails > 0) {
                 for ($i = 1; $i <= $total_emails; $i++) {
-                    $mail = ImapMessage::createFromImap($mbox, $i, $account);
+                    try {
+                        $mail = ImapMessage::createFromImap($mbox, $i, $account);
+                    } catch (InvalidMessageException $e) {
+                        Logger::app()->error($e->getMessage(), ['num' => $i]);
+                        continue;
+                    }
                     Support::processMailMessage($mail, $account);
                     if ($this->limit && ++$limit >= $this->limit) {
                         break;
