@@ -19,6 +19,7 @@ use Eventum\Mail\Exception\InvalidMessageException;
 use Eventum\Mail\ImapMessage;
 use Eventum\Monolog\Logger;
 use InvalidArgumentException;
+use Psr\Log\LoggerInterface;
 use RuntimeException;
 use Support;
 
@@ -27,6 +28,9 @@ class MailDownloadCommand
     const DEFAULT_COMMAND = 'mail:download';
     const USAGE = self::DEFAULT_COMMAND . ' [username] [hostname] [mailbox] [--limit=] [--no-lock]';
 
+    /** @var LoggerInterface */
+    private $logger;
+
     /**
      * Limit amount of emails to process.
      * Default unlimited: 0
@@ -34,6 +38,11 @@ class MailDownloadCommand
      * @var int
      */
     private $limit = 0;
+
+    public function __construct()
+    {
+        $this->logger = Logger::app();
+    }
 
     /**
      * @param string $username
@@ -75,7 +84,7 @@ class MailDownloadCommand
                     try {
                         $mail = ImapMessage::createFromImap($mbox, $i, $account);
                     } catch (InvalidMessageException $e) {
-                        Logger::app()->error($e->getMessage(), ['num' => $i]);
+                        $this->logger->error($e->getMessage(), ['num' => $i]);
                         continue;
                     }
                     Support::processMailMessage($mail, $account);
@@ -92,7 +101,7 @@ class MailDownloadCommand
                     try {
                         $mail = ImapMessage::createFromImap($mbox, $i, $account);
                     } catch (InvalidMessageException $e) {
-                        Logger::app()->error($e->getMessage(), ['num' => $i]);
+                        $this->logger->error($e->getMessage(), ['num' => $i]);
                         continue;
                     }
                     Support::processMailMessage($mail, $account);
