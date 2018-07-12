@@ -15,7 +15,6 @@ namespace Eventum\Model\Repository;
 
 use Doctrine\ORM\EntityRepository;
 use Eventum\Model\Entity;
-use Issue;
 
 class CommitFileRepository extends EntityRepository
 {

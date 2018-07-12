@@ -200,8 +200,8 @@ class UpdateController extends BaseController
         }
 
         if (Workflow::hasWorkflowIntegration($this->prj_id)) {
-            $statuses = Workflow::getAllowedStatuses($this->prj_id, $this->issue_id);
             // if currently selected release is not on list, go ahead and add it.
+            $statuses = Workflow::getAllowedStatuses($this->prj_id, $this->issue_id);
         } else {
             $statuses = Status::getAssocStatusList($this->prj_id, false);
         }

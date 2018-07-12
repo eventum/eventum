@@ -199,8 +199,8 @@ class ViewController extends BaseController
         $show_all_drafts = $cookie->get('show_all_drafts') == 1;
 
         if (Workflow::hasWorkflowIntegration($this->prj_id)) {
-            $statuses = Workflow::getAllowedStatuses($this->prj_id, $this->issue_id);
             // if currently selected release is not on list, go ahead and add it.
+            $statuses = Workflow::getAllowedStatuses($this->prj_id, $this->issue_id);
         } else {
             $statuses = Status::getAssocStatusList($this->prj_id, false);
         }

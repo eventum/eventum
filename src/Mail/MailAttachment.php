@@ -17,7 +17,6 @@ use Eventum\Mail\Helper\DecodePart;
 use Zend\Mail;
 use Zend\Mail\Header\ContentType;
 use Zend\Mail\Storage;
-use Zend\Mail\Storage\Message;
 use Zend\Mime\Part;
 
 class MailAttachment

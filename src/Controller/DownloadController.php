@@ -13,7 +13,6 @@
 
 namespace Eventum\Controller;
 
-use Attachment;
 use Auth;
 use Eventum\Attachment\AttachmentManager;
 use Issue;

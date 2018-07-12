@@ -16,7 +16,6 @@ namespace Eventum\Controller;
 use Access;
 use Auth;
 use Custom_Field;
-use Issue;
 
 class CustomFieldsController extends BaseController
 {

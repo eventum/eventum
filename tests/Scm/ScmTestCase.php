@@ -17,8 +17,6 @@ use Date_Helper;
 use Eventum\Extension\ExtensionManager;
 use Eventum\Model\Entity;
 use Eventum\Test\TestCase;
-use Project;
-use SCM;
 use Setup;
 use Workflow;
 
