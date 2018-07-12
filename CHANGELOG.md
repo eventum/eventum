@@ -4,6 +4,8 @@
 
 Upgrading to 3.5.x versions requires that you upgrade to 3.2.0 version first.
 
+- Handle uncaught header exception from mail download (@glensc, #398)
+
 [3.5.3]: https://github.com/eventum/eventum/compare/v3.5.2...master
 
 ## [3.5.2] - 2017-07-05
