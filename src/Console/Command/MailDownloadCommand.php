@@ -15,8 +15,11 @@ namespace Eventum\Console\Command;
 
 use Email_Account;
 use Eventum\ConcurrentLock;
+use Eventum\Mail\Exception\InvalidMessageException;
 use Eventum\Mail\ImapMessage;
+use Eventum\Monolog\Logger;
 use InvalidArgumentException;
+use Psr\Log\LoggerInterface;
 use RuntimeException;
 use Support;
 
@@ -25,6 +28,9 @@ class MailDownloadCommand
     const DEFAULT_COMMAND = 'mail:download';
     const USAGE = self::DEFAULT_COMMAND . ' [username] [hostname] [mailbox] [--limit=] [--no-lock]';
 
+    /** @var LoggerInterface */
+    private $logger;
+
     /**
      * Limit amount of emails to process.
      * Default unlimited: 0
@@ -32,6 +38,11 @@ class MailDownloadCommand
      * @var int
      */
     private $limit = 0;
+
+    public function __construct()
+    {
+        $this->logger = Logger::app();
+    }
 
     /**
      * @param string $username
@@ -70,7 +81,12 @@ class MailDownloadCommand
 
             if (is_array($emails)) {
                 foreach ($emails as $i) {
-                    $mail = ImapMessage::createFromImap($mbox, $i, $account);
+                    try {
+                        $mail = ImapMessage::createFromImap($mbox, $i, $account);
+                    } catch (InvalidMessageException $e) {
+                        $this->logger->error($e->getMessage(), ['num' => $i]);
+                        continue;
+                    }
                     Support::processMailMessage($mail, $account);
                     if ($this->limit && $limit++ > $this->limit) {
                         break;
@@ -82,7 +98,12 @@ class MailDownloadCommand
 
             if ($total_emails > 0) {
                 for ($i = 1; $i <= $total_emails; $i++) {
-                    $mail = ImapMessage::createFromImap($mbox, $i, $account);
+                    try {
+                        $mail = ImapMessage::createFromImap($mbox, $i, $account);
+                    } catch (InvalidMessageException $e) {
+                        $this->logger->error($e->getMessage(), ['num' => $i]);
+                        continue;
+                    }
                     Support::processMailMessage($mail, $account);
                     if ($this->limit && ++$limit >= $this->limit) {
                         break;

@@ -66,13 +66,8 @@ class MailLoader
         }
     }
 
-    private static function fallbackMessageSplit($raw, &$headers, &$content)
+    public static function convertHeaders(&$headers)
     {
-        // retry with manual \r\n splitting
-        // retry our own splitting
-        // message likely corrupted by Eventum itself
-        list($headers, $content) = explode("\r\n\r\n", $raw, 2);
-
         // unfold message headers
         $headers = preg_replace("/\r?\n/", "\r\n", $headers);
         $headers = preg_replace("/\r\n(\t| )+/", ' ', $headers);
@@ -84,8 +79,24 @@ class MailLoader
         $headers = array_map('trim', $headers);
 
         static::encodeHeaders($headers);
-
         static::fixBrokenHeaders($headers);
+    }
+
+    private static function fallbackMessageSplit($raw, &$headers, &$content)
+    {
+        // retry with manual \r\n splitting
+        // retry our own splitting
+        // message likely corrupted by Eventum itself
+        $parts = explode("\r\n\r\n", $raw, 2);
+
+        if (count($parts) === 1) {
+            // not \r\n separated. retry with \n\n
+            $parts = explode("\n\n", $raw, 2);
+        }
+
+        list($headers, $content) = $parts;
+
+        self::convertHeaders($headers);
     }
 
     /**
