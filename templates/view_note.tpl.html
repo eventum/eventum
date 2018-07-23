@@ -133,7 +133,7 @@ function viewNote(id)
         </tr>
         <tr>
           <td colspan="2" id="email_message">
-            {$note.not_note|format_email}
+            {$note.not_note|textFormat:$issue_id}
           </td>
         </tr>
         <tr class="buttons">
