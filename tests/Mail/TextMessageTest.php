@@ -52,6 +52,10 @@ class TextMessageTest extends TestCase
                 'multipart-related.eml',
                 "Labas,\n\nsu pšventėmis :)",
             ],
+            'test downloading html emails extracts body from source' => [
+               'htmltext_emailsource.eml',
+               'This is a sample email to test Eventum html parsing.',
+            ],
         ];
     }
 }

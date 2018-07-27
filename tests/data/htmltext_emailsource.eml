@@ -1,0 +1,104 @@
+MIME-Version: 1.0
+Received: from bn7pr06cu001.internal.outlook.com (2603:10b6:a02:b4::18) by BYAPR14MB2166.namprd99.prod.outlook.com with HTTP via BYAPR04CA0017.NAMPRD99.PROD.OUTLOOK.COM; Fri, 27 Jul 2018 15:13:54 +0000
+Received: from BN7PR14MB2115.namprd99.prod.outlook.com ([fe80::84c9:e989:ee05:63e1]) by BN7PR14MB2115.namprd99.prod.outlook.com ([fe80::84c9:e989:ee05:63e1%3]) with mapi id 15.20.0995.019; Fri, 27 Jul 2018 15:13:54 +0000
+From: Test Subject <Test.Subject@testing.com>
+To: Project Tracker <project_tracker@testing.com>
+Subject: RE: [#3271] testing email 7
+Thread-Topic: [#3271] testing email 7
+Thread-Index: AdQjAGt92nUMy9HpSEOcdM6ex+sDBwCu+Qpg
+Date: Fri, 27 Jul 2018 10:13:54 -0500
+Message-ID: <BN7PR14MB211532256C44544F4460E9DAE52A0@BN7PR14MB2115.namprd99.prod.outlook.com>
+References: <eventum.md5.5fjqr7hml.1tnep7g1azhxh@eventum.test.local>
+ <BN7PR14MB2115686F182803D867E28667E5550@BN7PR14MB2115.namprd99.prod.outlook.com>
+In-Reply-To: <BN7PR14MB2115686F182803D867E28667E5550@BN7PR14MB2115.namprd99.prod.outlook.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Exchange-Organization-AuthAs: Internal
+X-MS-Exchange-Organization-AuthMechanism: 04
+X-MS-Exchange-Organization-AuthSource: BN7PR14MB2115.namprd99.prod.outlook.com
+X-MS-Has-Attach: 
+X-MS-Exchange-Organization-Network-Message-Id: 27d5336b-6edc-4f52-c005-08d5f3d39182
+X-MS-Exchange-Organization-SCL: -1
+X-MS-TNEF-Correlator: 
+X-MS-Exchange-Organization-RecordReviewCfmType: 
+X-Ms-Publictraffictype: Email
+X-Microsoft-Exchange-Diagnostics: 1;BYAPR14MB2166;27:bOl2RlE954X/tSt93rHPKCMZUNioUaBsQNDffNqiGSlH0QoXslwyAfGmgJs8Z5K4pW42lXs1rB5rTnbrX2Yo308Xf6PRuAIzdpJD1aDOZb1LIHTygYSQqFfBjcAHpuUH3MA8/BzfHW5dvDeKQHuQD7SurLZUYnijeWPVbRPFQUFiAR/BOjcztwEHiJyHKxu0X5D+j3ixeG3cfVMB+eCsz7CRzwv9hg+6bFKQPoNe+OFvr66tCxZGQjhiixFNfR/uf13K0EcJ+3ogbyyz9xcGXTgSpBRp67yonA24JimkLukVngqMkc3cQCMN4WiF2p2+ZjTIBF4sVjwS8n+OUcwAq45SjqqD8mb4TQBZ6BJnoXDN6I1+7sE2u2KNNgLSkpXTn2gLBP9b4BrUuDY62pUSaA==
+X-Microsoft-Antispam-Mailbox-Delivery: ucf:0;jmr:0;ex:0;auth:0;dest:I;ENG:(750119)(520011016)(706158)(944506220)(944626516);
+X-Microsoft-Antispam-Message-Info: xeYLIh+2B7zi/+z4f0MGDJoFAv/egLagJnIGoaaGquywhPdmxc9+2EMEISMzMmvgkVzcB0vWp34KAvMo7e4G/sub/V1+kUZvPozG7XpsSZYShVmH1jWYWA2uD7oM+783
+Content-Type: text/html;
+ charset="us-ascii"
+X-IMAP-UnixDate: 1532704435
+
+<html xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns:m="http://schemas.microsoft.com/office/2004/12/omml" xmlns="http://www.w3.org/TR/REC-html40">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=us-ascii">
+<meta name="Generator" content="Microsoft Word 15 (filtered medium)">
+<style><!--
+/* Font Definitions */
+@font-face
+	{font-family:"Cambria Math";
+	panose-1:2 4 5 3 5 4 6 3 2 4;}
+@font-face
+	{font-family:Calibri;
+	panose-1:2 15 5 2 2 2 4 3 2 4;}
+/* Style Definitions */
+p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin:0in;
+	margin-bottom:.0001pt;
+	font-size:11.0pt;
+	font-family:"Calibri",sans-serif;}
+a:link, span.MsoHyperlink
+	{mso-style-priority:99;
+	color:#0563C1;
+	text-decoration:underline;}
+a:visited, span.MsoHyperlinkFollowed
+	{mso-style-priority:99;
+	color:#954F72;
+	text-decoration:underline;}
+p.msonormal0, li.msonormal0, div.msonormal0
+	{mso-style-name:msonormal;
+	mso-margin-top-alt:auto;
+	margin-right:0in;
+	mso-margin-bottom-alt:auto;
+	margin-left:0in;
+	font-size:11.0pt;
+	font-family:"Calibri",sans-serif;}
+span.EmailStyle18
+	{mso-style-type:personal;
+	font-family:"Calibri",sans-serif;
+	color:windowtext;}
+span.EmailStyle19
+	{mso-style-type:personal;
+	font-family:"Calibri",sans-serif;
+	color:windowtext;}
+span.EmailStyle20
+	{mso-style-type:personal;
+	font-family:"Calibri",sans-serif;
+	color:windowtext;}
+span.EmailStyle22
+	{mso-style-type:personal-reply;
+	font-family:"Calibri",sans-serif;
+	color:windowtext;}
+.MsoChpDefault
+	{mso-style-type:export-only;
+	font-size:10.0pt;}
+@page WordSection1
+	{size:8.5in 11.0in;
+	margin:1.0in 1.0in 1.0in 1.0in;}
+div.WordSection1
+	{page:WordSection1;}
+--></style><!--[if gte mso 9]><xml>
+<o:shapedefaults v:ext="edit" spidmax="1026" />
+</xml><![endif]--><!--[if gte mso 9]><xml>
+<o:shapelayout v:ext="edit">
+<o:idmap v:ext="edit" data="1" />
+</o:shapelayout></xml><![endif]-->
+</head>
+<body lang="EN-US" link="#0563C1" vlink="#954F72">
+<div class="WordSection1">
+<p class="MsoNormal">This is a sample email to test <b><i>Eventum</i></b> html parsing.
+<o:p></o:p></p>
+<p class="MsoNormal"><o:p>&nbsp;</o:p></p>
+</div>
+</body>
+</html>
