@@ -21,6 +21,14 @@ class LoadEmailTest extends TestCase
     public function testLoadBrokenReferences1()
     {
         $raw = $this->readDataFile('kallenote.eml');
-        MailMessage::createFromString($raw);
+        $mail = MailMessage::createFromString($raw);
+        $this->assertTrue($mail->getHeaders()->has('In-Reply-To'));
+    }
+
+    public function testLoadCCHeader()
+    {
+        $raw = $this->readDataFile('92367.txt');
+        $mail = MailMessage::createFromString($raw);
+        $this->assertTrue($mail->getHeaders()->has('X-Broken-Header-CC'));
     }
 }
