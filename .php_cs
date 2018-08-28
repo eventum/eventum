@@ -126,3 +126,5 @@ return $config
     ->setRiskyAllowed(true)
     ->setCacheFile($cacheFile)
     ->setRules($rules);
+
+// vim:ft=php
