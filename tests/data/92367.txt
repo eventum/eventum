@@ -1,0 +1,9 @@
+MIME-Version: 1.0
+From: NOC Support <support@example.net>
+To:
+Date: Wed, 18 Jul 2018 07:36:06 -0400
+Subject: Call Ref: T20180718.0098
+Message-ID: <LON-X-AT83qsyWVLEFN000047a7.atmail@LON-X-AT83.autotask.lon>
+Cc: "<issue-102188"@eventum.example.net
+
+any content.

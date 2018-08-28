@@ -16,6 +16,7 @@ namespace Eventum\Mail\Helper;
 use Mime_Helper;
 use Zend\Mail;
 use Zend\Mail\Header;
+use Zend\Mail\Headers;
 use Zend\Mime;
 
 class MailLoader
@@ -106,15 +107,25 @@ class MailLoader
      */
     private static function fixBrokenHeaders(&$headers)
     {
-        foreach ($headers as $name => &$value) {
+        $bag = new Headers();
+
+        foreach ($headers as $index => &$line) {
             try {
-                Header\GenericHeader::splitHeaderLine($value);
+                list($name, $value) = Header\GenericHeader::splitHeaderLine($line);
             } catch (Header\Exception\InvalidArgumentException $e) {
-                if ($e->getMessage() == 'Invalid header value detected' && strstr($value, "\r")) {
+                if ($e->getMessage() === 'Invalid header value detected' && strpos($line, "\r") !== false) {
                     // it's very broken, at least attempt to strip \r
-                    $value = str_replace("\r", '', $value);
-                    Header\GenericHeader::splitHeaderLine($value);
+                    $line = str_replace("\r", '', $line);
                 }
+
+                list($name, $value) = Header\GenericHeader::splitHeaderLine($line);
+            }
+
+            try {
+                $bag->addHeaderLine($line);
+            } catch (Mail\Exception\InvalidArgumentException $e) {
+                // prefix invalid header with X-Broken-Header
+                $line = "X-Broken-Header-$name: $value";
             }
         }
     }
