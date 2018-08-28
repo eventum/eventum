@@ -34,7 +34,7 @@ require_once __DIR__ . '/../init.php';
 class Command extends BaseCommand
 {
     const DEFAULT_COMMAND = 'migrate:attachments';
-    const USAGE = self::DEFAULT_COMMAND . ' [source_adapter] [target_adapter] [--chunksize=] [--yes] [--verify]';
+    const USAGE = self::DEFAULT_COMMAND . ' [source_adapter] [target_adapter] [--chunksize=] [--limit=] [--yes] [--verify]';
 
     /** @var AdapterInterface */
     private $db;
@@ -48,7 +48,7 @@ class Command extends BaseCommand
     /** @var string */
     private $target_adapter;
 
-    public function execute(OutputInterface $output, $source_adapter, $target_adapter, $chunksize = 100, $yes, $verify)
+    public function execute(OutputInterface $output, $source_adapter, $target_adapter, $yes, $verify, $limit, $chunksize = 100)
     {
         $this->output = $output;
         $this->assertInput($source_adapter, $target_adapter, $yes, $verify);
@@ -59,18 +59,18 @@ class Command extends BaseCommand
         $this->db = DB_Helper::getInstance();
         $this->sm = StorageManager::get();
         if ($verify) {
-            $this->verifyAttachments((int)$chunksize);
+            $this->verifyAttachments((int)$chunksize, (int)$limit);
         } else {
-            $this->migrateAttachments((int)$chunksize);
+            $this->migrateAttachments((int)$chunksize, (int)$limit);
             $this->postUpgradeNotice();
         }
     }
 
-    private function verifyAttachments($chunkSize)
+    private function verifyAttachments($chunkSize, $limit)
     {
         $this->writeln("Verifying data in '{$this->source_adapter}://' Adapter");
         $this->writeln('Preparing temporary table. Please wait...');
-        $total = $this->prepareTemporaryTable();
+        $total = $this->prepareTemporaryTable($limit);
         $this->writeln("Verifying $total file(s)");
 
         if (!$total) {
@@ -101,11 +101,11 @@ class Command extends BaseCommand
         $this->writeln('');
     }
 
-    private function migrateAttachments($chunkSize)
+    private function migrateAttachments($chunkSize, $limit)
     {
         $this->writeln("Migrating data from '{$this->source_adapter}://' to '{$this->target_adapter}://'");
         $this->writeln('Preparing temporary table. Please wait...');
-        $total = $this->prepareTemporaryTable();
+        $total = $this->prepareTemporaryTable($limit);
         $this->writeln("Moving $total file(s)");
 
         if (!$total) {
@@ -183,7 +183,7 @@ class Command extends BaseCommand
      * Build temporary table for work, because the query is made on columns that are not indexed
      * and running chunked query on that is very slow.
      */
-    private function prepareTemporaryTable()
+    private function prepareTemporaryTable($limit)
     {
         $sql = "
           CREATE TEMPORARY TABLE
@@ -202,6 +202,10 @@ class Command extends BaseCommand
                 iap_iaf_id = iaf_id AND
                 iat_id = iaf_iat_id AND
                 iap_flysystem_path LIKE '{$this->source_adapter}://%'";
+
+        if ($limit) {
+            $sql .= " LIMIT $limit";
+        }
 
         $this->db->query($sql);
 
