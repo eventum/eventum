@@ -4,6 +4,8 @@
 
 Upgrading to 3.5.x versions requires that you upgrade to 3.2.0 version first.
 
+- Mail: Rename unparseable headers (@glensc, #406)
+
 [3.5.4]: https://github.com/eventum/eventum/compare/v3.5.3...master
 
 ## [3.5.3] - 2018-08-22
@@ -11,7 +13,7 @@ Upgrading to 3.5.x versions requires that you upgrade to 3.2.0 version first.
 Upgrading to 3.5.x versions requires that you upgrade to 3.2.0 version first.
 
 - Handle uncaught header exception from mail download (@glensc, #398)
-- `view_note`: use textFormat ratther format_email to hilite issue links too (@glensc, 204378117)
+- `view_note`: use textFormat rather format_email to hilite issue links too (@glensc, 204378117)
 
 [3.5.3]: https://github.com/eventum/eventum/compare/v3.5.2...v3.5.3
 
