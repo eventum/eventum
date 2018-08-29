@@ -110,30 +110,9 @@ class AttachmentMigrateCommand extends Command
             return;
         }
 
-        $format = ProgressBar::getFormatDefinition('debug');
-        $format .= ' (%id%: %filename%)';
-        ProgressBar::setFormatDefinition('custom', $format);
-        $progressBar = new ProgressBar($this->output, $total);
-        $progressBar->setFormat('custom');
-        $progressBar->start();
-
-        for ($i = 0, $nchunks = ceil($total / $chunkSize); $i < $nchunks; $i++) {
-            $files = $this->getChunk($chunkSize);
-            if (empty($files)) {
-                break;
-            }
-
-            foreach ($files as $file) {
-                $progressBar->setMessage($file['iaf_id'], 'id');
-                $progressBar->setMessage($file['iap_flysystem_path'], 'filename');
-                $this->moveFile($file);
-                $progressBar->advance();
-            }
+        foreach ($this->getIterator($total, $chunkSize) as $file) {
+            $this->moveFile($file);
         }
-
-        $progressBar->setFormat('debug');
-        $progressBar->finish();
-        $this->writeln('');
     }
 
     private function moveFile($file)
@@ -272,5 +251,42 @@ class AttachmentMigrateCommand extends Command
                 'to reclaim space from the database';
             $this->writeln("<error>$message</error>");
         }
+    }
+
+    private function getIterator($total, $chunkSize)
+    {
+        $formatName = 'debug';
+        $progressBar = $this->createProgressBar($total, $formatName);
+        $progressBar->start();
+
+        for ($i = 0, $nchunks = ceil($total / $chunkSize); $i < $nchunks; $i++) {
+            $files = $this->getChunk($chunkSize);
+            if (empty($files)) {
+                break;
+            }
+
+            foreach ($files as $file) {
+                $progressBar->setMessage($file['iaf_id'], 'id');
+                $progressBar->setMessage($file['iap_flysystem_path'], 'filename');
+
+                yield $file;
+                $progressBar->advance();
+            }
+        }
+
+        $progressBar->setFormat($formatName);
+        $progressBar->finish();
+        $this->writeln('');
+    }
+
+    private function createProgressBar($total, $formatName)
+    {
+        $format = ProgressBar::getFormatDefinition($formatName);
+        $format .= ' (%id%: %filename%)';
+        ProgressBar::setFormatDefinition('custom', $format);
+        $progressBar = new ProgressBar($this->output, $total);
+        $progressBar->setFormat('custom');
+
+        return $progressBar;
     }
 }
