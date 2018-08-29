@@ -61,8 +61,9 @@ $(document).ready(function() {
 
     $('#shortcut_form').submit(function(e) {
         var target = $('#shortcut');
-        if (!Validation.isNumberOnly(target.val())) {
-            alert('Please enter numbers only');
+        target.val(target.val().replace(/\D/g,''));
+        if (Validation.isWhitespace(target.val())) {
+            alert('Please enter a valid Issue ID');
             return false;
         }
     });
