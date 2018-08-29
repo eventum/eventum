@@ -23,15 +23,32 @@ class EventumDuplicateSubject extends AbstractMigration
 {
     public function up()
     {
-        foreach ($this->getEmailEntries() as $id) {
+        $entries = $this->getEmailEntries();
+        foreach ($this->getIterator($entries) as $id) {
             $mail = $this->getEmail($id);
             $this->setEmailSubject($id, $mail->subject);
         }
+        $count = count($entries);
+        $this->writeln("Fixed $count emails");
 
-        foreach ($this->getNoteEntries() as $id) {
+        $entries = $this->getNoteEntries();
+        foreach ($this->getIterator($entries) as $id) {
             $mail = $this->getNote($id);
             $this->setNoteTitle($id, $mail->subject);
         }
+        $count = count($entries);
+        $this->writeln("Fixed $count notes");
+    }
+
+    private function getIterator($entries)
+    {
+        $progressBar = $this->createProgressBar(count($entries));
+        foreach ($entries as $entry) {
+            yield $entry;
+            $progressBar->advance();
+        }
+        $progressBar->finish();
+        $this->writeln('');
     }
 
     private function getEmailEntries($idColumn = 'sup_id')
