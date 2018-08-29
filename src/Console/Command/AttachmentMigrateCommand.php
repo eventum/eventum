@@ -79,7 +79,11 @@ class AttachmentMigrateCommand extends Command
         $totalSize = 0;
         foreach ($this->getIterator($total, $chunkSize) as $file) {
             try {
-                $totalSize += $this->sm->getFile($file['iap_flysystem_path'])->getSize();
+                $fileSize = $this->sm->getFile($file['iap_flysystem_path'])->getSize();
+                if ($fileSize === false) {
+                    throw new RuntimeException("Failed to obtain size of {$file['iap_flysystem_path']}");
+                }
+                $totalSize += $fileSize;
             } catch (FileNotFoundException $e) {
                 $this->writeln("<error>ERROR</error>: {$e->getMessage()}");
                 continue;
