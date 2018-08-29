@@ -30,7 +30,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 class AttachmentMigrateCommand extends Command
 {
     const DEFAULT_COMMAND = 'attachment:migrate';
-    const USAGE = self::DEFAULT_COMMAND . ' [source_adapter] [target_adapter] [--chunksize=] [--limit=] [--yes] [--verify]';
+    const USAGE = self::DEFAULT_COMMAND . ' [source_adapter] [target_adapter] [--chunksize=] [--limit=] [--migrate] [--verify]';
 
     /** @var AdapterInterface */
     private $db;
@@ -44,10 +44,10 @@ class AttachmentMigrateCommand extends Command
     /** @var string */
     private $target_adapter;
 
-    public function execute(OutputInterface $output, $source_adapter, $target_adapter, $yes, $verify, $limit, $chunksize = 100)
+    public function execute(OutputInterface $output, $source_adapter, $target_adapter, $migrate, $verify, $limit, $chunksize = 100)
     {
         $this->output = $output;
-        $this->assertInput($source_adapter, $target_adapter, $yes, $verify);
+        $this->assertInput($source_adapter, $target_adapter, $migrate, $verify);
 
         $this->source_adapter = $source_adapter;
         $this->target_adapter = $target_adapter;
@@ -75,26 +75,17 @@ class AttachmentMigrateCommand extends Command
             return;
         }
 
-        for ($i = 0, $nchunks = ceil($total / $chunkSize); $i < $nchunks; $i++) {
-            $files = $this->getChunk($chunkSize);
-            if (empty($files)) {
-                break;
-            }
-
-            foreach ($files as $entry) {
-                try {
-                    $this->sm->getFile($entry['iap_flysystem_path']);
-                } catch (FileNotFoundException $e) {
-                    $this->writeln("<error>ERROR</error>: {$e->getMessage()}");
-                    continue;
-                } catch (Exception $e) {
-                    $this->writeln("<error>ERROR</error>: {$e->getMessage()}");
-                    continue;
-                }
+        foreach ($this->getIterator($total, $chunkSize) as $file) {
+            try {
+                $this->sm->getFile($file['iap_flysystem_path']);
+            } catch (FileNotFoundException $e) {
+                $this->writeln("<error>ERROR</error>: {$e->getMessage()}");
+                continue;
+            } catch (Exception $e) {
+                $this->writeln("<error>ERROR</error>: {$e->getMessage()}");
+                continue;
             }
         }
-
-        $this->writeln('');
     }
 
     private function migrateAttachments($chunkSize, $limit)
@@ -110,27 +101,9 @@ class AttachmentMigrateCommand extends Command
             return;
         }
 
-        ProgressBar::setFormatDefinition('custom', ' %current%/%max% [%bar%] %percent:3s%% %elapsed:6s%/%estimated:-6s% %memory:6s% (%id%: %filename%)');
-        $progressBar = new ProgressBar($this->output, $total);
-        $progressBar->setFormat('custom');
-        $progressBar->start();
-
-        for ($i = 0, $nchunks = ceil($total / $chunkSize); $i < $nchunks; $i++) {
-            $files = $this->getChunk($chunkSize);
-            if (empty($files)) {
-                break;
-            }
-
-            foreach ($files as $file) {
-                $progressBar->setMessage($file['iaf_id'], 'id');
-                $progressBar->setMessage($file['iap_flysystem_path'], 'filename');
-                $this->moveFile($file);
-                $progressBar->advance();
-            }
+        foreach ($this->getIterator($total, $chunkSize) as $file) {
+            $this->moveFile($file);
         }
-
-        $progressBar->finish();
-        $this->writeln('');
     }
 
     private function moveFile($file)
@@ -242,7 +215,7 @@ class AttachmentMigrateCommand extends Command
                 'WARNING: Migrating data has risks. ' .
                 "Make sure all your data is backed up before continuing.\n" .
 
-                "Pass '--yes' argument to skip this warning " .
+                "Pass '--migrate' argument to skip this warning " .
                 'and perform the migration.'
             );
         }
@@ -269,5 +242,42 @@ class AttachmentMigrateCommand extends Command
                 'to reclaim space from the database';
             $this->writeln("<error>$message</error>");
         }
+    }
+
+    private function getIterator($total, $chunkSize)
+    {
+        $formatName = 'debug';
+        $progressBar = $this->createProgressBar($total, $formatName);
+        $progressBar->start();
+
+        for ($i = 0, $nchunks = ceil($total / $chunkSize); $i < $nchunks; $i++) {
+            $files = $this->getChunk($chunkSize);
+            if (empty($files)) {
+                break;
+            }
+
+            foreach ($files as $file) {
+                $progressBar->setMessage($file['iaf_id'], 'id');
+                $progressBar->setMessage($file['iap_flysystem_path'], 'filename');
+
+                yield $file;
+                $progressBar->advance();
+            }
+        }
+
+        $progressBar->setFormat($formatName);
+        $progressBar->finish();
+        $this->writeln('');
+    }
+
+    private function createProgressBar($total, $formatName)
+    {
+        $format = ProgressBar::getFormatDefinition($formatName);
+        $format .= ' (%id%: %filename%)';
+        ProgressBar::setFormatDefinition('custom', $format);
+        $progressBar = new ProgressBar($this->output, $total);
+        $progressBar->setFormat('custom');
+
+        return $progressBar;
     }
 }
