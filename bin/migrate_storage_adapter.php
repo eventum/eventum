@@ -25,7 +25,6 @@ use Eventum\Console\Command\AttachmentMigrateCommand as Command;
 
 require_once __DIR__ . '/../init.php';
 
-
 $app = new Application();
 $app->command(Command::USAGE, [new Command(), 'execute']);
 $app->setDefaultCommand(Command::DEFAULT_COMMAND, true);

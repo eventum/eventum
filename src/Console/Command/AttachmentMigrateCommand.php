@@ -30,7 +30,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 class AttachmentMigrateCommand extends Command
 {
     const DEFAULT_COMMAND = 'attachment:migrate';
-    const USAGE = self::DEFAULT_COMMAND . ' [source_adapter] [target_adapter] [--chunksize=] [--limit=] [--yes] [--verify]';
+    const USAGE = self::DEFAULT_COMMAND . ' [source_adapter] [target_adapter] [--chunksize=] [--limit=] [--migrate] [--verify]';
 
     /** @var AdapterInterface */
     private $db;
@@ -44,10 +44,10 @@ class AttachmentMigrateCommand extends Command
     /** @var string */
     private $target_adapter;
 
-    public function execute(OutputInterface $output, $source_adapter, $target_adapter, $yes, $verify, $limit, $chunksize = 100)
+    public function execute(OutputInterface $output, $source_adapter, $target_adapter, $migrate, $verify, $limit, $chunksize = 100)
     {
         $this->output = $output;
-        $this->assertInput($source_adapter, $target_adapter, $yes, $verify);
+        $this->assertInput($source_adapter, $target_adapter, $migrate, $verify);
 
         $this->source_adapter = $source_adapter;
         $this->target_adapter = $target_adapter;
@@ -242,7 +242,7 @@ class AttachmentMigrateCommand extends Command
                 'WARNING: Migrating data has risks. ' .
                 "Make sure all your data is backed up before continuing.\n" .
 
-                "Pass '--yes' argument to skip this warning " .
+                "Pass '--migrate' argument to skip this warning " .
                 'and perform the migration.'
             );
         }
