@@ -57,7 +57,7 @@ $ ./bin/migrate_storage_adapter.php --yes pdo local --limit=100
 Migrating data from 'pdo://' to 'local://'
 Preparing temporary table. Please wait...
 Moving 1 file(s)
- 1/1 [============================] 100% < 1 sec/< 1 sec 6.8 MiB (93046: pdo://102959/93046-Tellimise ja sisselogimise teekond_täiendavad vaated.docx)
+ 1/1 [============================] 100% < 1 sec/< 1 sec 6.8 MiB
 You might need to run 'OPTIMIZE TABLE attachment_chunk' to reclaim space from the database
 
 $ mysql -s eventum -e 'OPTIMIZE TABLE attachment_chunk'
