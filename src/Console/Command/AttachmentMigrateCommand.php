@@ -23,6 +23,7 @@ use Exception;
 use League\Flysystem\Adapter\Local;
 use League\Flysystem\FileNotFoundException;
 use League\Flysystem\Filesystem;
+use Misc;
 use RuntimeException;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -75,9 +76,10 @@ class AttachmentMigrateCommand extends Command
             return;
         }
 
+        $totalSize = 0;
         foreach ($this->getIterator($total, $chunkSize) as $file) {
             try {
-                $this->sm->getFile($file['iap_flysystem_path']);
+                $totalSize += $this->sm->getFile($file['iap_flysystem_path'])->getSize();
             } catch (FileNotFoundException $e) {
                 $this->writeln("<error>ERROR</error>: {$e->getMessage()}");
                 continue;
@@ -86,6 +88,8 @@ class AttachmentMigrateCommand extends Command
                 continue;
             }
         }
+        $formatted = Misc::formatFileSize($totalSize);
+        $this->writeln("Scanned $formatted files");
     }
 
     private function migrateAttachments($chunkSize, $limit)
