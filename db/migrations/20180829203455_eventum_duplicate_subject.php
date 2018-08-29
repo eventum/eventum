@@ -43,6 +43,7 @@ class EventumDuplicateSubject extends AbstractMigration
     private function getIterator($entries)
     {
         $progressBar = $this->createProgressBar(count($entries));
+        $progressBar->start();
         foreach ($entries as $entry) {
             yield $entry;
             $progressBar->advance();
