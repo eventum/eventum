@@ -1,4 +1,3 @@
-#!/usr/bin/php
 <?php
 
 /*
@@ -12,28 +11,25 @@
  * that were distributed with this source code.
  */
 
-/**
- * A script that changes migrates attachments from one storage backend to another another storage backend.
- *
- * This may take a very long time to run, depending on how much data needs to be migrated.
- *
- * WARNING: Migrating data is a risky business. Make sure you have EVERYTHING backed up before you begin this process.
- */
+namespace Eventum\Console\Command;
 
+use DateTime;
+use DateTimeZone;
+use DB_Helper;
 use Eventum\Attachment\AttachmentManager;
 use Eventum\Attachment\StorageManager;
-use Eventum\Console\Command\Command as BaseCommand;
 use Eventum\Db\Adapter\AdapterInterface;
+use Exception;
 use League\Flysystem\Adapter\Local;
+use League\Flysystem\FileNotFoundException;
 use League\Flysystem\Filesystem;
+use RuntimeException;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Output\OutputInterface;
 
-require_once __DIR__ . '/../init.php';
-
-class Command extends BaseCommand
+class AttachmentMigrateCommand extends Command
 {
-    const DEFAULT_COMMAND = 'migrate:attachments';
+    const DEFAULT_COMMAND = 'attachment:migrate';
     const USAGE = self::DEFAULT_COMMAND . ' [source_adapter] [target_adapter] [--chunksize=] [--limit=] [--yes] [--verify]';
 
     /** @var AdapterInterface */
@@ -88,7 +84,7 @@ class Command extends BaseCommand
             foreach ($files as $entry) {
                 try {
                     $this->sm->getFile($entry['iap_flysystem_path']);
-                } catch (League\Flysystem\FileNotFoundException $e) {
+                } catch (FileNotFoundException $e) {
                     $this->writeln("<error>ERROR</error>: {$e->getMessage()}");
                     continue;
                 } catch (Exception $e) {
@@ -275,8 +271,3 @@ class Command extends BaseCommand
         }
     }
 }
-
-$app = new Silly\Application();
-$app->command(Command::USAGE, [new Command(), 'execute']);
-$app->setDefaultCommand(Command::DEFAULT_COMMAND, true);
-$app->run();
