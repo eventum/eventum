@@ -110,7 +110,9 @@ class AttachmentMigrateCommand extends Command
             return;
         }
 
-        ProgressBar::setFormatDefinition('custom', ' %current%/%max% [%bar%] %percent:3s%% %elapsed:6s%/%estimated:-6s% %memory:6s% (%id%: %filename%)');
+        $format = ProgressBar::getFormatDefinition('debug');
+        $format .= ' (%id%: %filename%)';
+        ProgressBar::setFormatDefinition('custom', $format);
         $progressBar = new ProgressBar($this->output, $total);
         $progressBar->setFormat('custom');
         $progressBar->start();
@@ -129,6 +131,7 @@ class AttachmentMigrateCommand extends Command
             }
         }
 
+        $progressBar->setFormat('debug');
         $progressBar->finish();
         $this->writeln('');
     }
