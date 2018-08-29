@@ -75,26 +75,17 @@ class AttachmentMigrateCommand extends Command
             return;
         }
 
-        for ($i = 0, $nchunks = ceil($total / $chunkSize); $i < $nchunks; $i++) {
-            $files = $this->getChunk($chunkSize);
-            if (empty($files)) {
-                break;
-            }
-
-            foreach ($files as $entry) {
-                try {
-                    $this->sm->getFile($entry['iap_flysystem_path']);
-                } catch (FileNotFoundException $e) {
-                    $this->writeln("<error>ERROR</error>: {$e->getMessage()}");
-                    continue;
-                } catch (Exception $e) {
-                    $this->writeln("<error>ERROR</error>: {$e->getMessage()}");
-                    continue;
-                }
+        foreach ($this->getIterator($total, $chunkSize) as $file) {
+            try {
+                $this->sm->getFile($file['iap_flysystem_path']);
+            } catch (FileNotFoundException $e) {
+                $this->writeln("<error>ERROR</error>: {$e->getMessage()}");
+                continue;
+            } catch (Exception $e) {
+                $this->writeln("<error>ERROR</error>: {$e->getMessage()}");
+                continue;
             }
         }
-
-        $this->writeln('');
     }
 
     private function migrateAttachments($chunkSize, $limit)
