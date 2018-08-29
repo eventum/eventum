@@ -149,7 +149,7 @@ class Note
      * @param   int $note_id The note ID
      * @return MailMessage
      */
-    public static function getBlockedMessage($note_id)
+    public static function getNoteMessage($note_id)
     {
         $stmt = 'SELECT
                     not_full_message
@@ -158,9 +158,9 @@ class Note
                  WHERE
                     not_id=?';
 
-        $blocked_message = DB_Helper::getInstance()->getOne($stmt, [$note_id]);
+        $message = DB_Helper::getInstance()->getOne($stmt, [$note_id]);
 
-        return MailMessage::createFromString($blocked_message);
+        return MailMessage::createFromString($message);
     }
 
     /**
@@ -520,7 +520,7 @@ class Note
     {
         $issue_id = self::getIssueID($note_id);
         $email_account_id = Email_Account::getEmailAccount();
-        $mail = self::getBlockedMessage($note_id);
+        $mail = self::getNoteMessage($note_id);
         $unknown_user = self::getUnknownUser($note_id);
         $sender_email = $mail->getSender();
         $usr_id = Auth::getUserID();
