@@ -30,7 +30,40 @@ You can define additional adapters and pass options to adapters as well.
 
 # Migrating existing attachments
 
-If you want to migrate your existing attachments to a new backend, please see [contrib/migrate_storage_adapter.php](https://github.com/eventum/eventum/blob/75710aef672bb64d7a6624f91d703e7c4e0853b4/contrib/migrate_storage_adapter.php). Changing storage adapters has a risk of data loss and may require large amounts of disk space during the process. Make sure you fully understand the process and backup all data before proceeding.
+If you want to migrate your existing attachments to a new backend, use `migrate_storage_adapter.php` tool.
+
+Changing storage adapters has a risk of data loss and may require large amounts
+of disk space during the process. Make sure you fully understand the process
+and backup all data before proceeding.
+
+Verify that the attachments are reachable.
+
+```
+$ ./bin/migrate_storage_adapter.php --verify pdo
+Verifying data in 'pdo://' Adapter
+Preparing temporary table. Please wait...
+Verifying 1 file(s)
+
+$ ./bin/migrate_storage_adapter.php --verify legacy
+Verifying data in 'legacy://' Adapter
+Preparing temporary table. Please wait...
+Verifying 1516 file(s)
+```
+
+Perform actual migration
+
+```
+$ ./bin/migrate_storage_adapter.php --yes pdo local --limit=100
+Migrating data from 'pdo://' to 'local://'
+Preparing temporary table. Please wait...
+Moving 1 file(s)
+ 1/1 [============================] 100% < 1 sec/< 1 sec 6.8 MiB (93046: pdo://102959/93046-Tellimise ja sisselogimise teekond_täiendavad vaated.docx)
+You might need to run 'OPTIMIZE TABLE attachment_chunk' to reclaim space from the database
+
+$ mysql -s eventum -e 'OPTIMIZE TABLE attachment_chunk'
+Table   Op      Msg_type        Msg_text
+eventum.attachment_chunk        optimize        status  OK
+```
 
 ### Additional Reading
 
