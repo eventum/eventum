@@ -61,10 +61,12 @@ $(document).ready(function() {
 
     $('#shortcut_form').submit(function(e) {
         var target = $('#shortcut');
-        if (!Validation.isNumberOnly(target.val())) {
-            alert('Please enter numbers only');
+        var value = target.val().replace(/\D/g,'');
+        if (Validation.isWhitespace(value)) {
+            alert('Please enter a valid Issue ID');
             return false;
         }
+        target.val(value);
     });
 
     $("a.help").click(Eventum.openHelp);
