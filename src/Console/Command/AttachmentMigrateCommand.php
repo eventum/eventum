@@ -283,8 +283,13 @@ class AttachmentMigrateCommand extends Command
         $format = ProgressBar::getFormatDefinition($formatName);
         $format .= ' (%id%: %filename%)';
         ProgressBar::setFormatDefinition('custom', $format);
+
         $progressBar = new ProgressBar($this->output, $total);
         $progressBar->setFormat('custom');
+
+        // avoid displaying placeholders
+        $progressBar->setMessage('', 'id');
+        $progressBar->setMessage('', 'filename');
 
         return $progressBar;
     }
