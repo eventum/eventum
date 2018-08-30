@@ -8,6 +8,7 @@ Upgrading to 3.5.x versions requires that you upgrade to 3.2.0 version first.
 - Attachment migrate: add --limit option (@glensc, #407)
 - Attachment migrate: rename --yes to --migrate (@glensc, #409)
 - Fix duplicate Subject resulting Array as title (@glensc, #411)
+- Strip non numerical input from issue lookup shortcut (@balsdorf, #410)
 
 [3.5.4]: https://github.com/eventum/eventum/compare/v3.5.3...master
 
