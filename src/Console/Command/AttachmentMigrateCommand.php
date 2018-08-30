@@ -21,6 +21,7 @@ use Eventum\Attachment\StorageManager;
 use Eventum\Db\Adapter\AdapterInterface;
 use Exception;
 use League\Flysystem\Adapter\Local;
+use League\Flysystem\File;
 use League\Flysystem\FileNotFoundException;
 use League\Flysystem\Filesystem;
 use Misc;
@@ -77,12 +78,26 @@ class AttachmentMigrateCommand extends Command
         }
 
         $totalSize = 0;
-        foreach ($this->getIterator($total, $chunkSize) as $file) {
+        foreach ($this->getIterator($total, $chunkSize) as $entry) {
             try {
-                $fileSize = $this->sm->getFile($file['iap_flysystem_path'])->getSize();
+                $file = $this->sm->getFile($entry['iap_flysystem_path']);
+
+                $fileSize = $file->getSize();
                 if ($fileSize === false) {
-                    throw new RuntimeException("Failed to obtain size of {$file['iap_flysystem_path']}");
+                    throw new RuntimeException("Failed to obtain size of {$entry['iap_flysystem_path']}");
                 }
+
+                $filePath = $this->getLocalPath($file);
+                if ($filePath) {
+                    if (!file_exists($filePath)) {
+                        throw new RuntimeException("File does not exist: {$filePath}");
+                    }
+
+                    if (filesize($filePath) !== $fileSize) {
+                        throw new RuntimeException("File size mismatch: {$filePath}: {$fileSize}");
+                    }
+                }
+
                 $totalSize += $fileSize;
             } catch (FileNotFoundException $e) {
                 $this->writeln("<error>ERROR</error>: {$e->getMessage()}");
@@ -134,20 +149,17 @@ class AttachmentMigrateCommand extends Command
      * Try to set the timestamp on the filesystem to match what is stored in the database
      *
      * @param string $path
-     * @param array $file
+     * @param array $entry
      */
-    private function touchLocalFile($path, array $file)
+    private function touchLocalFile($path, array $entry)
     {
-        /** @var Filesystem $fs */
-        $fs = $this->sm->getFile($path)->getFilesystem();
-        $adapter = $fs->getAdapter();
-        if (!$adapter instanceof Local) {
+        $file = $this->sm->getFile($path);
+        $filesystemPath = $this->getLocalPath($file);
+        if (!$filesystemPath) {
             return;
         }
 
-        $filesystemPath = $adapter->applyPathPrefix(str_replace('local://', '', $path));
-
-        $date = new DateTime($file['iat_created_date'], new DateTimeZone('UTC'));
+        $date = new DateTime($entry['iat_created_date'], new DateTimeZone('UTC'));
         $created_date = $date->getTimestamp();
 
         $res = touch($filesystemPath, $created_date);
@@ -292,5 +304,21 @@ class AttachmentMigrateCommand extends Command
         $progressBar->setMessage('', 'filename');
 
         return $progressBar;
+    }
+
+    /**
+     * @param File $file
+     * @return null|string
+     */
+    private function getLocalPath(File $file)
+    {
+        /** @var Filesystem $fs */
+        $fs = $file->getFilesystem();
+        $adapter = $fs->getAdapter();
+        if (!$adapter instanceof Local) {
+            return null;
+        }
+
+        return $adapter->applyPathPrefix($file->getPath());
     }
 }
