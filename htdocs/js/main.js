@@ -61,11 +61,12 @@ $(document).ready(function() {
 
     $('#shortcut_form').submit(function(e) {
         var target = $('#shortcut');
-        target.val(target.val().replace(/\D/g,''));
-        if (Validation.isWhitespace(target.val())) {
+        var value = target.val().replace(/\D/g,'');
+        if (Validation.isWhitespace(value)) {
             alert('Please enter a valid Issue ID');
             return false;
         }
+        target.val(value);
     });
 
     $("a.help").click(Eventum.openHelp);
