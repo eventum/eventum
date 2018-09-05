@@ -2,3 +2,6 @@
 	path = docs/wiki
 	url = https://github.com/eventum/eventum.wiki.git
     pushurl = git://github.com/eventum/eventum.wiki.git
+[submodule "contrib/shell-semver"]
+	path = contrib/shell-semver
+	url = https://github.com/fmahnke/shell-semver
