@@ -1,6 +1,6 @@
 # Eventum Issue Tracking System
 
-## [3.5.4]
+## [3.5.4] - 2018-09-05
 
 Upgrading to 3.5.x versions requires that you upgrade to 3.2.0 version first.
 
@@ -10,7 +10,7 @@ Upgrading to 3.5.x versions requires that you upgrade to 3.2.0 version first.
 - Fix duplicate Subject resulting Array as title (@glensc, #411)
 - Strip non numerical input from issue lookup shortcut (@balsdorf, #410)
 
-[3.5.4]: https://github.com/eventum/eventum/compare/v3.5.3...master
+[3.5.4]: https://github.com/eventum/eventum/compare/v3.5.3...v3.5.4
 
 ## [3.5.3] - 2018-08-22
 
