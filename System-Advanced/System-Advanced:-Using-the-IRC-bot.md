@@ -5,4 +5,4 @@ issues and want to have a quick and easy way to get simple notifications.
 
 See [eventum/irc-bot] project for more details.
 
-[eventum/irc-bot]. https://github.com/eventum/irc-bot
+[eventum/irc-bot]: https://github.com/eventum/irc-bot
