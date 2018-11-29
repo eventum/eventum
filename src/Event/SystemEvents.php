@@ -13,6 +13,7 @@
 
 namespace Eventum\Event;
 
+use Eventum\Event\Subscriber\MailQueueListener;
 use Eventum\Model\Repository\CommitRepository;
 
 final class SystemEvents
