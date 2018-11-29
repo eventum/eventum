@@ -157,4 +157,18 @@ final class SystemEvents
      * @since 3.4.2
      */
     const IRC_FORMAT_MESSAGE = 'irc.format.message';
+
+    /**
+     * Helper to feature test whether specific event is being emitted by Eventum.
+     *
+     * @param string $eventName
+     * @return bool
+     * @since 3.5.5
+     */
+    public static function hasEvent($eventName)
+    {
+        $const = sprintf('%s::%s', self::class, $eventName);
+
+        return defined($const);
+    }
 }
