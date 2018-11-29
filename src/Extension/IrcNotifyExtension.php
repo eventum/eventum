@@ -13,7 +13,7 @@
 
 namespace Eventum\Extension;
 
-use Eventum\Event\IrcSubscriber;
+use Eventum\Event\Subscriber\IrcSubscriber;
 use Setup;
 
 class IrcNotifyExtension extends AbstractExtension
