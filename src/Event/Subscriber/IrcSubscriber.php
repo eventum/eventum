@@ -11,10 +11,11 @@
  * that were distributed with this source code.
  */
 
-namespace Eventum\Event;
+namespace Eventum\Event\Subscriber;
 
 use Date_Helper;
 use DB_Helper;
+use Eventum\Event\SystemEvents;
 use Setup;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
