@@ -1,0 +1,21 @@
+Return-Path: <issue-105042@eventum.example.net>
+Date: Wed, 19 Dec 2018 13:12:12 +0200
+Subject: [#105042] File Attached: Create On24 XML advertisement
+To: issue-105042@eventum.example.net
+From: =?UTF-8?Q?[Eventum]=20Eventum?= <issue-105042@eventum.example.net>
+MIME-Version: 1.0
+Content-Type: text/plain;
+ charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+Message-ID: <eventum.md5.5h6msltcz.1e41mvhrzzvrg@eventum.example.net>
+In-Reply-To: <HE1PR0801MB1899BDB965BB4F0FCAE6494482D90@HE1PR0801MB1899.eurprd08.prod.outlook.com>
+References: <HE1PR0801MB1899BDB965BB4F0FCAE6494482D90@HE1PR0801MB1899.eurprd08.prod.outlook.com>
+Precedence: bulk
+Auto-Submitted: auto-generated
+Sender:
+
+
+This is an automated message sent at your request from Eventum.
+
+To view more details of this issue, or to update it, please visit the
+following URL: https://eventum.example.net/view.php?id=105042

@@ -31,4 +31,16 @@ class LoadEmailTest extends TestCase
         $mail = MailMessage::createFromString($raw);
         $this->assertTrue($mail->getHeaders()->has('X-Broken-Header-CC'));
     }
+
+    /**
+     * The 91f7937b.txt contains broken `Sender` header.
+     * MailMessage::createFromString fixes this by renaming header.
+     */
+    public function testLoad91f7937b()
+    {
+        $raw = $this->readDataFile('91f7937b.txt');
+        $mail = MailMessage::createFromString($raw);
+        $headers = $mail->getHeaders();
+        $this->assertTrue($headers->has('X-Broken-Header-Sender'));
+    }
 }
