@@ -3,11 +3,15 @@
 ## [3.6.0]
 
 Upgrading to 3.6.x versions requires that you upgrade to 3.2.0 version first.
+Eventum 3.6.x requires PHP 7.1, see [#426].
+If you are upgrading PHP engine, it is recommended to update to latest 3.5.x, update PHP engine to 7.1, then upgrade to Eventum 3.6.x.
 
 - Update Phinx to 0.10 (@glensc, #388)
 - Detect invalid mail header starting with "From " and replace it with a correct custom one. (@vladsf, #439, #427)
+- Require PHP 7.1 (@glensc, #426)
 
 [3.6.0]: https://github.com/eventum/eventum/compare/v3.5.6...master
+[#426]: https://github.com/eventum/eventum/pull/426
 
 ## [3.5.6] - 2019-01-03
 
