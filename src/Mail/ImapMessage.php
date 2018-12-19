@@ -17,11 +17,11 @@ use Date_Helper;
 use DateTime;
 use Eventum\Event\SystemEvents;
 use Eventum\EventDispatcher\EventManager;
+use Eventum\Mail\Helper\MailLoader;
 use InvalidArgumentException;
 use Symfony\Component\EventDispatcher\GenericEvent;
 use Zend\Mail\Header\GenericHeader;
 use Zend\Mail\Storage as ZendMailStorage;
-use Zend\Mail\Storage\Message;
 
 /**
  * Class ImapMessage
@@ -90,7 +90,7 @@ class ImapMessage extends MailMessage
             }
         }
 
-        $parameters = ['root' => true, 'headers' => $headers, 'content' => $content, 'flags' => $flags];
+        $parameters = self::createParameters("$headers\r\n\r\n$content", $flags);
         $message = new self($parameters);
 
         // set MailDate to $message object, as it's not available in message headers, only in IMAP itself
@@ -108,6 +108,18 @@ class ImapMessage extends MailMessage
         EventManager::dispatch(SystemEvents::MAIL_LOADED_IMAP, $event);
 
         return $message;
+    }
+
+    /**
+     * @param string $raw
+     * @param array $flags
+     * @return array
+     */
+    public static function createParameters($raw, $flags = [])
+    {
+        MailLoader::splitMessage($raw, $headers, $content);
+
+        return ['root' => true, 'headers' => $headers, 'content' => $content, 'flags' => $flags];
     }
 
     /**

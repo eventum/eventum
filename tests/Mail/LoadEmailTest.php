@@ -13,6 +13,7 @@
 
 namespace Eventum\Test\Mail;
 
+use Eventum\Mail\ImapMessage;
 use Eventum\Mail\MailMessage;
 use Eventum\Test\TestCase;
 
@@ -39,7 +40,15 @@ class LoadEmailTest extends TestCase
     public function testLoad91f7937b()
     {
         $raw = $this->readDataFile('91f7937b.txt');
+
+        // test with MailMessage
         $mail = MailMessage::createFromString($raw);
+        $headers = $mail->getHeaders();
+        $this->assertTrue($headers->has('X-Broken-Header-Sender'));
+
+        // test with ImapMessage
+        $parameters = ImapMessage::createParameters($raw);
+        $mail = new ImapMessage($parameters);
         $headers = $mail->getHeaders();
         $this->assertTrue($headers->has('X-Broken-Header-Sender'));
     }
