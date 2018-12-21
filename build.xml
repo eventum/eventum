@@ -13,6 +13,7 @@
 				<exclude name=".idea/**"/>
 				<exclude name="releases/**"/>
 				<exclude name="var/**"/>
+				<exclude name="vendor/zendframework/zend-mail/src/Transport/Null.php"/>
 			</fileset>
 		</phplint>
 	</target>
