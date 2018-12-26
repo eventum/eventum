@@ -1,13 +1,13 @@
 # Eventum Issue Tracking System
 
-## [3.5.5]
+## [3.5.5] - 2018-12-26
 
 Upgrading to 3.5.x versions requires that you upgrade to 3.2.0 version first.
 
 - Add SystemEvents::hasEvent to feature test availability (@glensc, #422)
 - Handle broken Sender header from IMAP (@glensc, #423)
 
-[3.5.5]: https://github.com/eventum/eventum/compare/v3.5.4...master
+[3.5.5]: https://github.com/eventum/eventum/compare/v3.5.4...v3.5.5
 
 ## [3.5.4] - 2018-09-05
 
