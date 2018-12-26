@@ -31,7 +31,7 @@ Release tarball built from [#$TRAVIS_JOB_NUMBER](https://travis-ci.org/$TRAVIS_R
 	bin/ci/tag-update.rb
 }
 
-gem install --no-ri --no-rdoc chandler
+gem install chandler
 
 if [ "$TRAVIS_TAG" = "snapshot" ]; then
 	upload_snapshot_changelog
