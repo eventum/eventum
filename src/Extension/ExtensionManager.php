@@ -13,6 +13,8 @@
 
 namespace Eventum\Extension;
 
+use Eventum\Monolog\Logger;
+use Exception;
 use InvalidArgumentException;
 use Setup;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -111,7 +113,11 @@ class ExtensionManager
         $instances = [];
         foreach ($this->extensions as $extension) {
             foreach ($extension->$methodName() as $className) {
-                $instances[$className] = $this->createInstance($extension, $className);
+                try {
+                    $instances[$className] = $this->createInstance($extension, $className);
+                } catch (Exception $e) {
+                    Logger::app()->error("Unable to create $className: {$e->getMessage()}", ['exception' => $e]);
+                }
             }
         }
 
