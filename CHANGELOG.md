@@ -5,6 +5,7 @@
 Upgrading to 3.5.x versions requires that you upgrade to 3.2.0 version first.
 
 - Extensions: skip components that fail to initialize (@glensc, #431)
+- Handle text/html only email rendering (@TexasGitHubber, @glensc, #399, #429, #400, #401)
 
 [3.5.6]: https://github.com/eventum/eventum/compare/v3.5.5...master
 
