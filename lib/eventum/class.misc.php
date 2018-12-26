@@ -470,7 +470,7 @@ class Misc
     {
         $lines = explode("\n", str_replace("\r", '', $str));
         $lines = array_map(function ($s) {
-            return Misc::indent($s);
+            return self::indent($s);
         }, $lines);
 
         return implode("\n", $lines);

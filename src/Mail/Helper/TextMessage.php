@@ -111,8 +111,15 @@ class TextMessage
 
     public function getMessageBody()
     {
+        $isMultipart = $this->message->isMultipart();
+
         foreach ($this->message as $part) {
             $this->processPart($part);
+        }
+
+        // if no parts were extracted, process main message itself
+        if (!$isMultipart && !$this->hasText()) {
+            $this->processPart($this->message);
         }
 
         // alternative text present but no main text, fill it
@@ -138,7 +145,7 @@ class TextMessage
             return $str;
         }
 
-        if (!$this->message->isMultipart()) {
+        if (!$isMultipart) {
             // fallback to read just main part
             return (new DecodePart($this->message))->decode();
         }
