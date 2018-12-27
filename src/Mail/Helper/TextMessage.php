@@ -13,26 +13,25 @@
 
 namespace Eventum\Mail\Helper;
 
-use Eventum\Mail\MailMessage;
 use Mime_Helper;
-use Zend\Mail\Storage\Part;
+use Zend\Mail\Storage\Part\PartInterface;
 
 /**
  * Creates textual representation of the message body.
  */
 class TextMessage
 {
-    /** @var MailMessage|Part\PartInterface */
+    /** @var PartInterface */
     private $message;
 
-    /** @var Part\PartInterface[] */
+    /** @var PartInterface[] */
     private $alttext = [];
-    /** @var Part\PartInterface[] */
+    /** @var PartInterface[] */
     private $text = [];
-    /** @var Part\PartInterface[] */
+    /** @var PartInterface[] */
     private $html = [];
 
-    public function __construct(MailMessage $message)
+    public function __construct(PartInterface $message)
     {
         $this->message = $message;
     }
@@ -43,7 +42,7 @@ class TextMessage
     }
 
     /**
-     * @param MailMessage|Part\PartInterface $part
+     * @param PartInterface $part
      */
     private function processPart($part)
     {
