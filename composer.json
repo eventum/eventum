@@ -61,6 +61,7 @@
 		"ext-json": "*",
 		"ext-mbstring": "*",
 		"ext-pcre": "*",
+		"ext-pdo": "*",
 		"ext-pdo_mysql": "*",
 		"ext-session": "*",
 		"ext-spl": "*",
