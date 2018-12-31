@@ -155,7 +155,7 @@ abstract class AbstractMigration extends PhinxAbstractMigration
         $name = $options['primary_key'];
         $columns = $table->getPendingColumns();
         foreach ($columns as $column) {
-            if ($column->getName() == $name) {
+            if ($column->getName() === $name) {
                 return $column;
             }
         }
