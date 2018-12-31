@@ -20,17 +20,13 @@ class EventumUtf8Mb4Convert extends AbstractMigration
     public function up(): void
     {
         $this->upgradeTables([
-            [
-                'support_email',
-                [
-                    // lower length not to exceed row length
-                    $this->getColumn('support_email', 'sup_from')
-                        ->setLimit(2048),
-                    'sup_to',
-                    'sup_cc',
-                    'sup_subject',
-                ],
-            ],
+            'support_email' => [
+                // lower length not to exceed row length
+                ['sup_from', 2048],
+                'sup_to',
+                'sup_cc',
+                'sup_subject',
+            ]
         ]);
     }
 
@@ -60,13 +56,21 @@ class EventumUtf8Mb4Convert extends AbstractMigration
      */
     private function getUpgradeColumns(array $definitions): Generator
     {
-        foreach ($definitions as [$tableName, $columnNames]) {
+        foreach ($definitions as $tableName => $columnNames) {
             $table = $this->table($tableName);
             $columns = $this->getColumns($table);
 
             foreach ($columnNames as $column) {
+                if (is_array($column)) {
+                    [$column, $limit] = $column;
+                } else {
+                    $limit = null;
+                }
                 if (!$column instanceof Column) {
                     $column = $columns[$column];
+                }
+                if ($limit) {
+                    $column->setLimit($limit);
                 }
                 $column->setEncoding($this->charset);
                 $column->setCollation($this->collation);
