@@ -54,7 +54,7 @@ class Doctrine
             'host' => $config['hostname'],
             'port' => $config['port'],
             'unix_socket' => isset($config['socket']) ? $config['socket'] : null,
-            'charset' => 'utf8',
+            'charset' => $config['charset'],
         ];
 
         $config = Setup::createAnnotationMetadataConfiguration($paths, $isDevMode);
