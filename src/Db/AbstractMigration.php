@@ -154,7 +154,7 @@ abstract class AbstractMigration extends PhinxAbstractMigration
      * @param string $column
      * @return mixed|null
      */
-    protected function queryOne($sql, $column)
+    protected function queryOne($sql, $column = '0')
     {
         $rows = $this->queryColumn($sql, $column);
 
@@ -201,6 +201,22 @@ abstract class AbstractMigration extends PhinxAbstractMigration
         }
 
         return $rows;
+    }
+
+    /**
+     * Return columns indexed by column names
+     * @param Table $table
+     * @param array $columnNames
+     * @return Table\Column[]
+     */
+    protected function getColumns(Table $table, $columnNames)
+    {
+        $columns = [];
+        foreach ($table->getColumns() as $column) {
+            $columns[$column->getName()] = $column;
+        }
+
+        return array_intersect_key($columns, array_flip($columnNames));
     }
 
     /**
