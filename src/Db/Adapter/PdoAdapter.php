@@ -13,6 +13,7 @@
 
 namespace Eventum\Db\Adapter;
 
+use BadMethodCallException;
 use DebugBar\DebugBarException;
 use Eventum;
 use Eventum\Db\DatabaseException;
@@ -20,8 +21,14 @@ use PDO;
 use PDOException;
 use UnexpectedValueException;
 
-class PdoAdapter extends PdoAdapterBase implements AdapterInterface
+class PdoAdapter implements AdapterInterface
 {
+    const DEFAULT_DRIVER = 'mysql';
+
+    const PDO_EXT_MISSING_ERROR = 'The PDO extension is required for this adapter but the extension is not loaded';
+
+    const PDO_DRIVER_MISSING_ERROR = 'The %s driver is not currently installed';
+
     /** @var PDO */
     private $db;
 
@@ -142,7 +149,7 @@ class PdoAdapter extends PdoAdapterBase implements AdapterInterface
 
         $str = $this->db->quote($str);
 
-        if ($str[0] == "'") {
+        if ($str[0] === "'") {
             return substr($str, 1, -1);
         }
 
@@ -197,5 +204,81 @@ class PdoAdapter extends PdoAdapterBase implements AdapterInterface
     private function convertParams(&$params)
     {
         $params = array_values($params);
+    }
+
+    /**
+     * Get connect DSN for PDO
+     *
+     * @param array $config
+     * @throws BadMethodCallException
+     * @return string
+     */
+    private function getDsn($config)
+    {
+        $driver = $this->getDriverName($config);
+
+        $dsn = "{$driver}:host={$config['hostname']};dbname={$config['database']};charset={$config['charset']}";
+
+        // if we are using some non-standard mysql port, pass that value in the dsn
+        if ($driver === 'mysql' && $config['port'] != 3306) {
+            $dsn .= ";port={$config['port']}";
+        }
+
+        if (isset($config['socket'])) {
+            // use socket connection
+            $dsn .= ';unix_socket=' . $config['socket'];
+        }
+
+        return $dsn;
+    }
+
+    /**
+     * Get PDO driver name.
+     *
+     * @param array $config
+     * @throws BadMethodCallException
+     * @return string
+     */
+    private function getDriverName($config)
+    {
+        // check for PDO extension
+        if (!extension_loaded('pdo')) {
+            throw new BadMethodCallException(self::PDO_EXT_MISSING_ERROR);
+        }
+
+        $driver = isset($config['driver']) ? $config['driver'] : self::DEFAULT_DRIVER;
+        if ($driver === 'mysqli') {
+            $driver = 'mysql';
+        }
+
+        // check the PDO driver is available
+        if (!in_array($driver, PDO::getAvailableDrivers(), true)) {
+            $msg = sprintf(self::PDO_DRIVER_MISSING_ERROR, $driver);
+            throw new BadMethodCallException($msg);
+        }
+
+        return $driver;
+    }
+
+    /**
+     * Convert Eventum\Db\DbInterface fetchmode to PDO Fetch mode
+     *
+     * @param int $fetchMode
+     * @throws UnexpectedValueException
+     */
+    private function convertFetchMode(&$fetchMode)
+    {
+        switch ($fetchMode) {
+            case AdapterInterface::DB_FETCHMODE_ASSOC:
+                $fetchMode = PDO::FETCH_ASSOC;
+                break;
+
+            case AdapterInterface::DB_FETCHMODE_DEFAULT:
+                $fetchMode = PDO::FETCH_NUM;
+                break;
+
+            default:
+                throw new UnexpectedValueException('Unsupported fetchmode');
+        }
     }
 }

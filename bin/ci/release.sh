@@ -219,7 +219,6 @@ clean_vendor() {
 	rm htdocs/components/garlicjs/js/garlic-standalone.min.js
 
 	# not ready yet
-	rm src/Db/Adapter/YiiAdapter.php
 	rm src/Mail/MailStorage.php
 }
 
