@@ -20,55 +20,58 @@ class EventumUtf8Mb4Convert extends AbstractMigration
     public function up(): void
     {
         $this->upgradeTables([
-            ['support_email', ['sup_from', 'sup_to', 'sup_cc', 'sup_subject']],
+            [
+                'support_email',
+                [
+                    // lower length not to exceed row length
+                    $this->getColumn('support_email', 'sup_from')
+                        ->setLimit(2048),
+                    'sup_to',
+                    'sup_cc',
+                    'sup_subject',
+                ],
+            ],
         ]);
     }
 
     private function upgradeTables(array $definitions): void
     {
-        $progressBar = $this->createProgressBar($this->countColumns($definitions));
+        $columnsGenerator = $this->getUpgradeColumns($definitions);
+        $columns = iterator_to_array($columnsGenerator);
+        $progressBar = $this->createProgressBar(count($columns));
         $progressBar->start();
 
-        foreach ($definitions as [$tableName, $columnNames]) {
-            /**
-             * @var Table $table
-             * @var Column $column
-             */
-            foreach ($this->upgradeTable($tableName, $columnNames) as [$table, $column]) {
-                $table->changeColumn($column->getName(), $column);
-                $progressBar->advance();
-            }
+        /**
+         * @var Table $table
+         * @var Column $column
+         */
+        foreach ($columns as [$table, $column]) {
+            $table->changeColumn($column->getName(), $column);
+            $progressBar->advance();
         }
+
         $progressBar->setMessage('');
         $progressBar->finish();
     }
 
     /**
-     * @param string $tableName
-     * @param string[] $columnNames
-     * @return Generator|Column[]
+     * @param array $definitions
+     * @return Generator
      */
-    private function upgradeTable($tableName, $columnNames): Generator
+    private function getUpgradeColumns(array $definitions): Generator
     {
-        $table = $this->table($tableName);
-        $columns = $this->getColumns($table, $columnNames);
-
-        foreach ($columns as $column) {
-            $column->setEncoding($this->charset);
-            $column->setCollation($this->collation);
-            yield [$table, $column];
-        }
-
-        $table->update();
-    }
-
-    private function countColumns(array $definitions): int
-    {
-        $total = 0;
         foreach ($definitions as [$tableName, $columnNames]) {
-            $total += count($columnNames);
-        }
+            $table = $this->table($tableName);
+            $columns = $this->getColumns($table);
 
-        return $total;
+            foreach ($columnNames as $column) {
+                if (!$column instanceof Column) {
+                    $column = $columns[$column];
+                }
+                $column->setEncoding($this->charset);
+                $column->setCollation($this->collation);
+                yield [$table, $column];
+            }
+        }
     }
 }
