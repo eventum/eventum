@@ -63,7 +63,7 @@ class YiiAdapter extends PdoAdapterBase implements AdapterInterface
                     'dsn' => $this->getDsn($config),
                     'username' => $config['username'],
                     'password' => $config['password'],
-                    'charset' => isset($config['charset']) ? $config['charset'] : $this->getCharset(),
+                    'charset' => $config['charset'],
                 ],
             ],
         ];

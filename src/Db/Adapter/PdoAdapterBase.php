@@ -38,9 +38,8 @@ abstract class PdoAdapterBase
     protected function getDsn($config)
     {
         $driver = $this->getDriverName($config);
-        $charset = isset($config['charset']) ? $config['charset'] : $this->getCharset();
 
-        $dsn = "{$driver}:host={$config['hostname']};dbname={$config['database']};charset={$charset}";
+        $dsn = "{$driver}:host={$config['hostname']};dbname={$config['database']};charset={$config['charset']}";
 
         // if we are using some non-standard mysql port, pass that value in the dsn
         if ($driver === 'mysql' && $config['port'] != 3306) {
@@ -53,21 +52,6 @@ abstract class PdoAdapterBase
         }
 
         return $dsn;
-    }
-
-    /**
-     * Get charset suitable for PDO mysql driver
-     *
-     * @return string
-     * @deprecated when dropping handle EventumDbCharsetConfig migration as well
-     */
-    protected function getCharset()
-    {
-        // no dash variant listed, blindly reap "UTF-8" to "UTF8"
-        // http://dev.mysql.com/doc/refman/5.0/en/charset-charsets.html
-        $charset = strtolower(str_replace('-', '', APP_CHARSET));
-
-        return $charset;
     }
 
     /**
