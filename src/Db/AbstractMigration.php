@@ -205,18 +205,36 @@ abstract class AbstractMigration extends PhinxAbstractMigration
 
     /**
      * Return columns indexed by column names
+     *
      * @param Table $table
      * @param array $columnNames
      * @return Table\Column[]
      */
-    protected function getColumns(Table $table, $columnNames)
+    protected function getColumns(Table $table, $columnNames = [])
     {
         $columns = [];
         foreach ($table->getColumns() as $column) {
             $columns[$column->getName()] = $column;
         }
 
-        return array_intersect_key($columns, array_flip($columnNames));
+        if ($columnNames) {
+            return array_intersect_key($columns, array_flip($columnNames));
+        }
+
+        return $columns;
+    }
+
+    /**
+     * @param string $tableName
+     * @param string $columnName
+     * @return Table\Column
+     */
+    protected function getColumn($tableName, $columnName)
+    {
+        $table = $this->table($tableName);
+        $columns = $this->getColumns($table, [$columnName]);
+
+        return $columns[$columnName];
     }
 
     /**
