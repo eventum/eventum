@@ -129,13 +129,14 @@ class AttachmentGroup
      */
     public function canAccess($usr_id)
     {
-        if (Issue::canAccess($this->issue_id, $usr_id)
-            && User::getRoleByUser($usr_id, Issue::getProjectID($this->issue_id) >= $this->minimum_role)
-        ) {
-            return true;
+        if (!Issue::canAccess($this->issue_id, $usr_id)) {
+            return false;
         }
 
-        return false;
+        $prj_id = Issue::getProjectID($this->issue_id);
+        $user_role = User::getRoleByUser($usr_id, $prj_id);
+
+        return $user_role >= $this->minimum_role;
     }
 
     /**
