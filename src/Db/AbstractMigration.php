@@ -16,7 +16,9 @@ namespace Eventum\Db;
 use PDO;
 use Phinx;
 use Phinx\Db\Adapter\MysqlAdapter;
+use Phinx\Db\Table;
 use Phinx\Migration\AbstractMigration as PhinxAbstractMigration;
+use RuntimeException;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -48,24 +50,38 @@ abstract class AbstractMigration extends PhinxAbstractMigration
      *
      * @var $engine
      */
-    private $engine;
+    protected $engine;
 
     /**
      * MySQL Charset
      *
      * @var $string
      */
-    private $charset;
+    protected $charset;
 
     /**
      * MySQL Collation
      *
      * @var $string
      */
-    private $collation;
+    protected $collation;
 
-    /** @var bool */
-    private $initialized;
+    public function init()
+    {
+        // undefine to lazy init the values
+        unset($this->engine, $this->charset, $this->collation);
+    }
+
+    public function __get($name)
+    {
+        $this->initOptions();
+
+        if (!isset($this->$name)) {
+            throw new RuntimeException("Unknown property: '$name'");
+        }
+
+        return $this->$name;
+    }
 
     /**
      * This would be in init() but it's too early to use adapter.
@@ -79,7 +95,6 @@ abstract class AbstractMigration extends PhinxAbstractMigration
         $this->charset = $options['charset'];
         $this->collation = $options['collation'];
         $this->engine = $options['engine'];
-        $this->initialized = true;
     }
 
     /**
@@ -90,10 +105,6 @@ abstract class AbstractMigration extends PhinxAbstractMigration
      */
     public function table($tableName, $options = [])
     {
-        if (!$this->initialized) {
-            $this->initOptions();
-        }
-
         $options['engine'] = $this->engine;
         $options['charset'] = $this->charset;
         $options['collation'] = $this->collation;
