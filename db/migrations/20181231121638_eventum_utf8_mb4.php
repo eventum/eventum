@@ -20,6 +20,7 @@ class EventumUtf8Mb4 extends AbstractMigration
 {
     private const MIN_VERSION = '5.5.3';
     private const CHARSET = 'utf8mb4';
+    private const COLLATION = 'utf8mb4_unicode_ci';
 
     public function up(): void
     {
@@ -32,6 +33,7 @@ class EventumUtf8Mb4 extends AbstractMigration
         $config = Setup::get();
         $config['database']['charset_rollback'] = $config['database']['charset'];
         $config['database']['charset'] = self::CHARSET;
+        $config['database']['collation'] = self::COLLATION;
 
         Setup::save();
     }
@@ -44,7 +46,7 @@ class EventumUtf8Mb4 extends AbstractMigration
         }
 
         $config['database']['charset'] = $config['database']['charset_rollback'];
-        unset($config['database']['charset_rollback']);
+        unset($config['database']['charset_rollback'], $config['database']['collation']);
 
         Setup::save();
     }

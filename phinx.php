@@ -74,14 +74,8 @@ $phinx = [
             'engine' => 'MyISAM',
 
             // charset and collation must be utf8 compatible
-
-            // for MySQL < 5.5.3
-            'charset' => 'utf8',
-            'collation' => 'utf8_general_ci',
-
-            // for MySQL >= 5.5.3
-//            'charset' => 'utf8mb4',
-//            'collation' => 'utf8mb4_unicode_ci',
+            'charset' => $config['charset'],
+            'collation' => $config['collation'] ?? 'utf8_general_ci',
 
             // set SQL_MODE
             // http://dev.mysql.com/doc/refman/5.7/en/sql-mode.html
