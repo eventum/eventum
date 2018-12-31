@@ -236,6 +236,10 @@ abstract class AbstractMigration extends PhinxAbstractMigration
      */
     protected function createProgressBar($total)
     {
-        return new ProgressBar($this->output, $total);
+        $progressBar = new ProgressBar($this->output, $total);
+        $progressBar->setFormat(' %current%/%max% [%bar%] %percent:3s%% %elapsed:6s%/%estimated:-6s% %memory:6s% | %message% ');
+        $progressBar->setMessage('');
+
+        return $progressBar;
     }
 }
