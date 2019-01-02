@@ -18,6 +18,7 @@ use PDO;
 use Phinx;
 use Phinx\Db\Adapter\MysqlAdapter;
 use Phinx\Migration\AbstractMigration as PhinxAbstractMigration;
+use ReflectionClass;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -153,13 +154,38 @@ abstract class AbstractMigration extends PhinxAbstractMigration
         }
 
         $name = $options['primary_key'];
-        $columns = $table->getPendingColumns();
-        foreach ($columns as $column) {
-            if ($column->getName() === $name) {
-                return $column;
-            }
+        $actions = $this->getTableActions($table);
+
+        /** @var Phinx\Db\Action\AddColumn $action */
+        $action = collection($actions->getActions())
+            ->filter(function ($action) use ($name) {
+                if (!$action instanceof Phinx\Db\Action\AddColumn) {
+                    return false;
+                }
+                /** @var Phinx\Db\Action\AddColumn $action */
+                $column = $action->getColumn();
+
+                return $column->getName() === $name;
+            })
+            ->first();
+
+        if (!$action) {
+            throw new LogicException('primary_key column not found');
         }
-        throw new LogicException('primary_key column not found');
+
+        return $action->getColumn();
+    }
+
+    /**
+     * $table->actions->getActions() is not accessible. access it with reflection
+     */
+    private function getTableActions(Phinx\Db\Table $table)
+    {
+        $reflectionClass = new ReflectionClass($table);
+        $reflectionProperty = $reflectionClass->getProperty('actions');
+        $reflectionProperty->setAccessible(true);
+
+        return $reflectionProperty->getValue($table);
     }
 
     /**
