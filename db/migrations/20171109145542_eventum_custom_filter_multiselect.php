@@ -29,8 +29,8 @@ class EventumCustomFilterMultiselect extends AbstractMigration
     {
         $table = $this->table('custom_filter');
         foreach (self::COLUMNS as $old_name => $new_name) {
-            $table->changeColumn($old_name, 'string', ['length' => 255, 'null' => true]);
-            $table->renameColumn($old_name, $new_name);
+            $table->changeColumn($old_name, 'string', ['length' => 255, 'null' => true])->save();
+            $table->renameColumn($old_name, $new_name)->save();
         }
         $table->changeColumn('cst_users', 'string', ['length' => 255, 'null' => true]);
         $table->save();

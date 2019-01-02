@@ -34,6 +34,7 @@ class EventumExtensionClass extends AbstractMigration
     {
         $options += ['limit' => self::TEXT_TINY, 'encoding' => 'ascii'];
         $this->table($table)
-            ->changeColumn($column, 'string', $options);
+            ->changeColumn($column, 'string', $options)
+            ->save();
     }
 }
