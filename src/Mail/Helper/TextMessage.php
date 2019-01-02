@@ -13,28 +13,61 @@
 
 namespace Eventum\Mail\Helper;
 
-use Eventum\Mail\MailMessage;
 use Mime_Helper;
-use Zend\Mail\Storage\Part;
+use Zend\Mail\Storage\Part\PartInterface;
 
 /**
  * Creates textual representation of the message body.
  */
 class TextMessage
 {
-    /** @var MailMessage|Part\PartInterface */
+    /** @var PartInterface */
     private $message;
-
-    /** @var Part\PartInterface[] */
+    /** @var PartInterface[] */
     private $alttext = [];
-    /** @var Part\PartInterface[] */
+    /** @var PartInterface[] */
     private $text = [];
-    /** @var Part\PartInterface[] */
+    /** @var PartInterface[] */
     private $html = [];
 
-    public function __construct(MailMessage $message)
+    public function __construct(PartInterface $message)
     {
         $this->message = $message;
+    }
+
+    public function getMessageBody()
+    {
+        $isMultipart = $this->message->isMultipart();
+
+        foreach ($this->message as $part) {
+            $this->processPart($part);
+        }
+
+        // if no parts were extracted, process main message itself
+        if (!$isMultipart && !$this->hasText()) {
+            $this->processPart($this->message);
+        }
+
+        // alternative text present but no main text, fill it
+        if ($this->alttext && !$this->text) {
+            $this->text = $this->alttext;
+        }
+
+        if ($this->text) {
+            return $this->getText();
+        }
+
+        if ($this->html) {
+            return $this->getHtml();
+        }
+
+        if (!$isMultipart) {
+            // fallback to read just main part
+            // NOTE: this is likely dead code after #429
+            return (new DecodePart($this->message))->decode();
+        }
+
+        return '';
     }
 
     private function hasText()
@@ -43,7 +76,7 @@ class TextMessage
     }
 
     /**
-     * @param MailMessage|Part\PartInterface $part
+     * @param PartInterface $part
      */
     private function processPart($part)
     {
@@ -109,47 +142,23 @@ class TextMessage
         }
     }
 
-    public function getMessageBody()
+    private function getText()
     {
-        $isMultipart = $this->message->isMultipart();
+        return implode("\n\n", $this->text);
+    }
 
-        foreach ($this->message as $part) {
-            $this->processPart($part);
-        }
+    private function getHtml()
+    {
+        $str = implode("\n\n", $this->html);
 
-        // if no parts were extracted, process main message itself
-        if (!$isMultipart && !$this->hasText()) {
-            $this->processPart($this->message);
-        }
+        // hack for inotes to prevent content from being displayed all on one line.
+        $str = str_replace(['</DIV><DIV>', '<br>', '<br />', '<BR>', '<BR />'], "\n", $str);
+        // XXX: do we also need to do something here about base64 encoding?
+        $str = strip_tags($str);
 
-        // alternative text present but no main text, fill it
-        if ($this->alttext && !$this->text) {
-            $this->text = $this->alttext;
-        }
+        // convert html entities. this should be done after strip tags
+        $str = html_entity_decode($str, ENT_QUOTES, APP_CHARSET);
 
-        if ($this->text) {
-            return implode("\n\n", $this->text);
-        }
-
-        if ($this->html) {
-            $str = implode("\n\n", $this->html);
-
-            // hack for inotes to prevent content from being displayed all on one line.
-            $str = str_replace(['</DIV><DIV>', '<br>', '<br />', '<BR>', '<BR />'], "\n", $str);
-            // XXX: do we also need to do something here about base64 encoding?
-            $str = strip_tags($str);
-
-            // convert html entities. this should be done after strip tags
-            $str = html_entity_decode($str, ENT_QUOTES, APP_CHARSET);
-
-            return $str;
-        }
-
-        if (!$isMultipart) {
-            // fallback to read just main part
-            return (new DecodePart($this->message))->decode();
-        }
-
-        return '';
+        return $str;
     }
 }

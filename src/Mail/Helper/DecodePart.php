@@ -13,16 +13,16 @@
 
 namespace Eventum\Mail\Helper;
 
-use Eventum\Mail\MailMessage;
 use LogicException;
 use Zend\Mail\Header\ContentTransferEncoding;
+use Zend\Mail\Storage\Part\PartInterface;
 
 class DecodePart
 {
-    /** @var MailMessage */
+    /** @var PartInterface */
     private $part;
 
-    public function __construct(MailMessage $part)
+    public function __construct(PartInterface $part)
     {
         $this->part = $part;
     }
