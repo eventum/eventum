@@ -18,7 +18,6 @@ class EventumIrcNoticeIndices extends AbstractMigration
     public function change()
     {
         $this->table('irc_notice')
-            ->removeIndex(['ino_status'])
             ->addIndex(['ino_status', 'ino_prj_id'])
             ->update();
     }
