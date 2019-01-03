@@ -1,6 +1,6 @@
 # Eventum Issue Tracking System
 
-## [3.5.6]
+## [3.5.6] - 2019-01-03
 
 Upgrading to 3.5.x versions requires that you upgrade to 3.2.0 version first.
 
@@ -8,7 +8,7 @@ Upgrading to 3.5.x versions requires that you upgrade to 3.2.0 version first.
 - Handle text/html only email rendering (@TexasGitHubber, @glensc, #399, #429, #400, #401)
 - Fix attachment delete permissions check (@glensc, #412)
 
-[3.5.6]: https://github.com/eventum/eventum/compare/v3.5.5...master
+[3.5.6]: https://github.com/eventum/eventum/compare/v3.5.5...v3.5.6
 
 ## [3.5.5] - 2018-12-26
 
