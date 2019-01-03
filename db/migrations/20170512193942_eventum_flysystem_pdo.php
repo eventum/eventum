@@ -22,21 +22,18 @@ class EventumFlysystemPdo extends AbstractMigration
 {
     public function change()
     {
-        $table = $this->table('attachment_path', ['id' => false, 'primary_key' => 'path_id']);
-        $table
-            ->addColumn('path_id', 'integer', ['limit' => self::INT_MEDIUM, 'signed' => false])
+        $this->table('attachment_path', ['id' => false, 'primary_key' => 'path_id'])
+            ->addColumn('path_id', 'integer', ['limit' => self::INT_MEDIUM, 'signed' => false, 'identity' => true])
             ->addColumn('type', 'enum', ['values' => ['dir', 'file']])
             ->addColumn('path', 'string', ['limit' => self::TEXT_TINY])
             ->addColumn('mimetype', 'string', ['null' => true, 'limit' => self::TEXT_TINY, 'encoding' => 'ascii'])
             ->addColumn('visibility', 'string', ['null' => true, 'default' => '', 'limit' => 25])
             ->addColumn('size', 'integer', ['null' => true, 'signed' => false])
             ->addColumn('is_compressed', 'integer', ['default' => '1', 'limit' => self::INT_TINY])
-            ->addColumn('update_ts', 'timestamp', ['default' => 'CURRENT_TIMESTAMP', 'update' => 'CURRENT_TIMESTAMP']);
-        $this->getPrimaryKey($table)->setIdentity(true);
-        $table->create();
+            ->addColumn('update_ts', 'timestamp', ['default' => 'CURRENT_TIMESTAMP', 'update' => 'CURRENT_TIMESTAMP'])
+            ->create();
 
-        $table = $this->table('attachment_chunk', ['id' => false, 'primary_key' => ['path_id', 'chunk_no']]);
-        $table
+        $this->table('attachment_chunk', ['id' => false, 'primary_key' => ['path_id', 'chunk_no']])
             ->addColumn('path_id', 'integer', ['limit' => self::INT_MEDIUM, 'signed' => false])
             ->addColumn('chunk_no', 'integer', ['limit' => self::INT_SMALL, 'signed' => false])
             ->addColumn('content', self::PHINX_TYPE_BLOB, ['length' => self::BLOB_MEDIUM])

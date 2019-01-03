@@ -13,12 +13,10 @@
 
 namespace Eventum\Db;
 
-use LogicException;
 use PDO;
 use Phinx;
 use Phinx\Db\Adapter\MysqlAdapter;
 use Phinx\Migration\AbstractMigration as PhinxAbstractMigration;
-use ReflectionClass;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -136,56 +134,6 @@ abstract class AbstractMigration extends PhinxAbstractMigration
         $adapter = $this->getAdapter();
 
         return $adapter->getConnection()->quote($value, $parameter_type);
-    }
-
-    /**
-     * Get Primary Key column from Pending Table Operations.
-     * Hack for AUTO_INCREMENT being lost when defining custom Primary Key column
-     *
-     * @see https://github.com/robmorgan/phinx/issues/28#issuecomment-298693426
-     * @param Phinx\Db\Table $table
-     * @return Phinx\Db\Table\Column
-     */
-    protected function getPrimaryKey(Phinx\Db\Table $table)
-    {
-        $options = $table->getOptions();
-        if (!isset($options['primary_key'])) {
-            throw new LogicException('primary_key column required');
-        }
-
-        $name = $options['primary_key'];
-        $actions = $this->getTableActions($table);
-
-        /** @var Phinx\Db\Action\AddColumn $action */
-        $action = collection($actions->getActions())
-            ->filter(function ($action) use ($name) {
-                if (!$action instanceof Phinx\Db\Action\AddColumn) {
-                    return false;
-                }
-                /** @var Phinx\Db\Action\AddColumn $action */
-                $column = $action->getColumn();
-
-                return $column->getName() === $name;
-            })
-            ->first();
-
-        if (!$action) {
-            throw new LogicException('primary_key column not found');
-        }
-
-        return $action->getColumn();
-    }
-
-    /**
-     * $table->actions->getActions() is not accessible. access it with reflection
-     */
-    private function getTableActions(Phinx\Db\Table $table)
-    {
-        $reflectionClass = new ReflectionClass($table);
-        $reflectionProperty = $reflectionClass->getProperty('actions');
-        $reflectionProperty->setAccessible(true);
-
-        return $reflectionProperty->getValue($table);
     }
 
     /**
