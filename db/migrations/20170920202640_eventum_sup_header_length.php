@@ -28,6 +28,7 @@ class EventumSupHeaderLength extends AbstractMigration
             ->changeColumn('sup_from', $type, $options)
             ->changeColumn('sup_to', $type, $options)
             ->changeColumn('sup_cc', $type, $options)
-            ->changeColumn('sup_subject', $type, $options);
+            ->changeColumn('sup_subject', $type, $options)
+            ->save();
     }
 }
