@@ -31,43 +31,16 @@ if it fails the error is something like `DB Error: already exists`
 
 # Release process
 
-- Update `CHANGELOG.md` file with the correct version number and release date
-
-Do not forget to update changeset link to point to tag not master
-
-- Update git submodule to point to master
-```
-git submodule update --init
-cd docs/wiki
-git fetch origin
-git checkout master
-cd ../..
-```
-
-Commit both changes
-```
-git commit -am 'prepare for 3.5.0 release'
-```
-
-- Create git tag
-```
-$ git tag -s v3.5.0 -m 'release v3.5.0'
-$ git push origin v3.5.0
-
-```
-- wait for Travis-CI to build release tarball, download and test it again
-- go to github releases page, edit the new tag
-- fill release title and release notes
-- upload tarball and signature to the release
+- use [bin/tools/create-release.sh](bin/tools/create-release.sh) script to make release
+  - update changelog
+  - update wiki submodule
+  - create appropriate tags
+- wait for Travis-CI to build release tarball
+- go to github releases page, edit the new tag (fill missing date)
+- download tarball and add signature to the tarball
 - to create a digital signature, use the following command:
 ```
 % gpg --armor --sign --detach-sig eventum-3.5.0.tar.xz
-```
-- create tag also in wiki submodule
-```
-cd docs/wiki
-git tag v3.5.0
-git push origin v3.5.0
 ```
 
 # After release
