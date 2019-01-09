@@ -118,6 +118,11 @@ class MailLoader
                     $line = str_replace("\r", '', $line);
                 }
 
+                if ($e->getMessage() === 'Invalid header name detected' && substr($line, 0, 5) === 'From ') {
+                    // remove Mbox header from message if it is present
+                    $line = "X-Broken-Header-Mbox: $line";
+                }
+
                 list($name, $value) = Header\GenericHeader::splitHeaderLine($line);
             }
 
