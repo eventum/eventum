@@ -12,6 +12,7 @@
  */
 
 use Eventum\Attachment\AttachmentGroup;
+use Eventum\Event\ResultableEvent;
 use Eventum\Event\SystemEvents;
 use Eventum\EventDispatcher\EventManager;
 use Eventum\Extension\ExtensionLoader;
@@ -135,6 +136,7 @@ class Workflow
      * @param   array $changes
      * @return  mixed. True to continue, anything else to cancel the change and return the value
      * @since 3.5.0 emits ISSUE_CREATED_BEFORE event
+     * @todo port to ResultableEvent
      */
     public static function preIssueUpdated($prj_id, $issue_id, $usr_id, &$changes, $issue_details)
     {
@@ -521,10 +523,26 @@ class Workflow
      * @param string $address The email address to check
      * @param bool $issue_id
      * @param bool $type
+     * @since 3.6.0 emits NOTIFICATION_NOTIFY_ADDRESS event
      * @return bool
+     * @todo https://github.com/eventum/eventum/pull/438#issuecomment-452706697
      */
     public static function shouldEmailAddress($prj_id, $address, $issue_id = false, $type = false)
     {
+        $arguments = [
+            'prj_id' => (int)$prj_id,
+            'issue_id' => $issue_id ? (int)$issue_id : null,
+            'address' => $address,
+            'type' => $type ? $type : null,
+        ];
+
+        $event = new ResultableEvent(null, $arguments);
+        EventManager::dispatch(SystemEvents::NOTIFICATION_NOTIFY_ADDRESS, $event);
+
+        if ($event->hasResult()) {
+            return $event->getResult();
+        }
+
         if (!self::hasWorkflowIntegration($prj_id)) {
             return true;
         }

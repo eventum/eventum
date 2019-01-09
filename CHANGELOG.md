@@ -12,6 +12,7 @@ first, also the PHP version required is 7.1, see [#426].
 - Secure unserialize: control `allowed_classes` options (@glensc, #445)
 - Drop MD5 and MD5-64 password support (@glensc, #444)
 - Drop outdated PEAR packages (@glensc, #443)
+- Add `SystemEvents::NOTIFICATION_NOTIFY_ADDRESS` event handling (@glensc, #438)
 
 [3.6.0]: https://github.com/eventum/eventum/compare/v3.5.6...master
 [#426]: https://github.com/eventum/eventum/pull/426

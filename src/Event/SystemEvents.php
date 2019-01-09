@@ -96,6 +96,12 @@ final class SystemEvents
     const MAIL_CREATED = 'mail.created';
 
     /**
+     * @since 3.6.0
+     * @see Workflow::shouldEmailAddress()
+     */
+    const NOTIFICATION_NOTIFY_ADDRESS = 'notification.notify.address';
+
+    /**
      * @since 3.4.2
      */
     const IRC_NOTIFY = 'irc.notify';
