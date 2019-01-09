@@ -26,7 +26,11 @@ class EventumUtf8Mb4Convert extends AbstractMigration
                 'sup_to',
                 'sup_cc',
                 'sup_subject',
-            ]
+            ],
+            'issue' => [
+                'iss_summary',
+                'iss_description',
+            ],
         ]);
     }
 
@@ -36,6 +40,7 @@ class EventumUtf8Mb4Convert extends AbstractMigration
         $columns = iterator_to_array($columnsGenerator);
         $progressBar = $this->createProgressBar(count($columns));
         $progressBar->start();
+        $tables = new SplObjectStorage();
 
         /**
          * @var Table $table
@@ -44,6 +49,11 @@ class EventumUtf8Mb4Convert extends AbstractMigration
         foreach ($columns as [$table, $column]) {
             $table->changeColumn($column->getName(), $column);
             $progressBar->advance();
+            $tables->attach($table);
+        }
+
+        foreach ($tables as $table) {
+            $table->save();
         }
 
         $progressBar->setMessage('');
