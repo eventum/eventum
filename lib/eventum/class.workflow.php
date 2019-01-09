@@ -16,9 +16,11 @@ use Eventum\Event\ResultableEvent;
 use Eventum\Event\SystemEvents;
 use Eventum\EventDispatcher\EventManager;
 use Eventum\Extension\ExtensionLoader;
+use Eventum\Mail\Helper\AddressHeader;
 use Eventum\Mail\ImapMessage;
 use Eventum\Mail\MailMessage;
 use Symfony\Component\EventDispatcher\GenericEvent;
+use Zend\Mail\Address;
 
 class Workflow
 {
@@ -532,7 +534,7 @@ class Workflow
         $arguments = [
             'prj_id' => (int)$prj_id,
             'issue_id' => $issue_id ? (int)$issue_id : null,
-            'address' => $address,
+            'address' => AddressHeader::fromString($address)->getAddress(),
             'type' => $type ? $type : null,
         ];
 

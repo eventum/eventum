@@ -16,6 +16,7 @@ namespace Example\Event\Subscriber;
 use Eventum\Event\ResultableEvent;
 use Eventum\Event\SystemEvents;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Zend\Mail\Address;
 
 class ShouldEmailAddressSubscriber implements EventSubscriberInterface
 {
@@ -28,8 +29,11 @@ class ShouldEmailAddressSubscriber implements EventSubscriberInterface
 
     public function shouldEmailAddress(ResultableEvent $event)
     {
+        /** @var Address $address */
         $address = $event['address'];
-        if ($address === 'support@example.net') {
+        $email = $address;
+
+        if ($email === 'support@example.net') {
             $event->setResult(false);
         }
     }
