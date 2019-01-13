@@ -5,6 +5,7 @@
 Upgrading to 3.6.x versions requires that you upgrade to 3.2.0 version first.
 
 - Update Phinx to 0.10 (@glensc, #388)
+- Detect invalid mail header starting with "From " and replace it with a correct custom one. (@vladsf, #439, #427)
 
 [3.6.0]: https://github.com/eventum/eventum/compare/v3.5.6...master
 
