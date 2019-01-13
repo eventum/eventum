@@ -52,4 +52,11 @@ class LoadEmailTest extends TestCase
         $headers = $mail->getHeaders();
         $this->assertTrue($headers->has('X-Broken-Header-Sender'));
     }
+
+    public function testLoadOddMboxHeader()
+    {
+        $raw = $this->readDataFile('from_nocolon.txt');
+        $mail = MailMessage::createFromString($raw);
+        $this->assertTrue($mail->getHeaders()->has('X-Broken-Header-Mbox'));
+    }
 }
