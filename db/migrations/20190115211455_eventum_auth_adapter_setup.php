@@ -19,7 +19,7 @@ class EventumAuthAdapterSetup extends AbstractMigration
     const DEFAULT_ADAPTER = Adapter\MysqlAdapter::class;
     const CLASS_MAPPING = [
         'mysql_auth_backend' => Adapter\MysqlAdapter::class,
-        'ldap_auth_backend' => Adapter\LdapAdapter::class,
+        'ldap_auth_backend' => Adapter\ChainAdapter::class,
         'cas_auth_backend' => Adapter\CasAdapter::class,
     ];
 
@@ -33,7 +33,11 @@ class EventumAuthAdapterSetup extends AbstractMigration
         $setup = Setup::get();
         $className = $this->getClassName();
         $reflection = new ReflectionClass($className);
-        $setup['auth'][$reflection->getName()] = $reflection->getFileName();
+        if (!isset($setup['auth'])) {
+            $setup['auth'] = [];
+        }
+        $setup['auth']['adapter'] = $reflection->getName();
+        $setup['auth']['arguments'] = $this->getArguments($setup['auth']['adapter']);
         Setup::save();
     }
 
@@ -47,5 +51,17 @@ class EventumAuthAdapterSetup extends AbstractMigration
         $class = strtolower(APP_AUTH_BACKEND);
 
         return self::CLASS_MAPPING[$class] ?? self::DEFAULT_ADAPTER;
+    }
+
+    private function getArguments(string $className)
+    {
+        if ($className === Adapter\ChainAdapter::class) {
+            return [
+                Adapter\LdapAdapter::class,
+                Adapter\MysqlAdapter::class,
+            ];
+        }
+
+        return [];
     }
 }
