@@ -11,12 +11,17 @@
  * that were distributed with this source code.
  */
 
+namespace Eventum\Auth\Adapter;
+
+use AuthPassword;
+use DB_Helper;
 use Eventum\Db\DatabaseException;
+use User;
 
 /**
  * MySQL (builtin) auth backend
  */
-class Mysql_Auth_Backend implements Auth_Backend_Interface
+class MysqlAdapter implements AdapterInterface
 {
     /**
      * Checks whether the provided password match against the email

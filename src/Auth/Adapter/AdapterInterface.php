@@ -11,10 +11,12 @@
  * that were distributed with this source code.
  */
 
+namespace Eventum\Auth\Adapter;
+
 /**
  * Auth Backend Interface
  */
-interface Auth_Backend_Interface
+interface AdapterInterface
 {
     /**
      * Checks whether the provided password match against the login or email

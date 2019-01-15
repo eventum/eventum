@@ -11,10 +11,16 @@
  * that were distributed with this source code.
  */
 
+namespace Eventum\Auth\Adapter;
+
+use Auth;
+use AuthException;
 use Eventum\Auth\Ldap\LdapConnection;
 use Eventum\Auth\Ldap\UserEntry;
 use Eventum\Monolog\Logger;
+use Setup;
 use Symfony\Component\Ldap\Entry;
+use User;
 
 /**
  * This auth backend integrates with an LDAP server and if set to, will create
@@ -27,7 +33,7 @@ use Symfony\Component\Ldap\Entry;
  * Set define('APP_AUTH_BACKEND', 'LDAP_Auth_Backend') in the config file and
  * then fill in the LDAP server details in manage
  */
-class LDAP_Auth_Backend implements Auth_Backend_Interface
+class LdapAdapter implements AdapterInterface
 {
     /** @var bool */
     public $create_users;

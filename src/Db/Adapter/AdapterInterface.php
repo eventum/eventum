@@ -16,7 +16,7 @@ namespace Eventum\Db\Adapter;
 use Eventum\Db\DatabaseException;
 
 /**
- * Interface AdapterInterface
+ * Interface Eventum\Auth\Adapter\AdapterInterface
  *
  * Database interface designed against PEAR::DB
  */

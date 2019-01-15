@@ -11,6 +11,8 @@
  * that were distributed with this source code.
  */
 
+use Eventum\Auth\Adapter\AdapterInterface;
+use Eventum\Auth\Adapter\MysqlAdapter;
 use Eventum\Monolog\Logger;
 use Eventum\Session;
 use Symfony\Component\Filesystem\Exception\IOException;
@@ -482,21 +484,21 @@ class Auth
     }
 
     /**
-     * @return Auth_Backend_Interface
+     * @return AdapterInterface
      */
     public static function getAuthBackend()
     {
-        /** @var Auth_Backend_Interface $instance */
+        /** @var AdapterInterface $instance */
         static $instance = false;
 
-        if ($instance == false) {
+        if ($instance === false) {
             $class = APP_AUTH_BACKEND;
 
             // legacy: allow lowercase variants
-            if (strtolower($class) == 'mysql_auth_backend') {
-                $class = 'Mysql_Auth_Backend';
-            } elseif (strtolower($class) == 'ldap_auth_backend') {
-                $class = 'LDAP_Auth_Backend';
+            if (strtolower($class) == 'Eventum\Auth\Adapter\MysqlAdapter') {
+                $class = 'Eventum\Auth\Adapter\MysqlAdapter';
+            } elseif (strtolower($class) == 'Eventum\Auth\Adapter\LdapAdapter') {
+                $class = 'Eventum\Auth\Adapter\LdapAdapter';
             }
 
             try {
@@ -524,14 +526,14 @@ class Auth
      * Returns an instance of the MySQL Auth Backend.
      * This is used when the primary backend is not handling the user.
      *
-     * @return Auth_Backend_Interface
+     * @return AdapterInterface
      */
     public static function getFallBackAuthBackend()
     {
         static $instance;
 
         if (!$instance) {
-            $instance = new Mysql_Auth_Backend();
+            $instance = new MysqlAdapter();
         }
 
         return $instance;

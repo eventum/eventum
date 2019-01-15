@@ -11,6 +11,16 @@
  * that were distributed with this source code.
  */
 
+namespace Eventum\Auth\Adapter;
+
+use Auth;
+use AuthCookie;
+use AuthException;
+use Misc;
+use phpCAS;
+use Setup;
+use User;
+
 /**
  * This auth backend integrates with a CAS server
  *
@@ -21,7 +31,7 @@
  * then fill in the CAS server details config/cas.php. An example config file is
  * in docs/examples/config/cas.php
  */
-class CAS_Auth_Backend implements Auth_Backend_Interface
+class CasAdapter implements AdapterInterface
 {
     protected $client;
 

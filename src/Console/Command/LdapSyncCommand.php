@@ -14,9 +14,9 @@
 namespace Eventum\Console\Command;
 
 use AuthException;
+use Eventum\Auth\Adapter\LdapAdapter;
 use Eventum\Auth\Ldap\UserEntry;
 use InvalidArgumentException;
-use LDAP_Auth_Backend;
 use RuntimeException;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -25,7 +25,7 @@ class LdapSyncCommand extends Command
     const DEFAULT_COMMAND = 'ldap:sync';
     const USAGE = self::DEFAULT_COMMAND . ' [--dry-run] [--create-users] [--no-update] [--no-disable]';
 
-    /** @var LDAP_Auth_Backend */
+    /** @var LdapAdapter */
     private $ldap;
 
     /** @var bool */
@@ -37,7 +37,7 @@ class LdapSyncCommand extends Command
         $this->output = $output;
         $this->dryrun = $dryrun;
 
-        $this->ldap = new LDAP_Auth_Backend();
+        $this->ldap = new LdapAdapter();
         $this->ldap->create_users = $createUsers;
         $this->updateUsers(!$noUpdate);
         $this->disableUsers(!$noDisable);
@@ -172,7 +172,7 @@ class LdapSyncCommand extends Command
 
     private function assertLdapAuthEnabled()
     {
-        if (strtolower(APP_AUTH_BACKEND) !== 'ldap_auth_backend') {
+        if (strtolower(APP_AUTH_BACKEND) !== 'Eventum\Auth\Adapter\LdapAdapter') {
             throw new RuntimeException('You should enable and configure LDAP backend first');
         }
     }

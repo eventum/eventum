@@ -13,8 +13,8 @@
 
 namespace Eventum\Controller\Manage;
 
+use Eventum\Auth\Adapter\LdapAdapter;
 use Eventum\Controller\Helper\MessagesHelper;
-use LDAP_Auth_Backend;
 use Project;
 use Setup;
 use User;
@@ -111,7 +111,7 @@ class LdapController extends ManageBaseController
      */
     protected function prepareTemplate()
     {
-        $setup = Setup::setDefaults('ldap', LDAP_Auth_Backend::getDefaults());
+        $setup = Setup::setDefaults('ldap', LdapAdapter::getDefaults());
 
         $this->tpl->assign(
             [
