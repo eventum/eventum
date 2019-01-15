@@ -16,8 +16,8 @@ use Eventum\Db\AbstractMigration;
 
 class EventumAuthAdapterSetup extends AbstractMigration
 {
-    const DEFAULT_ADAPTER = Adapter\MysqlAdapter::class;
-    const CLASS_MAPPING = [
+    private const DEFAULT_ADAPTER = Adapter\Factory::DEFAULT_ADAPTER;
+    private const CLASS_MAPPING = [
         'mysql_auth_backend' => Adapter\MysqlAdapter::class,
         'ldap_auth_backend' => Adapter\ChainAdapter::class,
         'cas_auth_backend' => Adapter\CasAdapter::class,
