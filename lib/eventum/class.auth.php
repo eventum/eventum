@@ -488,38 +488,27 @@ class Auth
      */
     public static function getAuthBackend()
     {
-        /** @var AdapterInterface $instance */
-        static $instance = false;
+        /** @var AdapterInterface $adapter */
+        static $adapter = false;
 
-        if ($instance === false) {
-            $class = APP_AUTH_BACKEND;
-
-            // legacy: allow lowercase variants
-            if (strtolower($class) == 'Eventum\Auth\Adapter\MysqlAdapter') {
-                $class = 'Eventum\Auth\Adapter\MysqlAdapter';
-            } elseif (strtolower($class) == 'Eventum\Auth\Adapter\LdapAdapter') {
-                $class = 'Eventum\Auth\Adapter\LdapAdapter';
-            }
+        if ($adapter === false) {
+            $spec = Setup::get()['auth'] ?? [];
 
             try {
-                $instance = new $class();
-            } catch (AuthException $e) {
-                $message = "Unable to use auth backend '$class'";
+                $adapter = Eventum\Auth\Adapter\Factory::create($spec);
+            } catch (Throwable $e) {
+                $message = 'Unable to instantiate auth adapter';
                 Logger::app()->critical($message, ['exception' => $e]);
 
-                if (APP_AUTH_BACKEND_ALLOW_FALLBACK != true) {
-                    $tpl = new Template_Helper();
-                    $tpl->setTemplate('authentication_error.tpl.html');
-                    $tpl->assign('error_message', $e->getMessage());
-                    $tpl->displayTemplate();
-                    exit;
-                }
-
-                $instance = self::getFallBackAuthBackend();
+                $tpl = new Template_Helper();
+                $tpl->setTemplate('authentication_error.tpl.html');
+                $tpl->assign('error_message', $e->getMessage());
+                $tpl->displayTemplate();
+                exit;
             }
         }
 
-        return $instance;
+        return $adapter;
     }
 
     /**
