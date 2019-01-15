@@ -13,6 +13,7 @@
 				<exclude name=".idea/**"/>
 				<exclude name="releases/**"/>
 				<exclude name="var/**"/>
+				<exclude name="vendor/zendframework/zend-mail/src/Transport/Null.php"/>
 			</fileset>
 		</phplint>
 	</target>
@@ -109,6 +110,11 @@
 				<include name="Db/**"/>
 				<include name="File/**"/>
 				<include name="Sitemap/**"/>
+			</fileset>
+
+			<fileset dir="${vendor}/vendor/zendframework/zend-mail/src">
+				<!-- NULL is reserved keyword in php 7.0 -->
+				<include name="Transport/Null.php"/>
 			</fileset>
 
 			<fileset dir="${vendor}/pear-pear.php.net/XML_RPC">
