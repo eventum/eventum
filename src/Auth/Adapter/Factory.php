@@ -26,7 +26,7 @@ abstract class Factory
      * @param array $spec
      * @return AdapterInterface
      */
-    public static function create($spec = [])
+    public static function create($spec = []): AdapterInterface
     {
         if ($spec instanceof Traversable) {
             $spec = ArrayUtils::iteratorToArray($spec);

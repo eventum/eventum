@@ -16,14 +16,16 @@ namespace Eventum\Auth\Adapter;
 class ChainAdapter implements AdapterInterface
 {
     /** @var AdapterInterface[] */
-    private $adapters;
+    private $adapters = [];
 
     /**
      * @param AdapterInterface[] $adapters
      */
     public function __construct(array $adapters = [])
     {
-        $this->adapters = $adapters;
+        foreach ($adapters as $adapterName) {
+            $this->adapters[] = Factory::create(['adapter' => $adapterName]);
+        }
     }
 
     /**

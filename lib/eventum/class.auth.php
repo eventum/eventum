@@ -483,10 +483,7 @@ class Auth
         }
     }
 
-    /**
-     * @return AdapterInterface
-     */
-    public static function getAuthBackend()
+    public static function getAuthBackend(): AdapterInterface
     {
         /** @var AdapterInterface $adapter */
         static $adapter = false;
