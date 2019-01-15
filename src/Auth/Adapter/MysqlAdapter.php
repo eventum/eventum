@@ -38,17 +38,17 @@ class MysqlAdapter implements AdapterInterface
         $hash = $user['usr_password'];
 
         if (!AuthPassword::verify($password, $hash)) {
-            self::incrementFailedLogins($usr_id);
+            $this->incrementFailedLogins($usr_id);
 
             return false;
         }
 
-        self::resetFailedLogins($usr_id);
+        $this->resetFailedLogins($usr_id);
 
         // check if hash needs rehashing,
         // old md5 or more secure default
         if (AuthPassword::needs_rehash($hash)) {
-            self::updatePassword($usr_id, $password);
+            $this->updatePassword($usr_id, $password);
         }
 
         return true;
