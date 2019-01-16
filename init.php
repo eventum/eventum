@@ -61,9 +61,6 @@ $define('APP_ANON_USER', '');
 $define('APP_ENABLE_FULLTEXT', false);
 $define('APP_FULLTEXT_SEARCH_CLASS', 'MySQL_Fulltext_Search');
 
-$define('APP_AUTH_BACKEND', 'Mysql_Auth_Backend');
-
-$define('APP_AUTH_BACKEND_ALLOW_FALLBACK', false);
 $define('APP_DEFAULT_ASSIGNED_EMAILS', 1);
 $define('APP_DEFAULT_NEW_EMAILS', 0);
 $define('APP_DEFAULT_COPY_OF_OWN_ACTION', 0);

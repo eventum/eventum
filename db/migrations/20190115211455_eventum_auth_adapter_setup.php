@@ -17,18 +17,24 @@ use Eventum\Db\AbstractMigration;
 class EventumAuthAdapterSetup extends AbstractMigration
 {
     private const DEFAULT_ADAPTER = Adapter\Factory::DEFAULT_ADAPTER;
-    private const CLASS_MAPPING = [
+
+    /** @var array */
+    private $classMapping = [
         'mysql_auth_backend' => Adapter\MysqlAdapter::class,
-        'ldap_auth_backend' => Adapter\ChainAdapter::class,
+        'ldap_auth_backend' => Adapter\LdapAdapter::class,
         'cas_auth_backend' => Adapter\CasAdapter::class,
     ];
 
     public function up()
     {
+        if ($this->hasFallbackEnabled()) {
+            $this->classMapping['ldap_auth_backend'] = Adapter\ChainAdapter::class;
+        }
+
         $this->setupAuthAdapter();
     }
 
-    private function setupAuthAdapter()
+    private function setupAuthAdapter(): void
     {
         $setup = Setup::get();
         $className = $this->getClassName();
@@ -41,19 +47,23 @@ class EventumAuthAdapterSetup extends AbstractMigration
         Setup::save();
     }
 
-    private function getClassName()
+    private function getClassName(): string
     {
-        $class = self::DEFAULT_ADAPTER;
         if (!defined('APP_AUTH_BACKEND')) {
-            return $class;
+            return self::DEFAULT_ADAPTER;
         }
 
         $class = strtolower(APP_AUTH_BACKEND);
 
-        return self::CLASS_MAPPING[$class] ?? self::DEFAULT_ADAPTER;
+        return $this->classMapping[$class] ?? self::DEFAULT_ADAPTER;
     }
 
-    private function getArguments(string $className)
+    private function hasFallbackEnabled(): bool
+    {
+        return defined('APP_AUTH_BACKEND_ALLOW_FALLBACK') && APP_AUTH_BACKEND_ALLOW_FALLBACK;
+    }
+
+    private function getArguments(string $className): array
     {
         if ($className === Adapter\ChainAdapter::class) {
             return [
