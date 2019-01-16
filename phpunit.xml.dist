@@ -21,15 +21,10 @@
 
 	<php>
 		<const name="PHPUNIT_EVENTUM_TESTSUITE" value="true"/>
-
-		<!--
-		<ini name="error_reporting" value="E_ALL"/>
-			disable strict, PEAR classes not compatible.
-			need to use integer, expressions do not work, this will give the value
-			php55 -r 'echo E_ALL & ~E_STRICT;'
-			php55 -r 'echo E_ALL;'
-		-->
-		<ini name="error_reporting" value="30719"/>
+	<!--
+		<ini name="date.timezone" value="UTC" />
+		<server name="KERNEL_DIR" value="/path/to/your/app/" />
+	-->
 	</php>
 
 	<!-- for code coverage -->
