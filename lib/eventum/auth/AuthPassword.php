@@ -50,15 +50,7 @@ class AuthPassword
         }
 
         // verify passwords in constant time, i.e always do all checks
-        $cmp = 0;
-
-        $cmp |= (int) password_verify($password, $hash);
-
-        // legacy authentication methods
-        $cmp |= (int) self::cmp($hash, base64_encode(pack('H*', md5($password))));
-        $cmp |= (int) self::cmp($hash, md5($password));
-
-        return (bool) $cmp;
+        return password_verify($password, $hash);
     }
 
     /**
@@ -72,27 +64,5 @@ class AuthPassword
     public static function needs_rehash($hash)
     {
         return password_needs_rehash($hash, self::HASH_ALGO);
-    }
-
-    /**
-     * Compare strings using a timing attack resistant approach
-     *
-     * @param string $str1
-     * @param string $str2
-     * @return bool
-     */
-    private static function cmp($str1, $str2)
-    {
-        if (Misc::countBytes($str1) != Misc::countBytes($str2) || Misc::countBytes($str1) <= 13) {
-            return false;
-        }
-
-        $status = 0;
-        $length = Misc::countBytes($str1);
-        for ($i = 0; $i < $length; $i++) {
-            $status |= (ord($str1[$i]) ^ ord($str2[$i]));
-        }
-
-        return $status === 0;
     }
 }
