@@ -244,7 +244,7 @@ class Misc
             // no break
             case 'm':
                 $val *= 1024;
-                // no break
+            // no break
             case 'k':
                 $val *= 1024;
         }
@@ -690,6 +690,18 @@ class Misc
         $generator = $factory->getMediumStrengthGenerator();
 
         return $generator->generate($size);
+    }
+
+    /**
+     * Wrapper to call unserialize safe way.
+     * This specifies that no classes may be instantiated.
+     *
+     * @param string $data
+     * @return mixed
+     */
+    public static function unserialize($data)
+    {
+        return unserialize($data, ['allowed_classes' => false]);
     }
 
     /**

@@ -76,9 +76,7 @@ class Search_Profile
             return [];
         }
 
-        $returns[$usr_id][$prj_id][$type] = unserialize($res);
-
-        return unserialize($res);
+        return $returns[$usr_id][$prj_id][$type] = Misc::unserialize($res);
     }
 
     /**

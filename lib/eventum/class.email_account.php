@@ -38,7 +38,7 @@ class Email_Account
             $res = (string)$res;
         }
 
-        return unserialize($res);
+        return Misc::unserialize($res);
     }
 
     /**
@@ -165,7 +165,7 @@ class Email_Account
             throw new RuntimeException('email account not found');
         }
 
-        $res['ema_issue_auto_creation_options'] = @unserialize($res['ema_issue_auto_creation_options']);
+        $res['ema_issue_auto_creation_options'] = Misc::unserialize($res['ema_issue_auto_creation_options']);
         if ($include_password) {
             $res['ema_password'] = new EncryptedValue($res['ema_password']);
         } else {

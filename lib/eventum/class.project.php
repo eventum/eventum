@@ -99,7 +99,7 @@ class Project
             return '';
         }
 
-        return @unserialize($res);
+        return Misc::unserialize($res);
     }
 
     /**

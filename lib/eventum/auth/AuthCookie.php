@@ -111,7 +111,7 @@ class AuthCookie
         // try to preserve "remember" from existing cookie
         if ($remember === null) {
             $cookie = self::getProjectCookie();
-            $remember = $cookie ? (bool) $cookie['remember'] : false;
+            $remember = $cookie ? (bool)$cookie['remember'] : false;
         }
 
         $cookie = self::generateProjectCookie($prj_id, $remember);
@@ -176,7 +176,7 @@ class AuthCookie
         $cookie = [
             'prj_id' => $prj_id,
             // it's stored as number, probably to save bytes in cookie size
-            'remember' => (int) $remember,
+            'remember' => (int)$remember,
         ];
 
         return base64_encode(serialize($cookie));
@@ -199,7 +199,7 @@ class AuthCookie
             return null;
         }
 
-        return unserialize($data);
+        return Misc::unserialize($data);
     }
 
     /**
