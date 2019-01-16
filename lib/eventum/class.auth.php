@@ -12,7 +12,6 @@
  */
 
 use Eventum\Auth\Adapter\AdapterInterface;
-use Eventum\Auth\Adapter\MysqlAdapter;
 use Eventum\Monolog\Logger;
 use Eventum\Session;
 use Symfony\Component\Filesystem\Exception\IOException;
@@ -390,7 +389,7 @@ class Auth
         $usr_id = self::getUserID();
         $projects = Project::getAssocList($usr_id);
         if ($usr_id == APP_SYSTEM_USER_ID) {
-            return isset($cookie['prj_id']) ? (int) $cookie['prj_id'] : null;
+            return isset($cookie['prj_id']) ? (int)$cookie['prj_id'] : null;
         }
 
         if ($projects != null && !in_array($cookie['prj_id'], array_keys($projects))) {
@@ -466,9 +465,9 @@ class Auth
     /**
      * Sets a cookie in the browser
      *
-     * @param   string  $name The name of the cookie
-     * @param   string  $value The value of the cookie
-     * @param   string  $expiration The expiration data of the cookie
+     * @param   string $name The name of the cookie
+     * @param   string $value The value of the cookie
+     * @param   string $expiration The expiration data of the cookie
      */
     public static function setCookie($name, $value, $expiration)
     {
@@ -506,23 +505,6 @@ class Auth
         }
 
         return $adapter;
-    }
-
-    /**
-     * Returns an instance of the MySQL Auth Backend.
-     * This is used when the primary backend is not handling the user.
-     *
-     * @return AdapterInterface
-     */
-    public static function getFallBackAuthBackend()
-    {
-        static $instance;
-
-        if (!$instance) {
-            $instance = new MysqlAdapter();
-        }
-
-        return $instance;
     }
 
     /**

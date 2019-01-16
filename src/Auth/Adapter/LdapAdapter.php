@@ -87,12 +87,7 @@ class LdapAdapter implements AdapterInterface
         return $this->ldap->listUsers($dn);
     }
 
-    /**
-     * @param string $uid
-     * @param string $password
-     * @return bool
-     */
-    private function validatePassword($uid, $password)
+    private function validatePassword(string $uid, string $password): bool
     {
         $errors = $this->ldap->checkAuthentication($uid, $password);
         if ($errors === true) {
@@ -406,15 +401,11 @@ class LdapAdapter implements AdapterInterface
         return $usr_id > 0;
     }
 
-    /**
-     * @param int $usr_id
-     * @return bool
-     */
-    private function isLDAPUser($usr_id)
+    private function hasExternalId(int $usr_id): bool
     {
-        $local_user_info = User::getDetails($usr_id);
+        $external_id = User::getExternalID($usr_id) ?? null;
 
-        return !empty($local_user_info['usr_external_id']);
+        return $external_id !== null;
     }
 
     /**
@@ -425,26 +416,20 @@ class LdapAdapter implements AdapterInterface
         // check if this is an ldap or internal
         $usr_id = $this->getUserIDByLogin($login);
         $local_user_info = User::getDetails($usr_id);
-        if (empty($local_user_info['usr_external_id'])) {
-            return Auth::getFallBackAuthBackend()->verifyPassword($login, $password);
+        $usr_external_id = $local_user_info['usr_external_id'] ?? null;
+        if (!$usr_external_id) {
+            return false;
         }
 
-        $user_info = $this->validatePassword($local_user_info['usr_external_id'], $password);
-
-        return $user_info != null;
+        return $this->validatePassword($usr_external_id, $password);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function canUserUpdateName($usr_id)
+    public function canUserUpdateName($usr_id): bool
     {
-        $external_id = User::getExternalID($usr_id);
-        if (empty($external_id)) {
-            return Auth::getFallBackAuthBackend()->canUserUpdateName($usr_id);
-        }
-
-        return false;
+        return $this->hasExternalId($usr_id);
     }
 
     /**
@@ -452,12 +437,7 @@ class LdapAdapter implements AdapterInterface
      */
     public function canUserUpdateEmail($usr_id)
     {
-        $external_id = User::getExternalID($usr_id);
-        if (empty($external_id)) {
-            return Auth::getFallBackAuthBackend()->canUserUpdateEmail($usr_id);
-        }
-
-        return false;
+        return $this->hasExternalId($usr_id);
     }
 
     /**
@@ -465,12 +445,7 @@ class LdapAdapter implements AdapterInterface
      */
     public function canUserUpdatePassword($usr_id)
     {
-        $external_id = User::getExternalID($usr_id);
-        if (empty($external_id)) {
-            return Auth::getFallBackAuthBackend()->canUserUpdatePassword($usr_id);
-        }
-
-        return false;
+        return $this->hasExternalId($usr_id);
     }
 
     /**
@@ -505,10 +480,6 @@ class LdapAdapter implements AdapterInterface
      */
     public function updatePassword($usr_id, $password)
     {
-        if (!$this->isLDAPUser($usr_id)) {
-            return Auth::getFallBackAuthBackend()->updatePassword($usr_id, $password);
-        }
-
         return false;
     }
 
