@@ -42,7 +42,12 @@ class EventumDuplicateSubject extends AbstractMigration
 
     private function getIterator($entries)
     {
-        $progressBar = $this->createProgressBar(count($entries));
+        $total = count($entries);
+        if (!$total) {
+            return;
+        }
+
+        $progressBar = $this->createProgressBar($total);
         $progressBar->start();
         foreach ($entries as $entry) {
             yield $entry;
@@ -52,39 +57,45 @@ class EventumDuplicateSubject extends AbstractMigration
         $this->writeln('');
     }
 
-    private function getEmailEntries($idColumn = 'sup_id')
+    private function getEmailEntries($idColumn = 'sup_id'): array
     {
         $sql = "select `$idColumn` from `support_email` where `sup_subject`='Array'";
 
         return $this->queryColumn($sql, $idColumn);
     }
 
-    private function getNoteEntries($idColumn = 'not_id')
+    private function getNoteEntries($idColumn = 'not_id'): array
     {
         $sql = "select `$idColumn` from `note` where `not_title`='Array'";
 
         return $this->queryColumn($sql, $idColumn);
     }
 
-    private function getEmail($id, $emailField = 'seb_full_email')
+    private function getEmail($id, $emailField = 'seb_full_email'): MailMessage
     {
         $sql = "select `$emailField` from `support_email_body` where seb_sup_id=$id";
 
         $raw = $this->queryOne($sql, $emailField);
+        if (!$raw) {
+            throw new RuntimeException("Unable to load mail: #$id");
+        }
 
         return MailMessage::createFromString($raw);
     }
 
-    private function getNote($id, $emailField = 'not_full_message')
+    private function getNote($id, $emailField = 'not_full_message'): MailMessage
     {
         $sql = "select `$emailField` from `note` where not_id=$id";
 
         $raw = $this->queryOne($sql, $emailField);
+        if (!$raw) {
+            throw new RuntimeException("Unable to load note: #$id");
+        }
 
         return MailMessage::createFromString($raw);
     }
 
-    private function setEmailSubject($id, $subject)
+    private function setEmailSubject($id, $subject): void
     {
         $subject = $this->quote($subject);
         $sql = "UPDATE `support_email` SET sup_subject=$subject WHERE sup_id=$id";
@@ -92,7 +103,7 @@ class EventumDuplicateSubject extends AbstractMigration
         $this->query($sql);
     }
 
-    private function setNoteTitle($id, $title)
+    private function setNoteTitle($id, $title): void
     {
         $title = $this->quote($title);
         $sql = "UPDATE `note` SET not_title=$title WHERE not_id=$id";

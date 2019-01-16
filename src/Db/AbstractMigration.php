@@ -152,9 +152,9 @@ abstract class AbstractMigration extends PhinxAbstractMigration
      *
      * @param string $sql
      * @param string $column
-     * @return mixed|null
+     * @return string|null
      */
-    protected function queryOne($sql, $column = '0')
+    protected function queryOne($sql, $column = '0'): ?string
     {
         $rows = $this->queryColumn($sql, $column);
 
@@ -172,7 +172,7 @@ abstract class AbstractMigration extends PhinxAbstractMigration
      * @param string $column
      * @return array
      */
-    protected function queryColumn($sql, $column)
+    protected function queryColumn(string $sql, string $column): array
     {
         $st = $this->query($sql);
         $rows = [];
