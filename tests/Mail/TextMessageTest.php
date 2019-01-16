@@ -21,16 +21,16 @@ class TextMessageTest extends TestCase
     const UNICODE_NBSP = "\xC2\xA0";
 
     /**
-     * @dataProvider testCases
+     * @dataProvider dataProvider
      */
-    public function testTextMessage($dataFile, $expectedText)
+    public function testTextMessage($dataFile, $expectedText): void
     {
         $mail = MailMessage::createFromFile($this->getDataFile($dataFile));
         $textBody = trim($mail->getMessageBody());
         $this->assertEquals($expectedText, $textBody);
     }
 
-    public function testCases()
+    public function dataProvider(): array
     {
         return [
             'Test that HTML entities used in text/html part get decoded' => [
