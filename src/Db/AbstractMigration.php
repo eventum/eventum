@@ -16,7 +16,9 @@ namespace Eventum\Db;
 use PDO;
 use Phinx;
 use Phinx\Db\Adapter\MysqlAdapter;
+use Phinx\Db\Table;
 use Phinx\Migration\AbstractMigration as PhinxAbstractMigration;
+use RuntimeException;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -48,24 +50,38 @@ abstract class AbstractMigration extends PhinxAbstractMigration
      *
      * @var $engine
      */
-    private $engine;
+    protected $engine;
 
     /**
      * MySQL Charset
      *
      * @var $string
      */
-    private $charset;
+    protected $charset;
 
     /**
      * MySQL Collation
      *
      * @var $string
      */
-    private $collation;
+    protected $collation;
 
-    /** @var bool */
-    private $initialized;
+    public function init()
+    {
+        // undefine to lazy init the values
+        unset($this->engine, $this->charset, $this->collation);
+    }
+
+    public function __get($name)
+    {
+        $this->initOptions();
+
+        if (!isset($this->$name)) {
+            throw new RuntimeException("Unknown property: '$name'");
+        }
+
+        return $this->$name;
+    }
 
     /**
      * This would be in init() but it's too early to use adapter.
@@ -79,7 +95,6 @@ abstract class AbstractMigration extends PhinxAbstractMigration
         $this->charset = $options['charset'];
         $this->collation = $options['collation'];
         $this->engine = $options['engine'];
-        $this->initialized = true;
     }
 
     /**
@@ -90,10 +105,6 @@ abstract class AbstractMigration extends PhinxAbstractMigration
      */
     public function table($tableName, $options = [])
     {
-        if (!$this->initialized) {
-            $this->initOptions();
-        }
-
         $options['engine'] = $this->engine;
         $options['charset'] = $this->charset;
         $options['collation'] = $this->collation;
@@ -141,9 +152,9 @@ abstract class AbstractMigration extends PhinxAbstractMigration
      *
      * @param string $sql
      * @param string $column
-     * @return mixed|null
+     * @return string|null
      */
-    protected function queryOne($sql, $column)
+    protected function queryOne($sql, $column = '0'): ?string
     {
         $rows = $this->queryColumn($sql, $column);
 
@@ -161,7 +172,7 @@ abstract class AbstractMigration extends PhinxAbstractMigration
      * @param string $column
      * @return array
      */
-    protected function queryColumn($sql, $column)
+    protected function queryColumn(string $sql, string $column): array
     {
         $st = $this->query($sql);
         $rows = [];
@@ -193,6 +204,40 @@ abstract class AbstractMigration extends PhinxAbstractMigration
     }
 
     /**
+     * Return columns indexed by column names
+     *
+     * @param Table $table
+     * @param array $columnNames
+     * @return Table\Column[]
+     */
+    protected function getColumns(Table $table, $columnNames = [])
+    {
+        $columns = [];
+        foreach ($table->getColumns() as $column) {
+            $columns[$column->getName()] = $column;
+        }
+
+        if ($columnNames) {
+            return array_intersect_key($columns, array_flip($columnNames));
+        }
+
+        return $columns;
+    }
+
+    /**
+     * @param string $tableName
+     * @param string $columnName
+     * @return Table\Column
+     */
+    protected function getColumn($tableName, $columnName)
+    {
+        $table = $this->table($tableName);
+        $columns = $this->getColumns($table, [$columnName]);
+
+        return $columns[$columnName];
+    }
+
+    /**
      * Writes a message to the output and adds a newline at the end.
      *
      * @param string|array $messages The message as an array of lines of a single string
@@ -209,6 +254,10 @@ abstract class AbstractMigration extends PhinxAbstractMigration
      */
     protected function createProgressBar($total)
     {
-        return new ProgressBar($this->output, $total);
+        $progressBar = new ProgressBar($this->output, $total);
+        $progressBar->setFormat(' %current%/%max% [%bar%] %percent:3s%% %elapsed:6s%/%estimated:-6s% %memory:6s% | %message% ');
+        $progressBar->setMessage('');
+
+        return $progressBar;
     }
 }

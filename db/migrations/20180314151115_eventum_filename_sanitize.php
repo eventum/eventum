@@ -19,35 +19,45 @@ class EventumFilenameSanitize extends AbstractMigration
     public function up()
     {
         $files = $this->getFiles();
-
         $total = count($files);
-        $progressBar = $this->createProgressBar($total);
-        $progressBar->start();
-        $progressBar->setRedrawFrequency($total / 10);
         $updated = 0;
 
-        foreach ($files as $iaf_id => $fileName) {
+        foreach ($this->getIterator($files, $total) as $iaf_id => $fileName) {
             $normalizedName = Normalizer::normalize($fileName);
             if ($fileName !== $normalizedName) {
                 $this->setFilename($iaf_id, $normalizedName);
                 $updated++;
             }
-            $progressBar->advance();
         }
 
-        $progressBar->finish();
         $this->writeln('');
         $this->writeln("Updated $updated filenames out of $total");
     }
 
-    private function getFiles()
+    private function getIterator($entries, $total)
+    {
+        if (!$total) {
+            return;
+        }
+
+        $progressBar = $this->createProgressBar($total);
+        $progressBar->start();
+        foreach ($entries as $entry) {
+            yield $entry;
+            $progressBar->advance();
+        }
+        $progressBar->finish();
+        $this->writeln('');
+    }
+
+    private function getFiles(): array
     {
         $sql = "SELECT iaf_id, iaf_filename FROM `issue_attachment_file` WHERE iaf_filename!=''";
 
         return $this->queryPair($sql, 'iaf_id', 'iaf_filename');
     }
 
-    private function setFilename($iaf_id, $fileName)
+    private function setFilename($iaf_id, $fileName): void
     {
         $fileName = $this->quote($fileName);
         $sql = "UPDATE `issue_attachment_file` SET  iaf_filename=$fileName where iaf_id=$iaf_id";
