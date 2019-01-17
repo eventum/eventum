@@ -16,8 +16,10 @@ namespace Eventum\RPC;
 use APIAuthToken;
 use Auth;
 use AuthCookie;
+use DateTime;
 use Eventum\Monolog\Logger;
 use Exception;
+use Misc;
 use PhpXmlRpc;
 use Psr\Log\LoggerInterface;
 use ReflectionClass;
@@ -25,6 +27,15 @@ use ReflectionMethod;
 
 class XmlRpcServer
 {
+    /**
+     * Classes allowed to be unserialized
+     *
+     * @var string[]
+     */
+    const SERIALIZE_ALLOWED_CLASSES = [
+        DateTime::class,
+    ];
+
     /** @var RemoteApi */
     protected $api;
 
@@ -213,8 +224,8 @@ class XmlRpcServer
             $type = $description[$i][0];
             $has_type = $this->getXmlRpcType($type, null);
             // if there is no internal type, and type exists as class, unserialize it
-            if (!$has_type && class_exists($type)) {
-                $param = unserialize($param);
+            if (!$has_type && in_array($type, self::SERIALIZE_ALLOWED_CLASSES, true)) {
+                $param = Misc::unserialize($param, self::SERIALIZE_ALLOWED_CLASSES);
             }
         }
     }

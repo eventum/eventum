@@ -85,7 +85,7 @@ class Issue_Lock
             return false;
         }
 
-        return unserialize($info);
+        return Misc::unserialize($info);
     }
 
     /**

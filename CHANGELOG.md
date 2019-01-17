@@ -9,6 +9,7 @@ first, also the PHP version required is 7.1, see [#426].
 - Detect invalid mail header starting with "From " and replace it with a correct custom one. (@vladsf, #439, #427)
 - Require PHP 7.1 (@glensc, #426)
 - Drop Yii2 adapter; Improvements to AbstractMigration (@glensc, #442)
+- Secure unserialize: control `allowed_classes` options (@glensc, #445)
 
 [3.6.0]: https://github.com/eventum/eventum/compare/v3.5.6...master
 [#426]: https://github.com/eventum/eventum/pull/426
