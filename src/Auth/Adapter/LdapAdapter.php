@@ -65,14 +65,12 @@ class LdapAdapter implements AdapterInterface
      */
     public function __construct()
     {
+        $config = Setup::get()['ldap'];
         $this->logger = Logger::auth();
-        $this->ldap = new LdapConnection(Setup::get()['ldap']);
-
-        $setup = Setup::get()['ldap'];
-
-        $this->active_dn = $setup['active_dn'];
-        $this->inactive_dn = $setup['inactive_dn'];
-        $this->create_users = (bool)$setup['create_users'];
+        $this->ldap = new LdapConnection($config);
+        $this->active_dn = $config['active_dn'];
+        $this->inactive_dn = $config['inactive_dn'];
+        $this->create_users = (bool)$config['create_users'];
     }
 
     /**
