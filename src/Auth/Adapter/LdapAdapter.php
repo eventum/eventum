@@ -413,13 +413,13 @@ class LdapAdapter implements AdapterInterface
     {
         // check if this is an ldap or internal
         $usr_id = $this->getUserIDByLogin($login);
-        $local_user_info = User::getDetails($usr_id);
-        $usr_external_id = $local_user_info['usr_external_id'] ?? null;
-        if (!$usr_external_id) {
+        $external_id = User::getExternalID($usr_id) ?? null;
+
+        if (!$external_id) {
             return false;
         }
 
-        return $this->validatePassword($usr_external_id, $password);
+        return $this->validatePassword($external_id, $password);
     }
 
     /**
