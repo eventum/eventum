@@ -65,6 +65,7 @@
 				<!-- traits are not commonly used -->
 				<include name="**/*Trait.php"/>
 				<!-- exclusions to above greedy cleanup rules -->
+				<exclude name="cakephp/collection/*Trait.php"/>
 				<exclude name="cebe/markdown/*/*Trait.php"/>
 				<exclude name="league/flysystem/src/ConfigAwareTrait.php"/>
 				<exclude name="league/flysystem/src/Plugin/PluggableTrait.php"/>
