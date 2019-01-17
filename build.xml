@@ -118,23 +118,8 @@
 				<include name="Transport/Null.php"/>
 			</fileset>
 
-			<fileset dir="${vendor}/pear-pear.php.net/XML_RPC">
-				<include name="XML/RPC/Dump.php"/>
-			</fileset>
-
 			<fileset dir="${vendor}/pear/pear-core-minimal/src">
 				<include name="OS/Guess.php"/>
-			</fileset>
-
-			<fileset dir="${vendor}/pear/db">
-				<exclude name="DB.php"/>
-				<exclude name="DB/common.php"/>
-				<exclude name="DB/mysql*.php"/>
-			</fileset>
-
-			<fileset dir="${vendor}/pear/net_smartirc">
-				<exclude name="Net/SmartIRC.php"/>
-				<exclude name="Net/SmartIRC/*.php"/>
 			</fileset>
 
 			<!-- package not used -->
@@ -179,11 +164,6 @@
 				<include name="src/Phinx/Db/Adapter/SqlServerAdapter.php"/>
 				<include name="src/Phinx/Wrapper/TextWrapper.php"/>
 				<include name="src/composer_autoloader.php"/>
-			</fileset>
-
-			<fileset dir="${vendor}/symfony/debug">
-				<!-- source for pecl extension -->
-				<include name="Resources/ext"/>
 			</fileset>
 
 			<fileset dir="${vendor}/symfony/event-dispatcher">
