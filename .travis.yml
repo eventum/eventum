@@ -7,6 +7,7 @@ git:
   submodules: false
 
 jobs:
+  # NOTE: when adding/removing jobs, update bin/ci/snapshot.sh travis_log job_id
   allow_failures:
     - php: "7.2"
     - php: "nightly"
