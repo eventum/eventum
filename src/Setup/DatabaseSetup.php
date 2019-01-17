@@ -28,11 +28,11 @@ class DatabaseSetup
     /** @var AdapterInterface */
     private $conn;
 
-    const ERR_DB_NOT_FOUND = 'db_not_found';
-    const ERR_DB_USER_NOT_FOUND = 'db_user_not_found';
-    const ERR_DB_CREATE_ACCESS_FAILURE = 'db_create_access';
-    const ERR_DB_DROP_ACCESS_FAILURE = 'db_drop_access';
-    const ERR_DB_PHINX_FAILURE = 'db_phinx_failure';
+    private const ERR_DB_NOT_FOUND = 'db_not_found';
+    private const ERR_DB_USER_NOT_FOUND = 'db_user_not_found';
+    private const ERR_DB_CREATE_ACCESS_FAILURE = 'db_create_access';
+    private const ERR_DB_DROP_ACCESS_FAILURE = 'db_drop_access';
+    private const ERR_DB_PHINX_FAILURE = 'db_phinx_failure';
 
     public function __construct()
     {
@@ -45,7 +45,7 @@ class DatabaseSetup
      * @param string $db_name
      * @throws RuntimeException
      */
-    private function checkDatabaseAccess($db_name)
+    private function checkDatabaseAccess($db_name): void
     {
         // check if we can use the database
         try {
@@ -86,7 +86,7 @@ class DatabaseSetup
      * @throws SetupException
      * @return string output from upgrade script
      */
-    private function migrateDatabase()
+    private function migrateDatabase(): string
     {
         // run phinx based updater
         chdir(__DIR__ . '/../..');
@@ -99,7 +99,7 @@ class DatabaseSetup
         $app->setAutoExit(false);
         $rc = $app->run($input, $output);
         $res = $output->fetch();
-        if ($rc != 0) {
+        if ($rc !== 0) {
             throw new SetupException(self::ERR_DB_PHINX_FAILURE, $res);
         }
 
@@ -111,7 +111,7 @@ class DatabaseSetup
      * @throws RuntimeException
      * @return string
      */
-    public function run($db_config)
+    public function run($db_config): string
     {
         $db_exists = $this->checkDatabaseExists($db_config['db_name']);
         if (!$db_exists) {
@@ -152,7 +152,7 @@ class DatabaseSetup
      *
      * @param array $db_config
      */
-    private function writeDatabaseConfig($db_config)
+    private function writeDatabaseConfig($db_config): void
     {
         $setup = [];
         $setup['database'] = $db_config['db_name'];
@@ -165,7 +165,7 @@ class DatabaseSetup
         Setup::save(['database' => $setup]);
     }
 
-    private function getDb()
+    private function getDb(): AdapterInterface
     {
         try {
             return DB_Helper::getInstance(false);
@@ -185,18 +185,12 @@ class DatabaseSetup
         throw new RuntimeException($err, $e->getCode());
     }
 
-    /***
-     * @param string $database
-     * @return array|null
-     */
-    private function checkDatabaseExists($database)
+    private function checkDatabaseExists(string $database): string
     {
-        $exists = $this->conn->getOne('SHOW DATABASES LIKE ?', [$database]);
-
-        return $exists;
+        return $this->conn->getOne('SHOW DATABASES LIKE ?', [$database]);
     }
 
-    private function createDatabase($db_name)
+    private function createDatabase($db_name): void
     {
         try {
             $this->conn->query("CREATE DATABASE `{$db_name}`");
@@ -205,7 +199,7 @@ class DatabaseSetup
         }
     }
 
-    private function dropTables()
+    private function dropTables(): void
     {
         foreach (Table::getTableList() as $table) {
             $stmt = "DROP TABLE IF EXISTS `$table`";
@@ -220,7 +214,7 @@ class DatabaseSetup
     /**
      * @return array
      */
-    private function getUserList()
+    private function getUserList(): array
     {
         // avoid "1046 ** No database selected" error
         $this->conn->query('USE mysql');
@@ -234,14 +228,14 @@ class DatabaseSetup
         return $users;
     }
 
-    private function userExists($user)
+    private function userExists($user): bool
     {
         $user_list = $this->getUserList();
 
         return in_array($user, $user_list);
     }
 
-    private function createUser($db_name, $user, $password)
+    private function createUser($db_name, $user, $password): void
     {
         if ($this->userExists($user)) {
             return;
@@ -260,7 +254,7 @@ class DatabaseSetup
     /**
      * @return array
      */
-    private function getTableList()
+    private function getTableList(): array
     {
         return $this->conn->getColumn('SHOW TABLES');
     }
