@@ -449,33 +449,6 @@ class LdapAdapter implements AdapterInterface
     }
 
     /**
-     * Method used to get the system-wide defaults.
-     *
-     * @return array of the default parameters
-     */
-    public static function getDefaults()
-    {
-        // to avoid dead-loop,
-        // don't do anything complex here that would require loading setup
-        return [
-            'host' => 'localhost',
-            'port' => '389',
-            'binddn' => '',
-            'bindpw' => '',
-            'basedn' => 'dc=example,dc=org',
-            'user_id_attribute' => '',
-            'userdn' => 'uid=%UID%,ou=People,dc=example,dc=org',
-            'customer_id_attribute' => '',
-            'contact_id_attribute' => '',
-            'user_filter' => '',
-            'create_users' => null,
-            'active_dn' => 'ou=People,dc=example,dc=org',
-            'inactive_dn' => 'ou=Inactive Accounts,dc=example,dc=org',
-            'default_role' => [],
-        ];
-    }
-
-    /**
      * {@inheritdoc}
      */
     public function updatePassword($usr_id, $password)
