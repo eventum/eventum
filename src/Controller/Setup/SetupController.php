@@ -38,7 +38,6 @@ class SetupController extends BaseController
     protected function configure()
     {
         $request = $this->getRequest();
-
         $this->cat = $request->request->get('cat');
     }
 
@@ -57,7 +56,7 @@ class SetupController extends BaseController
             }
         }
 
-        if ($this->cat == 'install') {
+        if ($this->cat === 'install') {
             $res = $this->install();
             $this->tpl->assign('result', $res);
             // check for the optional IMAP extension
@@ -277,7 +276,7 @@ class SetupController extends BaseController
         if (class_exists('IntlCalendar')) {
             $cal = IntlCalendar::createInstance();
 
-            return $cal->getFirstDayOfWeek() == IntlCalendar::DOW_MONDAY ? 1 : 0;
+            return $cal->getFirstDayOfWeek() === IntlCalendar::DOW_MONDAY ? 1 : 0;
         }
 
         // default to Monday as it's default for "World" in CLDR's supplemental data
@@ -314,10 +313,10 @@ class SetupController extends BaseController
             'user' => $post->get('eventum_user'),
             'password' => $post->get('eventum_password'),
 
-            'drop_tables' => $post->get('drop_tables') == 'yes',
-            'create_db' => $post->get('create_db') == 'yes',
-            'alternate_user' => $post->get('alternate_user') == 'yes',
-            'create_user' => $post->get('create_user') == 'yes',
+            'drop_tables' => $post->get('drop_tables') === 'yes',
+            'create_db' => $post->get('create_db') === 'yes',
+            'alternate_user' => $post->get('alternate_user') === 'yes',
+            'create_user' => $post->get('create_user') === 'yes',
         ];
 
         $dbs = new DatabaseSetup();
