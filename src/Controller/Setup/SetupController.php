@@ -359,6 +359,7 @@ class SetupController extends BaseController
             'username' => $post->get('db_username'),
             'password' => $post->get('db_password'),
             'port' => 3306,
+            'charset' => 'utf8',
             'socket' => $socket,
         ];
 
