@@ -13,7 +13,7 @@
 
 namespace Eventum\Test;
 
-use AuthPassword;
+use Eventum\Auth\PasswordHash;
 use InvalidArgumentException;
 use Misc;
 use stdClass;
@@ -32,12 +32,12 @@ class PasswordAuthTest extends TestCase
     public function testAuthPassword(): void
     {
         // success
-        $res = AuthPassword::verify($this->password, $this->hashes['password_hash']);
+        $res = PasswordHash::verify($this->password, $this->hashes['password_hash']);
         $this->assertTrue($res);
 
         // failures
         $password = 'meh';
-        $res = AuthPassword::verify($password, $this->hashes['password_hash']);
+        $res = PasswordHash::verify($password, $this->hashes['password_hash']);
         $this->assertFalse($res);
     }
 
@@ -47,7 +47,7 @@ class PasswordAuthTest extends TestCase
      */
     public function testAuthPasswordInvalidArguments($password, $hash): void
     {
-        AuthPassword::verify($password, $hash);
+        PasswordHash::verify($password, $hash);
     }
 
     public function AuthPasswordInvalidArgumentData(): array

@@ -11,12 +11,17 @@
  * that were distributed with this source code.
  */
 
+namespace Eventum\Auth;
+
+use InvalidArgumentException;
+use RuntimeException;
+
 /**
  * Class dealing with user passwords
  */
-class AuthPassword
+class PasswordHash
 {
-    const HASH_ALGO = PASSWORD_DEFAULT;
+    private const HASH_ALGO = PASSWORD_DEFAULT;
 
     /**
      * Hash the password
@@ -25,7 +30,7 @@ class AuthPassword
      * @throws RuntimeException
      * @return string the hashed password, throws on error
      */
-    public static function hash($password)
+    public static function hash($password): string
     {
         $res = password_hash($password, self::HASH_ALGO);
         if (!$res) {
@@ -43,7 +48,7 @@ class AuthPassword
      * @throws InvalidArgumentException in case non-strings were passed as hash or password
      * @return bool If the password matches the hash
      */
-    public static function verify($password, $hash)
+    public static function verify($password, $hash): bool
     {
         if (!is_string($password) || !is_string($hash)) {
             throw new InvalidArgumentException('password and hash need to be strings');
@@ -61,7 +66,7 @@ class AuthPassword
      * @param string $hash The hash to test
      * @return bool true if the password needs to be rehashed
      */
-    public static function needs_rehash($hash)
+    public static function needs_rehash($hash): bool
     {
         return password_needs_rehash($hash, self::HASH_ALGO);
     }

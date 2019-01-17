@@ -13,8 +13,8 @@
 
 namespace Eventum\Auth\Adapter;
 
-use AuthPassword;
 use DB_Helper;
+use Eventum\Auth\PasswordHash;
 use Eventum\Db\DatabaseException;
 use User;
 
@@ -37,7 +37,7 @@ class MysqlAdapter implements AdapterInterface
         $user = User::getDetails($usr_id);
         $hash = $user['usr_password'];
 
-        if (!AuthPassword::verify($password, $hash)) {
+        if (!PasswordHash::verify($password, $hash)) {
             $this->incrementFailedLogins($usr_id);
 
             return false;
@@ -47,7 +47,7 @@ class MysqlAdapter implements AdapterInterface
 
         // check if hash needs rehashing,
         // old md5 or more secure default
-        if (AuthPassword::needs_rehash($hash)) {
+        if (PasswordHash::needs_rehash($hash)) {
             $this->updatePassword($usr_id, $password);
         }
 
@@ -69,7 +69,7 @@ class MysqlAdapter implements AdapterInterface
                     usr_password=?
                  WHERE
                     usr_id=?';
-        $params = [AuthPassword::hash($password), $usr_id];
+        $params = [PasswordHash::hash($password), $usr_id];
         try {
             DB_Helper::getInstance()->query($stmt, $params);
         } catch (DatabaseException $e) {
