@@ -31,7 +31,7 @@ if it fails the error is something like `DB Error: already exists`
 
 # Release process
 
-- use [bin/tools/create-release.sh](bin/tools/create-release.sh) script to make release
+- use [bin/releng/create-release.sh](bin/releng/create-release.sh) script to make release
   - update changelog
   - update wiki submodule
   - create appropriate tags
@@ -60,6 +60,6 @@ $ git push launchpad
 - move open tickets/pull requests to new milestone
 - close old milestone
 - verify that you did not forget to update wiki submodule
-- update for next version using `bin/tools/bump.sh`:
+- update for next version using `bin/releng/bump.sh`:
   - update `VERSION` constant in `src/AppInfo.php` to indicate next dev version
   - start new version entry in CHANGELOG.md

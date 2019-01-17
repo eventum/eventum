@@ -15,7 +15,7 @@ use Eventum\Db\AbstractMigration;
 
 class EventumInitialData extends AbstractMigration
 {
-    const PROJECT_ID = 1;
+    private const PROJECT_ID = 1;
 
     public function up()
     {
@@ -639,7 +639,7 @@ class EventumInitialData extends AbstractMigration
                 'Admin User',
                 'admin@example.com',
                 // TODO: issue for changing this: https://github.com/eventum/eventum/issues/138
-                md5('admin'),
+                AuthPassword::hash('admin'),
                 'active',
             ],
 
@@ -647,7 +647,7 @@ class EventumInitialData extends AbstractMigration
 
         $table = $this->table(__FUNCTION__);
         foreach ($titles as $usr_id => $values) {
-            list($usr_full_name, $usr_email, $usr_password, $usr_status) = $values;
+            [$usr_full_name, $usr_email, $usr_password, $usr_status] = $values;
             $row = [
                 'usr_id' => $usr_id,
                 'usr_created_date' => $this->currentDateTime(),
@@ -671,7 +671,7 @@ class EventumInitialData extends AbstractMigration
      * @param string $dateAdd
      * @return string
      */
-    private function currentDateTime($dateFormat = 'Y-m-d H:i:s', $dateAdd = null)
+    private function currentDateTime($dateFormat = 'Y-m-d H:i:s', $dateAdd = null): string
     {
         $dateTime = new DateTime();
         if ($dateAdd) {

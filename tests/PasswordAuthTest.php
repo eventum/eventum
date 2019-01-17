@@ -27,12 +27,6 @@ class PasswordAuthTest extends TestCase
     private $hashes = [
         // hash created with password_hash($password, PASSWORD_DEFAULT)
         'password_hash' => '$2y$10$xRKqEPixGvSdeopyfzQACe2Tppb43OljoFfGUBdPTkgtpdvjvCEJO',
-
-        // hash created with MD5-64
-        'md5-64' => 'YSVYLZgOc2I46esatz1lFw==',
-
-        // hash created with md5
-        'md5' => '6125582d980e736238e9eb1ab73d6517',
     ];
 
     public function testAuthPassword(): void
@@ -40,18 +34,10 @@ class PasswordAuthTest extends TestCase
         // success
         $res = AuthPassword::verify($this->password, $this->hashes['password_hash']);
         $this->assertTrue($res);
-        $res = AuthPassword::verify($this->password, $this->hashes['md5-64']);
-        $this->assertTrue($res);
-        $res = AuthPassword::verify($this->password, $this->hashes['md5']);
-        $this->assertTrue($res);
 
         // failures
         $password = 'meh';
         $res = AuthPassword::verify($password, $this->hashes['password_hash']);
-        $this->assertFalse($res);
-        $res = AuthPassword::verify($password, $this->hashes['md5-64']);
-        $this->assertFalse($res);
-        $res = AuthPassword::verify($password, $this->hashes['md5']);
         $this->assertFalse($res);
     }
 
@@ -97,29 +83,12 @@ class PasswordAuthTest extends TestCase
         } else {
             $this->assertPasswordInfoArray($res, 1, 'bcrypt');
         }
-
-        // these have type "0" aka unknown
-        $res = password_get_info($this->hashes['md5-64']);
-        $this->assertPasswordInfoArray($res, 0);
-
-        $res = password_get_info($this->hashes['md5']);
-        $this->assertPasswordInfoArray($res, 0);
     }
 
     public function testPasswordNeedsRehash(): void
     {
         $res = password_needs_rehash($this->hashes['password_hash'], PASSWORD_DEFAULT);
         $this->assertFalse($res);
-
-        $res = password_needs_rehash($this->hashes['md5'], PASSWORD_DEFAULT);
-        $this->assertTrue($res);
-
-        if (PHP_VERSION_ID < 70400) {
-            $this->markTestSkipped('PHP 7.4 APIs unclear yet');
-        } else {
-            $res = password_needs_rehash($this->hashes['md5-64'], PASSWORD_DEFAULT);
-            $this->assertTrue($res);
-        }
     }
 
     private function assertPasswordInfoArray($res, $algo = 1, $algoName = 'unknown'): void
