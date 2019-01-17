@@ -14,7 +14,7 @@
 namespace Eventum\Auth\Adapter;
 
 use Auth;
-use AuthException;
+use Eventum\Auth\AuthException;
 use Eventum\Auth\Ldap\LdapConnection;
 use Eventum\Auth\Ldap\UserEntry;
 use Eventum\Monolog\Logger;

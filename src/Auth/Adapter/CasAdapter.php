@@ -15,7 +15,7 @@ namespace Eventum\Auth\Adapter;
 
 use Auth;
 use AuthCookie;
-use AuthException;
+use Eventum\Auth\AuthException;
 use Misc;
 use phpCAS;
 use Setup;

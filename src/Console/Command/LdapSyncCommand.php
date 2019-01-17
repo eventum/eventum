@@ -13,8 +13,8 @@
 
 namespace Eventum\Console\Command;
 
-use AuthException;
 use Eventum\Auth\Adapter\LdapAdapter;
+use Eventum\Auth\AuthException;
 use Eventum\Auth\Ldap\UserEntry;
 use InvalidArgumentException;
 use RuntimeException;

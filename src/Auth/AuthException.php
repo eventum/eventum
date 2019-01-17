@@ -11,6 +11,10 @@
  * that were distributed with this source code.
  */
 
+namespace Eventum\Auth;
+
+use RuntimeException;
+
 class AuthException extends RuntimeException
 {
 }

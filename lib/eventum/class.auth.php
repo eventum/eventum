@@ -12,6 +12,7 @@
  */
 
 use Eventum\Auth\Adapter\AdapterInterface;
+use Eventum\Auth\AuthException;
 use Eventum\Monolog\Logger;
 use Eventum\Session;
 use Symfony\Component\Filesystem\Exception\IOException;
