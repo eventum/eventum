@@ -169,34 +169,20 @@ class SetupController extends BaseController
         $errors = [];
         $warnings = [];
 
-        $extensions = [
-            // extension => array(IS_REQUIRED, MESSAGE_TO_DISPLAY)
-            'gd' => [true,
-                     'The GD extension needs to be enabled in your PHP.INI file in order for Eventum to work properly.', ],
-            'session' => [true,
-                          'The Session extension needs to be enabled in your PHP.INI file in order for Eventum to work properly.', ],
-            'pdo_mysql' => [true,
-                            'The PDO MySQL extension needs to be enabled in your PHP.INI file in order for Eventum to work properly.', ],
-            'json' => [true,
-                       'The json extension needs to be enabled in your PHP.INI file in order for Eventum to work properly.', ],
-            'mbstring' => [true,
-                           'The Multibyte String Functions extension is not enabled in your PHP installation. For localization to work properly '
-                           .
-                           'You need to install this extension. If you do not install this extension localization will be disabled.', ],
-            'iconv' => [true, 'The ICONV extension is not enabled in your PHP installation. ' .
-                        'You need to install this extension for optimal operation. If you do not install this extension some unicode data will be corrupted.', ],
-            'intl' => [false, 'The intl extension is not enabled in your PHP installation. ' .
-                        'For optional performance you should install intl extension', ],
+        $requiredExtensions = [
+            'ctype',
+            'gd',
+            'iconv',
+            'intl',
+            'json',
+            'mbstring',
+            'pdo_mysql',
+            'session',
         ];
 
-        foreach ($extensions as $extension => $value) {
-            list($required, $message) = $value;
+        foreach ($requiredExtensions as $extension) {
             if (!extension_loaded($extension)) {
-                if ($required) {
-                    $errors[] = $message;
-                } else {
-                    $warnings[] = $message;
-                }
+                $errors[] = sprintf('The %s extension needs to be enabled in your PHP.INI file in order for Eventum to work properly.', $extension);
             }
         }
 
