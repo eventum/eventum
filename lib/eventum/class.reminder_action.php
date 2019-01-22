@@ -40,7 +40,7 @@ class Reminder_Action
         $last = end($ids);
         $first = reset($ids);
         if ((($rank_type == 'asc') && ($rma_id == $first)) ||
-                (($rank_type == 'desc') && ($rma_id == $last))) {
+            (($rank_type == 'desc') && ($rma_id == $last))) {
             return false;
         }
 
@@ -222,7 +222,7 @@ class Reminder_Action
 
         $t = [];
         foreach ($res as $row) {
-            if (Validation::isEmail($row['ral_email'])) {
+            if (self::isEmail($row['ral_email'])) {
                 $t[$row['ral_email']] = $row['ral_email'];
             } else {
                 $t[$row['ral_usr_id']] = User::getFullName($row['ral_usr_id']);
@@ -242,7 +242,7 @@ class Reminder_Action
     public static function associateUserList($rma_id, $user_list)
     {
         foreach ($user_list as $user) {
-            if (!Validation::isEmail($user)) {
+            if (!self::isEmail($user)) {
                 $usr_id = $user;
                 $email = '';
             } else {
@@ -593,7 +593,7 @@ class Reminder_Action
                 $to = [];
                 foreach ($list as $key => $value) {
                     // add the recipient to the list if it's a simple email address
-                    if (Validation::isEmail($key)) {
+                    if (self::isEmail($key)) {
                         $to[] = $key;
                     } else {
                         $to[] = User::getFromHeader($key);
@@ -633,7 +633,7 @@ class Reminder_Action
                 $to = [];
                 foreach ($list as $key => $value) {
                     // add the recipient to the list if it's a simple email address
-                    if (Validation::isEmail($key)) {
+                    if (self::isEmail($key)) {
                         $to[] = $key;
                     } else {
                         // otherwise, check for the clocked-in status
@@ -861,5 +861,10 @@ class Reminder_Action
         }
 
         return true;
+    }
+
+    private static function isEmail(string $address): bool
+    {
+        return filter_var($address, FILTER_VALIDATE_EMAIL);
     }
 }
