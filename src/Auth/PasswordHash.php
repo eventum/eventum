@@ -13,7 +13,6 @@
 
 namespace Eventum\Auth;
 
-use InvalidArgumentException;
 use RuntimeException;
 
 /**
@@ -30,7 +29,7 @@ class PasswordHash
      * @throws RuntimeException
      * @return string the hashed password, throws on error
      */
-    public static function hash($password): string
+    public static function hash(string $password): string
     {
         $res = password_hash($password, self::HASH_ALGO);
         if (!$res) {
@@ -43,18 +42,12 @@ class PasswordHash
     /**
      * Verify a password against a hash using a timing attack resistant approach
      *
-     * @param string $hash The hash to verify against
      * @param string $password The password to verify
-     * @throws InvalidArgumentException in case non-strings were passed as hash or password
+     * @param string $hash The hash to verify against
      * @return bool If the password matches the hash
      */
-    public static function verify($password, $hash): bool
+    public static function verify(string $password, string $hash): bool
     {
-        if (!is_string($password) || !is_string($hash)) {
-            throw new InvalidArgumentException('password and hash need to be strings');
-        }
-
-        // verify passwords in constant time, i.e always do all checks
         return password_verify($password, $hash);
     }
 
@@ -66,7 +59,7 @@ class PasswordHash
      * @param string $hash The hash to test
      * @return bool true if the password needs to be rehashed
      */
-    public static function needs_rehash($hash): bool
+    public static function needs_rehash(string $hash): bool
     {
         return password_needs_rehash($hash, self::HASH_ALGO);
     }
