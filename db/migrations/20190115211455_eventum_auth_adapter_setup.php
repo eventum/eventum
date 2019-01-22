@@ -34,6 +34,10 @@ class EventumAuthAdapterSetup extends AbstractMigration
         $this->setupAuthAdapter();
     }
 
+    public function down()
+    {
+    }
+
     private function setupAuthAdapter(): void
     {
         $setup = Setup::get();
