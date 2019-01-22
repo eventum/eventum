@@ -13,6 +13,8 @@
 
 namespace Eventum\Controller\Manage;
 
+use Eventum\Auth\Adapter\LdapAdapter;
+use Eventum\Auth\AuthException;
 use Eventum\Controller\BaseController;
 use User;
 
@@ -27,7 +29,7 @@ abstract class ManageBaseController extends BaseController
 
         $this->tpl->assign(
             [
-                'auth_backend' => strtolower(APP_AUTH_BACKEND),
+                'ldap_auth' => $this->hasLdapAuth(),
             ]
         );
     }
@@ -38,5 +40,16 @@ abstract class ManageBaseController extends BaseController
         // then give access permission.
         // probably canRoleAccess satisfied access restriction.
         return true;
+    }
+
+    private function hasLdapAuth()
+    {
+        try {
+            new LdapAdapter();
+
+            return true;
+        } catch (AuthException $e) {
+            return false;
+        }
     }
 }

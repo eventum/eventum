@@ -54,7 +54,7 @@
 {/function}
 
 {block "manage_content"}
-  {if $auth_backend == 'ldap_auth_backend'}
+  {if $ldap_auth}
     <form id="ldap_form" method="post">
     <input type="hidden" name="cat" value="update">
     <table class="bordered">

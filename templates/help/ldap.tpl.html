@@ -1,11 +1,17 @@
 <h4>{t}LDAP Authentication{/t}</h4>
 
 <p>
-  {t escape="no"}Eventum can be used with an LDAP directory service for centralized authentication. To enable this feature, set the following option in <b>config.php</b>:{/t}
+  {t}Eventum can be used with an LDAP directory service for centralized authentication.{/t}
+  {t escape="no"}To enable this feature, set the following option in <b>config/setup.php</b>:{/t}
 </p>
 
 <pre>
-  {literal}define('APP_AUTH_BACKEND', 'LDAP_Auth_Backend');{/literal}
+  {literal}
+    'auth' => [
+      'adapter' => 'Eventum\\Auth\\Adapter\\LdapAdapter',
+      'arguments' => [],
+    ],
+  {/literal}
 </pre>
 
 <p>
