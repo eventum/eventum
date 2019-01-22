@@ -26,12 +26,6 @@ use User;
  * This auth backend integrates with an LDAP server and if set to, will create
  * a local user with the specified name and email. The user will be
  * authenticated against the LDAP server on each login.
- *
- * This backend will look for users in the default mysql backend if no LDAP
- * user is found. This behaviour may be configurable in the future.
- *
- * Set define('APP_AUTH_BACKEND', 'LDAP_Auth_Backend') in the config file and
- * then fill in the LDAP server details in manage
  */
 class LdapAdapter implements AdapterInterface
 {
@@ -71,6 +65,10 @@ class LdapAdapter implements AdapterInterface
         $this->active_dn = $config['active_dn'];
         $this->inactive_dn = $config['inactive_dn'];
         $this->create_users = (bool)$config['create_users'];
+
+        if (!$this->active_dn || !$this->inactive_dn) {
+            throw new AuthException('LDAP Adapter not configured');
+        }
     }
 
     /**

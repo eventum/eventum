@@ -27,9 +27,7 @@ use User;
  * This backend will look for users in the default mysql backend if no CAS
  * user is found. This behaviour may be configurable in the future.
  *
- * Set define('APP_AUTH_BACKEND', 'CAS_Auth_Backend') in the config file and
- * then fill in the CAS server details config/cas.php. An example config file is
- * in docs/examples/config/cas.php
+ * An example config file is in docs/examples/config/cas.php
  */
 class CasAdapter implements AdapterInterface
 {

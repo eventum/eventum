@@ -33,12 +33,12 @@ class LdapSyncCommand extends Command
 
     public function execute(OutputInterface $output, $dryrun = false, $createUsers, $noUpdate, $noDisable)
     {
-        $this->assertLdapAuthEnabled();
         $this->output = $output;
         $this->dryrun = $dryrun;
 
         $this->ldap = new LdapAdapter();
         $this->ldap->create_users = $createUsers;
+
         $this->updateUsers(!$noUpdate);
         $this->disableUsers(!$noDisable);
     }
@@ -167,13 +167,6 @@ class LdapSyncCommand extends Command
         $res = $this->ldap->disableAccount($uid);
         if ($res !== true) {
             throw new RuntimeException("Account disable for $uid ($dn) failed");
-        }
-    }
-
-    private function assertLdapAuthEnabled()
-    {
-        if (strtolower(APP_AUTH_BACKEND) !== 'Eventum\Auth\Adapter\LdapAdapter') {
-            throw new RuntimeException('You should enable and configure LDAP backend first');
         }
     }
 }
