@@ -36,6 +36,10 @@ class MysqlAdapter implements AdapterInterface
     public function verifyPassword($login, $password)
     {
         $usr_id = User::getUserIDByEmail($login, true);
+        if (!$usr_id) {
+            return false;
+        }
+
         $user = User::getDetails($usr_id);
         $hash = $user['usr_password'];
 
