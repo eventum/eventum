@@ -265,7 +265,7 @@ class Search
         $stmt .= ')';
 
         // check for the custom fields we want to sort by
-        if (strstr($options['sort_by'], 'custom_field') !== false) {
+        if (strpos($options['sort_by'], 'custom_field') !== false) {
             $fld_id = str_replace('custom_field_', '', $options['sort_by']);
             $stmt .= "\n LEFT JOIN \n
                     `issue_custom_field` as cf_sort
@@ -350,7 +350,7 @@ class Search
                     iss_prj_id= ' . Misc::escapeInteger($prj_id);
         $stmt .= self::buildWhereClause($options);
 
-        if (strstr($options['sort_by'], 'custom_field') !== false) {
+        if (strpos($options['sort_by'], 'custom_field') !== false) {
             $fld_details = Custom_Field::getDetails($fld_id);
             $sort_by = 'cf_sort.' . Custom_Field::getDBValueFieldNameByType($fld_details['fld_type']);
         } else {

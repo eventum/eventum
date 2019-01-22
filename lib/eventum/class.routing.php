@@ -459,7 +459,7 @@ class Routing
 
         if (!empty($settings['host_alias'])) {
             // XXX: legacy split by '|' as well
-            if (strstr($settings['host_alias'], '|')) {
+            if (strpos($settings['host_alias'], '|') !== false) {
                 $host_aliases = explode('|', $settings['host_alias']);
             } else {
                 $host_aliases = explode(' ', $settings['host_alias']);
