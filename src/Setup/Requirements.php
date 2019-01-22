@@ -112,12 +112,12 @@ class Requirements
                 // try to create the file ourselves then
                 $fp = @fopen($file, 'wb');
                 if (!$fp) {
-                    return $this->getPermissionError($file, $desc, $is_directory, false);
+                    return $this->getPermissionError($file, $is_directory, false);
                 }
                 @fclose($fp);
             } else {
                 if (!mkdir($file) && !is_dir($file)) {
-                    return $this->getPermissionError($file, $desc, $is_directory, false);
+                    return $this->getPermissionError($file, $is_directory, false);
                 }
             }
         }
@@ -128,10 +128,10 @@ class Requirements
                 @chmod($file, 0644);
                 clearstatcache();
                 if (!is_writable($file)) {
-                    return $this->getPermissionError($file, $desc, $is_directory, true);
+                    return $this->getPermissionError($file, $is_directory, true);
                 }
             } else {
-                return $this->getPermissionError($file, $desc, $is_directory, true);
+                return $this->getPermissionError($file, $is_directory, true);
             }
         }
         if (stripos(PHP_OS, 'win') !== false) {
@@ -152,14 +152,14 @@ class Requirements
         return '';
     }
 
-    private function getPermissionError($file, $desc, $is_directory, $exists): string
+    private function getPermissionError(string $path, bool $is_directory, bool $exists): string
     {
         if ($is_directory) {
             $title = 'Directory';
         } else {
             $title = 'File';
         }
-        $error = "$title <b>'" . $file . ($is_directory ? '/' : '') . "'</b> ";
+        $error = "$title <b>'" . $path . ($is_directory ? '/' : '') . "'</b> ";
 
         if (!$exists) {
             $error .= "does not exist. Please create the $title and reload this page.";
