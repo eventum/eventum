@@ -25,13 +25,8 @@ class Validation
      * @param   string $str The string to check against
      * @return  bool
      */
-    public static function isWhitespace($str)
+    public static function isWhitespace($str): bool
     {
-        $str = trim($str);
-        if (strlen($str) == 0) {
-            return true;
-        }
-
-        return false;
+        return trim($str) === '';
     }
 }
