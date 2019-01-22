@@ -41,17 +41,29 @@ class EventumAuthAdapterSetup extends AbstractMigration
     private function setupAuthAdapter(): void
     {
         $setup = Setup::get();
-        $className = $this->getClassName();
-        $reflection = new ReflectionClass($className);
-        if (!isset($setup['auth'])) {
-            $setup['auth'] = [];
-        }
-        $setup['auth']['adapter'] = $reflection->getName();
-        $setup['auth']['arguments'] = $this->getArguments($setup['auth']['adapter']);
+        $setup['auth'] = $this->createConfiguration();
         Setup::save();
     }
 
-    private function getClassName(): string
+    private function createConfiguration(): array
+    {
+        $reflection = new ReflectionClass($this->getAdapterClassName());
+        $className = $reflection->getName();
+
+        return [
+            'adapter' => $className,
+            'options' => [
+                $className => $this->getAdapterArguments($className),
+            ],
+        ];
+    }
+
+    private function hasFallbackEnabled(): bool
+    {
+        return defined('APP_AUTH_BACKEND_ALLOW_FALLBACK') && APP_AUTH_BACKEND_ALLOW_FALLBACK;
+    }
+
+    private function getAdapterClassName(): string
     {
         if (!defined('APP_AUTH_BACKEND')) {
             return self::DEFAULT_ADAPTER;
@@ -62,20 +74,17 @@ class EventumAuthAdapterSetup extends AbstractMigration
         return $this->classMapping[$class] ?? self::DEFAULT_ADAPTER;
     }
 
-    private function hasFallbackEnabled(): bool
-    {
-        return defined('APP_AUTH_BACKEND_ALLOW_FALLBACK') && APP_AUTH_BACKEND_ALLOW_FALLBACK;
-    }
-
-    private function getArguments(string $className): array
+    private function getAdapterArguments(string $className): ?array
     {
         if ($className === Adapter\ChainAdapter::class) {
             return [
-                Adapter\LdapAdapter::class,
-                Adapter\MysqlAdapter::class,
+                [
+                    Adapter\LdapAdapter::class,
+                    Adapter\MysqlAdapter::class,
+                ],
             ];
         }
 
-        return [];
+        return null;
     }
 }

@@ -2,17 +2,7 @@
 
 <p>
   {t}Eventum can be used with an LDAP directory service for centralized authentication.{/t}
-  {t escape="no"}To enable this feature, set the following option in <b>config/setup.php</b>:{/t}
 </p>
-
-<pre>
-  {literal}
-    'auth' => [
-      'adapter' => 'Eventum\\Auth\\Adapter\\LdapAdapter',
-      'arguments' => [],
-    ],
-  {/literal}
-</pre>
 
 <p>
   {t}The following parameters need to be configured to enable LDAP integration:{/t}

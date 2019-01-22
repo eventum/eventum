@@ -15,6 +15,8 @@ namespace Eventum\Auth\Adapter;
 
 class ChainAdapter implements AdapterInterface
 {
+    public const displayName = 'Chained authentication adapter';
+
     /** @var AdapterInterface[] */
     private $adapters = [];
 

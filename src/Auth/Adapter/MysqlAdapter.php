@@ -23,6 +23,8 @@ use User;
  */
 class MysqlAdapter implements AdapterInterface
 {
+    public const displayName = 'MySQL builtin authentication adapter';
+
     /**
      * Checks whether the provided password match against the email
      * address provided.

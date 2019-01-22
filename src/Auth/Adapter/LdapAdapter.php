@@ -29,6 +29,8 @@ use User;
  */
 class LdapAdapter implements AdapterInterface
 {
+    public const displayName = 'LDAP authentication adapter';
+
     /** @var bool */
     public $create_users;
 

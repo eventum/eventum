@@ -31,6 +31,8 @@ use User;
  */
 class CasAdapter implements AdapterInterface
 {
+    public const displayName = 'CAS authentication adapter';
+
     protected $client;
 
     public function __construct()

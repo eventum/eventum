@@ -41,12 +41,32 @@ abstract class Factory
         }
 
         $className = $spec['adapter'] ?? self::DEFAULT_ADAPTER;
-        $arguments = $spec['arguments'] ?? [];
+        $arguments = $spec['options'][$className] ?? [];
         $reflection = new ReflectionClass($className);
 
         /** @var AdapterInterface $adapter */
         $adapter = $reflection->newInstanceArgs($arguments);
 
         return $adapter;
+    }
+
+    /**
+     * Return list of possible adapters with their default options.
+     *
+     * @return array
+     */
+    public static function getAdapterList(): array
+    {
+        return [
+            MysqlAdapter::class => [],
+            LdapAdapter::class => [],
+            CasAdapter::class => [],
+            ChainAdapter::class => [
+                [
+                    MysqlAdapter::class,
+                    LdapAdapter::class,
+                ],
+            ],
+        ];
     }
 }

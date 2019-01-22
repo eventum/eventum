@@ -1,0 +1,33 @@
+{extends "manage/manage.tpl.html"}
+
+{block "manage_content"}
+<form id="auth_form" method="post">
+    <input type="hidden" name="cat" value="update">
+    <table class="bordered" border="1">
+        <tr class="title">
+            <th colspan="2">
+                {t}Authentication Setup{/t}
+            </th>
+        </tr>
+
+        <tr>
+            <th width="120">
+                {t}Auth Adapter{/t}
+            </th>
+            <td valign="top">
+                <select name="adapter">
+                    <option value="" label="{t}Please select a backend{/t}">{t}Please select a backend{/t}</option>
+                    {html_options options=$adapters selected=$adapter}
+                </select>
+            </td>
+        </tr>
+
+        <tr class="buttons">
+            <td colspan="2">
+                <input class="button" type="submit" value="{t}Update Setup{/t}">
+                <input class="button" type="reset" value="{t}Reset{/t}">
+            </td>
+        </tr>
+    </table>
+</form>
+{/block}
