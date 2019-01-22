@@ -33,15 +33,20 @@ class Requirements
     {
         $errors = [];
 
+        // sync with composer.json
         $requiredExtensions = [
             'ctype',
+            'filter',
             'gd',
             'iconv',
             'intl',
             'json',
             'mbstring',
+            'pcre',
+            'pdo',
             'pdo_mysql',
             'session',
+            'spl',
         ];
 
         foreach ($requiredExtensions as $extension) {
