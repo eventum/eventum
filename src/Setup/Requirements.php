@@ -36,6 +36,7 @@ class Requirements
         // sync with composer.json
         $requiredExtensions = [
             'ctype',
+            'fileinfo',
             'filter',
             'gd',
             'iconv',
