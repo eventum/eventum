@@ -14,10 +14,13 @@
 namespace Eventum\Scm\Adapter;
 
 use Eventum\Db\Doctrine;
+use Eventum\Event\SystemEvents;
+use Eventum\EventDispatcher\EventManager;
 use Eventum\IssueMatcher;
 use Eventum\Scm\Payload\GitlabPayload;
 use Eventum\Scm\ScmRepository;
 use InvalidArgumentException;
+use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -68,7 +71,19 @@ class Gitlab extends AbstractAdapter
         }
 
         $matcher = new IssueMatcher(APP_BASE_URL);
-        $issues = $matcher->match($payload->getDescription());
+        $description = $payload->getDescription();
+        $matches = $matcher->match($description);
+        if (!$matches) {
+            return;
+        }
+
+        // dispatch matches as event
+        $dispatcher = EventManager::getEventDispatcher();
+        $event = new GenericEvent($payload, [
+            'description' => $description,
+            'description_matches' => $matches,
+        ]);
+        $dispatcher->dispatch(SystemEvents::RPC_GITLAB_MATCH_ISSUE, $event);
     }
 
     /**

@@ -166,6 +166,12 @@ final class SystemEvents
     const IRC_FORMAT_MESSAGE = 'irc.format.message';
 
     /**
+     * @since 3.6.0
+     * @see \Eventum\Scm\Adapter\Gitlab::processIssueHook()
+     */
+    public const RPC_GITLAB_MATCH_ISSUE = 'rpc.gitlab.match.issue';
+
+    /**
      * Helper to feature test whether specific event is being emitted by Eventum.
      *
      * @param string $eventName
