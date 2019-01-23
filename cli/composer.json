@@ -21,6 +21,39 @@
 	},
 	"repositories": [
 		{
+			"type": "package",
+			"package": {
+				"name": "pear-pear.php.net/XML_RPC",
+				"version": "1.5.5",
+				"dist": {
+					"type": "file",
+					"url": "https://distfiles.pld-linux.org/distfiles/by-md5/0/2/02f9b1a27636527ddf6661e545799d45/XML_RPC-1.5.5.tgz",
+					"shasum": "14dc0a4f09a5d31e56267e243b05114d3da10ce1"
+				},
+				"require": {
+					"ext-xml": "*",
+					"php": ">=4.2.0.0"
+				},
+				"replace": {
+					"pear-pear/xml_rpc": "== 1.5.5.0",
+					"pear/xml_rpc": "== 1.5.5.0"
+				},
+				"type": "pear-library",
+				"autoload": {
+					"classmap": [
+						""
+					]
+				},
+				"include-path": [
+					"/"
+				],
+				"license": [
+					"PHP License"
+				],
+				"description": "A PEAR-ified version of Useful Inc's XML-RPC for PHP.\n\nIt has support for HTTP/HTTPS transport, proxies and authentication."
+			}
+		},
+		{
 			"type": "composer",
 			"url": "https://eventum.github.io/composer/"
 		}
