@@ -45,6 +45,8 @@ abstract class AbstractMigration extends PhinxAbstractMigration
     const PHINX_TYPE_BLOB = MysqlAdapter::PHINX_TYPE_BLOB;
     const PHINX_TYPE_STRING = MysqlAdapter::PHINX_TYPE_STRING;
 
+    protected const ENCODING_ASCII = 'ascii';
+
     protected const COLLATION_ASCII = 'ascii_general_ci';
 
     /**
