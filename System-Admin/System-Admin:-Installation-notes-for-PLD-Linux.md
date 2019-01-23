@@ -10,7 +10,9 @@ Main package
 
 Before you continue, please read the generic installation instructions: [Doing a fresh install](Doing a fresh install "wikilink").
 
-`# poldek -u eventum-setup`
+```
+# poldek -u eventum-setup
+```
 
 Follow the on-screen information `eventum` rpm gives you.
 
@@ -22,7 +24,9 @@ and if you need then `eventum` configs reside in `/etc/webapps/eventum` includin
 
 ### php.ini settings needed
 
-`allow_call_time_pass_reference = On`
+```
+allow_call_time_pass_reference = On
+```
 
 Mail Routing
 ------------
@@ -37,7 +41,9 @@ There exists three kinds of data to be routed
 
 for these exist subpackages:
 
-`# poldek -u eventum-route-{emails,notes,drafts}`
+```
+# poldek -u eventum-route-{emails,notes,drafts}
+```
 
 and again, follow the on-screen information.
 
@@ -46,25 +52,33 @@ CLI Interface
 
 CLI allows you access Eventum via your favourite shell
 
-`# poldek -u eventum-cli`
+```
+# poldek -u eventum-cli
+```
 
 before you can use `eventum-cli`, you should setup `~/.eventumrc`
 
-`$ zcat /usr/share/doc/eventum-cli-*/eventumrc.gz > ~/.eventumrc`
-`$ chmod 600 ~/.eventumrc`
-`$ vi ~/.eventumrc`
+```
+$ zcat /usr/share/doc/eventum-cli-*/eventumrc.gz > ~/.eventumrc
+$ chmod 600 ~/.eventumrc
+$ vi ~/.eventumrc
+```
 
 SCM Integration
 ---------------
 
 `SCM` Integration is currently possible only with `CVS`. For SVN integration have look at [Subversion integration](Subversion integration "wikilink") page.
 
-`# poldek -u eventum-scm`
+```
+# poldek -u eventum-scm
+```
 
 You should add to your `CVSROOT/loginfo` catchall entry:
 
-`# process any message with Eventum`
-`ALL  /usr/lib/eventum/scm $USER %{sVv}`
+```
+# process any message with Eventum
+ALL  /usr/lib/eventum/scm $USER %{sVv}
+```
 
 IRC Bot
 -------
@@ -73,9 +87,11 @@ By default IRC Bot notifies to configured channel only new issues. If you need m
 
 You might want to read [Using the IRC bot](Using the IRC bot "wikilink") before configuring your IRC bot.
 
-`# poldek -u eventum-irc`
-`# vi /etc/eventum/irc.php`
-`# /sbin/service eventum-irc start`
+```
+# poldek -u eventum-irc
+# vi /etc/eventum/irc.php
+# /sbin/service eventum-irc start
+```
 
 Upgrading
 ---------
@@ -91,4 +107,6 @@ Uninstalling Eventum
 
 That's simple
 
-`# poldek -e eventum`
+```
+# poldek -e eventum
+```

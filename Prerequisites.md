@@ -2,22 +2,27 @@
 
 You will need:
 
--   A Webserver that is capable of handling PHP scripts (i.e [Apache HTTPD Server](http://httpd.apache.org/))
--    [PHP](http://www.php.net/) 5.6.x with the following extensions
+- A Webserver that is capable of handling PHP scripts (i.e [Apache HTTPD Server](https://httpd.apache.org/))
+- [PHP](https://secure.php.net/) 7.1.x with the following extensions
+    - ctype
     - date (builtin)
+    - pcre (builtin)
     - filter
+    - intl
+    - fileinfo
     - gd - GD Extension
     - gettext - gettext support if you want to use localization
     - iconv
     - imap - IMAP Extension (c-client imap library)
     - json
     - mbstring
+    - pdo
     - pdo_mysql - MySQL Extension
     - pcre - PCRE Extension
     - session (builtin) - Session handling enabled
     - spl (builtin)
 -   An SMTP and POP Server for email support
--   MySQL Database Server (you can get it from the [MySQL Download page](http://dev.mysql.com/downloads/mysql/))
+-   MySQL Database Server (you can get it from the [MySQL Download page](https://dev.mysql.com/downloads/mysql/))
 
 ### Checking PHP Requirements
 
@@ -27,7 +32,9 @@ If a requirement is missing from your PHP installation, Eventum will output info
 
 Type this command as any user:
 
-`php -m | grep -Ei '(gd|imap|mysql|pcre|session)'`
+```
+php -m
+```
 
 **NOTE:** If your system has multiple PHP installations, be sure to use the complete path to the same php binary that is used by your web server.
 

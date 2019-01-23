@@ -31,8 +31,6 @@ Create an Issue Manually
 
 Enter all mandatory fields Select Category of the project. The categories will be displayed automatically when you select the project (left side of the screen you have a selection box and switch button. Select your project and click on switch button) Select the Priority of which the issue belongs to. To assign the issue you need to select the user in Assignment. Where you can select multiple user at once Select the group. Enter the Summary (What is the issue) Enter Description (In Detail description of the issue) click on submit button to post this issue.
 
-`                                                       ........... shyam`
-
 * * * * *
 
 Create an Issue using Email Integration by Associating Email

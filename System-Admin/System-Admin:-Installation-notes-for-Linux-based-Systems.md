@@ -4,14 +4,19 @@ Slackware 12.0 includes all necessary modules with the default installation of P
 
 Unlike many other Linux distributions, MySQL must be initialized before using on Slackware. Simply issue these commands as root:
 
-`mysql_install_db`
-`chown -R mysql.mysql /var/lib/mysql`
-`chmod +x /etc/rc.d/rc.mysqld`
-`/etc/rc.d/rc.mysqld start`
+```
+
+mysql_install_db
+chown -R mysql:mysql /var/lib/mysql
+chmod +x /etc/rc.d/rc.mysqld
+/etc/rc.d/rc.mysqld start
+```
 
 It's also a good idea to use the following script to harden MySQL:
 
-`mysql_secure_installation`
+```
+mysql_secure_installation
+```
 
 Now that MySQL is running, complete the installation of Eventum.
 
@@ -23,21 +28,27 @@ If the installer complains that a file is not writable even though it clearly is
 Fedora Core 4
 -------------
 
-` # yum install php-gd`
-` # yum install php-mysql`
+```
+# yum install php-gd
+# yum install php-mysql
+```
 
 /etc/php.d/eventum.ini
 
-` allow_call_time_pass_reference = true`
-` memory_limit = 16M`
+```ini
+allow_call_time_pass_reference = true
+memory_limit = 16M
+```
 
 /etc/php/errors.ini (good for troubleshooting during installation)
 
-` display_errors = On`
-` display_startup_errors = On`
-` log_errors = On`
-` error_reporting = E_ALL`
-` ; error_log = filename`
+```ini
+display_errors = On
+display_startup_errors = On
+log_errors = On
+error_reporting = E_ALL
+; error_log = filename
+``````
 
 Debian Linux
 ------------
@@ -80,10 +91,10 @@ gettext and Translation
 
 In order to have translation working on some systems, ensure you have the correct locale enabled, otherwise the gettext function does not get the translation.
 
-Edit:
-
-` /etc/locale.gen`
+Edit: `/etc/locale.gen`
 
 Activate all the locales you need and then run:
 
-` locale-gen`
+```
+locale-gen
+```

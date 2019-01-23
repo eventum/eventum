@@ -89,11 +89,10 @@ Note that the DROP/ADD procedure described below should be used if you have LARG
 
 Using phpMyAdmin, it is rather easy to update (rebuild) the indexes of a single table using point and click. Let's use the note table as an example. Looking at the structure of the table, it describes the existing indexes. If you click on 'edit' for the FULLTEXT index, and do not change anything about the definition of the index; then click on the 'Go' button, you will have effectively run this SQL statement
 
-`` ALTER TABLE `note` DROP INDEX `ft_note` , ``
-`` ADD FULLTEXT `ft_note` ( ``
-`` `not_title` , ``
-`` `not_note` ``
-`)`
+```sql
+ ALTER TABLE `note` DROP INDEX `ft_note` ,
+   ADD FULLTEXT `ft_note` (`not_title`,  `not_note`)
+```
 
 Note that changing the ft_min_word_len value in the mysqld section of my.cnf must also be done in the myisamchk section, or on the commandline if you are using the myisamchk tool because this configuration is not actually stored within the .MYI files!!!
 
@@ -107,10 +106,13 @@ from <http://dev.mysql.com/doc/refman/4.1/en/fulltext-fine-tuning.html>:
 
 > To ensure that myisamchk and the server use the same values for full-text parameters, place each one in both the [mysqld] and [myisamchk] sections of an option file:
 
-`[mysqld]`
-`ft_min_word_len=3`
-`[myisamchk]`
-`ft_min_word_len=3`
+```
+[mysqld]
+ft_min_word_len=3
+
+[myisamchk]
+ft_min_word_len=3
+```
 
 > An alternative to using myisamchk is to use the REPAIR TABLE, ANALYZE TABLE, OPTIMIZE TABLE, or ALTER TABLE statements. These statements are performed by the server, which knows the proper full-text parameter values to use.
 

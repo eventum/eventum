@@ -17,13 +17,13 @@ You need to change some information in the database.
 First step get the user's ID (will have the Administrator access)
 
 ```sql
-SELECT usr_id FROM eventum_user WHERE usr_email='your_email_here@example.com';
+SELECT usr_id FROM user WHERE usr_email='your_email_here@example.com';
 ```
 
 Second step : update the user level in table *project_user*
 
 ```sql
-UPDATE eventum_project_user SET pru_role = 7 WHERE pru_usr_id = 2 LIMIT 1;
+UPDATE project_user SET pru_role = 7 WHERE pru_usr_id = 2 LIMIT 1;
 ```
 
 -   7 is the Administrator level
