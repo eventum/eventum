@@ -11,7 +11,7 @@
  * that were distributed with this source code.
  */
 
-namespace Example\Event;
+namespace Example\Event\Subscriber;
 
 use Eventum\Event\SystemEvents;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;

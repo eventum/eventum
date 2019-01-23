@@ -14,7 +14,7 @@
 namespace Example\Extension;
 
 use Eventum\Extension\AbstractExtension;
-use Example\Event;
+use Example\Event\Subscriber;
 
 /**
  * Example Eventum Extension.
@@ -124,10 +124,10 @@ class ExampleExtension extends AbstractExtension
     public function getSubscribers()
     {
         return [
-            Event\CryptoSubscriber::class,
-            Event\HistorySubscriber::class,
-            Event\UserSubscriber::class,
-            Event\CommitSubscriber::class,
+            Subscriber\CryptoSubscriber::class,
+            Subscriber\HistorySubscriber::class,
+            Subscriber\UserSubscriber::class,
+            Subscriber\CommitSubscriber::class,
         ];
     }
 }
