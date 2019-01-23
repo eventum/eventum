@@ -7,7 +7,7 @@ first, also the PHP version required is 7.1, see [#426].
 
 - Update Phinx to 0.10 (@glensc, #388)
 - Detect invalid mail header starting with "From " and replace it with a correct custom one. (@vladsf, #439, #427)
-- Require PHP 7.1 (@glensc, #426, #450)
+- Require PHP 7.1 and `ctype`, `mbstring`, `filter`, `fileinfo` extensions (@glensc, #426, #450, #446)
 - Drop Yii2 adapter; Improvements to AbstractMigration (@glensc, #442)
 - Secure unserialize: control `allowed_classes` options (@glensc, #445)
 - Drop MD5 and MD5-64 password support (@glensc, #444)

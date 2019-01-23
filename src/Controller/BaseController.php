@@ -167,7 +167,7 @@ abstract class BaseController
     {
         $url = trim($url);
         if ($params) {
-            $q = strstr($url, '?') ? '&' : '?';
+            $q = strpos($url, '?') !== false ? '&' : '?';
             $url .= $q . http_build_query($params, null, '&');
         }
 

@@ -697,6 +697,7 @@ class User
                 $row['roles'] = $roles;
                 $row['aliases'] = explode(',', $row['ual_email']);
             }
+            unset($row);
 
             $returns[$key] = $res;
         }

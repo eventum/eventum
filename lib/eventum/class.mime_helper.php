@@ -21,8 +21,8 @@ class Mime_Helper
      */
     public static function quoteSender($address)
     {
-        if (strstr($address, '<')) {
-            if (substr($address, 0, 1) == '<') {
+        if (strpos($address, '<') !== false) {
+            if (strpos($address, '<') === 0) {
                 return substr($address, 1, -1);
             }
             $address = stripslashes($address);
@@ -43,8 +43,8 @@ class Mime_Helper
      */
     public static function removeQuotes($address)
     {
-        if (strstr($address, '<')) {
-            if (substr($address, 0, 1) == '<') {
+        if (strpos($address, '<') !== false) {
+            if (strpos($address, '<') === 0) {
                 return substr($address, 1, -1);
             }
             $address = stripslashes($address);
