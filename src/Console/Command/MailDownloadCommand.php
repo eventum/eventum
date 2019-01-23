@@ -44,12 +44,7 @@ class MailDownloadCommand
         $this->logger = Logger::app();
     }
 
-    /**
-     * @param string $username
-     * @param string $hostname
-     * @param string $mailbox
-     */
-    public function execute($username, $hostname, $mailbox, $limit = 0, $noLock = false)
+    public function execute(?string $username, ?string $hostname, ?string $mailbox, bool $noLock, int $limit = 0)
     {
         $account_id = $this->getAccountId($username, $hostname, $mailbox);
         $this->limit = $limit;

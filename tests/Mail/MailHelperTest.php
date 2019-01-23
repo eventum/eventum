@@ -61,11 +61,13 @@ class MailHelperTest extends TestCase
         $this->assertEquals($exp, $msgid, 'msg-id header with newline, following next header');
     }
 
-    public function testGenerateMessageId()
+    public function testGenerateMessageId(): void
     {
         $msgid = Mail_Helper::generateMessageID();
         // <eventum.md5.54hebbwge.myyt4c@eventum.example.org>
-        $exp = '<eventum\.md5\.[0-9a-z]{8,64}\.[0-9a-z]{8,64}@' . APP_HOSTNAME . '>';
+        // <eventum.md5.741zcol.2ib1drbh4bqcc@eventum.example.org>
+        // 741zcol = 1548267006.9 = Wed Jan 23 20:10:06 2019 +0200
+        $exp = '<eventum\.md5\.[0-9a-z]{7,64}\.[0-9a-z]{8,64}@' . APP_HOSTNAME . '>';
         $this->assertRegExp($exp, $msgid, 'Missing msg-id header');
     }
 
