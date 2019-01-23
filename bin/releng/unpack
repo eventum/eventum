@@ -9,4 +9,9 @@ ln -snf $tarname eventum
 cd eventum
 ../../bin/releng/setup-perms.sh
 
-exec php -S 127.0.0.1:8013 -t htdocs
+listen=127.0.0.1:8013
+php -S $listen -t htdocs &
+pid=$!
+
+open http://$listen/
+wait $pid

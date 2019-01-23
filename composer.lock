@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "59024da9e9689e99805557f2fc447c72",
+    "content-hash": "5bc06a76a67bd0ddb875a8d41a646589",
     "packages": [
         {
             "name": "cakephp/cache",
@@ -1869,97 +1869,6 @@
             "description": "Package to calculate statistical parameters of numerical arrays\nof data. The data can be in a simple numerical array, or in a \ncummulative numerical array. A cummulative array, has the value\nas the index and the number of repeats as the value for the\narray item, e.g. $data = array(3=&gt;4, 2.3=&gt;5, 1.25=&gt;6, 0.5=&gt;3).\nNulls can be rejected, ignored or handled as zero values."
         },
         {
-            "name": "pear-pear.php.net/Net_POP3",
-            "version": "1.3.8",
-            "dist": {
-                "type": "file",
-                "url": "https://pear.php.net/get/Net_POP3-1.3.8.tgz",
-                "reference": null,
-                "shasum": null
-            },
-            "require": {
-                "pear-pear.php.net/net_socket": ">=1.0.0.0",
-                "php": ">=4.0.0.0"
-            },
-            "replace": {
-                "pear-pear/net_pop3": "== 1.3.8.0",
-                "pear/net_pop3": "== 1.3.8.0"
-            },
-            "type": "pear-library",
-            "autoload": {
-                "classmap": [
-                    ""
-                ]
-            },
-            "include-path": [
-                "/"
-            ],
-            "license": [
-                "BSD"
-            ],
-            "description": "Provides a POP3 class to access POP3 server. Support all POP3 commands\n  including UIDL listings, APOP authentication, DIGEST-MD5 and CRAM-MD5\n  using optional Auth_SASL package"
-        },
-        {
-            "name": "pear-pear.php.net/Net_Socket",
-            "version": "1.0.14",
-            "dist": {
-                "type": "file",
-                "url": "https://pear.php.net/get/Net_Socket-1.0.14.tgz",
-                "reference": null,
-                "shasum": null
-            },
-            "require": {
-                "php": ">=4.3.0.0"
-            },
-            "replace": {
-                "pear-pear/net_socket": "== 1.0.14.0",
-                "pear/net_socket": "== 1.0.14.0"
-            },
-            "type": "pear-library",
-            "autoload": {
-                "classmap": [
-                    ""
-                ]
-            },
-            "include-path": [
-                "/"
-            ],
-            "license": [
-                "BSD-2-Clause"
-            ],
-            "description": "Net_Socket is a class interface to TCP sockets.  It provides blocking\n  and non-blocking operation, with different reading and writing modes\n  (byte-wise, block-wise, line-wise and special formats like network\n  byte-order ip addresses)."
-        },
-        {
-            "name": "pear-pear.php.net/Net_URL",
-            "version": "1.0.15",
-            "dist": {
-                "type": "file",
-                "url": "https://pear.php.net/get/Net_URL-1.0.15.tgz",
-                "reference": null,
-                "shasum": null
-            },
-            "require": {
-                "php": ">=4.0.0.0"
-            },
-            "replace": {
-                "pear-pear/net_url": "== 1.0.15.0",
-                "pear/net_url": "== 1.0.15.0"
-            },
-            "type": "pear-library",
-            "autoload": {
-                "classmap": [
-                    ""
-                ]
-            },
-            "include-path": [
-                "/"
-            ],
-            "license": [
-                "BSD"
-            ],
-            "description": "Provides easy parsing of URLs and their constituent parts."
-        },
-        {
             "name": "pear-pear.php.net/Text_Diff",
             "version": "1.2.2",
             "dist": {
@@ -1988,59 +1897,6 @@
                 "LGPL"
             ],
             "description": "This package provides a text-based diff engine and renderers for multiple diff output formats."
-        },
-        {
-            "name": "pear/auth_sasl",
-            "version": "v1.1.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/pear/Auth_SASL.git",
-                "reference": "db1ead3dc0bf986d2bab0dbc04d114800cf91dee"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/pear/Auth_SASL/zipball/db1ead3dc0bf986d2bab0dbc04d114800cf91dee",
-                "reference": "db1ead3dc0bf986d2bab0dbc04d114800cf91dee",
-                "shasum": ""
-            },
-            "require": {
-                "pear/pear_exception": "@stable"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "@stable"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-0": {
-                    "Auth": "./"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "include-path": [
-                "./"
-            ],
-            "license": [
-                "BSD"
-            ],
-            "authors": [
-                {
-                    "name": "Anish Mistry",
-                    "email": "amistry@am-productions.biz",
-                    "role": "Lead"
-                },
-                {
-                    "name": "Richard Heyes",
-                    "email": "richard@php.net",
-                    "role": "Lead"
-                },
-                {
-                    "name": "Michael Bretterklieber",
-                    "email": "michael@bretterklieber.com",
-                    "role": "Lead"
-                }
-            ],
-            "description": "Abstraction of various SASL mechanism responses",
-            "time": "2017-03-07T14:37:05+00:00"
         },
         {
             "name": "pear/console_getopt",
@@ -2088,66 +1944,6 @@
             ],
             "description": "More info available on: http://pear.php.net/package/Console_Getopt",
             "time": "2015-07-20T20:28:12+00:00"
-        },
-        {
-            "name": "pear/net_smtp",
-            "version": "1.6.3",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/pear/Net_SMTP.git",
-                "reference": "7b6240761adf6ee245098e238a25d5c35650d82c"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/pear/Net_SMTP/zipball/7b6240761adf6ee245098e238a25d5c35650d82c",
-                "reference": "7b6240761adf6ee245098e238a25d5c35650d82c",
-                "shasum": ""
-            },
-            "require": {
-                "pear/net_socket": "*",
-                "pear/pear_exception": "*",
-                "php": ">=4.0.5"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "*"
-            },
-            "suggest": {
-                "pear/auth_sasl": "Install optionally via your project's composer.json"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-0": {
-                    "Net": "./"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "include-path": [
-                "./"
-            ],
-            "license": [
-                "PHP License"
-            ],
-            "authors": [
-                {
-                    "name": "Jon Parise",
-                    "email": "jon@php.net",
-                    "homepage": "http://www.indelible.org",
-                    "role": "Lead"
-                },
-                {
-                    "name": "Chuck Hagenbuch",
-                    "email": "chuck@horde.org",
-                    "role": "Lead"
-                }
-            ],
-            "description": "An implementation of the SMTP protocol",
-            "homepage": "http://pear.github.io/Net_SMTP/",
-            "keywords": [
-                "email",
-                "mail",
-                "smtp"
-            ],
-            "time": "2015-08-02T17:20:17+00:00"
         },
         {
             "name": "pear/pear-core-minimal",
