@@ -1,0 +1,88 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "4afe999ecdd441d8cf16fb7b1f4dd6a1",
+    "packages": [
+        {
+            "name": "eventum/rpc",
+            "version": "v3.0.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/eventum/rpc.git",
+                "reference": "e7e00cf7439733ffd34462b418f0a82440872580"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/eventum/rpc/zipball/e7e00cf7439733ffd34462b418f0a82440872580",
+                "reference": "e7e00cf7439733ffd34462b418f0a82440872580",
+                "shasum": ""
+            },
+            "require": {
+                "pear-pear.php.net/xml_rpc": "~1.5.5",
+                "php": ">=5.1.2"
+            },
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    "class.Eventum_RPC.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "Elan Ruusamäe",
+                    "email": "glen@delfi.ee"
+                }
+            ],
+            "description": "Eventum RPC Client Library",
+            "time": "2015-07-27T11:52:27+00:00"
+        },
+        {
+            "name": "pear-pear.php.net/XML_RPC",
+            "version": "1.5.5",
+            "dist": {
+                "type": "file",
+                "url": "https://distfiles.pld-linux.org/distfiles/by-md5/0/2/02f9b1a27636527ddf6661e545799d45/XML_RPC-1.5.5.tgz",
+                "reference": null,
+                "shasum": "14dc0a4f09a5d31e56267e243b05114d3da10ce1"
+            },
+            "require": {
+                "ext-xml": "*",
+                "php": ">=4.2.0.0"
+            },
+            "replace": {
+                "pear-pear/xml_rpc": "== 1.5.5.0",
+                "pear/xml_rpc": "== 1.5.5.0"
+            },
+            "type": "pear-library",
+            "autoload": {
+                "classmap": [
+                    ""
+                ]
+            },
+            "include-path": [
+                "/"
+            ],
+            "license": [
+                "PHP License"
+            ],
+            "description": "A PEAR-ified version of Useful Inc's XML-RPC for PHP.\n\nIt has support for HTTP/HTTPS transport, proxies and authentication."
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "dev",
+    "stability-flags": [],
+    "prefer-stable": true,
+    "prefer-lowest": false,
+    "platform": {
+        "php": ">=5.1.2"
+    },
+    "platform-dev": []
+}
