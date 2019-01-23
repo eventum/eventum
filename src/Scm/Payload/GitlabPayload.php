@@ -43,7 +43,24 @@ class GitlabPayload implements PayloadInterface
     public function getEventName(): ?string
     {
         return $this->payload['event_name'] ?? null;
+    }
 
+    public function getEventType(): ?string
+    {
+        return $this->payload['event_type'] ?? null;
+    }
+
+    public function getAction(): ?string
+    {
+        return $this->payload['object_attributes']['action'] ?? null;
+    }
+
+    /**
+     * Get description. Applies to issue events.
+     */
+    public function getDescription(): ?string
+    {
+        return $this->payload['object_attributes']['description'] ?? null;
     }
 
     /**

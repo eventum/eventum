@@ -13,7 +13,6 @@
 
 namespace Eventum\Scm\Adapter;
 
-use Issue;
 use Monolog\Logger;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -37,6 +36,24 @@ abstract class AbstractAdapter implements AdapterInterface
     protected function matchIssueIds(string $message): ?array
     {
         preg_match_all('/(?:issue|bug) ?:? ?#?(\d+)/i', $message, $matches);
+
+        if (count($matches[1]) > 0) {
+            return $matches[1];
+        }
+
+        return null;
+    }
+
+    protected function matchIssueLinks(string $message): ?array
+    {
+        $base_url = APP_BASE_URL;
+
+        $regexp = "/
+            (?iP<issue_match>issue:?\s\#?(?P<issue_id>\d+)) |
+            (?P<url_match>\Q{$base_url}\Eview\.php\?id=(?P<issue_id>\d+))
+        /x";
+
+        preg_match_all($regexp, $message, $matches);
 
         if (count($matches[1]) > 0) {
             return $matches[1];

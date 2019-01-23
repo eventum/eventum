@@ -51,11 +51,22 @@ class Gitlab extends AbstractAdapter
 
         if ($eventType === 'Push Hook') {
             $this->processPushHook($payload);
+        } elseif ($eventType === 'Issue Hook' && $payload->getEventType() === 'issue') {
+            $this->processIssueHook($payload);
         } elseif ($eventType === 'System Hook' && $payload->getEventName() === 'push') {
             // system hook can also handle pushes
             // unfortunately it has empty commits[]
             $this->processPushHook($payload);
         }
+    }
+
+    private function processIssueHook(GitlabPayload $payload): void
+    {
+        if (!in_array($payload->getAction(), ['open', 'update'], true)) {
+            return;
+        }
+
+        $issues = $this->matchIssueLinks($payload->getDescription());
     }
 
     /**
