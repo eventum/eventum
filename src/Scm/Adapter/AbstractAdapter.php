@@ -46,11 +46,11 @@ abstract class AbstractAdapter implements AdapterInterface
 
     protected function matchIssueLinks(string $message): ?array
     {
-        $base_url = APP_BASE_URL;
+        $base_url = preg_quote(APP_BASE_URL, '/');
 
         $regexp = "/
             (?iP<issue_match>issue:?\s\#?(?P<issue_id>\d+)) |
-            (?P<url_match>\Q{$base_url}\Eview\.php\?id=(?P<issue_id>\d+))
+            (?P<url_match>{$base_url}view\.php\?id=(?P<issue_id>\d+))
         /x";
 
         preg_match_all($regexp, $message, $matches);
