@@ -14,6 +14,7 @@
 namespace Eventum\Scm\Adapter;
 
 use Eventum\Db\Doctrine;
+use Eventum\IssueMatcher;
 use Eventum\Scm\Payload\GitlabPayload;
 use Eventum\Scm\ScmRepository;
 use InvalidArgumentException;
@@ -66,7 +67,8 @@ class Gitlab extends AbstractAdapter
             return;
         }
 
-        $issues = $this->matchIssueLinks($payload->getDescription());
+        $matcher = new IssueMatcher(APP_BASE_URL);
+        $issues = $matcher->match($payload->getDescription());
     }
 
     /**

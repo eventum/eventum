@@ -43,22 +43,4 @@ abstract class AbstractAdapter implements AdapterInterface
 
         return null;
     }
-
-    protected function matchIssueLinks(string $message): ?array
-    {
-        $base_url = preg_quote(rtrim(APP_BASE_URL, '/'), '/');
-
-        $regexp = "/
-            (?P<issue_match>(?i:issue):?\s\#?(?P<issue_id>\d+)) |
-            (?P<url_match>{$base_url}\/view\.php\?id=(?P<url_issue_id>\d+))
-        /x";
-
-        preg_match_all($regexp, $message, $matches);
-
-        if (count($matches[1]) > 0) {
-            return $matches[1];
-        }
-
-        return null;
-    }
 }
