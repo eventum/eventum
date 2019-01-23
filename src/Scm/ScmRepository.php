@@ -23,7 +23,7 @@ class ScmRepository
     /** @var array */
     private $config = [];
 
-    public function __construct($name)
+    public function __construct(string $name)
     {
         $setup = Setup::get();
 
@@ -34,7 +34,7 @@ class ScmRepository
         }
     }
 
-    public function getName()
+    public function getName(): string
     {
         return $this->config['name'];
     }
@@ -61,7 +61,7 @@ class ScmRepository
                 continue;
             }
             foreach ($scm->urls as $url) {
-                if ($url == $repo_url) {
+                if ($url === $repo_url) {
                     return new static($scm->name);
                 }
             }
@@ -83,65 +83,56 @@ class ScmRepository
      * @param string $branch
      * @return bool
      */
-    public function branchAllowed($branch)
+    public function branchAllowed($branch): bool
     {
         // 'only' present, check it
         if (count($this->config['only'])) {
-            return in_array($branch, $this->config['only']->toArray());
+            return in_array($branch, $this->config['only']->toArray(), true);
         }
 
         // if 'except' present
         if (count($this->config['except'])) {
-            return !in_array($branch, $this->config['except']->toArray());
+            return !in_array($branch, $this->config['except']->toArray(), true);
         }
 
         return true;
     }
 
-    public function getCheckoutUrl(Commit $commit, CommitFile $cf)
+    public function getCheckoutUrl(Commit $commit, CommitFile $cf): string
     {
         return $this->getUrl('checkout_url', $commit, $cf);
     }
 
-    public function getDiffUrl(Commit $commit, CommitFile $cf)
+    public function getDiffUrl(Commit $commit, CommitFile $cf): string
     {
         return $this->getUrl('diff_url', $commit, $cf);
     }
 
-    public function getLogUrl(Commit $commit, CommitFile $cf)
+    public function getLogUrl(Commit $commit, CommitFile $cf): string
     {
         return $this->getUrl('log_url', $commit, $cf);
     }
 
     /**
      * Get link to commit (not file specific)
-     *
-     * @param Commit $commit
-     * @return string
      */
-    public function getChangesetUrl(Commit $commit)
+    public function getChangesetUrl(Commit $commit): string
     {
         return $this->getUrl('changeset_url', $commit);
     }
 
     /**
-     * Get link to project the commit was made in
-     *
-     * @param Commit $commit
-     * @return string
+     * Get link to project the commit was made in.
      */
-    public function getProjectUrl(Commit $commit)
+    public function getProjectUrl(Commit $commit): string
     {
         return $this->getUrl('project_url', $commit);
     }
 
     /**
-     * Get link to branch the commit was made in
-     *
-     * @param Commit $commit
-     * @return string
+     * Get link to branch the commit was made in.
      */
-    public function getBranchUrl(Commit $commit)
+    public function getBranchUrl(Commit $commit): string
     {
         return $this->getUrl('branch_url', $commit);
     }
@@ -155,7 +146,7 @@ class ScmRepository
      * @param CommitFile $cf
      * @return string The parsed URL
      */
-    private function getUrl($key, Commit $commit, CommitFile $cf = null)
+    private function getUrl(string $key, Commit $commit, CommitFile $cf = null): string
     {
         // $url will be null if key doesn't exist, so no need to check it
         $url = $this->config[$key];

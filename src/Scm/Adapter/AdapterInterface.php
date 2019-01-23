@@ -22,13 +22,11 @@ interface AdapterInterface
 
     /**
      * Return true if this adapter can process
-     *
-     * @return bool
      */
-    public function can();
+    public function can(): bool;
 
     /**
      * Process the request
      */
-    public function process();
+    public function process(): void;
 }

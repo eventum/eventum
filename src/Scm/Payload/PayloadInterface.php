@@ -15,8 +15,5 @@ namespace Eventum\Scm\Payload;
 
 interface PayloadInterface
 {
-    /**
-     * @return array
-     */
-    public function getPayload();
+    public function getPayload(): array;
 }

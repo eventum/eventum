@@ -32,14 +32,11 @@ abstract class AbstractAdapter implements AdapterInterface
     }
 
     /**
-     * parse the commit message and get all issue numbers we can find
-     *
-     * @param string $commit_msg
-     * @return array
+     * Parse the commit message and get all issue numbers we can find
      */
-    protected function match_issues($commit_msg)
+    protected function matchIssueIds(string $message): ?array
     {
-        preg_match_all('/(?:issue|bug) ?:? ?#?(\d+)/i', $commit_msg, $matches);
+        preg_match_all('/(?:issue|bug) ?:? ?#?(\d+)/i', $message, $matches);
 
         if (count($matches[1]) > 0) {
             return $matches[1];

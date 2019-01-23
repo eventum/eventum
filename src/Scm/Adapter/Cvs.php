@@ -17,7 +17,6 @@ use Eventum\Db\Doctrine;
 use Eventum\Model\Entity;
 use Eventum\Scm\Payload\StandardPayload;
 use InvalidArgumentException;
-use Issue;
 use Symfony\Component\HttpFoundation\Request;
 
 class Cvs extends AbstractAdapter
@@ -25,12 +24,13 @@ class Cvs extends AbstractAdapter
     /**
      * {@inheritdoc}
      */
-    public function can()
+    public function can(): bool
     {
         // must be POST
-        if ($this->request->getMethod() != Request::METHOD_POST) {
+        if ($this->request->getMethod() !== Request::METHOD_POST) {
             return false;
         }
+
         // require 'scm=cvs' GET parameter
         return $this->request->query->get('scm') === 'cvs';
     }
@@ -38,7 +38,7 @@ class Cvs extends AbstractAdapter
     /**
      * {@inheritdoc}
      */
-    public function process()
+    public function process(): void
     {
         $payload = $this->getPayload();
 

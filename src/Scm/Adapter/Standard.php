@@ -16,7 +16,6 @@ namespace Eventum\Scm\Adapter;
 use Eventum\Db\Doctrine;
 use Eventum\Scm\Payload\StandardPayload;
 use InvalidArgumentException;
-use Issue;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -27,7 +26,7 @@ class Standard extends AbstractAdapter
     /**
      * {@inheritdoc}
      */
-    public function can()
+    public function can(): bool
     {
         // must be POST
         if ($this->request->getMethod() !== Request::METHOD_POST) {
@@ -41,7 +40,7 @@ class Standard extends AbstractAdapter
     /**
      * {@inheritdoc}
      */
-    public function process()
+    public function process(): void
     {
         $payload = $this->getPayload();
 
@@ -81,7 +80,7 @@ class Standard extends AbstractAdapter
     /*
      * Get Hook Payload
      */
-    private function getPayload()
+    private function getPayload(): StandardPayload
     {
         $data = json_decode($this->request->getContent(), true);
 

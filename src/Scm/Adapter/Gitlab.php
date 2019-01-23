@@ -17,25 +17,24 @@ use Eventum\Db\Doctrine;
 use Eventum\Scm\Payload\GitlabPayload;
 use Eventum\Scm\ScmRepository;
 use InvalidArgumentException;
-use Issue;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Gitlab SCM handler
  *
- * @see http://doc.gitlab.com/ce/web_hooks/web_hooks.html
+ * @see https://docs.gitlab.com/ce/user/project/integrations/webhooks.html
  */
 class Gitlab extends AbstractAdapter
 {
-    const GITLAB_HEADER = 'X-Gitlab-Event';
+    public const GITLAB_HEADER = 'X-Gitlab-Event';
 
     /**
      * {@inheritdoc}
      */
-    public function can()
+    public function can(): bool
     {
         // must be POST
-        if ($this->request->getMethod() != Request::METHOD_POST) {
+        if ($this->request->getMethod() !== Request::METHOD_POST) {
             return false;
         }
 
@@ -45,7 +44,7 @@ class Gitlab extends AbstractAdapter
     /**
      * {@inheritdoc}
      */
-    public function process()
+    public function process(): void
     {
         $eventType = $this->request->headers->get(self::GITLAB_HEADER);
         $payload = $this->getPayload();
@@ -61,11 +60,8 @@ class Gitlab extends AbstractAdapter
 
     /**
      * Walk over commit messages and match issue ids
-     *
-     * @param GitlabPayload $payload
-     * @throws InvalidArgumentException
      */
-    private function processPushHook(GitlabPayload $payload)
+    private function processPushHook(GitlabPayload $payload): void
     {
         $repo_url = $payload->getRepoUrl();
         $repo = ScmRepository::getRepoByUrl($repo_url);
@@ -78,7 +74,7 @@ class Gitlab extends AbstractAdapter
         $ir = Doctrine::getIssueRepository();
 
         foreach ($payload->getCommits() as $commit) {
-            $issues = $this->match_issues($commit['message']);
+            $issues = $this->matchIssueIds($commit['message']);
             if (!$issues) {
                 continue;
             }
@@ -112,7 +108,7 @@ class Gitlab extends AbstractAdapter
     /*
      * Get Hook Payload
      */
-    private function getPayload()
+    private function getPayload(): GitlabPayload
     {
         $data = json_decode($this->request->getContent(), true);
 

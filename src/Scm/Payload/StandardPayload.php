@@ -20,6 +20,7 @@ use Symfony\Component\HttpFoundation\ParameterBag;
 
 class StandardPayload implements PayloadInterface
 {
+    /** @var ParameterBag */
     private $params;
 
     public function __construct(array $payload)
@@ -29,18 +30,13 @@ class StandardPayload implements PayloadInterface
 
     /**
      * Get branch the commit was made on
-     *
-     * @return string
      */
-    public function getBranch()
+    public function getBranch(): ?string
     {
         return $this->params->get('branch');
     }
 
-    /**
-     * @return string
-     */
-    public function getCommitId()
+    public function getCommitId(): string
     {
         return $this->params->get('commitid');
     }
@@ -48,9 +44,9 @@ class StandardPayload implements PayloadInterface
     /**
      * Get issue id's, validate that they exist, because workflow needs project id
      *
-     * @return array issue ids
+     * @return int[] issue ids
      */
-    public function getIssues()
+    public function getIssues(): array
     {
         $issues = [];
         // check early if issue exists to report proper message back
@@ -67,10 +63,7 @@ class StandardPayload implements PayloadInterface
         return $issues;
     }
 
-    /**
-     * @return Commit
-     */
-    public function createCommit()
+    public function createCommit(): Commit
     {
         $params = $this->params;
         $ci = (new Commit())
@@ -81,8 +74,8 @@ class StandardPayload implements PayloadInterface
             ->setMessage(trim($params->get('commit_msg')));
 
         // take username or author_name+author_email
-        if ($params->get('username')) {
-            $ci->setAuthorName($params->get('username'));
+        if ($authorName = $params->get('username')) {
+            $ci->setAuthorName($authorName);
         } else {
             $ci
                 ->setAuthorName($params->get('author_name'))
@@ -94,10 +87,8 @@ class StandardPayload implements PayloadInterface
 
     /**
      * Get files associated with the commit
-     *
-     * @return array
      */
-    public function getFiles()
+    public function getFiles(): array
     {
         // create array with predefined keys
         $files = [
@@ -113,7 +104,7 @@ class StandardPayload implements PayloadInterface
     /**
      * {@inheritdoc}
      */
-    public function getPayload()
+    public function getPayload(): array
     {
         return $this->params->all();
     }
