@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "1ae5a9604a3c7678a05e69ad4b689b33",
+    "content-hash": "20f817ff9ce99f0e55d995c8a33d19fd",
     "packages": [
         {
             "name": "cakephp/cache",
@@ -1798,9 +1798,9 @@
             "version": "0.9.1",
             "dist": {
                 "type": "file",
-                "url": "https://pear.php.net/get/Math_Stats-0.9.1.tgz",
+                "url": "https://distfiles.pld-linux.org/distfiles/by-md5/a/f/afb06c6975bd1a53c97a8db4fd5d3546/Math_Stats-0.9.1.tgz",
                 "reference": null,
-                "shasum": null
+                "shasum": "12ff82808594f51179b6c2f267efa97e807165cc"
             },
             "require": {
                 "php": ">=4.2.0.0"
@@ -1828,9 +1828,9 @@
             "version": "1.2.2",
             "dist": {
                 "type": "file",
-                "url": "https://pear.php.net/get/Text_Diff-1.2.2.tgz",
+                "url": "https://distfiles.pld-linux.org/distfiles/by-md5/2/d/2d66f40c8e0c8298281260d33e838b41/Text_Diff-1.2.2.tgz",
                 "reference": null,
-                "shasum": null
+                "shasum": "3a0416343badd44e5a911546080eee0d5f8d0109"
             },
             "require": {
                 "php": ">=5.3.0.0"
@@ -3508,7 +3508,7 @@
                 "zf2"
             ],
             "support": {
-                "source": "https://github.com/glensc/zend-mail/tree/develop-2.4"
+                "source": "https://github.com/eventum/zend-mail/tree/develop-2.4"
             },
             "time": "2018-03-13T21:01:43+00:00"
         },
