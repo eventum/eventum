@@ -33,7 +33,7 @@ class ScmApiCommitTest extends ScmTestCase
      */
     public function testGitlabCommitApi()
     {
-        $request = $this->createApiRequest('gitlab-commit.json');
+        $request = $this->createApiRequest('gitlab/push/project-commit.json');
         $request->headers->set(Gitlab::GITLAB_HEADER, 'Push Hook');
 
         $logger = Logger::app();
@@ -71,7 +71,7 @@ class ScmApiCommitTest extends ScmTestCase
     {
         $api_url = $this->getCommitUrl();
 
-        $payload = $this->getDataFile('gitlab-commit.json');
+        $payload = $this->getDataFile('gitlab/push/project-commit.json');
         $headers = "-H 'X-Gitlab-Event: Push Hook'";
         $this->POST($api_url, $payload, $headers);
     }

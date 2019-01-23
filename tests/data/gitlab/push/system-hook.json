@@ -9,7 +9,7 @@
 	"user_id": 1,
 	"user_name": "Elan Ruusamäe",
 	"user_email": "glen@delfi.ee",
-	"user_avatar": "http://www.gravatar.com/avatar/effff0989c8041ef98aaf916c7092d6d?s=80\u0026d=identicon",
+	"user_avatar": "http://www.gravatar.com/avatar/effff0989c8041ef98aaf916c7092d6d?s=80&d=identicon",
 	"project_id": 1,
 	"project": {
 		"name": "test",
