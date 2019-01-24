@@ -18,10 +18,11 @@ use Eventum\Model\Entity;
 
 class RemoteLinkRepository extends EntityRepository
 {
-    public function addRemoteLink(string $url, string $title, string $relationship = 'links to', ?string $gid = null): Entity\RemoteLink
+    public function addRemoteLink(int $issue_id, string $url, string $title, string $relationship = 'links to', ?string $gid = null): Entity\RemoteLink
     {
         $entity = new Entity\RemoteLink();
         $entity
+            ->setIssueId($issue_id)
             ->setGid($gid)
             ->setRelationship($relationship)
             ->setUrl($url)

@@ -19,6 +19,7 @@ class EventumRemoteLinks extends AbstractMigration
     {
         $this->table('remote_link', ['id' => false, 'primary_key' => 'rel_id'])
             ->addColumn('rel_id', 'integer', ['length' => 10, 'signed' => false, 'identity' => true])
+            ->addColumn('rel_iss_id', 'integer', ['signed' => false])
             ->addColumn('rel_gid', 'string', ['null' => true, 'limit' => self::TEXT_SMALL, 'encoding' => self::ENCODING_ASCII, 'comment' => 'Global Id'])
             ->addColumn('rel_relationship', 'string', ['limit' => self::TEXT_SMALL, 'encoding' => self::ENCODING_ASCII, 'comment' => 'Link relationship type'])
             ->addColumn('rel_url', 'text', ['encoding' => self::ENCODING_ASCII, 'limit' => self::TEXT_REGULAR])

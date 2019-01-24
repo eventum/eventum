@@ -29,12 +29,13 @@ class RemoteLinkTest extends TestCase
         $this->repo = Doctrine::getRemoteLinkRepository();
     }
 
-    public function testRemoteLink()
+    public function testRemoteLink(): void
     {
+        $issue_id = 1;
         $url = 'http://example.org';
         $title = 'example';
 
-        $link = $this->repo->addRemoteLink($url, $title);
+        $link = $this->repo->addRemoteLink($issue_id, $url, $title);
 
         $this->assertEquals($url, $link->getUrl());
         $this->assertEquals($title, $link->getTitle());

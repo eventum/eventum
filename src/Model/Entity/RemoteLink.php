@@ -28,6 +28,12 @@ class RemoteLink
     private $id;
 
     /**
+     * @var int
+     * @Column(name="rel_iss_id", type="integer", nullable=false)
+     */
+    private $issue_id;
+
+    /**
      * @var string
      * @Column(name="rel_gid", type="string", length=255, nullable=true)
      */
@@ -54,6 +60,18 @@ class RemoteLink
     public function getId(): int
     {
         return $this->id;
+    }
+
+    public function setIssueId(int $issue_id): self
+    {
+        $this->issue_id = $issue_id;
+
+        return $this;
+    }
+
+    public function getIssueId(): int
+    {
+        return $this->issue_id;
     }
 
     public function setGid(?string $gid): self
