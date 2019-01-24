@@ -44,7 +44,7 @@ class TextMessage
         }
 
         // if no parts were extracted, process main message itself
-        if (!$isMultipart && !$this->hasText()) {
+        if (!$isMultipart && !$this->hasText() && $this->hasContentType()) {
             $this->processPart($this->message);
         }
 
@@ -70,9 +70,14 @@ class TextMessage
         return '';
     }
 
-    private function hasText()
+    private function hasText(): bool
     {
         return $this->html || $this->text || $this->alttext;
+    }
+
+    private function hasContentType(): bool
+    {
+        return $this->message->getHeaders()->has('Content-Type');
     }
 
     /**
