@@ -29,7 +29,7 @@ class RemoteLinkTest extends TestCase
         $this->repo = Doctrine::getRemoteLinkRepository();
     }
 
-    public function testRemoteLink(): void
+    public function testAddRemoteLink(): void
     {
         $issue_id = 1;
         $url = 'http://example.org';
@@ -39,5 +39,37 @@ class RemoteLinkTest extends TestCase
 
         $this->assertEquals($url, $link->getUrl());
         $this->assertEquals($title, $link->getTitle());
+        $this->assertNull($link->getGid());
+    }
+
+    public function testAddEmptyGid(): void
+    {
+        $issue_id = 1;
+        $url = 'http://example.org';
+        $title = 'example';
+        $relation = RemoteLinkRepository::DEFAULT_RELATION;
+        $gid = '';
+
+        $link = $this->repo->addRemoteLink($issue_id, $url, $title, $relation, $gid);
+
+        $this->assertEquals($url, $link->getUrl());
+        $this->assertEquals($title, $link->getTitle());
+        $this->assertNull($link->getGid());
+    }
+
+    public function testUpdateRemoteLink(): void
+    {
+        $issue_id = 1;
+        $url = 'http://example.org';
+        $title = 'example';
+        $title2 = 'example';
+        $relation = RemoteLinkRepository::DEFAULT_RELATION;
+        $gid = 'eventum:test';
+
+        $link1 = $this->repo->addRemoteLink($issue_id, $url, $title, $relation, $gid);
+        $link2 = $this->repo->addRemoteLink($issue_id, $url, $title2, $relation, $gid);
+
+        $this->assertEquals($gid, $link1->getGid());
+        $this->assertEquals($link1, $link2);
     }
 }

@@ -22,10 +22,22 @@ class RemoteLinkRepository extends EntityRepository
 
     public function addRemoteLink(int $issue_id, string $url, string $title, string $relation = self::DEFAULT_RELATION, ?string $gid = null): Entity\RemoteLink
     {
-        $entity = new Entity\RemoteLink();
+        // if gid present, lookup for existing link
+        if ($gid) {
+            $entity = $this->findOneBy(['issue_id' => $issue_id, 'gid' => $gid]);
+        } else {
+            $entity = null;
+        }
+
+        // not found, or no gid
+        if (!$entity) {
+            $entity = (new Entity\RemoteLink())
+                ->setIssueId($issue_id)
+                // empty gid means null
+                ->setGid($gid ?: null);
+        }
+
         $entity
-            ->setIssueId($issue_id)
-            ->setGid($gid)
             ->setRelation($relation)
             ->setUrl($url)
             ->setTitle($title);
