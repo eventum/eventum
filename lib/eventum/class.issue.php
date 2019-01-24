@@ -2557,6 +2557,9 @@ class Issue
         $res['associated_issues'] = $repo->getAssociatedIssues($res['iss_id']);
         $res['associated_issues_details'] = $repo->getIssueDetails($res['associated_issues']);
 
+        $remoteLinkRepo = Doctrine::getRemoteLinkRepository();
+        $res['remote_links'] = $remoteLinkRepo->getRemoteLinks($res['iss_id']);
+
         $res['reporter'] = User::getFullName($res['iss_usr_id']);
         if (empty($res['iss_updated_date'])) {
             $res['iss_updated_date'] = $res['iss_created_date'];
