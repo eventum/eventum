@@ -1,0 +1,10 @@
+Return-Path: <root@hamlet.example.com>
+Date: Tue, 22 Jan 2019 05:02:01 +0200
+To: issue-57086@eventum.example.net
+Subject: Tue Jan 22 05:02:01 EET 2019 error.log
+Message-Id: <20190122030201.7EC5F85D1A6@hamlet.example.com>
+From: root@hamlet.example.com (root)
+
+here
+be
+dragons
