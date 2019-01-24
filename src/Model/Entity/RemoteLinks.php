@@ -13,45 +13,41 @@
 
 namespace Eventum\Model\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
-
 /**
- * RemoteLinks
- *
- * @ORM\Table(name="remote_links", indexes={@ORM\Index(name="rel_id", columns={"rel_id", "rel_gid"})})
- * @ORM\Entity
+ * @Table(name="remote_links", indexes={@Index(name="rel_id", columns={"rel_id", "rel_gid"})})
+ * @Entity(repositoryClass="Eventum\Model\Repository\RemoteLinksRepository")
  */
 class RemoteLinks
 {
     /**
      * @var int
-     * @ORM\Column(name="rel_id", type="integer", nullable=false)
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @Column(name="rel_id", type="integer", nullable=false)
+     * @Id
+     * @GeneratedValue(strategy="IDENTITY")
      */
     private $id;
 
     /**
      * @var string
-     * @ORM\Column(name="rel_gid", type="string", length=255, nullable=true)
+     * @Column(name="rel_gid", type="string", length=255, nullable=true)
      */
     private $gid;
 
     /**
      * @var string
-     * @ORM\Column(name="rel_relationship", type="string", length=255, nullable=false)
+     * @Column(name="rel_relationship", type="string", length=255, nullable=false)
      */
     private $relationship;
 
     /**
      * @var string
-     * @ORM\Column(name="rel_url", type="text", length=65535, nullable=false)
+     * @Column(name="rel_url", type="text", length=65535, nullable=false)
      */
     private $url;
 
     /**
      * @var string
-     * @ORM\Column(name="rel_title", type="string", length=255, nullable=false)
+     * @Column(name="rel_title", type="string", length=255, nullable=false)
      */
     private $title;
 
