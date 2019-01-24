@@ -41,9 +41,9 @@ class RemoteLink
 
     /**
      * @var string
-     * @Column(name="rel_relationship", type="string", length=255, nullable=false)
+     * @Column(name="rel_relation", type="string", length=255, nullable=false)
      */
-    private $relationship;
+    private $relation;
 
     /**
      * @var string
@@ -86,16 +86,16 @@ class RemoteLink
         return $this->gid;
     }
 
-    public function setRelationship(string $relationship): self
+    public function setRelation(string $relation): self
     {
-        $this->relationship = $relationship;
+        $this->relation = $relation;
 
         return $this;
     }
 
-    public function getRelationship(): string
+    public function getRelation(): string
     {
-        return $this->relationship;
+        return $this->relation;
     }
 
     public function setUrl(string $url): self
