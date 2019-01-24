@@ -50,10 +50,11 @@ class RemoteLinkTest extends TestCase
         $relation = RemoteLinkRepository::DEFAULT_RELATION;
         $gid = '';
 
-        $link = $this->repo->addRemoteLink($issue_id, $url, $title, $relation, $gid);
+        $link = $this->repo->addRemoteLink($issue_id, $url, $title, $gid);
 
         $this->assertEquals($url, $link->getUrl());
         $this->assertEquals($title, $link->getTitle());
+        $this->assertEquals($relation, $link->getRelation());
         $this->assertNull($link->getGid());
     }
 
@@ -63,11 +64,10 @@ class RemoteLinkTest extends TestCase
         $url = 'http://example.org';
         $title = 'example';
         $title2 = 'example';
-        $relation = RemoteLinkRepository::DEFAULT_RELATION;
         $gid = 'eventum:test';
 
-        $link1 = $this->repo->addRemoteLink($issue_id, $url, $title, $relation, $gid);
-        $link2 = $this->repo->addRemoteLink($issue_id, $url, $title2, $relation, $gid);
+        $link1 = $this->repo->addRemoteLink($issue_id, $url, $title, $gid);
+        $link2 = $this->repo->addRemoteLink($issue_id, $url, $title2, $gid);
 
         $this->assertEquals($gid, $link1->getGid());
         $this->assertEquals($link1, $link2);

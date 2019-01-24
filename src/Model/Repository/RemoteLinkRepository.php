@@ -20,7 +20,7 @@ class RemoteLinkRepository extends EntityRepository
 {
     public const DEFAULT_RELATION = 'mentioned in';
 
-    public function addRemoteLink(int $issue_id, string $url, string $title, string $relation = self::DEFAULT_RELATION, ?string $gid = null): Entity\RemoteLink
+    public function addRemoteLink(int $issue_id, string $url, string $title, ?string $gid = null, string $relation = self::DEFAULT_RELATION): Entity\RemoteLink
     {
         // if gid present, lookup for existing link
         if ($gid) {
