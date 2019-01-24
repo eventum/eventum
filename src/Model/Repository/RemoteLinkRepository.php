@@ -16,11 +16,11 @@ namespace Eventum\Model\Repository;
 use Doctrine\ORM\EntityRepository;
 use Eventum\Model\Entity;
 
-class RemoteLinksRepository extends EntityRepository
+class RemoteLinkRepository extends EntityRepository
 {
-    public function addRemoteLink(string $url, string $title, string $relationship = 'links to', ?string $gid = null): Entity\RemoteLinks
+    public function addRemoteLink(string $url, string $title, string $relationship = 'links to', ?string $gid = null): Entity\RemoteLink
     {
-        $entity = new Entity\RemoteLinks();
+        $entity = new Entity\RemoteLink();
         $entity
             ->setGid($gid)
             ->setRelationship($relationship)

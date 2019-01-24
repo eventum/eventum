@@ -28,7 +28,7 @@ use Eventum\Model\Repository;
  * @method static Repository\IssueAssociationRepository getIssueAssociationRepository()
  * @method static Repository\IssueRepository getIssueRepository()
  * @method static Repository\ProjectRepository getProjectRepository()
- * @method static Repository\RemoteLinksRepository getRemoteLinksRepository()
+ * @method static Repository\RemoteLinkRepository getRemoteLinkRepository()
  */
 class Doctrine
 {

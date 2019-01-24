@@ -14,19 +14,19 @@
 namespace Eventum\Test;
 
 use Eventum\Db\Doctrine;
-use Eventum\Model\Repository\RemoteLinksRepository;
+use Eventum\Model\Repository\RemoteLinkRepository;
 
 /**
  * @group db
  */
-class RemoteLinksTest extends TestCase
+class RemoteLinkTest extends TestCase
 {
-    /** @var \Doctrine\ORM\EntityRepository|RemoteLinksRepository */
+    /** @var \Doctrine\ORM\EntityRepository|RemoteLinkRepository */
     private $repo;
 
     public function setUp()
     {
-        $this->repo = Doctrine::getRemoteLinksRepository();
+        $this->repo = Doctrine::getRemoteLinkRepository();
     }
 
     public function testRemoteLink()

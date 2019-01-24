@@ -14,10 +14,10 @@
 namespace Eventum\Model\Entity;
 
 /**
- * @Table(name="remote_links", indexes={@Index(name="rel_id", columns={"rel_id", "rel_gid"})})
- * @Entity(repositoryClass="Eventum\Model\Repository\RemoteLinksRepository")
+ * @Table(name="remote_link", indexes={@Index(name="rel_id", columns={"rel_id", "rel_gid"})})
+ * @Entity(repositoryClass="Eventum\Model\Repository\RemoteLinkRepository")
  */
-class RemoteLinks
+class RemoteLink
 {
     /**
      * @var int
