@@ -23,7 +23,7 @@ interface AdapterInterface
      * @param   string $password The password of the user to check for
      * @return  bool
      */
-    public function verifyPassword($login, $password);
+    public function verifyPassword(string $login, string $password): bool;
 
     /**
      * Method used to update the account password for a specific user.
@@ -32,7 +32,7 @@ interface AdapterInterface
      * @param   string $password the password
      * @return  bool true if update worked, false otherwise
      */
-    public function updatePassword($usr_id, $password);
+    public function updatePassword(int $usr_id, string $password): bool;
 
     /**
      * Returns true if User Id exists.
@@ -43,7 +43,7 @@ interface AdapterInterface
      * @return bool
      * @since 3.0.8
      */
-    public function userExists($login);
+    public function userExists(string $login): bool;
 
     /**
      * Returns the user ID for the specified login. This can be the email address, an alias,
@@ -52,7 +52,7 @@ interface AdapterInterface
      * @param $login
      * @return  int|null The user id or null
      */
-    public function getUserIDByLogin($login);
+    public function getUserIDByLogin(string $login): ?int;
 
     /**
      * If this backend allows the user to update their name.
@@ -60,7 +60,7 @@ interface AdapterInterface
      * @param int $usr_id
      * @return bool
      */
-    public function canUserUpdateName($usr_id);
+    public function canUserUpdateName(int $usr_id): bool;
 
     /**
      * If this backend allows the user to update their email.
@@ -68,7 +68,7 @@ interface AdapterInterface
      * @param int $usr_id
      * @return bool
      */
-    public function canUserUpdateEmail($usr_id);
+    public function canUserUpdateEmail(int $usr_id): bool;
 
     /**
      * If this backend allows the user to update their password.
@@ -76,7 +76,7 @@ interface AdapterInterface
      * @param int $usr_id
      * @return bool
      */
-    public function canUserUpdatePassword($usr_id);
+    public function canUserUpdatePassword(int $usr_id): bool;
 
     /**
      * Returns a URL to redirect the user to when they attempt to login or null if the native login pages
@@ -84,23 +84,23 @@ interface AdapterInterface
      *
      * @return  string The login url or null
      */
-    public function getExternalLoginURL();
+    public function getExternalLoginURL(): ?string;
 
     /**
      * Returns true if the user should automatically be redirected to the external login URL, false otherwise
      *
      * @return  bool
      */
-    public function autoRedirectToExternalLogin();
+    public function autoRedirectToExternalLogin(): bool;
 
     /**
      * Called on every page load and can be used to process external authentication checks before the rest of the
      * authentication process happens.
      */
-    public function checkAuthentication();
+    public function checkAuthentication(): void;
 
     /**
      * Called when a user logs out.
      */
-    public function logout();
+    public function logout(): void;
 }

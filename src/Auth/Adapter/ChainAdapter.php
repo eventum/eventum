@@ -33,7 +33,7 @@ class ChainAdapter implements AdapterInterface
     /**
      * {@inheritdoc}
      */
-    public function verifyPassword($login, $password)
+    public function verifyPassword(string $login, string $password): bool
     {
         foreach ($this->adapters as $adapter) {
             if ($adapter->verifyPassword($login, $password)) {
@@ -47,7 +47,7 @@ class ChainAdapter implements AdapterInterface
     /**
      * {@inheritdoc}
      */
-    public function updatePassword($usr_id, $password)
+    public function updatePassword(int $usr_id, string $password): bool
     {
         $result = false;
         foreach ($this->adapters as $adapter) {
@@ -62,7 +62,7 @@ class ChainAdapter implements AdapterInterface
     /**
      * {@inheritdoc}
      */
-    public function userExists($login)
+    public function userExists(string $login): bool
     {
         foreach ($this->adapters as $adapter) {
             if ($adapter->userExists($login)) {
@@ -76,7 +76,7 @@ class ChainAdapter implements AdapterInterface
     /**
      * {@inheritdoc}
      */
-    public function getUserIDByLogin($login)
+    public function getUserIDByLogin(string $login): ?int
     {
         foreach ($this->adapters as $adapter) {
             $usr_id = $adapter->getUserIDByLogin($login);
@@ -91,7 +91,7 @@ class ChainAdapter implements AdapterInterface
     /**
      * {@inheritdoc}
      */
-    public function canUserUpdateName($usr_id)
+    public function canUserUpdateName(int $usr_id): bool
     {
         foreach ($this->adapters as $adapter) {
             if ($adapter->canUserUpdateName($usr_id)) {
@@ -105,7 +105,7 @@ class ChainAdapter implements AdapterInterface
     /**
      * {@inheritdoc}
      */
-    public function canUserUpdateEmail($usr_id)
+    public function canUserUpdateEmail(int $usr_id): bool
     {
         foreach ($this->adapters as $adapter) {
             if ($adapter->canUserUpdateEmail($usr_id)) {
@@ -119,7 +119,7 @@ class ChainAdapter implements AdapterInterface
     /**
      * {@inheritdoc}
      */
-    public function canUserUpdatePassword($usr_id)
+    public function canUserUpdatePassword(int $usr_id): bool
     {
         foreach ($this->adapters as $adapter) {
             if ($adapter->canUserUpdatePassword($usr_id)) {
@@ -133,7 +133,7 @@ class ChainAdapter implements AdapterInterface
     /**
      * {@inheritdoc}
      */
-    public function getExternalLoginURL()
+    public function getExternalLoginURL(): ?string
     {
         foreach ($this->adapters as $adapter) {
             $url = $adapter->getExternalLoginURL();
@@ -148,7 +148,7 @@ class ChainAdapter implements AdapterInterface
     /**
      * {@inheritdoc}
      */
-    public function autoRedirectToExternalLogin()
+    public function autoRedirectToExternalLogin(): bool
     {
         foreach ($this->adapters as $adapter) {
             $redirect = $adapter->autoRedirectToExternalLogin();
@@ -163,7 +163,7 @@ class ChainAdapter implements AdapterInterface
     /**
      * {@inheritdoc}
      */
-    public function checkAuthentication()
+    public function checkAuthentication(): void
     {
         foreach ($this->adapters as $adapter) {
             $adapter->checkAuthentication();
@@ -173,12 +173,10 @@ class ChainAdapter implements AdapterInterface
     /**
      * {@inheritdoc}
      */
-    public function logout()
+    public function logout(): void
     {
         foreach ($this->adapters as $adapter) {
             $adapter->logout();
         }
-
-        return null;
     }
 }
