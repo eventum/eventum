@@ -20,6 +20,7 @@ use Eventum\Auth\Ldap\UserEntry;
 use Eventum\Monolog\Logger;
 use Setup;
 use Symfony\Component\Ldap\Entry;
+use Symfony\Component\Ldap\Exception\ConnectionException;
 use User;
 
 /**
@@ -394,7 +395,13 @@ class LdapAdapter implements AdapterInterface
      */
     public function userExists(string $login): bool
     {
-        $usr_id = $this->getUserIDByLogin($login);
+        try {
+            $usr_id = $this->getUserIDByLogin($login);
+        } catch (ConnectionException $e) {
+            $this->logger->critical($e->getMessage(), ['exception' => $e]);
+
+            return false;
+        }
 
         return $usr_id > 0;
     }
