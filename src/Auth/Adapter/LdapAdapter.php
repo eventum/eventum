@@ -207,13 +207,13 @@ class LdapAdapter implements AdapterInterface
      * Creates or updates local user entry for the specified ID.
      *
      * @param string $login The login or email of the user to create or update
-     * @return  bool True if the user was created or updated, false otherwise
+     * @return int the user id that was created or updated, null otherwise
      */
-    public function updateLocalUserFromBackend(string $login): bool
+    public function updateLocalUserFromBackend(string $login): ?int
     {
         $remote = $this->getLdapUser($login);
         if (!$remote) {
-            return false;
+            return null;
         }
 
         $usr_id = $this->getLocalUserId($login, $remote->getEmails());
@@ -299,7 +299,7 @@ class LdapAdapter implements AdapterInterface
         }
 
         if (!$this->create_users) {
-            return false;
+            return null;
         }
 
         return $this->createUser($remote);
