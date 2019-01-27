@@ -14,6 +14,7 @@
 namespace Eventum\Auth;
 
 use RuntimeException;
+use Throwable;
 
 class AuthException extends RuntimeException
 {
@@ -24,4 +25,12 @@ class AuthException extends RuntimeException
     public const INACTIVE_USER = 7;
     public const PENDING_USER = 9;
     public const ACCOUNT_BACKOFF_LOCKED = 13;
+
+    // use message that's most suitable
+    public const UNKNOWN_ERROR = 3;
+
+    public function __construct($message = 'Unknown error', $code = 0, Throwable $previous = null)
+    {
+        parent::__construct($message, $code ?: self::UNKNOWN_ERROR, $previous);
+    }
 }
