@@ -1363,7 +1363,6 @@ class RemoteApi
 
     /**
      * @param int $issue_id
-     * @see \Command_Line::checkIssuePermissions()
      * @since 3.2.2
      */
     private function checkIssuePermissions($issue_id)
@@ -1390,7 +1389,6 @@ class RemoteApi
      * issue ID.
      *
      * @param   int $issue_id The issue ID
-     * @see \Command_Line::checkIssueAssignment()
      * @since 3.2.2
      */
     private function checkIssueAssignment($issue_id)

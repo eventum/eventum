@@ -46,7 +46,7 @@ pot:
 		test -d po/.bzr && (cd po && bzr commit -m "update .pot" && bzr push); \
 	fi
 
-install: install-eventum install-cli
+install: install-eventum
 
 snapshot:
 	./bin/ci/snapshot.sh
@@ -130,11 +130,6 @@ install-eventum:
 
 	install -d $(DESTDIR)$(logdir)
 	cp -a var/log/* $(DESTDIR)$(logdir)
-
-# install eventum cli
-install-cli:
-	install -d $(DESTDIR)$(bindir)
-	install -p cli/$(name).phar $(DESTDIR)$(bindir)/$(name)
 
 install-localization:
 	$(MAKE) -C localization install

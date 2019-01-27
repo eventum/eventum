@@ -28,9 +28,6 @@ finder:
   name:
     - "*.php"
   path:
-    - "cli"
     - "bin"
     - "htdocs"
     - "lib/eventum"
-    - "scm"
-    - "upgrade"

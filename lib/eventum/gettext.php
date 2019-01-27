@@ -11,13 +11,13 @@
  * that were distributed with this source code.
  */
 
-// if gettext disabled (cli app) then return early
-if (defined('APP_NO_GETTEXT') || !defined('APP_PATH')) {
+// if gettext disabled, return early
+if (!defined('APP_PATH')) {
     return;
 }
 
 // if there is no gettext support built into PHP, or we are running in language compatibility mode include PHP-gettext
-if (!function_exists('gettext') || (defined('APP_GETTEXT_MODE') && APP_GETTEXT_MODE == 'php')) {
+if (!function_exists('gettext') || (defined('APP_GETTEXT_MODE') && APP_GETTEXT_MODE === 'php')) {
     /** @noinspection PhpIncludeInspection */
     require_once APP_PHP_GETTEXT_PATH . '/gettext.inc';
 
@@ -25,7 +25,7 @@ if (!function_exists('gettext') || (defined('APP_GETTEXT_MODE') && APP_GETTEXT_M
     {
         if (func_num_args() > 1) {
             $arg = [];
-            for ($i = 1; $i < func_num_args(); $i++) {
+            for ($i = 1, $iMax = func_num_args(); $i < $iMax; $i++) {
                 $arg[] = func_get_arg($i);
             }
             $string = _gettext($string);
