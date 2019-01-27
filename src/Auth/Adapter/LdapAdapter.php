@@ -11,24 +11,26 @@
  * that were distributed with this source code.
  */
 
+namespace Eventum\Auth\Adapter;
+
+use Auth;
+use Eventum\Auth\AuthException;
 use Eventum\Auth\Ldap\LdapConnection;
 use Eventum\Auth\Ldap\UserEntry;
 use Eventum\Monolog\Logger;
+use Setup;
 use Symfony\Component\Ldap\Entry;
+use User;
 
 /**
  * This auth backend integrates with an LDAP server and if set to, will create
  * a local user with the specified name and email. The user will be
  * authenticated against the LDAP server on each login.
- *
- * This backend will look for users in the default mysql backend if no LDAP
- * user is found. This behaviour may be configurable in the future.
- *
- * Set define('APP_AUTH_BACKEND', 'LDAP_Auth_Backend') in the config file and
- * then fill in the LDAP server details in manage
  */
-class LDAP_Auth_Backend implements Auth_Backend_Interface
+class LdapAdapter implements AdapterInterface
 {
+    public const displayName = 'LDAP authentication adapter';
+
     /** @var bool */
     public $create_users;
 
@@ -59,14 +61,16 @@ class LDAP_Auth_Backend implements Auth_Backend_Interface
      */
     public function __construct()
     {
+        $config = Setup::get()['ldap'];
         $this->logger = Logger::auth();
-        $this->ldap = new LdapConnection(Setup::get()['ldap']);
+        $this->ldap = new LdapConnection($config);
+        $this->active_dn = $config['active_dn'];
+        $this->inactive_dn = $config['inactive_dn'];
+        $this->create_users = (bool)$config['create_users'];
 
-        $setup = Setup::get()['ldap'];
-
-        $this->active_dn = $setup['active_dn'];
-        $this->inactive_dn = $setup['inactive_dn'];
-        $this->create_users = (bool)$setup['create_users'];
+        if (!$this->active_dn || !$this->inactive_dn) {
+            throw new AuthException('LDAP Adapter not configured');
+        }
     }
 
     /**
@@ -81,12 +85,7 @@ class LDAP_Auth_Backend implements Auth_Backend_Interface
         return $this->ldap->listUsers($dn);
     }
 
-    /**
-     * @param string $uid
-     * @param string $password
-     * @return bool
-     */
-    private function validatePassword($uid, $password)
+    private function validatePassword(string $uid, string $password): bool
     {
         $errors = $this->ldap->checkAuthentication($uid, $password);
         if ($errors === true) {
@@ -400,15 +399,11 @@ class LDAP_Auth_Backend implements Auth_Backend_Interface
         return $usr_id > 0;
     }
 
-    /**
-     * @param int $usr_id
-     * @return bool
-     */
-    private function isLDAPUser($usr_id)
+    private function hasExternalId(int $usr_id): bool
     {
-        $local_user_info = User::getDetails($usr_id);
+        $external_id = User::getExternalID($usr_id) ?? null;
 
-        return !empty($local_user_info['usr_external_id']);
+        return $external_id !== null;
     }
 
     /**
@@ -418,27 +413,21 @@ class LDAP_Auth_Backend implements Auth_Backend_Interface
     {
         // check if this is an ldap or internal
         $usr_id = $this->getUserIDByLogin($login);
-        $local_user_info = User::getDetails($usr_id);
-        if (empty($local_user_info['usr_external_id'])) {
-            return Auth::getFallBackAuthBackend()->verifyPassword($login, $password);
+        $external_id = User::getExternalID($usr_id) ?? null;
+
+        if (!$external_id) {
+            return false;
         }
 
-        $user_info = $this->validatePassword($local_user_info['usr_external_id'], $password);
-
-        return $user_info != null;
+        return $this->validatePassword($external_id, $password);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function canUserUpdateName($usr_id)
+    public function canUserUpdateName($usr_id): bool
     {
-        $external_id = User::getExternalID($usr_id);
-        if (empty($external_id)) {
-            return Auth::getFallBackAuthBackend()->canUserUpdateName($usr_id);
-        }
-
-        return false;
+        return $this->hasExternalId($usr_id);
     }
 
     /**
@@ -446,12 +435,7 @@ class LDAP_Auth_Backend implements Auth_Backend_Interface
      */
     public function canUserUpdateEmail($usr_id)
     {
-        $external_id = User::getExternalID($usr_id);
-        if (empty($external_id)) {
-            return Auth::getFallBackAuthBackend()->canUserUpdateEmail($usr_id);
-        }
-
-        return false;
+        return $this->hasExternalId($usr_id);
     }
 
     /**
@@ -459,39 +443,7 @@ class LDAP_Auth_Backend implements Auth_Backend_Interface
      */
     public function canUserUpdatePassword($usr_id)
     {
-        $external_id = User::getExternalID($usr_id);
-        if (empty($external_id)) {
-            return Auth::getFallBackAuthBackend()->canUserUpdatePassword($usr_id);
-        }
-
-        return false;
-    }
-
-    /**
-     * Method used to get the system-wide defaults.
-     *
-     * @return array of the default parameters
-     */
-    public static function getDefaults()
-    {
-        // to avoid dead-loop,
-        // don't do anything complex here that would require loading setup
-        return [
-            'host' => 'localhost',
-            'port' => '389',
-            'binddn' => '',
-            'bindpw' => '',
-            'basedn' => 'dc=example,dc=org',
-            'user_id_attribute' => '',
-            'userdn' => 'uid=%UID%,ou=People,dc=example,dc=org',
-            'customer_id_attribute' => '',
-            'contact_id_attribute' => '',
-            'user_filter' => '',
-            'create_users' => null,
-            'active_dn' => 'ou=People,dc=example,dc=org',
-            'inactive_dn' => 'ou=Inactive Accounts,dc=example,dc=org',
-            'default_role' => [],
-        ];
+        return $this->hasExternalId($usr_id);
     }
 
     /**
@@ -499,10 +451,6 @@ class LDAP_Auth_Backend implements Auth_Backend_Interface
      */
     public function updatePassword($usr_id, $password)
     {
-        if (!$this->isLDAPUser($usr_id)) {
-            return Auth::getFallBackAuthBackend()->updatePassword($usr_id, $password);
-        }
-
         return false;
     }
 

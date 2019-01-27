@@ -185,9 +185,9 @@ class DatabaseSetup
         throw new RuntimeException($err, $e->getCode());
     }
 
-    private function checkDatabaseExists(string $database): string
+    private function checkDatabaseExists(string $database): bool
     {
-        return $this->conn->getOne('SHOW DATABASES LIKE ?', [$database]);
+        return $this->conn->getOne('SHOW DATABASES LIKE ?', [$database]) !== null;
     }
 
     private function createDatabase($db_name): void

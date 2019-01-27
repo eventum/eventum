@@ -11,6 +11,8 @@
  * that were distributed with this source code.
  */
 
+use Eventum\Auth\Adapter\AdapterInterface;
+use Eventum\Auth\AuthException;
 use Eventum\Monolog\Logger;
 use Eventum\Session;
 use Symfony\Component\Filesystem\Exception\IOException;
@@ -388,7 +390,7 @@ class Auth
         $usr_id = self::getUserID();
         $projects = Project::getAssocList($usr_id);
         if ($usr_id == APP_SYSTEM_USER_ID) {
-            return isset($cookie['prj_id']) ? (int) $cookie['prj_id'] : null;
+            return isset($cookie['prj_id']) ? (int)$cookie['prj_id'] : null;
         }
 
         if ($projects != null && !in_array($cookie['prj_id'], array_keys($projects))) {
@@ -464,9 +466,9 @@ class Auth
     /**
      * Sets a cookie in the browser
      *
-     * @param   string  $name The name of the cookie
-     * @param   string  $value The value of the cookie
-     * @param   string  $expiration The expiration data of the cookie
+     * @param   string $name The name of the cookie
+     * @param   string $value The value of the cookie
+     * @param   string $expiration The expiration data of the cookie
      */
     public static function setCookie($name, $value, $expiration)
     {
@@ -481,60 +483,29 @@ class Auth
         }
     }
 
-    /**
-     * @return Auth_Backend_Interface
-     */
-    public static function getAuthBackend()
+    public static function getAuthBackend(): AdapterInterface
     {
-        /** @var Auth_Backend_Interface $instance */
-        static $instance = false;
+        /** @var AdapterInterface $adapter */
+        static $adapter = false;
 
-        if ($instance == false) {
-            $class = APP_AUTH_BACKEND;
-
-            // legacy: allow lowercase variants
-            if (strtolower($class) == 'mysql_auth_backend') {
-                $class = 'Mysql_Auth_Backend';
-            } elseif (strtolower($class) == 'ldap_auth_backend') {
-                $class = 'LDAP_Auth_Backend';
-            }
+        if ($adapter === false) {
+            $spec = Setup::get()['auth'] ?? [];
 
             try {
-                $instance = new $class();
-            } catch (AuthException $e) {
-                $message = "Unable to use auth backend '$class'";
+                $adapter = Eventum\Auth\Adapter\Factory::create($spec);
+            } catch (Throwable $e) {
+                $message = 'Unable to instantiate auth adapter';
                 Logger::app()->critical($message, ['exception' => $e]);
 
-                if (APP_AUTH_BACKEND_ALLOW_FALLBACK != true) {
-                    $tpl = new Template_Helper();
-                    $tpl->setTemplate('authentication_error.tpl.html');
-                    $tpl->assign('error_message', $e->getMessage());
-                    $tpl->displayTemplate();
-                    exit;
-                }
-
-                $instance = self::getFallBackAuthBackend();
+                $tpl = new Template_Helper();
+                $tpl->setTemplate('authentication_error.tpl.html');
+                $tpl->assign('error_message', $e->getMessage());
+                $tpl->displayTemplate();
+                exit;
             }
         }
 
-        return $instance;
-    }
-
-    /**
-     * Returns an instance of the MySQL Auth Backend.
-     * This is used when the primary backend is not handling the user.
-     *
-     * @return Auth_Backend_Interface
-     */
-    public static function getFallBackAuthBackend()
-    {
-        static $instance;
-
-        if (!$instance) {
-            $instance = new Mysql_Auth_Backend();
-        }
-
-        return $instance;
+        return $adapter;
     }
 
     /**

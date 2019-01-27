@@ -13,7 +13,7 @@
 
 namespace Eventum\Auth\Ldap;
 
-use AuthException;
+use Eventum\Auth\AuthException;
 use Symfony\Component\Ldap\Adapter\CollectionInterface;
 use Symfony\Component\Ldap\Adapter\ExtLdap\Adapter;
 use Symfony\Component\Ldap\Adapter\ExtLdap\Collection;
@@ -134,7 +134,7 @@ class LdapConnection
      * @param string $dn
      * @param string $filter
      * @param array $options
-     * @throws AuthException
+     * @throws \Eventum\Auth\AuthException
      * @return Entry|null
      */
     private function searchOne($dn, $filter, array $options = [])

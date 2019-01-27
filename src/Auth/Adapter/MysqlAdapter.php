@@ -11,13 +11,20 @@
  * that were distributed with this source code.
  */
 
+namespace Eventum\Auth\Adapter;
+
+use DB_Helper;
+use Eventum\Auth\PasswordHash;
 use Eventum\Db\DatabaseException;
+use User;
 
 /**
  * MySQL (builtin) auth backend
  */
-class Mysql_Auth_Backend implements Auth_Backend_Interface
+class MysqlAdapter implements AdapterInterface
 {
+    public const displayName = 'MySQL builtin authentication adapter';
+
     /**
      * Checks whether the provided password match against the email
      * address provided.
@@ -29,21 +36,25 @@ class Mysql_Auth_Backend implements Auth_Backend_Interface
     public function verifyPassword($login, $password)
     {
         $usr_id = User::getUserIDByEmail($login, true);
+        if (!$usr_id) {
+            return false;
+        }
+
         $user = User::getDetails($usr_id);
         $hash = $user['usr_password'];
 
-        if (!AuthPassword::verify($password, $hash)) {
-            self::incrementFailedLogins($usr_id);
+        if (!PasswordHash::verify($password, $hash)) {
+            $this->incrementFailedLogins($usr_id);
 
             return false;
         }
 
-        self::resetFailedLogins($usr_id);
+        $this->resetFailedLogins($usr_id);
 
         // check if hash needs rehashing,
         // old md5 or more secure default
-        if (AuthPassword::needs_rehash($hash)) {
-            self::updatePassword($usr_id, $password);
+        if (PasswordHash::needs_rehash($hash)) {
+            $this->updatePassword($usr_id, $password);
         }
 
         return true;
@@ -64,7 +75,7 @@ class Mysql_Auth_Backend implements Auth_Backend_Interface
                     usr_password=?
                  WHERE
                     usr_id=?';
-        $params = [AuthPassword::hash($password), $usr_id];
+        $params = [PasswordHash::hash($password), $usr_id];
         try {
             DB_Helper::getInstance()->query($stmt, $params);
         } catch (DatabaseException $e) {

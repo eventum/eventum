@@ -11,6 +11,7 @@
  * that were distributed with this source code.
  */
 
-class AuthException extends RuntimeException
-{
-}
+require_once __DIR__ . '/../../init.php';
+
+$controller = new Eventum\Controller\Manage\AuthController();
+$controller->run();

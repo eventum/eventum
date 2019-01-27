@@ -13,10 +13,8 @@
 
 namespace Eventum\Test;
 
-use AuthPassword;
-use InvalidArgumentException;
+use Eventum\Auth\PasswordHash;
 use Misc;
-use stdClass;
 
 class PasswordAuthTest extends TestCase
 {
@@ -32,36 +30,13 @@ class PasswordAuthTest extends TestCase
     public function testAuthPassword(): void
     {
         // success
-        $res = AuthPassword::verify($this->password, $this->hashes['password_hash']);
+        $res = PasswordHash::verify($this->password, $this->hashes['password_hash']);
         $this->assertTrue($res);
 
         // failures
         $password = 'meh';
-        $res = AuthPassword::verify($password, $this->hashes['password_hash']);
+        $res = PasswordHash::verify($password, $this->hashes['password_hash']);
         $this->assertFalse($res);
-    }
-
-    /**
-     * @expectedException InvalidArgumentException
-     * @dataProvider AuthPasswordInvalidArgumentData
-     */
-    public function testAuthPasswordInvalidArguments($password, $hash): void
-    {
-        AuthPassword::verify($password, $hash);
-    }
-
-    public function AuthPasswordInvalidArgumentData(): array
-    {
-        return [
-            [null, '123'],
-            ['a', null],
-            ['a', 10],
-            [-1, '10'],
-            ['', []],
-            [[], ''],
-            ['', new stdClass()],
-            [new stdClass(), ''],
-        ];
     }
 
     public function testPasswordHash(): void

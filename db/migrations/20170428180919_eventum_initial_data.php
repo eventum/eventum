@@ -11,6 +11,7 @@
  * that were distributed with this source code.
  */
 
+use Eventum\Auth\PasswordHash;
 use Eventum\Db\AbstractMigration;
 
 class EventumInitialData extends AbstractMigration
@@ -639,7 +640,7 @@ class EventumInitialData extends AbstractMigration
                 'Admin User',
                 'admin@example.com',
                 // TODO: issue for changing this: https://github.com/eventum/eventum/issues/138
-                AuthPassword::hash('admin'),
+                PasswordHash::hash('admin'),
                 'active',
             ],
 

@@ -11,6 +11,7 @@
  * that were distributed with this source code.
  */
 
+use Eventum\Auth\AuthException;
 use Eventum\Db\DatabaseException;
 
 class APIAuthToken

@@ -46,7 +46,6 @@ define('APP_LOCAL_PATH', APP_CONFIG_PATH);
 define('APP_TPL_COMPILE_PATH', APP_CONFIG_PATH . '/tpl_c');
 define('APP_TPL_PATH', APP_PATH . '/templates');
 define('APP_NAME', 'Eventum Tests');
-define('APP_AUTH_BACKEND', 'mysql_auth_backend');
 define('APP_SITE_NAME', 'Eventum');
 
 require_once APP_PATH . '/autoload.php';

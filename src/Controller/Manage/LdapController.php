@@ -14,7 +14,6 @@
 namespace Eventum\Controller\Manage;
 
 use Eventum\Controller\Helper\MessagesHelper;
-use LDAP_Auth_Backend;
 use Project;
 use Setup;
 use User;
@@ -111,7 +110,7 @@ class LdapController extends ManageBaseController
      */
     protected function prepareTemplate()
     {
-        $setup = Setup::setDefaults('ldap', LDAP_Auth_Backend::getDefaults());
+        $setup = Setup::setDefaults('ldap', $this->getDefaults());
 
         $this->tpl->assign(
             [
@@ -121,5 +120,30 @@ class LdapController extends ManageBaseController
                 'user_roles' => User::getRoles([User::ROLE_CUSTOMER]),
             ]
         );
+    }
+
+    /**
+     * Method used to get the system-wide defaults.
+     *
+     * @return array of the default parameters
+     */
+    public function getDefaults()
+    {
+        return [
+            'host' => 'localhost',
+            'port' => '389',
+            'binddn' => '',
+            'bindpw' => '',
+            'basedn' => 'dc=example,dc=org',
+            'user_id_attribute' => '',
+            'userdn' => 'uid=%UID%,ou=People,dc=example,dc=org',
+            'customer_id_attribute' => '',
+            'contact_id_attribute' => '',
+            'user_filter' => '',
+            'create_users' => null,
+            'active_dn' => 'ou=People,dc=example,dc=org',
+            'inactive_dn' => 'ou=Inactive Accounts,dc=example,dc=org',
+            'default_role' => [],
+        ];
     }
 }
