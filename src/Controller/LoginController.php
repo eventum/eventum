@@ -14,7 +14,10 @@
 namespace Eventum\Controller;
 
 use Auth;
+use AuthCookie;
 use Eventum\Auth\AuthException;
+use Eventum\Session;
+use User;
 use Validation;
 
 class LoginController extends BaseController
@@ -25,6 +28,8 @@ class LoginController extends BaseController
     private $passwd;
     /** @var string */
     private $url;
+    /** @var bool */
+    private $remember;
 
     /**
      * {@inheritdoc}
@@ -35,6 +40,7 @@ class LoginController extends BaseController
 
         $this->login = (string)$post->get('email');
         $this->passwd = (string)$post->get('passwd');
+        $this->remember = (bool)$post->get('remember');
         $this->url = (string)$post->get('url');
     }
 
@@ -52,7 +58,8 @@ class LoginController extends BaseController
     protected function defaultAction()
     {
         try {
-            $this->login($this->login, $this->passwd);
+            $this->authenticate($this->login, $this->passwd);
+            $this->login($this->login, $this->remember);
         } catch (AuthException $e) {
             $this->loginFailure($e->getCode(), $e->getMessage(), ['login' => $this->login]);
         }
@@ -65,7 +72,7 @@ class LoginController extends BaseController
         $this->redirect('select_project.php', $params);
     }
 
-    private function login(string $login, string $passwd)
+    private function authenticate(string $login, string $passwd): void
     {
         if (Validation::isWhitespace($login)) {
             throw new AuthException('empty login', AuthException::EMPTY_LOGIN);
@@ -82,8 +89,27 @@ class LoginController extends BaseController
         if (!Auth::isCorrectPassword($login, $passwd)) {
             throw new AuthException('wrong password', AuthException::WRONG_PASSWORD);
         }
+    }
 
-        Auth::login($login);
+    private function login(string $login, bool $remember): void
+    {
+        // get user primary mail,
+        // handle aliases since the user is now authenticated
+        $usr_id = Auth::getUserIDByLogin($login);
+        $login = User::getEmail($usr_id);
+
+        // check if this user did already confirm his account
+        if (Auth::isPendingUser($login)) {
+            throw new AuthException('pending user', AuthException::PENDING_USER);
+        }
+
+        if (!Auth::isActiveUser($login)) {
+            throw new AuthException('inactive user', AuthException::INACTIVE_USER);
+        }
+
+        Auth::saveLoginAttempt($login, 'success');
+        AuthCookie::setAuthCookie($login, $remember);
+        Session::init(User::getUserIDByEmail($login));
     }
 
     /**

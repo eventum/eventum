@@ -181,34 +181,6 @@ class Auth
     }
 
     /**
-     * Performs standard checks when a user logins
-     * @param string $login
-     */
-    public static function login($login)
-    {
-        // handle aliases since the user is now authenticated
-        $login = User::getEmail(self::getUserIDByLogin($login));
-
-        // check if this user did already confirm his account
-        if (self::isPendingUser($login)) {
-            self::saveLoginAttempt($login, 'failure', 'pending user');
-            self::redirect('index.php?err=9');
-        }
-        // check if this user is really an active one
-        if (!self::isActiveUser($login)) {
-            self::saveLoginAttempt($login, 'failure', 'inactive user');
-            self::redirect('index.php?err=7');
-        }
-
-        self::saveLoginAttempt($login, 'success');
-
-        $remember = !empty($_POST['remember']);
-        AuthCookie::setAuthCookie($login, $remember);
-
-        Session::init(User::getUserIDByEmail($login));
-    }
-
-    /**
      * Method for logging out the currently logged in user. Called after the normal logout process has completed.
      *
      * @returns void
@@ -231,14 +203,11 @@ class Auth
      * @param   string $email The email address to be checked
      * @return  bool
      */
-    public static function isPendingUser($email)
+    public static function isPendingUser($email): bool
     {
         $status = User::getStatusByEmail($email);
-        if ($status != 'pending') {
-            return false;
-        }
 
-        return true;
+        return $status === 'pending';
     }
 
     /**
@@ -247,7 +216,7 @@ class Auth
      * @param   string $email The email address to be checked
      * @return  bool
      */
-    public static function isActiveUser($email)
+    public static function isActiveUser($email): bool
     {
         $status = User::getStatusByEmail($email);
 

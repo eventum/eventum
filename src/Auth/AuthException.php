@@ -21,5 +21,7 @@ class AuthException extends RuntimeException
     public const EMPTY_PASSWORD = 2;
     public const UNKNOWN_USER = 3;
     public const WRONG_PASSWORD = 3;
+    public const INACTIVE_USER = 7;
+    public const PENDING_USER = 9;
     public const ACCOUNT_BACKOFF_LOCKED = 13;
 }
