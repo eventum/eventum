@@ -18,6 +18,7 @@ use DB_Helper;
 use Eventum\Auth\AuthException;
 use Eventum\Auth\PasswordHash;
 use Eventum\Db\DatabaseException;
+use Setup;
 use User;
 
 /**
@@ -105,10 +106,8 @@ class MysqlAdapter implements AdapterInterface
 
     /**
      * Increment the failed logins attempts for this user
-     *
-     * @param   int $usr_id The ID of the user
      */
-    public function incrementFailedLogins(int $usr_id): void
+    private function incrementFailedLogins(int $usr_id): void
     {
         $stmt = 'UPDATE
                     `user`
@@ -122,8 +121,6 @@ class MysqlAdapter implements AdapterInterface
 
     /**
      * Reset the failed logins attempts for this user
-     *
-     * @param   int $usr_id The ID of the user
      */
     private function resetFailedLogins(int $usr_id): void
     {
@@ -140,23 +137,23 @@ class MysqlAdapter implements AdapterInterface
 
     /**
      * Returns the true if the account is currently locked because of Back-Off locking
-     *
-     * @param   string $usr_id The email address to check for
-     * @return  bool
      */
-    public function isUserBackOffLocked(int $usr_id): bool
+    private function isUserBackOffLocked(int $usr_id): bool
     {
-        if (!is_int(APP_FAILED_LOGIN_BACKOFF_COUNT)) {
+        $config = Setup::get()['auth']['login_backoff'] ?? null;
+        $backoffCount = $config['count'] ?? null;
+        if (!$backoffCount) {
             return false;
         }
 
+        $backoffMinutes = $config['minutes'] ?? 15;
         $stmt = 'SELECT
-                    IF( usr_failed_logins >= ?, NOW() < DATE_ADD(usr_last_failed_login, INTERVAL ' . APP_FAILED_LOGIN_BACKOFF_MINUTES . ' MINUTE), 0)
+                    IF( usr_failed_logins >= ?, NOW() < DATE_ADD(usr_last_failed_login, INTERVAL ' . $backoffMinutes . ' MINUTE), 0)
                  FROM
                     `user`
                  WHERE
                     usr_id=?';
-        $params = [APP_FAILED_LOGIN_BACKOFF_COUNT, $usr_id];
+        $params = [$backoffCount, $usr_id];
         try {
             $res = DB_Helper::getInstance()->getOne($stmt, $params);
         } catch (DatabaseException $e) {
