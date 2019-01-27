@@ -1,5 +1,0 @@
-EVENTUM_USER = user@domain.com
-EVENTUM_PASSWORD = password_here
-EVENTUM_HOST = your.domain.com
-EVENTUM_PORT = 80
-EVENTUM_RELATIVE_URL = /

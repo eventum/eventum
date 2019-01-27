@@ -222,17 +222,8 @@ clean_vendor() {
 	rm src/Mail/MailStorage.php
 }
 
-build_phars() {
-	$quick && return
-	# eventum standalone cli
-	make -C cli eventum.phar composer=$composer box=$box
-}
-
 cleanup_postdist() {
 	rm composer.json phpcompatinfo.json
-	rm cli/composer.json
-	rm cli/box.json.dist
-	rm cli/Makefile
 	rm htdocs/debugbar
 
 	# cleanup vendors
@@ -295,8 +286,6 @@ prepare_source() {
 
 	# update to include checksums of js/css files
 	$topdir/bin/ci/dyncontent-chksum.pl
-
-	build_phars
 
 	# setup localization
 	make -C localization install clean

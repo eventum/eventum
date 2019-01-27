@@ -28,8 +28,6 @@ Session.vim
 /phpcompatinfo.phar
 /phpmd.phar
 /phpunit.phar
-/cli/*.phar
-/cli/build/
 
 /vendor
 
