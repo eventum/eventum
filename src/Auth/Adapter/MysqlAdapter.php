@@ -13,7 +13,9 @@
 
 namespace Eventum\Auth\Adapter;
 
+use Auth;
 use DB_Helper;
+use Eventum\Auth\AuthException;
 use Eventum\Auth\PasswordHash;
 use Eventum\Db\DatabaseException;
 use User;
@@ -33,11 +35,15 @@ class MysqlAdapter implements AdapterInterface
      * @param   string $password The password of the user to check for
      * @return  bool
      */
-    public function verifyPassword($login, $password)
+    public function verifyPassword($login, $password): bool
     {
-        $usr_id = User::getUserIDByEmail($login, true);
+        $usr_id = $this->getUserIDByLogin($login);
         if (!$usr_id) {
             return false;
+        }
+
+        if ($this->isUserBackOffLocked($usr_id)) {
+            throw new AuthException('account back-off locked', AuthException::ACCOUNT_BACKOFF_LOCKED);
         }
 
         $user = User::getDetails($usr_id);
@@ -127,7 +133,7 @@ class MysqlAdapter implements AdapterInterface
      * @param   int $usr_id The ID of the user
      * @return  bool
      */
-    public function resetFailedLogins($usr_id)
+    private function resetFailedLogins($usr_id)
     {
         $stmt = 'UPDATE
                     `user`

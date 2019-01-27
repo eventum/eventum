@@ -13,9 +13,6 @@
 
 namespace Eventum\Auth\Adapter;
 
-/**
- * Auth Backend Interface
- */
 interface AdapterInterface
 {
     /**
@@ -80,30 +77,6 @@ interface AdapterInterface
      * @return bool
      */
     public function canUserUpdatePassword($usr_id);
-
-    /**
-     * Increment the failed logins attempts for this user
-     *
-     * @param   int $usr_id The ID of the user
-     * @return  bool
-     */
-    public function incrementFailedLogins($usr_id);
-
-    /**
-     * Reset the failed logins attempts for this user
-     *
-     * @param   int $usr_id The ID of the user
-     * @return  bool
-     */
-    public function resetFailedLogins($usr_id);
-
-    /**
-     * Returns the true if the account is currently locked because of Back-Off locking
-     *
-     * @param   int $usr_id The ID of the user
-     * @return  bool
-     */
-    public function isUserBackOffLocked($usr_id);
 
     /**
      * Returns a URL to redirect the user to when they attempt to login or null if the native login pages

@@ -133,50 +133,6 @@ class ChainAdapter implements AdapterInterface
     /**
      * {@inheritdoc}
      */
-    public function incrementFailedLogins($usr_id)
-    {
-        $result = false;
-        foreach ($this->adapters as $adapter) {
-            if ($adapter->incrementFailedLogins($usr_id)) {
-                $result = true;
-            }
-        }
-
-        return $result;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function resetFailedLogins($usr_id)
-    {
-        $result = false;
-        foreach ($this->adapters as $adapter) {
-            if ($adapter->resetFailedLogins($usr_id)) {
-                $result = true;
-            }
-        }
-
-        return $result;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function isUserBackOffLocked($usr_id)
-    {
-        foreach ($this->adapters as $adapter) {
-            if ($adapter->isUserBackOffLocked($usr_id)) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function getExternalLoginURL()
     {
         foreach ($this->adapters as $adapter) {

@@ -14,6 +14,7 @@
 namespace Eventum\Controller;
 
 use Auth;
+use Eventum\Auth\AuthException;
 use Validation;
 
 class LoginController extends BaseController
@@ -65,15 +66,13 @@ class LoginController extends BaseController
             $this->loginFailure(3, 'unknown user');
         }
 
-        // check if user is locked
-        $usr_id = Auth::getUserIDByLogin($this->login);
-        if (Auth::isUserBackOffLocked($usr_id)) {
-            $this->loginFailure(13, 'account back-off locked');
-        }
-
         // check if the password matches
-        if (!Auth::isCorrectPassword($this->login, $this->passwd)) {
-            $this->loginFailure(3, 'wrong password', ['email' => $this->login]);
+        try {
+            if (!Auth::isCorrectPassword($this->login, $this->passwd)) {
+                $this->loginFailure(3, 'wrong password', ['email' => $this->login]);
+            }
+        } catch (AuthException $e) {
+            $this->loginFailure($e->getCode(), $e->getMessage(), ['email' => $this->login]);
         }
 
         Auth::login($this->login);

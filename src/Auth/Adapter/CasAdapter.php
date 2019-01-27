@@ -243,39 +243,6 @@ class CasAdapter implements AdapterInterface
     }
 
     /**
-     * Increment the failed logins attempts for this user
-     *
-     * @param   int $usr_id The ID of the user
-     * @return  bool
-     */
-    public function incrementFailedLogins($usr_id)
-    {
-        return true;
-    }
-
-    /**
-     * Reset the failed logins attempts for this user
-     *
-     * @param   int $usr_id The ID of the user
-     * @return  bool
-     */
-    public function resetFailedLogins($usr_id)
-    {
-        return true;
-    }
-
-    /**
-     * Returns the true if the account is currently locked because of Back-Off locking
-     *
-     * @param   int $usr_id The ID of the user
-     * @return  bool
-     */
-    public function isUserBackOffLocked($usr_id)
-    {
-        return false;
-    }
-
-    /**
      * Just return the main eventum page since that will prompt a CAS login.
      *
      * @return  string The login url or null
@@ -307,9 +274,9 @@ class CasAdapter implements AdapterInterface
     /**
      * Method used to get the system-wide defaults.
      *
-     * @return  string array of the default parameters
+     * @return array of the default parameters
      */
-    public static function getDefaults()
+    public static function getDefaults(): array
     {
         $defaults = [
             'host' => 'localhost',

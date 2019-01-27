@@ -17,4 +17,5 @@ use RuntimeException;
 
 class AuthException extends RuntimeException
 {
+    public const ACCOUNT_BACKOFF_LOCKED = 13;
 }

@@ -457,30 +457,6 @@ class LdapAdapter implements AdapterInterface
     /**
      * {@inheritdoc}
      */
-    public function incrementFailedLogins($usr_id)
-    {
-        return true;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function resetFailedLogins($usr_id)
-    {
-        return true;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function isUserBackOffLocked($usr_id)
-    {
-        return false;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function getExternalLoginURL()
     {
         return null;
