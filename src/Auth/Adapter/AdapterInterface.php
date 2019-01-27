@@ -52,7 +52,7 @@ interface AdapterInterface
      * @param $login
      * @return  int|null The user id or null
      */
-    public function getUserIDByLogin(string $login): ?int;
+    public function getUserId(string $login): ?int;
 
     /**
      * If this backend allows the user to update their name.

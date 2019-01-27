@@ -38,7 +38,7 @@ class MysqlAdapter implements AdapterInterface
      */
     public function verifyPassword(string $login, string $password): bool
     {
-        $usr_id = $this->getUserIDByLogin($login);
+        $usr_id = $this->getUserId($login);
         if (!$usr_id) {
             return false;
         }
@@ -94,12 +94,12 @@ class MysqlAdapter implements AdapterInterface
 
     public function userExists(string $login): bool
     {
-        $usr_id = $this->getUserIDByLogin($login);
+        $usr_id = $this->getUserId($login);
 
         return $usr_id > 0;
     }
 
-    public function getUserIDByLogin(string $login): ?int
+    public function getUserId(string $login): ?int
     {
         return User::getUserIDByEmail($login, true);
     }

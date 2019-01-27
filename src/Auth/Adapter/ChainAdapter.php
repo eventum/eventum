@@ -76,10 +76,10 @@ class ChainAdapter implements AdapterInterface
     /**
      * {@inheritdoc}
      */
-    public function getUserIDByLogin(string $login): ?int
+    public function getUserId(string $login): ?int
     {
         foreach ($this->adapters as $adapter) {
-            $usr_id = $adapter->getUserIDByLogin($login);
+            $usr_id = $adapter->getUserId($login);
             if ($usr_id !== null) {
                 return $usr_id;
             }

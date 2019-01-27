@@ -369,7 +369,7 @@ class LdapAdapter implements AdapterInterface
     /**
      * {@inheritdoc}
      */
-    public function getUserIDByLogin(string $login): ?int
+    public function getUserId(string $login): ?int
     {
         $usr_id = User::getUserIDByEmail($login, true);
         if (!$usr_id) {
@@ -396,7 +396,7 @@ class LdapAdapter implements AdapterInterface
     public function userExists(string $login): bool
     {
         try {
-            $usr_id = $this->getUserIDByLogin($login);
+            $usr_id = $this->getUserId($login);
         } catch (ConnectionException $e) {
             $this->logger->critical($e->getMessage(), ['exception' => $e]);
 
@@ -419,7 +419,7 @@ class LdapAdapter implements AdapterInterface
     public function verifyPassword(string $login, string $password): bool
     {
         // check if this is an ldap or internal
-        $usr_id = $this->getUserIDByLogin($login);
+        $usr_id = $this->getUserId($login);
         $external_id = User::getExternalID($usr_id) ?? null;
 
         if (!$external_id) {

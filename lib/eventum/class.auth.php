@@ -476,7 +476,7 @@ class Auth
      */
     public static function getUserIDByLogin($login)
     {
-        return self::getAuthBackend()->getUserIDByLogin($login);
+        return self::getAuthBackend()->getUserId($login);
     }
 
     /**

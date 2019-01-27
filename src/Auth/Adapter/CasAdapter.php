@@ -186,7 +186,7 @@ class CasAdapter implements AdapterInterface
 
     public function userExists(string $login): bool
     {
-        $usr_id = $this->getUserIDByLogin($login);
+        $usr_id = $this->getUserId($login);
 
         return $usr_id > 0;
     }
@@ -200,7 +200,7 @@ class CasAdapter implements AdapterInterface
      * @param string $login
      * @return  int|null The user id or null
      */
-    public function getUserIDByLogin(string $login): ?int
+    public function getUserId(string $login): ?int
     {
         return User::getUserIDByEmail($login, true);
     }
