@@ -17,5 +17,9 @@ use RuntimeException;
 
 class AuthException extends RuntimeException
 {
+    public const EMPTY_LOGIN = 1;
+    public const EMPTY_PASSWORD = 2;
+    public const UNKNOWN_USER = 3;
+    public const WRONG_PASSWORD = 3;
     public const ACCOUNT_BACKOFF_LOCKED = 13;
 }

@@ -23,7 +23,6 @@ class LoginController extends BaseController
     private $login;
     /** @var string */
     private $passwd;
-
     /** @var string */
     private $url;
 
@@ -34,10 +33,9 @@ class LoginController extends BaseController
     {
         $post = $this->getRequest()->request;
 
-        $this->login = (string) $post->get('email');
-        $this->passwd = (string) $post->get('passwd');
-
-        $this->url = (string) $post->get('url');
+        $this->login = (string)$post->get('email');
+        $this->passwd = (string)$post->get('passwd');
+        $this->url = (string)$post->get('url');
     }
 
     /**
@@ -53,29 +51,11 @@ class LoginController extends BaseController
      */
     protected function defaultAction()
     {
-        if (Validation::isWhitespace($this->login)) {
-            $this->redirect('index.php?err=1');
-        }
-
-        if (Validation::isWhitespace($this->passwd)) {
-            $this->loginFailure(2, 'empty password', ['email' => $this->login]);
-        }
-
-        // check if user exists
-        if (!Auth::userExists($this->login)) {
-            $this->loginFailure(3, 'unknown user');
-        }
-
-        // check if the password matches
         try {
-            if (!Auth::isCorrectPassword($this->login, $this->passwd)) {
-                $this->loginFailure(3, 'wrong password', ['email' => $this->login]);
-            }
+            $this->login($this->login, $this->passwd);
         } catch (AuthException $e) {
-            $this->loginFailure($e->getCode(), $e->getMessage(), ['email' => $this->login]);
+            $this->loginFailure($e->getCode(), $e->getMessage(), ['login' => $this->login]);
         }
-
-        Auth::login($this->login);
 
         $params = [];
         if ($this->url) {
@@ -83,6 +63,27 @@ class LoginController extends BaseController
         }
 
         $this->redirect('select_project.php', $params);
+    }
+
+    private function login(string $login, string $passwd)
+    {
+        if (Validation::isWhitespace($login)) {
+            throw new AuthException('empty login', AuthException::EMPTY_LOGIN);
+        }
+
+        if (Validation::isWhitespace($passwd)) {
+            throw new AuthException('empty password', AuthException::EMPTY_PASSWORD);
+        }
+
+        if (!Auth::userExists($login)) {
+            throw new AuthException('unknown user', AuthException::UNKNOWN_USER);
+        }
+
+        if (!Auth::isCorrectPassword($login, $passwd)) {
+            throw new AuthException('wrong password', AuthException::WRONG_PASSWORD);
+        }
+
+        Auth::login($login);
     }
 
     /**
