@@ -15,6 +15,7 @@ namespace Eventum\Controller;
 
 use Auth;
 use AuthCookie;
+use Eventum\Auth\Adapter\AdapterInterface;
 use Eventum\Auth\AuthException;
 use Eventum\Session;
 use User;
@@ -30,11 +31,13 @@ class LoginController extends BaseController
     private $url;
     /** @var bool */
     private $remember;
+    /** @var AdapterInterface */
+    private $auth;
 
     /**
      * {@inheritdoc}
      */
-    protected function configure()
+    protected function configure(): void
     {
         $post = $this->getRequest()->request;
 
@@ -47,7 +50,7 @@ class LoginController extends BaseController
     /**
      * {@inheritdoc}
      */
-    protected function canAccess()
+    protected function canAccess(): bool
     {
         return true;
     }
@@ -55,8 +58,9 @@ class LoginController extends BaseController
     /**
      * {@inheritdoc}
      */
-    protected function defaultAction()
+    protected function defaultAction(): void
     {
+        $this->auth = Auth::getAuthBackend();
         try {
             $this->authenticate($this->login, $this->passwd);
             $this->login($this->login, $this->remember);
@@ -82,11 +86,11 @@ class LoginController extends BaseController
             throw new AuthException('empty password', AuthException::EMPTY_PASSWORD);
         }
 
-        if (!Auth::userExists($login)) {
+        if (!$this->auth->userExists($login)) {
             throw new AuthException('unknown user', AuthException::UNKNOWN_USER);
         }
 
-        if (!Auth::isCorrectPassword($login, $passwd)) {
+        if (!$this->auth->verifyPassword($login, $passwd)) {
             throw new AuthException('wrong password', AuthException::WRONG_PASSWORD);
         }
     }
@@ -109,7 +113,7 @@ class LoginController extends BaseController
 
         Auth::saveLoginAttempt($login, 'success');
         AuthCookie::setAuthCookie($login, $remember);
-        Session::init(User::getUserIDByEmail($login));
+        Session::init($usr_id);
     }
 
     /**
@@ -119,7 +123,7 @@ class LoginController extends BaseController
      * @param string $reason
      * @param array $params
      */
-    private function loginFailure($error, $reason, $params = [])
+    private function loginFailure($error, $reason, $params = []): void
     {
         Auth::saveLoginAttempt($this->login, 'failure', $reason);
 
