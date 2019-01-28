@@ -805,7 +805,7 @@ class User
      * Method used to get the group ids and titles for the specified user.
      *
      * @param   int $usr_id The user ID
-     * @return  string The user' full name
+     * @return  string[] The user's full name
      */
     public static function getGroups($usr_id)
     {
@@ -824,11 +824,7 @@ class User
                 WHERE
                     ugr_grp_id = grp_id AND
                     ugr_usr_id = ?';
-        try {
-            $res = DB_Helper::getInstance()->getPair($sql, [$usr_id]);
-        } catch (DatabaseException $e) {
-            return '';
-        }
+        $res = DB_Helper::getInstance()->getPair($sql, [$usr_id]);
 
         $returns[$usr_id] = $res;
 
