@@ -49,7 +49,7 @@ class SearchProfile
      * @var array
      * @Column(name="sep_user_profile", type="array", length=65535, nullable=false)
      */
-    private $profile;
+    private $user_profile;
 
     public function getId(): int
     {
@@ -92,15 +92,15 @@ class SearchProfile
         return $this->type;
     }
 
-    public function setProfile(array $profile): self
+    public function setUserProfile(array $user_profile): self
     {
-        $this->profile = $profile;
+        $this->user_profile = $user_profile;
 
         return $this;
     }
 
-    public function getProfile(): array
+    public function getUserProfile(): array
     {
-        return $this->profile;
+        return $this->user_profile;
     }
 }

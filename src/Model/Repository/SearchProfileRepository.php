@@ -14,7 +14,23 @@
 namespace Eventum\Model\Repository;
 
 use Doctrine\ORM\EntityRepository;
+use Eventum\Model\Entity\SearchProfile;
 
 class SearchProfileRepository extends EntityRepository
 {
+    public function getIssueProfile(int $usr_id, int $prj_id): ?SearchProfile
+    {
+        return $this->getProfileByType($usr_id, $prj_id, 'issue');
+    }
+
+    public function getProfileByType(int $usr_id, int $prj_id, string $type): ?SearchProfile
+    {
+        return $this->findOneBy(['type' => $type, 'userId' => $usr_id, 'projectId' => $prj_id]);
+    }
+
+    public function remove(SearchProfile $profile): void
+    {
+        $this->_em->remove($profile);
+        $this->_em->flush();
+    }
 }

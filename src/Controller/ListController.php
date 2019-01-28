@@ -17,6 +17,8 @@ use Auth;
 use Category;
 use Custom_Field;
 use Display_Column;
+use Eventum\Db\Doctrine;
+use Eventum\Model\Repository\SearchProfileRepository;
 use Eventum\Search\Parameters;
 use Filter;
 use Prefs;
@@ -59,6 +61,8 @@ class ListController extends BaseController
 
     /** @var Parameters */
     private $search;
+    /** @var SearchProfileRepository */
+    private $profile;
 
     /**
      * {@inheritdoc}
@@ -91,6 +95,7 @@ class ListController extends BaseController
 
         $request = $this->getRequest();
         $this->search = new Parameters($request, $this->usr_id, $this->prj_id);
+        $this->profile = Doctrine::getSearchProfileRepository();
         $this->pagerRow = (int)$this->search->get('pagerRow');
 
         $rows = $this->search->get('rows');
@@ -264,8 +269,16 @@ class ListController extends BaseController
 
     private function myAssignmentsAction(): void
     {
-        $profile = Search_Profile::getProfile($this->usr_id, $this->prj_id, 'issue');
-        Search_Profile::remove($this->usr_id, $this->prj_id, 'issue');
+        $issueProfile = $this->profile->getIssueProfile($this->usr_id, $this->prj_id);
+        if ($issueProfile) {
+            $profile = $issueProfile->getUserProfile();
+            $this->profile->remove($issueProfile);
+        } else {
+            $profile = [
+                'sort_by' => null,
+                'sort_order' => null,
+            ];
+        }
 
         $this->redirect(
             'list.php', [
