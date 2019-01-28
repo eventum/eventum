@@ -82,7 +82,7 @@ class ListController extends BaseController
         $this->pagerRow = (int) Search::getParam('pagerRow');
 
         $rows = Search::getParam('rows');
-        $this->rows = ($rows == 'ALL' ? $rows : (int) $rows) ?: APP_DEFAULT_PAGER_SIZE;
+        $this->rows = ($rows === 'ALL' ? $rows : (int) $rows) ?: APP_DEFAULT_PAGER_SIZE;
 
         $this->options_override = [];
         $this->viewAction();
