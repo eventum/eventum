@@ -447,17 +447,19 @@ class Search
                     $fields[] = $row[$col_key] ?? '';
                 }
             }
+            /*
             if (CRM::hasCustomerIntegration($prj_id)) {
                 // check if current user is a customer and has a per incident contract.
                 // if so, check if issue is redeemed.
                 if (User::getRoleByUser($usr_id, $prj_id) == User::ROLE_CUSTOMER) {
-                    // TODOCRM: Fix per incident usage
-//                    if ((Customer::hasPerIncidentContract($prj_id, Issue::getCustomerID($res[$i]['iss_id'])) &&
-//                            (Customer::isRedeemedIncident($prj_id, $res[$i]['iss_id'])))) {
-//                        $res[$i]['redeemed'] = true;
-//                    }
+                     TODOCRM: Fix per incident usage
+                    if ((Customer::hasPerIncidentContract($prj_id, Issue::getCustomerID($res[$i]['iss_id'])) &&
+                            (Customer::isRedeemedIncident($prj_id, $res[$i]['iss_id'])))) {
+                        $res[$i]['redeemed'] = true;
+                    }
                 }
             }
+            */
 
             $csv[] = @implode("\t", $fields);
         }
