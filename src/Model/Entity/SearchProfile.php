@@ -13,8 +13,6 @@
 
 namespace Eventum\Model\Entity;
 
-use Misc;
-
 /**
  * @Table(name="search_profile", uniqueConstraints={@UniqueConstraint(name="sep_usr_id", columns={"sep_usr_id", "sep_prj_id", "sep_type"})})
  * @Entity(repositoryClass="Eventum\Model\Repository\SearchProfileRepository")
@@ -48,8 +46,8 @@ class SearchProfile
     private $type;
 
     /**
-     * @var string
-     * @Column(name="sep_user_profile", type="blob", length=65535, nullable=false)
+     * @var array
+     * @Column(name="sep_user_profile", type="array", length=65535, nullable=false)
      */
     private $profile;
 
@@ -96,13 +94,13 @@ class SearchProfile
 
     public function setProfile(array $profile): self
     {
-        $this->profile = serialize($profile);
+        $this->profile = $profile;
 
         return $this;
     }
 
     public function getProfile(): array
     {
-        return Misc::unserialize($this->profile);
+        return $this->profile;
     }
 }
