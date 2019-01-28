@@ -16,32 +16,6 @@ use Eventum\Db\DatabaseException;
 class Search_Profile
 {
     /**
-     * Method used to remove the search profile record for this user,
-     * for the specified project and profile type.
-     *
-     * @param   int $usr_id The user ID
-     * @param   int $prj_id The project ID
-     * @param   string $type The type of the search profile ('issue' or 'email')
-     * @return  bool
-     */
-    public static function remove($usr_id, $prj_id, $type)
-    {
-        $stmt = 'DELETE FROM
-                    `search_profile`
-                 WHERE
-                    sep_usr_id=? AND
-                    sep_prj_id=? AND
-                    sep_type=?';
-        try {
-            DB_Helper::getInstance()->query($stmt, [$usr_id, $prj_id, $type]);
-        } catch (DatabaseException $e) {
-            return false;
-        }
-
-        return true;
-    }
-
-    /**
      * Method used to retrieve a search profile record for this user,
      * for the specified project and profile type.
      *

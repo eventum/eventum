@@ -18,14 +18,32 @@ use Eventum\Model\Entity\SearchProfile;
 
 class SearchProfileRepository extends EntityRepository
 {
-    public function getIssueProfile(int $usr_id, int $prj_id): ?SearchProfile
+    public function getIssueProfile(int $usr_id, int $prj_id): ?array
     {
-        return $this->getProfileByType($usr_id, $prj_id, 'issue');
+        $profile = $this->getProfileByType($usr_id, $prj_id, 'issue');
+        if (!$profile) {
+            return null;
+        }
+
+        return $profile->getUserProfile();
     }
 
     public function getProfileByType(int $usr_id, int $prj_id, string $type): ?SearchProfile
     {
         return $this->findOneBy(['type' => $type, 'userId' => $usr_id, 'projectId' => $prj_id]);
+    }
+
+    /**
+     * Find the profile, if present, clear it
+     */
+    public function clearProfile(int $usr_id, int $prj_id, string $type): ?SearchProfile
+    {
+        $profile = $this->getProfileByType($usr_id, $prj_id, $type);
+        if ($profile) {
+            $this->remove($profile);
+        }
+
+        return $profile;
     }
 
     public function remove(SearchProfile $profile): void

@@ -57,7 +57,7 @@ class Parameters
         return $this->getSearchProfile('issue')[$name] ?? null;
     }
 
-    private function getSearchProfile(string $type = 'issue'): array
+    public function getSearchProfile(string $type = 'issue'): array
     {
         return
             $this->profile[$type] ??

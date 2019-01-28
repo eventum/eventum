@@ -27,7 +27,6 @@ use Product;
 use Project;
 use Release;
 use Search;
-use Search_Profile;
 use Severity;
 use Status;
 use Symfony\Component\HttpFoundation\Request;
@@ -269,17 +268,7 @@ class ListController extends BaseController
 
     private function myAssignmentsAction(): void
     {
-        $issueProfile = $this->profile->getIssueProfile($this->usr_id, $this->prj_id);
-        if ($issueProfile) {
-            $profile = $issueProfile->getUserProfile();
-            $this->profile->remove($issueProfile);
-        } else {
-            $profile = [
-                'sort_by' => null,
-                'sort_order' => null,
-            ];
-        }
-
+        $profile = $this->resetProfile('issue');
         $this->redirect(
             'list.php', [
                 'users' => $this->usr_id,
@@ -327,8 +316,7 @@ class ListController extends BaseController
         }
         $this->nosave = true;
 
-        $profile = Search_Profile::getProfile($this->usr_id, $this->prj_id, 'issue');
-        Search_Profile::remove($this->usr_id, $this->prj_id, 'issue');
+        $profile = $this->resetProfile('issue');
         $this->redirect(
             'list.php', [
                 'customer_id' => $customer_id,
@@ -348,8 +336,7 @@ class ListController extends BaseController
             return;
         }
 
-        $profile = Search_Profile::getProfile($this->usr_id, $this->prj_id, 'issue');
-
+        $profile = $this->profile->getIssueProfile($this->usr_id, $this->prj_id);
         $this->redirect(
             'list.php', [
                 'reporter' => $reporter_id,
@@ -364,16 +351,29 @@ class ListController extends BaseController
 
     private function clearFiltersAction(): void
     {
-        Search_Profile::remove($this->usr_id, $this->prj_id, 'issue');
+        $this->resetProfile('issue');
         $this->redirect('list.php');
     }
 
     private function clearAndFilterAction(Request $request): void
     {
-        Search_Profile::remove($this->usr_id, $this->prj_id, 'issue');
         $params = $request->query->all();
         unset($params['view']);
 
+        $this->resetProfile('issue');
         $this->redirect('list.php', $params);
+    }
+
+    private function resetProfile(string $type): array
+    {
+        $profile = $this->profile->clearProfile($this->usr_id, $this->prj_id, $type);
+        if ($profile) {
+            return $profile->getUserProfile();
+        }
+
+        return [
+            'sort_by' => null,
+            'sort_order' => null,
+        ];
     }
 }

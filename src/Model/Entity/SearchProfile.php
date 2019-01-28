@@ -40,7 +40,7 @@ class SearchProfile
     private $projectId;
 
     /**
-     * @var string
+     * @var string The type of the search profile ('issue' or 'email')
      * @Column(name="sep_type", type="string", length=5, nullable=false)
      */
     private $type;
