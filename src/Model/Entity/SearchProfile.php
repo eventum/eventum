@@ -16,10 +16,8 @@ namespace Eventum\Model\Entity;
 use Misc;
 
 /**
- * SearchProfile
- *
  * @Table(name="search_profile", uniqueConstraints={@UniqueConstraint(name="sep_usr_id", columns={"sep_usr_id", "sep_prj_id", "sep_type"})})
- * @Entity
+ * @Entity(repositoryClass="Eventum\Model\Repository\SearchProfileRepository")
  */
 class SearchProfile
 {
