@@ -13,6 +13,8 @@
 
 namespace Eventum\Model\Entity;
 
+use Misc;
+
 /**
  * SearchProfile
  *
@@ -94,15 +96,15 @@ class SearchProfile
         return $this->type;
     }
 
-    public function setProfile(string $profile): self
+    public function setProfile(array $profile): self
     {
-        $this->profile = $profile;
+        $this->profile = serialize($profile);
 
         return $this;
     }
 
-    public function getProfile(): string
+    public function getProfile(): array
     {
-        return $this->profile;
+        return Misc::unserialize($this->profile);
     }
 }
