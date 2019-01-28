@@ -28,6 +28,7 @@ use Search;
 use Search_Profile;
 use Severity;
 use Status;
+use Symfony\Component\HttpFoundation\Request;
 use User;
 use Workflow;
 
@@ -64,7 +65,7 @@ class ListController extends BaseController
      */
     protected function configure(): void
     {
-        $this->nosave = (bool) $this->getRequest()->get('nosave');
+        $this->nosave = (bool)$this->getRequest()->get('nosave');
     }
 
     /**
@@ -88,8 +89,9 @@ class ListController extends BaseController
         $this->usr_id = Auth::getUserID();
         $this->prj_id = Auth::getCurrentProject();
 
-        $this->search = new Parameters($this->getRequest(), $this->usr_id, $this->prj_id);
-        $this->pagerRow = (int) $this->search->get('pagerRow');
+        $request = $this->getRequest();
+        $this->search = new Parameters($request, $this->usr_id, $this->prj_id);
+        $this->pagerRow = (int)$this->search->get('pagerRow');
 
         $rows = $this->search->get('rows');
         if ($rows === 'ALL') {
@@ -111,91 +113,27 @@ class ListController extends BaseController
 
         switch ($request->get('view')) {
             case 'my_assignments':
-                $profile = Search_Profile::getProfile($this->usr_id, $this->prj_id, 'issue');
-                Search_Profile::remove($this->usr_id, $this->prj_id, 'issue');
-                $this->redirect(
-                    'list.php', [
-                        'users' => $this->usr_id,
-                        'hide_closed' => 1,
-                        'rows' => $this->rows,
-                        'sort_by' => $profile['sort_by'],
-                        'sort_order' => $profile['sort_order'],
-                    ]
-                );
+                $this->myAssignmentsAction();
                 break;
 
             case 'customer':
-                $customer_id = $request->get('customer_id');
-                if (!$customer_id) {
-                    return;
-                }
-                $this->options_override = [
-                    'customer_id' => $customer_id,
-                    'rows' => $this->rows,
-                ];
-                if ($this->search->get('hide_closed', true) === '') {
-                    $this->options_override['hide_closed'] = 1;
-                }
-                $this->nosave = true;
+                $this->customerAction($request);
                 break;
 
             case 'customer_all':
-                $customer_id = $request->get('customer_id');
-                if (!$customer_id) {
-                    return;
-                }
-
-                $this->options_override = [
-                    'customer_id' => $customer_id,
-                    'rows' => $this->rows,
-                ];
-                if ($this->search->get('hide_closed', true) === '') {
-                    $this->options_override['hide_closed'] = 0;
-                }
-                $this->nosave = true;
-                $profile = Search_Profile::getProfile($this->usr_id, $this->prj_id, 'issue');
-                Search_Profile::remove($this->usr_id, $this->prj_id, 'issue');
-                $this->redirect(
-                    'list.php', [
-                        'customer_id' => $customer_id,
-                        'hide_closed' => 1,
-                        'rows' => $this->rows,
-                        'sort_by' => $profile['sort_by'],
-                        'sort_order' => $profile['sort_order'],
-                        'nosave' => 1,
-                    ]
-                );
+                $this->customerAllAction($request);
                 break;
 
             case 'reporter':
-                $reporter_id = (int) $request->get('reporter_id');
-                if (!$reporter_id) {
-                    return;
-                }
-
-                $profile = Search_Profile::getProfile($this->usr_id, $this->prj_id, 'issue');
-                $this->redirect(
-                    'list.php', [
-                        'reporter' => $reporter_id,
-                        'hide_closed' => 1,
-                        'rows' => $this->rows,
-                        'sort_by' => $profile['sort_by'],
-                        'sort_order' => $profile['sort_order'],
-                        'nosave' => 1,
-                    ]
-                );
+                $this->reporterAction($request);
                 break;
 
             case 'clear':
-                Search_Profile::remove($this->usr_id, $this->prj_id, 'issue');
-                $this->redirect('list.php');
+                $this->clearFiltersAction();
                 break;
 
             case 'clearandfilter':
-                Search_Profile::remove($this->usr_id, $this->prj_id, 'issue');
-                $params = $request->query->all();
-                unset($params['view']);
-                $this->redirect('list.php', $params);
+                $this->clearAndFilterAction($request);
                 break;
         }
     }
@@ -266,7 +204,7 @@ class ListController extends BaseController
      * @param   array $options The current search parameters
      * @return  array The sorting options
      */
-    private function getSortingInfo($options)
+    private function getSortingInfo($options): array
     {
         $uri = $this->getRequest()->getBaseUrl();
 
@@ -322,5 +260,107 @@ class ListController extends BaseController
         }
 
         return $items;
+    }
+
+    private function myAssignmentsAction(): void
+    {
+        $profile = Search_Profile::getProfile($this->usr_id, $this->prj_id, 'issue');
+        Search_Profile::remove($this->usr_id, $this->prj_id, 'issue');
+
+        $this->redirect(
+            'list.php', [
+                'users' => $this->usr_id,
+                'hide_closed' => 1,
+                'rows' => $this->rows,
+                'sort_by' => $profile['sort_by'],
+                'sort_order' => $profile['sort_order'],
+            ]
+        );
+    }
+
+    private function customerAction(Request $request): void
+    {
+        $customer_id = $request->get('customer_id');
+        if (!$customer_id) {
+            return;
+        }
+
+        $this->options_override = [
+            'customer_id' => $customer_id,
+            'rows' => $this->rows,
+        ];
+
+        if ($this->search->get('hide_closed', true) === '') {
+            $this->options_override['hide_closed'] = 1;
+        }
+
+        $this->nosave = true;
+    }
+
+    private function customerAllAction(Request $request): void
+    {
+        $customer_id = $request->get('customer_id');
+        if (!$customer_id) {
+            return;
+        }
+
+        $this->options_override = [
+            'customer_id' => $customer_id,
+            'rows' => $this->rows,
+        ];
+
+        if ($this->search->get('hide_closed', true) === '') {
+            $this->options_override['hide_closed'] = 0;
+        }
+        $this->nosave = true;
+
+        $profile = Search_Profile::getProfile($this->usr_id, $this->prj_id, 'issue');
+        Search_Profile::remove($this->usr_id, $this->prj_id, 'issue');
+        $this->redirect(
+            'list.php', [
+                'customer_id' => $customer_id,
+                'hide_closed' => 1,
+                'rows' => $this->rows,
+                'sort_by' => $profile['sort_by'],
+                'sort_order' => $profile['sort_order'],
+                'nosave' => 1,
+            ]
+        );
+    }
+
+    private function reporterAction(Request $request): void
+    {
+        $reporter_id = (int)$request->get('reporter_id');
+        if (!$reporter_id) {
+            return;
+        }
+
+        $profile = Search_Profile::getProfile($this->usr_id, $this->prj_id, 'issue');
+
+        $this->redirect(
+            'list.php', [
+                'reporter' => $reporter_id,
+                'hide_closed' => 1,
+                'rows' => $this->rows,
+                'sort_by' => $profile['sort_by'],
+                'sort_order' => $profile['sort_order'],
+                'nosave' => 1,
+            ]
+        );
+    }
+
+    private function clearFiltersAction(): void
+    {
+        Search_Profile::remove($this->usr_id, $this->prj_id, 'issue');
+        $this->redirect('list.php');
+    }
+
+    private function clearAndFilterAction(Request $request): void
+    {
+        Search_Profile::remove($this->usr_id, $this->prj_id, 'issue');
+        $params = $request->query->all();
+        unset($params['view']);
+
+        $this->redirect('list.php', $params);
     }
 }
