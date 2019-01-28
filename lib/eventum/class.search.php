@@ -62,7 +62,7 @@ class Search
      * @param bool $request_only If only $_GET and $_POST should be checked
      * @return array
      */
-    public static function getArrayParam($name, $request_only)
+    private static function getArrayParam($name, $request_only)
     {
         $value = self::getParam($name, $request_only);
         if ($value === 'last') {
@@ -491,7 +491,7 @@ class Search
      * @param   array $options The search parameters
      * @return  string The where clause
      */
-    public static function buildWhereClause($options)
+    private static function buildWhereClause($options)
     {
         $usr_id = Auth::getUserID();
         $prj_id = Auth::getCurrentProject();
@@ -751,7 +751,7 @@ class Search
     /**
      * This needs to be called after getFullTextIssues
      */
-    public static function getFullTextExcerpts($options)
+    private static function getFullTextExcerpts($options)
     {
         if (!APP_ENABLE_FULLTEXT || empty($options['keywords'])) {
             return [];
@@ -768,7 +768,6 @@ class Search
     }
 
     /**
-     * @static
      * @return Abstract_Fulltext_Search
      */
     private static function getFullTextSearchInstance()
