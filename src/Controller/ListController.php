@@ -212,7 +212,7 @@ class ListController extends BaseController
     {
         $uri = $this->getRequest()->getBaseUrl();
 
-        $custom_fields = Custom_Field::getFieldsToBeListed(Auth::getCurrentProject());
+        $custom_fields = Custom_Field::getFieldsToBeListed($this->prj_id);
 
         // default order for last action date, priority should be descending
         // for textual fields, like summary, ascending is reasonable
