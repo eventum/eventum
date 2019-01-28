@@ -463,6 +463,7 @@ class Search
 
             $csv[] = @implode("\t", $fields);
         }
+        unset($row);
 
         $total_pages = ceil($total_rows / $max);
         $last_page = $total_pages - 1;
