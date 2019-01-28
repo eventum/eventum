@@ -197,7 +197,6 @@ class ListController extends BaseController
             $options = Search::saveSearchParams();
         }
 
-        $options += $this->options_override;
         $options = array_merge($options, $this->options_override);
 
         $users = Project::getUserAssocList($this->prj_id, 'active', User::ROLE_CUSTOMER);
