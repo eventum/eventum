@@ -28,7 +28,7 @@ class Search
      * @return  mixed The value of the specified parameter
      * @return string
      */
-    public static function getParam($name, $request_only = false, $valid_values = null)
+    private static function getParam($name, $request_only = false, $valid_values = null)
     {
         $value = null;
         if (isset($_GET[$name])) {

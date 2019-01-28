@@ -17,6 +17,7 @@ use Auth;
 use Category;
 use Custom_Field;
 use Display_Column;
+use Eventum\Search\Parameters;
 use Filter;
 use Prefs;
 use Priority;
@@ -32,6 +33,8 @@ use Workflow;
 
 class ListController extends BaseController
 {
+    private const DEFAULT_PAGER_SIZE = APP_DEFAULT_PAGER_SIZE;
+
     /** @var string */
     protected $tpl_name = 'list.tpl.html';
 
@@ -52,6 +55,9 @@ class ListController extends BaseController
 
     /** @var bool */
     private $nosave;
+
+    /** @var Parameters */
+    private $search;
 
     /**
      * {@inheritdoc}
@@ -79,10 +85,18 @@ class ListController extends BaseController
      */
     protected function defaultAction(): void
     {
-        $this->pagerRow = (int) Search::getParam('pagerRow');
+        $this->usr_id = Auth::getUserID();
+        $this->prj_id = Auth::getCurrentProject();
 
-        $rows = Search::getParam('rows');
-        $this->rows = ($rows === 'ALL' ? $rows : (int) $rows) ?: APP_DEFAULT_PAGER_SIZE;
+        $this->search = new Parameters($this->getRequest(), $this->usr_id, $this->prj_id);
+        $this->pagerRow = (int) $this->search->get('pagerRow');
+
+        $rows = $this->search->get('rows');
+        if ($rows === 'ALL') {
+            $this->rows = $rows ?: self::DEFAULT_PAGER_SIZE;
+        } else {
+            $this->rows = ((int)$rows) ?: self::DEFAULT_PAGER_SIZE;
+        }
 
         $this->options_override = [];
         $this->viewAction();
@@ -119,7 +133,7 @@ class ListController extends BaseController
                     'customer_id' => $customer_id,
                     'rows' => $this->rows,
                 ];
-                if (Search::getParam('hide_closed', true) === '') {
+                if ($this->search->get('hide_closed', true) === '') {
                     $this->options_override['hide_closed'] = 1;
                 }
                 $this->nosave = true;
@@ -135,7 +149,7 @@ class ListController extends BaseController
                     'customer_id' => $customer_id,
                     'rows' => $this->rows,
                 ];
-                if (Search::getParam('hide_closed', true) === '') {
+                if ($this->search->get('hide_closed', true) === '') {
                     $this->options_override['hide_closed'] = 0;
                 }
                 $this->nosave = true;
