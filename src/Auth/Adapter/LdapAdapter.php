@@ -20,6 +20,7 @@ use Eventum\Auth\Ldap\UserEntry;
 use Eventum\Monolog\Logger;
 use Setup;
 use Symfony\Component\Ldap\Entry;
+use Symfony\Component\Ldap\Exception\ConnectionException;
 use User;
 
 /**
@@ -80,7 +81,7 @@ class LdapAdapter implements AdapterInterface
      * @return UserEntry[]
      * @internal Public for use by LdapSyncCommand
      */
-    public function getUserListing($dn)
+    public function getUserListing(string $dn): array
     {
         return $this->ldap->listUsers($dn);
     }
@@ -106,7 +107,7 @@ class LdapAdapter implements AdapterInterface
      * @return UserEntry|null
      * @internal Public for use by LdapSyncCommand
      */
-    public function getLdapUser($uid)
+    public function getLdapUser(string $uid): ?UserEntry
     {
         return $this->ldap->findUser($uid);
     }
@@ -119,7 +120,7 @@ class LdapAdapter implements AdapterInterface
      * @return int|null
      * @internal Public for use by LdapSyncCommand
      */
-    public function getLocalUserId($login, $emails)
+    public function getLocalUserId(string $login, array $emails): ?int
     {
         // try by login name
         $usr_id = User::getUserIDByExternalID($login);
@@ -146,7 +147,7 @@ class LdapAdapter implements AdapterInterface
      * @return bool
      * @internal Public for use by LdapSyncCommand
      */
-    public function disableAccount($uid)
+    public function disableAccount(string $uid): bool
     {
         $usr_id = User::getUserIDByExternalID($uid);
         if ($usr_id <= 0) {
@@ -168,7 +169,7 @@ class LdapAdapter implements AdapterInterface
      * @return null|bool
      * @internal Public for use by LdapSyncCommand
      */
-    public function accountActive($uid)
+    public function accountActive(string $uid): ?bool
     {
         $usr_id = User::getUserIDByExternalID($uid);
         if ($usr_id <= 0) {
@@ -189,7 +190,7 @@ class LdapAdapter implements AdapterInterface
      * @param array $emails
      * @return string[]
      */
-    private function sortEmails($usr_id, $emails)
+    private function sortEmails(int $usr_id, array $emails): array
     {
         $email = User::getEmail($usr_id);
 
@@ -206,13 +207,13 @@ class LdapAdapter implements AdapterInterface
      * Creates or updates local user entry for the specified ID.
      *
      * @param string $login The login or email of the user to create or update
-     * @return  bool True if the user was created or updated, false otherwise
+     * @return int the user id that was created or updated, null otherwise
      */
-    public function updateLocalUserFromBackend($login)
+    public function updateLocalUserFromBackend(string $login): ?int
     {
         $remote = $this->getLdapUser($login);
         if (!$remote) {
-            return false;
+            return null;
         }
 
         $usr_id = $this->getLocalUserId($login, $remote->getEmails());
@@ -298,7 +299,7 @@ class LdapAdapter implements AdapterInterface
         }
 
         if (!$this->create_users) {
-            return false;
+            return null;
         }
 
         return $this->createUser($remote);
@@ -368,7 +369,7 @@ class LdapAdapter implements AdapterInterface
     /**
      * {@inheritdoc}
      */
-    public function getUserIDByLogin($login)
+    public function getUserId(string $login): ?int
     {
         $usr_id = User::getUserIDByEmail($login, true);
         if (!$usr_id) {
@@ -392,9 +393,15 @@ class LdapAdapter implements AdapterInterface
     /**
      * {@inheritdoc}
      */
-    public function userExists($login)
+    public function userExists(string $login): bool
     {
-        $usr_id = $this->getUserIDByLogin($login);
+        try {
+            $usr_id = $this->getUserId($login);
+        } catch (ConnectionException $e) {
+            $this->logger->critical($e->getMessage(), ['exception' => $e]);
+
+            return false;
+        }
 
         return $usr_id > 0;
     }
@@ -409,10 +416,10 @@ class LdapAdapter implements AdapterInterface
     /**
      * {@inheritdoc}
      */
-    public function verifyPassword($login, $password)
+    public function verifyPassword(string $login, string $password): bool
     {
         // check if this is an ldap or internal
-        $usr_id = $this->getUserIDByLogin($login);
+        $usr_id = $this->getUserId($login);
         $external_id = User::getExternalID($usr_id) ?? null;
 
         if (!$external_id) {
@@ -425,7 +432,7 @@ class LdapAdapter implements AdapterInterface
     /**
      * {@inheritdoc}
      */
-    public function canUserUpdateName($usr_id): bool
+    public function canUserUpdateName(int $usr_id): bool
     {
         return $this->hasExternalId($usr_id);
     }
@@ -433,7 +440,7 @@ class LdapAdapter implements AdapterInterface
     /**
      * {@inheritdoc}
      */
-    public function canUserUpdateEmail($usr_id)
+    public function canUserUpdateEmail(int $usr_id): bool
     {
         return $this->hasExternalId($usr_id);
     }
@@ -441,7 +448,7 @@ class LdapAdapter implements AdapterInterface
     /**
      * {@inheritdoc}
      */
-    public function canUserUpdatePassword($usr_id)
+    public function canUserUpdatePassword(int $usr_id): bool
     {
         return $this->hasExternalId($usr_id);
     }
@@ -449,7 +456,7 @@ class LdapAdapter implements AdapterInterface
     /**
      * {@inheritdoc}
      */
-    public function updatePassword($usr_id, $password)
+    public function updatePassword(int $usr_id, string $password): bool
     {
         return false;
     }
@@ -457,31 +464,7 @@ class LdapAdapter implements AdapterInterface
     /**
      * {@inheritdoc}
      */
-    public function incrementFailedLogins($usr_id)
-    {
-        return true;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function resetFailedLogins($usr_id)
-    {
-        return true;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function isUserBackOffLocked($usr_id)
-    {
-        return false;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getExternalLoginURL()
+    public function getExternalLoginURL(): ?string
     {
         return null;
     }
@@ -489,23 +472,21 @@ class LdapAdapter implements AdapterInterface
     /**
      * {@inheritdoc}
      */
-    public function checkAuthentication()
+    public function checkAuthentication(): void
     {
-        return null;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function logout()
+    public function logout(): void
     {
-        return null;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function autoRedirectToExternalLogin()
+    public function autoRedirectToExternalLogin(): bool
     {
         return false;
     }

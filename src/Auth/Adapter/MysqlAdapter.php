@@ -13,9 +13,12 @@
 
 namespace Eventum\Auth\Adapter;
 
+use Auth;
 use DB_Helper;
+use Eventum\Auth\AuthException;
 use Eventum\Auth\PasswordHash;
 use Eventum\Db\DatabaseException;
+use Setup;
 use User;
 
 /**
@@ -33,11 +36,15 @@ class MysqlAdapter implements AdapterInterface
      * @param   string $password The password of the user to check for
      * @return  bool
      */
-    public function verifyPassword($login, $password)
+    public function verifyPassword(string $login, string $password): bool
     {
-        $usr_id = User::getUserIDByEmail($login, true);
+        $usr_id = $this->getUserId($login);
         if (!$usr_id) {
             return false;
+        }
+
+        if ($this->isUserBackOffLocked($usr_id)) {
+            throw new AuthException('account back-off locked', AuthException::ACCOUNT_BACKOFF_LOCKED);
         }
 
         $user = User::getDetails($usr_id);
@@ -67,7 +74,7 @@ class MysqlAdapter implements AdapterInterface
      * @param   string $password the password
      * @return  bool
      */
-    public function updatePassword($usr_id, $password)
+    public function updatePassword(int $usr_id, string $password): bool
     {
         $stmt = 'UPDATE
                     `user`
@@ -85,25 +92,22 @@ class MysqlAdapter implements AdapterInterface
         return true;
     }
 
-    public function userExists($login)
+    public function userExists(string $login): bool
     {
-        $usr_id = $this->getUserIDByLogin($login);
+        $usr_id = $this->getUserId($login);
 
         return $usr_id > 0;
     }
 
-    public function getUserIDByLogin($login)
+    public function getUserId(string $login): ?int
     {
         return User::getUserIDByEmail($login, true);
     }
 
     /**
      * Increment the failed logins attempts for this user
-     *
-     * @param   int $usr_id The ID of the user
-     * @return  bool
      */
-    public function incrementFailedLogins($usr_id)
+    private function incrementFailedLogins(int $usr_id): void
     {
         $stmt = 'UPDATE
                     `user`
@@ -112,22 +116,13 @@ class MysqlAdapter implements AdapterInterface
                     usr_last_failed_login = NOW()
                  WHERE
                     usr_id=?';
-        try {
-            DB_Helper::getInstance()->query($stmt, [$usr_id]);
-        } catch (DatabaseException $e) {
-            return false;
-        }
-
-        return true;
+        DB_Helper::getInstance()->query($stmt, [$usr_id]);
     }
 
     /**
      * Reset the failed logins attempts for this user
-     *
-     * @param   int $usr_id The ID of the user
-     * @return  bool
      */
-    public function resetFailedLogins($usr_id)
+    private function resetFailedLogins(int $usr_id): void
     {
         $stmt = 'UPDATE
                     `user`
@@ -137,33 +132,28 @@ class MysqlAdapter implements AdapterInterface
                     usr_last_failed_login = NULL
                  WHERE
                     usr_id=?';
-        try {
-            DB_Helper::getInstance()->query($stmt, [$usr_id]);
-        } catch (DatabaseException $e) {
-            return false;
-        }
-
-        return true;
+        DB_Helper::getInstance()->query($stmt, [$usr_id]);
     }
 
     /**
      * Returns the true if the account is currently locked because of Back-Off locking
-     *
-     * @param   string $usr_id The email address to check for
-     * @return  bool
      */
-    public function isUserBackOffLocked($usr_id)
+    private function isUserBackOffLocked(int $usr_id): bool
     {
-        if (!is_int(APP_FAILED_LOGIN_BACKOFF_COUNT)) {
+        $config = Setup::get()['auth']['login_backoff'] ?? null;
+        $backoffCount = $config['count'] ?? null;
+        if (!$backoffCount) {
             return false;
         }
+
+        $backoffMinutes = $config['minutes'] ?? 15;
         $stmt = 'SELECT
-                    IF( usr_failed_logins >= ?, NOW() < DATE_ADD(usr_last_failed_login, INTERVAL ' . APP_FAILED_LOGIN_BACKOFF_MINUTES . ' MINUTE), 0)
+                    IF( usr_failed_logins >= ?, NOW() < DATE_ADD(usr_last_failed_login, INTERVAL ' . $backoffMinutes . ' MINUTE), 0)
                  FROM
                     `user`
                  WHERE
                     usr_id=?';
-        $params = [APP_FAILED_LOGIN_BACKOFF_COUNT, $usr_id];
+        $params = [$backoffCount, $usr_id];
         try {
             $res = DB_Helper::getInstance()->getOne($stmt, $params);
         } catch (DatabaseException $e) {
@@ -173,17 +163,17 @@ class MysqlAdapter implements AdapterInterface
         return $res == 1;
     }
 
-    public function canUserUpdateName($usr_id)
+    public function canUserUpdateName(int $usr_id): bool
     {
         return true;
     }
 
-    public function canUserUpdateEmail($usr_id)
+    public function canUserUpdateEmail(int $usr_id): bool
     {
         return true;
     }
 
-    public function canUserUpdatePassword($usr_id)
+    public function canUserUpdatePassword(int $usr_id): bool
     {
         return true;
     }
@@ -194,7 +184,7 @@ class MysqlAdapter implements AdapterInterface
      *
      * @return  string The login url or null
      */
-    public function getExternalLoginURL()
+    public function getExternalLoginURL(): ?string
     {
         return null;
     }
@@ -203,19 +193,15 @@ class MysqlAdapter implements AdapterInterface
      * Called on every page load and can be used to process external authentication checks before the rest of the
      * authentication process happens.
      */
-    public function checkAuthentication()
+    public function checkAuthentication(): void
     {
-        return null;
     }
 
     /**
      * Called when a user logs out.
-     *
-     * @return mixed
      */
-    public function logout()
+    public function logout(): void
     {
-        return null;
     }
 
     /**
@@ -223,7 +209,7 @@ class MysqlAdapter implements AdapterInterface
      *
      * @return  bool
      */
-    public function autoRedirectToExternalLogin()
+    public function autoRedirectToExternalLogin(): bool
     {
         return false;
     }

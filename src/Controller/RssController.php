@@ -95,6 +95,7 @@ class RssController extends BaseController
      * TODO: translations
      * TODO: ip based control
      * FIXME: duplicates logic that should be in Auth::checkAuthentication method
+     * TODO: use LoginController
      *
      * @throw InvalidArgumentException
      */

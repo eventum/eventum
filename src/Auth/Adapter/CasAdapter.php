@@ -42,11 +42,10 @@ class CasAdapter implements AdapterInterface
 
         // For simplicities sake at the moment we are not validating the server auth.
         phpCAS::setNoCasServerValidation();
-
         phpCAS::setPostAuthenticateCallback([$this, 'loginCallback']);
     }
 
-    public function checkAuthentication()
+    public function checkAuthentication(): void
     {
         if (phpCAS::isAuthenticated() && !AuthCookie::hasAuthCookie()) {
             $this->loginCallback();
@@ -56,12 +55,12 @@ class CasAdapter implements AdapterInterface
         phpCAS::forceAuthentication();
     }
 
-    public function logout()
+    public function logout(): void
     {
         phpCAS::logoutWithRedirectService(APP_BASE_URL);
     }
 
-    public function loginCallback()
+    public function loginCallback(): void
     {
         $attributes = phpCAS::getAttributes();
 
@@ -73,7 +72,7 @@ class CasAdapter implements AdapterInterface
         AuthCookie::setAuthCookie($user['usr_email'], true);
     }
 
-    public function updateLocalUserFromBackend($remote)
+    public function updateLocalUserFromBackend(array $remote): int
     {
         $setup = self::loadSetup();
 
@@ -127,7 +126,7 @@ class CasAdapter implements AdapterInterface
 
         // create new local user
         $setup = self::loadSetup();
-        if ($setup['create_users'] == false) {
+        if ($setup['create_users'] === false) {
             throw new AuthException('User does not exist and will not be created.');
         }
         $data['role'] = $setup['default_role'];
@@ -153,10 +152,7 @@ class CasAdapter implements AdapterInterface
         return $usr_id;
     }
 
-    /**
-     * @param int $usr_id
-     */
-    private function updateAliases($usr_id, $aliases)
+    private function updateAliases(int $usr_id, array $aliases): void
     {
         foreach ($aliases as $alias) {
             User::addAlias($usr_id, $alias);
@@ -171,7 +167,7 @@ class CasAdapter implements AdapterInterface
      * @param   string $password The password of the user to check for
      * @return  bool
      */
-    public function verifyPassword($login, $password)
+    public function verifyPassword(string $login, string $password): bool
     {
         return false;
     }
@@ -183,14 +179,14 @@ class CasAdapter implements AdapterInterface
      * @param   string $password the password
      * @return  bool true if update worked, false otherwise
      */
-    public function updatePassword($usr_id, $password)
+    public function updatePassword(int $usr_id, string $password): bool
     {
         return true;
     }
 
-    public function userExists($login)
+    public function userExists(string $login): bool
     {
-        $usr_id = $this->getUserIDByLogin($login);
+        $usr_id = $this->getUserId($login);
 
         return $usr_id > 0;
     }
@@ -204,7 +200,7 @@ class CasAdapter implements AdapterInterface
      * @param string $login
      * @return  int|null The user id or null
      */
-    public function getUserIDByLogin($login)
+    public function getUserId(string $login): ?int
     {
         return User::getUserIDByEmail($login, true);
     }
@@ -215,7 +211,7 @@ class CasAdapter implements AdapterInterface
      * @param int $usr_id
      * @return bool
      */
-    public function canUserUpdateName($usr_id)
+    public function canUserUpdateName(int $usr_id): bool
     {
         return false;
     }
@@ -226,7 +222,7 @@ class CasAdapter implements AdapterInterface
      * @param int $usr_id
      * @return bool
      */
-    public function canUserUpdateEmail($usr_id)
+    public function canUserUpdateEmail(int $usr_id): bool
     {
         return false;
     }
@@ -237,40 +233,7 @@ class CasAdapter implements AdapterInterface
      * @param int $usr_id
      * @return bool
      */
-    public function canUserUpdatePassword($usr_id)
-    {
-        return false;
-    }
-
-    /**
-     * Increment the failed logins attempts for this user
-     *
-     * @param   int $usr_id The ID of the user
-     * @return  bool
-     */
-    public function incrementFailedLogins($usr_id)
-    {
-        return true;
-    }
-
-    /**
-     * Reset the failed logins attempts for this user
-     *
-     * @param   int $usr_id The ID of the user
-     * @return  bool
-     */
-    public function resetFailedLogins($usr_id)
-    {
-        return true;
-    }
-
-    /**
-     * Returns the true if the account is currently locked because of Back-Off locking
-     *
-     * @param   int $usr_id The ID of the user
-     * @return  bool
-     */
-    public function isUserBackOffLocked($usr_id)
+    public function canUserUpdatePassword(int $usr_id): bool
     {
         return false;
     }
@@ -280,15 +243,15 @@ class CasAdapter implements AdapterInterface
      *
      * @return  string The login url or null
      */
-    public function getExternalLoginURL()
+    public function getExternalLoginURL(): ?string
     {
         return APP_RELATIVE_URL . 'main.php';
     }
 
-    public static function loadSetup($force = false)
+    public static function loadSetup($force = false): array
     {
         static $setup;
-        if (empty($setup) || $force == true) {
+        if (empty($setup) || $force === true) {
             $setup = [];
             $configfile = Setup::getConfigPath() . '/cas.php';
 
@@ -307,9 +270,9 @@ class CasAdapter implements AdapterInterface
     /**
      * Method used to get the system-wide defaults.
      *
-     * @return  string array of the default parameters
+     * @return array of the default parameters
      */
-    public static function getDefaults()
+    public static function getDefaults(): array
     {
         $defaults = [
             'host' => 'localhost',
@@ -336,7 +299,7 @@ class CasAdapter implements AdapterInterface
      *
      * @return  bool
      */
-    public function autoRedirectToExternalLogin()
+    public function autoRedirectToExternalLogin(): bool
     {
         return false;
     }
