@@ -11,9 +11,9 @@
  * that were distributed with this source code.
  */
 
+use Eventum\Config\ConfigPersistence;
 use Eventum\Monolog\Logger;
 use Symfony\Component\Filesystem\Exception\IOException;
-use Symfony\Component\Filesystem\Filesystem;
 use Zend\Config\Config;
 
 /**
@@ -124,8 +124,10 @@ class Setup
      */
     private static function initialize(): Config
     {
+        $loader = new ConfigPersistence();
+
         $config = new Config(self::getDefaults(), true);
-        $config->merge(new Config(self::loadConfigFile(self::getSetupFile())));
+        $config->merge(new Config($loader->load(self::getSetupFile())));
 
         // some subtrees are saved to different files
         $extra_configs = [
@@ -137,33 +139,13 @@ class Setup
                 continue;
             }
 
-            $subconfig = self::loadConfigFile($filename);
-            if ($subconfig) {
-                $config->merge(new Config([$section => $subconfig]));
+            $subConfig = $loader->load($filename);
+            if ($subConfig) {
+                $config->merge(new Config([$section => $subConfig]));
             }
         }
 
         return $config;
-    }
-
-    /**
-     * Load config from $path.
-     * Config file should return configuration array.
-     *
-     * @param string $path
-     * @return array
-     */
-    private static function loadConfigFile($path): array
-    {
-        // return empty array if the file is empty
-        // this is to help eventum installation wizard to proceed
-        if (!file_exists($path) || !filesize($path)) {
-            return [];
-        }
-
-        // config array is supposed to be returned from that path
-        /** @noinspection PhpIncludeInspection */
-        return require $path;
     }
 
     /**
@@ -174,22 +156,12 @@ class Setup
      */
     private static function saveConfig($path, Config $config): void
     {
-        $contents = self::dumpConfig($config);
-
         try {
-            $fs = new Filesystem();
-            $fs->dumpFile($path, $contents);
+            $store = new ConfigPersistence();
+            $store->store($path, $config->toArray());
         } catch (IOException $e) {
             throw new RuntimeException($e->getMessage(), -2);
         }
-    }
-
-    /**
-     * Export config in a format to be stored to config file
-     */
-    private static function dumpConfig(Config $config): string
-    {
-        return '<' . "?php\nreturn " . var_export($config->toArray(), 1) . ";\n";
     }
 
     /**
