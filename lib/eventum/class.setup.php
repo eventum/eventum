@@ -28,7 +28,7 @@ class Setup
      *
      * @return Config The system-wide preferences
      */
-    public static function get()
+    public static function get(): Config
     {
         static $config;
         if (!$config) {
@@ -45,7 +45,7 @@ class Setup
      * @param array $options
      * @return Config returns the root config object
      */
-    public static function set($options)
+    public static function set($options): Config
     {
         $config = self::get();
         $config->merge(new Config($options));
@@ -60,7 +60,7 @@ class Setup
      * @param array $defaults
      * @return Config returns section that was just configured
      */
-    public static function setDefaults($section, array $defaults)
+    public static function setDefaults($section, array $defaults): Config
     {
         $config = self::get();
         $existing = $config[$section]->toArray();
@@ -104,29 +104,25 @@ class Setup
     }
 
     /**
-     * @return string
      * @since 3.5.0
      */
-    public static function getConfigPath()
+    public static function getConfigPath(): string
     {
-        return dirname(dirname(__DIR__)) . '/config';
+        return dirname(__DIR__, 2) . '/config';
     }
 
     /**
-     * @return string
      * @since 3.5.0
      */
-    public static function getSetupFile()
+    public static function getSetupFile(): string
     {
         return self::getConfigPath() . '/setup.php';
     }
 
     /**
      * Initialize config object, load it from setup files, merge defaults.
-     *
-     * @return Config
      */
-    private static function initialize()
+    private static function initialize(): Config
     {
         $config = new Config(self::getDefaults(), true);
         $config->merge(new Config(self::loadConfigFile(self::getSetupFile())));
@@ -157,7 +153,7 @@ class Setup
      * @param string $path
      * @return array
      */
-    private static function loadConfigFile($path)
+    private static function loadConfigFile($path): array
     {
         // return empty array if the file is empty
         // this is to help eventum installation wizard to proceed
@@ -176,7 +172,7 @@ class Setup
      * @param string $path
      * @param Config $config
      */
-    private static function saveConfig($path, Config $config)
+    private static function saveConfig($path, Config $config): void
     {
         $contents = self::dumpConfig($config);
 
@@ -190,11 +186,8 @@ class Setup
 
     /**
      * Export config in a format to be stored to config file
-     *
-     * @param Config $config
-     * @return string
      */
-    private static function dumpConfig(Config $config)
+    private static function dumpConfig(Config $config): string
     {
         return '<' . "?php\nreturn " . var_export($config->toArray(), 1) . ";\n";
     }
@@ -204,9 +197,9 @@ class Setup
      *
      * @return array of the default preferences
      */
-    private static function getDefaults()
+    private static function getDefaults(): array
     {
-        $appPath = dirname(dirname(__DIR__));
+        $appPath = dirname(__DIR__, 2);
 
         // at minimum should define top level array elements
         // so that fluent access works without errors and notices
