@@ -15,9 +15,13 @@ namespace Eventum\Config;
 
 use InvalidArgumentException;
 use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\VarExporter\VarExporter;
 
 class ConfigPersistence
 {
+    public const PREFIX = "<?php\nreturn ";
+    public const SUFFIX = ";\n";
+
     /**
      * Load config from $path.
      * Config file should return configuration array.
@@ -60,7 +64,6 @@ class ConfigPersistence
      */
     private function serialize(array $config): string
     {
-        return '<' . "?php\nreturn " . var_export($config, true) . ";\n";
+        return self::PREFIX . VarExporter::export($config) . self::SUFFIX;
     }
-
 }
