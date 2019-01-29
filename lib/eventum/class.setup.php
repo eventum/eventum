@@ -11,9 +11,9 @@
  * that were distributed with this source code.
  */
 
+use Eventum\Config\ConfigPersistence;
 use Eventum\Monolog\Logger;
 use Symfony\Component\Filesystem\Exception\IOException;
-use Symfony\Component\Filesystem\Filesystem;
 use Zend\Config\Config;
 
 /**
@@ -28,7 +28,7 @@ class Setup
      *
      * @return Config The system-wide preferences
      */
-    public static function get()
+    public static function get(): Config
     {
         static $config;
         if (!$config) {
@@ -45,7 +45,7 @@ class Setup
      * @param array $options
      * @return Config returns the root config object
      */
-    public static function set($options)
+    public static function set($options): Config
     {
         $config = self::get();
         $config->merge(new Config($options));
@@ -60,7 +60,7 @@ class Setup
      * @param array $defaults
      * @return Config returns section that was just configured
      */
-    public static function setDefaults($section, array $defaults)
+    public static function setDefaults($section, array $defaults): Config
     {
         $config = self::get();
         $existing = $config[$section]->toArray();
@@ -104,32 +104,30 @@ class Setup
     }
 
     /**
-     * @return string
      * @since 3.5.0
      */
-    public static function getConfigPath()
+    public static function getConfigPath(): string
     {
-        return dirname(dirname(__DIR__)) . '/config';
+        return dirname(__DIR__, 2) . '/config';
     }
 
     /**
-     * @return string
      * @since 3.5.0
      */
-    public static function getSetupFile()
+    public static function getSetupFile(): string
     {
         return self::getConfigPath() . '/setup.php';
     }
 
     /**
      * Initialize config object, load it from setup files, merge defaults.
-     *
-     * @return Config
      */
-    private static function initialize()
+    private static function initialize(): Config
     {
+        $loader = new ConfigPersistence();
+
         $config = new Config(self::getDefaults(), true);
-        $config->merge(new Config(self::loadConfigFile(self::getSetupFile())));
+        $config->merge(new Config($loader->load(self::getSetupFile())));
 
         // some subtrees are saved to different files
         $extra_configs = [
@@ -141,33 +139,13 @@ class Setup
                 continue;
             }
 
-            $subconfig = self::loadConfigFile($filename);
-            if ($subconfig) {
-                $config->merge(new Config([$section => $subconfig]));
+            $subConfig = $loader->load($filename);
+            if ($subConfig) {
+                $config->merge(new Config([$section => $subConfig]));
             }
         }
 
         return $config;
-    }
-
-    /**
-     * Load config from $path.
-     * Config file should return configuration array.
-     *
-     * @param string $path
-     * @return array
-     */
-    private static function loadConfigFile($path)
-    {
-        // return empty array if the file is empty
-        // this is to help eventum installation wizard to proceed
-        if (!file_exists($path) || !filesize($path)) {
-            return [];
-        }
-
-        // config array is supposed to be returned from that path
-        /** @noinspection PhpIncludeInspection */
-        return require $path;
     }
 
     /**
@@ -176,27 +154,14 @@ class Setup
      * @param string $path
      * @param Config $config
      */
-    private static function saveConfig($path, Config $config)
+    private static function saveConfig($path, Config $config): void
     {
-        $contents = self::dumpConfig($config);
-
         try {
-            $fs = new Filesystem();
-            $fs->dumpFile($path, $contents);
+            $store = new ConfigPersistence();
+            $store->store($path, $config->toArray());
         } catch (IOException $e) {
             throw new RuntimeException($e->getMessage(), -2);
         }
-    }
-
-    /**
-     * Export config in a format to be stored to config file
-     *
-     * @param Config $config
-     * @return string
-     */
-    private static function dumpConfig(Config $config)
-    {
-        return '<' . "?php\nreturn " . var_export($config->toArray(), 1) . ";\n";
     }
 
     /**
@@ -204,9 +169,9 @@ class Setup
      *
      * @return array of the default preferences
      */
-    private static function getDefaults()
+    private static function getDefaults(): array
     {
-        $appPath = dirname(dirname(__DIR__));
+        $appPath = dirname(__DIR__, 2);
 
         // at minimum should define top level array elements
         // so that fluent access works without errors and notices
