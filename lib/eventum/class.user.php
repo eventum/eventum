@@ -443,7 +443,7 @@ class User
                 return null;
             }
 
-            Logger::app()->error('$email parameter is not a string', ['type' => gettype($email)]);
+            Logger::app()->error('$email parameter is not a string', ['type' => gettype($email), 'value' => $email]);
 
             return null;
         }
