@@ -19,6 +19,7 @@ first, also the PHP version required is 7.1, see [#426].
 - Move Login-Back-Off logic to MySQL adapter only (@glensc, #455)
 - Use `symfony/var-exporter` for writing config files (@glensc, #456)
 - Add support to fill Mentioned on data (@glensc, #447, #449)
+- Listen for Issue/Note GitLab events (@glensc, #337, #448)
 
 [3.6.0]: https://github.com/eventum/eventum/compare/v3.5.6...master
 [#426]: https://github.com/eventum/eventum/pull/426
