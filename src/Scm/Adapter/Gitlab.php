@@ -100,9 +100,14 @@ class Gitlab extends AbstractAdapter
         $em = Doctrine::getEntityManager();
         $cr = Doctrine::getCommitRepository();
         $ir = Doctrine::getIssueRepository();
+        $issueMatcher = new IssueMatcher(APP_BASE_URL);
 
         foreach ($payload->getCommits() as $commit) {
-            $issues = $this->matchIssueIds($commit['message']);
+            $matches = $issueMatcher->match($commit['message']);
+            if (!$matches) {
+                continue;
+            }
+            $issues = array_column($matches, 'issueId');
             if (!$issues) {
                 continue;
             }

@@ -29,18 +29,4 @@ abstract class AbstractAdapter implements AdapterInterface
         $this->request = $request;
         $this->log = $logger;
     }
-
-    /**
-     * Parse the commit message and get all issue numbers we can find
-     */
-    protected function matchIssueIds(string $message): ?array
-    {
-        preg_match_all('/(?:issue|bug) ?:? ?#?(\d+)/i', $message, $matches);
-
-        if (count($matches[1]) > 0) {
-            return $matches[1];
-        }
-
-        return null;
-    }
 }
