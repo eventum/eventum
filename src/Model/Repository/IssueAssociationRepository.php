@@ -31,7 +31,7 @@ class IssueAssociationRepository extends EntityRepository
      * @param int $issue_id The issue ID
      * @return int[] The list of associated issues
      */
-    public function getAssociatedIssues($issue_id)
+    public function getAssociatedIssues($issue_id): array
     {
         // doctrine doesn't support UNION
         // and we want just single column, use PDO directly

@@ -5,6 +5,10 @@
 {if $issue|default:'' != ''}
   {include file="view_form.tpl.html"}
 
+  {if $issue.remote_links|@count > 0}
+  {include file="remote_links.tpl.html" remote_links=$issue.remote_links}
+  {/if}
+
   {if $custom_fields|@count > 0}
   {include file="custom_fields.tpl.html"}
   {/if}

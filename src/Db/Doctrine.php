@@ -28,10 +28,11 @@ use Eventum\Model\Repository;
  * @method static Repository\IssueAssociationRepository getIssueAssociationRepository()
  * @method static Repository\IssueRepository getIssueRepository()
  * @method static Repository\ProjectRepository getProjectRepository()
+ * @method static Repository\RemoteLinkRepository getRemoteLinkRepository()
  */
 class Doctrine
 {
-    public static function getEntityManager()
+    public static function getEntityManager(): EntityManager
     {
         static $entityManager;
         if ($entityManager) {
@@ -67,16 +68,14 @@ class Doctrine
         return $entityManager;
     }
 
-    public static function __callStatic($method, $arguments = [])
+    public static function __callStatic($method, array $arguments = [])
     {
         static $repos;
 
         if (preg_match('/get(\w+)Repository/', $method, $m)) {
             $class = '\\Eventum\\Model\\Entity\\' . $m[1];
 
-            return isset($repos[$class])
-                ? $repos[$class]
-                : $repos[$class] = self::getEntityManager()
+            return $repos[$class] ?? $repos[$class] = self::getEntityManager()
                     ->getRepository($class);
         }
 

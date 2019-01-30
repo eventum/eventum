@@ -1,0 +1,18 @@
+<div class="issue_section bordered" id="remote_links">
+    <div class="title">
+        {t 1=$remote_links|count}Remote Links (%1){/t}
+        <span class="menu">
+            [ <a href="#top">{t}Back to Top{/t}</a> ]
+            [ <span class="js_link" id="toggle_remote_links">{get_display_label element_name="remote_links" total=$remote_links|@count}</span> ]
+        </span>
+    </div>
+
+    <div class="content" {get_display_style element_name='remote_links' total=$remote_links|@count}>
+        <ul>
+            {foreach from=$remote_links key=i item=$link}
+            <li><a href="{$link->getUrl()}" target="_blank" rel="nofollow">{$link->getTitle()|escape}</a></li>
+            {/foreach}
+        </ul>
+    </div>
+</div>
+
