@@ -16,6 +16,7 @@ namespace Eventum\Console\Command;
 use Eventum\Auth\Adapter\LdapAdapter;
 use Eventum\Auth\AuthException;
 use Eventum\Auth\Ldap\UserEntry;
+use Generator;
 use InvalidArgumentException;
 use RuntimeException;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -122,12 +123,11 @@ class LdapSyncCommand extends Command
      * Find users under specified DN.
      *
      * @param string $dn
-     * @return \Generator|UserEntry[]
+     * @return Generator|UserEntry[]
      */
-    private function findUsers($dn)
+    private function findUsers($dn): Generator
     {
         $users = $this->ldap->getUserListing($dn);
-
         foreach ($users as $user) {
             // skip entries with no email
             if (!$user->getEmails()) {

@@ -18,6 +18,7 @@ use Eventum\Auth\AuthException;
 use Eventum\Auth\Ldap\LdapConnection;
 use Eventum\Auth\Ldap\UserEntry;
 use Eventum\Monolog\Logger;
+use Generator;
 use Setup;
 use Symfony\Component\Ldap\Entry;
 use Symfony\Component\Ldap\Exception\ConnectionException;
@@ -78,12 +79,12 @@ class LdapAdapter implements AdapterInterface
      * Get all users from LDAP server.
      *
      * @param string $dn
-     * @return UserEntry[]
+     * @return Generator|UserEntry[]
      * @internal Public for use by LdapSyncCommand
      */
-    public function getUserListing(string $dn): array
+    public function getUserListing(string $dn): Generator
     {
-        return $this->ldap->listUsers($dn);
+        yield from $this->ldap->listUsers($dn);
     }
 
     private function validatePassword(string $uid, string $password): bool

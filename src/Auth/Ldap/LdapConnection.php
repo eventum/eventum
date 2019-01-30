@@ -14,6 +14,7 @@
 namespace Eventum\Auth\Ldap;
 
 use Eventum\Auth\AuthException;
+use Generator;
 use Symfony\Component\Ldap\Adapter\CollectionInterface;
 use Symfony\Component\Ldap\Adapter\ExtLdap\Adapter;
 use Symfony\Component\Ldap\Adapter\ExtLdap\Collection;
@@ -92,9 +93,9 @@ class LdapConnection
 
     /**
      * @param string $dn
-     * @return \Generator|UserEntry[]
+     * @return Generator|UserEntry[]
      */
-    public function listUsers($dn = null)
+    public function listUsers($dn = null): Generator
     {
         $filter = $this->getUserFilter(null);
 
@@ -107,7 +108,7 @@ class LdapConnection
     /**
      * Connect to LDAP using binddn credentials.
      */
-    private function connect()
+    private function connect(): void
     {
         $this->ldap->getConnection()->bind($this->config['binddn'], $this->config['bindpw']);
     }
@@ -134,7 +135,7 @@ class LdapConnection
      * @param string $dn
      * @param string $filter
      * @param array $options
-     * @throws \Eventum\Auth\AuthException
+     * @throws AuthException
      * @return Entry|null
      */
     private function searchOne($dn, $filter, array $options = [])
