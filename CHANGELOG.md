@@ -59,6 +59,7 @@ Upgrading to 3.5.x versions requires that you upgrade to 3.2.0 version first.
 
 - Handle uncaught header exception from mail download (@glensc, #398)
 - `view_note`: use textFormat rather format_email to hilite issue links too (@glensc, 204378117)
+- with this release, reached 9000th commit!
 
 [3.5.3]: https://github.com/eventum/eventum/compare/v3.5.2...v3.5.3
 
