@@ -13,7 +13,13 @@
 
 namespace Eventum\Model\Entity;
 
+use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\Mapping\Column;
+use Doctrine\ORM\Mapping\Entity;
+use Doctrine\ORM\Mapping\Id;
+use Doctrine\ORM\Mapping\OneToMany;
+use Doctrine\ORM\Mapping\Table;
 use Eventum\Scm\ScmRepository;
 
 /**
@@ -69,7 +75,7 @@ class Commit
     protected $com_author_name;
 
     /**
-     * @var \DateTime
+     * @var DateTime
      * @Column(type="datetime", nullable=false)
      */
     protected $com_commit_date;
@@ -91,100 +97,57 @@ class Commit
      * @var CommitFile[]
      * @OneToMany(targetEntity="Eventum\Model\Entity\CommitFile", mappedBy="commit", cascade={"persist", "remove"})
      */
-    private $files;
+    private $files = [];
 
     public function __construct()
     {
         $this->files = new ArrayCollection();
     }
 
-    /**
-     * @param int $id
-     * @return $this
-     */
-    public function setId($id)
+    public function setId(int $id): self
     {
         $this->com_id = $id;
 
         return $this;
     }
 
-    /**
-     * Get comId
-     *
-     * @return int
-     */
-    public function getId()
+    public function getId(): int
     {
         return $this->com_id;
     }
 
-    /**
-     * Set SCM Name
-     *
-     * @param string $scmName
-     * @return $this
-     */
-    public function setScmName($scmName)
+    public function setScmName(string $scmName): self
     {
         $this->com_scm_name = $scmName;
 
         return $this;
     }
 
-    /**
-     * Get SCM Name
-     *
-     * @return string
-     */
-    public function getScmName()
+    public function getScmName(): string
     {
         return $this->com_scm_name;
     }
 
-    /**
-     * Set SCM ProjectName
-     *
-     * @param string $projectName
-     * @return $this
-     */
-    public function setProjectName($projectName)
+    public function setProjectName(string $projectName): self
     {
         $this->com_project_name = $projectName;
 
         return $this;
     }
 
-    /**
-     * Get SCM ProjectName
-     *
-     * @return string
-     */
-    public function getProjectName()
+    public function getProjectName(): ?string
     {
         return $this->com_project_name;
     }
 
-    /**
-     * Set changeset
-     *
-     * @param string $changeset
-     * @return $this
-     */
-    public function setChangeset($changeset)
+    public function setChangeset(string $changeset): self
     {
         $this->com_changeset = $changeset;
 
         return $this;
     }
 
-    /**
-     * Get changeset
-     *
-     * @param bool $short
-     * @return string
-     */
-    public function getChangeset($short = false)
+    public function getChangeset(bool $short = false): string
     {
         // truncate if it's longer than 16 (cvs commitid)
         if ($short && strlen($this->com_changeset) > 16) {
@@ -194,149 +157,79 @@ class Commit
         return $this->com_changeset;
     }
 
-    /**
-     * Set SCM branch
-     *
-     * @param string $branch
-     * @return $this
-     */
-    public function setBranch($branch)
+    public function setBranch(string $branch): self
     {
         $this->com_branch = $branch;
 
         return $this;
     }
 
-    /**
-     * Get SCM branch
-     *
-     * @return string
-     */
-    public function getBranch()
+    public function getBranch(): ?string
     {
         return $this->com_branch;
     }
 
-    /**
-     * Get Eventum User Id
-     *
-     * @param int $usr_id
-     * @return $this
-     */
-    public function setUserId($usr_id)
+    public function setUserId(int $usr_id): self
     {
         $this->com_usr_id = $usr_id;
 
         return $this;
     }
 
-    /**
-     * Get Eventum User Id
-     *
-     * @return string
-     */
-    public function getUserId()
+    public function getUserId(): int
     {
         return $this->com_usr_id;
     }
 
-    /**
-     * Set comAuthorEmail
-     *
-     * @param string $authorEmail
-     * @return $this
-     */
-    public function setAuthorEmail($authorEmail)
+    public function setAuthorEmail(string $authorEmail): self
     {
         $this->com_author_email = $authorEmail;
 
         return $this;
     }
 
-    /**
-     * Get comAuthorEmail
-     *
-     * @return string
-     */
-    public function getAuthorEmail()
+    public function getAuthorEmail(): ?string
     {
         return $this->com_author_email;
     }
 
-    /**
-     * Set comAuthorName
-     *
-     * @param string $authorName
-     * @return $this
-     */
-    public function setAuthorName($authorName)
+    public function setAuthorName(string $authorName): self
     {
         $this->com_author_name = $authorName;
 
         return $this;
     }
 
-    /**
-     * Get comAuthorName
-     *
-     * @return string
-     */
-    public function getAuthorName()
+    public function getAuthorName(): string
     {
         return $this->com_author_name;
     }
 
-    /**
-     * Set comCommitDate
-     *
-     * @param \DateTime $commitDate
-     * @return $this
-     */
-    public function setCommitDate($commitDate)
+    public function setCommitDate(DateTime $commitDate): self
     {
         $this->com_commit_date = $commitDate;
 
         return $this;
     }
 
-    /**
-     * Get comCommitDate
-     *
-     * @return \DateTime
-     */
-    public function getCommitDate()
+    public function getCommitDate(): DateTime
     {
         return $this->com_commit_date;
     }
 
-    /**
-     * Set comMessage
-     *
-     * @param string $message
-     * @return $this
-     */
-    public function setMessage($message)
+    public function setMessage(string $message): self
     {
         $this->com_message = $message;
 
         return $this;
     }
 
-    /**
-     * Get comMessage
-     *
-     * @return string
-     */
-    public function getMessage()
+    public function getMessage(): string
     {
         return $this->com_message;
     }
 
-    /**
-     * @param CommitFile $cf
-     * @return Commit
-     */
-    public function addFile(CommitFile $cf)
+    public function addFile(CommitFile $cf): self
     {
         $cf->setCommit($this);
 
@@ -353,19 +246,12 @@ class Commit
         return $this->files;
     }
 
-    /**
-     * @return Issue
-     */
-    public function getIssue()
+    public function getIssue(): Issue
     {
         return $this->issue;
     }
 
-    /**
-     * @param Issue $issue
-     * @return Commit
-     */
-    public function setIssue($issue)
+    public function setIssue(Issue $issue): self
     {
         $this->issue = $issue;
 
@@ -375,7 +261,7 @@ class Commit
     /**
      * Get formatted author name, combining name and email
      */
-    public function getAuthor()
+    public function getAuthor(): string
     {
         $name = $this->getAuthorName();
         $email = $this->getAuthorEmail();
@@ -387,18 +273,12 @@ class Commit
         return "$name <$email>";
     }
 
-    /**
-     * @return ScmRepository
-     */
-    public function getCommitRepo()
+    public function getCommitRepo(): ScmRepository
     {
         return new ScmRepository($this->getScmName());
     }
 
-    /**
-     * @return array
-     */
-    public function toArray()
+    public function toArray(): array
     {
         return get_object_vars($this);
     }

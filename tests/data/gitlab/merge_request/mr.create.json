@@ -1,0 +1,142 @@
+{
+	"object_kind": "merge_request",
+	"event_type": "merge_request",
+	"user": {
+		"name": "Elan Ruusamäe",
+		"username": "glen",
+		"avatar_url": "https://www.gravatar.com/avatar/e64c7d89f26bd1972efa854d13d7dd61?s=80&d=identicon"
+	},
+	"project": {
+		"id": 243,
+		"name": "playground",
+		"description": "",
+		"web_url": "https://gitlab.example.net/glen/playground",
+		"avatar_url": null,
+		"git_ssh_url": "git@gitlab.example.net:glen/playground.git",
+		"git_http_url": "https://gitlab.example.net/glen/playground.git",
+		"namespace": "glen",
+		"visibility_level": 10,
+		"path_with_namespace": "glen/playground",
+		"default_branch": "master",
+		"ci_config_path": null,
+		"homepage": "https://gitlab.example.net/glen/playground",
+		"url": "git@gitlab.example.net:glen/playground.git",
+		"ssh_url": "git@gitlab.example.net:glen/playground.git",
+		"http_url": "https://gitlab.example.net/glen/playground.git"
+	},
+	"object_attributes": {
+		"assignee_id": 2,
+		"author_id": 2,
+		"created_at": "2019-01-31 17:26:58 +0200",
+		"description": "",
+		"head_pipeline_id": 4176,
+		"id": 110,
+		"iid": 15,
+		"last_edited_at": null,
+		"last_edited_by_id": null,
+		"merge_commit_sha": null,
+		"merge_error": null,
+		"merge_params": {
+			"force_remove_source_branch": "1"
+		},
+		"merge_status": "unchecked",
+		"merge_user_id": null,
+		"merge_when_pipeline_succeeds": false,
+		"milestone_id": null,
+		"source_branch": "mr",
+		"source_project_id": 243,
+		"state": "opened",
+		"target_branch": "master",
+		"target_project_id": 243,
+		"time_estimate": 0,
+		"title": "Delete 1",
+		"updated_at": "2019-01-31 17:26:58 +0200",
+		"updated_by_id": null,
+		"url": "https://gitlab.example.net/glen/playground/merge_requests/15",
+		"source": {
+			"id": 243,
+			"name": "playground",
+			"description": "",
+			"web_url": "https://gitlab.example.net/glen/playground",
+			"avatar_url": null,
+			"git_ssh_url": "git@gitlab.example.net:glen/playground.git",
+			"git_http_url": "https://gitlab.example.net/glen/playground.git",
+			"namespace": "glen",
+			"visibility_level": 10,
+			"path_with_namespace": "glen/playground",
+			"default_branch": "master",
+			"ci_config_path": null,
+			"homepage": "https://gitlab.example.net/glen/playground",
+			"url": "git@gitlab.example.net:glen/playground.git",
+			"ssh_url": "git@gitlab.example.net:glen/playground.git",
+			"http_url": "https://gitlab.example.net/glen/playground.git"
+		},
+		"target": {
+			"id": 243,
+			"name": "playground",
+			"description": "",
+			"web_url": "https://gitlab.example.net/glen/playground",
+			"avatar_url": null,
+			"git_ssh_url": "git@gitlab.example.net:glen/playground.git",
+			"git_http_url": "https://gitlab.example.net/glen/playground.git",
+			"namespace": "glen",
+			"visibility_level": 10,
+			"path_with_namespace": "glen/playground",
+			"default_branch": "master",
+			"ci_config_path": null,
+			"homepage": "https://gitlab.example.net/glen/playground",
+			"url": "git@gitlab.example.net:glen/playground.git",
+			"ssh_url": "git@gitlab.example.net:glen/playground.git",
+			"http_url": "https://gitlab.example.net/glen/playground.git"
+		},
+		"last_commit": {
+			"id": "163d85a991633e52e04343f1c81de6169292540d",
+			"message": "Delete 1",
+			"timestamp": "2019-01-31T15:26:43Z",
+			"url": "https://gitlab.example.net/glen/playground/commit/163d85a991633e52e04343f1c81de6169292540d",
+			"author": {
+				"name": "Elan Ruusamäe",
+				"email": "glen@delfi.ee"
+			}
+		},
+		"work_in_progress": false,
+		"total_time_spent": 0,
+		"human_total_time_spent": null,
+		"human_time_estimate": null,
+		"action": "open"
+	},
+	"labels": [],
+	"changes": {
+		"head_pipeline_id": {
+			"previous": null,
+			"current": 4176
+		},
+		"updated_at": {
+			"previous": "2019-01-31 17:26:58 +0200",
+			"current": "2019-01-31 17:26:58 +0200"
+		},
+		"assignee": {
+			"previous": null,
+			"current": {
+				"name": "Elan Ruusamäe",
+				"username": "glen",
+				"avatar_url": "https://www.gravatar.com/avatar/e64c7d89f26bd1972efa854d13d7dd61?s=80&d=identicon"
+			}
+		},
+		"total_time_spent": {
+			"previous": null,
+			"current": 0
+		}
+	},
+	"repository": {
+		"name": "playground",
+		"url": "git@gitlab.example.net:glen/playground.git",
+		"description": "",
+		"homepage": "https://gitlab.example.net/glen/playground"
+	},
+	"assignee": {
+		"name": "Elan Ruusamäe",
+		"username": "glen",
+		"avatar_url": "https://www.gravatar.com/avatar/e64c7d89f26bd1972efa854d13d7dd61?s=80&d=identicon"
+	}
+}

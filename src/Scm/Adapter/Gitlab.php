@@ -14,28 +14,31 @@
 namespace Eventum\Scm\Adapter;
 
 use Eventum\Db\Doctrine;
+use Eventum\Event\SystemEvents;
+use Eventum\EventDispatcher\EventManager;
+use Eventum\IssueMatcher;
 use Eventum\Scm\Payload\GitlabPayload;
 use Eventum\Scm\ScmRepository;
 use InvalidArgumentException;
-use Issue;
+use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Gitlab SCM handler
  *
- * @see http://doc.gitlab.com/ce/web_hooks/web_hooks.html
+ * @see https://docs.gitlab.com/ce/user/project/integrations/webhooks.html
  */
 class Gitlab extends AbstractAdapter
 {
-    const GITLAB_HEADER = 'X-Gitlab-Event';
+    public const GITLAB_HEADER = 'X-Gitlab-Event';
 
     /**
      * {@inheritdoc}
      */
-    public function can()
+    public function can(): bool
     {
         // must be POST
-        if ($this->request->getMethod() != Request::METHOD_POST) {
+        if ($this->request->getMethod() !== Request::METHOD_POST) {
             return false;
         }
 
@@ -45,13 +48,19 @@ class Gitlab extends AbstractAdapter
     /**
      * {@inheritdoc}
      */
-    public function process()
+    public function process(): void
     {
         $eventType = $this->request->headers->get(self::GITLAB_HEADER);
         $payload = $this->getPayload();
 
         if ($eventType === 'Push Hook') {
             $this->processPushHook($payload);
+        } elseif ($eventType === 'Issue Hook' && $payload->getEventType() === GitlabPayload::EVENT_TYPE_ISSUE) {
+            $this->processIssueHook($payload);
+        } elseif ($eventType === 'Merge Request Hook' && $payload->getEventType() === GitlabPayload::EVENT_TYPE_MERGE_REQUEST) {
+            $this->processMergeRequestHook($payload);
+        } elseif ($eventType === 'Note Hook' && $payload->getEventType() === GitlabPayload::EVENT_TYPE_NOTE) {
+            $this->processNoteHook($payload);
         } elseif ($eventType === 'System Hook' && $payload->getEventName() === 'push') {
             // system hook can also handle pushes
             // unfortunately it has empty commits[]
@@ -59,13 +68,52 @@ class Gitlab extends AbstractAdapter
         }
     }
 
+    private function processIssueHook(GitlabPayload $payload): void
+    {
+        if (!in_array($payload->getAction(), ['open', 'update'], true)) {
+            return;
+        }
+
+        $this->matchIssues($payload);
+    }
+
+    private function processMergeRequestHook(GitlabPayload $payload): void
+    {
+        if (!in_array($payload->getAction(), ['open', 'update'], true)) {
+            return;
+        }
+
+        $this->matchIssues($payload);
+    }
+
+    private function processNoteHook(GitlabPayload $payload): void
+    {
+        $this->matchIssues($payload);
+    }
+
+    private function matchIssues(GitlabPayload $payload): void
+    {
+        $matcher = new IssueMatcher(APP_BASE_URL);
+        $description = $payload->getDescription();
+        $matches = $matcher->match($description);
+        if (!$matches) {
+            return;
+        }
+
+        // dispatch matches as event
+        $dispatcher = EventManager::getEventDispatcher();
+        $event = new GenericEvent($payload, [
+            'url' => $payload->getUrl(),
+            'description' => $description,
+            'description_matches' => $matches,
+        ]);
+        $dispatcher->dispatch(SystemEvents::RPC_GITLAB_MATCH_ISSUE, $event);
+    }
+
     /**
      * Walk over commit messages and match issue ids
-     *
-     * @param GitlabPayload $payload
-     * @throws InvalidArgumentException
      */
-    private function processPushHook(GitlabPayload $payload)
+    private function processPushHook(GitlabPayload $payload): void
     {
         $repo_url = $payload->getRepoUrl();
         $repo = ScmRepository::getRepoByUrl($repo_url);
@@ -76,9 +124,14 @@ class Gitlab extends AbstractAdapter
         $em = Doctrine::getEntityManager();
         $cr = Doctrine::getCommitRepository();
         $ir = Doctrine::getIssueRepository();
+        $issueMatcher = new IssueMatcher(APP_BASE_URL);
 
         foreach ($payload->getCommits() as $commit) {
-            $issues = $this->match_issues($commit['message']);
+            $matches = $issueMatcher->match($commit['message']);
+            if (!$matches) {
+                continue;
+            }
+            $issues = array_column($matches, 'issueId');
             if (!$issues) {
                 continue;
             }
@@ -112,7 +165,7 @@ class Gitlab extends AbstractAdapter
     /*
      * Get Hook Payload
      */
-    private function getPayload()
+    private function getPayload(): GitlabPayload
     {
         $data = json_decode($this->request->getContent(), true);
 

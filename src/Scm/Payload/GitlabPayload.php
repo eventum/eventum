@@ -18,19 +18,22 @@ use Eventum\Model\Entity\Commit;
 
 class GitlabPayload implements PayloadInterface
 {
+    public const EVENT_TYPE_ISSUE = 'issue';
+    public const EVENT_TYPE_MERGE_REQUEST = 'merge_request';
+    public const EVENT_TYPE_NOTE = 'note';
+
+    public const NOTEABLE_TYPE_MERGE_REQUEST = 'MergeRequest';
+    public const NOTEABLE_TYPE_ISSUE = 'Issue';
+
     /** @var array */
-    private $payload;
+    private $payload = [];
 
     public function __construct(array $payload)
     {
         $this->payload = $payload;
     }
 
-    /**
-     * @param array $commit
-     * @return Commit
-     */
-    public function createCommit($commit)
+    public function createCommit(array $commit): Commit
     {
         return (new Commit())
             ->setChangeset($commit['id'])
@@ -43,24 +46,73 @@ class GitlabPayload implements PayloadInterface
     /**
      * Get event name from payload.
      * The key is present for System Hooks
-     *
-     * @return string
      */
-    public function getEventName()
+    public function getEventName(): ?string
     {
-        if (!isset($this->payload['event_name'])) {
-            return null;
-        }
+        return $this->payload['event_name'] ?? null;
+    }
 
-        return $this->payload['event_name'];
+    public function getEventType(): ?string
+    {
+        return $this->payload['event_type'] ?? null;
+    }
+
+    public function getNoteableType(): ?string
+    {
+        return $this->payload['object_attributes']['noteable_type'] ?? null;
+    }
+
+    public function getAction(): ?string
+    {
+        return $this->payload['object_attributes']['action'] ?? null;
+    }
+
+    public function getUser(): array
+    {
+        return $this->payload['user'];
+    }
+
+    public function getUsername(): string
+    {
+        $user = $this->getUser();
+
+        return "{$user['name']} (@{$user['username']})";
+    }
+
+    /**
+     * Get description
+     * - For issue events: returns issue body
+     * - For note events: returns note body
+     */
+    public function getDescription(): ?string
+    {
+        return $this->payload['object_attributes']['description'] ?? null;
+    }
+
+    public function getUrl(): ?string
+    {
+        return $this->payload['object_attributes']['url'] ?? null;
+    }
+
+    public function getIssueId(): ?int
+    {
+        return $this->payload['issue']['iid'] ?? $this->payload['object_attributes']['iid'] ?? null;
+    }
+
+    public function getMergeRequestId(): ?int
+    {
+        return $this->payload['merge_request']['iid'] ?? null;
+    }
+
+    public function getTitle(): ?int
+    {
+        return $this->payload['object_attributes']['title'] ?? null;
     }
 
     /**
      * Get branch the commit was made on
-     *
-     * @return string
      */
-    public function getBranch()
+    public function getBranch(): ?string
     {
         $ref = $this->payload['ref'];
 
@@ -71,28 +123,20 @@ class GitlabPayload implements PayloadInterface
         return null;
     }
 
-    /**
-     * @return string
-     */
-    public function getProject()
+    public function getProject(): string
     {
         return $this->payload['project']['path_with_namespace'];
     }
 
-    /**
-     * @return array
-     */
-    public function getCommits()
+    public function getCommits(): array
     {
         return $this->payload['commits'];
     }
 
     /**
      * Get repo url
-     *
-     * @return string
      */
-    public function getRepoUrl()
+    public function getRepoUrl(): string
     {
         return explode(':', $this->payload['repository']['url'], 2)[0];
     }
@@ -100,7 +144,7 @@ class GitlabPayload implements PayloadInterface
     /**
      * {@inheritdoc}
      */
-    public function getPayload()
+    public function getPayload(): array
     {
         return $this->payload;
     }
