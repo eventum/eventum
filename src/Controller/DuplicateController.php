@@ -14,8 +14,6 @@
 namespace Eventum\Controller;
 
 use Auth;
-use Eventum\Controller\Helper\MessagesHelper;
-use Issue;
 
 class DuplicateController extends BaseController
 {
@@ -25,24 +23,20 @@ class DuplicateController extends BaseController
     /** @var int */
     private $issue_id;
 
-    /** @var string */
-    private $cat;
-
     /**
      * {@inheritdoc}
      */
-    protected function configure()
+    protected function configure(): void
     {
         $request = $this->getRequest();
 
-        $this->issue_id = $request->request->getInt('issue_id');
-        $this->cat = $request->request->get('cat');
+        $this->issue_id = $request->request->getInt('issue_id') ?: $request->query->getInt('id');
     }
 
     /**
      * {@inheritdoc}
      */
-    protected function canAccess()
+    protected function canAccess(): bool
     {
         Auth::checkAuthentication();
 
@@ -52,30 +46,15 @@ class DuplicateController extends BaseController
     /**
      * {@inheritdoc}
      */
-    protected function defaultAction()
+    protected function defaultAction(): void
     {
-        if ($this->cat == 'mark') {
-            $this->markAsDuplicateAction();
-        }
-    }
-
-    private function markAsDuplicateAction()
-    {
-        $dup_iss_id = $this->getRequest()->request->getInt('duplicated_issue');
-        $res = Issue::markAsDuplicate($this->issue_id, $dup_iss_id);
-        $map = [
-            1 => [ev_gettext('Thank you, the issue was marked as a duplicate successfully'), MessagesHelper::MSG_INFO],
-            -1 => [ev_gettext('Sorry, an error happened while trying to run your query.'), MessagesHelper::MSG_ERROR],
-        ];
-        $this->messages->mapMessages($res, $map);
-
-        $this->redirect(APP_RELATIVE_URL . 'view.php', ['id' => $this->issue_id]);
+        $this->redirect("close.php?cat=duplicate&id={$this->issue_id}");
     }
 
     /**
      * {@inheritdoc}
      */
-    protected function prepareTemplate()
+    protected function prepareTemplate(): void
     {
     }
 }
