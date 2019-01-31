@@ -73,10 +73,7 @@ class CloseController extends BaseController
 
         // FIXME: ROLE_CUSTOMER check superfluous regarding Issue::canAccess?
         if ($this->role_id == User::ROLE_CUSTOMER || !Issue::canAccess($this->issue_id, $this->usr_id)) {
-            // FIXME: use generic 'access denied page'?
-            $this->tpl->assign('auth_customer', 'denied');
-            $this->tpl->displayTemplate();
-            exit;
+            return false;
         }
 
         return true;
