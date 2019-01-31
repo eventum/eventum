@@ -96,7 +96,7 @@ class GitlabPayload implements PayloadInterface
 
     public function getIssueId(): ?int
     {
-        return $this->payload['object_attributes']['iid'] ?? null;
+        return $this->payload['issue']['iid'] ?? $this->payload['object_attributes']['iid'] ?? null;
     }
 
     public function getMergeRequestId(): ?int
