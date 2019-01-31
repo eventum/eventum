@@ -17,12 +17,12 @@ use Auth;
 use Contract;
 use CRM;
 use Custom_Field;
-use Eventum\Controller\Helper\MessagesHelper;
 use Issue;
 use Notification;
 use Resolution;
 use Status;
 use Template_Helper;
+use Throwable;
 use Time_Tracking;
 use User;
 
@@ -115,14 +115,12 @@ class CloseController extends BaseController
 
     private function markAsDuplicate($dup_issue_id): void
     {
-        $res = Issue::markAsDuplicate($this->issue_id, $dup_issue_id);
-        $map = [
-            1 => [ev_gettext('Thank you, the issue was marked as a duplicate successfully'), MessagesHelper::MSG_INFO],
-            // FIXME: it's not much informative that mark as duplicate failed
-            // TODO: should whole update be aborted?
-            -1 => [ev_gettext('Sorry, an error happened while trying to run your query.'), MessagesHelper::MSG_ERROR],
-        ];
-        $this->messages->mapMessages($res, $map);
+        try {
+            Issue::markAsDuplicate($this->issue_id, $dup_issue_id);
+            $this->messages->addInfoMessage(ev_gettext('Thank you, the issue was marked as a duplicate successfully'));
+        } catch (Throwable $e) {
+            $this->messages->addErrorMessage(ev_gettext('Sorry, an error happened while trying to mark issue duplicated'));
+        }
     }
 
     private function closeAction()
