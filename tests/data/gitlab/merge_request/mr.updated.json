@@ -1,0 +1,142 @@
+{
+	"object_kind": "merge_request",
+	"event_type": "merge_request",
+	"user": {
+		"name": "Elan Ruusamäe",
+		"username": "glen",
+		"avatar_url": "https://www.gravatar.com/avatar/e64c7d89f26bd1972efa854d13d7dd61?s=80&d=identicon"
+	},
+	"project": {
+		"id": 243,
+		"name": "playground",
+		"description": "",
+		"web_url": "https://gitlab.example.net/glen/playground",
+		"avatar_url": null,
+		"git_ssh_url": "git@gitlab.example.net:glen/playground.git",
+		"git_http_url": "https://gitlab.example.net/glen/playground.git",
+		"namespace": "glen",
+		"visibility_level": 10,
+		"path_with_namespace": "glen/playground",
+		"default_branch": "master",
+		"ci_config_path": null,
+		"homepage": "https://gitlab.example.net/glen/playground",
+		"url": "git@gitlab.example.net:glen/playground.git",
+		"ssh_url": "git@gitlab.example.net:glen/playground.git",
+		"http_url": "https://gitlab.example.net/glen/playground.git"
+	},
+	"object_attributes": {
+		"assignee_id": 2,
+		"author_id": 2,
+		"created_at": "2019-01-18 12:04:50 +0200",
+		"description": "modify mr; http://eventum.example.net/view.php?id=8533",
+		"head_pipeline_id": 4167,
+		"id": 108,
+		"iid": 14,
+		"last_edited_at": "2019-01-31 17:21:53 +0200",
+		"last_edited_by_id": 2,
+		"merge_commit_sha": null,
+		"merge_error": null,
+		"merge_params": {
+			"force_remove_source_branch": "0"
+		},
+		"merge_status": "can_be_merged",
+		"merge_user_id": null,
+		"merge_when_pipeline_succeeds": false,
+		"milestone_id": null,
+		"source_branch": "ci-env-dump",
+		"source_project_id": 243,
+		"state": "opened",
+		"target_branch": "master",
+		"target_project_id": 243,
+		"time_estimate": 0,
+		"title": "WIP: Add .gitlab-ci.yml",
+		"updated_at": "2019-01-31 17:21:53 +0200",
+		"updated_by_id": 2,
+		"url": "https://gitlab.example.net/glen/playground/merge_requests/14",
+		"source": {
+			"id": 243,
+			"name": "playground",
+			"description": "",
+			"web_url": "https://gitlab.example.net/glen/playground",
+			"avatar_url": null,
+			"git_ssh_url": "git@gitlab.example.net:glen/playground.git",
+			"git_http_url": "https://gitlab.example.net/glen/playground.git",
+			"namespace": "glen",
+			"visibility_level": 10,
+			"path_with_namespace": "glen/playground",
+			"default_branch": "master",
+			"ci_config_path": null,
+			"homepage": "https://gitlab.example.net/glen/playground",
+			"url": "git@gitlab.example.net:glen/playground.git",
+			"ssh_url": "git@gitlab.example.net:glen/playground.git",
+			"http_url": "https://gitlab.example.net/glen/playground.git"
+		},
+		"target": {
+			"id": 243,
+			"name": "playground",
+			"description": "",
+			"web_url": "https://gitlab.example.net/glen/playground",
+			"avatar_url": null,
+			"git_ssh_url": "git@gitlab.example.net:glen/playground.git",
+			"git_http_url": "https://gitlab.example.net/glen/playground.git",
+			"namespace": "glen",
+			"visibility_level": 10,
+			"path_with_namespace": "glen/playground",
+			"default_branch": "master",
+			"ci_config_path": null,
+			"homepage": "https://gitlab.example.net/glen/playground",
+			"url": "git@gitlab.example.net:glen/playground.git",
+			"ssh_url": "git@gitlab.example.net:glen/playground.git",
+			"http_url": "https://gitlab.example.net/glen/playground.git"
+		},
+		"last_commit": {
+			"id": "8d587ca3382f59b78adb95be80e002ead9226c08",
+			"message": "Add .gitlab-ci.yml",
+			"timestamp": "2019-01-18T10:04:42Z",
+			"url": "https://gitlab.example.net/glen/playground/commit/8d587ca3382f59b78adb95be80e002ead9226c08",
+			"author": {
+				"name": "Elan Ruusamäe",
+				"email": "glen@delfi.ee"
+			}
+		},
+		"work_in_progress": true,
+		"total_time_spent": 0,
+		"human_total_time_spent": null,
+		"human_time_estimate": null,
+		"action": "update"
+	},
+	"labels": [],
+	"changes": {
+		"description": {
+			"previous": "",
+			"current": "modify mr; http://eventum.example.net/view.php?id=8533"
+		},
+		"last_edited_at": {
+			"previous": null,
+			"current": "2019-01-31 17:21:53 +0200"
+		},
+		"last_edited_by_id": {
+			"previous": null,
+			"current": 2
+		},
+		"updated_at": {
+			"previous": "2019-01-31 16:57:30 +0200",
+			"current": "2019-01-31 17:21:53 +0200"
+		},
+		"updated_by_id": {
+			"previous": null,
+			"current": 2
+		}
+	},
+	"repository": {
+		"name": "playground",
+		"url": "git@gitlab.example.net:glen/playground.git",
+		"description": "",
+		"homepage": "https://gitlab.example.net/glen/playground"
+	},
+	"assignee": {
+		"name": "Elan Ruusamäe",
+		"username": "glen",
+		"avatar_url": "https://www.gravatar.com/avatar/e64c7d89f26bd1972efa854d13d7dd61?s=80&d=identicon"
+	}
+}
