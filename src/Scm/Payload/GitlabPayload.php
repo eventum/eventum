@@ -65,6 +65,11 @@ class GitlabPayload implements PayloadInterface
         return $this->payload['object_attributes']['description'] ?? null;
     }
 
+    public function getUrl(): ?string
+    {
+        return $this->payload['object_attributes']['url'] ?? null;
+    }
+
     /**
      * Get branch the commit was made on
      */
