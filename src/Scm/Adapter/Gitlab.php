@@ -55,9 +55,11 @@ class Gitlab extends AbstractAdapter
 
         if ($eventType === 'Push Hook') {
             $this->processPushHook($payload);
-        } elseif ($eventType === 'Issue Hook' && $payload->getEventType() === 'issue') {
+        } elseif ($eventType === 'Issue Hook' && $payload->getEventType() === GitlabPayload::EVENT_TYPE_ISSUE) {
             $this->processIssueHook($payload);
-        } elseif ($eventType === 'Note Hook' && $payload->getEventType() === 'note') {
+        } elseif ($eventType === 'Merge Request Hook' && $payload->getEventType() === GitlabPayload::EVENT_TYPE_MERGE_REQUEST) {
+            $this->processMergeRequestHook($payload);
+        } elseif ($eventType === 'Note Hook' && $payload->getEventType() === GitlabPayload::EVENT_TYPE_NOTE) {
             $this->processNoteHook($payload);
         } elseif ($eventType === 'System Hook' && $payload->getEventName() === 'push') {
             // system hook can also handle pushes
@@ -67,6 +69,15 @@ class Gitlab extends AbstractAdapter
     }
 
     private function processIssueHook(GitlabPayload $payload): void
+    {
+        if (!in_array($payload->getAction(), ['open', 'update'], true)) {
+            return;
+        }
+
+        $this->matchIssues($payload);
+    }
+
+    private function processMergeRequestHook(GitlabPayload $payload): void
     {
         if (!in_array($payload->getAction(), ['open', 'update'], true)) {
             return;

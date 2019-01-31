@@ -19,6 +19,7 @@ use Eventum\Model\Entity\Commit;
 class GitlabPayload implements PayloadInterface
 {
     public const EVENT_TYPE_ISSUE = 'issue';
+    public const EVENT_TYPE_MERGE_REQUEST = 'merge_request';
     public const EVENT_TYPE_NOTE = 'note';
 
     public const NOTEABLE_TYPE_MERGE_REQUEST = 'MergeRequest';
