@@ -160,7 +160,7 @@ class Date_Helper
         if ($omit_offset) {
             $fmt = 'Y-m-d\TH:i:s';
         } else {
-            $fmt = DateTime::ISO8601;
+            $fmt = DateTime::ATOM;
         }
 
         return $date->format($fmt);
