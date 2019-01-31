@@ -57,6 +57,8 @@ class Gitlab extends AbstractAdapter
             $this->processPushHook($payload);
         } elseif ($eventType === 'Issue Hook' && $payload->getEventType() === 'issue') {
             $this->processIssueHook($payload);
+        } elseif ($eventType === 'Note Hook' && $payload->getEventType() === 'note') {
+            $this->processNoteHook($payload);
         } elseif ($eventType === 'System Hook' && $payload->getEventName() === 'push') {
             // system hook can also handle pushes
             // unfortunately it has empty commits[]
@@ -70,6 +72,16 @@ class Gitlab extends AbstractAdapter
             return;
         }
 
+        $this->matchIssues($payload);
+    }
+
+    private function processNoteHook(GitlabPayload $payload): void
+    {
+        $this->matchIssues($payload);
+    }
+
+    private function matchIssues(GitlabPayload $payload): void
+    {
         $matcher = new IssueMatcher(APP_BASE_URL);
         $description = $payload->getDescription();
         $matches = $matcher->match($description);

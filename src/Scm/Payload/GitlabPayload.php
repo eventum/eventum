@@ -56,7 +56,9 @@ class GitlabPayload implements PayloadInterface
     }
 
     /**
-     * Get description. Applies to issue events.
+     * Get description
+     * - For issue events: returns issue body
+     * - For note events: returns note body
      */
     public function getDescription(): ?string
     {
