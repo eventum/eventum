@@ -5,7 +5,7 @@ set -e
 # update changelog entry for "snapshot" release
 upload_snapshot_changelog() {
 	date=$(LC_ALL=C TZ=UTC date)
-	version=$(git describe --tags --abbrev=8 HEAD)
+	version=$(git describe --tags --abbrev=9 HEAD)
 	tarball=eventum-${version#v}.tar.xz
 	url=https://github.com/$TRAVIS_REPO_SLUG/releases/download/$TRAVIS_TAG/$tarball
 

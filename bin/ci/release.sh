@@ -110,7 +110,7 @@ po_checkout() {
 
 # setup $version and update VERSION in AppInfo class
 update_version() {
-	version=$(git describe --tags --abbrev=8 HEAD)
+	version=$(git describe --tags --abbrev=9 HEAD)
 	# trim 'v' prefix
 	version=${version#v}
 

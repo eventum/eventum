@@ -27,9 +27,9 @@ create_snapshot_tag() {
 	local version branch commit date message
 	git tag -d snapshot || :
 
-	version=$(git describe --tags --abbrev=8 HEAD)
+	version=$(git describe --tags --abbrev=9 HEAD)
 	branch=$(git rev-parse --abbrev-ref HEAD)
-	commit=$(git rev-parse --short=8 HEAD)
+	commit=$(git rev-parse --short=9 HEAD)
 	date=$(LC_ALL=C TZ=UTC date)
 	message=$(get_commit_message)
 
