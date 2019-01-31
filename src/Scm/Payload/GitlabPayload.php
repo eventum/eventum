@@ -18,6 +18,12 @@ use Eventum\Model\Entity\Commit;
 
 class GitlabPayload implements PayloadInterface
 {
+    public const EVENT_TYPE_ISSUE = 'issue';
+    public const EVENT_TYPE_NOTE = 'note';
+
+    public const NOTEABLE_TYPE_MERGE_REQUEST = 'MergeRequest';
+    public const NOTEABLE_TYPE_ISSUE = 'Issue';
+
     /** @var array */
     private $payload = [];
 
@@ -50,9 +56,26 @@ class GitlabPayload implements PayloadInterface
         return $this->payload['event_type'] ?? null;
     }
 
+    public function getNoteableType(): ?string
+    {
+        return $this->payload['object_attributes']['noteable_type'] ?? null;
+    }
+
     public function getAction(): ?string
     {
         return $this->payload['object_attributes']['action'] ?? null;
+    }
+
+    public function getUser(): array
+    {
+        return $this->payload['user'];
+    }
+
+    public function getUsername(): string
+    {
+        $user = $this->getUser();
+
+        return "{$user['name']} (@{$user['username']})";
     }
 
     /**
@@ -68,6 +91,21 @@ class GitlabPayload implements PayloadInterface
     public function getUrl(): ?string
     {
         return $this->payload['object_attributes']['url'] ?? null;
+    }
+
+    public function getIssueId(): ?int
+    {
+        return $this->payload['object_attributes']['iid'] ?? null;
+    }
+
+    public function getMergeRequestId(): ?int
+    {
+        return $this->payload['merge_request']['iid'] ?? null;
+    }
+
+    public function getTitle(): ?int
+    {
+        return $this->payload['object_attributes']['title'] ?? null;
     }
 
     /**
