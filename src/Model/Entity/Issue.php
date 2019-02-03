@@ -13,75 +13,63 @@
 
 namespace Eventum\Model\Entity;
 
+use Doctrine\ORM\Mapping as ORM;
+
 /**
- * @Entity
- * @Table(name="issue")
- * @Entity(repositoryClass="Eventum\Model\Repository\IssueRepository")
+ * @ORM\Entity
+ * @ORM\Table(name="issue")
+ * @ORM\Entity(repositoryClass="Eventum\Model\Repository\IssueRepository")
  */
 class Issue
 {
     /**
      * @var int
-     * @Column(name="iss_id", type="integer", nullable=false)
-     * @Id
-     * @GeneratedValue(strategy="IDENTITY")
+     * @ORM\Column(name="iss_id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $id;
 
     /**
      * @var int
-     * @Column(name="iss_prj_id", type="integer", nullable=false)
+     * @ORM\Column(name="iss_prj_id", type="integer", nullable=false)
      */
     private $project_id;
 
     /**
      * @var string
-     * @Column(name="iss_summary", type="string", length=128, nullable=false)
+     * @ORM\Column(name="iss_summary", type="string", length=128, nullable=false)
      */
     private $summary;
 
     /**
      * @var Commit[]
-     * @ManyToMany(targetEntity="Eventum\Model\Entity\Commit", cascade={"persist", "remove"})
-     * @JoinTable(name="issue_commit",
-     *   joinColumns={@JoinColumn(name="isc_iss_id", referencedColumnName="iss_id")},
-     *   inverseJoinColumns={@JoinColumn(name="isc_com_id", referencedColumnName="com_id", unique=true)}
+     * @ORM\ManyToMany(targetEntity="Eventum\Model\Entity\Commit", cascade={"persist", "remove"})
+     * @ORM\JoinTable(name="issue_commit",
+     *   joinColumns={@ORM\JoinColumn(name="isc_iss_id", referencedColumnName="iss_id")},
+     *   inverseJoinColumns={@ORM\JoinColumn(name="isc_com_id", referencedColumnName="com_id", unique=true)}
      * )
      */
     private $commits;
 
-    /**
-     * @param int $id
-     * @return Issue
-     */
-    public function setId($id)
+    public function setId(int $id): self
     {
         $this->id = $id;
 
         return $this;
     }
 
-    /**
-     * @return int
-     */
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
 
-    /**
-     * @return string
-     */
-    public function getSummary()
+    public function getSummary(): string
     {
         return $this->summary;
     }
 
-    /**
-     * @param string $summary
-     * @return Issue
-     */
-    public function setSummary($summary)
+    public function setSummary(string $summary): self
     {
         $this->summary = $summary;
 
@@ -92,18 +80,14 @@ class Issue
      * @param Commit[] $commits
      * @return Issue
      */
-    public function setCommits($commits)
+    public function setCommits(array $commits): self
     {
         $this->commits = $commits;
 
         return $this;
     }
 
-    /**
-     * @param Commit $commit
-     * @return Issue
-     */
-    public function addCommit(Commit $commit)
+    public function addCommit(Commit $commit): self
     {
         $commit->setIssue($this);
 
@@ -120,21 +104,14 @@ class Issue
         return $this->commits;
     }
 
-    /**
-     * @param int $project_id
-     * @return Issue
-     */
-    public function setProjectId($project_id)
+    public function setProjectId(int $project_id): self
     {
         $this->project_id = $project_id;
 
         return $this;
     }
 
-    /**
-     * @return int
-     */
-    public function getProjectId()
+    public function getProjectId(): int
     {
         return $this->project_id;
     }

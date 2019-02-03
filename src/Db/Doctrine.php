@@ -54,11 +54,11 @@ class Doctrine
             'dbname' => $config['database'],
             'host' => $config['hostname'],
             'port' => $config['port'],
-            'unix_socket' => isset($config['socket']) ? $config['socket'] : null,
+            'unix_socket' => $config['socket'] ?? null,
             'charset' => $config['charset'],
         ];
 
-        $config = Setup::createAnnotationMetadataConfiguration($paths, $isDevMode);
+        $config = Setup::createAnnotationMetadataConfiguration($paths, $isDevMode, $proxyDir = null, $cache = null, $useSimpleAnnotationReader = false);
 
         Type::overrideType(Type::DATETIME, UTCDateTimeType::class);
 

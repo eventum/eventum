@@ -15,74 +15,73 @@ namespace Eventum\Model\Entity;
 
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\ORM\Mapping\Column;
-use Doctrine\ORM\Mapping\Entity;
-use Doctrine\ORM\Mapping\Id;
-use Doctrine\ORM\Mapping\OneToMany;
-use Doctrine\ORM\Mapping\Table;
+use Doctrine\ORM\Mapping as ORM;
 use Eventum\Scm\ScmRepository;
 
 /**
- * @Table(name="commit")
- * @Entity(repositoryClass="Eventum\Model\Repository\CommitRepository")
+ * @ORM\Table(name="commit")
+ * @ORM\Entity(repositoryClass="Eventum\Model\Repository\CommitRepository")
  */
 class Commit
 {
-    /** @Id @Column(type="integer") @GeneratedValue */
+    /**
+     * @ORM\Id
+     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue */
     protected $com_id;
 
     /**
      * @var string
-     * @Column(type="string", length=255, nullable=false)
+     * @ORM\Column(type="string", length=255, nullable=false)
      */
     protected $com_scm_name;
 
     /**
      * @var string
-     * @Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     protected $com_project_name;
 
     /**
      * @var string
-     * @Column(type="string", length=40, nullable=false)
+     * @ORM\Column(type="string", length=40, nullable=false)
      */
     protected $com_changeset;
 
     /**
      * @var string
-     * @Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     protected $com_branch;
 
     /**
      * @var int
-     * @Column(type="integer", nullable=true)
+     * @ORM\Column(type="integer", nullable=true)
      */
     protected $com_usr_id;
 
     /**
      * @var string
      *
-     * @Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     protected $com_author_email;
 
     /**
      * @var string
-     * @Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     protected $com_author_name;
 
     /**
      * @var DateTime
-     * @Column(type="datetime", nullable=false)
+     * @ORM\Column(type="datetime", nullable=false)
      */
     protected $com_commit_date;
 
     /**
      * @var string
-     * @Column(type="text", length=16777215, nullable=true)
+     * @ORM\Column(type="text", length=16777215, nullable=true)
      */
     protected $com_message;
 
@@ -95,7 +94,7 @@ class Commit
      * Bidirectional - One-To-Many (INVERSE SIDE)
      *
      * @var CommitFile[]
-     * @OneToMany(targetEntity="Eventum\Model\Entity\CommitFile", mappedBy="commit", cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity="Eventum\Model\Entity\CommitFile", mappedBy="commit", cascade={"persist", "remove"})
      */
     private $files = [];
 
@@ -128,7 +127,7 @@ class Commit
         return $this->com_scm_name;
     }
 
-    public function setProjectName(string $projectName): self
+    public function setProjectName(?string $projectName): self
     {
         $this->com_project_name = $projectName;
 
@@ -157,7 +156,7 @@ class Commit
         return $this->com_changeset;
     }
 
-    public function setBranch(string $branch): self
+    public function setBranch(?string $branch): self
     {
         $this->com_branch = $branch;
 
@@ -169,19 +168,19 @@ class Commit
         return $this->com_branch;
     }
 
-    public function setUserId(int $usr_id): self
+    public function setUserId(?int $usr_id): self
     {
         $this->com_usr_id = $usr_id;
 
         return $this;
     }
 
-    public function getUserId(): int
+    public function getUserId(): ?int
     {
         return $this->com_usr_id;
     }
 
-    public function setAuthorEmail(string $authorEmail): self
+    public function setAuthorEmail(?string $authorEmail): self
     {
         $this->com_author_email = $authorEmail;
 

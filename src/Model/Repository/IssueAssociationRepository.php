@@ -109,7 +109,7 @@ class IssueAssociationRepository extends EntityRepository
         $entity = new Entity\IssueAssociation();
         $entity
             ->setIssueId($issue_id)
-            ->setAssociatedId($associated_issue_id);
+            ->setAssociatedIssueId($associated_issue_id);
         $em = $this->getEntityManager();
         $em->persist($entity);
         $em->flush();

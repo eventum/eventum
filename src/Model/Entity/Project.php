@@ -13,492 +13,314 @@
 
 namespace Eventum\Model\Entity;
 
+use DateTime;
+use Doctrine\ORM\Mapping as ORM;
+
 /**
  * Project
  *
- * @Table(name="project", uniqueConstraints={@UniqueConstraint(name="prj_title", columns={"prj_title"})}, indexes={@Index(name="prj_lead_usr_id", columns={"prj_lead_usr_id"})})
- * @Entity(repositoryClass="Eventum\Model\Repository\ProjectRepository")
+ * @ORM\Table(name="project", uniqueConstraints={@ORM\UniqueConstraint(name="prj_title", columns={"prj_title"})}, indexes={@ORM\Index(name="prj_lead_usr_id", columns={"prj_lead_usr_id"})})
+ * @ORM\Entity(repositoryClass="Eventum\Model\Repository\ProjectRepository")
  */
 class Project
 {
     /**
      * @var int
-     * @Column(name="prj_id", type="integer", nullable=false)
-     * @Id
-     * @GeneratedValue(strategy="IDENTITY")
+     * @ORM\Column(name="prj_id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $id;
 
     /**
-     * @var \DateTime
-     * @Column(name="prj_created_date", type="datetime", nullable=false)
+     * @var DateTime
+     * @ORM\Column(name="prj_created_date", type="datetime", nullable=false)
      */
     private $createdDate;
 
     /**
      * @var string
-     * @Column(name="prj_title", type="string", length=64, nullable=false)
+     * @ORM\Column(name="prj_title", type="string", length=64, nullable=false)
      */
     private $title;
 
     /**
      * @var string
-     * @Column(name="prj_status", type="string", nullable=false)
+     * @ORM\Column(name="prj_status", type="string", nullable=false)
      */
     private $status;
 
     /**
      * @var int
-     * @Column(name="prj_lead_usr_id", type="integer", nullable=false)
+     * @ORM\Column(name="prj_lead_usr_id", type="integer", nullable=false)
      */
     private $leadUserId;
 
     /**
      * @var int
-     * @Column(name="prj_initial_sta_id", type="integer", nullable=false)
+     * @ORM\Column(name="prj_initial_sta_id", type="integer", nullable=false)
      */
     private $initialStatusId;
 
     /**
      * @var string
-     * @Column(name="prj_remote_invocation", type="string", length=8, nullable=false)
+     * @ORM\Column(name="prj_remote_invocation", type="string", length=8, nullable=false)
      */
     private $remoteInvocation;
 
     /**
      * @var string
-     * @Column(name="prj_anonymous_post", type="string", length=8, nullable=false)
+     * @ORM\Column(name="prj_anonymous_post", type="string", length=8, nullable=false)
      */
     private $anonymousPost;
 
     /**
      * @var string
-     * @Column(name="prj_anonymous_post_options", type="text", length=65535, nullable=true)
+     * @ORM\Column(name="prj_anonymous_post_options", type="text", length=65535, nullable=true)
      */
     private $anonymousPostOptions;
 
     /**
      * @var string
-     * @Column(name="prj_outgoing_sender_name", type="string", length=255, nullable=false)
+     * @ORM\Column(name="prj_outgoing_sender_name", type="string", length=255, nullable=false)
      */
     private $outgoingSenderName;
 
     /**
      * @var string
-     * @Column(name="prj_outgoing_sender_email", type="string", length=255, nullable=false)
+     * @ORM\Column(name="prj_outgoing_sender_email", type="string", length=255, nullable=false)
      */
     private $outgoingSenderEmail;
 
     /**
      * @var string
-     * @Column(name="prj_sender_flag", type="string", length=255, nullable=true)
+     * @ORM\Column(name="prj_sender_flag", type="string", length=255, nullable=true)
      */
     private $senderFlag;
 
     /**
      * @var string
-     * @Column(name="prj_sender_flag_location", type="string", length=6, nullable=true)
+     * @ORM\Column(name="prj_sender_flag_location", type="string", length=6, nullable=true)
      */
     private $senderFlagLocation;
 
     /**
      * @var string
-     * @Column(name="prj_mail_aliases", type="string", length=255, nullable=true)
+     * @ORM\Column(name="prj_mail_aliases", type="string", length=255, nullable=true)
      */
     private $mailAliases;
 
     /**
      * @var string
-     * @Column(name="prj_customer_backend", type="string", length=64, nullable=true)
+     * @ORM\Column(name="prj_customer_backend", type="string", length=64, nullable=true)
      */
     private $customerBackend;
 
     /**
      * @var string
-     * @Column(name="prj_workflow_backend", type="string", length=64, nullable=true)
+     * @ORM\Column(name="prj_workflow_backend", type="string", length=64, nullable=true)
      */
     private $workflowBackend;
 
     /**
      * @var bool
-     * @Column(name="prj_segregate_reporter", type="boolean", nullable=true)
+     * @ORM\Column(name="prj_segregate_reporter", type="boolean", nullable=true)
      */
     private $segregateReporter;
 
-    /**
-     * Get prjId
-     *
-     * @return int
-     */
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
 
-    /**
-     * Set prjCreatedDate
-     *
-     * @param \DateTime $createdDate
-     * @return Project
-     */
-    public function setCreatedDate($createdDate)
+    public function setCreatedDate(DateTime $createdDate): self
     {
         $this->createdDate = $createdDate;
 
         return $this;
     }
 
-    /**
-     * Get prjCreatedDate
-     *
-     * @return \DateTime
-     */
-    public function getCreatedDate()
+    public function getCreatedDate(): DateTime
     {
         return $this->createdDate;
     }
 
-    /**
-     * Set prjTitle
-     *
-     * @param string $title
-     * @return Project
-     */
-    public function setTitle($title)
+    public function setTitle(string $title): self
     {
         $this->title = $title;
 
         return $this;
     }
 
-    /**
-     * Get prjTitle
-     *
-     * @return string
-     */
-    public function getTitle()
+    public function getTitle(): string
     {
         return $this->title;
     }
 
-    /**
-     * Set prjStatus
-     *
-     * @param string $status
-     * @return Project
-     */
-    public function setStatus($status)
+    public function setStatus(string $status): self
     {
         $this->status = $status;
 
         return $this;
     }
 
-    /**
-     * Get prjStatus
-     *
-     * @return string
-     */
-    public function getStatus()
+    public function getStatus(): string
     {
         return $this->status;
     }
 
-    /**
-     * Set prjLeadUsrId
-     *
-     * @param int $leadUserId
-     * @return Project
-     */
-    public function setLeadUserId($leadUserId)
+    public function setLeadUserId(int $leadUserId): self
     {
         $this->leadUserId = $leadUserId;
 
         return $this;
     }
 
-    /**
-     * Get prjLeadUsrId
-     *
-     * @return int
-     */
-    public function getLeadUserId()
+    public function getLeadUserId(): int
     {
         return $this->leadUserId;
     }
 
-    /**
-     * Set prjInitialStaId
-     *
-     * @param int $initialStatusId
-     * @return Project
-     */
-    public function setInitialStatusId($initialStatusId)
+    public function setInitialStatusId(int $initialStatusId): self
     {
         $this->initialStatusId = $initialStatusId;
 
         return $this;
     }
 
-    /**
-     * Get prjInitialStaId
-     *
-     * @return int
-     */
-    public function getInitialStatusId()
+    public function getInitialStatusId(): int
     {
         return $this->initialStatusId;
     }
 
-    /**
-     * Set prjRemoteInvocation
-     *
-     * @param string $remoteInvocation
-     * @return Project
-     */
-    public function setRemoteInvocation($remoteInvocation)
+    public function setRemoteInvocation(string $remoteInvocation): self
     {
         $this->remoteInvocation = $remoteInvocation;
 
         return $this;
     }
 
-    /**
-     * Get prjRemoteInvocation
-     *
-     * @return string
-     */
-    public function getRemoteInvocation()
+    public function getRemoteInvocation(): string
     {
         return $this->remoteInvocation;
     }
 
-    /**
-     * Set prjAnonymousPost
-     *
-     * @param string $anonymousPost
-     * @return Project
-     */
-    public function setAnonymousPost($anonymousPost)
+    public function setAnonymousPost(string $anonymousPost): self
     {
         $this->anonymousPost = $anonymousPost;
 
         return $this;
     }
 
-    /**
-     * Get prjAnonymousPost
-     *
-     * @return string
-     */
-    public function getAnonymousPost()
+    public function getAnonymousPost(): string
     {
         return $this->anonymousPost;
     }
 
-    /**
-     * Set prjAnonymousPostOptions
-     *
-     * @param string $anonymousPostOptions
-     * @return Project
-     */
-    public function setAnonymousPostOptions($anonymousPostOptions)
+    public function setAnonymousPostOptions(?string $anonymousPostOptions): self
     {
         $this->anonymousPostOptions = $anonymousPostOptions;
 
         return $this;
     }
 
-    /**
-     * Get prjAnonymousPostOptions
-     *
-     * @return string
-     */
-    public function getAnonymousPostOptions()
+    public function getAnonymousPostOptions(): ?string
     {
         return $this->anonymousPostOptions;
     }
 
-    /**
-     * Set prjOutgoingSenderName
-     *
-     * @param string $outgoingSenderName
-     * @return Project
-     */
-    public function setOutgoingSenderName($outgoingSenderName)
+    public function setOutgoingSenderName(string $outgoingSenderName): self
     {
         $this->outgoingSenderName = $outgoingSenderName;
 
         return $this;
     }
 
-    /**
-     * Get prjOutgoingSenderName
-     *
-     * @return string
-     */
-    public function getOutgoingSenderName()
+    public function getOutgoingSenderName(): string
     {
         return $this->outgoingSenderName;
     }
 
-    /**
-     * Set prjOutgoingSenderEmail
-     *
-     * @param string $outgoingSenderEmail
-     * @return Project
-     */
-    public function setOutgoingSenderEmail($outgoingSenderEmail)
+    public function setOutgoingSenderEmail(string $outgoingSenderEmail): self
     {
         $this->outgoingSenderEmail = $outgoingSenderEmail;
 
         return $this;
     }
 
-    /**
-     * Get prjOutgoingSenderEmail
-     *
-     * @return string
-     */
-    public function getOutgoingSenderEmail()
+    public function getOutgoingSenderEmail(): string
     {
         return $this->outgoingSenderEmail;
     }
 
-    /**
-     * Set prjSenderFlag
-     *
-     * @param string $senderFlag
-     * @return Project
-     */
-    public function setSenderFlag($senderFlag)
+    public function setSenderFlag(?string $senderFlag): self
     {
         $this->senderFlag = $senderFlag;
 
         return $this;
     }
 
-    /**
-     * Get prjSenderFlag
-     *
-     * @return string
-     */
-    public function getSenderFlag()
+    public function getSenderFlag(): ?string
     {
         return $this->senderFlag;
     }
 
-    /**
-     * Set prjSenderFlagLocation
-     *
-     * @param string $senderFlagLocation
-     * @return Project
-     */
-    public function setSenderFlagLocation($senderFlagLocation)
+    public function setSenderFlagLocation(?string $senderFlagLocation): self
     {
         $this->senderFlagLocation = $senderFlagLocation;
 
         return $this;
     }
 
-    /**
-     * Get prjSenderFlagLocation
-     *
-     * @return string
-     */
-    public function getSenderFlagLocation()
+    public function getSenderFlagLocation(): ?string
     {
         return $this->senderFlagLocation;
     }
 
-    /**
-     * Set prjMailAliases
-     *
-     * @param string $mailAliases
-     * @return Project
-     */
-    public function setMailAliases($mailAliases)
+    public function setMailAliases(?string $mailAliases): self
     {
         $this->mailAliases = $mailAliases;
 
         return $this;
     }
 
-    /**
-     * Get prjMailAliases
-     *
-     * @return string
-     */
-    public function getMailAliases()
+    public function getMailAliases(): ?string
     {
         return $this->mailAliases;
     }
 
-    /**
-     * Set prjCustomerBackend
-     *
-     * @param string $customerBackend
-     * @return Project
-     */
-    public function setCustomerBackend($customerBackend)
+    public function setCustomerBackend(?string $customerBackend): self
     {
         $this->customerBackend = $customerBackend;
 
         return $this;
     }
 
-    /**
-     * Get prjCustomerBackend
-     *
-     * @return string
-     */
-    public function getCustomerBackend()
+    public function getCustomerBackend(): ?string
     {
         return $this->customerBackend;
     }
 
-    /**
-     * Set prjWorkflowBackend
-     *
-     * @param string $workflowBackend
-     * @return Project
-     */
-    public function setWorkflowBackend($workflowBackend)
+    public function setWorkflowBackend(?string $workflowBackend): self
     {
         $this->workflowBackend = $workflowBackend;
 
         return $this;
     }
 
-    /**
-     * Get prjWorkflowBackend
-     *
-     * @return string
-     */
-    public function getWorkflowBackend()
+    public function getWorkflowBackend(): ?string
     {
         return $this->workflowBackend;
     }
 
-    /**
-     * Set prjSegregateReporter
-     *
-     * @param bool $segregateReporter
-     * @return Project
-     */
-    public function setSegregateReporter($segregateReporter)
+    public function setSegregateReporter(bool $segregateReporter): self
     {
         $this->segregateReporter = $segregateReporter;
 
         return $this;
     }
 
-    /**
-     * Get prjSegregateReporter
-     *
-     * @return bool
-     */
-    public function getSegregateReporter()
+    public function getSegregateReporter(): bool
     {
         return $this->segregateReporter;
     }
