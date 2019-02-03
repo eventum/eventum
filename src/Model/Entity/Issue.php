@@ -51,6 +51,12 @@ class Issue
     private $createdDate;
 
     /**
+     * @var int
+     * @ORM\Column(name="iss_usr_id", type="integer", nullable=false)
+     */
+    private $user_id;
+
+    /**
      * @var string
      * @ORM\Column(name="iss_summary", type="string", length=128, nullable=false)
      */
@@ -58,10 +64,15 @@ class Issue
 
     /**
      * @var string
-     *
      * @ORM\Column(name="iss_description", type="text", length=65535, nullable=false)
      */
     private $description;
+
+    /**
+     * @var DateTime
+     * @ORM\Column(name="iss_updated_date", type="datetime", nullable=true)
+     */
+    private $updatedDate;
 
     /**
      * @var Commit[]
@@ -139,6 +150,18 @@ class Issue
         return $this->createdDate;
     }
 
+    public function setUserId(int $issUsrId): self
+    {
+        $this->user_id = $issUsrId;
+
+        return $this;
+    }
+
+    public function getUserId(): int
+    {
+        return $this->user_id;
+    }
+
     public function getSummary(): string
     {
         return $this->summary;
@@ -189,5 +212,17 @@ class Issue
     public function getCommits()
     {
         return $this->commits;
+    }
+
+    public function setUpdatedDate(?DateTime $updatedDate): self
+    {
+        $this->updatedDate = $updatedDate;
+
+        return $this;
+    }
+
+    public function getUpdatedDate(): ?DateTime
+    {
+        return $this->updatedDate;
     }
 }
