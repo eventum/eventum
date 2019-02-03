@@ -66,6 +66,9 @@ class UsersController extends ManageBaseController
             case 'edit':
                 $this->editAction();
                 break;
+            case 'unlock':
+                $this->unlockAction();
+                break;
             default:
                 $this->indexAction();
         }
@@ -138,6 +141,24 @@ class UsersController extends ManageBaseController
 
         $post = $this->getRequest()->request;
         User::changeStatus($post->get('items'), $post->get('status'));
+    }
+
+    private function unlockAction(): void
+    {
+        $get = $this->getRequest()->query;
+        $usr_id = $get->getInt('id');
+
+        try {
+            User::unlock($usr_id);
+            $message = ev_gettext('Thank you, user was unlocked successfully.');
+            $this->messages->addInfoMessage($message);
+        } catch (Exception $e) {
+            Logger::app()->error($e);
+            $message = ev_gettext('An error occurred while trying to unlock the user.');
+            $this->messages->addErrorMessage($message);
+        }
+
+        $this->redirect("users.php?cat=edit&id={$usr_id}");
     }
 
     private function editAction(): void
