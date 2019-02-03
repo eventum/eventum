@@ -23,6 +23,8 @@ use User;
 
 class UsersController extends ManageBaseController
 {
+    private const CSRF_TOKEN_NAME = 'manage-users';
+
     /** @var string */
     protected $tpl_name = 'manage/users.tpl.html';
 
@@ -74,7 +76,7 @@ class UsersController extends ManageBaseController
         $post = $this->getRequest()->request;
         $user = $this->getUserFromPost($post);
 
-        if (!$this->csrf->isValid('manage-users', $post->get('token'))) {
+        if (!$this->csrf->isValid(self::CSRF_TOKEN_NAME, $post->get('token'))) {
             $this->error('Invalid CSRF Token');
         }
 
@@ -97,7 +99,7 @@ class UsersController extends ManageBaseController
     {
         $post = $this->getRequest()->request;
 
-        if (!$this->csrf->isValid('manage-users', $post->get('token'))) {
+        if (!$this->csrf->isValid(self::CSRF_TOKEN_NAME, $post->get('token'))) {
             $this->error('Invalid CSRF Token');
         }
 
@@ -248,7 +250,7 @@ class UsersController extends ManageBaseController
                 'project_roles' => $this->getProjectRoles($project_list, $this->user_details),
                 'group_list' => Group::getAssocListAllProjects(),
                 'partners' => $this->getPartnersList(),
-                'csrf_token' => $this->csrf->getToken('manage-users'),
+                'csrf_token' => $this->csrf->getToken(self::CSRF_TOKEN_NAME),
             ]
         );
     }
