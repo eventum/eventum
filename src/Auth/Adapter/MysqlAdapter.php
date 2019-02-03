@@ -83,11 +83,7 @@ class MysqlAdapter implements AdapterInterface
                  WHERE
                     usr_id=?';
         $params = [PasswordHash::hash($password), $usr_id];
-        try {
-            DB_Helper::getInstance()->query($stmt, $params);
-        } catch (DatabaseException $e) {
-            return false;
-        }
+        DB_Helper::getInstance()->query($stmt, $params);
 
         return true;
     }
@@ -140,20 +136,18 @@ class MysqlAdapter implements AdapterInterface
      */
     private function isUserBackOffLocked(int $usr_id): bool
     {
-        $config = Setup::get()['auth']['login_backoff'] ?? null;
-        $backoffCount = $config['count'] ?? null;
-        if (!$backoffCount) {
+        if (!$this->loginBackoffEnabled()) {
             return false;
         }
 
-        $backoffMinutes = $config['minutes'] ?? 15;
+        $config = $this->getBackOffConfig();
         $stmt = 'SELECT
-                    IF( usr_failed_logins >= ?, NOW() < DATE_ADD(usr_last_failed_login, INTERVAL ' . $backoffMinutes . ' MINUTE), 0)
+                    IF( usr_failed_logins >= ?, NOW() < DATE_ADD(usr_last_failed_login, INTERVAL ' . $config['minutes'] . ' MINUTE), 0)
                  FROM
                     `user`
                  WHERE
                     usr_id=?';
-        $params = [$backoffCount, $usr_id];
+        $params = [$config['count'], $usr_id];
         try {
             $res = DB_Helper::getInstance()->getOne($stmt, $params);
         } catch (DatabaseException $e) {
@@ -212,5 +206,20 @@ class MysqlAdapter implements AdapterInterface
     public function autoRedirectToExternalLogin(): bool
     {
         return false;
+    }
+
+    private function getBackOffConfig(): array
+    {
+        $config = Setup::get()['auth']['login_backoff'] ?? null;
+
+        return [
+            'count' => $config['count'] ?? null,
+            'minutes' => $config['minutes'] ?? 15,
+        ];
+    }
+
+    private function loginBackoffEnabled(): bool
+    {
+        return $this->getBackOffConfig()['count'] !== null;
     }
 }

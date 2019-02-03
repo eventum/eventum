@@ -988,7 +988,7 @@ class User
     public static function updatePassword($usr_id, $password, $send_notification = false)
     {
         // reject setting empty password
-        if ($password == '') {
+        if ($password === '') {
             throw new InvalidArgumentException("Can't set empty password");
         }
 
