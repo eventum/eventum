@@ -13,108 +13,110 @@
 
 namespace Eventum\Model\Entity;
 
+use DateTime;
+use Doctrine\ORM\Mapping as ORM;
+
 /**
- * @Table(name="user", uniqueConstraints={@UniqueConstraint(name="usr_email", columns={"usr_email"})})
- * @Entity(repositoryClass="Eventum\Model\Repository\UserRepository")
+ * @ORM\Table(name="user", uniqueConstraints={@ORM\UniqueConstraint(name="usr_email", columns={"usr_email"})})
+ * @ORM\Entity(repositoryClass="Eventum\Model\Repository\UserRepository")
  */
 class User
 {
     /**
      * @var int
-     *
-     * @Column(name="usr_id", type="integer", nullable=false)
-     * @Id
-     * @GeneratedValue(strategy="IDENTITY")
+     * @ORM\Column(name="usr_id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $id;
 
     /**
      * @var string
-     * @Column(name="usr_customer_id", type="string", length=128, nullable=true)
+     * @ORM\Column(name="usr_customer_id", type="string", length=128, nullable=true)
      */
     private $customerId;
 
     /**
      * @var string
-     * @Column(name="usr_customer_contact_id", type="string", length=128, nullable=true)
+     * @ORM\Column(name="usr_customer_contact_id", type="string", length=128, nullable=true)
      */
     private $customerContactId;
 
     /**
-     * @var \DateTime
-     * @Column(name="usr_created_date", type="datetime", nullable=false)
+     * @var DateTime
+     * @ORM\Column(name="usr_created_date", type="datetime", nullable=false)
      */
     private $createdDate;
 
     /**
      * @var string
-     * @Column(name="usr_status", type="string", length=8, nullable=false)
+     * @ORM\Column(name="usr_status", type="string", length=8, nullable=false)
      */
     private $status;
 
     /**
      * @var string
-     * @Column(name="usr_password", type="string", length=255, nullable=false)
+     * @ORM\Column(name="usr_password", type="string", length=255, nullable=false)
      */
     private $password;
 
     /**
      * @var string
-     * @Column(name="usr_full_name", type="string", length=255, nullable=false)
+     * @ORM\Column(name="usr_full_name", type="string", length=255, nullable=false)
      */
     private $fullName;
 
     /**
      * @var string
-     * @Column(name="usr_email", type="string", length=255, nullable=false)
+     * @ORM\Column(name="usr_email", type="string", length=255, nullable=false)
      */
     private $email;
 
     /**
      * @var string
-     * @Column(name="usr_sms_email", type="string", length=255, nullable=true)
+     * @ORM\Column(name="usr_sms_email", type="string", length=255, nullable=true)
      */
     private $smsEmail;
 
     /**
      * @var bool
-     * @Column(name="usr_clocked_in", type="boolean", nullable=true)
+     * @ORM\Column(name="usr_clocked_in", type="boolean", nullable=true)
      */
     private $clockedIn;
 
     /**
      * @var string
-     * @Column(name="usr_lang", type="string", length=5, nullable=true)
+     * @ORM\Column(name="usr_lang", type="string", length=5, nullable=true)
      */
     private $language;
 
     /**
      * @var string
-     * @Column(name="usr_external_id", type="string", length=100, nullable=false)
+     * @ORM\Column(name="usr_external_id", type="string", length=100, nullable=false)
      */
     private $externalId;
 
     /**
-     * @var \DateTime
-     * @Column(name="usr_last_login", type="datetime", nullable=true)
+     * @var DateTime
+     * @ORM\Column(name="usr_last_login", type="datetime", nullable=true)
      */
     private $lastLogin;
 
     /**
-     * @var \DateTime
-     * @Column(name="usr_last_failed_login", type="datetime", nullable=true)
+     * @var DateTime
+     * @ORM\Column(name="usr_last_failed_login", type="datetime", nullable=true)
      */
     private $lastFailedLogin;
 
     /**
      * @var int
-     * @Column(name="usr_failed_logins", type="integer", nullable=false)
+     * @ORM\Column(name="usr_failed_logins", type="integer", nullable=false)
      */
     private $failedLogins;
 
     /**
      * @var string
-     * @Column(name="usr_par_code", type="string", length=30, nullable=true)
+     * @ORM\Column(name="usr_par_code", type="string", length=30, nullable=true)
      */
     private $partnerCode;
 
@@ -177,7 +179,7 @@ class User
     /**
      * Set usrCreatedDate
      *
-     * @param \DateTime $createdDate
+     * @param DateTime $createdDate
      * @return User
      */
     public function setCreatedDate($createdDate)
@@ -190,7 +192,7 @@ class User
     /**
      * Get usrCreatedDate
      *
-     * @return \DateTime
+     * @return DateTime
      */
     public function getCreatedDate()
     {
@@ -384,7 +386,7 @@ class User
     /**
      * Set usrLastLogin
      *
-     * @param \DateTime $lastLogin
+     * @param DateTime $lastLogin
      * @return User
      */
     public function setLastLogin($lastLogin)
@@ -397,7 +399,7 @@ class User
     /**
      * Get usrLastLogin
      *
-     * @return \DateTime
+     * @return DateTime
      */
     public function getLastLogin()
     {
@@ -407,7 +409,7 @@ class User
     /**
      * Set usrLastFailedLogin
      *
-     * @param \DateTime $lastFailedLogin
+     * @param DateTime $lastFailedLogin
      * @return User
      */
     public function setLastFailedLogin($lastFailedLogin)
@@ -420,7 +422,7 @@ class User
     /**
      * Get usrLastFailedLogin
      *
-     * @return \DateTime
+     * @return DateTime
      */
     public function getLastFailedLogin()
     {

@@ -13,15 +13,17 @@
 
 namespace Eventum\Model\Entity;
 
+use Doctrine\ORM\Mapping as ORM;
+
 /**
- * @Table(name="commit_file")
- * @Entity(repositoryClass="Eventum\Model\Repository\CommitFileRepository")
+ * @ORM\Table(name="commit_file")
+ * @ORM\Entity(repositoryClass="Eventum\Model\Repository\CommitFileRepository")
  */
 class CommitFile
 {
     /**
      * @var int
-     * @Id @Column(type="integer") @GeneratedValue
+     * @ORM\Id @ORM\Column(type="integer") @GeneratedValue
      */
     protected $cof_id;
 
@@ -29,44 +31,44 @@ class CommitFile
      * Bidirectional - Many Comments are authored by one user (OWNING SIDE)
      *
      * @var Commit
-     * @ManyToOne(targetEntity="Eventum\Model\Entity\Commit", inversedBy="files")
-     * @JoinColumn(nullable=false, name="cof_com_id", referencedColumnName="com_id")
+     * @ORM\ManyToOne(targetEntity="Eventum\Model\Entity\Commit", inversedBy="files")
+     * @ORM\JoinColumn(nullable=false, name="cof_com_id", referencedColumnName="com_id")
      */
     private $commit;
 
     /**
      * @var string
-     * @Column(type="string", length=255, nullable=false)
+     * @ORM\Column(type="string", length=255, nullable=false)
      */
     protected $cof_filename;
 
     /**
      * @var bool
-     * @Column(type="boolean", nullable=false)
+     * @ORM\Column(type="boolean", nullable=false)
      */
     protected $cof_added = false;
 
     /**
      * @var bool
-     * @Column(type="boolean", nullable=false)
+     * @ORM\Column(type="boolean", nullable=false)
      */
     protected $cof_modified = false;
 
     /**
      * @var bool
-     * @Column(type="boolean", nullable=false)
+     * @ORM\Column(type="boolean", nullable=false)
      */
     protected $cof_removed = false;
 
     /**
      * @var string
-     * @Column(type="string", length=40, nullable=true)
+     * @ORM\Column(type="string", length=40, nullable=true)
      */
     protected $cof_old_version;
 
     /**
      * @var string
-     * @Column(name="cof_new_version", type="string", length=40, nullable=true)
+     * @ORM\Column(name="cof_new_version", type="string", length=40, nullable=true)
      */
     protected $cof_new_version;
 

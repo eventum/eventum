@@ -13,39 +13,41 @@
 
 namespace Eventum\Model\Entity;
 
+use Doctrine\ORM\Mapping as ORM;
+
 /**
- * @Entity
- * @Table(name="issue")
- * @Entity(repositoryClass="Eventum\Model\Repository\IssueRepository")
+ * @ORM\Entity
+ * @ORM\Table(name="issue")
+ * @ORM\Entity(repositoryClass="Eventum\Model\Repository\IssueRepository")
  */
 class Issue
 {
     /**
      * @var int
-     * @Column(name="iss_id", type="integer", nullable=false)
-     * @Id
-     * @GeneratedValue(strategy="IDENTITY")
+     * @ORM\Column(name="iss_id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $id;
 
     /**
      * @var int
-     * @Column(name="iss_prj_id", type="integer", nullable=false)
+     * @ORM\Column(name="iss_prj_id", type="integer", nullable=false)
      */
     private $project_id;
 
     /**
      * @var string
-     * @Column(name="iss_summary", type="string", length=128, nullable=false)
+     * @ORM\Column(name="iss_summary", type="string", length=128, nullable=false)
      */
     private $summary;
 
     /**
      * @var Commit[]
-     * @ManyToMany(targetEntity="Eventum\Model\Entity\Commit", cascade={"persist", "remove"})
-     * @JoinTable(name="issue_commit",
-     *   joinColumns={@JoinColumn(name="isc_iss_id", referencedColumnName="iss_id")},
-     *   inverseJoinColumns={@JoinColumn(name="isc_com_id", referencedColumnName="com_id", unique=true)}
+     * @ORM\ManyToMany(targetEntity="Eventum\Model\Entity\Commit", cascade={"persist", "remove"})
+     * @ORM\JoinTable(name="issue_commit",
+     *   joinColumns={@ORM\JoinColumn(name="isc_iss_id", referencedColumnName="iss_id")},
+     *   inverseJoinColumns={@ORM\JoinColumn(name="isc_com_id", referencedColumnName="com_id", unique=true)}
      * )
      */
     private $commits;

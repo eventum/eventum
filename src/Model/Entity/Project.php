@@ -13,115 +13,117 @@
 
 namespace Eventum\Model\Entity;
 
+use Doctrine\ORM\Mapping as ORM;
+
 /**
  * Project
  *
- * @Table(name="project", uniqueConstraints={@UniqueConstraint(name="prj_title", columns={"prj_title"})}, indexes={@Index(name="prj_lead_usr_id", columns={"prj_lead_usr_id"})})
- * @Entity(repositoryClass="Eventum\Model\Repository\ProjectRepository")
+ * @ORM\Table(name="project", uniqueConstraints={@ORM\UniqueConstraint(name="prj_title", columns={"prj_title"})}, indexes={@ORM\Index(name="prj_lead_usr_id", columns={"prj_lead_usr_id"})})
+ * @ORM\Entity(repositoryClass="Eventum\Model\Repository\ProjectRepository")
  */
 class Project
 {
     /**
      * @var int
-     * @Column(name="prj_id", type="integer", nullable=false)
-     * @Id
-     * @GeneratedValue(strategy="IDENTITY")
+     * @ORM\Column(name="prj_id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $id;
 
     /**
      * @var \DateTime
-     * @Column(name="prj_created_date", type="datetime", nullable=false)
+     * @ORM\Column(name="prj_created_date", type="datetime", nullable=false)
      */
     private $createdDate;
 
     /**
      * @var string
-     * @Column(name="prj_title", type="string", length=64, nullable=false)
+     * @ORM\Column(name="prj_title", type="string", length=64, nullable=false)
      */
     private $title;
 
     /**
      * @var string
-     * @Column(name="prj_status", type="string", nullable=false)
+     * @ORM\Column(name="prj_status", type="string", nullable=false)
      */
     private $status;
 
     /**
      * @var int
-     * @Column(name="prj_lead_usr_id", type="integer", nullable=false)
+     * @ORM\Column(name="prj_lead_usr_id", type="integer", nullable=false)
      */
     private $leadUserId;
 
     /**
      * @var int
-     * @Column(name="prj_initial_sta_id", type="integer", nullable=false)
+     * @ORM\Column(name="prj_initial_sta_id", type="integer", nullable=false)
      */
     private $initialStatusId;
 
     /**
      * @var string
-     * @Column(name="prj_remote_invocation", type="string", length=8, nullable=false)
+     * @ORM\Column(name="prj_remote_invocation", type="string", length=8, nullable=false)
      */
     private $remoteInvocation;
 
     /**
      * @var string
-     * @Column(name="prj_anonymous_post", type="string", length=8, nullable=false)
+     * @ORM\Column(name="prj_anonymous_post", type="string", length=8, nullable=false)
      */
     private $anonymousPost;
 
     /**
      * @var string
-     * @Column(name="prj_anonymous_post_options", type="text", length=65535, nullable=true)
+     * @ORM\Column(name="prj_anonymous_post_options", type="text", length=65535, nullable=true)
      */
     private $anonymousPostOptions;
 
     /**
      * @var string
-     * @Column(name="prj_outgoing_sender_name", type="string", length=255, nullable=false)
+     * @ORM\Column(name="prj_outgoing_sender_name", type="string", length=255, nullable=false)
      */
     private $outgoingSenderName;
 
     /**
      * @var string
-     * @Column(name="prj_outgoing_sender_email", type="string", length=255, nullable=false)
+     * @ORM\Column(name="prj_outgoing_sender_email", type="string", length=255, nullable=false)
      */
     private $outgoingSenderEmail;
 
     /**
      * @var string
-     * @Column(name="prj_sender_flag", type="string", length=255, nullable=true)
+     * @ORM\Column(name="prj_sender_flag", type="string", length=255, nullable=true)
      */
     private $senderFlag;
 
     /**
      * @var string
-     * @Column(name="prj_sender_flag_location", type="string", length=6, nullable=true)
+     * @ORM\Column(name="prj_sender_flag_location", type="string", length=6, nullable=true)
      */
     private $senderFlagLocation;
 
     /**
      * @var string
-     * @Column(name="prj_mail_aliases", type="string", length=255, nullable=true)
+     * @ORM\Column(name="prj_mail_aliases", type="string", length=255, nullable=true)
      */
     private $mailAliases;
 
     /**
      * @var string
-     * @Column(name="prj_customer_backend", type="string", length=64, nullable=true)
+     * @ORM\Column(name="prj_customer_backend", type="string", length=64, nullable=true)
      */
     private $customerBackend;
 
     /**
      * @var string
-     * @Column(name="prj_workflow_backend", type="string", length=64, nullable=true)
+     * @ORM\Column(name="prj_workflow_backend", type="string", length=64, nullable=true)
      */
     private $workflowBackend;
 
     /**
      * @var bool
-     * @Column(name="prj_segregate_reporter", type="boolean", nullable=true)
+     * @ORM\Column(name="prj_segregate_reporter", type="boolean", nullable=true)
      */
     private $segregateReporter;
 

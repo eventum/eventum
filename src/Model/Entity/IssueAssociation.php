@@ -13,31 +13,33 @@
 
 namespace Eventum\Model\Entity;
 
+use Doctrine\ORM\Mapping as ORM;
+
 /**
  * IssueAssociation
  *
- * @Table(name="issue_association", indexes={@Index(name="isa_issue_id", columns={"isa_issue_id", "isa_associated_id"})})
- * @Entity(repositoryClass="Eventum\Model\Repository\IssueAssociationRepository")
+ * @ORM\Table(name="issue_association", indexes={@ORM\Index(name="isa_issue_id", columns={"isa_issue_id", "isa_associated_id"})})
+ * @ORM\Entity(repositoryClass="Eventum\Model\Repository\IssueAssociationRepository")
  */
 class IssueAssociation
 {
     /**
      * @var int
-     * @Column(name="isa_id", type="integer", nullable=false)
-     * @Id
-     * @GeneratedValue(strategy="IDENTITY")
+     * @ORM\Column(name="isa_id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $isa_id;
 
     /**
      * @var int
-     * @Column(name="isa_issue_id", type="integer", nullable=false)
+     * @ORM\Column(name="isa_issue_id", type="integer", nullable=false)
      */
     private $isa_issue_id;
 
     /**
      * @var int
-     * @Column(name="isa_associated_id", type="integer", nullable=false)
+     * @ORM\Column(name="isa_associated_id", type="integer", nullable=false)
      */
     private $isa_associated_id;
 
