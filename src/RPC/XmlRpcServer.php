@@ -295,15 +295,9 @@ class XmlRpcServer
         return $res;
     }
 
-    /**
-     * @param string $email
-     * @param string $password
-     * @return bool
-     */
-    private function isValidLogin($email, $password)
+    private function isValidLogin(string $email, string $password): bool
     {
-        return Auth::isCorrectPassword($email, $password)
-            || APIAuthToken::isTokenValidForEmail($password, $email);
+        return APIAuthToken::isTokenValidForEmail($password, $email) || Auth::isCorrectPassword($email, $password);
     }
 
     /**
