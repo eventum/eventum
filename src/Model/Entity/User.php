@@ -120,357 +120,187 @@ class User
      */
     private $partnerCode;
 
-    /**
-     * Get user Id
-     *
-     * @return int
-     */
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
 
-    /**
-     * Set customerId
-     *
-     * @param string $customerId
-     * @return User
-     */
-    public function setCustomerId($customerId)
+    public function setCustomerId(?string $customerId): self
     {
         $this->customerId = $customerId;
 
         return $this;
     }
 
-    /**
-     * Get usrCustomerId
-     *
-     * @return string
-     */
-    public function getCustomerId()
+    public function getCustomerId(): ?string
     {
         return $this->customerId;
     }
 
-    /**
-     * Set usrCustomerContactId
-     *
-     * @param string $customerContactId
-     * @return User
-     */
-    public function setCustomerContactId($customerContactId)
+    public function setCustomerContactId(?string $customerContactId): self
     {
         $this->customerContactId = $customerContactId;
 
         return $this;
     }
 
-    /**
-     * Get usrCustomerContactId
-     *
-     * @return string
-     */
-    public function getCustomerContactId()
+    public function getCustomerContactId(): ?string
     {
         return $this->customerContactId;
     }
 
-    /**
-     * Set usrCreatedDate
-     *
-     * @param DateTime $createdDate
-     * @return User
-     */
-    public function setCreatedDate($createdDate)
+    public function setCreatedDate(DateTime $createdDate): self
     {
         $this->createdDate = $createdDate;
 
         return $this;
     }
 
-    /**
-     * Get usrCreatedDate
-     *
-     * @return DateTime
-     */
-    public function getCreatedDate()
+    public function getCreatedDate(): DateTime
     {
         return $this->createdDate;
     }
 
-    /**
-     * Set usrStatus
-     *
-     * @param string $status
-     * @return User
-     */
-    public function setStatus($status)
+    public function setStatus(string $status): self
     {
         $this->status = $status;
 
         return $this;
     }
 
-    /**
-     * Get usrStatus
-     *
-     * @return string
-     */
-    public function getStatus()
+    public function getStatus(): string
     {
         return $this->status;
     }
 
-    /**
-     * Set usrPassword
-     *
-     * @param string $password
-     * @return User
-     */
-    public function setPassword($password)
+    public function setPassword(string $password): self
     {
         $this->password = $password;
 
         return $this;
     }
 
-    /**
-     * Get usrPassword
-     *
-     * @return string
-     */
-    public function getPassword()
+    public function getPassword(): string
     {
         return $this->password;
     }
 
-    /**
-     * Set usrFullName
-     *
-     * @param string $fullName
-     * @return User
-     */
-    public function setFullName($fullName)
+    public function setFullName(string $fullName): self
     {
         $this->fullName = $fullName;
 
         return $this;
     }
 
-    /**
-     * Get usrFullName
-     *
-     * @return string
-     */
-    public function getFullName()
+    public function getFullName(): string
     {
         return $this->fullName;
     }
 
-    /**
-     * Set usrEmail
-     *
-     * @param string $email
-     * @return User
-     */
-    public function setEmail($email)
+    public function setEmail(string $email): string
     {
         $this->email = $email;
 
         return $this;
     }
 
-    /**
-     * Get usrEmail
-     *
-     * @return string
-     */
-    public function getEmail()
+    public function getEmail(): string
     {
         return $this->email;
     }
 
-    /**
-     * Set usrSmsEmail
-     *
-     * @param string $smsEmail
-     * @return User
-     */
-    public function setSmsEmail($smsEmail)
+    public function setSmsEmail(?string $smsEmail): self
     {
         $this->smsEmail = $smsEmail;
 
         return $this;
     }
 
-    /**
-     * Get usrSmsEmail
-     *
-     * @return string
-     */
-    public function getSmsEmail()
+    public function getSmsEmail(): ?string
     {
         return $this->smsEmail;
     }
 
-    /**
-     * Set usrClockedIn
-     *
-     * @param bool $clockedIn
-     * @return User
-     */
-    public function setClockedIn($clockedIn)
+    public function setClockedIn(bool $clockedIn): self
     {
         $this->clockedIn = $clockedIn;
 
         return $this;
     }
 
-    /**
-     * Get usrClockedIn
-     *
-     * @return bool
-     */
-    public function getClockedIn()
+    public function getClockedIn(): bool
     {
         return $this->clockedIn;
     }
 
-    /**
-     * Set usrLang
-     *
-     * @param string $language
-     * @return User
-     */
-    public function setLanguage($language)
+    public function setLanguage(string $language): self
     {
         $this->language = $language;
 
         return $this;
     }
 
-    /**
-     * Get usrLang
-     *
-     * @return string
-     */
-    public function getLanguage()
+    public function getLanguage(): string
     {
         return $this->language;
     }
 
-    /**
-     * Set usrExternalId
-     *
-     * @param string $externalId
-     * @return User
-     */
-    public function setExternalId($externalId)
+    public function setExternalId(?string $externalId): self
     {
         $this->externalId = $externalId;
 
         return $this;
     }
 
-    /**
-     * Get usrExternalId
-     *
-     * @return string
-     */
-    public function getExternalId()
+    public function getExternalId(): ?string
     {
         return $this->externalId;
     }
 
-    /**
-     * Set usrLastLogin
-     *
-     * @param DateTime $lastLogin
-     * @return User
-     */
-    public function setLastLogin($lastLogin)
+    public function setLastLogin(?DateTime $lastLogin): self
     {
         $this->lastLogin = $lastLogin;
 
         return $this;
     }
 
-    /**
-     * Get usrLastLogin
-     *
-     * @return DateTime
-     */
-    public function getLastLogin()
+    public function getLastLogin(): ?DateTime
     {
         return $this->lastLogin;
     }
 
-    /**
-     * Set usrLastFailedLogin
-     *
-     * @param DateTime $lastFailedLogin
-     * @return User
-     */
-    public function setLastFailedLogin($lastFailedLogin)
+    public function setLastFailedLogin(?DateTime $lastFailedLogin): self
     {
         $this->lastFailedLogin = $lastFailedLogin;
 
         return $this;
     }
 
-    /**
-     * Get usrLastFailedLogin
-     *
-     * @return DateTime
-     */
-    public function getLastFailedLogin()
+    public function getLastFailedLogin(): ?DateTime
     {
         return $this->lastFailedLogin;
     }
 
-    /**
-     * Set usrFailedLogins
-     *
-     * @param int $failedLogins
-     * @return User
-     */
-    public function setFailedLogins($failedLogins)
+    public function setFailedLogins(int $failedLogins): self
     {
         $this->failedLogins = $failedLogins;
 
         return $this;
     }
 
-    /**
-     * Get usrFailedLogins
-     *
-     * @return int
-     */
-    public function getFailedLogins()
+    public function getFailedLogins(): int
     {
         return $this->failedLogins;
     }
 
-    /**
-     * Set usrParCode
-     *
-     * @param string $partnerCode
-     * @return User
-     */
-    public function setPartnerCode($partnerCode)
+    public function setPartnerCode(?string $partnerCode): self
     {
         $this->partnerCode = $partnerCode;
 
         return $this;
     }
 
-    /**
-     * Get usrParCode
-     *
-     * @return string
-     */
-    public function getPartnerCode()
+    public function getPartnerCode(): ?string
     {
         return $this->partnerCode;
     }

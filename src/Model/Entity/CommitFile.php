@@ -43,19 +43,19 @@ class CommitFile
     protected $cof_filename;
 
     /**
-     * @var bool
+     * @var bool The flag whether file was added
      * @ORM\Column(type="boolean", nullable=false)
      */
     protected $cof_added = false;
 
     /**
-     * @var bool
+     * @var bool The flag whether file was modified
      * @ORM\Column(type="boolean", nullable=false)
      */
     protected $cof_modified = false;
 
     /**
-     * @var bool
+     * @var bool The flag whether file was removed
      * @ORM\Column(type="boolean", nullable=false)
      */
     protected $cof_removed = false;
@@ -72,180 +72,98 @@ class CommitFile
      */
     protected $cof_new_version;
 
-    /**
-     * @param int $id
-     * @return $this
-     */
-    public function setId($id)
+    public function setId(int $id): self
     {
         $this->cof_id = $id;
 
         return $this;
     }
 
-    /**
-     * Get cofId
-     *
-     * @return int
-     */
-    public function getId()
+    public function getId(): int
     {
         return $this->cof_id;
     }
 
-    /**
-     * @param Commit $commit
-     * @return CommitFile
-     */
-    public function setCommit(Commit $commit)
+    public function setCommit(Commit $commit): self
     {
         $this->commit = $commit;
 
         return $this;
     }
 
-    /**
-     * @return Commit
-     */
-    public function getCommit()
+    public function getCommit(): Commit
     {
         return $this->commit;
     }
 
-    /**
-     * Set cofFilename
-     *
-     * @param string $filename
-     * @return CommitFile
-     */
-    public function setFilename($filename)
+    public function setFilename(string $filename): self
     {
         $this->cof_filename = $filename;
 
         return $this;
     }
 
-    /**
-     * Get cofFilename
-     *
-     * @return string
-     */
-    public function getFilename()
+    public function getFilename(): string
     {
         return $this->cof_filename;
     }
 
-    /**
-     * Set boolean whether file was added
-     *
-     * @param bool $added
-     * @return CommitFile
-     */
-    public function setAdded($added)
+    public function setAdded(bool $added): self
     {
         $this->cof_added = $added;
 
         return $this;
     }
 
-    /**
-     * Get flag whether file was added
-     *
-     * @return bool
-     */
-    public function isAdded()
+    public function isAdded(): bool
     {
         return $this->cof_added;
     }
 
-    /**
-     * Set boolean whether file was modified
-     *
-     * @param bool $modified
-     * @return CommitFile
-     */
-    public function setModified($modified)
+    public function setModified(bool $modified): self
     {
         $this->cof_modified = $modified;
 
         return $this;
     }
 
-    /**
-     * Get flag whether file was modified
-     *
-     * @return bool
-     */
-    public function isModified()
+    public function isModified(): bool
     {
         return $this->cof_modified;
     }
 
-    /**
-     * Set boolean whether file was removed
-     *
-     * @param bool $removed
-     * @return CommitFile
-     */
-    public function setRemoved($removed)
+    public function setRemoved(bool $removed): self
     {
         $this->cof_removed = $removed;
 
         return $this;
     }
 
-    /**
-     * Get flag whether file was removed
-     *
-     * @return bool
-     */
-    public function isRemoved()
+    public function isRemoved(): bool
     {
         return $this->cof_removed;
     }
 
-    /**
-     * Set cofOldVersion
-     *
-     * @param string $oldVersion
-     * @return CommitFile
-     */
-    public function setOldVersion($oldVersion)
+    public function setOldVersion(?string $oldVersion): self
     {
         $this->cof_old_version = $oldVersion;
 
         return $this;
     }
 
-    /**
-     * Get cofOldVersion
-     *
-     * @return string
-     */
-    public function getOldVersion()
+    public function getOldVersion(): ?string
     {
         return $this->cof_old_version;
     }
 
-    /**
-     * Set cofNewVersion
-     *
-     * @param string $newVersion
-     * @return CommitFile
-     */
-    public function setNewVersion($newVersion)
+    public function setNewVersion(?string $newVersion): self
     {
         $this->cof_new_version = $newVersion;
 
         return $this;
     }
 
-    /**
-     * Get cofNewVersion
-     *
-     * @return string
-     */
-    public function getNewVersion()
+    public function getNewVersion(): ?string
     {
         return $this->cof_new_version;
     }
@@ -253,15 +171,12 @@ class CommitFile
     /**
      * Indicate whether file has versions
      */
-    public function hasVersions()
+    public function hasVersions(): bool
     {
         return $this->getOldVersion() or $this->getNewVersion();
     }
 
-    /**
-     * @return array
-     */
-    public function toArray()
+    public function toArray(): array
     {
         return get_object_vars($this);
     }

@@ -52,38 +52,24 @@ class Issue
      */
     private $commits;
 
-    /**
-     * @param int $id
-     * @return Issue
-     */
-    public function setId($id)
+    public function setId(int $id): self
     {
         $this->id = $id;
 
         return $this;
     }
 
-    /**
-     * @return int
-     */
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
 
-    /**
-     * @return string
-     */
-    public function getSummary()
+    public function getSummary(): string
     {
         return $this->summary;
     }
 
-    /**
-     * @param string $summary
-     * @return Issue
-     */
-    public function setSummary($summary)
+    public function setSummary(string $summary): self
     {
         $this->summary = $summary;
 
@@ -94,18 +80,14 @@ class Issue
      * @param Commit[] $commits
      * @return Issue
      */
-    public function setCommits($commits)
+    public function setCommits(array $commits): self
     {
         $this->commits = $commits;
 
         return $this;
     }
 
-    /**
-     * @param Commit $commit
-     * @return Issue
-     */
-    public function addCommit(Commit $commit)
+    public function addCommit(Commit $commit): self
     {
         $commit->setIssue($this);
 
@@ -122,21 +104,14 @@ class Issue
         return $this->commits;
     }
 
-    /**
-     * @param int $project_id
-     * @return Issue
-     */
-    public function setProjectId($project_id)
+    public function setProjectId(int $project_id): self
     {
         $this->project_id = $project_id;
 
         return $this;
     }
 
-    /**
-     * @return int
-     */
-    public function getProjectId()
+    public function getProjectId(): int
     {
         return $this->project_id;
     }

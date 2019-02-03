@@ -127,7 +127,7 @@ class Commit
         return $this->com_scm_name;
     }
 
-    public function setProjectName(string $projectName): self
+    public function setProjectName(?string $projectName): self
     {
         $this->com_project_name = $projectName;
 
@@ -156,7 +156,7 @@ class Commit
         return $this->com_changeset;
     }
 
-    public function setBranch(string $branch): self
+    public function setBranch(?string $branch): self
     {
         $this->com_branch = $branch;
 
@@ -168,19 +168,19 @@ class Commit
         return $this->com_branch;
     }
 
-    public function setUserId(int $usr_id): self
+    public function setUserId(?int $usr_id): self
     {
         $this->com_usr_id = $usr_id;
 
         return $this;
     }
 
-    public function getUserId(): int
+    public function getUserId(): ?int
     {
         return $this->com_usr_id;
     }
 
-    public function setAuthorEmail(string $authorEmail): self
+    public function setAuthorEmail(?string $authorEmail): self
     {
         $this->com_author_email = $authorEmail;
 
