@@ -73,12 +73,10 @@ class UsersController extends ManageBaseController
 
     private function newAction(): void
     {
+        $this->validateCsrf();
+
         $post = $this->getRequest()->request;
         $user = $this->getUserFromPost($post);
-
-        if (!$this->csrf->isValid(self::CSRF_TOKEN_NAME, $post->get('token'))) {
-            $this->error('Invalid CSRF Token');
-        }
 
         try {
             $usr_id = User::insert($user);
@@ -97,12 +95,9 @@ class UsersController extends ManageBaseController
 
     private function updateAction(): void
     {
+        $this->validateCsrf();
+
         $post = $this->getRequest()->request;
-
-        if (!$this->csrf->isValid(self::CSRF_TOKEN_NAME, $post->get('token'))) {
-            $this->error('Invalid CSRF Token');
-        }
-
         $this->user_details = User::getDetails($post->getInt('id'));
 
         if ($this->role_id != User::ROLE_ADMINISTRATOR) {
@@ -139,12 +134,9 @@ class UsersController extends ManageBaseController
 
     private function changeStatusAction(): void
     {
+        $this->validateCsrf();
+
         $post = $this->getRequest()->request;
-
-        if (!$this->csrf->isValid(self::CSRF_TOKEN_NAME, $post->get('token'))) {
-            $this->error('Invalid CSRF Token');
-        }
-
         User::changeStatus($post->get('items'), $post->get('status'));
     }
 
@@ -286,5 +278,13 @@ class UsersController extends ManageBaseController
         }
 
         return $user;
+    }
+
+    private function validateCsrf(): void
+    {
+        $token = $this->getRequest()->request->get('token');
+        if (!$this->csrf->isValid(self::CSRF_TOKEN_NAME, $token)) {
+            $this->error('Invalid CSRF Token');
+        }
     }
 }
