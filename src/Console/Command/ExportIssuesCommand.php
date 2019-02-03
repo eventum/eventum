@@ -13,22 +13,30 @@
 
 namespace Eventum\Console\Command;
 
-use Eventum\GitlabExportWriter;
+use Eventum\Db\Doctrine;
+use Eventum\Export\IssueExport;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class ExportIssuesCommand extends Command
 {
     const DEFAULT_COMMAND = 'export:issues';
-    const USAGE = self::DEFAULT_COMMAND . ' [issueId]';
+    const USAGE = self::DEFAULT_COMMAND . ' [issueId] [filename]';
 
-    public function execute(OutputInterface $output, $issueId)
+    public function execute(OutputInterface $output, ?int $issueId, ?string $fileName): void
     {
         $this->output = $output;
-        $this->exportIssue($issueId);
+
+        if ($issueId) {
+            $this->exportIssue($issueId, $fileName ?: 'output.csv');
+        }
     }
 
-    private function exportIssue($issueId)
+    private function exportIssue(int $issueId, string $fileName): void
     {
-        $writer = new GitlabExportWriter();
+        $repo = Doctrine::getIssueRepository();
+        $issue = $repo->findById($issueId);
+
+        $exporter = new IssueExport($fileName);
+        $exporter->export($issue);
     }
 }
