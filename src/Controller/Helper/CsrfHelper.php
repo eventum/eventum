@@ -30,9 +30,9 @@ class CsrfHelper
      * Gets a CSRF Token
      *
      * @param string $token_id
-     * @return \Symfony\Component\Security\Csrf\CsrfToken
+     * @return CsrfToken
      */
-    public function getToken($token_id)
+    public function getToken(string $token_id): CsrfToken
     {
         return $this->manager->getToken($token_id);
     }
@@ -44,7 +44,7 @@ class CsrfHelper
      * @param string $value
      * @return bool
      */
-    public function isValid($token_id, $value)
+    public function isValid(string $token_id, string $value): bool
     {
         $result = $this->manager->isTokenValid(new CsrfToken($token_id, $value));
         $this->manager->removeToken($token_id);

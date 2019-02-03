@@ -87,7 +87,7 @@
     {t}Please wait while the table loads...{/t}
   </div>
 
-  {$colspan=5}
+  {$colspan=6}
   {if $list_options.groups}
     {$colspan=$colspan+1}
   {/if}
@@ -112,8 +112,9 @@
       <td>{t}Email Address{/t}</td>
       <td>{t}Email Aliases{/t}</td>
       {if $list_options.inactive}
-      <td>{t}Status{/t}</td>
+        <td>{t}Status{/t}</td>
       {/if}
+      <td title="{t}Failed logins{/t}">{t}Fails{/t}</td>
       {if $list_options.groups}
         <td>{t}Groups{/t}</td>
       {/if}
@@ -157,6 +158,14 @@
           {$list[i].usr_status|capitalize}
         </td>
         {/if}
+
+        <td width="5%">
+          {if $list[i].usr_failed_logins > 0}
+            <a class="link" href="{$core.rel_url}manage/users.php?cat=unlock&id={$list[i].usr_id}"
+             title="Failed at: {$list[i].usr_last_failed_login}, click to unlock">{$list[i].usr_failed_logins}</a>
+          {/if}
+        </td>
+
         {if $list_options.groups}
         <td>
           {', '|join:$list[i].group_names|default:''}

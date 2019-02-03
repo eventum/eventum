@@ -23,6 +23,8 @@ use User;
 
 class UsersController extends ManageBaseController
 {
+    private const CSRF_TOKEN_NAME = 'manage-users';
+
     /** @var string */
     protected $tpl_name = 'manage/users.tpl.html';
 
@@ -38,7 +40,7 @@ class UsersController extends ManageBaseController
     /**
      * {@inheritdoc}
      */
-    protected function configure()
+    protected function configure(): void
     {
         $request = $this->getRequest();
 
@@ -49,29 +51,35 @@ class UsersController extends ManageBaseController
     /**
      * {@inheritdoc}
      */
-    protected function defaultAction()
+    protected function defaultAction(): void
     {
-        if ($this->cat === 'new') {
-            $this->newAction();
-        } elseif ($this->cat === 'update') {
-            $this->updateAction();
-        } elseif ($this->cat === 'change_status') {
-            $this->changeStatusAction();
-        } elseif ($this->cat === 'edit') {
-            $this->editAction();
-        } else {
-            $this->indexAction();
+        switch ($this->cat) {
+            case 'new':
+                $this->newAction();
+                break;
+            case 'update':
+                $this->updateAction();
+                break;
+            case 'change_status':
+                $this->changeStatusAction();
+                break;
+            case 'edit':
+                $this->editAction();
+                break;
+            case 'unlock':
+                $this->unlockAction();
+                break;
+            default:
+                $this->indexAction();
         }
     }
 
-    private function newAction()
+    private function newAction(): void
     {
+        $this->validateCsrf();
+
         $post = $this->getRequest()->request;
         $user = $this->getUserFromPost($post);
-
-        if (!$this->csrf->isValid('manage-users', $post->get('token'))) {
-            $this->error('Invalid CSRF Token');
-        }
 
         try {
             $usr_id = User::insert($user);
@@ -88,14 +96,11 @@ class UsersController extends ManageBaseController
         $this->redirect("users.php?cat=edit&id={$usr_id}");
     }
 
-    private function updateAction()
+    private function updateAction(): void
     {
+        $this->validateCsrf();
+
         $post = $this->getRequest()->request;
-
-        if (!$this->csrf->isValid('manage-users', $post->get('token'))) {
-            $this->error('Invalid CSRF Token');
-        }
-
         $this->user_details = User::getDetails($post->getInt('id'));
 
         if ($this->role_id != User::ROLE_ADMINISTRATOR) {
@@ -130,18 +135,33 @@ class UsersController extends ManageBaseController
         $this->redirect("users.php?cat=edit&id={$usr_id}");
     }
 
-    private function changeStatusAction()
+    private function changeStatusAction(): void
     {
+        $this->validateCsrf();
+
         $post = $this->getRequest()->request;
-
-        if (!$this->csrf->isValid('manage-users', $post->get('token'))) {
-            $this->error('Invalid CSRF Token');
-        }
-
         User::changeStatus($post->get('items'), $post->get('status'));
     }
 
-    private function editAction()
+    private function unlockAction(): void
+    {
+        $get = $this->getRequest()->query;
+        $usr_id = $get->getInt('id');
+
+        try {
+            User::unlock($usr_id);
+            $message = ev_gettext('Thank you, user was unlocked successfully.');
+            $this->messages->addInfoMessage($message);
+        } catch (Exception $e) {
+            Logger::app()->error($e);
+            $message = ev_gettext('An error occurred while trying to unlock the user.');
+            $this->messages->addErrorMessage($message);
+        }
+
+        $this->redirect("users.php?cat=edit&id={$usr_id}");
+    }
+
+    private function editAction(): void
     {
         $get = $this->getRequest()->query;
 
@@ -158,7 +178,7 @@ class UsersController extends ManageBaseController
         $this->tpl->assign('info', $this->user_details);
     }
 
-    private function indexAction()
+    private function indexAction(): void
     {
         $get = $this->getRequest()->query;
 
@@ -190,7 +210,7 @@ class UsersController extends ManageBaseController
      * @param string $value
      * @return array
      */
-    private function matchField($list, $field, $value = null)
+    private function matchField($list, $field, $value = null): array
     {
         return array_map(
             function ($usr) use ($field, $value) {
@@ -203,7 +223,7 @@ class UsersController extends ManageBaseController
         );
     }
 
-    private function getProjectRoles($project_list, $user_details)
+    private function getProjectRoles($project_list, $user_details): array
     {
         $project_roles = [];
         foreach ($project_list as $prj_id => $prj_title) {
@@ -232,7 +252,7 @@ class UsersController extends ManageBaseController
     /**
      * {@inheritdoc}
      */
-    protected function prepareTemplate()
+    protected function prepareTemplate(): void
     {
         $project_list = Project::getAll();
 
@@ -243,12 +263,12 @@ class UsersController extends ManageBaseController
                 'project_roles' => $this->getProjectRoles($project_list, $this->user_details),
                 'group_list' => Group::getAssocListAllProjects(),
                 'partners' => $this->getPartnersList(),
-                'csrf_token' => $this->csrf->getToken('manage-users'),
+                'csrf_token' => $this->csrf->getToken(self::CSRF_TOKEN_NAME),
             ]
         );
     }
 
-    private function getPartnersList()
+    private function getPartnersList(): array
     {
         $partners = [];
         $backends = ExtensionManager::getManager()->getPartnerClasses();
@@ -259,7 +279,7 @@ class UsersController extends ManageBaseController
         return $partners;
     }
 
-    private function getUserFromPost(ParameterBag $post)
+    private function getUserFromPost(ParameterBag $post): array
     {
         $user = [
             'password' => $post->get('password'),
@@ -279,5 +299,13 @@ class UsersController extends ManageBaseController
         }
 
         return $user;
+    }
+
+    private function validateCsrf(): void
+    {
+        $token = $this->getRequest()->request->get('token');
+        if (!$this->csrf->isValid(self::CSRF_TOKEN_NAME, $token)) {
+            $this->error('Invalid CSRF Token');
+        }
     }
 }
