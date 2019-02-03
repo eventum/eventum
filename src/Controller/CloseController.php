@@ -22,6 +22,7 @@ use Notification;
 use Resolution;
 use Status;
 use Template_Helper;
+use Throwable;
 use Time_Tracking;
 use User;
 
@@ -72,10 +73,7 @@ class CloseController extends BaseController
 
         // FIXME: ROLE_CUSTOMER check superfluous regarding Issue::canAccess?
         if ($this->role_id == User::ROLE_CUSTOMER || !Issue::canAccess($this->issue_id, $this->usr_id)) {
-            // FIXME: use generic 'access denied page'?
-            $this->tpl->assign('auth_customer', 'denied');
-            $this->tpl->displayTemplate();
-            exit;
+            return false;
         }
 
         return true;
@@ -107,8 +105,18 @@ class CloseController extends BaseController
         $notification_list_internal = Notification::getSubscribers($this->issue_id, 'closed', User::ROLE_USER);
         $this->tpl->assign('notification_list_internal', $notification_list_internal['all']);
 
-        if ($this->cat == 'close') {
+        if ($this->cat === 'close') {
             $this->closeAction();
+        }
+    }
+
+    private function markAsDuplicate($dup_issue_id): void
+    {
+        try {
+            Issue::markAsDuplicate($this->issue_id, $dup_issue_id);
+            $this->messages->addInfoMessage(ev_gettext('Thank you, the issue was marked as a duplicate successfully'));
+        } catch (Throwable $e) {
+            $this->messages->addErrorMessage(ev_gettext('Sorry, an error happened while trying to mark issue duplicated'));
         }
     }
 
@@ -116,6 +124,12 @@ class CloseController extends BaseController
     {
         $request = $this->getRequest();
         $post = $request->request;
+
+        // see if need to mark issue duplciated first
+        $dup_issue_id = $post->getInt('duplicated_issue');
+        if ($dup_issue_id) {
+            $this->markAsDuplicate($dup_issue_id);
+        }
 
         Custom_Field::updateFromPost();
         $res = Issue::close(
@@ -182,6 +196,7 @@ class CloseController extends BaseController
                 'notify_list' => Notification::getLastNotifiedAddresses($this->issue_id),
                 'custom_fields' => $custom_fields,
                 'issue_id' => $this->issue_id,
+                'mark_duplicated' => $this->cat === 'duplicate',
             ]
         );
 

@@ -14,8 +14,10 @@
 use Eventum\Attachment\AttachmentManager;
 use Eventum\Db\DatabaseException;
 use Eventum\Db\Doctrine;
+use Eventum\Event\SystemEvents;
+use Eventum\EventDispatcher\EventManager;
 use Eventum\Mail\MailMessage;
-use Eventum\Model\Repository\IssueAssociationRepository;
+use Symfony\Component\EventDispatcher\GenericEvent;
 
 /**
  * Class designed to handle all business logic related to the issues in the
@@ -875,12 +877,12 @@ class Issue
      *
      * @param int $issue_id The issue ID
      * @param int $dup_iss_id
-     * @return int 1 if the update worked, -1 otherwise
+     * @since 3.6.0 emits ISSUE_MARK_DUPLICATE event
      */
-    public static function markAsDuplicate($issue_id, $dup_iss_id)
+    public static function markAsDuplicate($issue_id, $dup_iss_id): void
     {
         if (!self::exists($issue_id) || !self::exists($dup_iss_id)) {
-            return -1;
+            throw new RuntimeException("Issue $issue_id or $dup_iss_id does not exist");
         }
 
         $stmt = "UPDATE
@@ -893,27 +895,23 @@ class Issue
                  WHERE
                     iss_id=?";
         $params = [Date_Helper::getCurrentDateGMT(), Date_Helper::getCurrentDateGMT(), $dup_iss_id, $issue_id];
-        try {
-            DB_Helper::getInstance()->query($stmt, $params);
-        } catch (DatabaseException $e) {
-            return -1;
-        }
+        DB_Helper::getInstance()->query($stmt, $params);
 
         $usr_id = Auth::getUserID();
 
-        if (!empty($_POST['comments'])) {
-            // add note with the comments of marking an issue as a duplicate of another one
-            $_POST['title'] = 'Issue duplication comments';
-            $_POST['note'] = $_POST['comments'];
-            Note::insertFromPost($usr_id, $issue_id);
-        }
+        $arguments = [
+            'usr_id' => (int)$usr_id,
+            'issue_id' => (int)$issue_id,
+            'duplicate_iss_id' => (int)$dup_iss_id,
+        ];
+        $event = new GenericEvent($arguments);
+        EventManager::dispatch(SystemEvents::ISSUE_MARK_DUPLICATE, $event);
+
         // record the change
         History::add($issue_id, $usr_id, 'duplicate_added', 'Issue marked as a duplicate of issue #{issue_id} by {user}', [
             'issue_id' => $dup_iss_id,
             'user' => User::getFullName($usr_id),
         ]);
-
-        return 1;
     }
 
     public static function isDuplicate($issue_id)

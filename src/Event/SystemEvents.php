@@ -125,6 +125,12 @@ final class SystemEvents
     const ISSUE_UPDATED_BEFORE = 'issue.updated.before';
 
     /**
+     * @since 3.6.0
+     * @see Issue::markAsDuplicate
+     */
+    const ISSUE_MARK_DUPLICATE = 'issue.mark_duplicate';
+
+    /**
      * @since 3.5.0
      * @see Workflow::handleNewIssue
      */
