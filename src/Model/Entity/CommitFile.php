@@ -23,7 +23,9 @@ class CommitFile
 {
     /**
      * @var int
-     * @ORM\Id @ORM\Column(type="integer") @GeneratedValue
+     * @ORM\Id
+     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue
      */
     protected $cof_id;
 
