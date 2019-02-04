@@ -104,7 +104,7 @@ class GitlabPayload implements PayloadInterface
         return $this->payload['merge_request']['iid'] ?? null;
     }
 
-    public function getTitle(): ?int
+    public function getTitle(): ?string
     {
         return $this->payload['object_attributes']['title'] ?? null;
     }
