@@ -80,9 +80,8 @@ class Authorized_Replier
      * Removes the specified authorized replier
      *
      * @param   int[] $iur_ids The ids of the authorized repliers
-     * @return int
      */
-    public static function removeRepliers($iur_ids)
+    public static function removeRepliers(array $iur_ids): void
     {
         $iur_list = DB_Helper::buildList($iur_ids);
 
@@ -93,11 +92,7 @@ class Authorized_Replier
                     `issue_user_replier`
                  WHERE
                     iur_id IN ($iur_list)";
-        try {
-            $issue_id = DB_Helper::getInstance()->getOne($stmt, $iur_ids);
-        } catch (DatabaseException $e) {
-            return false;
-        }
+        $issue_id = DB_Helper::getInstance()->getOne($stmt, $iur_ids);
 
         foreach ($iur_ids as $id) {
             $replier = self::getReplier($id);
@@ -105,19 +100,13 @@ class Authorized_Replier
                         `issue_user_replier`
                      WHERE
                         iur_id IN ($iur_list)";
-            try {
-                DB_Helper::getInstance()->query($stmt, $iur_ids);
-            } catch (DatabaseException $e) {
-                return -1;
-            }
+            DB_Helper::getInstance()->query($stmt, $iur_ids);
 
             $usr_id = Auth::getUserID();
             History::add($issue_id, $usr_id, 'replier_removed', 'Authorized replier {replier} removed by {user}', [
                 'replier' => $replier,
                 'user' => User::getFullName($usr_id),
             ]);
-
-            return 1;
         }
     }
 
