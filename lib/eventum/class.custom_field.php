@@ -548,7 +548,7 @@ class Custom_Field
                 $row['lookup_method'] = $backend->lookupMethod();
             }
             // check if the backend implements "isRequired"
-            if (is_object($backend) && method_exists($backend, 'isRequired')) {
+            if ($backend && $backend->hasInterface(RequiredValueInterface::class)) {
                 $row['fld_report_form_required'] = $backend->isRequired($row['fld_id'], 'report');
                 $row['fld_anonymous_form_required'] = $backend->isRequired($row['fld_id'], 'anonymous');
                 $row['fld_close_form_required'] = $backend->isRequired($row['fld_id'], 'close');

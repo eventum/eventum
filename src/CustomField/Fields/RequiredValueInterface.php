@@ -15,5 +15,5 @@ namespace Eventum\CustomField\Fields;
 
 interface RequiredValueInterface extends CustomFieldInterface
 {
-    public function isRequired(int $fld_id, string $formType): bool;
+    public function isRequired(int $fld_id, string $formType, ?int $issue_id = null): bool;
 }
