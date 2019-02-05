@@ -16,12 +16,13 @@ namespace Eventum\CustomField;
 use Eventum\CustomField\Fields\CustomFieldInterface;
 use Eventum\CustomField\Fields\JavascriptValidationInterface;
 use Eventum\CustomField\Fields\ListInterface;
+use Eventum\CustomField\Fields\OptionValueInterface;
 use Eventum\CustomField\Fields\RequiredValueInterface;
 use ReflectionClass;
 
-class Proxy implements CustomFieldInterface, ListInterface, JavascriptValidationInterface, RequiredValueInterface
+class Proxy implements CustomFieldInterface, ListInterface, JavascriptValidationInterface, RequiredValueInterface, OptionValueInterface
 {
-    /** @var CustomFieldInterface|ListInterface|JavascriptValidationInterface|RequiredValueInterface */
+    /** @var CustomFieldInterface|ListInterface|JavascriptValidationInterface|RequiredValueInterface|OptionValueInterface */
     private $field;
     /** @var ReflectionClass */
     private $reflection;
@@ -35,6 +36,9 @@ class Proxy implements CustomFieldInterface, ListInterface, JavascriptValidation
         ],
         RequiredValueInterface::class => [
             'isRequired',
+        ],
+        OptionValueInterface::class => [
+            'getOptionValue',
         ],
     ];
 
@@ -79,5 +83,10 @@ class Proxy implements CustomFieldInterface, ListInterface, JavascriptValidation
     public function isRequired(int $fld_id, string $formType, ?int $issue_id = null): bool
     {
         return $this->field->isRequired($fld_id, $formType, $issue_id);
+    }
+
+    public function getOptionValue(int $fld_id, string $value): string
+    {
+        return $this->field->getOptionValue($fld_id, $value);
     }
 }

@@ -15,6 +15,7 @@ use Eventum\CustomField\Factory;
 use Eventum\CustomField\Fields\DynamicCustomFieldInterface;
 use Eventum\CustomField\Fields\JavascriptValidationInterface;
 use Eventum\CustomField\Fields\ListInterface;
+use Eventum\CustomField\Fields\OptionValueInterface;
 use Eventum\CustomField\Fields\RequiredValueInterface;
 use Eventum\CustomField\Proxy;
 use Eventum\Db\DatabaseException;
@@ -588,18 +589,21 @@ class Custom_Field
             return '';
         }
 
-        if (isset($returns[$fld_id . $value])) {
-            return $returns[$fld_id . $value];
+        $cacheKey = $fld_id . $value;
+
+        if (isset($returns[$cacheKey])) {
+            return $returns[$cacheKey];
         }
 
         $backend = self::getBackend($fld_id);
-        if ($backend && method_exists($backend, 'getOptionValue')) {
+
+        if ($backend && $backend->hasInterface(OptionValueInterface::class)) {
             return $backend->getOptionValue($fld_id, $value);
         }
 
         if ($backend && $backend->hasInterface(ListInterface::class)) {
             $values = $backend->getList($fld_id, false);
-            $returns[$fld_id . $value] = @$values[$value];
+            $returns[$cacheKey] = @$values[$value];
 
             return @$values[$value];
         }
@@ -618,12 +622,12 @@ class Custom_Field
         }
 
         if ($res == null) {
-            $returns[$fld_id . $value] = '';
+            $returns[$cacheKey] = '';
 
             return '';
         }
 
-        $returns[$fld_id . $value] = $res;
+        $returns[$cacheKey] = $res;
 
         return $res;
     }
@@ -807,6 +811,7 @@ class Custom_Field
                 $fields[] = $row;
             }
         }
+        unset($row);
 
         foreach ($fields as $key => $field) {
             $backend = self::getBackend($field['fld_id']);
