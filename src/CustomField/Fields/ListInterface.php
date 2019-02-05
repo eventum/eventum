@@ -15,5 +15,5 @@ namespace Eventum\CustomField\Fields;
 
 interface ListInterface extends CustomFieldInterface
 {
-    public function getList(int $fld_id, ?int $issue_id = null): array;
+    public function getList(int $fld_id, ?int $issue_id = null, ?string $form_type = null): array;
 }
