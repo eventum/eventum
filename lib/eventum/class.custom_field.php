@@ -1621,15 +1621,15 @@ class Custom_Field
      * specified field.
      *
      * @param   int $fld_id The ID of the field
-     * @return  mixed false if there is no backend or an instance of the backend class
+     * @return  Proxy null if there is no backend or an instance of the backend class
      */
-    public static function getBackend($fld_id)
+    public static function getBackend($fld_id): ?Proxy
     {
         static $returns;
 
         // poor mans caching
         if (isset($returns[$fld_id])) {
-            return $returns[$fld_id];
+            return $returns[$fld_id] ?: null;
         }
 
         $sql = 'SELECT
@@ -1653,7 +1653,7 @@ class Custom_Field
             $returns[$fld_id] = false;
         }
 
-        return $returns[$fld_id];
+        return $returns[$fld_id] ?: null;
     }
 
     /**
