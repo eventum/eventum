@@ -649,15 +649,17 @@ class Custom_Field
             return '';
         }
 
-        if (isset($returns[$fld_id . $value])) {
-            return $returns[$fld_id . $value];
+        $cacheKey = $fld_id . $value;
+        if (isset($returns[$cacheKey])) {
+            return $returns[$cacheKey];
         }
 
         $backend = self::getBackend($fld_id);
+        // TODO: add OptionKey interface, instead of using possibly heavy getList()
         if ($backend && $backend->hasInterface(ListInterface::class)) {
             $values = $backend->getList($fld_id, false);
             $key = array_search($value, $values);
-            $returns[$fld_id . $value] = $key;
+            $returns[$cacheKey] = $key;
 
             return $key;
         }
@@ -676,12 +678,12 @@ class Custom_Field
         }
 
         if ($res == null) {
-            $returns[$fld_id . $value] = '';
+            $returns[$cacheKey] = '';
 
             return '';
         }
 
-        $returns[$fld_id . $value] = $res;
+        $returns[$cacheKey] = $res;
 
         return $res;
     }

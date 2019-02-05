@@ -13,9 +13,9 @@
 
 class Isbn_Hc_Custom_Field_Backend extends Dynamic_Custom_Field_Backend
 {
-    public function getStructuredData()
+    public function getStructuredData(): array
     {
-        $fld_id = self::getControllingCustomFieldID();
+        $fld_id = $this->getControllingCustomFieldId();
         // should pull from a dynamic data source but will hard code for now
         $data = [
             [
@@ -27,17 +27,17 @@ class Isbn_Hc_Custom_Field_Backend extends Dynamic_Custom_Field_Backend
         return $data;
     }
 
-    public function getControllingCustomFieldID()
+    public function getControllingCustomFieldId(): int
     {
-        return Custom_Field::getIDByTitle(self::getControllingCustomFieldName());
+        return Custom_Field::getIDByTitle($this->getControllingCustomFieldName());
     }
 
-    public function getControllingCustomFieldName()
+    public function getControllingCustomFieldName(): string
     {
         return '';
     }
 
-    public function hideWhenNoOptions()
+    public function hideWhenNoOptions(): bool
     {
         return true;
     }

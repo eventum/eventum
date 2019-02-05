@@ -11,12 +11,14 @@
  * that were distributed with this source code.
  */
 
+use Eventum\CustomField\Fields\DefaultValueInterface;
+
 /**
  * Custom field backend showing example default value
  */
-class Default_Value_Custom_Field_Backend
+class Default_Value_Custom_Field_Backend implements DefaultValueInterface
 {
-    public function getDefaultValue($fld_id)
+    public function getDefaultValue(int $fld_id): string
     {
         // your logic here
         return '123';

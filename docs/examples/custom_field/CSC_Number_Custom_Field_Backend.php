@@ -11,9 +11,11 @@
  * that were distributed with this source code.
  */
 
-class CSC_Number_Custom_Field_Backend
+use Eventum\CustomField\Fields\FormatValueInterface;
+
+class CSC_Number_Custom_Field_Backend implements FormatValueInterface
 {
-    public function formatValue($value, $fld_id, $iss_id)
+    public function formatValue(string $value, int $fld_id, int $iss_id): string
     {
         if (!empty($value)) {
             $numbers = explode(',', $value);
