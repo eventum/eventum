@@ -13,10 +13,8 @@
 
 namespace Eventum\CustomField\Fields;
 
-interface DynamicCustomFieldInterface extends CustomFieldInterface
+interface DynamicCustomFieldInterface extends CustomFieldInterface, ListInterface
 {
-    public function getList(int $fld_id, ?int $issue_id = null): array;
-
     /**
      * Returns a multi dimension array of data to display. The values listed
      * in the "keys" array are possible values for the controlling field to display
