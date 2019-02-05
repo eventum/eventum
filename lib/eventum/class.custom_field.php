@@ -1633,15 +1633,11 @@ class Custom_Field
                     `custom_field`
                 WHERE
                     fld_id = ?';
-        try {
-            $res = DB_Helper::getInstance()->getOne($sql, [$fld_id]);
-        } catch (DatabaseException $e) {
-            return false;
-        }
+        $res = DB_Helper::getInstance()->getOne($sql, [$fld_id]);
 
         if ($res) {
             try {
-                $instance = static::getExtensionLoader()->createInstance($res);
+                $instance = Factory::create($res);
             } catch (InvalidArgumentException $e) {
                 Logger::app()->error("Could not load backend $res", ['exception' => $e]);
                 $instance = false;
