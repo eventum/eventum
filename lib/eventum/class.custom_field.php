@@ -13,6 +13,7 @@
 
 use Eventum\CustomField\Factory;
 use Eventum\CustomField\Fields\DynamicCustomFieldInterface;
+use Eventum\CustomField\Fields\FormatValueInterface;
 use Eventum\CustomField\Fields\JavascriptValidationInterface;
 use Eventum\CustomField\Fields\ListInterface;
 use Eventum\CustomField\Fields\OptionValueInterface;
@@ -1521,7 +1522,7 @@ class Custom_Field
 
         $values = [];
         foreach ($res as $row) {
-            if (in_array($row['fld_type'], self::$option_types)) {
+            if (in_array($row['fld_type'], self::$option_types, true)) {
                 if ($raw) {
                     $values[] = $row['value'];
                 } else {
@@ -1672,7 +1673,7 @@ class Custom_Field
     public static function formatValue($value, $fld_id, $issue_id)
     {
         $backend = self::getBackend($fld_id);
-        if (is_object($backend) && method_exists($backend, 'formatValue')) {
+        if ($backend && $backend->hasInterface(FormatValueInterface::class)) {
             return $backend->formatValue($value, $fld_id, $issue_id);
         }
 
