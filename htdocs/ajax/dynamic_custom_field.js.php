@@ -11,6 +11,9 @@
  * that were distributed with this source code.
  */
 
+use Eventum\CustomField\Factory;
+use Eventum\CustomField\Fields\DynamicCustomFieldInterface;
+
 require_once __DIR__ . '/../../init.php';
 
 Auth::checkAuthentication();
@@ -22,8 +25,8 @@ if (!empty($_REQUEST['iss_id'])) {
 }
 $data = [];
 foreach ($fields as $field) {
-    $backend = Custom_Field::getBackend($field['fld_id']);
-    if ((is_object($backend)) && (is_subclass_of($backend, 'Dynamic_Custom_Field_Backend'))) {
+    $backend = Factory::create($field['fld_id']);
+    if ($backend instanceof DynamicCustomFieldInterface) {
         $field['structured_data'] = $backend->getStructuredData();
         $data[] = $field;
     }

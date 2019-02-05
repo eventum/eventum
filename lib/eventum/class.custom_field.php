@@ -11,6 +11,8 @@
  * that were distributed with this source code.
  */
 
+use Eventum\CustomField\Factory;
+use Eventum\CustomField\Fields\DynamicCustomFieldInterface;
 use Eventum\Db\DatabaseException;
 use Eventum\Differ;
 use Eventum\Extension\ExtensionLoader;
@@ -500,7 +502,7 @@ class Custom_Field
             $prj_id,
         ];
 
-        if ($form_type != 'anonymous_form') {
+        if ($form_type !== 'anonymous_form') {
             $stmt .= ' AND
                     fld_min_role <= ?';
             $params[] = Auth::getCurrentRole();
@@ -534,7 +536,7 @@ class Custom_Field
         foreach ($res as &$row) {
             // check if this has a dynamic field custom backend
             $backend = self::getBackend($row['fld_id']);
-            if ((is_object($backend)) && (is_subclass_of($backend, 'Dynamic_Custom_Field_Backend'))) {
+            if ($backend instanceof DynamicCustomFieldInterface) {
                 $row['dynamic_options'] = $backend->getStructuredData();
                 $row['controlling_field_id'] = $backend->getDOMid();
                 $row['controlling_field_name'] = $backend->getControllingCustomFieldName();
@@ -805,7 +807,7 @@ class Custom_Field
 
         foreach ($fields as $key => $field) {
             $backend = self::getBackend($field['fld_id']);
-            if ((is_object($backend)) && (is_subclass_of($backend, 'Dynamic_Custom_Field_Backend'))) {
+            if ($backend instanceof DynamicCustomFieldInterface) {
                 $fields[$key]['dynamic_options'] = $backend->getStructuredData();
                 $fields[$key]['controlling_field_id'] = $backend->getControllingCustomFieldID();
                 $fields[$key]['controlling_field_name'] = $backend->getControllingCustomFieldName();

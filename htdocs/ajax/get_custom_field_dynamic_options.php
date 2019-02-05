@@ -11,15 +11,19 @@
  * that were distributed with this source code.
  */
 
+use Eventum\CustomField\Factory;
+use Eventum\CustomField\Fields\DynamicCustomFieldInterface;
+
 require_once __DIR__ . '/../../init.php';
 
 // if there is no field ID, return false
-if (empty($_GET['fld_id'])) {
+$fld_id = $_GET['fld_id'] ?? null;
+if (!$fld_id) {
     exit(0);
 }
 
-$backend = Custom_Field::getBackend($_GET['fld_id']);
-if (is_object($backend) && is_subclass_of($backend, 'Dynamic_Custom_Field_Backend')) {
+$backend = Factory::create($fld_id);
+if ($backend instanceof DynamicCustomFieldInterface) {
     header('Content-Type: application/json; charset=UTF-8');
     echo json_encode($backend->getDynamicOptions($_GET));
 }
