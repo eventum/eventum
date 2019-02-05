@@ -14,6 +14,7 @@
 namespace Eventum\CustomField;
 
 use Eventum\CustomField\Fields\CustomFieldInterface;
+use Eventum\CustomField\Fields\DefaultValueInterface;
 use Eventum\CustomField\Fields\FormatValueInterface;
 use Eventum\CustomField\Fields\JavascriptValidationInterface;
 use Eventum\CustomField\Fields\ListInterface;
@@ -21,9 +22,16 @@ use Eventum\CustomField\Fields\OptionValueInterface;
 use Eventum\CustomField\Fields\RequiredValueInterface;
 use ReflectionClass;
 
-class Proxy implements CustomFieldInterface, ListInterface, JavascriptValidationInterface, RequiredValueInterface, OptionValueInterface, FormatValueInterface
+class Proxy implements
+    CustomFieldInterface,
+    ListInterface,
+    JavascriptValidationInterface,
+    RequiredValueInterface,
+    OptionValueInterface,
+    FormatValueInterface,
+    DefaultValueInterface
 {
-    /** @var CustomFieldInterface|ListInterface|JavascriptValidationInterface|RequiredValueInterface|OptionValueInterface|FormatValueInterface */
+    /** @var Proxy */
     private $field;
     /** @var ReflectionClass */
     private $reflection;
@@ -43,6 +51,9 @@ class Proxy implements CustomFieldInterface, ListInterface, JavascriptValidation
         ],
         FormatValueInterface::class => [
             'formatValue',
+        ],
+        DefaultValueInterface::class => [
+            'getDefaultValue',
         ],
     ];
 
@@ -97,5 +108,10 @@ class Proxy implements CustomFieldInterface, ListInterface, JavascriptValidation
     public function formatValue(string $value, int $fld_id, int $issue_id): string
     {
         return $this->field->formatValue($value, $fld_id, $issue_id);
+    }
+
+    public function getDefaultValue(int $fld_id): string
+    {
+        return $this->field->getDefaultValue($fld_id);
     }
 }

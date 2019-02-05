@@ -12,6 +12,7 @@
  */
 
 use Eventum\CustomField\Factory;
+use Eventum\CustomField\Fields\DefaultValueInterface;
 use Eventum\CustomField\Fields\DynamicCustomFieldInterface;
 use Eventum\CustomField\Fields\FormatValueInterface;
 use Eventum\CustomField\Fields\JavascriptValidationInterface;
@@ -565,7 +566,7 @@ class Custom_Field
             $row['field_options'] = self::getOptions($row['fld_id'], false, false, $form_type);
 
             // get the default value (if one exists)
-            if ((is_object($backend)) && (method_exists($backend, 'getDefaultValue'))) {
+            if ($backend && $backend->hasInterface(DefaultValueInterface::class)) {
                 $row['default_value'] = $backend->getDefaultValue($row['fld_id']);
             } else {
                 $row['default_value'] = '';
