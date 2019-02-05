@@ -559,7 +559,6 @@ class Custom_Field
             $row['field_options'] = self::getOptions($row['fld_id'], false, false, $form_type);
 
             // get the default value (if one exists)
-            $backend = self::getBackend($row['fld_id']);
             if ((is_object($backend)) && (method_exists($backend, 'getDefaultValue'))) {
                 $row['default_value'] = $backend->getDefaultValue($row['fld_id']);
             } else {
