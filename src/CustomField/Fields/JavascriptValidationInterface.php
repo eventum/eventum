@@ -15,5 +15,5 @@ namespace Eventum\CustomField\Fields;
 
 interface JavascriptValidationInterface extends CustomFieldInterface
 {
-    public function getValidationJs(int $fld_id, string $formType): string;
+    public function getValidationJs(int $fld_id, string $formType, ?int $issue_id = null): string;
 }

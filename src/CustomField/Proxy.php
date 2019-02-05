@@ -71,9 +71,9 @@ class Proxy implements CustomFieldInterface, ListInterface, JavascriptValidation
         return $this->field->getList($fld_id, $issue_id, $form_type);
     }
 
-    public function getValidationJs(int $fld_id, string $formType): string
+    public function getValidationJs(int $fld_id, string $formType, ?int $issue_id = null): string
     {
-        return $this->field->getValidationJs($fld_id, $formType);
+        return $this->field->getValidationJs($fld_id, $formType, $issue_id);
     }
 
     public function isRequired(int $fld_id, string $formType, ?int $issue_id = null): bool

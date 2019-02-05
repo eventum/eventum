@@ -826,7 +826,7 @@ class Custom_Field
                 $fields[$key]['fld_edit_form_required'] = $backend->isRequired($fields[$key]['fld_id'], 'edit', $iss_id);
             }
             if ($backend && $backend->hasInterface(JavascriptValidationInterface::class)) {
-                $fields[$key]['validation_js'] = $backend->getValidationJS($fields[$key]['fld_id'], $form_type, $iss_id);
+                $fields[$key]['validation_js'] = $backend->getValidationJs($fields[$key]['fld_id'], $form_type, $iss_id);
             } else {
                 $fields[$key]['validation_js'] = '';
             }
