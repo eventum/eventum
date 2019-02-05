@@ -13,6 +13,10 @@
 
 use Eventum\CustomField\Factory;
 use Eventum\CustomField\Fields\DynamicCustomFieldInterface;
+use Eventum\CustomField\Fields\JavascriptValidationInterface;
+use Eventum\CustomField\Fields\ListInterface;
+use Eventum\CustomField\Fields\RequiredValueInterface;
+use Eventum\CustomField\Proxy;
 use Eventum\Db\DatabaseException;
 use Eventum\Differ;
 use Eventum\Extension\ExtensionLoader;
@@ -544,13 +548,13 @@ class Custom_Field
                 $row['lookup_method'] = $backend->lookupMethod();
             }
             // check if the backend implements "isRequired"
-            if ((is_object($backend)) && (method_exists($backend, 'isRequired'))) {
+            if (is_object($backend) && method_exists($backend, 'isRequired')) {
                 $row['fld_report_form_required'] = $backend->isRequired($row['fld_id'], 'report');
                 $row['fld_anonymous_form_required'] = $backend->isRequired($row['fld_id'], 'anonymous');
                 $row['fld_close_form_required'] = $backend->isRequired($row['fld_id'], 'close');
                 $row['edit_form_required'] = $backend->isRequired($row['fld_id'], 'edit');
             }
-            if ((is_object($backend)) && (method_exists($backend, 'getValidationJS'))) {
+            if (is_object($backend) && method_exists($backend, 'getValidationJS')) {
                 $row['validation_js'] = $backend->getValidationJS($row['fld_id'], $form_type);
             } else {
                 $row['validation_js'] = '';
@@ -644,7 +648,7 @@ class Custom_Field
         }
 
         $backend = self::getBackend($fld_id);
-        if ((is_object($backend)) && (method_exists($backend, 'getList'))) {
+        if (is_object($backend) && method_exists($backend, 'getList')) {
             $values = $backend->getList($fld_id, false);
             $key = array_search($value, $values);
             $returns[$fld_id . $value] = $key;
@@ -761,7 +765,7 @@ class Custom_Field
 
         $fields = [];
         foreach ($res as &$row) {
-            if ($row['fld_type'] == 'combo') {
+            if ($row['fld_type'] === 'combo') {
                 $row['selected_cfo_id'] = $row['value'];
                 $row['original_value'] = $row['value'];
                 $row['value'] = self::getOptionValue($row['fld_id'], $row['value']);
@@ -815,13 +819,13 @@ class Custom_Field
             }
 
             // check if the backend implements "isRequired"
-            if ((is_object($backend)) && (method_exists($backend, 'isRequired'))) {
+            if ($backend && $backend->hasInterface(RequiredValueInterface::class)) {
                 $fields[$key]['fld_report_form_required'] = $backend->isRequired($fields[$key]['fld_id'], 'report', $iss_id);
                 $fields[$key]['fld_anonymous_form_required'] = $backend->isRequired($fields[$key]['fld_id'], 'anonymous', $iss_id);
                 $fields[$key]['fld_close_form_required'] = $backend->isRequired($fields[$key]['fld_id'], 'close', $iss_id);
                 $fields[$key]['fld_edit_form_required'] = $backend->isRequired($fields[$key]['fld_id'], 'edit', $iss_id);
             }
-            if ((is_object($backend)) && (method_exists($backend, 'getValidationJS'))) {
+            if ($backend && $backend->hasInterface(JavascriptValidationInterface::class)) {
                 $fields[$key]['validation_js'] = $backend->getValidationJS($fields[$key]['fld_id'], $form_type, $iss_id);
             } else {
                 $fields[$key]['validation_js'] = '';
@@ -1149,7 +1153,7 @@ class Custom_Field
         }
 
         $backend = self::getBackend($fld_id);
-        if ((is_object($backend)) && (method_exists($backend, 'getList'))) {
+        if ($backend && $backend->hasInterface(ListInterface::class)) {
             $list = $backend->getList($fld_id, $issue_id, $form_type);
             if ($ids) {
                 foreach ($list as $id => $value) {
@@ -1162,7 +1166,7 @@ class Custom_Field
             return $list;
         }
 
-        if (is_null($order_by)) {
+        if ($order_by === null) {
             $fld_details = self::getDetails($fld_id);
             $order_by = $fld_details['fld_order_by'];
         }

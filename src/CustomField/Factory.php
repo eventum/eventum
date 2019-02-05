@@ -23,6 +23,7 @@ abstract class Factory
         /** @var CustomFieldInterface $field */
         $field = Custom_Field::getExtensionLoader()->createInstance($className);
 
-        return $field;
+        // proxy it via helper, to support custom fields without interfaces
+        return new Proxy($field);
     }
 }
