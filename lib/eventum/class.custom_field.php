@@ -593,11 +593,11 @@ class Custom_Field
         }
 
         $backend = self::getBackend($fld_id);
-        if ((is_object($backend)) && ((method_exists($backend, 'getList')) || (method_exists($backend, 'getOptionValue')))) {
-            if (method_exists($backend, 'getOptionValue')) {
-                return $backend->getOptionValue($fld_id, $value);
-            }
+        if ($backend && method_exists($backend, 'getOptionValue')) {
+            return $backend->getOptionValue($fld_id, $value);
+        }
 
+        if ($backend && $backend->hasInterface(ListInterface::class)) {
             $values = $backend->getList($fld_id, false);
             $returns[$fld_id . $value] = @$values[$value];
 
@@ -648,7 +648,7 @@ class Custom_Field
         }
 
         $backend = self::getBackend($fld_id);
-        if (is_object($backend) && method_exists($backend, 'getList')) {
+        if ($backend && $backend->hasInterface(ListInterface::class)) {
             $values = $backend->getList($fld_id, false);
             $key = array_search($value, $values);
             $returns[$fld_id . $value] = $key;
