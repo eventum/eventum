@@ -18,9 +18,9 @@ use Eventum\CustomField\Fields\JavascriptValidationInterface;
 use Eventum\CustomField\Fields\ListInterface;
 use ReflectionClass;
 
-class Proxy implements CustomFieldInterface, ListInterface
+class Proxy implements CustomFieldInterface, ListInterface, JavascriptValidationInterface
 {
-    /** @var CustomFieldInterface|ListInterface */
+    /** @var CustomFieldInterface|ListInterface|JavascriptValidationInterface */
     private $field;
     /** @var ReflectionClass */
     private $reflection;
@@ -65,5 +65,10 @@ class Proxy implements CustomFieldInterface, ListInterface
     public function getList(int $fld_id, ?int $issue_id = null, ?string $form_type = null): array
     {
         return $this->field->getList($fld_id, $issue_id, $form_type);
+    }
+
+    public function getValidationJs(int $fld_id, string $formType): string
+    {
+        return $this->field->getValidationJs($fld_id, $formType);
     }
 }

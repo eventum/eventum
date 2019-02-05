@@ -554,8 +554,8 @@ class Custom_Field
                 $row['fld_close_form_required'] = $backend->isRequired($row['fld_id'], 'close');
                 $row['edit_form_required'] = $backend->isRequired($row['fld_id'], 'edit');
             }
-            if (is_object($backend) && method_exists($backend, 'getValidationJS')) {
-                $row['validation_js'] = $backend->getValidationJS($row['fld_id'], $form_type);
+            if ($backend && $backend->hasInterface(JavascriptValidationInterface::class)) {
+                $row['validation_js'] = $backend->getValidationJs($row['fld_id'], $form_type);
             } else {
                 $row['validation_js'] = '';
             }
