@@ -16,8 +16,8 @@ namespace Eventum\Model\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Table(name="custom_field")
- * @ORM\Entity
+ * @ORM\Table(name="custom_field")*
+ * @ORM\Entity(repositoryClass="Eventum\Model\Repository\CustomFieldRepository")
  */
 class CustomField
 {
