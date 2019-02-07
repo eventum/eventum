@@ -23,12 +23,12 @@ class CustomFieldRepository extends EntityRepository
 {
     use FindByIdTrait;
 
-    public function getQueryBuilder(): QueryBuilder
+    private function getQueryBuilder(): QueryBuilder
     {
         return $this->createQueryBuilder('cf');
     }
 
-    public function filterIssue(QueryBuilder $qb, int $issueId): self
+    private function filterIssue(QueryBuilder $qb, int $issueId): self
     {
         $qb
             ->innerJoin(Entity\IssueCustomField::class, 'icf')
@@ -39,7 +39,7 @@ class CustomFieldRepository extends EntityRepository
         return $this;
     }
 
-    public function filterProject(QueryBuilder $qb, int $projectId): self
+    private function filterProject(QueryBuilder $qb, int $projectId): self
     {
         $qb
             ->innerJoin(Entity\ProjectCustomField::class, 'pcf')
@@ -50,7 +50,7 @@ class CustomFieldRepository extends EntityRepository
         return $this;
     }
 
-    public function filterRole(QueryBuilder $qb, int $minRole, bool $forEdit = false): self
+    private function filterRole(QueryBuilder $qb, int $minRole, bool $forEdit = false): self
     {
         $qb
             ->andWhere('cf.minRole <= :min_role')
@@ -65,7 +65,7 @@ class CustomFieldRepository extends EntityRepository
         return $this;
     }
 
-    public function filterFormType(QueryBuilder $qb, ?string $formType): self
+    private function filterFormType(QueryBuilder $qb, ?string $formType): self
     {
         if ($formType === null) {
             return $this;
@@ -84,8 +84,21 @@ class CustomFieldRepository extends EntityRepository
         return $this;
     }
 
+    private function filterFieldType(QueryBuilder $qb, ?string $fieldType): self
+    {
+        if (!$fieldType) {
+            return $this;
+        }
+
+        $qb
+            ->andWhere('cf.type = :field_type')
+            ->setParameter('field_type', $fieldType);
+
+        return $this;
+    }
+
     /**
-     * @return Entity\CustomField[]
+     * @return Entity\IssueCustomField[]
      * @see Custom_Field::getListByIssue
      */
     public function getListByIssue(int $prj_id, int $issue_id, int $minRole, ?string $formType, bool $forEdit): array
@@ -95,13 +108,32 @@ class CustomFieldRepository extends EntityRepository
         $this
             ->filterIssue($qb, $issue_id)
             ->filterProject($qb, $prj_id)
-            ->filterRole($qb, $minRole, $forEdit)
-            ->filterFormType($qb, $formType);
+            ->filterFormType($qb, $formType)
+            ->filterRole($qb, $minRole, $forEdit);
 
         $qb->addOrderBy('cf.rank');
 
         // return from issue custom field point
         $qb->select('icf');
+
+        return $qb->getQuery()->getResult();
+    }
+
+    /**
+     * @return Entity\CustomField[]
+     * @see Custom_Field::getListByProject
+     */
+    public function getListByProject(int $prj_id, int $minRole, ?string $formType, ?string $fieldType = null, $forEdit = false): array
+    {
+        $qb = $this->getQueryBuilder();
+
+        $this
+            ->filterProject($qb, $prj_id)
+            ->filterFormType($qb, $formType)
+            ->filterFieldType($qb, $fieldType)
+            ->filterRole($qb, $minRole, $forEdit);
+
+        $qb->addOrderBy('cf.rank');
 
         return $qb->getQuery()->getResult();
     }

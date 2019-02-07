@@ -15,23 +15,37 @@ namespace Eventum\CustomField;
 
 use Custom_Field;
 use DateTime;
+use Eventum\CustomField\Fields\DefaultValueInterface;
 use Eventum\CustomField\Fields\DynamicCustomFieldInterface;
 use Eventum\CustomField\Fields\JavascriptValidationInterface;
 use Eventum\CustomField\Fields\RequiredValueInterface;
+use Eventum\Model\Entity\CustomField;
 use Eventum\Model\Entity\IssueCustomField;
 
 class Converter
 {
     private const DATE_FORMAT = 'Y-m-d';
 
-    /**
-     * Convert values to legacy array structures
-     */
-    public function convert(array $customFields, int $issueId, ?string $formType): array
+    public function convertCustomFields(array $customFields, ?int $issueId, ?string $formType): array
     {
         $fields = [];
         foreach ($customFields as $customField) {
-            $row = $this->convertRow($customField);
+            $fields[] = $this->convertCustomField($customField);
+        }
+
+        $this->applyBackendValues($fields, $issueId, $formType, false);
+
+        return $fields;
+    }
+
+    /**
+     * Convert values to legacy array structures
+     */
+    public function convertIssueCustomFields(array $customFields, ?int $issueId, ?string $formType): array
+    {
+        $fields = [];
+        foreach ($customFields as $customField) {
+            $row = $this->convertIssueCustomField($customField);
             $fld_id = $row['fld_id'];
 
             if ($row['fld_type'] === 'combo') {
@@ -82,14 +96,11 @@ class Converter
         return $fields;
     }
 
-    private function applyBackendValues(array &$fields, int $issueId, ?string $formType): void
+    private function applyBackendValues(array &$fields, ?int $issueId, ?string $formType, bool $skipValueOptions = true): void
     {
         foreach ($fields as &$field) {
             $fld_id = $field['fld_id'];
             $backend = Custom_Field::getBackend($fld_id);
-            if (!$backend) {
-                continue;
-            }
 
             if ($backend instanceof DynamicCustomFieldInterface) {
                 $field['dynamic_options'] = $backend->getStructuredData();
@@ -99,26 +110,48 @@ class Converter
                 $field['lookup_method'] = $backend->lookupMethod();
             }
 
-            if ($backend->hasInterface(RequiredValueInterface::class)) {
+            if ($backend && $backend->hasInterface(RequiredValueInterface::class)) {
                 $field['fld_report_form_required'] = $backend->isRequired($fld_id, 'report', $issueId);
                 $field['fld_anonymous_form_required'] = $backend->isRequired($fld_id, 'anonymous', $issueId);
                 $field['fld_close_form_required'] = $backend->isRequired($fld_id, 'close', $issueId);
                 $field['fld_edit_form_required'] = $backend->isRequired($fld_id, 'edit', $issueId);
             }
 
-            if ($backend->hasInterface(JavascriptValidationInterface::class)) {
+            if ($backend && $backend->hasInterface(JavascriptValidationInterface::class)) {
                 $field['validation_js'] = $backend->getValidationJs($fld_id, $formType, $issueId);
             } else {
                 $field['validation_js'] = '';
             }
+
+            if (!$skipValueOptions) {
+                $field['field_options'] = Custom_Field::getOptions($fld_id, false, false, $formType);
+
+                if ($backend && $backend->hasInterface(DefaultValueInterface::class)) {
+                    $field['default_value'] = $backend->getDefaultValue($fld_id);
+                } else {
+                    $field['default_value'] = '';
+                }
+            }
         }
     }
 
-    private function convertRow(IssueCustomField $icf): array
+    private function convertIssueCustomField(IssueCustomField $icf): array
     {
-        $field = $icf->customField;
-        $value = $icf->getValue();
+        $result = $this->convertCustomField($icf->customField);
 
+        $value = $icf->getValue();
+        $result += [
+            'value' => $value,
+            'icf_value' => $icf->getStringValue(),
+            'icf_value_date' => $value instanceof DateTime ? $value->format(self::DATE_FORMAT) : null,
+            'icf_value_integer' => $icf->getIntegerValue(),
+        ];
+
+        return $result;
+    }
+
+    private function convertCustomField(CustomField $field): array
+    {
         return [
             'fld_id' => $field->getId(),
             'fld_title' => $field->getTitle(),
@@ -127,10 +160,6 @@ class Converter
             'fld_anonymous_form_required' => (string)(int)$field->isAnonymousFormRequired(),
             'fld_close_form_required' => (string)(int)$field->isCloseFormRequired(),
             'fld_edit_form_required' => (string)(int)$field->isEditFormRequired(),
-            'value' => $value,
-            'icf_value' => $icf->getStringValue(),
-            'icf_value_date' => $value instanceof DateTime ? $value->format(self::DATE_FORMAT) : null,
-            'icf_value_integer' => $icf->getIntegerValue(),
             'fld_min_role' => $field->getMinRole(),
             'fld_description' => $field->getDescription(),
         ];

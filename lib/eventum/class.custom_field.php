@@ -13,13 +13,9 @@
 
 use Eventum\CustomField\Converter;
 use Eventum\CustomField\Factory;
-use Eventum\CustomField\Fields\DefaultValueInterface;
-use Eventum\CustomField\Fields\DynamicCustomFieldInterface;
 use Eventum\CustomField\Fields\FormatValueInterface;
-use Eventum\CustomField\Fields\JavascriptValidationInterface;
 use Eventum\CustomField\Fields\ListInterface;
 use Eventum\CustomField\Fields\OptionValueInterface;
-use Eventum\CustomField\Fields\RequiredValueInterface;
 use Eventum\CustomField\Proxy;
 use Eventum\Db\DatabaseException;
 use Eventum\Db\Doctrine;
@@ -440,7 +436,7 @@ class Custom_Field
      *
      * @param   int $iss_id The issue ID
      * @param   int $fld_id The custom field ID
-     * @param   string  $value The custom field value
+     * @param   string $value The custom field value
      * @return  bool Whether the association worked or not
      */
     public static function associateIssue($iss_id, $fld_id, $value)
@@ -487,95 +483,18 @@ class Custom_Field
      * @param   int $prj_id The project ID
      * @param   string $form_type The type of the form
      * @param   string $fld_type The type of field (optional)
-     * @param   bool    $for_edit True if the fld_min_role_edit permission should be checked
+     * @param   bool $for_edit True if the fld_min_role_edit permission should be checked
      * @return  array The list of custom fields
      */
-    public static function getListByProject($prj_id, $form_type, $fld_type = false, $for_edit = false)
+    public static function getListByProject($prj_id, $form_type, $fld_type = false, $for_edit = false): array
     {
-        $stmt = 'SELECT
-                    fld_id,
-                    fld_title,
-                    fld_description,
-                    fld_type,
-                    fld_report_form_required,
-                    fld_anonymous_form_required,
-                    fld_min_role
-                 FROM
-                    `custom_field`,
-                    `project_custom_field`
-                 WHERE
-                    pcf_fld_id=fld_id AND
-                    pcf_prj_id=?';
+        $repo = Doctrine::getCustomFieldRepository();
+        $usr_role = Auth::getCurrentRole();
 
-        $params = [
-            $prj_id,
-        ];
+        $customFields = $repo->getListByProject($prj_id, $usr_role, $form_type ?: null, $fld_type, $for_edit);
+        $converter = new Converter();
 
-        if ($form_type !== 'anonymous_form') {
-            $stmt .= ' AND
-                    fld_min_role <= ?';
-            $params[] = Auth::getCurrentRole();
-        }
-        if ($for_edit) {
-            $stmt .= ' AND
-                    fld_min_role_edit <= ?';
-            $params[] = Auth::getCurrentRole();
-        }
-        if ($form_type != '') {
-            $fld_name = 'fld_' . Misc::escapeString($form_type);
-            $stmt .= " AND\n" . $fld_name . '=1';
-        }
-        if ($fld_type != '') {
-            $stmt .= " AND\nfld_type=?";
-            $params[] = $fld_type;
-        }
-        $stmt .= '
-                 ORDER BY
-                    fld_rank ASC';
-        try {
-            $res = DB_Helper::getInstance()->getAll($stmt, $params);
-        } catch (DatabaseException $e) {
-            return [];
-        }
-
-        if (count($res) == 0) {
-            return [];
-        }
-
-        foreach ($res as &$row) {
-            // check if this has a dynamic field custom backend
-            $backend = self::getBackend($row['fld_id']);
-            if ($backend instanceof DynamicCustomFieldInterface) {
-                $row['dynamic_options'] = $backend->getStructuredData();
-                $row['controlling_field_id'] = $backend->getDOMid();
-                $row['controlling_field_name'] = $backend->getControllingCustomFieldName();
-                $row['hide_when_no_options'] = $backend->hideWhenNoOptions();
-                $row['lookup_method'] = $backend->lookupMethod();
-            }
-            // check if the backend implements "isRequired"
-            if ($backend && $backend->hasInterface(RequiredValueInterface::class)) {
-                $row['fld_report_form_required'] = $backend->isRequired($row['fld_id'], 'report');
-                $row['fld_anonymous_form_required'] = $backend->isRequired($row['fld_id'], 'anonymous');
-                $row['fld_close_form_required'] = $backend->isRequired($row['fld_id'], 'close');
-                $row['edit_form_required'] = $backend->isRequired($row['fld_id'], 'edit');
-            }
-            if ($backend && $backend->hasInterface(JavascriptValidationInterface::class)) {
-                $row['validation_js'] = $backend->getValidationJs($row['fld_id'], $form_type);
-            } else {
-                $row['validation_js'] = '';
-            }
-
-            $row['field_options'] = self::getOptions($row['fld_id'], false, false, $form_type);
-
-            // get the default value (if one exists)
-            if ($backend && $backend->hasInterface(DefaultValueInterface::class)) {
-                $row['default_value'] = $backend->getDefaultValue($row['fld_id']);
-            } else {
-                $row['default_value'] = '';
-            }
-        }
-
-        return $res;
+        return $converter->convertCustomFields($customFields, null, $form_type ?: null);
     }
 
     /**
@@ -698,8 +617,8 @@ class Custom_Field
      * @param   int $prj_id The project ID
      * @param   int $iss_id The issue ID
      * @param   int $usr_id the ID of the user who is going to be viewing this list
-     * @param   mixed   $form_type The name of the form this is for or if this is an array the ids of the fields to return
-     * @param   bool    $for_edit True if the fld_min_role_edit permission should be checked
+     * @param   mixed $form_type The name of the form this is for or if this is an array the ids of the fields to return
+     * @param   bool $for_edit True if the fld_min_role_edit permission should be checked
      * @return  array The list of custom fields
      */
     public static function getListByIssue($prj_id, $iss_id, $usr_id = null, $form_type = false, $for_edit = false): array
@@ -719,7 +638,7 @@ class Custom_Field
 
         $converter = new Converter();
 
-        return $converter->convert($customFields, $iss_id, $form_type ?: null);
+        return $converter->convertIssueCustomFields($customFields, $iss_id, $form_type ?: null);
     }
 
     /**
@@ -1177,7 +1096,7 @@ class Custom_Field
         if ($old_details['fld_type'] != $_POST['field_type']) {
             // gotta remove all custom field options if the field is being changed from a combo box to a text field
             if ((!in_array($old_details['fld_type'], ['text', 'textarea'])) &&
-                  (!in_array($_POST['field_type'], self::$option_types))) {
+                (!in_array($_POST['field_type'], self::$option_types))) {
                 self::removeOptionsByFields($_POST['id']);
             }
             if (in_array($_POST['field_type'], ['text', 'textarea', 'date', 'integer'])) {
@@ -1546,7 +1465,7 @@ class Custom_Field
     /**
      * Formats the return value
      *
-     * @param   mixed   $value The value to format
+     * @param   mixed $value The value to format
      * @param   int $fld_id The ID of the field
      * @param   int $issue_id The ID of the issue
      * @return  mixed   the formatted value

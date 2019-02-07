@@ -44,7 +44,28 @@ class CustomFieldTest extends TestCase
         dump(count($customFields));
 
         $converter = new Converter();
-        $fields = $converter->convert($customFields, $iss_id, $formType);
+        $fields = $converter->convertIssueCustomFields($customFields, $iss_id, $formType);
+        dump(count($fields));
+    }
+
+    /**
+     * @see Custom_Field::getListByProject
+     */
+    public function testGetListByProject(): void
+    {
+        $prj_id = 1;
+        $iss_id = 20;
+        $min_role = User::ROLE_VIEWER;
+        $forEdit = false;
+        $formType = 'edit_form';
+        $fieldType = 'multiple';
+        $repo = Doctrine::getCustomFieldRepository();
+        $customFields = $repo->getListByProject($prj_id, $min_role, $formType, $fieldType, $forEdit);
+
+        dump(count($customFields));
+
+        $converter = new Converter();
+        $fields = $converter->convertCustomFields($customFields, $iss_id, $formType);
         dump(count($fields));
     }
 }
