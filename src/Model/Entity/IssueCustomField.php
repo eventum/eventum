@@ -43,6 +43,13 @@ class IssueCustomField
     private $fieldId;
 
     /**
+     * @var CustomField
+     * @ORM\ManyToOne(targetEntity="CustomField", inversedBy="issues")
+     * @ORM\JoinColumn(name="icf_fld_id", referencedColumnName="fld_id")
+     */
+    public $customField;
+
+    /**
      * @var string
      * @ORM\Column(name="icf_value", type="text", length=65535, nullable=true)
      */

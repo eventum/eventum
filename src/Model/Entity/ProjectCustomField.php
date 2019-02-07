@@ -41,6 +41,13 @@ class ProjectCustomField
      */
     private $fieldId;
 
+    /**
+     * @var CustomField
+     * @ORM\ManyToOne(targetEntity="CustomField", inversedBy="projects")
+     * @ORM\JoinColumn(name="icf_fld_id", referencedColumnName="fld_id")
+     */
+    public $customField;
+
     public function getId(): int
     {
         return $this->id;

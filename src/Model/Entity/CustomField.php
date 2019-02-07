@@ -132,6 +132,20 @@ class CustomField
      */
     public $options;
 
+    /**
+     * @var IssueCustomField[]
+     * @ORM\OneToMany(targetEntity="IssueCustomField", mappedBy="customField")
+     * @ORM\JoinColumn(name="id", referencedColumnName="icf_iss_id")
+     */
+    public $issues;
+
+    /**
+     * @var ProjectCustomField[]
+     * @ORM\OneToMany(targetEntity="ProjectCustomField", mappedBy="customField")
+     * @ORM\JoinColumn(name="id", referencedColumnName="icf_iss_id")
+     */
+    public $projects;
+
     public function getId(): int
     {
         return $this->id;
