@@ -706,10 +706,7 @@ class Custom_Field
             $usr_id = Auth::getUserID();
         }
 
-        $usr_role = User::getRoleByUser($usr_id, $prj_id);
-        if (empty($usr_role)) {
-            $usr_role = 0;
-        }
+        $usr_role = User::getRoleByUser($usr_id, $prj_id) ?: 0;
 
         $stmt = 'SELECT
                     fld_id,
