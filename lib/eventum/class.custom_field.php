@@ -719,7 +719,7 @@ class Custom_Field
 
         $converter = new Converter();
 
-        return $converter->convert($customFields, $prj_id, $iss_id, $form_type ?: null);
+        return $converter->convert($customFields, $iss_id, $form_type ?: null);
     }
 
     /**

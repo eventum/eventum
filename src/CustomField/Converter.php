@@ -27,7 +27,7 @@ class Converter
     /**
      * Convert values to legacy array structures
      */
-    public function convert(array $customFields, int $projectId, int $issueId, ?string $formType): array
+    public function convert(array $customFields, int $issueId, ?string $formType): array
     {
         $fields = [];
         foreach ($customFields as $customField) {

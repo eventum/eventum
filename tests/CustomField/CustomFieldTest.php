@@ -44,7 +44,7 @@ class CustomFieldTest extends TestCase
         dump(count($customFields));
 
         $converter = new Converter();
-        $fields = $converter->convert($customFields, $prj_id, $iss_id, $formType);
+        $fields = $converter->convert($customFields, $iss_id, $formType);
         dump(count($fields));
     }
 }
