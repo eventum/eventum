@@ -21,6 +21,15 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class CustomField
 {
+    public const FORM_TYPES = [
+        // fld_<type> list
+        // note "edit" form always enabled
+        'report_form' => 'showReportForm',
+        'anonymous_form' => 'showAnonymousForm',
+        'close_form' => 'showCloseForm',
+        'edit_form' => null,
+    ];
+
     /**
      * @var int
      * @ORM\Column(name="fld_id", type="integer", nullable=false)

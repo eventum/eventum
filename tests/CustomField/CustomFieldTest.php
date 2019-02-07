@@ -16,6 +16,7 @@ namespace Eventum\Test\CustomField;
 use Eventum\Db\Doctrine;
 use Eventum\Model\Entity\CustomField;
 use Eventum\Test\TestCase;
+use User;
 
 class CustomFieldTest extends TestCase
 {
@@ -34,8 +35,11 @@ class CustomFieldTest extends TestCase
     {
         $prj_id = 1;
         $iss_id = 20;
+        $min_role = User::ROLE_VIEWER;
+        $forEdit = false;
+        $formType = 'edit_form';
         $repo = Doctrine::getCustomFieldRepository();
-        $list = $repo->getListByIssue($prj_id, $iss_id);
+        $list = $repo->getListByIssue($prj_id, $iss_id, $min_role, $formType, $forEdit);
         dump(count($list));
     }
 }
