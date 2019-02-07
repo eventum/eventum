@@ -11,12 +11,14 @@
  * that were distributed with this source code.
  */
 
+use Eventum\CustomField\Fields\ListInterface;
+
 /**
  * Custom field backend to return list of users with a role of developer or above.
  */
-class Developer_List_Custom_Field_Backend
+class Developer_List_Custom_Field_Backend implements ListInterface
 {
-    public function getList($fld_id)
+    public function getList(int $fld_id, ?int $issue_id = null, ?string $form_type = null): array
     {
         return User::getActiveAssocList(Auth::getCurrentProject(), User::ROLE_USER);
     }
