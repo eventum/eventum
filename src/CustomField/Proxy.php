@@ -57,7 +57,10 @@ class Proxy implements
         ],
     ];
 
-    public function __construct(CustomFieldInterface $field)
+    /**
+     * @param CustomFieldInterface $field
+     */
+    public function __construct($field)
     {
         $this->field = $field;
         $this->reflection = new ReflectionClass($this->field);
