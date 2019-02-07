@@ -32,16 +32,17 @@ class Converter
         $fields = [];
         foreach ($customFields as $customField) {
             $row = $this->convertRow($customField);
+            $fld_id = $row['fld_id'];
 
             if ($row['fld_type'] === 'combo') {
                 $row['selected_cfo_id'] = $row['value'];
                 $row['original_value'] = $row['value'];
-                $row['value'] = Custom_Field::getOptionValue($row['fld_id'], $row['value']);
-                $row['field_options'] = Custom_Field::getOptions($row['fld_id'], false, $issueId);
+                $row['value'] = Custom_Field::getOptionValue($fld_id, $row['value']);
+                $row['field_options'] = Custom_Field::getOptions($fld_id, false, $issueId);
 
                 // add the select option to the list of values if it isn't on the list (useful for fields with active and non-active items)
                 if (!empty($row['original_value']) && !isset($row['field_options'][$row['original_value']])) {
-                    $row['field_options'][$row['original_value']] = Custom_Field::getOptionValue($row['fld_id'], $row['original_value']);
+                    $row['field_options'][$row['original_value']] = Custom_Field::getOptionValue($fld_id, $row['original_value']);
                 }
 
                 $fields[] = $row;
@@ -49,7 +50,7 @@ class Converter
                 // check whether this field is already in the array
                 $found = 0;
                 foreach ($fields as $y => $field) {
-                    if ($field['fld_id'] == $row['fld_id']) {
+                    if ($field['fld_id'] == $fld_id) {
                         $found = 1;
                         $found_index = $y;
                     }
@@ -57,18 +58,18 @@ class Converter
                 $original_value = $row['value'];
                 if (!$found) {
                     $row['selected_cfo_id'] = [$row['value']];
-                    $row['value'] = Custom_Field::getOptionValue($row['fld_id'], $row['value']);
-                    $row['field_options'] = Custom_Field::getOptions($row['fld_id']);
+                    $row['value'] = Custom_Field::getOptionValue($fld_id, $row['value']);
+                    $row['field_options'] = Custom_Field::getOptions($fld_id);
                     $fields[] = $row;
                     $found_index = count($fields) - 1;
                 } else {
-                    $fields[$found_index]['value'] .= ', ' . Custom_Field::getOptionValue($row['fld_id'], $row['value']);
+                    $fields[$found_index]['value'] .= ', ' . Custom_Field::getOptionValue($fld_id, $row['value']);
                     $fields[$found_index]['selected_cfo_id'][] = $row['value'];
                 }
 
                 // add the select option to the list of values if it isn't on the list (useful for fields with active and non-active items)
                 if ($original_value !== null && !in_array($original_value, $fields[$found_index]['field_options'])) {
-                    $fields[$found_index]['field_options'][$original_value] = Custom_Field::getOptionValue($row['fld_id'], $original_value);
+                    $fields[$found_index]['field_options'][$original_value] = Custom_Field::getOptionValue($fld_id, $original_value);
                 }
             } else {
                 $row['value'] = $row[Custom_Field::getDBValueFieldNameByType($row['fld_type'])];
@@ -76,31 +77,41 @@ class Converter
             }
         }
 
-        foreach ($fields as $key => $field) {
-            $backend = Custom_Field::getBackend($field['fld_id']);
-            if ($backend instanceof DynamicCustomFieldInterface) {
-                $fields[$key]['dynamic_options'] = $backend->getStructuredData();
-                $fields[$key]['controlling_field_id'] = $backend->getControllingCustomFieldID();
-                $fields[$key]['controlling_field_name'] = $backend->getControllingCustomFieldName();
-                $fields[$key]['hide_when_no_options'] = $backend->hideWhenNoOptions();
-                $fields[$key]['lookup_method'] = $backend->lookupMethod();
-            }
-
-            // check if the backend implements "isRequired"
-            if ($backend && $backend->hasInterface(RequiredValueInterface::class)) {
-                $fields[$key]['fld_report_form_required'] = $backend->isRequired($fields[$key]['fld_id'], 'report', $issueId);
-                $fields[$key]['fld_anonymous_form_required'] = $backend->isRequired($fields[$key]['fld_id'], 'anonymous', $issueId);
-                $fields[$key]['fld_close_form_required'] = $backend->isRequired($fields[$key]['fld_id'], 'close', $issueId);
-                $fields[$key]['fld_edit_form_required'] = $backend->isRequired($fields[$key]['fld_id'], 'edit', $issueId);
-            }
-            if ($backend && $backend->hasInterface(JavascriptValidationInterface::class)) {
-                $fields[$key]['validation_js'] = $backend->getValidationJs($fields[$key]['fld_id'], $formType, $issueId);
-            } else {
-                $fields[$key]['validation_js'] = '';
-            }
-        }
+        $this->applyBackendValues($fields, $issueId, $formType);
 
         return $fields;
+    }
+
+    private function applyBackendValues(array &$fields, int $issueId, ?string $formType): void
+    {
+        foreach ($fields as &$field) {
+            $fld_id = $field['fld_id'];
+            $backend = Custom_Field::getBackend($fld_id);
+            if (!$backend) {
+                continue;
+            }
+
+            if ($backend instanceof DynamicCustomFieldInterface) {
+                $field['dynamic_options'] = $backend->getStructuredData();
+                $field['controlling_field_id'] = $backend->getControllingCustomFieldId();
+                $field['controlling_field_name'] = $backend->getControllingCustomFieldName();
+                $field['hide_when_no_options'] = $backend->hideWhenNoOptions();
+                $field['lookup_method'] = $backend->lookupMethod();
+            }
+
+            if ($backend->hasInterface(RequiredValueInterface::class)) {
+                $field['fld_report_form_required'] = $backend->isRequired($fld_id, 'report', $issueId);
+                $field['fld_anonymous_form_required'] = $backend->isRequired($fld_id, 'anonymous', $issueId);
+                $field['fld_close_form_required'] = $backend->isRequired($fld_id, 'close', $issueId);
+                $field['fld_edit_form_required'] = $backend->isRequired($fld_id, 'edit', $issueId);
+            }
+
+            if ($backend->hasInterface(JavascriptValidationInterface::class)) {
+                $field['validation_js'] = $backend->getValidationJs($fld_id, $formType, $issueId);
+            } else {
+                $field['validation_js'] = '';
+            }
+        }
     }
 
     private function convertRow(IssueCustomField $icf): array
