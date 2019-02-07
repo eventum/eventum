@@ -14,13 +14,28 @@
 namespace Eventum\Test\CustomField;
 
 use Eventum\Db\Doctrine;
+use Eventum\Model\Entity\CustomField;
 use Eventum\Test\TestCase;
 
 class CustomFieldTest extends TestCase
 {
-    public function test1(): void
+    public function testGetCustomField(): void
     {
         $repo = Doctrine::getCustomFieldRepository();
-        $cf = $repo->findById(1);
+        /** @var CustomField $cf */
+        $cf = $repo->findById(2);
+        dump($cf !== null);
+    }
+
+    /**
+     * @see Custom_Field::getListByIssue
+     */
+    public function testGetListByIssue(): void
+    {
+        $prj_id = 1;
+        $iss_id = 20;
+        $repo = Doctrine::getCustomFieldRepository();
+        $list = $repo->getListByIssue($prj_id, $iss_id);
+        dump(count($list));
     }
 }
