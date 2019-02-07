@@ -23,14 +23,14 @@ class CustomFieldRepository extends EntityRepository
 {
     use FindByIdTrait;
 
-    public function getQuery(): QueryBuilder
+    public function getQueryBuilder(): QueryBuilder
     {
         return $this->createQueryBuilder('cf');
     }
 
-    public function filterIssue(QueryBuilder $query, int $issueId): self
+    public function filterIssue(QueryBuilder $qb, int $issueId): self
     {
-        $query
+        $qb
             ->innerJoin(Entity\IssueCustomField::class, 'icf')
             ->andWhere('cf.id=icf.fieldId')
             ->andWhere('icf.issueId=:issue_id')
@@ -39,9 +39,9 @@ class CustomFieldRepository extends EntityRepository
         return $this;
     }
 
-    public function filterProject(QueryBuilder $query, int $projectId): self
+    public function filterProject(QueryBuilder $qb, int $projectId): self
     {
-        $query
+        $qb
             ->innerJoin(Entity\ProjectCustomField::class, 'pcf')
             ->andWhere('cf.id=pcf.fieldId')
             ->andWhere('pcf.projectId=:project_id')
@@ -50,14 +50,14 @@ class CustomFieldRepository extends EntityRepository
         return $this;
     }
 
-    public function filterRole(QueryBuilder $query, int $minRole, bool $forEdit = false): self
+    public function filterRole(QueryBuilder $qb, int $minRole, bool $forEdit = false): self
     {
-        $query
+        $qb
             ->andWhere('cf.minRole <= :min_role')
             ->setParameter('min_role', $minRole);
 
         if ($forEdit) {
-            $query
+            $qb
                 ->andWhere('cf.minRoleEdit <= :min_role_edit')
                 ->setParameter('min_role_edit', $minRole);
         }
@@ -65,7 +65,7 @@ class CustomFieldRepository extends EntityRepository
         return $this;
     }
 
-    public function filterFormType(QueryBuilder $query, ?string $formType): self
+    public function filterFormType(QueryBuilder $qb, ?string $formType): self
     {
         if ($formType === null) {
             return $this;
@@ -78,7 +78,7 @@ class CustomFieldRepository extends EntityRepository
 
         $fieldName = $formTypes[$formType];
         if ($fieldName) {
-            $query->andWhere("cf.{$fieldName}=1");
+            $qb->andWhere("cf.{$fieldName}=1");
         }
 
         return $this;
@@ -90,19 +90,19 @@ class CustomFieldRepository extends EntityRepository
      */
     public function getListByIssue(int $prj_id, int $issue_id, int $minRole, ?string $formType, bool $forEdit): array
     {
-        $query = $this->getQuery();
+        $qb = $this->getQueryBuilder();
 
         $this
-            ->filterIssue($query, $issue_id)
-            ->filterProject($query, $prj_id)
-            ->filterRole($query, $minRole, $forEdit)
-            ->filterFormType($query, $formType);
+            ->filterIssue($qb, $issue_id)
+            ->filterProject($qb, $prj_id)
+            ->filterRole($qb, $minRole, $forEdit)
+            ->filterFormType($qb, $formType);
 
-        $query->addOrderBy('cf.rank');
+        $qb->addOrderBy('cf.rank');
 
         // return from issue custom field point
-        $query->select('icf');
+        $qb->select('icf');
 
-        return $query->getQuery()->getResult();
+        return $qb->getQuery()->getResult();
     }
 }
