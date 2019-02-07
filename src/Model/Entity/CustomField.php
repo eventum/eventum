@@ -125,6 +125,13 @@ class CustomField
      */
     private $orderBy;
 
+    /**
+     * @var CustomFieldOption[]
+     * @ORM\OneToMany(targetEntity="CustomFieldOption", mappedBy="customField")
+     * @ORM\JoinColumn(name="id", referencedColumnName="cfo_fld_id")
+     */
+    public $options;
+
     public function getId(): int
     {
         return $this->id;

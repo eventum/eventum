@@ -36,6 +36,13 @@ class CustomFieldOption
     private $fieldId;
 
     /**
+     * @var CustomField
+     * @ORM\ManyToOne(targetEntity="CustomField", inversedBy="options")
+     * @ORM\JoinColumn(name="cfo_fld_id", referencedColumnName="fld_id")
+     */
+    public $customField;
+
+    /**
      * @var int
      * @ORM\Column(name="cfo_rank", type="integer", nullable=false)
      */
