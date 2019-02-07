@@ -11,6 +11,7 @@
  * that were distributed with this source code.
  */
 
+use Eventum\CustomField\Converter;
 use Eventum\CustomField\Factory;
 use Eventum\CustomField\Fields\DefaultValueInterface;
 use Eventum\CustomField\Fields\DynamicCustomFieldInterface;
@@ -21,6 +22,7 @@ use Eventum\CustomField\Fields\OptionValueInterface;
 use Eventum\CustomField\Fields\RequiredValueInterface;
 use Eventum\CustomField\Proxy;
 use Eventum\Db\DatabaseException;
+use Eventum\Db\Doctrine;
 use Eventum\Differ;
 use Eventum\Extension\ExtensionLoader;
 use Eventum\Monolog\Logger;
@@ -700,145 +702,24 @@ class Custom_Field
      * @param   bool    $for_edit True if the fld_min_role_edit permission should be checked
      * @return  array The list of custom fields
      */
-    public static function getListByIssue($prj_id, $iss_id, $usr_id = null, $form_type = false, $for_edit = false)
+    public static function getListByIssue($prj_id, $iss_id, $usr_id = null, $form_type = false, $for_edit = false): array
     {
-        if (!$usr_id) {
-            $usr_id = Auth::getUserID();
+        if (is_array($form_type)) {
+            // form type used as custom_field id value. find this usage!
+            throw new LogicException('Not supported');
         }
 
-        $usr_role = User::getRoleByUser($usr_id, $prj_id) ?: 0;
+        $usr_role = User::getRoleByUser($usr_id ?: Auth::getUserID(), $prj_id) ?: 0;
 
-        $stmt = 'SELECT
-                    fld_id,
-                    fld_title,
-                    fld_type,
-                    fld_report_form_required,
-                    fld_anonymous_form_required,
-                    fld_close_form_required,
-                    fld_edit_form_required,
-                    ' . self::getDBValueFieldSQL() . ' as value,
-                    icf_value,
-                    icf_value_date,
-                    icf_value_integer,
-                    fld_min_role,
-                    fld_description
-                 FROM
-                    (
-                    `custom_field`,
-                    `project_custom_field`
-                    )
-                 LEFT JOIN
-                    `issue_custom_field`
-                 ON
-                    pcf_fld_id=icf_fld_id AND
-                    icf_iss_id=?
-                 WHERE
-                    pcf_fld_id=fld_id AND
-                    pcf_prj_id=? AND
-                    fld_min_role <= ?';
-        $params = [
-            $iss_id, $prj_id, $usr_role,
-        ];
-
-        if ($for_edit) {
-            $stmt .= ' AND
-                    fld_min_role_edit <= ?';
-            $params[] = $usr_role;
-        }
-
-        if ($form_type != false) {
-            if (is_array($form_type)) {
-                $stmt .= ' AND fld_id IN(' . DB_Helper::buildList($form_type) . ')';
-                $params = array_merge($params, $form_type);
-            } else {
-                $fld_name = 'fld_' . Misc::escapeString($form_type);
-                $stmt .= " AND $fld_name=1";
-            }
-        }
-        $stmt .= '
-                 ORDER BY
-                    fld_rank ASC';
-        try {
-            $res = DB_Helper::getInstance()->getAll($stmt, $params);
-        } catch (DatabaseException $e) {
+        $repo = Doctrine::getCustomFieldRepository();
+        $customFields = $repo->getListByIssue($prj_id, $iss_id, $usr_role, $form_type ?: null, $for_edit);
+        if (!$customFields) {
             return [];
         }
 
-        if (count($res) == 0) {
-            return [];
-        }
+        $converter = new Converter();
 
-        $fields = [];
-        foreach ($res as &$row) {
-            if ($row['fld_type'] === 'combo') {
-                $row['selected_cfo_id'] = $row['value'];
-                $row['original_value'] = $row['value'];
-                $row['value'] = self::getOptionValue($row['fld_id'], $row['value']);
-                $row['field_options'] = self::getOptions($row['fld_id'], false, $iss_id);
-
-                // add the select option to the list of values if it isn't on the list (useful for fields with active and non-active items)
-                if ((!empty($row['original_value'])) && (!isset($row['field_options'][$row['original_value']]))) {
-                    $row['field_options'][$row['original_value']] = self::getOptionValue($row['fld_id'], $row['original_value']);
-                }
-
-                $fields[] = $row;
-            } elseif (in_array($row['fld_type'], self::$option_types)) {
-                // check whether this field is already in the array
-                $found = 0;
-                foreach ($fields as $y => $field) {
-                    if ($field['fld_id'] == $row['fld_id']) {
-                        $found = 1;
-                        $found_index = $y;
-                    }
-                }
-                $original_value = $row['value'];
-                if (!$found) {
-                    $row['selected_cfo_id'] = [$row['value']];
-                    $row['value'] = self::getOptionValue($row['fld_id'], $row['value']);
-                    $row['field_options'] = self::getOptions($row['fld_id']);
-                    $fields[] = $row;
-                    $found_index = count($fields) - 1;
-                } else {
-                    $fields[$found_index]['value'] .= ', ' . self::getOptionValue($row['fld_id'], $row['value']);
-                    $fields[$found_index]['selected_cfo_id'][] = $row['value'];
-                }
-
-                // add the select option to the list of values if it isn't on the list (useful for fields with active and non-active items)
-                if ($original_value !== null && !in_array($original_value, $fields[$found_index]['field_options'])) {
-                    $fields[$found_index]['field_options'][$original_value] = self::getOptionValue($row['fld_id'], $original_value);
-                }
-            } else {
-                $row['value'] = $row[self::getDBValueFieldNameByType($row['fld_type'])];
-                $fields[] = $row;
-            }
-        }
-        unset($row);
-
-        foreach ($fields as $key => $field) {
-            $backend = self::getBackend($field['fld_id']);
-            if ($backend instanceof DynamicCustomFieldInterface) {
-                $fields[$key]['dynamic_options'] = $backend->getStructuredData();
-                $fields[$key]['controlling_field_id'] = $backend->getControllingCustomFieldID();
-                $fields[$key]['controlling_field_name'] = $backend->getControllingCustomFieldName();
-                $fields[$key]['hide_when_no_options'] = $backend->hideWhenNoOptions();
-                $fields[$key]['lookup_method'] = $backend->lookupMethod();
-            }
-
-            // check if the backend implements "isRequired"
-            if ($backend && $backend->hasInterface(RequiredValueInterface::class)) {
-                $fields[$key]['fld_report_form_required'] = $backend->isRequired($fields[$key]['fld_id'], 'report', $iss_id);
-                $fields[$key]['fld_anonymous_form_required'] = $backend->isRequired($fields[$key]['fld_id'], 'anonymous', $iss_id);
-                $fields[$key]['fld_close_form_required'] = $backend->isRequired($fields[$key]['fld_id'], 'close', $iss_id);
-                $fields[$key]['fld_edit_form_required'] = $backend->isRequired($fields[$key]['fld_id'], 'edit', $iss_id);
-            }
-            if ($backend && $backend->hasInterface(JavascriptValidationInterface::class)) {
-                $fields[$key]['validation_js'] = $backend->getValidationJs($fields[$key]['fld_id'], $form_type, $iss_id);
-            } else {
-                $fields[$key]['validation_js'] = '';
-            }
-        }
-
-        return $fields;
+        return $converter->convert($customFields, $prj_id, $iss_id, $form_type ?: null);
     }
 
     /**

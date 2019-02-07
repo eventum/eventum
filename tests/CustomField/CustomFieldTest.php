@@ -13,6 +13,7 @@
 
 namespace Eventum\Test\CustomField;
 
+use Eventum\CustomField\Converter;
 use Eventum\Db\Doctrine;
 use Eventum\Model\Entity\CustomField;
 use Eventum\Test\TestCase;
@@ -39,7 +40,11 @@ class CustomFieldTest extends TestCase
         $forEdit = false;
         $formType = 'edit_form';
         $repo = Doctrine::getCustomFieldRepository();
-        $list = $repo->getListByIssue($prj_id, $iss_id, $min_role, $formType, $forEdit);
-        dump(count($list));
+        $customFields = $repo->getListByIssue($prj_id, $iss_id, $min_role, $formType, $forEdit);
+        dump(count($customFields));
+
+        $converter = new Converter();
+        $fields = $converter->convert($customFields, $prj_id, $iss_id, $formType);
+        dump(count($fields));
     }
 }

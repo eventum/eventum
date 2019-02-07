@@ -33,7 +33,7 @@ class CustomFieldRepository extends EntityRepository
         $query
             ->innerJoin(Entity\IssueCustomField::class, 'icf')
             ->andWhere('cf.id=icf.fieldId')
-            ->andWhere('icf.issueId in (:issue_id)')
+            ->andWhere('icf.issueId=:issue_id')
             ->setParameter('issue_id', $issueId);
 
         return $this;
@@ -44,7 +44,7 @@ class CustomFieldRepository extends EntityRepository
         $query
             ->innerJoin(Entity\ProjectCustomField::class, 'pcf')
             ->andWhere('cf.id=pcf.fieldId')
-            ->andWhere('pcf.projectId in (:project_id)')
+            ->andWhere('pcf.projectId=:project_id')
             ->setParameter('project_id', $projectId);
 
         return $this;
@@ -53,22 +53,25 @@ class CustomFieldRepository extends EntityRepository
     public function filterRole(QueryBuilder $query, int $minRole, bool $forEdit = false): self
     {
         $query
-            ->andWhere('cf.minRole in (:min_role)')
+            ->andWhere('cf.minRole <= :min_role')
             ->setParameter('min_role', $minRole);
 
         if ($forEdit) {
             $query
-                ->andWhere('cf.minRoleEdit in (:min_role_edit)')
+                ->andWhere('cf.minRoleEdit <= :min_role_edit')
                 ->setParameter('min_role_edit', $minRole);
         }
 
         return $this;
     }
 
-    public function filterFormType(QueryBuilder $query, string $formType): self
+    public function filterFormType(QueryBuilder $query, ?string $formType): self
     {
-        $formTypes = Entity\CustomField::FORM_TYPES;
+        if ($formType === null) {
+            return $this;
+        }
 
+        $formTypes = Entity\CustomField::FORM_TYPES;
         if (!array_key_exists($formType, $formTypes)) {
             throw new RuntimeException("Unsupported form type: '$formType'");
         }
@@ -85,7 +88,7 @@ class CustomFieldRepository extends EntityRepository
      * @return Entity\CustomField[]
      * @see Custom_Field::getListByIssue
      */
-    public function getListByIssue(int $prj_id, int $issue_id, int $minRole, string $formType, bool $forEdit): array
+    public function getListByIssue(int $prj_id, int $issue_id, int $minRole, ?string $formType, bool $forEdit): array
     {
         $query = $this->getQuery();
 
@@ -96,6 +99,9 @@ class CustomFieldRepository extends EntityRepository
             ->filterFormType($query, $formType);
 
         $query->addOrderBy('cf.rank');
+
+        // return from issue custom field point
+        $query->select('icf');
 
         return $query->getQuery()->getResult();
     }

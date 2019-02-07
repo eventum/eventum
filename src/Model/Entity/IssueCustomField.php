@@ -131,4 +131,20 @@ class IssueCustomField
     {
         return $this->dateValue;
     }
+
+    /**
+     * @see Custom_Field::getDBValueFieldSQL
+     * @return DateTime|int|null|string
+     */
+    public function getValue()
+    {
+        switch ($this->customField->getType()) {
+            case 'date':
+                return $this->getDateValue();
+            case 'integer':
+                return $this->getIntegerValue();
+            default:
+                return $this->getStringValue();
+        }
+    }
 }
