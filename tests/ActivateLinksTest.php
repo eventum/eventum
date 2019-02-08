@@ -21,7 +21,7 @@ use Misc;
  */
 class ActivateLinksTest extends TestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         Link_Filter::markdownEnabled(true);
     }
