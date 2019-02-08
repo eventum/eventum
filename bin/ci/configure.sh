@@ -8,6 +8,10 @@ install -d $PHP_INI_DIR
 #echo "extension=ldap.so" >> $PHP_INI_DIR/php.ini
 composer config platform.ext-ldap '0'
 
+# no gd for php 8.0
+# https://travis-ci.org/glensc/eventum/jobs/490544010
+composer config platform.ext-gd '0'
+
 # disable xdebug
 phpenv config-rm xdebug.ini || :
 
