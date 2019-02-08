@@ -30,7 +30,7 @@ class MailStorageTest extends TestCase
     /** @var array */
     private $account;
 
-    public function setUp()
+    public function setUp(): void
     {
         $setup = Setup::get();
 
@@ -52,7 +52,7 @@ class MailStorageTest extends TestCase
         $this->account = $setup['tests.imap-account'];
     }
 
-    public function testNewMails()
+    public function testNewMails(): void
     {
         $mbox = new MailStorage($this->account);
         $flags = [
@@ -62,7 +62,7 @@ class MailStorageTest extends TestCase
         $this->assertEquals(0, $count);
     }
 
-    public function testProcessMessages()
+    public function testProcessMessages(): void
     {
         $mbox = new MailStorage($this->account);
 
@@ -82,7 +82,7 @@ class MailStorageTest extends TestCase
         }
     }
 
-    public function testImapHeaderStructure()
+    public function testImapHeaderStructure(): void
     {
         $mbox = Support::connectEmailServer($this->account);
         $emails = Support::getNewEmails($mbox);
@@ -98,7 +98,7 @@ class MailStorageTest extends TestCase
         die;
     }
 
-    public function testSearch()
+    public function testSearch(): void
     {
         $mbox = new MailStorage($this->account);
 
@@ -114,7 +114,7 @@ class MailStorageTest extends TestCase
         // $matches = @imap_search($mbox, 'TEXT "' . $row['sup_message_id'] . '"');
     }
 
-    public function testMessage()
+    public function testMessage(): void
     {
         $mbox = Support::connectEmailServer($this->account);
         $message1 = $this->readImapMessage($mbox, 1);
@@ -130,7 +130,7 @@ class MailStorageTest extends TestCase
         echo 1;
     }
 
-    public function readImapMessage($mbox, $num)
+    public function readImapMessage($mbox, $num): Mail\Storage\Message
     {
         // check if the current message was already seen
         list($overview) = imap_fetch_overview($mbox, $num);
@@ -155,7 +155,7 @@ class MailStorageTest extends TestCase
             }
         }
 
-        $message = new \Zend\Mail\Storage\Message(['headers' => $header, 'content' => $content, 'flags' => $flags]);
+        $message = new Mail\Storage\Message(['headers' => $header, 'content' => $content, 'flags' => $flags]);
 
         return $message;
     }

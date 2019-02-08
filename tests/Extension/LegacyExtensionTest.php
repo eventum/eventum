@@ -23,14 +23,14 @@ use Workflow;
  */
 class LegacyExtensionTest extends TestCase
 {
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass(): void
     {
         // ExtensionManager needs to be booted
         // for the getBackend methods to succeed
         ExtensionManager::getManager();
     }
 
-    public function testGetWorkflow()
+    public function testGetWorkflow(): void
     {
         $prj_id = 1;
         Workflow::_getBackend($prj_id);

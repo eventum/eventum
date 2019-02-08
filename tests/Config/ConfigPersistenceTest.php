@@ -21,7 +21,7 @@ class ConfigPersistenceTest extends TestCase
     /** @var ConfigPersistence */
     private $handler;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->handler = new ConfigPersistence();
     }

@@ -22,7 +22,7 @@ use Setup;
  */
 class AuthCookieTest extends TestCase
 {
-    public static function setupBeforeClass()
+    public static function setupBeforeClass(): void
     {
         if (file_exists(Setup::getConfigPath() . '/private_key.php')) {
             return;

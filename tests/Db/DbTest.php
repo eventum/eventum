@@ -29,7 +29,7 @@ class DbTest extends TestCase
      */
     private $db;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->db = DB_Helper::getInstance(false);
     }
@@ -37,13 +37,13 @@ class DbTest extends TestCase
     /**
      * @dataProvider quoteData
      */
-    public function testQuote($input, $exp)
+    public function testQuote($input, $exp): void
     {
         $res = $this->db->escapeSimple($input);
         $this->assertEquals($exp, $res);
     }
 
-    public function quoteData()
+    public function quoteData(): array
     {
         return [
             ["C'est La Vie", "C\\'est La Vie"],
@@ -52,14 +52,14 @@ class DbTest extends TestCase
     }
 
     /** @group query */
-    public function testQuery()
+    public function testQuery(): void
     {
         $res = $this->db->query('update `user` set usr_lang=? where 1=0', ['en_US']);
         $this->assertEquals(true, $res);
     }
 
     /** @group getAll */
-    public function testGetAllDefault()
+    public function testGetAllDefault(): void
     {
         $res = $this->db->getAll(
             'SELECT usr_id,usr_full_name,usr_email,usr_lang FROM `user` WHERE usr_id<=?', [2],
@@ -84,7 +84,7 @@ class DbTest extends TestCase
     }
 
     /** @group getAll */
-    public function testGetAllAssoc()
+    public function testGetAllAssoc(): void
     {
         $res = $this->db->getAll(
             'SELECT usr_id,usr_full_name,usr_email,usr_lang FROM `user` WHERE usr_id<=? AND usr_id!=42', [2],
@@ -109,7 +109,7 @@ class DbTest extends TestCase
     }
 
     /** @group fetchAssoc */
-    public function testFetchAssocDefault()
+    public function testFetchAssocDefault(): void
     {
         $res = $this->db->fetchAssoc(
             'SELECT usr_id,usr_full_name,usr_email,usr_lang FROM `user` WHERE usr_id<=?',
@@ -134,7 +134,7 @@ class DbTest extends TestCase
     }
 
     /** @group fetchAssoc */
-    public function testFetchAssocAssoc()
+    public function testFetchAssocAssoc(): void
     {
         $res = $this->db->fetchAssoc(
             'SELECT usr_id,usr_full_name,usr_email,usr_lang FROM `user` WHERE usr_id<=?',
@@ -164,7 +164,7 @@ class DbTest extends TestCase
      *
      * @group fetchAssoc
      */
-    public function testFetchAssoc()
+    public function testFetchAssoc(): void
     {
         $stmt = 'SELECT sta_id, sta_title FROM `status` ORDER BY sta_rank ASC';
         $res = $this->db->getPair($stmt);
@@ -180,7 +180,7 @@ class DbTest extends TestCase
     }
 
     /** @group getColumn */
-    public function testGetColumn()
+    public function testGetColumn(): void
     {
         $res = $this->db->getColumn(
             'SELECT usr_full_name FROM `user` WHERE usr_id<=?',
@@ -196,7 +196,7 @@ class DbTest extends TestCase
     }
 
     /** @group getOne */
-    public function testGetOne()
+    public function testGetOne(): void
     {
         $res = $this->db->getOne(
             'SELECT usr_id FROM `user` WHERE usr_email=?', ['nosuchemail@.-']
@@ -210,7 +210,7 @@ class DbTest extends TestCase
     }
 
     /** @group getPair */
-    public function testGetPair()
+    public function testGetPair(): void
     {
         $res = $this->db->getPair(
             'SELECT usr_id,usr_full_name FROM `user` WHERE usr_email=?', ['nosuchemail@.-']
@@ -227,7 +227,7 @@ class DbTest extends TestCase
     }
 
     /** @group getRow */
-    public function testGetRowDefault()
+    public function testGetRowDefault(): void
     {
         $res = $this->db->getRow(
             'SELECT usr_id,usr_full_name,usr_email,usr_lang FROM `user` WHERE usr_id<=?',
@@ -245,7 +245,7 @@ class DbTest extends TestCase
     }
 
     /** @group getRow */
-    public function testGetRowAssoc()
+    public function testGetRowAssoc(): void
     {
         $res = $this->db->getRow(
             'SELECT usr_id,usr_full_name,usr_email,usr_lang FROM `user` WHERE usr_id<=?',
@@ -262,7 +262,7 @@ class DbTest extends TestCase
         $this->assertEquals($exp, $res);
     }
 
-    public function testBuildSet()
+    public function testBuildSet(): void
     {
         $table = 'test_' . __FUNCTION__;
         $this->db->query("CREATE TEMPORARY TABLE $table (id INT, v1 CHAR(1), v2 CHAR(2))");

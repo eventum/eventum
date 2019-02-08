@@ -28,7 +28,7 @@ class RemoteApiTest extends TestCase
     /** @var RemoteApi */
     private static $client;
 
-    public static function setupBeforeClass()
+    public static function setupBeforeClass(): void
     {
         $setup = Setup::get();
         if (!isset($setup['tests.xmlrpc_url'])) {
@@ -51,7 +51,7 @@ class RemoteApiTest extends TestCase
     /**
      * @covers RemoteApi::getDeveloperList
      */
-    public function testGetDeveloperList()
+    public function testGetDeveloperList(): void
     {
         $prj_id = 1;
         $res = self::$client->getDeveloperList($prj_id);
@@ -63,7 +63,7 @@ class RemoteApiTest extends TestCase
     /**
      * @covers RemoteApi::getSimpleIssueDetails
      */
-    public function testGetSimpleIssueDetails()
+    public function testGetSimpleIssueDetails(): void
     {
         $issue_id = 1;
         $res = self::$client->getSimpleIssueDetails($issue_id);
@@ -78,7 +78,7 @@ class RemoteApiTest extends TestCase
     /**
      * @covers RemoteApi::getOpenIssues
      */
-    public function testGetOpenIssues()
+    public function testGetOpenIssues(): void
     {
         $prj_id = 1;
         $show_all_issues = true;
@@ -99,7 +99,7 @@ class RemoteApiTest extends TestCase
     /**
      * @covers RemoteApi::getUserAssignedProjects
      */
-    public function testGetUserAssignedProjects()
+    public function testGetUserAssignedProjects(): void
     {
         $only_customer_projects = false;
         $res = self::$client->getUserAssignedProjects($only_customer_projects);
@@ -115,7 +115,7 @@ class RemoteApiTest extends TestCase
     /**
      * @covers RemoteApi::getIssueDetails
      */
-    public function testGetIssueDetails()
+    public function testGetIssueDetails(): void
     {
         $issue_id = 1;
         $res = self::$client->getIssueDetails($issue_id);
@@ -127,7 +127,7 @@ class RemoteApiTest extends TestCase
     /**
      * @covers RemoteApi::getTimeTrackingCategories
      */
-    public function testGetTimeTrackingCategories()
+    public function testGetTimeTrackingCategories(): void
     {
         $issue_id = 1;
         $res = self::$client->getTimeTrackingCategories($issue_id);
@@ -138,7 +138,7 @@ class RemoteApiTest extends TestCase
     /**
      * @covers RemoteApi::recordTimeWorked
      */
-    public function testRecordTimeWorked()
+    public function testRecordTimeWorked(): void
     {
         $issue_id = 1;
         $cat_id = 1;
@@ -152,7 +152,7 @@ class RemoteApiTest extends TestCase
     /**
      * @covers RemoteApi::setIssueStatus
      */
-    public function testSetIssueStatus()
+    public function testSetIssueStatus(): void
     {
         $issue_id = 1;
         $new_status = 'implementation';
@@ -164,7 +164,7 @@ class RemoteApiTest extends TestCase
     /**
      * @covers RemoteApi::assignIssue
      */
-    public function testAssignIssue()
+    public function testAssignIssue(): void
     {
         $issue_id = 1;
         $prj_id = 1;
@@ -177,7 +177,7 @@ class RemoteApiTest extends TestCase
     /**
      * @covers RemoteApi::takeIssue
      */
-    public function testTakeIssue()
+    public function testTakeIssue(): void
     {
         $issue_id = 1;
         $prj_id = 1;
@@ -193,7 +193,7 @@ class RemoteApiTest extends TestCase
     /**
      * @covers RemoteApi::addAuthorizedReplier
      */
-    public function testAddAuthorizedReplier()
+    public function testAddAuthorizedReplier(): void
     {
         $issue_id = 1;
         $prj_id = 1;
@@ -206,7 +206,7 @@ class RemoteApiTest extends TestCase
     /**
      * @covers RemoteApi::getFileList
      */
-    public function testGetFileList()
+    public function testGetFileList(): void
     {
         $issue_id = 1;
 
@@ -229,7 +229,7 @@ class RemoteApiTest extends TestCase
     /**
      * @covers RemoteApi::getFile
      */
-    public function testGetFile()
+    public function testGetFile(): void
     {
         $file_id = 1;
 
@@ -244,7 +244,7 @@ class RemoteApiTest extends TestCase
     /**
      * @covers RemoteApi::lookupCustomer
      */
-    public function testLookupCustomer()
+    public function testLookupCustomer(): void
     {
         $prj_id = 1;
         $field = 'email';
@@ -263,7 +263,7 @@ class RemoteApiTest extends TestCase
      *
      * @covers RemoteApi::closeIssue
      */
-    public function testCloseIssue()
+    public function testCloseIssue(): void
     {
         $issue_id = 1;
         $new_status = 'closed';
@@ -279,7 +279,7 @@ class RemoteApiTest extends TestCase
     /**
      * @covers RemoteApi::getClosedAbbreviationAssocList
      */
-    public function testGetClosedAbbreviationAssocList()
+    public function testGetClosedAbbreviationAssocList(): void
     {
         $prj_id = 1;
         $res = self::$client->getClosedAbbreviationAssocList($prj_id);
@@ -293,7 +293,7 @@ class RemoteApiTest extends TestCase
     /**
      * @covers RemoteApi::getAbbreviationAssocList
      */
-    public function testGetAbbreviationAssocList()
+    public function testGetAbbreviationAssocList(): void
     {
         $prj_id = 1;
         $show_closed = false;
@@ -310,7 +310,7 @@ class RemoteApiTest extends TestCase
     /**
      * @covers RemoteApi::getEmailListing
      */
-    public function testGetEmailListing()
+    public function testGetEmailListing(): void
     {
         $issue_id = 1;
         $res = self::$client->getEmailListing($issue_id);
@@ -326,7 +326,7 @@ class RemoteApiTest extends TestCase
     /**
      * @covers RemoteApi::getEmail
      */
-    public function testGetEmail()
+    public function testGetEmail(): void
     {
         $issue_id = 1;
         $emai_id = 1;
@@ -340,7 +340,7 @@ class RemoteApiTest extends TestCase
     /**
      * @covers RemoteApi::getNoteListing
      */
-    public function testGetNoteListing()
+    public function testGetNoteListing(): void
     {
         $issue_id = 1;
         $res = self::$client->getNoteListing($issue_id);
@@ -356,7 +356,7 @@ class RemoteApiTest extends TestCase
     /**
      * @covers RemoteApi::getNote
      */
-    public function testGetNote()
+    public function testGetNote(): void
     {
         $issue_id = 1;
         $note_id = 1;
@@ -371,7 +371,7 @@ class RemoteApiTest extends TestCase
     /**
      * @covers RemoteApi::convertNote
      */
-    public function testConvertNote()
+    public function testConvertNote(): void
     {
         $issue_id = 1;
         $note_id = 1;
@@ -386,7 +386,7 @@ class RemoteApiTest extends TestCase
     /**
      * @covers RemoteApi::mayChangeIssue
      */
-    public function testMayChangeIssue()
+    public function testMayChangeIssue(): void
     {
         $issue_id = 1;
         $res = self::$client->mayChangeIssue($issue_id);
@@ -396,7 +396,7 @@ class RemoteApiTest extends TestCase
     /**
      * @covers RemoteApi::getWeeklyReport
      */
-    public function testGetWeeklyReport()
+    public function testGetWeeklyReport(): void
     {
         $week = 1;
         $start = '';
@@ -409,7 +409,7 @@ class RemoteApiTest extends TestCase
     /**
      * @covers RemoteApi::getResolutionAssocList
      */
-    public function testGetResolutionAssocList()
+    public function testGetResolutionAssocList(): void
     {
         $res = self::$client->getResolutionAssocList();
         $exp = [
@@ -427,7 +427,7 @@ class RemoteApiTest extends TestCase
     /**
      * @covers RemoteApi::timeClock
      */
-    public function testTimeClock()
+    public function testTimeClock(): void
     {
         $action = 'out';
         $res = self::$client->timeClock($action);
@@ -437,7 +437,7 @@ class RemoteApiTest extends TestCase
     /**
      * @covers RemoteApi::getDraftListing
      */
-    public function testGetDraftListing()
+    public function testGetDraftListing(): void
     {
         $issue_id = 1;
         $res = self::$client->getDraftListing($issue_id);
@@ -453,7 +453,7 @@ class RemoteApiTest extends TestCase
     /**
      * @covers RemoteApi::getDraft
      */
-    public function testGetDraft()
+    public function testGetDraft(): void
     {
         $issue_id = 1;
         $draft_id = 1;
@@ -467,7 +467,7 @@ class RemoteApiTest extends TestCase
     /**
      * @covers RemoteApi::sendDraft
      */
-    public function testSendDraft()
+    public function testSendDraft(): void
     {
         $issue_id = 1;
         $draft_id = 1;
@@ -480,7 +480,7 @@ class RemoteApiTest extends TestCase
     /**
      * @covers RemoteApi::redeemIssue
      */
-    public function testRedeemIssue()
+    public function testRedeemIssue(): void
     {
         $issue_id = 1;
         $types = [];
@@ -495,7 +495,7 @@ class RemoteApiTest extends TestCase
     /**
      * @covers RemoteApi::unredeemIssue
      */
-    public function testUnredeemIssue()
+    public function testUnredeemIssue(): void
     {
         $issue_id = 1;
         $types = [];
@@ -510,7 +510,7 @@ class RemoteApiTest extends TestCase
     /**
      * @covers RemoteApi::getIncidentTypes
      */
-    public function testGetIncidentTypes()
+    public function testGetIncidentTypes(): void
     {
         $issue_id = 1;
         $redeemed_only = false;
@@ -525,7 +525,7 @@ class RemoteApiTest extends TestCase
     /**
      * @covers RemoteApi::logCommand
      */
-    public function testLogCommand()
+    public function testLogCommand(): void
     {
         $command = 'hello world';
         $res = self::$client->logCommand($command);

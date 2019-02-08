@@ -24,7 +24,7 @@ class RemoteLinkTest extends TestCase
     /** @var \Doctrine\ORM\EntityRepository|RemoteLinkRepository */
     private $repo;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->repo = Doctrine::getRemoteLinkRepository();
     }
