@@ -18,6 +18,7 @@ use DateTime;
 use Eventum\CustomField\Fields\DefaultValueInterface;
 use Eventum\CustomField\Fields\DynamicCustomFieldInterface;
 use Eventum\CustomField\Fields\JavascriptValidationInterface;
+use Eventum\CustomField\Fields\ListInterface;
 use Eventum\CustomField\Fields\RequiredValueInterface;
 use Eventum\Model\Entity\CustomField;
 use Eventum\Model\Entity\IssueCustomField;
@@ -62,15 +63,14 @@ class Converter
                 $fields[] = $row;
             } elseif (in_array($row['fld_type'], Custom_Field::$option_types, true)) {
                 // check whether this field is already in the array
-                $found = 0;
+                $found_index = null;
                 foreach ($fields as $y => $field) {
                     if ($field['fld_id'] == $fld_id) {
-                        $found = 1;
                         $found_index = $y;
                     }
                 }
                 $original_value = $row['value'];
-                if (!$found) {
+                if ($found_index === null) {
                     $row['selected_cfo_id'] = [$row['value']];
                     $row['value'] = Custom_Field::getOptionValue($fld_id, $row['value']);
                     $row['field_options'] = Custom_Field::getOptions($fld_id);
@@ -82,11 +82,10 @@ class Converter
                 }
 
                 // add the select option to the list of values if it isn't on the list (useful for fields with active and non-active items)
-                if ($original_value !== null && !in_array($original_value, $fields[$found_index]['field_options'])) {
+                if ($original_value !== null && !in_array($original_value, $fields[$found_index]['field_options'], true)) {
                     $fields[$found_index]['field_options'][$original_value] = Custom_Field::getOptionValue($fld_id, $original_value);
                 }
             } else {
-                $row['value'] = $row[Custom_Field::getDBValueFieldNameByType($row['fld_type'])];
                 $fields[] = $row;
             }
         }
@@ -124,7 +123,7 @@ class Converter
             }
 
             if (!$skipValueOptions) {
-                $field['field_options'] = Custom_Field::getOptions($fld_id, false, false, $formType);
+                $field['field_options'] = $this->getOptions($field, $backend, $formType);
 
                 if ($backend && $backend->hasInterface(DefaultValueInterface::class)) {
                     $field['default_value'] = $backend->getDefaultValue($fld_id);
@@ -132,7 +131,29 @@ class Converter
                     $field['default_value'] = '';
                 }
             }
+
+            // do not expose these outside. yet
+            unset($field['_cf'], $field['_icf']);
         }
+    }
+
+    private function getOptions(array $field, ?Proxy $backend, ?string $formType): array
+    {
+        if ($backend && $backend->hasInterface(ListInterface::class)) {
+            return $backend->getList($field['fld_id'], null, $formType);
+        }
+
+        $result = [];
+        /** @var CustomField $cf */
+        $cf = $field['_cf'];
+
+        // TODO: $order_by
+        $order_by = $cf->getOrderBy();
+        foreach ($cf->options as $option) {
+            $result[$option->getId()] = $option->getValue();
+        }
+
+        return $result;
     }
 
     private function convertIssueCustomField(IssueCustomField $icf): array
@@ -141,6 +162,7 @@ class Converter
 
         $value = $icf->getValue();
         $result += [
+            '_icf' => $icf,
             'value' => $value,
             'icf_value' => $icf->getStringValue(),
             'icf_value_date' => $value instanceof DateTime ? $value->format(self::DATE_FORMAT) : null,
@@ -153,6 +175,7 @@ class Converter
     private function convertCustomField(CustomField $field): array
     {
         return [
+            '_cf' => $field,
             'fld_id' => $field->getId(),
             'fld_title' => $field->getTitle(),
             'fld_type' => $field->getType(),
