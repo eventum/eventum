@@ -13,6 +13,7 @@
 
 namespace Eventum\Model\Entity;
 
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -34,6 +35,18 @@ class RemoteLink
      * @ORM\Column(name="rel_iss_id", type="integer", nullable=false)
      */
     private $issue_id;
+
+    /**
+     * @var DateTime
+     * @ORM\Column(name="rel_created_date", type="datetime", nullable=false)
+     */
+    private $createdDate;
+
+    /**
+     * @var DateTime
+     * @ORM\Column(name="rel_updated_date", type="datetime", nullable=false)
+     */
+    private $updatedDate;
 
     /**
      * @var string
@@ -74,6 +87,30 @@ class RemoteLink
     public function getIssueId(): int
     {
         return $this->issue_id;
+    }
+
+    public function setCreatedDate(DateTime $createdDate): self
+    {
+        $this->createdDate = $createdDate;
+
+        return $this;
+    }
+
+    public function getCreatedDate(): DateTime
+    {
+        return $this->createdDate;
+    }
+
+    public function setUpdatedDate(DateTime $updatedDate): self
+    {
+        $this->updatedDate = $updatedDate;
+
+        return $this;
+    }
+
+    public function getUpdatedDate(): DateTime
+    {
+        return $this->updatedDate;
     }
 
     public function setGid(?string $gid): self
