@@ -16,7 +16,10 @@ namespace Eventum\Controller;
 use Access;
 use Auth;
 use Authorized_Replier;
+use Eventum\Monolog\Logger;
 use Project;
+use RuntimeException;
+use Throwable;
 
 class AuthorizedReplierController extends BaseController
 {
@@ -38,7 +41,7 @@ class AuthorizedReplierController extends BaseController
     /**
      * {@inheritdoc}
      */
-    protected function configure()
+    protected function configure(): void
     {
         $request = $this->getRequest();
 
@@ -49,7 +52,7 @@ class AuthorizedReplierController extends BaseController
     /**
      * {@inheritdoc}
      */
-    protected function canAccess()
+    protected function canAccess(): bool
     {
         Auth::checkAuthentication(null, true);
 
@@ -66,7 +69,7 @@ class AuthorizedReplierController extends BaseController
     /**
      * {@inheritdoc}
      */
-    protected function defaultAction()
+    protected function defaultAction(): void
     {
         switch ($this->cat) {
             case 'insert':
@@ -79,7 +82,7 @@ class AuthorizedReplierController extends BaseController
         }
     }
 
-    private function insertAction()
+    private function insertAction(): void
     {
         $post = $this->getRequest()->request;
 
@@ -99,15 +102,22 @@ class AuthorizedReplierController extends BaseController
         }
     }
 
-    private function deleteAction()
+    private function deleteAction(): void
     {
         $post = $this->getRequest()->request;
 
-        $res = Authorized_Replier::removeRepliers($post->get('items'));
-        if ($res == 1) {
+        try {
+            $iur_ids = $post->get('items') ?: [];
+            if (!$iur_ids) {
+                throw new RuntimeException('No users provided for removal.');
+            }
+
+            Authorized_Replier::removeRepliers($this->issue_id, $iur_ids);
             $message = ev_gettext('Thank you, the authorized replier was deleted successfully.');
             $this->messages->addInfoMessage($message);
-        } elseif ($res == -1) {
+        } catch (Throwable $e) {
+            Logger::app()->error($e);
+
             $message = ev_gettext('An error occurred while trying to delete the authorized replier.');
             $this->messages->addErrorMessage($message);
         }
@@ -116,7 +126,7 @@ class AuthorizedReplierController extends BaseController
     /**
      * {@inheritdoc}
      */
-    protected function prepareTemplate()
+    protected function prepareTemplate(): void
     {
         list(, $repliers) = Authorized_Replier::getAuthorizedRepliers($this->issue_id);
 
