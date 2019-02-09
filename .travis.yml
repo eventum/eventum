@@ -57,6 +57,7 @@ cache:
   apt: true
   directories:
     - $HOME/.composer/cache
+    - $HOME/.composer/vendor
     - cache
     - vendor
 
@@ -68,7 +69,7 @@ install:
   - composer install --no-interaction --prefer-dist
 
 script:
-  - phpunit --version
+  - PATH=$HOME/.composer/vendor/bin:$PATH
   - phpunit --verbose --exclude-group ldap,imap,logger,mail,api,locale,date,db,crypto
 
 notifications:
