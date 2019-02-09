@@ -112,10 +112,9 @@ class AuthorizedReplierController extends BaseController
                 throw new RuntimeException('No users provided for removal.');
             }
 
-            Authorized_Replier::removeRepliers($iur_ids);
+            Authorized_Replier::removeRepliers($this->issue_id, $iur_ids);
             $message = ev_gettext('Thank you, the authorized replier was deleted successfully.');
             $this->messages->addInfoMessage($message);
-
         } catch (Throwable $e) {
             Logger::app()->error($e);
 

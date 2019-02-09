@@ -77,32 +77,25 @@ class Authorized_Replier
     }
 
     /**
-     * Removes the specified authorized replier
+     * Removes the specified authorized repliers from issue
      *
-     * @param   int[] $iur_ids The ids of the authorized repliers
+     * @param int $issue_id
+     * @param int[] $iur_ids The ids of the authorized repliers
      */
-    public static function removeRepliers(array $iur_ids): void
+    public static function removeRepliers(int $issue_id, array $iur_ids): void
     {
-        $iur_list = DB_Helper::buildList($iur_ids);
+        $usr_id = Auth::getUserID();
+        $db = DB_Helper::getInstance();
 
-        // get issue_id for logging
-        $stmt = "SELECT
-                    iur_iss_id
-                 FROM
-                    `issue_user_replier`
-                 WHERE
-                    iur_id IN ($iur_list)";
-        $issue_id = DB_Helper::getInstance()->getOne($stmt, $iur_ids);
-
-        foreach ($iur_ids as $id) {
-            $replier = self::getReplier($id);
-            $stmt = "DELETE FROM
+        foreach ($iur_ids as $iur_id) {
+            $replier = self::getReplier($iur_id);
+            $stmt = 'DELETE FROM
                         `issue_user_replier`
                      WHERE
-                        iur_id IN ($iur_list)";
-            DB_Helper::getInstance()->query($stmt, $iur_ids);
+                        iur_iss_id = ? AND
+                        iur_id = ?';
+            $db->query($stmt, [$issue_id, $iur_id]);
 
-            $usr_id = Auth::getUserID();
             History::add($issue_id, $usr_id, 'replier_removed', 'Authorized replier {replier} removed by {user}', [
                 'replier' => $replier,
                 'user' => User::getFullName($usr_id),
