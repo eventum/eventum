@@ -88,7 +88,7 @@ class WarningMessageTest extends TestCase
         $wm->add($issue_id, $recipient);
 
         $fixed_body = $m->getContent();
-        $this->assertContains($body, $fixed_body);
+        $this->assertStringContainsString($body, $fixed_body);
     }
 
     public function testAddWarningMessageMultipart()
@@ -105,7 +105,7 @@ class WarningMessageTest extends TestCase
         $wm->add($issue_id, $recipient);
 
         $fixed_body = $m->getContent();
-        $this->assertContains('Your reply will be sent to the notification list', $fixed_body);
+        $this->assertStringContainsString('Your reply will be sent to the notification list', $fixed_body);
     }
 
     private function runAddAndRemoveTests(MailMessage $mail, $issue_id, $email)
