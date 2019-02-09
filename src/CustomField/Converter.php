@@ -143,17 +143,10 @@ class Converter
             return $backend->getList($field['fld_id'], null, $formType);
         }
 
-        $result = [];
         /** @var CustomField $cf */
         $cf = $field['_cf'];
 
-        // TODO: $order_by
-        $order_by = $cf->getOrderBy();
-        foreach ($cf->options as $option) {
-            $result[$option->getId()] = $option->getValue();
-        }
-
-        return $result;
+        return $cf->getOptions();
     }
 
     private function convertIssueCustomField(IssueCustomField $icf): array

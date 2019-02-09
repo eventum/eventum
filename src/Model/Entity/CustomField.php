@@ -13,7 +13,10 @@
 
 namespace Eventum\Model\Entity;
 
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\PersistentCollection;
 
 /**
  * @ORM\Table(name="custom_field")*
@@ -135,9 +138,10 @@ class CustomField
     private $orderBy;
 
     /**
-     * @var CustomFieldOption[]
+     * @var CustomFieldOption[]|PersistentCollection
      * @ORM\OneToMany(targetEntity="CustomFieldOption", mappedBy="customField")
      * @ORM\JoinColumn(name="id", referencedColumnName="cfo_fld_id")
+     * @ORM\OrderBy({"id" = "ASC"})
      */
     public $options;
 
@@ -350,5 +354,28 @@ class CustomField
     public function getOrderBy(): string
     {
         return $this->orderBy;
+    }
+
+    public function getSortedOptions(string $orderBy): Collection
+    {
+        [$columnName, $direction] = explode(' ', $orderBy);
+
+        $columnName = $this->options->getTypeClass()->getFieldName($columnName);
+        $criteria = Criteria::create()->orderBy([$columnName => $direction]);
+
+        return $this->options->matching($criteria);
+    }
+
+    public function getOptions(): array
+    {
+        $options = $this->getSortedOptions($this->orderBy);
+
+        $result = [];
+        /** @var CustomFieldOption $option */
+        foreach ($options as $option) {
+            $result[$option->getId()] = $option->getValue();
+        }
+
+        return $result;
     }
 }
