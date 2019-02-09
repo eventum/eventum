@@ -30,14 +30,14 @@ class AuthCookieTest extends TestCase
         Auth::generatePrivateKey();
     }
 
-    public function testAuthCookie()
+    public function testAuthCookie(): void
     {
         $usr_id = APP_ADMIN_USER_ID;
         AuthCookie::setAuthCookie($usr_id);
         $this->assertNotEmpty(Auth::getUserID());
     }
 
-    public function testProjectCookie()
+    public function testProjectCookie(): void
     {
         $prj_id = 1;
         AuthCookie::setProjectCookie($prj_id);

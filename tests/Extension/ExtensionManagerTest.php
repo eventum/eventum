@@ -24,10 +24,7 @@ use Eventum\Test\TestCase;
  */
 class ExtensionManagerTest extends TestCase
 {
-    /**
-     * @requires PHPUnit 4.8
-     */
-    public function testWorkflowList()
+    public function testWorkflowList(): void
     {
         $config = [
             TestExtension1::class => __FILE__,

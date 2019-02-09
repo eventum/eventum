@@ -17,7 +17,7 @@ use Eventum\MemoizeDecorator;
 
 class MemoizeTest extends TestCase
 {
-    public function test1()
+    public function test1(): void
     {
         /** @var MemoizedTestClass $instance */
         $instance = new MemoizeDecorator(new MemoizedTestClass());

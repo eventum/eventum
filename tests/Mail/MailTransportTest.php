@@ -33,7 +33,7 @@ class MailTransportTest extends TestCase
      * caused ASCII encoding on headers
      * which failed the toString call later.
      */
-    public function testMessageObject()
+    public function testMessageObject(): void
     {
         list($recipient, $headers, $body) = $this->loadMailTrace('zf-mail-591ca27fb27c2.json');
 
@@ -59,7 +59,7 @@ class MailTransportTest extends TestCase
         $this->assertNotEmpty($res);
     }
 
-    public function testSingleRecipient()
+    public function testSingleRecipient(): void
     {
         $recipient = 'root@localhost';
         $from = 'noreply@localhost';
@@ -106,7 +106,7 @@ class MailTransportTest extends TestCase
      *
      * @return MailTransport
      */
-    private function getMailTransport()
+    private function getMailTransport(): MailTransport
     {
         $stub = $this->getMockBuilder(MailTransport::class)
             ->setMethods(['getTransport'])
@@ -121,7 +121,7 @@ class MailTransportTest extends TestCase
     /**
      * @return Transport\Smtp
      */
-    private function getTransportSmtp()
+    private function getTransportSmtp(): Transport\Smtp
     {
         $transport = $this->getMockBuilder(Transport\Smtp::class)
             ->setMethods(['getConnection', 'connect', 'mail'])
@@ -142,7 +142,7 @@ class MailTransportTest extends TestCase
      *
      * @return Protocol\Smtp;
      */
-    private function getProtocolSmtp()
+    private function getProtocolSmtp(): Protocol\Smtp
     {
         $stub = $this->getMockBuilder(Protocol\Smtp::class)
             ->setMethods(['mail', 'rcpt', 'data'])
@@ -196,7 +196,7 @@ class MailTransportTest extends TestCase
      * @param string $traceFile
      * @return array
      */
-    private function loadMailTrace($traceFile)
+    private function loadMailTrace($traceFile): array
     {
         $contents = $this->readDataFile($traceFile);
         $this->assertJson($contents);

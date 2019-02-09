@@ -26,7 +26,7 @@ class ForwardedRoutingTest extends TestCase
      * i.e if mail has Matching In-Reply-To header, but also X-Forwarded-Message-Id header
      * the email is not associated by new issue created
      */
-    public function testForwardedMailRouting()
+    public function testForwardedMailRouting(): void
     {
         $full_message = $this->readDataFile('thunderbird-forwarded.txt');
         $mail = MailMessage::createFromString($full_message);

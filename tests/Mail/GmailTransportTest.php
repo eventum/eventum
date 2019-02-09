@@ -28,7 +28,7 @@ use Setup;
  */
 class GmailTransportTest extends TestCase
 {
-    public function testGmailTransport()
+    public function testGmailTransport(): void
     {
         $this->configureSmtp();
 
@@ -39,7 +39,7 @@ class GmailTransportTest extends TestCase
         $mail->send($address, $headers, $body);
     }
 
-    private function configureSmtp()
+    private function configureSmtp(): void
     {
         $smtpSetup = Setup::get()['tests.smtp'];
         if (!$smtpSetup) {

@@ -21,7 +21,7 @@ class IssueLockTest extends TestCase
     /**
      * @group slow
      */
-    public function testLock()
+    public function testLock(): void
     {
         $issue_id = 1;
         $locker = 'admin';

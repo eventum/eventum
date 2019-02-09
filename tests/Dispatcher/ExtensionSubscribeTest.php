@@ -24,7 +24,7 @@ class ExtensionSubscribeTest extends TestCase
     const RESPONSE = 'response';
     const NAME = 'response';
 
-    public function testExtensionEvents()
+    public function testExtensionEvents(): void
     {
         $config = [
             Extension1::class => __FILE__,

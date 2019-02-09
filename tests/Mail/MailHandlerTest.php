@@ -30,7 +30,7 @@ namespace Eventum\Test\Mail {
      */
     class MailHandlerTest extends TestCase
     {
-        public function testMailHandler()
+        public function testMailHandler(): void
         {
             $logger = $this->configureMailHandler('enabled');
             $logger->error('error');
@@ -39,7 +39,7 @@ namespace Eventum\Test\Mail {
             $this->assertCount(1, $mail);
         }
 
-        public function testMailHandlerDisabled()
+        public function testMailHandlerDisabled(): void
         {
             $logger = $this->configureMailHandler('disabled');
             $logger->error('error');

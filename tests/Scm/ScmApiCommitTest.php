@@ -31,7 +31,7 @@ class ScmApiCommitTest extends ScmTestCase
     /**
      * Test commit push over Api
      */
-    public function testGitlabCommitApi()
+    public function testGitlabCommitApi(): void
     {
         $request = $this->createApiRequest('gitlab/push/project-commit.json');
         $request->headers->set(Gitlab::GITLAB_HEADER, 'Push Hook');
@@ -47,7 +47,7 @@ class ScmApiCommitTest extends ScmTestCase
         $this->assertEquals(['bla'], $files);
     }
 
-    public function testCvsCommitApi()
+    public function testCvsCommitApi(): void
     {
         $this->markTestIncomplete('lacks cleanup, so will fail on second run');
         $request = $this->createApiRequest('cvs-commit.json');
@@ -67,7 +67,7 @@ class ScmApiCommitTest extends ScmTestCase
     /**
      * Test commit push over http
      */
-    public function testGitlabCommitUrl()
+    public function testGitlabCommitUrl(): void
     {
         $api_url = $this->getCommitUrl();
 
@@ -76,7 +76,7 @@ class ScmApiCommitTest extends ScmTestCase
         $this->POST($api_url, $payload, $headers);
     }
 
-    private function getCommitUrl()
+    private function getCommitUrl(): string
     {
         $setup = Setup::get();
         $api_url = $setup['tests.commit_url'];
@@ -85,12 +85,12 @@ class ScmApiCommitTest extends ScmTestCase
         return $api_url;
     }
 
-    private function POST($url, $payload, $headers = '')
+    private function POST($url, $payload, $headers = ''): string
     {
         return shell_exec("curl -Ss $headers -X POST --data @{$payload} {$url}");
     }
 
-    private function createApiRequest($filename)
+    private function createApiRequest($filename): Request
     {
         $api_url = $this->getCommitUrl();
         $payload = $this->readDataFile($filename);
@@ -98,7 +98,7 @@ class ScmApiCommitTest extends ScmTestCase
         return Request::create($api_url, 'POST', [], [], [], [], $payload);
     }
 
-    private function addFilesListener(&$files)
+    private function addFilesListener(&$files): void
     {
         $listener = function (GenericEvent $event) use (&$files) {
             /** @var Entity\Commit $commit */
