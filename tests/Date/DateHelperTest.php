@@ -109,16 +109,16 @@ class DateHelperTest extends TestCase
      * @covers       Date_Helper::getRFC822Date
      * @dataProvider dataTestGetRFC822Date
      */
-    public function testGetRFC822Date($ts, $tz, $exp): void
+    public function testGetRFC822Date($ts, $exp): void
     {
-        $res = Date_Helper::getRFC822Date($ts, $tz);
+        $res = Date_Helper::getRFC822Date($ts);
         $this->assertEquals($exp, $res);
     }
 
     public function dataTestGetRFC822Date(): array
     {
         return [
-            [1411842757, false, 'Sat, 27 Sep 2014 18:32:37 GMT'],
+            [1411842757, 'Sat, 27 Sep 2014 18:32:37 GMT'],
         ];
     }
 

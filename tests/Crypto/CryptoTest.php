@@ -148,13 +148,13 @@ class CryptoTest extends TestCase
         $value = new EncryptedValue($encrypted);
 
         $f = function ($e) {
-            $f = function () {
+            $f2 = function ($e2) {
                 $e = new Exception('boo');
 
                 return $e->getTraceAsString();
             };
 
-            return $f($e);
+            return $f2($e);
         };
 
         $trace = $f($value);

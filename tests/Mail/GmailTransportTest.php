@@ -13,6 +13,7 @@
 
 namespace Eventum\Test\Mail;
 
+use Eventum\Mail\MailMessage;
 use Eventum\Mail\MailTransport;
 use Eventum\Test\TestCase;
 use Setup;
@@ -36,7 +37,8 @@ class GmailTransportTest extends TestCase
         $address = 'glen@delfi.ee';
         $headers = [];
         $body = 'test';
-        $mail->send($address, $headers, $body);
+        $message = MailMessage::createFromHeaderBody($headers, $body);
+        $mail->send($address, $message);
     }
 
     private function configureSmtp(): void
