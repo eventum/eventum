@@ -8,6 +8,10 @@ install -d $PHP_INI_DIR
 #echo "extension=ldap.so" >> $PHP_INI_DIR/php.ini
 composer config platform.ext-ldap '0'
 
+# no gd for php 8.0
+# https://travis-ci.org/glensc/eventum/jobs/490544010
+composer config platform.ext-gd '0'
+
 # disable xdebug
 phpenv config-rm xdebug.ini || :
 
@@ -17,3 +21,9 @@ composer config platform.ext-mcrypt '0'
 
 # disable secure-http because sourceforge redirects to http:// urls
 composer config secure-http false
+
+# install as global, because via composer autoloading is broken
+# due the way _setlocal gets defined based on context
+# $ vendor/bin/phpunit
+# PHP Fatal error:  Uncaught Error: Call to undefined function _setlocale() in /home/travis/build/glensc/eventum/lib/eventum/class.language.php:158
+composer global require "phpunit/phpunit" "^7.5"

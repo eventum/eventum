@@ -20,7 +20,7 @@ class IssueMatcherTest extends TestCase
     /** @var IssueMatcher */
     private $matcher;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->matcher = new IssueMatcher('http://eventum.example.lan/');
     }
@@ -34,7 +34,7 @@ class IssueMatcherTest extends TestCase
         $this->assertEquals($expected, $result);
     }
 
-    public function dataProvider()
+    public function dataProvider(): array
     {
         return [
             'no match' => [

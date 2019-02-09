@@ -26,7 +26,7 @@ use Support;
  */
 class MimeDecodeTest extends TestCase
 {
-    public function testFieldValues()
+    public function testFieldValues(): void
     {
         $message = $this->readDataFile('bug684922.txt');
         $mail = MailMessage::createFromString($message);
@@ -35,7 +35,7 @@ class MimeDecodeTest extends TestCase
         $this->assertEquals('PD: My: Gołblahblah', $mail->subject);
     }
 
-    public function testSupportBuildMail()
+    public function testSupportBuildMail(): void
     {
         $issue_id = null;
         $from = 'rööts <me@localhost>';
@@ -64,7 +64,7 @@ class MimeDecodeTest extends TestCase
     /**
      * Mime_Helper::decode()->body extracts main message body if no parts present
      */
-    public function testBuildMail()
+    public function testBuildMail(): void
     {
         $issue_id = null;
         $from = 'Elan Ruusamäe <root@localhost>';
@@ -80,7 +80,7 @@ class MimeDecodeTest extends TestCase
         $this->assertEquals($body, $mail->getMessageBody());
     }
 
-    public function testBuildMailSave()
+    public function testBuildMailSave(): void
     {
         // this is mail saved by Support::buildMail
         $content = $this->readDataFile('saved_mail.txt');

@@ -28,16 +28,16 @@ class DateHelperUserTest extends TestCase
     /**
      * timezone used for preferred user timezone tests
      */
-    const USER_TIMEZONE = 'Europe/Tallinn';
-    const ADMIN_TIMEZONE = 'UTC';
+    private const USER_TIMEZONE = 'Europe/Tallinn';
+    private const ADMIN_TIMEZONE = 'UTC';
 
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass(): void
     {
         self::setTimezone(APP_ADMIN_USER_ID, self::USER_TIMEZONE);
         self::setTimezone(APP_SYSTEM_USER_ID, self::ADMIN_TIMEZONE);
     }
 
-    private function setTimezone($usr_id, $timezone)
+    private static function setTimezone($usr_id, $timezone): void
     {
         $prefs = Prefs::get($usr_id);
         $prefs['timezone'] = $timezone;
@@ -47,9 +47,9 @@ class DateHelperUserTest extends TestCase
     }
 
     /**
-     * @covers  Date_Helper::getTimezoneShortNameByUser
+     * @covers Date_Helper::getTimezoneShortNameByUser
      */
-    public function testGetTimezoneShortNameByUser()
+    public function testGetTimezoneShortNameByUser(): void
     {
         $res = Date_Helper::getTimezoneShortNameByUser(APP_SYSTEM_USER_ID);
         $this->assertEquals('UTC', $res);
@@ -59,9 +59,9 @@ class DateHelperUserTest extends TestCase
     }
 
     /**
-     * @covers  Date_Helper::getPreferredTimezone
+     * @covers Date_Helper::getPreferredTimezone
      */
-    public function testGetPreferredTimezone()
+    public function testGetPreferredTimezone(): void
     {
         $res = Date_Helper::getPreferredTimezone();
         $this->assertEquals('UTC', $res);

@@ -22,7 +22,7 @@ use Eventum\Test\TestCase;
  */
 class DbApiTest extends TestCase
 {
-    public function testNullApi()
+    public function testNullApi(): void
     {
         $config = DB_Helper::getConfig();
         $instance = new NullAdapter($config);

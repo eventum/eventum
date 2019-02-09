@@ -18,7 +18,7 @@ use Setup;
 
 class ConfigTest extends TestCase
 {
-    public function testConfig()
+    public function testConfig(): void
     {
         $config = Setup::get();
 
@@ -66,7 +66,7 @@ class ConfigTest extends TestCase
      * that does not work (Indirect modification error),
      * so test version that works
      */
-    public function testSetType()
+    public function testSetType(): void
     {
         $config = Setup::get();
 
@@ -83,7 +83,7 @@ class ConfigTest extends TestCase
         $this->assertFalse($config['smtp']['auth']);
     }
 
-    public function testArrayEmpty()
+    public function testArrayEmpty(): void
     {
         $setup = Setup::get();
 
@@ -95,17 +95,17 @@ class ConfigTest extends TestCase
         $this->assertNull($setup['email_reminder']['addresses']);
 
         // check that this is false and does not trigger errors/notices
-        $this->assertFalse($setup['email_reminder']['status'] == 'enabled' && $setup['email_reminder']['addresses']);
+        $this->assertFalse($setup['email_reminder']['status'] === 'enabled' && $setup['email_reminder']['addresses']);
 
         $setup['email_reminder'] = [
             'status' => 'enabled',
             'aadresses' => [],
         ];
         // that empty addresses list is also false
-        $this->assertFalse($setup['email_reminder']['status'] == 'enabled' && $setup['email_reminder']['addresses']);
+        $this->assertFalse($setup['email_reminder']['status'] === 'enabled' && $setup['email_reminder']['addresses']);
     }
 
-    public function testArrayMerge()
+    public function testArrayMerge(): void
     {
         $defaults = [
             'email_routing' => [

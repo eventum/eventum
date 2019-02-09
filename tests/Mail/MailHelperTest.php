@@ -24,7 +24,7 @@ use Zend\Mail\Header\HeaderInterface;
  */
 class MailHelperTest extends TestCase
 {
-    public function testGetMessageID()
+    public function testGetMessageId(): void
     {
         $headers = 'x-foo: 1';
         $body = 'body';
@@ -76,13 +76,13 @@ class MailHelperTest extends TestCase
      *
      * @dataProvider validGetEmailAddressesData
      */
-    public function testGetEmailAddresses($input, $exp)
+    public function testGetEmailAddresses($input, $exp): void
     {
         $res = AddressHeader::fromString($input)->getEmails();
         $this->assertEquals($exp, $res);
     }
 
-    public function validGetEmailAddressesData()
+    public function validGetEmailAddressesData(): array
     {
         return [
             [
@@ -131,13 +131,13 @@ class MailHelperTest extends TestCase
      * @param bool $remove_issue_id
      * @dataProvider RemoveExcessReIssueIdTestData
      */
-    public function testRemoveExcessReIssueId($description, $subject, $exp, $remove_issue_id)
+    public function testRemoveExcessReIssueId($description, $subject, $exp, $remove_issue_id): void
     {
         $res = Mail_Helper::RemoveExcessRe($subject, $remove_issue_id);
         $this->assertEquals($exp, $res, $description);
     }
 
-    public function RemoveExcessReIssueIdTestData()
+    public function RemoveExcessReIssueIdTestData(): array
     {
         return [
             [
@@ -201,7 +201,7 @@ class MailHelperTest extends TestCase
     /**
      * @dataProvider GetAddressInfoTestData
      */
-    public function testGetAddressInfo($input, $sender_name, $email)
+    public function testGetAddressInfo($input, $sender_name, $email): void
     {
         $address = AddressHeader::fromString($input)->getAddress();
 
@@ -209,7 +209,7 @@ class MailHelperTest extends TestCase
         $this->assertEquals($email, $address->getEmail());
     }
 
-    public function GetAddressInfoTestData()
+    public function GetAddressInfoTestData(): array
     {
         return [
             0 => [
@@ -243,7 +243,7 @@ class MailHelperTest extends TestCase
     /**
      * @dataProvider GetAddressInfoMultipleTestData
      */
-    public function testGetAddressInfoMultiple($input, $exp)
+    public function testGetAddressInfoMultiple($input, $exp): void
     {
         $res = AddressHeader::fromString($input)->toString();
 
@@ -253,7 +253,7 @@ class MailHelperTest extends TestCase
         $this->assertEquals($exp, $res);
     }
 
-    public function GetAddressInfoMultipleTestData()
+    public function GetAddressInfoMultipleTestData(): array
     {
         return [
             // test for "addressgroup" with empty list
@@ -288,7 +288,7 @@ class MailHelperTest extends TestCase
      * @param string $exp expected result
      * @dataProvider FormatEmailAddressesTestData
      */
-    public function testFormatEmailAddresses($input, $exp)
+    public function testFormatEmailAddresses($input, $exp): void
     {
         $res = AddressHeader::fromString($input)->toString(HeaderInterface::FORMAT_RAW);
         // spaces are irrelevant
@@ -296,7 +296,7 @@ class MailHelperTest extends TestCase
         $this->assertEquals($exp, $res);
     }
 
-    public function FormatEmailAddressesTestData()
+    public function FormatEmailAddressesTestData(): array
     {
         return [
             [

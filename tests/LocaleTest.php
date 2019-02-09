@@ -21,7 +21,7 @@ use RuntimeException;
  */
 class LocaleTest extends TestCase
 {
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass(): void
     {
         if (!getenv('TRAVIS')) {
             self::markTestSkipped('Tests require full localedb installation');
@@ -34,7 +34,7 @@ class LocaleTest extends TestCase
         }
     }
 
-    private static function installLocales()
+    private static function installLocales(): void
     {
         $localeDir = APP_PATH . '/localization';
 
@@ -45,17 +45,16 @@ class LocaleTest extends TestCase
     }
 
     /**
-     * @test
      * @dataProvider availableLanguages
      * @group locale
      */
-    public function testLocales($code, $language)
+    public function testLocales($code, $language): void
     {
         $enabled = Language::set($code);
         $this->assertTrue($enabled, "Language '$language' ($code) is valid");
     }
 
-    public function availableLanguages()
+    public function availableLanguages(): array
     {
         $langs = Language::getAvailableLanguages(false);
 

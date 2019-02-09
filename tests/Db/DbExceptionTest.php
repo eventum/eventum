@@ -15,12 +15,13 @@ namespace Eventum\Test\Db;
 
 use Eventum\Db\DatabaseException;
 use Eventum\Test\TestCase;
+use Exception;
 use PDOException;
 use ReflectionClass;
 
 class DbExceptionTest extends TestCase
 {
-    public function testException()
+    public function testException(): void
     {
         $message = "SQLSTATE[HY000]: General error: 144 Table './eventum/mail_queue' is marked as crashed and last (automatic?) repair failed";
         $code = 'HY000';
@@ -40,13 +41,8 @@ class DbExceptionTest extends TestCase
      * because it expects integer (PDOException extends Exception).
      *
      * Fill the value with Reflection.
-     *
-     * @param string $class
-     * @param string $message
-     * @param string $code
-     * @return object
      */
-    private function createException($class, $message, $code)
+    private function createException(string $class, string $message, string $code): Exception
     {
         $e = new $class($message);
         $class = new ReflectionClass($e);

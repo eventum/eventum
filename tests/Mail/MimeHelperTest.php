@@ -25,13 +25,13 @@ class MimeHelperTest extends TestCase
     /**
      * @dataProvider dataDecodeQuotedPrintable
      */
-    public function testDecodeQuotedPrintable($str, $exp)
+    public function testDecodeQuotedPrintable($str, $exp): void
     {
         $res = Mime_Helper::decodeQuotedPrintable($str);
         $this->assertEquals($exp, $res);
     }
 
-    public function dataDecodeQuotedPrintable()
+    public function dataDecodeQuotedPrintable(): array
     {
         return [
             // iconv test from php manual
@@ -56,7 +56,7 @@ class MimeHelperTest extends TestCase
     /**
      * Method used to properly quote the sender of a given email address.
      */
-    public function testQuoteSender()
+    public function testQuoteSender(): void
     {
         $test_data = [
             '<email@example.org>' => 'email@example.org',
@@ -71,7 +71,7 @@ class MimeHelperTest extends TestCase
     /**
      * Method used to remove any unnecessary quoting from an email address.
      */
-    public function testRemoveQuotes()
+    public function testRemoveQuotes(): void
     {
         $test_data = [
             '<email@example.org>' => 'email@example.org',
@@ -83,7 +83,7 @@ class MimeHelperTest extends TestCase
         }
     }
 
-    public function testBug901653()
+    public function testBug901653(): void
     {
         $message = $this->readDataFile('LP901653.txt');
         $mail = MailMessage::createFromString($message);

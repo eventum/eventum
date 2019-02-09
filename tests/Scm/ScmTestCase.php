@@ -22,7 +22,7 @@ use Workflow;
 
 class ScmTestCase extends TestCase
 {
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass(): void
     {
         self::setUpConfig();
 
@@ -33,10 +33,8 @@ class ScmTestCase extends TestCase
 
     /**
      * Create commit associated to new issue
-     *
-     * @return Entity\Commit
      */
-    protected function createCommit($scm = 'cvs')
+    protected function createCommit(string $scm = 'cvs'): Entity\Commit
     {
         $changeset = uniqid('z1', false);
 
@@ -59,7 +57,7 @@ class ScmTestCase extends TestCase
         return $ci;
     }
 
-    protected function flushCommit(Entity\Commit $commit)
+    protected function flushCommit(Entity\Commit $commit): Entity\Commit
     {
         $em = $this->getEntityManager();
 
@@ -77,7 +75,7 @@ class ScmTestCase extends TestCase
         return $commit;
     }
 
-    private static function setUpConfig()
+    private static function setUpConfig(): void
     {
         $scm = [
             'cvs' => [
@@ -99,6 +97,7 @@ class ScmTestCase extends TestCase
                 'log_url' => 'http://localhost:10080/{PROJECT}/commits/{VERSION}/{FILE}',
             ],
         ];
+
         Setup::set(['scm' => $scm]);
     }
 }

@@ -31,7 +31,7 @@ class MimeMessageTest extends TestCase
     private $message_id;
     private $date;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->from = '"Admin User " <note-3@eventum.example.org>';
         $this->to = '"Admin User" <admin@example.com>';
@@ -56,7 +56,7 @@ class MimeMessageTest extends TestCase
      * @see http://framework.zend.com/manual/current/en/modules/zend.mail.message.html
      * @see http://framework.zend.com/manual/current/en/modules/zend.mail.attachments.html
      */
-    public function testMimeMessageText()
+    public function testMimeMessageText(): void
     {
         $body = "Hello, bödi tekst\n\nBye";
 
@@ -68,7 +68,7 @@ class MimeMessageTest extends TestCase
         $this->assertEquals($body, $mail->getContent());
     }
 
-    public function testMimeMessageAttachment()
+    public function testMimeMessageAttachment(): void
     {
         $body = "Hello, bödi tekst\n\nBye\n";
 
@@ -111,11 +111,7 @@ class MimeMessageTest extends TestCase
         $this->assertNotEmpty($m);
     }
 
-    /**
-     * @param array $params
-     * @return Attachment
-     */
-    private function createAttachment($params)
+    private function createAttachment(array $params): Attachment
     {
         $attachment = new Attachment($params['iaf_filename'], $params['iaf_filetype']);
         $property = new ReflectionProperty($attachment, 'blob');

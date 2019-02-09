@@ -28,15 +28,15 @@ class DateHelperTest extends TestCase
 {
     /**
      * @covers       Date_Helper::isAM
-     * @dataProvider testIsAM_data
+     * @dataProvider dataTestIsAM
      */
-    public function testIsAM($input, $exp)
+    public function testIsAM($input, $exp): void
     {
         $res = Date_Helper::isAM($input);
         $this->assertEquals($exp, $res);
     }
 
-    public function testIsAM_data()
+    public function dataTestIsAM(): array
     {
         return [
             [0, true],
@@ -48,15 +48,15 @@ class DateHelperTest extends TestCase
 
     /**
      * @covers       Date_Helper::isPM
-     * @dataProvider testIsPM_data
+     * @dataProvider dataTestIsPM
      */
-    public function testIsPM($input, $exp)
+    public function testIsPM($input, $exp): void
     {
         $res = Date_Helper::isPM($input);
         $this->assertEquals($exp, $res);
     }
 
-    public function testIsPM_data()
+    public function dataTestIsPM(): array
     {
         return [
             [0, false],
@@ -68,15 +68,15 @@ class DateHelperTest extends TestCase
 
     /**
      * @covers       Date_Helper::getFormattedDateDiff
-     * @dataProvider testGetFormattedDateDiff_data
+     * @dataProvider dataTestGetFormattedDateDiff
      */
-    public function testGetFormattedDateDiff($ts1, $ts2, $exp)
+    public function testGetFormattedDateDiff($ts1, $ts2, $exp): void
     {
         $res = Date_Helper::getFormattedDateDiff($ts1, $ts2);
         $this->assertEquals($exp, $res);
     }
 
-    public function testGetFormattedDateDiff_data()
+    public function dataTestGetFormattedDateDiff(): array
     {
         return [
             [0, 10, '0d 0h'],
@@ -88,15 +88,15 @@ class DateHelperTest extends TestCase
 
     /**
      * @covers       Date_Helper::getUnixTimestamp
-     * @dataProvider testGetUnixTimestamp_data
+     * @dataProvider dataTestGetUnixTimestamp
      */
-    public function testGetUnixTimestamp($ts, $tz, $exp)
+    public function testGetUnixTimestamp($ts, $tz, $exp): void
     {
         $res = Date_Helper::getUnixTimestamp($ts, $tz);
         $this->assertEquals($exp, $res);
     }
 
-    public function testGetUnixTimestamp_data()
+    public function dataTestGetUnixTimestamp(): array
     {
         return [
             // unix timestamps are timezoneless
@@ -107,32 +107,32 @@ class DateHelperTest extends TestCase
 
     /**
      * @covers       Date_Helper::getRFC822Date
-     * @dataProvider testGetRFC822Date_data
+     * @dataProvider dataTestGetRFC822Date
      */
-    public function testGetRFC822Date($ts, $tz, $exp)
+    public function testGetRFC822Date($ts, $exp): void
     {
-        $res = Date_Helper::getRFC822Date($ts, $tz);
+        $res = Date_Helper::getRFC822Date($ts);
         $this->assertEquals($exp, $res);
     }
 
-    public function testGetRFC822Date_data()
+    public function dataTestGetRFC822Date(): array
     {
         return [
-            [1411842757, false, 'Sat, 27 Sep 2014 18:32:37 GMT'],
+            [1411842757, 'Sat, 27 Sep 2014 18:32:37 GMT'],
         ];
     }
 
     /**
      * @covers       Date_Helper::getFormattedDate
-     * @dataProvider testGetFormattedDate_data
+     * @dataProvider dataTestGetFormattedDate
      */
-    public function testGetFormattedDate($input, $exp)
+    public function testGetFormattedDate($input, $exp): void
     {
         $res = Date_Helper::getFormattedDate($input);
         $this->assertEquals($exp, $res);
     }
 
-    public function testGetFormattedDate_data()
+    public function dataTestGetFormattedDate(): array
     {
         return [
             [0, 'Thu, 01 Jan 1970, 00:00:00 GMT'],
@@ -142,15 +142,15 @@ class DateHelperTest extends TestCase
 
     /**
      * @covers       Date_Helper::getSimpleDate
-     * @dataProvider testGetSimpleDate_data
+     * @dataProvider dataTestGetSimpleDate
      */
-    public function testGetSimpleDate($ts, $convert, $exp)
+    public function testGetSimpleDate($ts, $convert, $exp): void
     {
         $res = Date_Helper::getSimpleDate($ts, $convert);
         $this->assertEquals($exp, $res);
     }
 
-    public function testGetSimpleDate_data()
+    public function dataTestGetSimpleDate(): array
     {
         return [
             [1391212800, false, '01 Feb 2014'],
@@ -162,15 +162,15 @@ class DateHelperTest extends TestCase
 
     /**
      * @covers       Date_Helper::convertDateGMT
-     * @dataProvider testConvertDateGMT_data
+     * @dataProvider dataTestConvertDateGMT
      */
-    public function testConvertDateGMT($date, $exp)
+    public function testConvertDateGMT($date, $exp): void
     {
         $res = Date_Helper::convertDateGMT($date);
         $this->assertEquals($exp, $res);
     }
 
-    public function testConvertDateGMT_data()
+    public function dataTestConvertDateGMT(): array
     {
         return [
             ['2014-09-27 00:00:00', '2014-09-27 00:00:00'],
@@ -180,15 +180,15 @@ class DateHelperTest extends TestCase
     }
 
     /**
-     * @dataProvider testInvalidTimezone_data
+     * @dataProvider dataTestInvalidTimezone
      */
-    public function testInvalidTimezone($ts, $tz, $exp)
+    public function testInvalidTimezone($ts, $tz, $exp): void
     {
         $date = Date_Helper::getFormattedDate($ts, $tz);
         $this->assertEquals($exp, $date);
     }
 
-    public function testInvalidTimezone_data()
+    public function dataTestInvalidTimezone(): array
     {
         return [
             ['Sat Oct 11 11:51:12 EEST 2014', 'Europe/Tallinn', 'Sat, 11 Oct 2014, 11:51:12 EEST'],
@@ -199,7 +199,7 @@ class DateHelperTest extends TestCase
         ];
     }
 
-    public function testGetTimezoneList()
+    public function testGetTimezoneList(): void
     {
         $pear_timezones = require __DIR__ . '/../data/timezones.php';
         $timezones = Date_Helper::getTimezoneList();
@@ -211,7 +211,7 @@ class DateHelperTest extends TestCase
 //        print_r($diff);
     }
 
-    public function testTzNamingDifferences()
+    public function testTzNamingDifferences(): void
     {
         $created_date = Date_Helper::convertDateGMT('2015-05-19 12:22:24 EET');
         $this->assertEquals('2015-05-19 10:22:24', $created_date);
@@ -226,7 +226,7 @@ class DateHelperTest extends TestCase
     /**
      * @see https://github.com/eventum/eventum/issues/204
      */
-    public function testBug_204()
+    public function testBug_204(): void
     {
         try {
             Date_Helper::convertDateGMT('2016-10-03 10:20:00 US/Central');

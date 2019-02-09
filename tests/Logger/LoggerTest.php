@@ -27,7 +27,7 @@ use PEAR_Error;
  */
 class LoggerTest extends TestCase
 {
-    public function testLogger()
+    public function testLogger(): void
     {
         // create a log channel
         $log = new Monolog\Logger('eventum');
@@ -39,13 +39,13 @@ class LoggerTest extends TestCase
         $log->addError('Bar');
     }
 
-    public function testLoggerRegistry()
+    public function testLoggerRegistry(): void
     {
         Logger::app()->addError('Sent to $app Logger instance');
         Logger::db()->addError('Sent to $db Logger instance');
     }
 
-    public function testLoggerCreateLogger()
+    public function testLoggerCreateLogger(): void
     {
         $logger = Logger::createLogger('ldap');
         $logger->error('ldap error 1');
@@ -55,7 +55,7 @@ class LoggerTest extends TestCase
     /**
      * @group db
      */
-    public function testDbError()
+    public function testDbError(): void
     {
         try {
             DB_Helper::getInstance()->query('here -->?<-- be dragons?', ['param1', 'param2']);
@@ -64,9 +64,9 @@ class LoggerTest extends TestCase
     }
 
     /**
-     * @test what happens if i just log exception object
+     * test what happens if i just log exception object
      */
-    public function testLogException()
+    public function testLogException(): void
     {
         $e = new Exception('It happened');
 
@@ -74,7 +74,7 @@ class LoggerTest extends TestCase
         Logger::app()->error($e->getMessage(), ['exception' => $e]);
     }
 
-    public function testLogPearException()
+    public function testLogPearException(): void
     {
         $e = new PEAR_Error('It happened');
 
@@ -85,7 +85,7 @@ class LoggerTest extends TestCase
         Logger::app()->error($e->getMessage(), ['debug' => $e->getDebugInfo()]);
     }
 
-    public function testCliLog()
+    public function testCliLog(): void
     {
         Logger::cli()->info('moo');
     }

@@ -17,7 +17,7 @@ use Misc;
 
 class HistoryTest extends TestCase
 {
-    public function testHistoryContext()
+    public function testHistoryContext(): void
     {
         $message = "Issue updated to status '{status}' by {actor}";
         $context = [

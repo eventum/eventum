@@ -18,7 +18,7 @@ use Eventum\Test\TestCase;
 
 class AttachmentTest extends TestCase
 {
-    public function testHasAttachments()
+    public function testHasAttachments(): void
     {
         $raw = "Message-ID: <33@JON>X-foo: 1\r\n\r\nada";
         $message = MailMessage::createFromString($raw);
@@ -48,7 +48,7 @@ class AttachmentTest extends TestCase
      * Uncaught Exception Zend\Mail\Storage\Exception\InvalidArgumentException:
      * "Header with Name Content-Disposition or content-disposition not found"
      */
-    public function testHasAttachmentPlain()
+    public function testHasAttachmentPlain(): void
     {
         $content = $this->readDataFile('attachment-bug.txt');
         $message = MailMessage::createFromString($content);
@@ -56,7 +56,7 @@ class AttachmentTest extends TestCase
         $this->assertTrue($attachments->hasAttachments());
     }
 
-    public function testGetAttachments()
+    public function testGetAttachments(): void
     {
         $raw = $this->readDataFile('bug684922.txt');
 
@@ -77,7 +77,7 @@ class AttachmentTest extends TestCase
      * Multipart/related contains attachment.
      * Current implementation sees 2 attachments, should see 3.
      */
-    public function testMultipartRelatedAttachments()
+    public function testMultipartRelatedAttachments(): void
     {
         $content = $this->readDataFile('102232.txt');
 
@@ -90,7 +90,7 @@ class AttachmentTest extends TestCase
         $this->assertCount(1, $attachments);
     }
 
-    public function testAttachmentWithDeliveryStatus()
+    public function testAttachmentWithDeliveryStatus(): void
     {
         $content = $this->readDataFile('attachment-bug.txt');
         $mail = MailMessage::createFromString($content);
@@ -104,7 +104,7 @@ class AttachmentTest extends TestCase
     /**
      * it should not account multipart/alternative as an attachment
      */
-    public function testMultipartAlternative()
+    public function testMultipartAlternative(): void
     {
         $content = $this->readDataFile('multipart-mixed-alternative-attachment.eml');
         $mail = MailMessage::createFromString($content);
@@ -119,7 +119,7 @@ class AttachmentTest extends TestCase
      * process multipart/related,
      * should not consider text/plain and multipart/related as attachments.
      */
-    public function testMultipartRelatedWithText()
+    public function testMultipartRelatedWithText(): void
     {
         $content = $this->readDataFile('multipart-related.eml');
         $mail = MailMessage::createFromString($content);

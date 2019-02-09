@@ -18,7 +18,7 @@ use Eventum\Test\TestCase;
 
 class DbHelperTest extends TestCase
 {
-    public function testBuildSet()
+    public function testBuildSet(): void
     {
         $params = [
             'a' => 'b',
@@ -39,7 +39,7 @@ class DbHelperTest extends TestCase
         $this->assertEquals($exp, $res);
     }
 
-    public function testBuildList()
+    public function testBuildList(): void
     {
         // simple test
         $ids = [
@@ -72,7 +72,7 @@ class DbHelperTest extends TestCase
         $this->assertEquals($exp, $res);
     }
 
-    public function testOrderBy()
+    public function testOrderBy(): void
     {
         $res = DB_Helper::orderBy('ASC');
         $this->assertEquals('ASC', $res);

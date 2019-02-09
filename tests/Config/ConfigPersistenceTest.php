@@ -21,7 +21,7 @@ class ConfigPersistenceTest extends TestCase
     /** @var ConfigPersistence */
     private $handler;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->handler = new ConfigPersistence();
     }
@@ -32,7 +32,7 @@ class ConfigPersistenceTest extends TestCase
         $configFile = $configDir . '/setup.php';
 
         $config = $this->handler->load($configFile);
-        $this->assertInternalType('array', $config, 'Loading missing file yelds empty config');
+        $this->assertIsArray($config, 'Loading missing file yelds empty config');
 
         $this->handler->store($configFile, $config);
         $contents = $this->readFile($configFile);

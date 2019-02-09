@@ -21,7 +21,7 @@ use Phlib\Flysystem\Pdo\PdoAdapter;
 
 class FlysystemTest extends TestCase
 {
-    public function testLocalAdapter()
+    public function testLocalAdapter(): void
     {
         $adapter = new Local(__DIR__ . '/data');
         $filesystem = new Filesystem($adapter);
@@ -41,7 +41,7 @@ class FlysystemTest extends TestCase
     /**
      * @group db
      */
-    public function testPhlibFlysystemPdo()
+    public function testPhlibFlysystemPdo(): void
     {
         /** @var PdoAdapter $db */
         $db = DB_Helper::getInstance();

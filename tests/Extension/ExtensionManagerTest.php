@@ -14,7 +14,6 @@
 namespace Eventum\Test\Extension;
 
 use Eventum\Extension\AbstractExtension;
-use Eventum\Extension\ExtensionInterface;
 use Eventum\Test\TestCase;
 
 /**
@@ -24,10 +23,7 @@ use Eventum\Test\TestCase;
  */
 class ExtensionManagerTest extends TestCase
 {
-    /**
-     * @requires PHPUnit 4.8
-     */
-    public function testWorkflowList()
+    public function testWorkflowList(): void
     {
         $config = [
             TestExtension1::class => __FILE__,
@@ -40,9 +36,9 @@ class ExtensionManagerTest extends TestCase
     }
 }
 
-class TestExtension1 extends AbstractExtension implements ExtensionInterface
+class TestExtension1 extends AbstractExtension
 {
-    public function getAvailableWorkflows()
+    public function getAvailableWorkflows(): array
     {
         return [
             __CLASS__,
@@ -50,16 +46,16 @@ class TestExtension1 extends AbstractExtension implements ExtensionInterface
     }
 }
 
-class TestExtension2 extends AbstractExtension implements ExtensionInterface
+class TestExtension2 extends AbstractExtension
 {
-    public function registerAutoloader($loader)
+    public function registerAutoloader($loader): void
     {
         $baseDir = __DIR__ . '/../../docs/examples/workflow';
         $classMap = ['Example_Workflow_Backend' => $baseDir . '/class.example.php'];
         $loader->addClassMap($classMap);
     }
 
-    public function getAvailableWorkflows()
+    public function getAvailableWorkflows(): array
     {
         return [
             'Example_Workflow_Backend',

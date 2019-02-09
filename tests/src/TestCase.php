@@ -20,6 +20,7 @@ namespace Eventum\Test;
  * Load PHPUnit_Framework_TestCase wrapper if using older PHPUnit.
  */
 
+use Doctrine\ORM\EntityManager;
 use Eventum\Db\Doctrine;
 use Eventum\Extension\ExtensionManager;
 
@@ -30,7 +31,7 @@ class TestCase extends \PHPUnit\Framework\TestCase
      *
      * @return ExtensionManager
      */
-    protected function getExtensionManager($config)
+    protected function getExtensionManager($config): ExtensionManager
     {
         /** @var ExtensionManager $stub */
         $stub = $this->getMockBuilder(ExtensionManager::class)
@@ -48,7 +49,7 @@ class TestCase extends \PHPUnit\Framework\TestCase
         return $stub;
     }
 
-    protected function getDataFile($fileName)
+    protected function getDataFile($fileName): string
     {
         $dataFile = dirname(__DIR__) . '/data/' . $fileName;
         $this->assertFileExists($dataFile);
@@ -62,7 +63,7 @@ class TestCase extends \PHPUnit\Framework\TestCase
      * @param string $filename
      * @return string
      */
-    protected function readDataFile($filename)
+    protected function readDataFile($filename): string
     {
         return $this->readFile($this->getDataFile($filename));
     }
@@ -71,7 +72,7 @@ class TestCase extends \PHPUnit\Framework\TestCase
      * @param string $filename
      * @return string
      */
-    protected function readFile($filename)
+    protected function readFile($filename): string
     {
         $this->assertFileExists($filename);
         $content = file_get_contents($filename);
@@ -80,7 +81,7 @@ class TestCase extends \PHPUnit\Framework\TestCase
         return $content;
     }
 
-    protected function getEntityManager()
+    protected function getEntityManager(): EntityManager
     {
         return Doctrine::getEntityManager();
     }

@@ -17,14 +17,14 @@ use Misc;
 
 class RandomLibTest extends TestCase
 {
-    public function testRandom()
+    public function testRandom(): void
     {
         $res = Misc::generateRandom(32);
         $this->assertNotNull($res);
         $this->assertEquals(32, Misc::countBytes($res));
     }
 
-    public function testPasswordGen()
+    public function testPasswordGen(): void
     {
         $hash = md5(Misc::generateRandom(32));
         $password = substr($hash, 0, 12);

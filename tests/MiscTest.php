@@ -23,7 +23,7 @@ class MiscTest extends TestCase
     /**
      * @dataProvider caseData
      */
-    public function testLowercase($str, $exp)
+    public function testLowercase($str, $exp): void
     {
         $res = Misc::lowercase($str);
         $this->assertSame($exp, $res);
@@ -36,7 +36,7 @@ class MiscTest extends TestCase
      * @return  string The escaped (or not) string
      * @dataProvider StripHTMLData
      */
-    public function testStripHTML($str, $exp)
+    public function testStripHTML($str, $exp): void
     {
         $this->assertEquals($exp, Misc::stripHTML($str));
     }
@@ -46,13 +46,13 @@ class MiscTest extends TestCase
      * @return  string The escaped (or not) string
      * @dataProvider StripInputData
      */
-    public function testStripInput($str, $exp)
+    public function testStripInput($str, $exp): void
     {
         Misc::stripInput($str);
         $this->assertEquals($exp, $str);
     }
 
-    public function StripHTMLData()
+    public function StripHTMLData(): array
     {
         return [
             ['plain', 'plain'],
@@ -61,7 +61,7 @@ class MiscTest extends TestCase
         ];
     }
 
-    public function StripInputData()
+    public function StripInputData(): array
     {
         return [
             ['plain', 'plain'],
@@ -80,7 +80,7 @@ class MiscTest extends TestCase
         ];
     }
 
-    public function caseData()
+    public function caseData(): array
     {
         return [
             [null, null],
@@ -101,7 +101,7 @@ class MiscTest extends TestCase
      * @param int $u
      * @return string
      */
-    private function unichr($u)
+    private function unichr($u): string
     {
         return mb_convert_encoding('&#' . intval($u) . ';', 'UTF-8', 'HTML-ENTITIES');
     }

@@ -30,14 +30,14 @@ class ScmCommitTest extends ScmTestCase
     /** @var Commit */
     private $commit;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->issueRepo = Doctrine::getIssueRepository();
         $this->commitRepo = Doctrine::getCommitRepository();
         $this->commit = $this->flushCommit($this->createCommit());
     }
 
-    public function testFindByCommit()
+    public function testFindByCommit(): void
     {
         $c = $this->commitRepo->findOneByChangeset($this->commit->getChangeset());
         $this->assertNotNull($c);
@@ -47,7 +47,7 @@ class ScmCommitTest extends ScmTestCase
         $this->assertNull($c);
     }
 
-    public function testFindCommitsByIssueId()
+    public function testFindCommitsByIssueId(): void
     {
         $c = $this->issueRepo->getCommits($this->commit->getIssue()->getId());
         $this->assertNotEmpty($c, 'can find commits to issue');

@@ -27,7 +27,7 @@ use Eventum\Test\TestCase;
  */
 class DoctrineTest extends TestCase
 {
-    public function testFindAll()
+    public function testFindAll(): void
     {
         $repo = $this->getEntityManager()->getRepository(Entity\Project::class);
         $projects = $repo->findAll();
@@ -40,7 +40,7 @@ class DoctrineTest extends TestCase
         }
     }
 
-    public function test2()
+    public function test2(): void
     {
         $repo = Doctrine::getCommitRepository();
         $items = $repo->findBy([], null, 10);
@@ -53,7 +53,7 @@ class DoctrineTest extends TestCase
         }
     }
 
-    public function test3()
+    public function test3(): void
     {
         $repo = Doctrine::getCommitRepository();
         $qb = $repo->createQueryBuilder('commit');
@@ -66,7 +66,7 @@ class DoctrineTest extends TestCase
         print_r($items);
     }
 
-    public function testDeleteByQuery()
+    public function testDeleteByQuery(): void
     {
         $issue_id = 13;
         $associated_issue_id = 12;
@@ -92,7 +92,7 @@ class DoctrineTest extends TestCase
     /**
      * @throws \Doctrine\ORM\EntityNotFoundException
      */
-    public function testProjectStatusId()
+    public function testProjectStatusId(): void
     {
         /** @var ProjectRepository $repo */
         $repo = $this->getEntityManager()->getRepository(Entity\Project::class);
@@ -104,7 +104,7 @@ class DoctrineTest extends TestCase
         dump($status_id);
     }
 
-    public function testUserModel()
+    public function testUserModel(): void
     {
         $repo = $this->getEntityManager()->getRepository(Entity\User::class);
         $items = $repo->findBy([], null, 1);
@@ -112,7 +112,7 @@ class DoctrineTest extends TestCase
         dump($items);
     }
 
-    public function testIssueRepository()
+    public function testIssueRepository(): void
     {
         $em = Doctrine::getEntityManager();
         $repo = $em->getRepository(Entity\Issue::class);
@@ -137,7 +137,7 @@ class DoctrineTest extends TestCase
         $this->assertInstanceOf(Entity\CommitFile::class, $file);
     }
 
-    public function testIssueAddCommit()
+    public function testIssueAddCommit(): void
     {
         $em = Doctrine::getEntityManager();
         $repo = $em->getRepository(Entity\Issue::class);
@@ -166,7 +166,7 @@ class DoctrineTest extends TestCase
         $em->flush();
     }
 
-    public function testAddCommit()
+    public function testAddCommit(): void
     {
         $issue_id = 1;
 
@@ -174,7 +174,7 @@ class DoctrineTest extends TestCase
         $issue->setId(1);
     }
 
-    public function testUserRepository()
+    public function testUserRepository(): void
     {
         /** @var UserRepository $repo */
         $repo = $this->getEntityManager()->getRepository(Entity\User::class);

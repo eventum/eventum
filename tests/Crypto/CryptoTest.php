@@ -25,16 +25,16 @@ use InvalidArgumentException;
  */
 class CryptoTest extends TestCase
 {
-    public function testCanEncrypt()
+    public function testCanEncrypt(): void
     {
         $res = CryptoManager::canEncrypt();
         $this->assertTrue($res);
     }
 
     /**
-     * @test static encrypt and decrypt methods
+     * test static encrypt and decrypt methods
      */
-    public function testEncryptStatic()
+    public function testEncryptStatic(): void
     {
         $plaintext = 'tore';
         $encrypted = CryptoManager::encrypt($plaintext);
@@ -45,7 +45,7 @@ class CryptoTest extends TestCase
     /**
      * Test object instance which behaves as string, i.e __toString will return decrypted value
      */
-    public function testEncryptedValue()
+    public function testEncryptedValue(): void
     {
         $plaintext = 'tore';
         $encrypted = CryptoManager::encrypt($plaintext);
@@ -61,7 +61,7 @@ class CryptoTest extends TestCase
     /**
      * @expectedException Eventum\Crypto\CryptoException
      */
-    public function testCorruptedData()
+    public function testCorruptedData(): void
     {
         $plaintext = 'tore';
         $encrypted = CryptoManager::encrypt($plaintext);
@@ -73,7 +73,7 @@ class CryptoTest extends TestCase
         $value->getValue();
     }
 
-    public function testExport()
+    public function testExport(): void
     {
         $plaintext = 'tore';
         $encrypted = CryptoManager::encrypt($plaintext);
@@ -97,7 +97,7 @@ class CryptoTest extends TestCase
     /**
      * encrypt empty string is ok
      */
-    public function testEncryptEmptyString()
+    public function testEncryptEmptyString(): void
     {
         CryptoManager::encrypt('');
     }
@@ -107,7 +107,7 @@ class CryptoTest extends TestCase
      *
      * @expectedException InvalidArgumentException
      */
-    public function testEncryptNull()
+    public function testEncryptNull(): void
     {
         CryptoManager::encrypt(null);
     }
@@ -117,7 +117,7 @@ class CryptoTest extends TestCase
      *
      * @expectedException InvalidArgumentException
      */
-    public function testEncryptFalse()
+    public function testEncryptFalse(): void
     {
         CryptoManager::encrypt(false);
     }
@@ -125,7 +125,7 @@ class CryptoTest extends TestCase
     /**
      * encrypt "0" is ok
      */
-    public function testEncryptZeroString()
+    public function testEncryptZeroString(): void
     {
         CryptoManager::encrypt('0');
     }
@@ -133,7 +133,7 @@ class CryptoTest extends TestCase
     /**
      * encrypt 0 is ok
      */
-    public function testEncryptZero()
+    public function testEncryptZero(): void
     {
         CryptoManager::encrypt(0);
     }
@@ -141,27 +141,27 @@ class CryptoTest extends TestCase
     /**
      * Test that the object plain text value is not visible in backtraces
      */
-    public function testTraceVisibility()
+    public function testTraceVisibility(): void
     {
         $plaintext = 'tore';
         $encrypted = CryptoManager::encrypt($plaintext);
         $value = new EncryptedValue($encrypted);
 
         $f = function ($e) {
-            $f = function () {
+            $f2 = function ($e2) {
                 $e = new Exception('boo');
 
                 return $e->getTraceAsString();
             };
 
-            return $f($e);
+            return $f2($e);
         };
 
         $trace = $f($value);
         $this->assertNotContains($plaintext, $trace);
     }
 
-    public function testZendCrypt()
+    public function testZendCrypt(): void
     {
         $key = 'secretkeyvalue';
         $method = 'aes-128-cbc';

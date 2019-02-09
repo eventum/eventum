@@ -21,10 +21,10 @@ use Link_Filter;
 class LinkFilterTest extends TestCase
 {
     /**
-     * @dataProvider testIssueLinking_data
+     * @dataProvider dataTestIssueLinking
      * @see          Link_Filter::proccessText
      */
-    public function testIssueLinking($text, $exp)
+    public function testIssueLinking($text, $exp): void
     {
         $filters = Link_Filter::getFilters();
 
@@ -41,7 +41,7 @@ class LinkFilterTest extends TestCase
         $this->assertRegExp($exp, $text);
     }
 
-    public function testIssueLinking_data()
+    public function dataTestIssueLinking(): array
     {
         return [
             0 => [

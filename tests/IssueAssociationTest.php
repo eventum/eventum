@@ -25,7 +25,7 @@ class IssueAssociationTest extends TestCase
     /** @var \Doctrine\ORM\EntityRepository|IssueAssociationRepository */
     private $repo;
 
-    public function setUp()
+    public function setUp(): void
     {
         $em = $this->getEntityManager();
         $this->repo = Doctrine::getIssueAssociationRepository();
@@ -34,7 +34,7 @@ class IssueAssociationTest extends TestCase
         $this->repo->deleteAllRelations($issues);
     }
 
-    public function testAssociateIssue()
+    public function testAssociateIssue(): void
     {
         $usr_id = APP_SYSTEM_USER_ID;
         $iss1_id = 12;
@@ -79,7 +79,7 @@ class IssueAssociationTest extends TestCase
         }
     }
 
-    public function testBulkUpdate()
+    public function testBulkUpdate(): void
     {
         $usr_id = APP_SYSTEM_USER_ID;
         $issue_id = 12;
@@ -108,7 +108,7 @@ class IssueAssociationTest extends TestCase
      * @see \Issue::getAssociatedIssuesDetails();
      * @see \Issue::getAssociatedIssues();
      */
-    public function testGetDetails()
+    public function testGetDetails(): void
     {
         $usr_id = APP_SYSTEM_USER_ID;
         $iss1_id = 12;

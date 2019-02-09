@@ -21,10 +21,10 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class ExtensionSubscribeTest extends TestCase
 {
-    const RESPONSE = 'response';
-    const NAME = 'response';
+    public const RESPONSE = 'eventum_event_response';
+    public const NAME = 'eventum_event_name';
 
-    public function testExtensionEvents()
+    public function testExtensionEvents(): void
     {
         $config = [
             Extension1::class => __FILE__,
@@ -39,8 +39,8 @@ class ExtensionSubscribeTest extends TestCase
         }
 
         $event = new Event();
-        $dispatcher->dispatch('response', $event);
-        $dispatcher->dispatch('name', $event);
+        $dispatcher->dispatch(self::RESPONSE, $event);
+        $dispatcher->dispatch(self::NAME, $event);
 
         $id = StoreSubscriber::class;
         $res = $event->{$id};
@@ -60,7 +60,7 @@ class Extension1 extends AbstractExtension
 
 class Extension2 extends AbstractExtension
 {
-    public function getSubscribers()
+    public function getSubscribers(): array
     {
         return [
             StoreSubscriber::class,
@@ -77,28 +77,28 @@ class StoreSubscriber implements EventSubscriberInterface
         $this->id = __CLASS__;
     }
 
-    public static function getSubscribedEvents()
+    public static function getSubscribedEvents(): array
     {
         return [
-            'response' => [
+            ExtensionSubscribeTest::RESPONSE => [
                 ['onKernelResponsePre', 10],
                 ['onKernelResponsePost', -10],
             ],
-            'name' => 'onStoreOrder',
+            ExtensionSubscribeTest::NAME => 'onStoreOrder',
         ];
     }
 
-    public function onKernelResponsePre(Event $event)
+    public function onKernelResponsePre(Event $event): void
     {
         $event->{$this->id}[] = __FUNCTION__;
     }
 
-    public function onKernelResponsePost(Event $event)
+    public function onKernelResponsePost(Event $event): void
     {
         $event->{$this->id}[] = __FUNCTION__;
     }
 
-    public function onStoreOrder(Event $event)
+    public function onStoreOrder(Event $event): void
     {
         $event->{$this->id}[] = __FUNCTION__;
     }

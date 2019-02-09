@@ -17,11 +17,10 @@ use Eventum\Mail\Helper\WarningMessage;
 use Eventum\Mail\MailBuilder;
 use Eventum\Mail\MailMessage;
 use Eventum\Test\TestCase;
-use Zend\Mail\Exception\InvalidArgumentException;
 
 class WarningMessageTest extends TestCase
 {
-    public function testAddToPlainText()
+    public function testAddToPlainText(): void
     {
         $issue_id = 1;
         $email = 'root@localhost';
@@ -31,7 +30,7 @@ class WarningMessageTest extends TestCase
         $this->runAddAndRemoveTests($mail, $issue_id, $email);
     }
 
-    public function testMailBuilderText()
+    public function testMailBuilderText(): void
     {
         $issue_id = 1;
         $recipient = $from = 'root@localhost';
@@ -49,14 +48,10 @@ class WarningMessageTest extends TestCase
         $this->runAddAndRemoveTests($mail, $issue_id, $recipient);
     }
 
-    /**
-     * NOT YET
-     *
-     * @expectedException InvalidArgumentException
-     * @expectedExceptionMessage Multipart not supported
-     */
-    public function testMultipart()
+    public function testMultipart(): void
     {
+        $this->markTestIncomplete('Multipart not yet supported');
+
         $issue_id = 1;
         $email = 'root@localhost';
 
@@ -75,7 +70,7 @@ class WarningMessageTest extends TestCase
         $this->assertEquals($raw1, $raw3);
     }
 
-    public function testAddWarningMessagePlain()
+    public function testAddWarningMessagePlain(): void
     {
         $issue_id = 1;
         $recipient = 'admin@example.com';
@@ -88,15 +83,15 @@ class WarningMessageTest extends TestCase
         $wm->add($issue_id, $recipient);
 
         $fixed_body = $m->getContent();
-        $this->assertContains($body, $fixed_body);
+        $this->assertStringContainsString($body, $fixed_body);
     }
 
-    public function testAddWarningMessageMultipart()
+    public function testAddWarningMessageMultipart(): void
     {
+        $this->markTestIncomplete('Multipart not yet supported');
+
         $issue_id = 1;
         $recipient = 'admin@example.com';
-
-        $this->markTestSkipped('multipart yet not supported');
 
         $content = $this->readDataFile('attachment-bug.txt');
         $m = MailMessage::createFromString($content);
@@ -105,10 +100,10 @@ class WarningMessageTest extends TestCase
         $wm->add($issue_id, $recipient);
 
         $fixed_body = $m->getContent();
-        $this->assertContains('Your reply will be sent to the notification list', $fixed_body);
+        $this->assertStringContainsString('Your reply will be sent to the notification list', $fixed_body);
     }
 
-    private function runAddAndRemoveTests(MailMessage $mail, $issue_id, $email)
+    private function runAddAndRemoveTests(MailMessage $mail, $issue_id, $email): void
     {
         $wm = $this->getWarningMessage($mail);
 

@@ -19,14 +19,14 @@ use Eventum\Test\TestCase;
 
 class LoadEmailTest extends TestCase
 {
-    public function testLoadBrokenReferences1()
+    public function testLoadBrokenReferences1(): void
     {
         $raw = $this->readDataFile('kallenote.eml');
         $mail = MailMessage::createFromString($raw);
         $this->assertTrue($mail->getHeaders()->has('In-Reply-To'));
     }
 
-    public function testLoadCCHeader()
+    public function testLoadCCHeader(): void
     {
         $raw = $this->readDataFile('92367.txt');
         $mail = MailMessage::createFromString($raw);
@@ -37,7 +37,7 @@ class LoadEmailTest extends TestCase
      * The 91f7937b.txt contains broken `Sender` header.
      * MailMessage::createFromString fixes this by renaming header.
      */
-    public function testLoad91f7937b()
+    public function testLoad91f7937b(): void
     {
         $raw = $this->readDataFile('91f7937b.txt');
 
@@ -53,7 +53,7 @@ class LoadEmailTest extends TestCase
         $this->assertTrue($headers->has('X-Broken-Header-Sender'));
     }
 
-    public function testLoadOddMboxHeader()
+    public function testLoadOddMboxHeader(): void
     {
         $raw = $this->readDataFile('from_nocolon.txt');
         $mail = MailMessage::createFromString($raw);

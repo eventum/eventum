@@ -21,7 +21,7 @@ use Misc;
  */
 class ActivateLinksTest extends TestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         Link_Filter::markdownEnabled(true);
     }
@@ -30,12 +30,12 @@ class ActivateLinksTest extends TestCase
      * @dataProvider ActivateLinksData
      * @see Misc::activateLinks
      */
-    public function testActivateLinks($text, $exp)
+    public function testActivateLinks($text, $exp): void
     {
         $this->assertEquals($exp, Misc::activateLinks($text));
     }
 
-    public function ActivateLinksData()
+    public function ActivateLinksData(): array
     {
         return [
             [
