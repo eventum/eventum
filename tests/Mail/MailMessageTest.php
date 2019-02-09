@@ -20,7 +20,6 @@ use Eventum\Test\TestCase;
 use Mail_Helper;
 use Mail_Queue;
 use Mime_Helper;
-use PHPUnit_Framework_Error_Notice;
 use Routing;
 use Setup;
 use Zend;
@@ -641,31 +640,25 @@ class MailMessageTest extends TestCase
      */
     public function testParseHeaders(): void
     {
-        $header
-            = "Subject: [#77675] New Issue:xxxxxxxxx xxxxxxx xxxxxxxx xxxxxxxxxxxxx xxxxxxxxxx xxxxxxxx, =?utf-8?b?dMOkaHRhZWc=?= xx.xx, xxxx\r\n";
-        try {
-            /** @see \Zend\Mail\Header\HeaderWrap::canBeEncoded */
-            \Zend\Mail\Headers::fromString($header);
-        } catch (PHPUnit_Framework_Error_Notice $e) {
-            error_log($e->getMessage());
-        }
+        $header = "Subject: [#77675] New Issue:xxxxxxxxx xxxxxxx xxxxxxxx xxxxxxxxxxxxx xxxxxxxxxx xxxxxxxx, =?utf-8?b?dMOkaHRhZWc=?= xx.xx, xxxx\r\n";
+        /** @see \Zend\Mail\Header\HeaderWrap::canBeEncoded */
+        $v0 = \Zend\Mail\Headers::fromString($header);
+        $folder = "\r\n ";
+        $this->assertEquals("Subject: =?UTF-8?Q?[#77675]=20New=20Issue:xxxxxxxxx=20xxxxxxx=20xxxxxxxx=20?={$folder}=?UTF-8?Q?xxxxxxxxxxxxx=20xxxxxxxxxx=20xxxxxxxx,=20t=C3=A4htaeg=20xx.xx,=20xxxx?=\r\n", $v0->toString());
 
         // the above fails with:
         // "iconv_mime_encode(): Unknown error (7)"
         // because it iconv_mime_encode fails:
         $value = '[#77675] New Issue:xxxxxxxxx xxxxxxx xxxxxxxx xxxxxxxxxxxxx xxxxxxxxxx xxxxxxxx, tähtaeg xx.xx, xxxx';
-        try {
-            // it fails with line length exactly 76, but suceeds with anything else, like 75 or 77
-            $v = iconv_mime_encode(
-                'x-test', $value, ['scheme' => 'Q', 'line-length' => '76', 'line-break-chars' => ' ']
-            );
-        } catch (PHPUnit_Framework_Error_Notice $e) {
-            error_log($e->getMessage());
-        }
+        // it fails with line length exactly 76, but suceeds with anything else, like 75 or 77
+        $v = iconv_mime_encode(
+            'x-test', $value, ['scheme' => 'Q', 'line-length' => '76', 'line-break-chars' => ' ']
+        );
+        $this->assertEquals('x-test: =?UTF-8?Q?[#77675]=20New=20Issue:xxxxxxxxx=20xxxxxxx=20xxxxxxxx=20?=  =?UTF-8?Q?xxxxxxxxxxxxx=20xxxxxxxxxx=20xxxxxxxx,=20t=C3=A4htaeg=20xx.xx,?=  =?UTF-8?Q?=20xxxx?=', $v);
 
         // this works too
-        $v = \Zend\Mail\Header\HeaderWrap::mimeEncodeValue($value, 'UTF-8');
-//        var_dump($v);
+        $v2 = \Zend\Mail\Header\HeaderWrap::mimeEncodeValue($value, 'UTF-8');
+        $this->assertEquals('=?UTF-8?Q?[#77675]=20New=20Issue:xxxxxxxxx=20xxxxxxx=20xxxxxxxx=20xxxxxxxxxxxxx=20xxxxxxxxxx=20xxxxxxxx,=20t=C3=A4htaeg=20xx.xx,=20xxxx?=', $v2);
     }
 
     /**
