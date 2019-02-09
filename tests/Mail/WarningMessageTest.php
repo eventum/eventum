@@ -49,14 +49,10 @@ class WarningMessageTest extends TestCase
         $this->runAddAndRemoveTests($mail, $issue_id, $recipient);
     }
 
-    /**
-     * NOT YET
-     *
-     * @expectedException InvalidArgumentException
-     * @expectedExceptionMessage Multipart not supported
-     */
     public function testMultipart()
     {
+        $this->markTestIncomplete('Multipart not yet supported');
+
         $issue_id = 1;
         $email = 'root@localhost';
 
@@ -93,10 +89,10 @@ class WarningMessageTest extends TestCase
 
     public function testAddWarningMessageMultipart()
     {
+        $this->markTestIncomplete('Multipart not yet supported');
+
         $issue_id = 1;
         $recipient = 'admin@example.com';
-
-        $this->markTestSkipped('multipart yet not supported');
 
         $content = $this->readDataFile('attachment-bug.txt');
         $m = MailMessage::createFromString($content);
