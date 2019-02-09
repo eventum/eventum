@@ -13,6 +13,7 @@
 
 namespace Eventum\Model\Repository;
 
+use DateTime;
 use Doctrine\ORM\EntityRepository;
 use Eventum\Model\Entity;
 
@@ -38,15 +39,19 @@ class RemoteLinkRepository extends EntityRepository
             $entity = null;
         }
 
+        $now = new DateTime();
+
         // not found, or no gid
         if (!$entity) {
             $entity = (new Entity\RemoteLink())
+                ->setCreatedDate($now)
                 ->setIssueId($issue_id)
                 // empty gid means null
                 ->setGid($gid ?: null);
         }
 
         $entity
+            ->setUpdatedDate($now)
             ->setRelation($relation)
             ->setUrl($url)
             ->setTitle($title);

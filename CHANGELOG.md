@@ -18,7 +18,7 @@ first, also the PHP version required is 7.1, see [#426].
 - Remove Legacy CLI application (@glensc, #453)
 - Move Login-Back-Off logic to MySQL adapter only (@glensc, #455)
 - Use `symfony/var-exporter` for writing config files (@glensc, #456)
-- Add support to fill Mentioned on data (@glensc, #447, #449)
+- Add support to fill "Mentioned on" data (remote links) (@glensc, #447, #449, #467)
 - Listen for Issue/Note GitLab events (@glensc, #337, #448)
 - xmlrpc: verify token first to avoid incrementing failed logins (@glensc, #463)
 - Do issue duplication and close in same step (@glensc, #127)
