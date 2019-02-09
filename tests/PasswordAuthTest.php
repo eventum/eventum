@@ -68,16 +68,16 @@ class PasswordAuthTest extends TestCase
 
     private function assertPasswordInfoArray($res, $algo = 1, $algoName = 'unknown'): void
     {
-        $this->assertInternalType('array', $res);
+        $this->assertIsArray($res);
         $this->assertArrayHasKey('algo', $res);
         $this->assertInternalType(gettype($algo), $res['algo']);
         $this->assertEquals($algo, $res['algo']);
 
         $this->assertArrayHasKey('algoName', $res);
-        $this->assertInternalType('string', $res['algoName']);
+        $this->assertIsString($res['algoName']);
         $this->assertEquals($algoName, $res['algoName']);
 
         $this->assertArrayHasKey('options', $res);
-        $this->assertInternalType('array', $res['options']);
+        $this->assertIsArray($res['options']);
     }
 }

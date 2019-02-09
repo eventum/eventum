@@ -55,7 +55,7 @@ class RemoteApiTest extends TestCase
     {
         $prj_id = 1;
         $res = self::$client->getDeveloperList($prj_id);
-        $this->assertInternalType('array', $res);
+        $this->assertIsArray($res);
         $this->assertArrayHasKey('Admin User', $res);
         $this->assertEquals('admin@example.com', $res['Admin User']);
     }
@@ -67,7 +67,7 @@ class RemoteApiTest extends TestCase
     {
         $issue_id = 1;
         $res = self::$client->getSimpleIssueDetails($issue_id);
-        $this->assertInternalType('array', $res);
+        $this->assertIsArray($res);
         $this->assertArrayHasKey('summary', $res);
         $this->assertArrayHasKey('customer', $res);
         $this->assertArrayHasKey('status', $res);
@@ -85,7 +85,7 @@ class RemoteApiTest extends TestCase
         $status = '';
         $res = self::$client->getOpenIssues($prj_id, $show_all_issues, $status);
 
-        $this->assertInternalType('array', $res);
+        $this->assertIsArray($res);
         $this->assertArrayHasKey('0', $res);
         $issue = $res[0];
 
@@ -119,7 +119,7 @@ class RemoteApiTest extends TestCase
     {
         $issue_id = 1;
         $res = self::$client->getIssueDetails($issue_id);
-        $this->assertInternalType('array', $res);
+        $this->assertIsArray($res);
         $this->assertArrayHasKey('iss_id', $res);
         $this->assertEquals(1, $res['iss_id']);
     }
@@ -131,7 +131,7 @@ class RemoteApiTest extends TestCase
     {
         $issue_id = 1;
         $res = self::$client->getTimeTrackingCategories($issue_id);
-        $this->assertInternalType('array', $res);
+        $this->assertIsArray($res);
         $this->assertContains('Tech-Support', $res);
     }
 
@@ -213,11 +213,11 @@ class RemoteApiTest extends TestCase
         try {
             $res = self::$client->getFileList($issue_id);
 
-            $this->assertInternalType('array', $res);
+            $this->assertIsArray($res);
             $this->assertArrayHasKey('0', $res);
 
             $file = $res[0];
-            $this->assertInternalType('array', $file);
+            $this->assertIsArray($file);
             $this->assertArrayHasKey('iat_id', $file);
             $this->assertArrayHasKey('iat_status', $file);
             $this->assertEquals('internal', $file['iat_status']);
@@ -235,7 +235,7 @@ class RemoteApiTest extends TestCase
 
         $res = self::$client->getFile($file_id);
 
-        $this->assertInternalType('array', $res);
+        $this->assertIsArray($res);
         $this->assertArrayHasKey('iat_id', $res);
         $this->assertArrayHasKey('iat_status', $res);
         $this->assertEquals('internal', $res['iat_status']);
@@ -252,7 +252,7 @@ class RemoteApiTest extends TestCase
 
         try {
             $res = self::$client->lookupCustomer($prj_id, $field, $value);
-            $this->assertInternalType('string', $res);
+            $this->assertIsString($res);
         } catch (Exception $e) {
             $this->assertEquals("Customer Integration not enabled for project $prj_id", $e->getMessage());
         }
@@ -314,7 +314,7 @@ class RemoteApiTest extends TestCase
     {
         $issue_id = 1;
         $res = self::$client->getEmailListing($issue_id);
-        $this->assertInternalType('array', $res);
+        $this->assertIsArray($res);
         $this->assertArrayHasKey('0', $res);
 
         $email = $res[0];
@@ -344,7 +344,7 @@ class RemoteApiTest extends TestCase
     {
         $issue_id = 1;
         $res = self::$client->getNoteListing($issue_id);
-        $this->assertInternalType('array', $res);
+        $this->assertIsArray($res);
         $this->arrayHasKey('0', $res);
 
         $note = $res[0];
@@ -361,7 +361,7 @@ class RemoteApiTest extends TestCase
         $issue_id = 1;
         $note_id = 1;
         $res = self::$client->getNote($issue_id, $note_id);
-        $this->assertInternalType('array', $res);
+        $this->assertIsArray($res);
 
         $this->assertArrayHasKey('not_id', $res);
         $this->assertArrayHasKey('not_title', $res);
@@ -441,7 +441,7 @@ class RemoteApiTest extends TestCase
     {
         $issue_id = 1;
         $res = self::$client->getDraftListing($issue_id);
-        $this->assertInternalType('array', $res);
+        $this->assertIsArray($res);
         $this->arrayHasKey('0', $res);
 
         $draft = $res[0];
@@ -458,7 +458,7 @@ class RemoteApiTest extends TestCase
         $issue_id = 1;
         $draft_id = 1;
         $res = self::$client->getDraft($issue_id, $draft_id);
-        $this->assertInternalType('array', $res);
+        $this->assertIsArray($res);
         $this->assertArrayHasKey('emd_id', $res);
         $this->assertArrayHasKey('emd_status', $res);
         $this->assertEquals('pending', $res['emd_status']);

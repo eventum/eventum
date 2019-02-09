@@ -65,7 +65,7 @@ class DbTest extends TestCase
             'SELECT usr_id,usr_full_name,usr_email,usr_lang FROM `user` WHERE usr_id<=?', [2],
             AdapterInterface::DB_FETCHMODE_DEFAULT
         );
-        $this->assertInternalType('array', $res);
+        $this->assertIsArray($res);
         $exp = [
             0 => [
                 0 => 1,
@@ -90,7 +90,7 @@ class DbTest extends TestCase
             'SELECT usr_id,usr_full_name,usr_email,usr_lang FROM `user` WHERE usr_id<=? AND usr_id!=42', [2],
             AdapterInterface::DB_FETCHMODE_ASSOC
         );
-        $this->assertInternalType('array', $res);
+        $this->assertIsArray($res);
         $exp = [
             0 => [
                 'usr_id' => 1,
@@ -117,7 +117,7 @@ class DbTest extends TestCase
             AdapterInterface::DB_FETCHMODE_DEFAULT
         );
 
-        $this->assertInternalType('array', $res);
+        $this->assertIsArray($res);
         $exp = [
             1 => [
                 0 => 'system',
@@ -142,7 +142,7 @@ class DbTest extends TestCase
             AdapterInterface::DB_FETCHMODE_ASSOC
         );
 
-        $this->assertInternalType('array', $res);
+        $this->assertIsArray($res);
         $exp = [
             1 => [
                 'usr_full_name' => 'system',
@@ -187,7 +187,7 @@ class DbTest extends TestCase
             [2]
         );
 
-        $this->assertInternalType('array', $res);
+        $this->assertIsArray($res);
         $exp = [
             0 => 'system',
             1 => 'Admin User',
@@ -215,13 +215,13 @@ class DbTest extends TestCase
         $res = $this->db->getPair(
             'SELECT usr_id,usr_full_name FROM `user` WHERE usr_email=?', ['nosuchemail@.-']
         );
-        $this->assertInternalType('array', $res);
+        $this->assertIsArray($res);
         $this->assertEmpty($res);
 
         $res = $this->db->getPair(
             'SELECT usr_id,usr_full_name FROM `user` WHERE usr_id<=2'
         );
-        $this->assertInternalType('array', $res);
+        $this->assertIsArray($res);
         $exp = [1 => 'system', 2 => 'Admin User'];
         $this->assertEquals($exp, $res);
     }
@@ -234,7 +234,7 @@ class DbTest extends TestCase
             [2], AdapterInterface::DB_FETCHMODE_DEFAULT
         );
 
-        $this->assertInternalType('array', $res);
+        $this->assertIsArray($res);
         $exp = [
             0 => '1',
             1 => 'system',
@@ -252,7 +252,7 @@ class DbTest extends TestCase
             [2], AdapterInterface::DB_FETCHMODE_ASSOC
         );
 
-        $this->assertInternalType('array', $res);
+        $this->assertIsArray($res);
         $exp = [
             'usr_id' => '1',
             'usr_full_name' => 'system',
