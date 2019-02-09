@@ -15,8 +15,10 @@ namespace Eventum\Model\Entity;
 
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\Criteria;
+use Doctrine\Common\Collections\Expr\Comparison;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\PersistentCollection;
+use RuntimeException;
 
 /**
  * @ORM\Table(name="custom_field")*
@@ -377,5 +379,19 @@ class CustomField
         }
 
         return $result;
+    }
+
+    public function getOptionById(int $cfo_id): ?CustomFieldOption
+    {
+        $expr = new Comparison('id', '=', $cfo_id);
+        $criteria = Criteria::create()->where($expr);
+
+        $collection = $this->options->matching($criteria);
+        if (!in_array($collection->count(), [0, 1], true)) {
+            $count = $collection->count();
+            throw new RuntimeException("Expected 0 or 1, got $count");
+        }
+
+        return $collection->first();
     }
 }
