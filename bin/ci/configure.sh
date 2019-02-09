@@ -26,4 +26,4 @@ composer config secure-http false
 # due the way _setlocal gets defined based on context
 # $ vendor/bin/phpunit
 # PHP Fatal error:  Uncaught Error: Call to undefined function _setlocale() in /home/travis/build/glensc/eventum/lib/eventum/class.language.php:158
-composer global require "phpunit/phpunit" "^7.5 || ^8.0"
+composer global require "phpunit/phpunit" "^7.5"
