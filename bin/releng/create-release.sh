@@ -56,6 +56,7 @@ echo "Press ENTER to push upstreams"
 read a
 
 cd $topdir
+git push origin master
 git push origin $TAG
 git push launchpad
 cd $topdir/docs/wiki
