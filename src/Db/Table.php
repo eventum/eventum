@@ -100,6 +100,7 @@ class Table
             'reminder_requirement',
             'reminder_severity',
             'reminder_triggered_action',
+            'remote_link',
             'resolution',
             'round_robin_user',
             'search_profile',
