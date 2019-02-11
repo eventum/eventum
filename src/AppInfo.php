@@ -16,7 +16,7 @@ namespace Eventum;
 class AppInfo
 {
     const URL = 'https://github.com/eventum/eventum';
-    const VERSION = '3.6.0-dev';
+    const VERSION = '3.6.1-dev';
 
     /** @var string */
     private $version;
