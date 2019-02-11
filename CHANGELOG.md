@@ -23,6 +23,7 @@ first, also the PHP version required is 7.1, see [#426].
 - xmlrpc: verify token first to avoid incrementing failed logins (@glensc, #463)
 - Do issue duplication and close in same step (@glensc, #127)
 - Fixed bug when remove authorized replier removed only first user (@glensc, #464)
+- Fix open issues report: set default number of days to exclude (#458)
 
 [3.6.0]: https://github.com/eventum/eventum/compare/v3.5.6...master
 [#426]: https://github.com/eventum/eventum/pull/426

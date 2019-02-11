@@ -35,7 +35,7 @@ class OpenIssuesController extends ReportBaseController
         $post = $request->request;
         $get = $request->query;
 
-        $this->cutoff_days = $get->get('cutoff_days');
+        $this->cutoff_days = $get->getInt('cutoff_days', 7);
         $this->group_by_reporter = $post->getBoolean('group_by_reporter') ?: $get->getBoolean('group_by_reporter');
     }
 
@@ -51,7 +51,7 @@ class OpenIssuesController extends ReportBaseController
      */
     protected function prepareTemplate()
     {
-        $res = Report::getOpenIssuesByUser($this->prj_id, $this->cutoff_days ?: 7, $this->group_by_reporter);
+        $res = Report::getOpenIssuesByUser($this->prj_id, $this->cutoff_days, $this->group_by_reporter);
         $this->tpl->assign(
             [
                 'cutoff_days' => $this->cutoff_days,
