@@ -1,5 +1,16 @@
 # Notes about creating Eventum Release
 
+## Preparations
+
+The release process assumes certain remotes being setup
+
+This adds `launchpad` named remote and configures it to push only `master` and named tags
+```
+$ git remote add launchpad git+ssh://glen666@git.launchpad.net/eventum
+$ git config --add remote.launchpad.push refs/heads/master:refs/heads/master
+$ git config --add remote.launchpad.push refs/tags/v*:refs/tags/v*
+```
+
 ## Making release tarball
 
 Eventum release tarball is created by Travis-CI for each commit and uploaded to
@@ -45,12 +56,6 @@ if it fails the error is something like `DB Error: already exists`
 
 # After release
 
-- add `launchpad` named remote and configure it to push only `master` and named tags
-```
-$ git remote add launchpad git+ssh://glen666@git.launchpad.net/eventum
-$ git config --add remote.launchpad.push refs/heads/master:refs/heads/master
-$ git config --add remote.launchpad.push refs/tags/v*:refs/tags/v*
-```
 - publish changes also on launchpad git repo
 ```
 $ git pull launchpad
@@ -60,6 +65,6 @@ $ git push launchpad
 - move open tickets/pull requests to new milestone
 - close old milestone
 - verify that you did not forget to update wiki submodule
-- update for next version using `bin/releng/bump.sh`:
+- update for next version using [bin/releng/bump.sh](bin/releng/bump.sh):
   - update `VERSION` constant in `src/AppInfo.php` to indicate next dev version
   - start new version entry in CHANGELOG.md
