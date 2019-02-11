@@ -25,6 +25,9 @@ class GitlabPayload implements PayloadInterface
     public const NOTEABLE_TYPE_MERGE_REQUEST = 'MergeRequest';
     public const NOTEABLE_TYPE_ISSUE = 'Issue';
 
+    private const OBJECT_TYPE_ISSUE = 'issue';
+    private const OBJECT_TYPE_MERGE_REQUEST = 'merge_request';
+
     /** @var array */
     private $payload = [];
 
@@ -96,12 +99,26 @@ class GitlabPayload implements PayloadInterface
 
     public function getIssueId(): ?int
     {
-        return $this->payload['issue']['iid'] ?? $this->payload['object_attributes']['iid'] ?? null;
+        return $this->getObjectId(self::OBJECT_TYPE_ISSUE);
     }
 
     public function getMergeRequestId(): ?int
     {
-        return $this->payload['merge_request']['iid'] ?? null;
+        return $this->getObjectId(self::OBJECT_TYPE_MERGE_REQUEST);
+    }
+
+    private function getObjectId(string $objectKind): ?int
+    {
+        $id = $this->payload[$objectKind]['iid'] ?? null;
+        if ($id) {
+            return $id;
+        }
+
+        if ($this->payload['object_kind'] ?? null === $objectKind) {
+            return $this->payload['object_attributes']['iid'];
+        }
+
+        return null;
     }
 
     public function getTitle(): ?string
