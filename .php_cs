@@ -11,6 +11,8 @@
  * that were distributed with this source code.
  */
 
+use Symfony\Component\Finder\SplFileInfo;
+
 $header = <<<EOF
 This file is part of the Eventum (Issue Tracking System) package.
 
@@ -33,8 +35,8 @@ $finder = $config->getFinder()
     ->name('.php_cs')
     ->notPath('localization/LINGUAS.php')
     // this filter would accept only files that are present in Git
-    ->filter(function (\SplFileInfo $file) use (&$files) {
-        $key = array_search($file->getRelativePathname(), $files);
+    ->filter(function (SplFileInfo $file) use (&$files) {
+        $key = array_search($file->getRelativePathname(), $files, true);
         if ($key) {
             error_log('ACCEPT: ' . $file->getRelativePathname());
         } else {
