@@ -46,10 +46,15 @@ $finder = $config->getFinder()
         return $key;
     });
 
+/**
+ * @see \PhpCsFixer\RuleSet
+ */
+
 $risky_rules = [
     'ereg_to_preg' => true,
     'no_alias_functions' => true,
     'no_php4_constructor' => true,
+    '@PHP71Migration' => true,
 ];
 
 $symfony_rules = [

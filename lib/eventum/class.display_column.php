@@ -141,7 +141,7 @@ class Display_Column
     {
         $columns = self::getAllColumns($page);
 
-        return isset($columns[$column]) ? $columns[$column] : null;
+        return $columns[$column] ?? null;
     }
 
     /**

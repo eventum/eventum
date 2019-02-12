@@ -330,10 +330,10 @@ class Notification
         // being seen in calling method.
         $mail = MailMessage::createFromMessage($mail->toMessage());
 
-        $internal_only = isset($options['internal_only']) ? $options['internal_only'] : false;
-        $assignee_only = isset($options['assignee_only']) ? $options['assignee_only'] : false;
-        $type = isset($options['type']) ? $options['type'] : '';
-        $sup_id = isset($options['sup_id']) ? $options['sup_id'] : false;
+        $internal_only = $options['internal_only'] ?? false;
+        $assignee_only = $options['assignee_only'] ?? false;
+        $type = $options['type'] ?? '';
+        $sup_id = $options['sup_id'] ?? false;
         $usr_id = $options['usr_id'];
         $issue_id = $options['issue_id'];
         $prj_id = Issue::getProjectID($issue_id);

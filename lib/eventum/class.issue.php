@@ -1643,9 +1643,9 @@ class Issue
      */
     public static function createFromEmail(MailMessage $mail, $options)
     {
-        $category = isset($options['category']) ? $options['category'] : null;
-        $priority = isset($options['priority']) ? $options['priority'] : null;
-        $assignment = isset($options['users']) ? $options['users'] : null;
+        $category = $options['category'] ?? null;
+        $priority = $options['priority'] ?? null;
+        $assignment = $options['users'] ?? null;
         $prj_id = $options['prj_id'];
         $usr_id = $options['usr_id'];
         $severity = $options['severity'];
@@ -1807,7 +1807,7 @@ class Issue
         Workflow::handleNewIssue($prj_id, $issue_id, $has_TAM, $has_RR);
 
         // send special 'an issue was auto-created for you' notification back to the sender
-        $date = isset($options['date']) ? $options['date'] : Date_Helper::getRFC822Date($mail->date);
+        $date = $options['date'] ?? Date_Helper::getRFC822Date($mail->date);
         Notification::notifyAutoCreatedIssue($prj_id, $issue_id, $mail->from, $date, $mail->subject);
 
         // also notify any users that want to receive emails anytime a new issue is created
@@ -2368,7 +2368,7 @@ class Issue
 
         // now populate the $result variable again
         foreach ($result as &$res) {
-            $res['assigned_users'] = isset($t[$res['iss_id']]) ? $t[$res['iss_id']] : '';
+            $res['assigned_users'] = $t[$res['iss_id']] ?? '';
         }
     }
 

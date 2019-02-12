@@ -297,7 +297,7 @@ class Time_Tracking
 
         foreach ($result as $i => &$row) {
             $iss_id = $row['iss_id'];
-            $row['time_spent'] = isset($res[$iss_id]) ? $res[$iss_id] : 0;
+            $row['time_spent'] = $res[$iss_id] ?? 0;
         }
     }
 

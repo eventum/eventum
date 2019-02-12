@@ -414,7 +414,7 @@ class Search
             $issue_id = $row['iss_id'];
             $row['time_spent'] = Misc::getFormattedTime($row['time_spent']);
             $row['expected_resolution_date'] = Date_Helper::getSimpleDate($row['iss_expected_resolution_date'], false);
-            $row['excerpts'] = isset($excerpts[$issue_id]) ? $excerpts[$issue_id] : '';
+            $row['excerpts'] = $excerpts[$issue_id] ?? '';
 
             $row['access_level_name'] = Access::getAccessLevelName($row['iss_access_level']);
 
@@ -441,7 +441,7 @@ class Search
                         }
                     }
                 } else {
-                    $fields[] = isset($row[$col_key]) ? $row[$col_key] : '';
+                    $fields[] = $row[$col_key] ?? '';
                 }
             }
             if (CRM::hasCustomerIntegration($prj_id)) {

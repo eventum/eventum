@@ -445,7 +445,7 @@ class Link_Filter
         $link_title = htmlspecialchars("issue {$issue_id} - {$issue_title}");
 
         // use named capture 'match' if present
-        $match = isset($matches['match']) ? $matches['match'] : "issue {$issue_id}";
+        $match = $matches['match'] ?? "issue {$issue_id}";
 
         return "<a title=\"{$link_title}\" class=\"{$class}\" href=\"view.php?id={$matches['issue_id']}\">{$match}</a>";
     }

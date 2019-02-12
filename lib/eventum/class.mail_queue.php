@@ -49,11 +49,11 @@ class Mail_Queue
     {
         $prj_id = Auth::getCurrentProject(false);
 
-        $save_email_copy = isset($options['save_email_copy']) ? $options['save_email_copy'] : 0;
-        $issue_id = isset($options['issue_id']) ? $options['issue_id'] : false;
-        $type = isset($options['type']) ? $options['type'] : '';
-        $type_id = isset($options['type_id']) ? $options['type_id'] : false;
-        $sender_usr_id = isset($options['sender_usr_id']) ? $options['sender_usr_id'] : null;
+        $save_email_copy = $options['save_email_copy'] ?? 0;
+        $issue_id = $options['issue_id'] ?? false;
+        $type = $options['type'] ?? '';
+        $type_id = $options['type_id'] ?? false;
+        $sender_usr_id = $options['sender_usr_id'] ?? null;
 
         if ($mail instanceof MailBuilder) {
             $mail = $mail->toMailMessage();
@@ -61,7 +61,7 @@ class Mail_Queue
         $headers = $mail->getHeaders();
 
         if (!$mail->from) {
-            $from = isset($options['from']) ? $options['from'] : Setup::get()->smtp->from;
+            $from = $options['from'] ?? Setup::get()->smtp->from;
             $mail->setFrom($from);
         }
 

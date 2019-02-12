@@ -67,7 +67,7 @@ class DB_Helper
 
     private static function getAdapterClass($config)
     {
-        $classname = isset($config['adapter']) ? $config['adapter'] : self::DEFAULT_ADAPTER;
+        $classname = $config['adapter'] ?? self::DEFAULT_ADAPTER;
 
         return 'Eventum\\Db\\Adapter\\' . $classname;
     }

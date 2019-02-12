@@ -93,8 +93,7 @@ class RemoteApi
 
         return [
             'summary' => $details['iss_summary'],
-            'customer' => isset($details['customer_info']['customer_name']) ? $details['customer_info']['customer_name']
-                : null,
+            'customer' => $details['customer_info']['customer_name'] ?? null,
             'status' => $details['sta_title'],
             'is_closed' => $details['sta_is_closed'],
             'assignments' => $details['assignments'],

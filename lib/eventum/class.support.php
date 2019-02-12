@@ -912,7 +912,7 @@ class Support
      */
     public static function insertEmail(MailMessage $mail, $email_options)
     {
-        $closing = isset($email_options['closing']) ? $email_options['closing'] : false;
+        $closing = $email_options['closing'] ?? false;
 
         $usr_id = User::getUserIDByEmail($mail->getSender());
 
@@ -922,7 +922,7 @@ class Support
         if (empty($email_options['customer_id'])) {
             $email_options['customer_id'] = null;
         }
-        $issue_id = isset($email_options['issue_id']) ? $email_options['issue_id'] : null;
+        $issue_id = $email_options['issue_id'] ?? null;
 
         // try to get the parent ID
         $reference_message_id = $mail->getReferenceMessageID();
@@ -1154,7 +1154,7 @@ class Support
                 $row['sup_to'] = ev_gettext('Notification List');
             }
             if (CRM::hasCustomerIntegration($prj_id)) {
-                $row['customer_title'] = isset($company_titles[$row['sup_customer_id']]) ? $company_titles[$row['sup_customer_id']] : '';
+                $row['customer_title'] = $company_titles[$row['sup_customer_id']] ?? '';
             }
         }
 
@@ -1804,9 +1804,9 @@ class Support
         $issue_id = $options['issue_id'];
         $iaf_ids = $options['iaf_ids'];
         $from = $options['from'];
-        $to = isset($options['to']) ? $options['to'] : $mail->to;
-        $cc = isset($options['cc']) ? $options['cc'] : $mail->cc;
-        $sender_usr_id = isset($options['sender_usr_id']) ? $options['sender_usr_id'] : null;
+        $to = $options['to'] ?? $mail->to;
+        $cc = $options['cc'] ?? $mail->cc;
+        $sender_usr_id = $options['sender_usr_id'] ?? null;
         $subject = $mail->subject;
         $message_id = $mail->messageId;
         $body = $mail->getContent();
@@ -1894,7 +1894,7 @@ class Support
             return -1;
         }
 
-        $parent_sup_id = isset($options['parent_sup_id']) ? $options['parent_sup_id'] : null;
+        $parent_sup_id = $options['parent_sup_id'] ?? null;
         $iaf_ids = isset($options['iaf_ids']) ? (array) $options['iaf_ids'] : [];
         $add_unknown = isset($options['add_unknown']) ? (bool) $options['add_unknown'] : false;
         $add_cc_to_ar = isset($options['add_cc_to_ar']) ? (bool) $options['add_cc_to_ar'] : false;
