@@ -15,6 +15,7 @@ namespace Eventum\Test\CustomField;
 
 use Eventum\CustomField\Converter;
 use Eventum\Db\Doctrine;
+use Eventum\EventDispatcher\EventManager;
 use Eventum\Model\Entity\CustomField;
 use Eventum\Test\TestCase;
 use User;
@@ -42,6 +43,9 @@ class CustomFieldTest extends TestCase
         $repo = Doctrine::getCustomFieldRepository();
         $customFields = $repo->getListByIssue($prj_id, $iss_id, $min_role, $formType, $forEdit);
         dump(count($customFields));
+
+        // trigger setup of extensions
+        EventManager::getEventDispatcher();
 
         $converter = new Converter();
         $fields = $converter->convertIssueCustomFields($customFields, $iss_id, $formType);
