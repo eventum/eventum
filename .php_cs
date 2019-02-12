@@ -101,25 +101,25 @@ $symfony_rules = [
 # Try to use StyleCI "recommended" preset:
 # https://styleci.readme.io/v1.0/docs/presets#recommended
 $rules = $risky_rules + $symfony_rules + [
-    '@PSR2' => true,
-    'array_syntax' => ['syntax' => 'short'],
-    'binary_operator_spaces' => ['align_double_arrow' => false],
-    'braces' => ['allow_single_line_closure' => false],
-    'function_declaration' => ['closure_function_spacing' => 'one'],
-    'header_comment' => ['header' => $header],
-    'linebreak_after_opening_tag' => false,
-    'method_argument_space' => ['keep_multiple_spaces_after_comma' => false],
-    'no_multiline_whitespace_before_semicolons' => true,
-    'no_short_echo_tag' => true,
-    'no_useless_else' => true,
-    'no_useless_return' => true,
-    'ordered_imports' => true,
-    'phpdoc_order' => true,
-    'semicolon_after_instruction' => true,
-    'simplified_null_return' => false,
-    'single_blank_line_before_namespace' => true,
-    'strict_comparison' => false,
-];
+        '@PSR2' => true,
+        'array_syntax' => ['syntax' => 'short'],
+        'binary_operator_spaces' => ['align_double_arrow' => false],
+        'braces' => ['allow_single_line_closure' => false],
+        'function_declaration' => ['closure_function_spacing' => 'one'],
+        'header_comment' => ['header' => $header],
+        'linebreak_after_opening_tag' => false,
+        'method_argument_space' => ['keep_multiple_spaces_after_comma' => false],
+        'no_multiline_whitespace_before_semicolons' => true,
+        'no_short_echo_tag' => true,
+        'no_useless_else' => true,
+        'no_useless_return' => true,
+        'ordered_imports' => true,
+        'phpdoc_order' => true,
+        'semicolon_after_instruction' => true,
+        'simplified_null_return' => false,
+        'single_blank_line_before_namespace' => true,
+        'strict_comparison' => false,
+    ];
 
 $cacheFile = sprintf('vendor/php_cs-%s.cache', PhpCsFixer\Console\Application::VERSION);
 error_log("Cache: $cacheFile");
