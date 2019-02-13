@@ -65,7 +65,7 @@ class ExampleExtension extends AbstractExtension
      *
      * @return string[]
      */
-    public function getAvailableWorkflows()
+    public function getAvailableWorkflows(): array
     {
         return [
             /*
@@ -79,7 +79,7 @@ class ExampleExtension extends AbstractExtension
      *
      * @return string[]
      */
-    public function getAvailableCustomFields()
+    public function getAvailableCustomFields(): array
     {
         return [
         ];
@@ -90,7 +90,7 @@ class ExampleExtension extends AbstractExtension
      *
      * @return string[]
      */
-    public function getAvailablePartners()
+    public function getAvailablePartners(): array
     {
         return [
             /*
@@ -105,7 +105,7 @@ class ExampleExtension extends AbstractExtension
      *
      * @return string[]
      */
-    public function getAvailableCRMs()
+    public function getAvailableCRMs(): array
     {
         return [
             /*
@@ -121,7 +121,7 @@ class ExampleExtension extends AbstractExtension
      * @see \Symfony\Component\EventDispatcher\EventSubscriberInterface
      * @return string[]
      */
-    public function getSubscribers()
+    public function getSubscribers(): array
     {
         return [
             Subscriber\CryptoSubscriber::class,
