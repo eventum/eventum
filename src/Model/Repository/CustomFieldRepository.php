@@ -14,6 +14,7 @@
 namespace Eventum\Model\Repository;
 
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\ORM\QueryBuilder;
 use Eventum\Model\Entity;
 use Eventum\Model\Repository\Traits\FindByIdTrait;
@@ -31,9 +32,10 @@ class CustomFieldRepository extends EntityRepository
     private function filterIssue(QueryBuilder $qb, int $issueId): self
     {
         $qb
-            ->innerJoin(Entity\IssueCustomField::class, 'icf')
-            ->andWhere('cf.id=icf.fieldId')
-            ->andWhere('icf.issueId=:issue_id')
+            ->leftJoin(Entity\IssueCustomField::class, 'icf',
+                Join::WITH,
+                'cf.id=icf.fieldId AND icf.issueId=:issue_id'
+            )
             ->setParameter('issue_id', $issueId);
 
         return $this;
@@ -98,7 +100,7 @@ class CustomFieldRepository extends EntityRepository
     }
 
     /**
-     * @return Entity\IssueCustomField[]
+     * @return Entity\CustomField[]
      * @see Custom_Field::getListByIssue
      */
     public function getListByIssue(int $prj_id, int $issue_id, int $minRole, ?string $formType, bool $forEdit): array
@@ -106,15 +108,12 @@ class CustomFieldRepository extends EntityRepository
         $qb = $this->getQueryBuilder();
 
         $this
-            ->filterIssue($qb, $issue_id)
             ->filterProject($qb, $prj_id)
+            ->filterIssue($qb, $issue_id)
             ->filterFormType($qb, $formType)
             ->filterRole($qb, $minRole, $forEdit);
 
         $qb->addOrderBy('cf.rank');
-
-        // return from issue custom field point
-        $qb->select('icf');
 
         return $qb->getQuery()->getResult();
     }

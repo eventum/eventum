@@ -36,12 +36,13 @@ class CustomFieldTest extends TestCase
     public function testGetListByIssue(): void
     {
         $prj_id = 1;
-        $iss_id = 20;
+        $iss_id = 24;
         $min_role = User::ROLE_VIEWER;
         $forEdit = false;
         $formType = 'edit_form';
         $repo = Doctrine::getCustomFieldRepository();
         $customFields = $repo->getListByIssue($prj_id, $iss_id, $min_role, $formType, $forEdit);
+
         dump(count($customFields));
 
         // trigger setup of extensions

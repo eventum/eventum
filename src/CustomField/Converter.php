@@ -15,6 +15,7 @@ namespace Eventum\CustomField;
 
 use Custom_Field;
 use DateTime;
+use Doctrine\Common\Collections\ArrayCollection;
 use Eventum\CustomField\Fields\DefaultValueInterface;
 use Eventum\CustomField\Fields\DynamicCustomFieldInterface;
 use Eventum\CustomField\Fields\JavascriptValidationInterface;
@@ -23,6 +24,7 @@ use Eventum\CustomField\Fields\OptionValueInterface;
 use Eventum\CustomField\Fields\RequiredValueInterface;
 use Eventum\Model\Entity\CustomField;
 use Eventum\Model\Entity\IssueCustomField;
+use Generator;
 
 class Converter
 {
@@ -43,11 +45,10 @@ class Converter
     /**
      * Convert values to legacy array structures
      */
-    public function convertIssueCustomFields(array $customFields, ?int $issueId, ?string $formType): array
+    public function convertIssueCustomFields(array $customFields, int $issueId, ?string $formType): array
     {
         $fields = [];
-        foreach ($customFields as $customField) {
-            $row = $this->convertIssueCustomField($customField);
+        foreach ($this->expandIssueCustomFields($customFields, $issueId) as $row) {
             $fld_id = $row['fld_id'];
             /** @var CustomField $cf */
             $cf = $row['_cf'];
@@ -158,7 +159,7 @@ class Converter
     /**
      * @see Custom_Field::getOptionValue
      */
-    private function getOptionValue(CustomField $cf, int $fld_id, string $value): ?string
+    private function getOptionValue(CustomField $cf, int $fld_id, ?string $value): ?string
     {
         // FIXME: why?
         if (!$value) {
@@ -180,6 +181,29 @@ class Converter
         $cfo = $cf->getOptionById($value);
 
         return $cfo ? $cfo->getValue() : null;
+    }
+
+    private function expandIssueCustomFields(array $customFields, int $issueId): Generator
+    {
+        $result = new ArrayCollection();
+        /** @var CustomField $cf */
+        foreach ($customFields as $cf) {
+            $issueFields = $cf->getMatchingIssues($issueId);
+            if ($issueFields->count()) {
+                foreach ($issueFields as $isc) {
+                    $row = $this->convertIssueCustomField($isc);
+                    $result->add($row);
+                }
+            } else {
+                // create empty IssueCustomField for left-joined issues
+                $icf = new IssueCustomField();
+                $icf->customField = $cf;
+                $row = $this->convertIssueCustomField($icf);
+                $result->add($row);
+            }
+        }
+
+        yield from $result;
     }
 
     private function convertIssueCustomField(IssueCustomField $icf): array

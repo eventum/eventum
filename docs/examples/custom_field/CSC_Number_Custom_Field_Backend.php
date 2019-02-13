@@ -15,9 +15,9 @@ use Eventum\CustomField\Fields\FormatValueInterface;
 
 class CSC_Number_Custom_Field_Backend implements FormatValueInterface
 {
-    public function formatValue(string $value, int $fld_id, int $iss_id): string
+    public function formatValue(?string $value, int $fld_id, int $iss_id): ?string
     {
-        if (!empty($value)) {
+        if ($value) {
             $numbers = explode(',', $value);
             $links = [];
             foreach ($numbers as $number) {

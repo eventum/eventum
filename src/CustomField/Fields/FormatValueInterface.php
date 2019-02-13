@@ -15,5 +15,5 @@ namespace Eventum\CustomField\Fields;
 
 interface FormatValueInterface extends CustomFieldInterface
 {
-    public function formatValue(string $value, int $fld_id, int $issue_id): string;
+    public function formatValue(?string $value, int $fld_id, int $issue_id): ?string;
 }

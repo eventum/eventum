@@ -108,7 +108,7 @@ class Proxy implements
         return $this->field->getOptionValue($fld_id, $value);
     }
 
-    public function formatValue(string $value, int $fld_id, int $issue_id): string
+    public function formatValue(?string $value, int $fld_id, int $issue_id): ?string
     {
         return $this->field->formatValue($value, $fld_id, $issue_id);
     }

@@ -148,7 +148,7 @@ class CustomField
     public $options;
 
     /**
-     * @var IssueCustomField[]
+     * @var IssueCustomField[]|PersistentCollection
      * @ORM\OneToMany(targetEntity="IssueCustomField", mappedBy="customField")
      * @ORM\JoinColumn(name="id", referencedColumnName="icf_iss_id")
      */
@@ -393,5 +393,16 @@ class CustomField
         }
 
         return $collection->first();
+    }
+
+    /**
+     * The doctrine join probably wrong, we get excess relations with wrong issues
+     */
+    public function getMatchingIssues(int $issue_id): Collection
+    {
+        $expr = new Comparison('issueId', '=', $issue_id);
+        $criteria = Criteria::create()->where($expr);
+
+        return $this->issues->matching($criteria);
     }
 }
