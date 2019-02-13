@@ -15,6 +15,7 @@ namespace Eventum\CustomField;
 
 use Eventum\CustomField\Fields\CustomFieldInterface;
 use Eventum\CustomField\Fields\DefaultValueInterface;
+use Eventum\CustomField\Fields\DynamicCustomFieldInterface;
 use Eventum\CustomField\Fields\FormatValueInterface;
 use Eventum\CustomField\Fields\JavascriptValidationInterface;
 use Eventum\CustomField\Fields\ListInterface;
@@ -29,6 +30,7 @@ class Proxy implements
     RequiredValueInterface,
     OptionValueInterface,
     FormatValueInterface,
+    DynamicCustomFieldInterface,
     DefaultValueInterface
 {
     /** @var Proxy */
@@ -54,6 +56,16 @@ class Proxy implements
         ],
         DefaultValueInterface::class => [
             'getDefaultValue',
+        ],
+        DynamicCustomFieldInterface::class => [
+            'getStructuredData',
+            'getControllingCustomFieldId',
+            'getControllingCustomFieldName',
+            'hideWhenNoOptions',
+            'getDomId',
+            'lookupMethod',
+            'getDynamicOptions',
+            'getList', // ListInterface
         ],
     ];
 
@@ -116,5 +128,40 @@ class Proxy implements
     public function getDefaultValue(int $fld_id): string
     {
         return $this->field->getDefaultValue($fld_id);
+    }
+
+    public function getStructuredData(): array
+    {
+        return $this->field->getStructuredData();
+    }
+
+    public function getControllingCustomFieldId(): int
+    {
+        return $this->field->getControllingCustomFieldId();
+    }
+
+    public function getControllingCustomFieldName(): string
+    {
+        return $this->field->getControllingCustomFieldName();
+    }
+
+    public function hideWhenNoOptions(): bool
+    {
+        return $this->field->hideWhenNoOptions();
+    }
+
+    public function getDomId(): string
+    {
+        return $this->field->getDomId();
+    }
+
+    public function lookupMethod(): string
+    {
+        return $this->field->lookupMethod();
+    }
+
+    public function getDynamicOptions(array $data): ?array
+    {
+        return $this->field->getDynamicOptions($data);
     }
 }

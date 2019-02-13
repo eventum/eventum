@@ -11,7 +11,6 @@
  * that were distributed with this source code.
  */
 
-use Eventum\CustomField\Factory;
 use Eventum\CustomField\Fields\DynamicCustomFieldInterface;
 
 require_once __DIR__ . '/../../init.php';
@@ -25,8 +24,8 @@ if (!empty($_REQUEST['iss_id'])) {
 }
 $data = [];
 foreach ($fields as $field) {
-    $backend = Factory::create($field['fld_id']);
-    if ($backend instanceof DynamicCustomFieldInterface) {
+    $backend = Custom_Field::getBackend($field['fld_id']);
+    if ($backend && $backend->hasInterface(DynamicCustomFieldInterface::class)) {
         $field['structured_data'] = $backend->getStructuredData();
         $data[] = $field;
     }

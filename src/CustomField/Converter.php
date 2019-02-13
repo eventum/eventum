@@ -105,7 +105,7 @@ class Converter
             $fld_id = $field['fld_id'];
             $backend = Custom_Field::getBackend($fld_id);
 
-            if ($backend instanceof DynamicCustomFieldInterface) {
+            if ($backend && $backend->hasInterface(DynamicCustomFieldInterface::class)) {
                 $field['dynamic_options'] = $backend->getStructuredData();
                 $field['controlling_field_id'] = $backend->getControllingCustomFieldId();
                 $field['controlling_field_name'] = $backend->getControllingCustomFieldName();

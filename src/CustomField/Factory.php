@@ -18,7 +18,7 @@ use Eventum\CustomField\Fields\CustomFieldInterface;
 
 abstract class Factory
 {
-    public static function create(string $className): CustomFieldInterface
+    public static function create(string $className): Proxy
     {
         /** @var CustomFieldInterface $field */
         $field = Custom_Field::getExtensionLoader()->createInstance($className);

@@ -11,7 +11,6 @@
  * that were distributed with this source code.
  */
 
-use Eventum\CustomField\Factory;
 use Eventum\CustomField\Fields\DynamicCustomFieldInterface;
 
 require_once __DIR__ . '/../../init.php';
@@ -22,8 +21,8 @@ if (!$fld_id) {
     exit(0);
 }
 
-$backend = Factory::create($fld_id);
-if ($backend instanceof DynamicCustomFieldInterface) {
+$backend = Custom_Field::getBackend($fld_id);
+if ($backend && $backend->hasInterface(DynamicCustomFieldInterface::class)) {
     header('Content-Type: application/json; charset=UTF-8');
     echo json_encode($backend->getDynamicOptions($_GET));
 }
