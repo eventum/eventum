@@ -79,7 +79,7 @@ class XmlRpcServer
             $tags = $this->parseBlockComment($method->getDocComment());
             $public = isset($tags['access']) && $tags['access'][0][0] === 'public';
             $signature = $this->getSignature($tags, $public);
-            $pdesc = isset($tags['param']) ? $tags['param'] : null;
+            $pdesc = $tags['param'] ?? null;
             $function = $this->getFunctionDecorator($method, $public, $pdesc);
             $signatures[$methodName] = [
                 'function' => $function,

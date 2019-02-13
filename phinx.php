@@ -56,7 +56,7 @@ return [
             'user' => $config['username'],
             'pass' => $config['password'],
             'port' => $config['port'],
-            'unix_socket' => isset($config['socket']) ? $config['socket'] : null,
+            'unix_socket' => $config['socket'] ?? null,
 
             // Specify MySQL storage engine
             // if not specified mysql server default will be used

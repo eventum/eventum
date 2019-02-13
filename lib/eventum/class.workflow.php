@@ -46,7 +46,7 @@ class Workflow
             $backends = DB_Helper::getInstance()->getPair($stmt);
         }
 
-        return isset($backends[$prj_id]) ? $backends[$prj_id] : null;
+        return $backends[$prj_id] ?? null;
     }
 
     /**

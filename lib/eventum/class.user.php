@@ -599,7 +599,7 @@ class User
     {
         $roles = self::getLocalizedRoles();
         // XXX manage/custom_fields.php uses role_id = 9 as "Never Display", which is hack
-        return isset($roles[$role_id]) ? $roles[$role_id] : null;
+        return $roles[$role_id] ?? null;
     }
 
     /**
@@ -680,7 +680,7 @@ class User
                 return null;
             }
 
-            $load_groups = isset($options['groups']) ? $options['groups'] : true;
+            $load_groups = $options['groups'] ?? true;
 
             foreach ($res as &$row) {
                 // TODO: unset usr_password, load only when needed
@@ -1109,13 +1109,13 @@ class User
     public static function insert(array $user)
     {
         $params = [
-            isset($user['customer_id']) ? $user['customer_id'] : null,
-            isset($user['contact_id']) ? $user['contact_id'] : null,
+            $user['customer_id'] ?? null,
+            $user['contact_id'] ?? null,
             Date_Helper::getCurrentDateGMT(),
             $user['full_name'],
             $user['email'],
-            isset($user['external_id']) ? $user['external_id'] : null,
-            isset($user['par_code']) ? $user['par_code'] : null,
+            $user['external_id'] ?? null,
+            $user['par_code'] ?? null,
         ];
         $stmt = 'INSERT INTO
                     `user`
@@ -1192,8 +1192,8 @@ class User
                     usr_id != ?';
         $params = [APP_SYSTEM_USER_ID];
 
-        $show_inactive = isset($options['inactive']) ? $options['inactive'] : false;
-        $show_customers = isset($options['customers']) ? $options['customers'] : true;
+        $show_inactive = $options['inactive'] ?? false;
+        $show_customers = $options['customers'] ?? true;
 
         if (!$show_inactive) {
             $stmt .= ' AND usr_status != ?';

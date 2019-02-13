@@ -958,7 +958,7 @@ class Project
                      )';
             try {
                 DB_Helper::getInstance()->query($stmt, [$prj_id, $field, $details['min_role'],
-                    (isset($details['required']) ? $details['required'] : 0), ]);
+                    ($details['required'] ?? 0), ]);
             } catch (DatabaseException $e) {
                 return -1;
             }

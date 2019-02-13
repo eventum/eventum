@@ -48,10 +48,10 @@ class RecentActivity
         $this->activity_types = !empty($_REQUEST['activity_types']) ? (array) $_REQUEST['activity_types'] : [];
         $this->report_type = isset($_REQUEST['report_type']) ? (string) $_REQUEST['report_type'] : null;
         $this->unit = $this->getParam('unit', ['hour', 'day']);
-        $this->amount = isset($_REQUEST['amount']) ? $_REQUEST['amount'] : null;
-        $this->developer = isset($_REQUEST['developer']) ? $_REQUEST['developer'] : null;
-        $this->start_date = $this->parseDate(isset($_POST['start']) ? $_POST['start'] : null);
-        $this->end_date = $this->parseDate(isset($_POST['end']) ? $_POST['end'] : null);
+        $this->amount = $_REQUEST['amount'] ?? null;
+        $this->developer = $_REQUEST['developer'] ?? null;
+        $this->start_date = $this->parseDate($_POST['start'] ?? null);
+        $this->end_date = $this->parseDate($_POST['end'] ?? null);
         $this->sort_order = $this->getParam('sort_order', ['ASC', 'DESC']);
 
         if (CRM::hasCustomerIntegration($this->prj_id)) {

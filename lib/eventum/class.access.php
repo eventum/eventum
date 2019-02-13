@@ -687,11 +687,11 @@ class Access
             $issue_id,
             $usr_id,
             Date_Helper::getCurrentDateGMT(),
-            isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : null,
+            $_SERVER['REMOTE_ADDR'] ?? null,
             (int) !$return,
             $item,
             $item_id,
-            isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : null,
+            $_SERVER['REQUEST_URI'] ?? null,
         ];
         try {
             DB_Helper::getInstance()->query($sql, $params);

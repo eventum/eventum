@@ -246,7 +246,7 @@ class PdoAdapter implements AdapterInterface
             throw new BadMethodCallException(self::PDO_EXT_MISSING_ERROR);
         }
 
-        $driver = isset($config['driver']) ? $config['driver'] : self::DEFAULT_DRIVER;
+        $driver = $config['driver'] ?? self::DEFAULT_DRIVER;
         if ($driver === 'mysqli') {
             $driver = 'mysql';
         }
