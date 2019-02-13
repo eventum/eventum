@@ -20,6 +20,9 @@ use Eventum\Model\Entity\CustomField;
 use Eventum\Test\TestCase;
 use User;
 
+/**
+ * @group db
+ */
 class CustomFieldTest extends TestCase
 {
     public function testGetCustomField(): void
