@@ -23,7 +23,7 @@ class HistorySubscriber implements EventSubscriberInterface
     /**
      * {@inheritdoc}
      */
-    public static function getSubscribedEvents()
+    public static function getSubscribedEvents(): array
     {
         return [
             SystemEvents::HISTORY_ADD => 'historyAdded',

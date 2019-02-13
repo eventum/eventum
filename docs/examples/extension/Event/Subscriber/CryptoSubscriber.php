@@ -24,7 +24,7 @@ class CryptoSubscriber implements EventSubscriberInterface
     /**
      * {@inheritdoc}
      */
-    public static function getSubscribedEvents()
+    public static function getSubscribedEvents(): array
     {
         return [
             SystemEvents::CONFIG_CRYPTO_UPGRADE => 'upgradeConfig',

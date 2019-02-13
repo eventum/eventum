@@ -25,7 +25,7 @@ use User;
 
 class IrcSubscriber implements EventSubscriberInterface
 {
-    public static function getSubscribedEvents()
+    public static function getSubscribedEvents(): array
     {
         return [
             SystemEvents::EMAIL_BLOCKED => 'emailBlocked',

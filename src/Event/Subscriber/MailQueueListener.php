@@ -25,7 +25,7 @@ use Symfony\Component\EventDispatcher\GenericEvent;
 
 class MailQueueListener implements EventSubscriberInterface
 {
-    public static function getSubscribedEvents()
+    public static function getSubscribedEvents(): array
     {
         return [
             SystemEvents::MAIL_QUEUE_SEND => 'send',
