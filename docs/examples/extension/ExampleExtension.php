@@ -37,7 +37,7 @@ class ExampleExtension extends AbstractExtension
     public function registerAutoloader($loader)
     {
         $phpDir = '/usr/share/php';
-        $baseDir = dirname(dirname(dirname(__DIR__)));
+        $baseDir = dirname(__DIR__, 3);
 
         $classmap = [
             'example_Workflow_Backend' => $baseDir . '/src/Workflow/example_Workflow_Backend.php',

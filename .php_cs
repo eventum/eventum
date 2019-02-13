@@ -55,6 +55,7 @@ $risky_rules = [
     'no_alias_functions' => true,
     'no_php4_constructor' => true,
     '@PHP71Migration' => true,
+    'combine_nested_dirname' => true,
 ];
 
 $symfony_rules = [
