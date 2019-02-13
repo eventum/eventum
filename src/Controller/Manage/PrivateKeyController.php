@@ -31,7 +31,7 @@ class PrivateKeyController extends ManageBaseController
     /**
      * {@inheritdoc}
      */
-    protected function configure()
+    protected function configure(): void
     {
         $request = $this->getRequest();
 
@@ -41,14 +41,14 @@ class PrivateKeyController extends ManageBaseController
     /**
      * {@inheritdoc}
      */
-    protected function defaultAction()
+    protected function defaultAction(): void
     {
         if ($this->cat == 'update') {
             $this->updateAction();
         }
     }
 
-    private function updateAction()
+    private function updateAction(): void
     {
         try {
             Auth::generatePrivateKey();
@@ -61,7 +61,7 @@ class PrivateKeyController extends ManageBaseController
     /**
      * {@inheritdoc}
      */
-    protected function prepareTemplate()
+    protected function prepareTemplate(): void
     {
     }
 }

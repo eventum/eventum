@@ -25,21 +25,21 @@ class CategoryStatusController extends ReportBaseController
     /**
      * {@inheritdoc}
      */
-    protected function configure()
+    protected function configure(): void
     {
     }
 
     /**
      * {@inheritdoc}
      */
-    protected function defaultAction()
+    protected function defaultAction(): void
     {
     }
 
     /**
      * {@inheritdoc}
      */
-    protected function prepareTemplate()
+    protected function prepareTemplate(): void
     {
         $categories = Category::getAssocList($this->prj_id);
         $statuses = Status::getAssocStatusList($this->prj_id, true);

@@ -43,7 +43,7 @@ class TimeTrackingController extends BaseController
     /**
      * {@inheritdoc}
      */
-    protected function configure()
+    protected function configure(): void
     {
         $request = $this->getRequest();
 
@@ -87,7 +87,7 @@ class TimeTrackingController extends BaseController
     /**
      * {@inheritdoc}
      */
-    protected function defaultAction()
+    protected function defaultAction(): void
     {
         if ($this->cat == 'add_time') {
             $res = $this->addTimeEntry();
@@ -131,7 +131,7 @@ class TimeTrackingController extends BaseController
     /**
      * {@inheritdoc}
      */
-    protected function prepareTemplate()
+    protected function prepareTemplate(): void
     {
         $prj_id = Auth::getCurrentProject();
         $this->tpl->assign(

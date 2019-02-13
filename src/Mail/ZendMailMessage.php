@@ -23,7 +23,7 @@ use Zend\Mail\Message;
  */
 class ZendMailMessage extends Message
 {
-    public function forceHeaders(Headers $headers)
+    public function forceHeaders(Headers $headers): void
     {
         $this->headers = $headers;
     }

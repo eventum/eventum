@@ -37,7 +37,7 @@ class IndexController extends BaseController
     /**
      * {@inheritdoc}
      */
-    protected function configure()
+    protected function configure(): void
     {
         $request = $this->getRequest();
 
@@ -55,7 +55,7 @@ class IndexController extends BaseController
     /**
      * {@inheritdoc}
      */
-    protected function defaultAction()
+    protected function defaultAction(): void
     {
         $has_valid_cookie = AuthCookie::hasAuthCookie();
         $is_anon_user = Auth::isAnonUser();
@@ -78,7 +78,7 @@ class IndexController extends BaseController
         }
     }
 
-    private function checkRequirements()
+    private function checkRequirements(): void
     {
         $errors = [];
 
@@ -94,7 +94,7 @@ class IndexController extends BaseController
     /**
      * {@inheritdoc}
      */
-    protected function prepareTemplate()
+    protected function prepareTemplate(): void
     {
         $projects = Project::getAnonymousList();
         $anonymous_post = (int) !empty($projects);

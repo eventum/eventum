@@ -19,7 +19,7 @@
 
 // init minimal constants needed for some classes to work
 require_once __DIR__ . '/globals.php';
-$define = function ($name, $value) {
+$define = function ($name, $value): void {
     if (defined($name)) {
         return;
     }

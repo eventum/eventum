@@ -36,7 +36,7 @@ class BuiltinLegacyLoaderExtension extends AbstractExtension
     /** @var array */
     private $customers = [];
 
-    public function registerAutoloader($loader)
+    public function registerAutoloader($loader): void
     {
         $classmap = [];
 

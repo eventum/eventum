@@ -15,7 +15,7 @@ use Eventum\Db\AbstractMigration;
 
 class EventumAttachmentsMigrate extends AbstractMigration
 {
-    public function up()
+    public function up(): void
     {
         $this->execute("UPDATE issue_attachment SET iat_min_role = IF(iat_status = 'public', 1, 4)");
         $this->execute("INSERT INTO

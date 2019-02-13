@@ -54,7 +54,7 @@ class CommitRepository extends EntityRepository
      * @param Payload\PayloadInterface $payload
      * @since 3.4.0 dispatches SystemEvents::SCM_COMMIT_BEFORE event
      */
-    public function preCommit($prj_id, Entity\Commit $ci, Payload\PayloadInterface $payload)
+    public function preCommit($prj_id, Entity\Commit $ci, Payload\PayloadInterface $payload): void
     {
         $event = new GenericEvent($ci, ['payload' => $payload]);
         EventManager::dispatch(SystemEvents::SCM_COMMIT_BEFORE, $event);
@@ -64,7 +64,7 @@ class CommitRepository extends EntityRepository
      * @param int $issue_id the ID of the issue
      * @param Entity\Commit $commit
      */
-    public function notifyNewCommit($issue_id, Entity\Commit $commit)
+    public function notifyNewCommit($issue_id, Entity\Commit $commit): void
     {
         Issue::markAsUpdated($issue_id, 'scm checkin');
 
@@ -85,7 +85,7 @@ class CommitRepository extends EntityRepository
      * @param Entity\Commit $ci
      * @param array $commit
      */
-    public function addCommitFiles(Entity\Commit $ci, $commit)
+    public function addCommitFiles(Entity\Commit $ci, $commit): void
     {
         $em = Doctrine::getEntityManager();
 
@@ -139,7 +139,7 @@ class CommitRepository extends EntityRepository
      * @param int[] $issues
      * @since 3.3.4 dispatches SystemEvents::SCM_COMMIT_ASSOCIATED event
      */
-    public function addIssues(Entity\Commit $ci, $issues)
+    public function addIssues(Entity\Commit $ci, $issues): void
     {
         $em = Doctrine::getEntityManager();
         $ir = Doctrine::getIssueRepository();
@@ -169,7 +169,7 @@ class CommitRepository extends EntityRepository
      * @param Entity\CommitFile $cf
      * @param array $versions
      */
-    private function setFileVersions(Entity\CommitFile $cf, $versions)
+    private function setFileVersions(Entity\CommitFile $cf, $versions): void
     {
         if (isset($versions[0])) {
             $cf->setOldVersion($versions[0]);

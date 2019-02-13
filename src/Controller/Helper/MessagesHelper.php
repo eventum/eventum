@@ -37,7 +37,7 @@ class MessagesHelper
      *
      * @param string $msg
      */
-    public function addInfoMessage($msg)
+    public function addInfoMessage($msg): void
     {
         $this->flashBag->add(self::MSG_INFO, $msg);
     }
@@ -47,7 +47,7 @@ class MessagesHelper
      *
      * @param string $msg
      */
-    public function addErrorMessage($msg)
+    public function addErrorMessage($msg): void
     {
         $this->flashBag->add(self::MSG_ERROR, $msg);
     }
@@ -57,7 +57,7 @@ class MessagesHelper
      *
      * @param string $msg
      */
-    public function addHtmlBoxMessage($msg)
+    public function addHtmlBoxMessage($msg): void
     {
         $this->flashBag->add(self::MSG_HTML_BOX, $msg);
     }
@@ -72,7 +72,7 @@ class MessagesHelper
         return $this->flashBag->all();
     }
 
-    public function mapMessages($result, $map)
+    public function mapMessages($result, $map): void
     {
         foreach ($map as $val => $info) {
             if ($result == $val) {

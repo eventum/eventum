@@ -118,7 +118,7 @@ class AttachmentManager
      *          'unknown_user': the email of the user who originally sent this email, who doesn't have an account
      *          'associated_note_id' The note ID that these attachments should be associated with
      */
-    public static function attachFiles($issue_id, $usr_id, $iaf_ids, $minimum_role, $file_description, $extra = [])
+    public static function attachFiles($issue_id, $usr_id, $iaf_ids, $minimum_role, $file_description, $extra = []): void
     {
         if (!$iaf_ids) {
             throw new LogicException('No attachment ids');
@@ -208,7 +208,7 @@ class AttachmentManager
     /**
      * Removes attachments that were never associated with issues
      */
-    public static function cleanupAbandonedFiles()
+    public static function cleanupAbandonedFiles(): void
     {
         $sql = "SELECT
                     iaf_id,

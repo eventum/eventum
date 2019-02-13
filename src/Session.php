@@ -29,7 +29,7 @@ class Session
      * @param   string $name name to store variable under
      * @param   mixed $var variable to store in session
      */
-    public static function set($name, $var)
+    public static function set($name, $var): void
     {
         static::getInstance()->set($name, $var);
     }
@@ -51,7 +51,7 @@ class Session
      *
      * @param   int $usr_id The ID of the user
      */
-    public static function init($usr_id)
+    public static function init($usr_id): void
     {
         $session = static::getInstance();
 

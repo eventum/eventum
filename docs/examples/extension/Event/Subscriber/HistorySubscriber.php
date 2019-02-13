@@ -33,7 +33,7 @@ class HistorySubscriber implements EventSubscriberInterface
     /**
      * @param GenericEvent $event
      */
-    public function historyAdded(GenericEvent $event)
+    public function historyAdded(GenericEvent $event): void
     {
         $his_summary = Misc::processTokens(ev_gettext($event['his_summary']), $event['his_context']);
 

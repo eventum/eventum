@@ -24,7 +24,7 @@ class SpellCheckController extends BaseController
     /**
      * {@inheritdoc}
      */
-    protected function configure()
+    protected function configure(): void
     {
     }
 
@@ -41,7 +41,7 @@ class SpellCheckController extends BaseController
     /**
      * {@inheritdoc}
      */
-    protected function defaultAction()
+    protected function defaultAction(): void
     {
         $request = $this->getRequest();
         $form_name = $request->query->get('form_name');
@@ -126,7 +126,7 @@ class SpellCheckController extends BaseController
     /**
      * {@inheritdoc}
      */
-    protected function prepareTemplate()
+    protected function prepareTemplate(): void
     {
     }
 }

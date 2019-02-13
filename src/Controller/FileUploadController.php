@@ -33,7 +33,7 @@ class FileUploadController extends BaseController
     /**
      * {@inheritdoc}
      */
-    protected function configure()
+    protected function configure(): void
     {
         $request = $this->getRequest();
 
@@ -54,7 +54,7 @@ class FileUploadController extends BaseController
     /**
      * {@inheritdoc}
      */
-    protected function defaultAction()
+    protected function defaultAction(): void
     {
         if ($this->cat == 'upload_file') {
             $this->uploadFileAction();
@@ -64,7 +64,7 @@ class FileUploadController extends BaseController
     /**
      * handle uploads
      */
-    private function uploadFileAction()
+    private function uploadFileAction(): void
     {
         $post = $this->getRequest()->request;
         $usr_id = Auth::getUserID();
@@ -89,7 +89,7 @@ class FileUploadController extends BaseController
     /**
      * {@inheritdoc}
      */
-    protected function prepareTemplate()
+    protected function prepareTemplate(): void
     {
         $this->tpl->assign(
             [

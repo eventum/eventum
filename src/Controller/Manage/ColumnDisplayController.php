@@ -33,7 +33,7 @@ class ColumnDisplayController extends ManageBaseController
     /**
      * {@inheritdoc}
      */
-    protected function configure()
+    protected function configure(): void
     {
         $request = $this->getRequest();
 
@@ -44,14 +44,14 @@ class ColumnDisplayController extends ManageBaseController
     /**
      * {@inheritdoc}
      */
-    protected function defaultAction()
+    protected function defaultAction(): void
     {
         if ($this->cat == 'save') {
             $this->saveColumnAction();
         }
     }
 
-    private function saveColumnAction()
+    private function saveColumnAction(): void
     {
         $res = Display_Column::save();
         $this->tpl->assign('result', $res);
@@ -65,7 +65,7 @@ class ColumnDisplayController extends ManageBaseController
     /**
      * {@inheritdoc}
      */
-    protected function prepareTemplate()
+    protected function prepareTemplate(): void
     {
         $page = 'list_issues';
         $available = Display_Column::getAllColumns($page);

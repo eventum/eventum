@@ -41,7 +41,7 @@ class RssController extends BaseController
     /**
      * {@inheritdoc}
      */
-    protected function configure()
+    protected function configure(): void
     {
         $get = $this->getRequest()->query;
 
@@ -77,7 +77,7 @@ class RssController extends BaseController
     /**
      * {@inheritdoc}
      */
-    protected function defaultAction()
+    protected function defaultAction(): void
     {
         // check if the required parameter 'custom_id' is really being passed
         if (!$this->cst_id) {
@@ -99,7 +99,7 @@ class RssController extends BaseController
      *
      * @throw InvalidArgumentException
      */
-    private function authorizeRequest()
+    private function authorizeRequest(): void
     {
         // Setup from HTTP Auth headers
         $request = $this->getRequest();
@@ -148,7 +148,7 @@ class RssController extends BaseController
     /**
      * Send WWW-Authenticate HTTP header
      */
-    private function sendAuthenticateHeader()
+    private function sendAuthenticateHeader(): void
     {
         // FIXME: escape tool_caption properly
         header('WWW-Authenticate: Basic realm="' . Misc::getToolCaption() . '"');
@@ -160,7 +160,7 @@ class RssController extends BaseController
      *
      * @param string $msg
      */
-    private function rssError($msg)
+    private function rssError($msg): void
     {
         header('Content-Type: text/xml; charset=' . APP_CHARSET);
 
@@ -172,7 +172,7 @@ class RssController extends BaseController
     /**
      * {@inheritdoc}
      */
-    protected function prepareTemplate()
+    protected function prepareTemplate(): void
     {
         $filter = Filter::getDetails($this->cst_id, false);
 

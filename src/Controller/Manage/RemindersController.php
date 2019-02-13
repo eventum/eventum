@@ -38,7 +38,7 @@ class RemindersController extends ManageBaseController
     /**
      * {@inheritdoc}
      */
-    protected function configure()
+    protected function configure(): void
     {
         $request = $this->getRequest();
 
@@ -49,7 +49,7 @@ class RemindersController extends ManageBaseController
     /**
      * {@inheritdoc}
      */
-    protected function defaultAction()
+    protected function defaultAction(): void
     {
         if ($this->cat == 'new') {
             $this->newAction();
@@ -68,7 +68,7 @@ class RemindersController extends ManageBaseController
         }
     }
 
-    private function newAction()
+    private function newAction(): void
     {
         $res = Reminder::insert();
         $map = [
@@ -81,7 +81,7 @@ class RemindersController extends ManageBaseController
         $this->redirect("reminders.php?prj_id={$prj_id}");
     }
 
-    private function updateAction()
+    private function updateAction(): void
     {
         $res = Reminder::update();
         $map = [
@@ -94,19 +94,19 @@ class RemindersController extends ManageBaseController
         $this->redirect("reminders.php?prj_id={$prj_id}");
     }
 
-    private function deleteAction()
+    private function deleteAction(): void
     {
         Reminder::remove();
     }
 
-    private function changeRankAction()
+    private function changeRankAction(): void
     {
         $get = $this->getRequest()->query;
 
         Reminder::changeRank($get->getInt('id'), $get->getInt('rank'));
     }
 
-    private function editAction()
+    private function editAction(): void
     {
         $get = $this->getRequest()->query;
 
@@ -123,7 +123,7 @@ class RemindersController extends ManageBaseController
         $this->setProjectData($info['rem_prj_id']);
     }
 
-    private function infoAction()
+    private function infoAction(): void
     {
         $this->tpl->assign(
             [
@@ -139,7 +139,7 @@ class RemindersController extends ManageBaseController
      *
      * @param int $prj_id
      */
-    private function setProjectData($prj_id)
+    private function setProjectData($prj_id): void
     {
         $this->tpl->assign(
             [
@@ -185,7 +185,7 @@ class RemindersController extends ManageBaseController
     /**
      * {@inheritdoc}
      */
-    protected function prepareTemplate()
+    protected function prepareTemplate(): void
     {
         $this->tpl->assign(
             [

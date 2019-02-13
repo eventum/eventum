@@ -62,7 +62,7 @@ class XmlRpcServer
         $this->server = new PhpXmlRpc\Server($services, false);
     }
 
-    public function run($data = null)
+    public function run($data = null): void
     {
         $this->server->service($data);
     }
@@ -218,7 +218,7 @@ class XmlRpcServer
      * @param array $params actual parameters
      * @param array $description parameter descriptions
      */
-    private function decodeParams(&$params, $description)
+    private function decodeParams(&$params, $description): void
     {
         foreach ($params as $i => &$param) {
             $type = $description[$i][0];
@@ -322,7 +322,7 @@ class XmlRpcServer
      * @param string $message
      * @param array $context
      */
-    private function logRequest($message, $context)
+    private function logRequest($message, $context): void
     {
         if (isset($_SERVER['HTTP_USER_AGENT'])) {
             $context['agent'] = $_SERVER['HTTP_USER_AGENT'];

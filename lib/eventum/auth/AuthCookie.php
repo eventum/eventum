@@ -30,7 +30,7 @@ class AuthCookie
      * @param int|string $user user Id or User email
      * @param bool $permanent Set to false to make session cookie (Expires when browser is closed)
      */
-    public static function setAuthCookie($user, $permanent = true)
+    public static function setAuthCookie($user, $permanent = true): void
     {
         if (!$user) {
             throw new LogicException('Need usr_id or email');
@@ -94,7 +94,7 @@ class AuthCookie
     /**
      * Method used to remove auth cookie from the user's browser.
      */
-    public static function removeAuthCookie()
+    public static function removeAuthCookie(): void
     {
         Auth::removeCookie(APP_COOKIE);
     }
@@ -106,7 +106,7 @@ class AuthCookie
      * @param int $prj_id The project ID
      * @param bool $remember Whether to automatically remember the setting or not
      */
-    public static function setProjectCookie($prj_id, $remember = null)
+    public static function setProjectCookie($prj_id, $remember = null): void
     {
         // try to preserve "remember" from existing cookie
         if ($remember === null) {
@@ -139,7 +139,7 @@ class AuthCookie
     /**
      * Method used to remove project cookie from the user's browser.
      */
-    public static function removeProjectCookie()
+    public static function removeProjectCookie(): void
     {
         Auth::removeCookie(APP_PROJECT_COOKIE);
     }

@@ -31,7 +31,7 @@ class PrioritiesController extends ManageBaseController
     /**
      * {@inheritdoc}
      */
-    protected function configure()
+    protected function configure(): void
     {
         $request = $this->getRequest();
 
@@ -42,7 +42,7 @@ class PrioritiesController extends ManageBaseController
     /**
      * {@inheritdoc}
      */
-    protected function defaultAction()
+    protected function defaultAction(): void
     {
         if ($this->cat == 'new') {
             $this->newAction();
@@ -59,7 +59,7 @@ class PrioritiesController extends ManageBaseController
         }
     }
 
-    private function newAction()
+    private function newAction(): void
     {
         $res = Priority::insert();
         $this->tpl->assign('result', $res);
@@ -71,7 +71,7 @@ class PrioritiesController extends ManageBaseController
         $this->messages->mapMessages($res, $map);
     }
 
-    private function updateAction()
+    private function updateAction(): void
     {
         $res = Priority::update();
         $this->tpl->assign('result', $res);
@@ -83,18 +83,18 @@ class PrioritiesController extends ManageBaseController
         $this->messages->mapMessages($res, $map);
     }
 
-    private function deleteAction()
+    private function deleteAction(): void
     {
         Priority::remove();
     }
 
-    private function editAction()
+    private function editAction(): void
     {
         $id = $this->getRequest()->query->getInt('id');
         $this->tpl->assign('info', Priority::getDetails($id));
     }
 
-    private function changeRankAction()
+    private function changeRankAction(): void
     {
         $get = $this->getRequest()->query;
         Priority::changeRank($this->prj_id, $get->getInt('id'), $get->getInt('rank'));
@@ -103,7 +103,7 @@ class PrioritiesController extends ManageBaseController
     /**
      * {@inheritdoc}
      */
-    protected function prepareTemplate()
+    protected function prepareTemplate(): void
     {
         $this->tpl->assign(
             [

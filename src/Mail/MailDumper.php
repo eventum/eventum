@@ -28,7 +28,7 @@ class MailDumper
      * @param MailMessage $mail
      * @throws IOException
      */
-    public static function dump(MailMessage $mail, $type)
+    public static function dump(MailMessage $mail, $type): void
     {
         $filename = static::getFilename($type);
         if (!$filename) {

@@ -40,7 +40,7 @@ class IrcSubscriber implements EventSubscriberInterface
      * @param string $eventName
      * @param EventDispatcherInterface $dispatcher
      */
-    public function notifyIrc(GenericEvent $event, $eventName, EventDispatcherInterface $dispatcher)
+    public function notifyIrc(GenericEvent $event, $eventName, EventDispatcherInterface $dispatcher): void
     {
         if (!$this->notificationEnabled()) {
             return;

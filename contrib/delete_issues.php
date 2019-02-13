@@ -30,7 +30,7 @@ if (!$argv) {
 
 require __DIR__ . '/../init.php';
 
-function check_delete(AdapterInterface $db, $tables, $issue_id)
+function check_delete(AdapterInterface $db, $tables, $issue_id): void
 {
     $res = $db->getOne('SELECT iss_id FROM `issue` where iss_id=?', [$issue_id]);
     if (!$res) {
@@ -45,7 +45,7 @@ function check_delete(AdapterInterface $db, $tables, $issue_id)
     }
 }
 
-function check_delete_table(AdapterInterface $db, $table, $column, $issue_id)
+function check_delete_table(AdapterInterface $db, $table, $column, $issue_id): void
 {
     $query = "select count(*) from `{$table}` where {$column}=?";
     $res = $db->getOne($query, [$issue_id]);

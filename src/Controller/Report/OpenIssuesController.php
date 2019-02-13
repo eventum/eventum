@@ -29,7 +29,7 @@ class OpenIssuesController extends ReportBaseController
     /**
      * {@inheritdoc}
      */
-    protected function configure()
+    protected function configure(): void
     {
         $request = $this->getRequest();
         $post = $request->request;
@@ -42,14 +42,14 @@ class OpenIssuesController extends ReportBaseController
     /**
      * {@inheritdoc}
      */
-    protected function defaultAction()
+    protected function defaultAction(): void
     {
     }
 
     /**
      * {@inheritdoc}
      */
-    protected function prepareTemplate()
+    protected function prepareTemplate(): void
     {
         $res = Report::getOpenIssuesByUser($this->prj_id, $this->cutoff_days, $this->group_by_reporter);
         $this->tpl->assign(

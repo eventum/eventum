@@ -36,7 +36,7 @@ class EmailsController extends BaseController
     /**
      * {@inheritdoc}
      */
-    protected function configure()
+    protected function configure(): void
     {
         $request = $this->getRequest();
 
@@ -70,14 +70,14 @@ class EmailsController extends BaseController
     /**
      * {@inheritdoc}
      */
-    protected function defaultAction()
+    protected function defaultAction(): void
     {
     }
 
     /**
      * {@inheritdoc}
      */
-    protected function prepareTemplate()
+    protected function prepareTemplate(): void
     {
         $pagerRow = Support::getParam('pagerRow') ?: 0;
         $rows = Support::getParam('rows') ?: APP_DEFAULT_PAGER_SIZE;

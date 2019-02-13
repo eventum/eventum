@@ -138,7 +138,7 @@ class Mail_Queue
      * @param   int $limit The limit of emails that we should send at one time
      * @param   bool $merge whether or not to send one merged email for multiple entries with the same status and type. Functionality DROPPED
      */
-    public static function send($status, $limit = null, $merge = false)
+    public static function send($status, $limit = null, $merge = false): void
     {
         if ($merge !== false) {
             throw new RuntimeException('Merged list no longer supported');
@@ -302,7 +302,7 @@ class Mail_Queue
      *
      * @param string $interval MySQL Interval definition
      */
-    public static function truncate($interval)
+    public static function truncate($interval): void
     {
         $sql = "UPDATE
                     `mail_queue`

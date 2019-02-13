@@ -21,7 +21,7 @@ use Eventum\Mail\MailMessage;
  */
 class EventumDuplicateSubject extends AbstractMigration
 {
-    public function up()
+    public function up(): void
     {
         $entries = $this->getEmailEntries();
         foreach ($this->getIterator($entries) as $id) {

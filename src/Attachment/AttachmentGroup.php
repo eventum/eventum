@@ -95,7 +95,7 @@ class AttachmentGroup
     /**
      * Saves a new AttachmentGroup to the database. Does not handle updates.
      */
-    public function save()
+    public function save(): void
     {
         $params = [
             'iat_iss_id' => $this->issue_id,

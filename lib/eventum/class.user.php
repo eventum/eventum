@@ -59,7 +59,7 @@ class User
     /**
      * Method to reset localized roles, i.e after changing active language.
      */
-    public static function resetLocalizedRoles()
+    public static function resetLocalizedRoles(): void
     {
         self::$localized_roles = null;
     }
@@ -367,7 +367,7 @@ class User
      *
      * @param   string $usr_id The user ID
      */
-    public static function sendPasswordConfirmationEmail($usr_id)
+    public static function sendPasswordConfirmationEmail($usr_id): void
     {
         $info = self::getDetails($usr_id);
         // send confirmation email to user
@@ -401,7 +401,7 @@ class User
      *
      * @param   string $email The email address
      */
-    public static function confirmNewPassword($email)
+    public static function confirmNewPassword($email): void
     {
         $usr_id = self::getUserIDByEmail($email);
         // create the new password
@@ -985,7 +985,7 @@ class User
      * @param bool $send_notification Whether to send the notification email or not
      * @throw InvalidArgumentException|BadMethodCallException in case password was not set
      */
-    public static function updatePassword($usr_id, $password, $send_notification = false)
+    public static function updatePassword($usr_id, $password, $send_notification = false): void
     {
         // reject setting empty password
         if ($password === '') {

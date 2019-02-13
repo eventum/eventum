@@ -15,7 +15,7 @@ use Eventum\Db\AbstractMigration;
 
 class EventumMailQueueState extends AbstractMigration
 {
-    public function up()
+    public function up(): void
     {
         foreach ($this->getEntries() as $maqId) {
             $count = $this->getErrorCount($maqId);

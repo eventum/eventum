@@ -44,7 +44,7 @@ class MailDownloadCommand
         $this->logger = Logger::app();
     }
 
-    public function execute(?string $username, ?string $hostname, ?string $mailbox, bool $noLock, int $limit = 0)
+    public function execute(?string $username, ?string $hostname, ?string $mailbox, bool $noLock, int $limit = 0): void
     {
         $account_id = $this->getAccountId($username, $hostname, $mailbox);
         $this->limit = $limit;
@@ -52,7 +52,7 @@ class MailDownloadCommand
         if (!$noLock) {
             $lock = new ConcurrentLock('download_emails_' . $account_id);
             $lock->synchronized(
-                function () use ($account_id) {
+                function () use ($account_id): void {
                     $this->processEmails($account_id);
                 }
             );
@@ -64,7 +64,7 @@ class MailDownloadCommand
     /**
      * @param int $account_id
      */
-    private function processEmails($account_id)
+    private function processEmails($account_id): void
     {
         $account = Email_Account::getDetails($account_id, true);
         $mbox = $this->getConnection($account);
@@ -171,7 +171,7 @@ class MailDownloadCommand
     /**
      * @param resource $mbox
      */
-    private function closeConnection($mbox)
+    private function closeConnection($mbox): void
     {
         $this->closeEmailServer($mbox);
         $this->clearErrors();
@@ -183,7 +183,7 @@ class MailDownloadCommand
      *
      * @param   resource $mbox The mailbox
      */
-    private function closeEmailServer($mbox)
+    private function closeEmailServer($mbox): void
     {
         imap_expunge($mbox);
         imap_close($mbox);
@@ -192,7 +192,7 @@ class MailDownloadCommand
     /**
      * Method used to clear the error stack as required by the IMAP PHP extension.
      */
-    private function clearErrors()
+    private function clearErrors(): void
     {
         imap_errors();
     }

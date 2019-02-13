@@ -15,7 +15,7 @@ use Eventum\Db\AbstractMigration;
 
 class EventumUserExternalIdNullable extends AbstractMigration
 {
-    public function up()
+    public function up(): void
     {
         $this->table('user')
             ->changeColumn(
@@ -27,7 +27,7 @@ class EventumUserExternalIdNullable extends AbstractMigration
         $this->query("UPDATE user SET usr_external_id=NULL WHERE usr_external_id=''");
     }
 
-    public function down()
+    public function down(): void
     {
         $this->table('user')
             ->changeColumn(

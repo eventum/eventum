@@ -28,7 +28,7 @@ ini_set('session.cache_limiter', 'nocache');
 
 require_once __DIR__ . '/globals.php';
 
-$define = function ($name, $value) {
+$define = function ($name, $value): void {
     if (defined($name)) {
         return;
     }

@@ -36,7 +36,7 @@ class MainController extends BaseController
     /**
      * {@inheritdoc}
      */
-    protected function configure()
+    protected function configure(): void
     {
     }
 
@@ -62,7 +62,7 @@ class MainController extends BaseController
     /**
      * {@inheritdoc}
      */
-    protected function defaultAction()
+    protected function defaultAction(): void
     {
     }
 
@@ -111,7 +111,7 @@ class MainController extends BaseController
     /**
      * {@inheritdoc}
      */
-    protected function prepareTemplate()
+    protected function prepareTemplate(): void
     {
         $hide_closed = $this->getHideClosedFlag();
         $hide_stats = false;

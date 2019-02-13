@@ -33,7 +33,7 @@ class ReminderCheckCommand
     /** @var int[] */
     private $triggered_issues = [];
 
-    public function execute(OutputInterface $output, $debug)
+    public function execute(OutputInterface $output, $debug): void
     {
         $this->output = $output;
 
@@ -46,7 +46,7 @@ class ReminderCheckCommand
 
         $lock = new ConcurrentLock($this->lock_name);
         $lock->synchronized(
-            function () {
+            function (): void {
                 $this->checkReminders();
             }
         );
@@ -62,7 +62,7 @@ class ReminderCheckCommand
      * 7 - Perform action
      * 8 - Continue to next reminder level
      */
-    private function checkReminders()
+    private function checkReminders(): void
     {
         $filter = function ($reminder) {
             return $this->filteroutWeekends($reminder);
@@ -79,7 +79,7 @@ class ReminderCheckCommand
      *
      * @param array $reminder
      */
-    private function processReminder($reminder)
+    private function processReminder($reminder): void
     {
         foreach ($reminder['actions'] as $action) {
             $message = ev_gettext("Processing Reminder Action '%s'", $action['rma_title']);
@@ -117,7 +117,7 @@ class ReminderCheckCommand
         }
     }
 
-    private function performActions($reminder, $action, $issues)
+    private function performActions($reminder, $action, $issues): void
     {
         foreach ($issues as $issue_id) {
             $message = '  - ' . ev_gettext('Processing issue #%d', $issue_id);
@@ -157,7 +157,7 @@ class ReminderCheckCommand
         return true;
     }
 
-    private function debugMessage($message)
+    private function debugMessage($message): void
     {
         $this->output->writeln($message, OutputInterface::VERBOSITY_DEBUG);
     }

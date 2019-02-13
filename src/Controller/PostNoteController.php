@@ -54,7 +54,7 @@ class PostNoteController extends BaseController
     /**
      * {@inheritdoc}
      */
-    protected function configure()
+    protected function configure(): void
     {
         $request = $this->getRequest();
 
@@ -88,7 +88,7 @@ class PostNoteController extends BaseController
     /**
      * {@inheritdoc}
      */
-    protected function defaultAction()
+    protected function defaultAction(): void
     {
         $details = Issue::getDetails($this->issue_id);
         $this->tpl->assign('issue', $details);
@@ -120,7 +120,7 @@ class PostNoteController extends BaseController
     /**
      * @param int $note_id
      */
-    private function replyAction($note_id)
+    private function replyAction($note_id): void
     {
         $note = Note::getDetails($note_id);
         $header = Misc::formatReplyPreamble($note['timestamp'], $note['not_from']);
@@ -137,7 +137,7 @@ class PostNoteController extends BaseController
     /**
      * @param int $sup_id
      */
-    private function replyEmailAction($sup_id)
+    private function replyEmailAction($sup_id): void
     {
         $email = Support::getEmailDetails($sup_id);
         $header = Misc::formatReplyPreamble($email['timestamp'], $email['sup_from']);
@@ -150,7 +150,7 @@ class PostNoteController extends BaseController
         $this->reply_subject = $email['sup_subject'];
     }
 
-    private function replyIssueAction()
+    private function replyIssueAction(): void
     {
         $header = Misc::formatReplyPreamble($this->issue_details['iss_created_date'], $this->issue_details['reporter']);
         $note = [];
@@ -161,7 +161,7 @@ class PostNoteController extends BaseController
         $this->reply_subject = $this->issue_details['iss_summary'];
     }
 
-    private function postNoteAction()
+    private function postNoteAction(): void
     {
         $request = $this->getRequest();
         $post = $request->request;
@@ -213,7 +213,7 @@ class PostNoteController extends BaseController
     /**
      * @param int $status
      */
-    private function setIssueStatus($status)
+    private function setIssueStatus($status): void
     {
         $res = Issue::setStatus($this->issue_id, $status);
         if ($res != 1) {
@@ -233,7 +233,7 @@ class PostNoteController extends BaseController
     /**
      * enter the time tracking entry about this phone support entry
      */
-    private function addTimeEntry()
+    private function addTimeEntry(): void
     {
         $post = $this->getRequest()->request;
 
@@ -249,7 +249,7 @@ class PostNoteController extends BaseController
     /**
      * {@inheritdoc}
      */
-    protected function prepareTemplate()
+    protected function prepareTemplate(): void
     {
         $reply_subject = Mail_Helper::removeExcessRe(ev_gettext('Re: %1$s', $this->reply_subject), true);
         $this->tpl->assign(

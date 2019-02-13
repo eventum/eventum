@@ -30,7 +30,7 @@ class GroupsController extends ManageBaseController
     /**
      * {@inheritdoc}
      */
-    protected function configure()
+    protected function configure(): void
     {
         $request = $this->getRequest();
 
@@ -40,7 +40,7 @@ class GroupsController extends ManageBaseController
     /**
      * {@inheritdoc}
      */
-    protected function defaultAction()
+    protected function defaultAction(): void
     {
         if ($this->cat == 'new') {
             $this->newAction();
@@ -51,7 +51,7 @@ class GroupsController extends ManageBaseController
         }
     }
 
-    private function newAction()
+    private function newAction(): void
     {
         $res = Group::insert();
         $map = [
@@ -61,7 +61,7 @@ class GroupsController extends ManageBaseController
         $this->messages->mapMessages($res, $map);
     }
 
-    private function updateAction()
+    private function updateAction(): void
     {
         $res = Group::update();
         $map = [
@@ -71,7 +71,7 @@ class GroupsController extends ManageBaseController
         $this->messages->mapMessages($res, $map);
     }
 
-    private function deleteAction()
+    private function deleteAction(): void
     {
         Group::remove();
     }
@@ -79,7 +79,7 @@ class GroupsController extends ManageBaseController
     /**
      * {@inheritdoc}
      */
-    protected function prepareTemplate()
+    protected function prepareTemplate(): void
     {
         $prj_id = Auth::getCurrentProject();
 

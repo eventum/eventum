@@ -50,7 +50,7 @@ class History
      * @param array $context parameters used in summary
      * @param null $min_role The minimum role that can view this entry. If null will default to role from $htt_id
      */
-    public static function add($iss_id, $usr_id, $htt_id, $summary, $context = [], $min_role = null)
+    public static function add($iss_id, $usr_id, $htt_id, $summary, $context = [], $min_role = null): void
     {
         if (!is_numeric($htt_id)) {
             $htt_id = self::getTypeID($htt_id);

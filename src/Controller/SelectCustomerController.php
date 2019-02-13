@@ -41,7 +41,7 @@ class SelectCustomerController extends BaseController
     /**
      * {@inheritdoc}
      */
-    protected function configure()
+    protected function configure(): void
     {
         $request = $this->getRequest();
 
@@ -79,7 +79,7 @@ class SelectCustomerController extends BaseController
     /**
      * {@inheritdoc}
      */
-    protected function defaultAction()
+    protected function defaultAction(): void
     {
         $crm = CRM::getInstance($this->prj_id);
         $contact = $crm->getContact($this->contact_id);
@@ -98,7 +98,7 @@ class SelectCustomerController extends BaseController
     /**
      * {@inheritdoc}
      */
-    protected function prepareTemplate()
+    protected function prepareTemplate(): void
     {
     }
 }

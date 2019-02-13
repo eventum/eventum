@@ -30,7 +30,7 @@ class SignupController extends BaseController
     /**
      * {@inheritdoc}
      */
-    protected function configure()
+    protected function configure(): void
     {
         $request = $this->getRequest();
 
@@ -53,14 +53,14 @@ class SignupController extends BaseController
     /**
      * {@inheritdoc}
      */
-    protected function defaultAction()
+    protected function defaultAction(): void
     {
         if ($this->cat == 'signup') {
             $this->createVisitorAccountAction();
         }
     }
 
-    private function createVisitorAccountAction()
+    private function createVisitorAccountAction(): void
     {
         $setup = Setup::get();
 
@@ -84,7 +84,7 @@ class SignupController extends BaseController
     /**
      * {@inheritdoc}
      */
-    protected function prepareTemplate()
+    protected function prepareTemplate(): void
     {
     }
 }

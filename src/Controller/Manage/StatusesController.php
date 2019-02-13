@@ -31,7 +31,7 @@ class StatusesController extends ManageBaseController
     /**
      * {@inheritdoc}
      */
-    protected function configure()
+    protected function configure(): void
     {
         $request = $this->getRequest();
 
@@ -42,7 +42,7 @@ class StatusesController extends ManageBaseController
     /**
      * {@inheritdoc}
      */
-    protected function defaultAction()
+    protected function defaultAction(): void
     {
         if ($this->cat == 'new') {
             $this->newAction();
@@ -57,7 +57,7 @@ class StatusesController extends ManageBaseController
         }
     }
 
-    private function newAction()
+    private function newAction(): void
     {
         $res = Status::insert();
         $map = [
@@ -69,7 +69,7 @@ class StatusesController extends ManageBaseController
         $this->messages->mapMessages($res, $map);
     }
 
-    private function updateAction()
+    private function updateAction(): void
     {
         $res = Status::updateFromPost();
         $map = [
@@ -81,12 +81,12 @@ class StatusesController extends ManageBaseController
         $this->messages->mapMessages($res, $map);
     }
 
-    private function deleteAction()
+    private function deleteAction(): void
     {
         Status::remove();
     }
 
-    private function editAction()
+    private function editAction(): void
     {
         $get = $this->getRequest()->query;
 
@@ -96,7 +96,7 @@ class StatusesController extends ManageBaseController
     /**
      * {@inheritdoc}
      */
-    protected function prepareTemplate()
+    protected function prepareTemplate(): void
     {
         $this->tpl->assign(
             [

@@ -35,7 +35,7 @@ class DownloadController extends BaseController
     /**
      * {@inheritdoc}
      */
-    protected function configure()
+    protected function configure(): void
     {
         $request = $this->getRequest();
 
@@ -59,7 +59,7 @@ class DownloadController extends BaseController
     /**
      * {@inheritdoc}
      */
-    protected function defaultAction()
+    protected function defaultAction(): void
     {
         if (stripos(APP_BASE_URL, 'https:') !== false) {
             // fix for IE 5.5/6 with SSL sites
@@ -73,7 +73,7 @@ class DownloadController extends BaseController
         }
     }
 
-    private function attachmentAction()
+    private function attachmentAction(): void
     {
         $file = AttachmentManager::getAttachment($this->iaf_id);
         if (!$file) {
@@ -93,7 +93,7 @@ class DownloadController extends BaseController
     /**
      * {@inheritdoc}
      */
-    protected function prepareTemplate()
+    protected function prepareTemplate(): void
     {
     }
 }

@@ -32,7 +32,7 @@ class EmailAccountsController extends ManageBaseController
     /**
      * {@inheritdoc}
      */
-    protected function configure()
+    protected function configure(): void
     {
         $request = $this->getRequest();
 
@@ -42,7 +42,7 @@ class EmailAccountsController extends ManageBaseController
     /**
      * {@inheritdoc}
      */
-    protected function defaultAction()
+    protected function defaultAction(): void
     {
         if ($this->cat == 'new') {
             $this->newAction();
@@ -57,7 +57,7 @@ class EmailAccountsController extends ManageBaseController
         }
     }
 
-    private function newAction()
+    private function newAction(): void
     {
         $map = [
             1 => [ev_gettext('Thank you, the email account was added successfully.'), MessagesHelper::MSG_INFO],
@@ -66,7 +66,7 @@ class EmailAccountsController extends ManageBaseController
         $this->messages->mapMessages(Email_Account::insert(), $map);
     }
 
-    private function updateAction()
+    private function updateAction(): void
     {
         $map = [
             1 => [ev_gettext('Thank you, the email account was updated successfully.'), MessagesHelper::MSG_INFO],
@@ -75,7 +75,7 @@ class EmailAccountsController extends ManageBaseController
         $this->messages->mapMessages(Email_Account::update(), $map);
     }
 
-    private function deleteAction()
+    private function deleteAction(): void
     {
         $map = [
             1 => [ev_gettext('Thank you, the email account was deleted successfully.'), MessagesHelper::MSG_INFO],
@@ -84,7 +84,7 @@ class EmailAccountsController extends ManageBaseController
         $this->messages->mapMessages(Email_Account::remove(), $map);
     }
 
-    private function editAction()
+    private function editAction(): void
     {
         $get = $this->getRequest()->query;
 
@@ -94,7 +94,7 @@ class EmailAccountsController extends ManageBaseController
     /**
      * {@inheritdoc}
      */
-    protected function prepareTemplate()
+    protected function prepareTemplate(): void
     {
         $this->tpl->assign(
             [

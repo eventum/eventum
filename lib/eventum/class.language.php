@@ -29,7 +29,7 @@ class Language
     /**
      * Init encodings: iconv, mbstring
      */
-    private static function initEncoding()
+    private static function initEncoding(): void
     {
         ini_set('input_encoding', APP_CHARSET);
         ini_set('output_encoding', APP_CHARSET);
@@ -39,7 +39,7 @@ class Language
     /**
      * Method used to set application default locale.
      */
-    public static function setup()
+    public static function setup(): void
     {
         self::set(APP_DEFAULT_LOCALE);
         self::initEncoding();
@@ -122,7 +122,7 @@ class Language
      * Method used to set the appropriate preference of the language
      * for the application based on user preference.
      */
-    public static function setPreference()
+    public static function setPreference(): void
     {
         $usr_id = Auth::getUserID();
         $lang = null;
@@ -179,7 +179,7 @@ class Language
         return true;
     }
 
-    public static function restore()
+    public static function restore(): void
     {
         $locale = defined('APP_CURRENT_LOCALE') ? APP_CURRENT_LOCALE : APP_DEFAULT_LOCALE;
         self::set($locale);

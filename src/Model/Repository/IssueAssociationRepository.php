@@ -98,7 +98,7 @@ class IssueAssociationRepository extends EntityRepository
      * @param int $issue_id The issue ID
      * @param int $associated_issue_id The other issue ID
      */
-    public function addIssueAssociation($usr_id, $issue_id, $associated_issue_id)
+    public function addIssueAssociation($usr_id, $issue_id, $associated_issue_id): void
     {
         // see if there already is association
         $assoc = $this->getAssociatedIssues($issue_id);
@@ -129,7 +129,7 @@ class IssueAssociationRepository extends EntityRepository
      * @param int $issue_id The issue ID
      * @param int $associated_issue_id the associated issue ID to remove
      */
-    public function removeAssociation($usr_id, $issue_id, $associated_issue_id)
+    public function removeAssociation($usr_id, $issue_id, $associated_issue_id): void
     {
         // see if there already is association
         $assoc = $this->getAssociatedIssues($issue_id);
@@ -191,7 +191,7 @@ class IssueAssociationRepository extends EntityRepository
      * @param int[] $issues
      * @internal used for tests
      */
-    public function deleteAllRelations($issues)
+    public function deleteAllRelations($issues): void
     {
         $this
             ->createQueryBuilder('q')
@@ -207,7 +207,7 @@ class IssueAssociationRepository extends EntityRepository
      * @param int $associated_issue_id
      * @internal used by removeAssociation
      */
-    private function deleteByIssueAssociation($issue_id, $associated_issue_id)
+    private function deleteByIssueAssociation($issue_id, $associated_issue_id): void
     {
         $qb = $this->createQueryBuilder('q');
         $qb->delete(Entity\IssueAssociation::class, 'a');

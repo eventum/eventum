@@ -22,7 +22,7 @@ class CsvController extends BaseController
     /**
      * {@inheritdoc}
      */
-    protected function configure()
+    protected function configure(): void
     {
     }
 
@@ -46,7 +46,7 @@ class CsvController extends BaseController
     /**
      * {@inheritdoc}
      */
-    protected function defaultAction()
+    protected function defaultAction(): void
     {
         $post = $this->getRequest()->request;
         $csv = base64_decode($post->get('csv_data'));
@@ -66,7 +66,7 @@ class CsvController extends BaseController
     /**
      * {@inheritdoc}
      */
-    protected function prepareTemplate()
+    protected function prepareTemplate(): void
     {
     }
 }

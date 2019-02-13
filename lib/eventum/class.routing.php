@@ -486,7 +486,7 @@ class Routing
      * @param string $message
      * @see https://github.com/eventum/eventum/issues/155
      */
-    public static function removeMboxHeader(&$message)
+    public static function removeMboxHeader(&$message): void
     {
         if (substr($message, 0, 5) !== 'From ') {
             return;

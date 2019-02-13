@@ -38,7 +38,7 @@ class FaqController extends ManageBaseController
     /**
      * {@inheritdoc}
      */
-    protected function configure()
+    protected function configure(): void
     {
         $request = $this->getRequest();
 
@@ -49,7 +49,7 @@ class FaqController extends ManageBaseController
     /**
      * {@inheritdoc}
      */
-    protected function defaultAction()
+    protected function defaultAction(): void
     {
         if ($this->cat == 'new') {
             $this->newAction();
@@ -68,7 +68,7 @@ class FaqController extends ManageBaseController
         }
     }
 
-    private function newAction()
+    private function newAction(): void
     {
         $res = FAQ::insert();
         $map = [
@@ -80,7 +80,7 @@ class FaqController extends ManageBaseController
         $this->messages->mapMessages($res, $map);
     }
 
-    private function updateAction()
+    private function updateAction(): void
     {
         $res = FAQ::update();
         $map = [
@@ -92,12 +92,12 @@ class FaqController extends ManageBaseController
         $this->messages->mapMessages($res, $map);
     }
 
-    private function deleteAction()
+    private function deleteAction(): void
     {
         FAQ::remove();
     }
 
-    private function editAction()
+    private function editAction(): void
     {
         $info = FAQ::getDetails($_GET['id']);
         if ($this->prj_id) {
@@ -110,13 +110,13 @@ class FaqController extends ManageBaseController
         $this->tpl->assign('info', $info);
     }
 
-    private function changeRankAction()
+    private function changeRankAction(): void
     {
         $get = $this->getRequest()->query;
         FAQ::changeRank($get->get('id'), $get->get('rank'));
     }
 
-    private function infoAction()
+    private function infoAction(): void
     {
         $this->tpl->assign('info', ['faq_prj_id' => $this->prj_id]);
         if ($crm = CRM::getInstance($this->prj_id)) {
@@ -127,7 +127,7 @@ class FaqController extends ManageBaseController
     /**
      * {@inheritdoc}
      */
-    protected function prepareTemplate()
+    protected function prepareTemplate(): void
     {
         $this->tpl->assign(
             [

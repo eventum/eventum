@@ -62,7 +62,7 @@ class SendController extends BaseController
     /**
      * create variables from request, etc
      */
-    protected function configure()
+    protected function configure(): void
     {
         $request = $this->getRequest();
         $this->issue_id = $request->request->getInt('issue_id') ?: $request->query->getInt('issue_id');
@@ -90,7 +90,7 @@ class SendController extends BaseController
         return Access::canAccessAssociateEmails($this->usr_id);
     }
 
-    protected function defaultAction()
+    protected function defaultAction(): void
     {
         Workflow::prePage($this->prj_id, 'send_email');
 
@@ -130,7 +130,7 @@ class SendController extends BaseController
         }
     }
 
-    protected function prepareTemplate()
+    protected function prepareTemplate(): void
     {
         if ($this->issue_id) {
             $sender_details = User::getDetails($this->usr_id);
@@ -229,7 +229,7 @@ class SendController extends BaseController
         return true;
     }
 
-    private function saveDraftAction()
+    private function saveDraftAction(): void
     {
         $post = $this->getRequest()->request;
 
@@ -244,7 +244,7 @@ class SendController extends BaseController
         $this->addTimeTracking($summary);
     }
 
-    private function updateDraftAction()
+    private function updateDraftAction(): void
     {
         $post = $this->getRequest()->request;
         $res = Draft::update(
@@ -258,7 +258,7 @@ class SendController extends BaseController
         $this->addTimeTracking($summary);
     }
 
-    private function viewDraftAction()
+    private function viewDraftAction(): void
     {
         $draft = Draft::getDetails($_GET['id']);
         $email = [
@@ -290,12 +290,12 @@ class SendController extends BaseController
         }
     }
 
-    private function createDraftAction()
+    private function createDraftAction(): void
     {
         $this->tpl->assign('hide_email_buttons', 'yes');
     }
 
-    private function otherAction()
+    private function otherAction(): void
     {
         $get = $this->getRequest()->query;
 
@@ -317,7 +317,7 @@ class SendController extends BaseController
     /**
      * special handling when someone tries to 'reply' to an issue
      */
-    private function replyAction()
+    private function replyAction(): void
     {
         $details = Issue::getReplyDetails($this->issue_id);
         if (!$details) {
@@ -341,7 +341,7 @@ class SendController extends BaseController
     /**
      * special handling when someone tries to 'reply' to a note
      */
-    private function replyNoteAction()
+    private function replyNoteAction(): void
     {
         $note = Note::getDetails($this->note_id);
         if (!$note) {
@@ -366,7 +366,7 @@ class SendController extends BaseController
      * Enter the time tracking entry about this new email
      * @param string $default_summary
      */
-    private function addTimeTracking($default_summary)
+    private function addTimeTracking($default_summary): void
     {
         $post = $this->getRequest()->request;
 

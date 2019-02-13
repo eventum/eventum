@@ -32,7 +32,7 @@ class CommitSubscriber implements EventSubscriberInterface
         ];
     }
 
-    public function onCommit(GenericEvent $event)
+    public function onCommit(GenericEvent $event): void
     {
         /** @var Entity\Commit $commit */
         $commit = $event->getSubject();
@@ -44,7 +44,7 @@ class CommitSubscriber implements EventSubscriberInterface
         }
     }
 
-    public function onAssociate(GenericEvent $event, $eventName, EventDispatcherInterface $dispatcher)
+    public function onAssociate(GenericEvent $event, $eventName, EventDispatcherInterface $dispatcher): void
     {
         /** @var Entity\Commit $commit */
         $commit = $event->getSubject();
@@ -64,7 +64,7 @@ class CommitSubscriber implements EventSubscriberInterface
      * @param GenericEvent $sourceEvent
      * @param string $notice
      */
-    private function notifyIrc(EventDispatcherInterface $dispatcher, GenericEvent $sourceEvent, $notice)
+    private function notifyIrc(EventDispatcherInterface $dispatcher, GenericEvent $sourceEvent, $notice): void
     {
         $arguments = [
             'prj_id' => $sourceEvent['project_id'],

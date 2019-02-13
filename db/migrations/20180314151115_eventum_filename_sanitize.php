@@ -16,7 +16,7 @@ use glen\FilenameNormalizer\Normalizer;
 
 class EventumFilenameSanitize extends AbstractMigration
 {
-    public function up()
+    public function up(): void
     {
         $files = $this->getFiles();
         $total = count($files);

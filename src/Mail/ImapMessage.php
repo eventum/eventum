@@ -148,7 +148,7 @@ class ImapMessage extends MailMessage
      * Deletes the specified message from the IMAP/POP server
      * NOTE: YOU STILL MUST call imap_expunge($mbox) to permanently delete the message.
      */
-    public function deleteMessage()
+    public function deleteMessage(): void
     {
         // need to delete the message from the server?
         if (!$this->info['ema_leave_copy']) {

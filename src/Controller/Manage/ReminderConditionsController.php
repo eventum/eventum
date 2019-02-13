@@ -41,7 +41,7 @@ class ReminderConditionsController extends ManageBaseController
     /**
      * {@inheritdoc}
      */
-    protected function configure()
+    protected function configure(): void
     {
         $request = $this->getRequest();
 
@@ -54,7 +54,7 @@ class ReminderConditionsController extends ManageBaseController
     /**
      * {@inheritdoc}
      */
-    protected function defaultAction()
+    protected function defaultAction(): void
     {
         if ($this->cat == 'new') {
             $this->newAction();
@@ -69,7 +69,7 @@ class ReminderConditionsController extends ManageBaseController
         }
     }
 
-    private function newAction()
+    private function newAction(): void
     {
         $res = Reminder_Condition::insert();
         $map = [
@@ -83,7 +83,7 @@ class ReminderConditionsController extends ManageBaseController
         $this->redirect("reminder_conditions.php?rem_id={$rem_id}&rma_id={$rma_id}");
     }
 
-    private function updateAction()
+    private function updateAction(): void
     {
         $res = Reminder_Condition::update();
         $map = [
@@ -97,12 +97,12 @@ class ReminderConditionsController extends ManageBaseController
         $this->redirect("reminder_conditions.php?rem_id={$rem_id}&rma_id={$rma_id}");
     }
 
-    private function deleteAction()
+    private function deleteAction(): void
     {
         Reminder_Condition::remove();
     }
 
-    private function editAction()
+    private function editAction(): void
     {
         $get = $this->getRequest()->query;
 
@@ -115,7 +115,7 @@ class ReminderConditionsController extends ManageBaseController
         $this->tpl->assign('info', $info);
     }
 
-    private function fieldOptions()
+    private function fieldOptions(): void
     {
         if (Reminder_Condition::canFieldBeCompared($this->field)) {
             $this->tpl->assign(
@@ -170,7 +170,7 @@ class ReminderConditionsController extends ManageBaseController
     /**
      * {@inheritdoc}
      */
-    protected function prepareTemplate()
+    protected function prepareTemplate(): void
     {
         if ($this->field) {
             $this->fieldOptions();

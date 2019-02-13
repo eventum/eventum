@@ -33,7 +33,7 @@ class UserSubscriber implements EventSubscriberInterface
     /**
      * @param GenericEvent $event
      */
-    public function userCreated(GenericEvent $event)
+    public function userCreated(GenericEvent $event): void
     {
         error_log("user created: #{$event['id']}");
     }
@@ -41,7 +41,7 @@ class UserSubscriber implements EventSubscriberInterface
     /**
      * @param GenericEvent $event
      */
-    public function userUpdated(GenericEvent $event)
+    public function userUpdated(GenericEvent $event): void
     {
         error_log("user updated: #{$event['id']}");
     }

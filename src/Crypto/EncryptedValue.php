@@ -43,7 +43,7 @@ final class EncryptedValue
      * @param string $plaintext
      * @throws CryptoException
      */
-    public function setValue($plaintext)
+    public function setValue($plaintext): void
     {
         $this->ciphertext = CryptoManager::encrypt($plaintext);
     }

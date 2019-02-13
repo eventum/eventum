@@ -51,7 +51,7 @@ class SelectProjectController extends BaseController
     /**
      * {@inheritdoc}
      */
-    protected function configure()
+    protected function configure(): void
     {
         $request = $this->getRequest();
 
@@ -84,7 +84,7 @@ class SelectProjectController extends BaseController
     /**
      * {@inheritdoc}
      */
-    protected function defaultAction()
+    protected function defaultAction(): void
     {
         if ($this->err) {
             AuthCookie::removeProjectCookie();
@@ -181,7 +181,7 @@ class SelectProjectController extends BaseController
     /**
      * @param int $prj_id
      */
-    private function checkCustomerAuthentication($prj_id)
+    private function checkCustomerAuthentication($prj_id): void
     {
         $crm = CRM::getInstance($prj_id);
         if (!$crm) {
@@ -198,7 +198,7 @@ class SelectProjectController extends BaseController
     /**
      * {@inheritdoc}
      */
-    protected function prepareTemplate()
+    protected function prepareTemplate(): void
     {
         $this->tpl->assign('active_projects', $this->projects);
     }

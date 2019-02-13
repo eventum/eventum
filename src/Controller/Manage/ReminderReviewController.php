@@ -26,7 +26,7 @@ class ReminderReviewController extends ManageBaseController
     /**
      * {@inheritdoc}
      */
-    protected function configure()
+    protected function configure(): void
     {
         $request = $this->getRequest();
 
@@ -37,7 +37,7 @@ class ReminderReviewController extends ManageBaseController
     /**
      * {@inheritdoc}
      */
-    protected function defaultAction()
+    protected function defaultAction(): void
     {
         $sql = Reminder::getSQLQuery($this->rem_id, $this->rma_id);
 
@@ -56,7 +56,7 @@ class ReminderReviewController extends ManageBaseController
     /**
      * {@inheritdoc}
      */
-    protected function prepareTemplate()
+    protected function prepareTemplate(): void
     {
     }
 }

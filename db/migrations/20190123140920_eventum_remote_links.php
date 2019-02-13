@@ -15,7 +15,7 @@ use Eventum\Db\AbstractMigration;
 
 class EventumRemoteLinks extends AbstractMigration
 {
-    public function change()
+    public function change(): void
     {
         $this->table('remote_link', ['id' => false, 'primary_key' => 'rel_id'])
             ->addColumn('rel_id', 'integer', ['length' => 10, 'signed' => false, 'identity' => true])

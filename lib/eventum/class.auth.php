@@ -43,7 +43,7 @@ class Auth
      *
      * IMPORTANT: regenerating private key will invalidate all user sessions.
      */
-    public static function generatePrivateKey()
+    public static function generatePrivateKey(): void
     {
         $path = Setup::getConfigPath() . '/private_key.php';
         $private_key = md5(Misc::generateRandom(32));
@@ -67,7 +67,7 @@ class Auth
      * @param   string $type Whether it was a successful login or not
      * @param   string $extra The reason for not being a successful login
      */
-    public static function saveLoginAttempt($email, $type, $extra = null)
+    public static function saveLoginAttempt($email, $type, $extra = null): void
     {
         $msg = "Login attempt by '$email' was ";
         if ($type === 'success') {
@@ -86,7 +86,7 @@ class Auth
      * @param   string $failed_url The URL to redirect to if the user is not authenticated
      * @param   bool $is_popup Flag to tell the function if the current page is a popup window or not
      */
-    public static function checkAuthentication($failed_url = null, $is_popup = false)
+    public static function checkAuthentication($failed_url = null, $is_popup = false): void
     {
         try {
             self::getAuthBackend()->checkAuthentication();
@@ -185,7 +185,7 @@ class Auth
      *
      * @returns void
      */
-    public static function logout()
+    public static function logout(): void
     {
         AuthCookie::removeAuthCookie();
         // if 'remember projects' is true don't remove project cookie
@@ -239,7 +239,7 @@ class Auth
      * @param   string $url The URL the user should be redirected to
      * @param   bool $is_popup Whether the current window is a popup or not
      */
-    public static function redirect($url, $is_popup = false)
+    public static function redirect($url, $is_popup = false): void
     {
         if ($is_popup) {
             $html = '<script type="text/javascript">
@@ -271,7 +271,7 @@ class Auth
      *
      * @param   string $cookie_name The name of the cookie that needs to be deleted
      */
-    public static function removeCookie($cookie_name)
+    public static function removeCookie($cookie_name): void
     {
         self::setCookie($cookie_name, '', time() - 36000);
     }
@@ -405,7 +405,7 @@ class Auth
         }
     }
 
-    public static function setCurrentCustomerID($customer_id)
+    public static function setCurrentCustomerID($customer_id): void
     {
         Session::set('current_customer_id', $customer_id);
     }
@@ -428,7 +428,7 @@ class Auth
      * @param   string $value The value of the cookie
      * @param   string $expiration The expiration data of the cookie
      */
-    public static function setCookie($name, $value, $expiration)
+    public static function setCookie($name, $value, $expiration): void
     {
         // for testing
         if (PHP_SAPI == 'cli') {

@@ -59,7 +59,7 @@ class UpdateController extends BaseController
     /**
      * {@inheritdoc}
      */
-    protected function configure()
+    protected function configure(): void
     {
         $request = $this->getRequest();
 
@@ -115,7 +115,7 @@ class UpdateController extends BaseController
     /**
      * {@inheritdoc}
      */
-    protected function defaultAction()
+    protected function defaultAction(): void
     {
         Workflow::prePage($this->prj_id, 'update');
 
@@ -149,7 +149,7 @@ class UpdateController extends BaseController
         }
     }
 
-    private function updateAction()
+    private function updateAction(): void
     {
         $res = Issue::update($this->issue_id);
         Issue_Lock::release($this->issue_id);
@@ -191,7 +191,7 @@ class UpdateController extends BaseController
     /**
      * {@inheritdoc}
      */
-    protected function prepareTemplate()
+    protected function prepareTemplate(): void
     {
         // if currently selected release is in the past, manually add it to list
         $releases = Release::getAssocList($this->prj_id);

@@ -31,7 +31,7 @@ class PhoneCategoriesController extends ManageBaseController
     /**
      * {@inheritdoc}
      */
-    protected function configure()
+    protected function configure(): void
     {
         $request = $this->getRequest();
 
@@ -42,7 +42,7 @@ class PhoneCategoriesController extends ManageBaseController
     /**
      * {@inheritdoc}
      */
-    protected function defaultAction()
+    protected function defaultAction(): void
     {
         if ($this->cat == 'new') {
             $this->newAction();
@@ -57,7 +57,7 @@ class PhoneCategoriesController extends ManageBaseController
         }
     }
 
-    private function newAction()
+    private function newAction(): void
     {
         $res = Phone_Support::insertCategory();
         $this->tpl->assign('result', $res);
@@ -69,7 +69,7 @@ class PhoneCategoriesController extends ManageBaseController
         $this->messages->mapMessages($res, $map);
     }
 
-    private function updateAction()
+    private function updateAction(): void
     {
         $res = Phone_Support::updateCategory();
         $this->tpl->assign('result', $res);
@@ -81,12 +81,12 @@ class PhoneCategoriesController extends ManageBaseController
         $this->messages->mapMessages($res, $map);
     }
 
-    private function deleteAction()
+    private function deleteAction(): void
     {
         Phone_Support::removeCategory();
     }
 
-    private function editAction()
+    private function editAction(): void
     {
         $id = $this->getRequest()->query->getInt('id');
         $this->tpl->assign('info', Phone_Support::getCategoryDetails($id));
@@ -95,7 +95,7 @@ class PhoneCategoriesController extends ManageBaseController
     /**
      * {@inheritdoc}
      */
-    protected function prepareTemplate()
+    protected function prepareTemplate(): void
     {
         $this->tpl->assign(
             [

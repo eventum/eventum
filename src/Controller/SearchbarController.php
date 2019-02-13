@@ -23,7 +23,7 @@ class SearchbarController extends BaseController
     /**
      * {@inheritdoc}
      */
-    protected function configure()
+    protected function configure(): void
     {
         $request = $this->getRequest();
 
@@ -41,14 +41,14 @@ class SearchbarController extends BaseController
     /**
      * {@inheritdoc}
      */
-    protected function defaultAction()
+    protected function defaultAction(): void
     {
         if ($this->custom_id) {
             $this->filterAction();
         }
     }
 
-    private function filterAction()
+    private function filterAction(): void
     {
         $filter = $this->getFilterById($this->custom_id);
         if (!$filter) {
@@ -89,7 +89,7 @@ class SearchbarController extends BaseController
     /**
      * {@inheritdoc}
      */
-    protected function prepareTemplate()
+    protected function prepareTemplate(): void
     {
     }
 }

@@ -38,7 +38,7 @@ class DebugBarManager
     /**
      * Create DebugBar instance
      */
-    public static function initialize()
+    public static function initialize(): void
     {
         // disable debugBar in CLI
         if (PHP_SAPI === 'cli') {
@@ -78,7 +78,7 @@ class DebugBarManager
         return $pdo;
     }
 
-    public static function register(Smarty $smarty)
+    public static function register(Smarty $smarty): void
     {
         if (!self::$debugBar) {
             return;

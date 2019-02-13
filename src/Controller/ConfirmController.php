@@ -32,7 +32,7 @@ class ConfirmController extends BaseController
     /**
      * {@inheritdoc}
      */
-    protected function configure()
+    protected function configure(): void
     {
         $request = $this->getRequest();
 
@@ -56,7 +56,7 @@ class ConfirmController extends BaseController
     /**
      * {@inheritdoc}
      */
-    protected function defaultAction()
+    protected function defaultAction(): void
     {
         if ($this->cat == 'newuser') {
             $this->newUserAction();
@@ -65,7 +65,7 @@ class ConfirmController extends BaseController
         }
     }
 
-    private function newUserAction()
+    private function newUserAction(): void
     {
         $res = User::checkHash($this->email, $this->hash);
         if ($res == 1) {
@@ -77,7 +77,7 @@ class ConfirmController extends BaseController
         $this->tpl->assign('confirm_result', $res);
     }
 
-    private function passwordAction()
+    private function passwordAction(): void
     {
         $res = User::checkHash($this->email, $this->hash);
         if ($res == 1) {
@@ -91,7 +91,7 @@ class ConfirmController extends BaseController
     /**
      * {@inheritdoc}
      */
-    protected function prepareTemplate()
+    protected function prepareTemplate(): void
     {
         $this->tpl->assign(
             [

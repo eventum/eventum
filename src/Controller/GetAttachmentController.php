@@ -31,7 +31,7 @@ class GetAttachmentController extends BaseController
     /**
      * {@inheritdoc}
      */
-    protected function configure()
+    protected function configure(): void
     {
         $get = $this->getRequest()->query;
 
@@ -52,7 +52,7 @@ class GetAttachmentController extends BaseController
     /**
      * {@inheritdoc}
      */
-    protected function defaultAction()
+    protected function defaultAction(): void
     {
         $get = $this->getRequest()->query;
 
@@ -104,7 +104,7 @@ class GetAttachmentController extends BaseController
     /**
      * {@inheritdoc}
      */
-    protected function prepareTemplate()
+    protected function prepareTemplate(): void
     {
     }
 }

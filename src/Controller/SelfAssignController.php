@@ -39,7 +39,7 @@ class SelfAssignController extends BaseController
     /**
      * {@inheritdoc}
      */
-    protected function configure()
+    protected function configure(): void
     {
         $request = $this->getRequest();
 
@@ -63,7 +63,7 @@ class SelfAssignController extends BaseController
     /**
      * {@inheritdoc}
      */
-    protected function defaultAction()
+    protected function defaultAction(): void
     {
         // check if issue is assigned to someone else and if so, confirm change.
         if (!$this->target && ($assigned_users = Issue::getAssignedUsers($this->issue_id))) {
@@ -103,7 +103,7 @@ class SelfAssignController extends BaseController
     /**
      * {@inheritdoc}
      */
-    protected function prepareTemplate()
+    protected function prepareTemplate(): void
     {
         $this->tpl->assign(
             [

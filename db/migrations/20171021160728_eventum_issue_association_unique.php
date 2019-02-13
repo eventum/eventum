@@ -15,7 +15,7 @@ use Eventum\Db\AbstractMigration;
 
 class EventumIssueAssociationUnique extends AbstractMigration
 {
-    public function up()
+    public function up(): void
     {
         $this->makeUnique('isa_issue_id', 'isa_associated_id');
         $this->makeUnique('isa_associated_id', 'isa_issue_id');
@@ -23,12 +23,12 @@ class EventumIssueAssociationUnique extends AbstractMigration
         $this->updateIndex(true);
     }
 
-    public function down()
+    public function down(): void
     {
         $this->updateIndex(false);
     }
 
-    private function updateIndex($unique)
+    private function updateIndex($unique): void
     {
         $this->table('issue_association')
             ->removeIndex(['isa_issue_id', 'isa_associated_id'])
@@ -39,7 +39,7 @@ class EventumIssueAssociationUnique extends AbstractMigration
     /**
      * make pairs unique
      */
-    private function makeUnique($field1, $field2)
+    private function makeUnique($field1, $field2): void
     {
         $st = $this->query(
             "SELECT isa_id id, $field1 f1, $field2 f2, count(*) c " .

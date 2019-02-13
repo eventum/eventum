@@ -336,7 +336,7 @@ class Status
      * @param   int $sta_id The status ID
      * @param   int $prj_id The project ID
      */
-    public static function addProjectAssociation($sta_id, $prj_id)
+    public static function addProjectAssociation($sta_id, $prj_id): void
     {
         $stmt = 'INSERT INTO
                     `project_status`

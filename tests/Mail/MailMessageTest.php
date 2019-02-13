@@ -590,7 +590,7 @@ class MailMessageTest extends TestCase
 
         $transport = new \Zend\Mail\Transport\Sendmail();
         $transport->setCallable(
-            function ($to, $subject, $body, $headers, $params) {
+            function ($to, $subject, $body, $headers, $params): void {
                 //error_log("to[$to] subject[$subject] body[$body] headers[$headers] params[$params]");
             }
         );

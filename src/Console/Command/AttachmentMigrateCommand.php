@@ -46,7 +46,7 @@ class AttachmentMigrateCommand extends Command
     /** @var string */
     private $target_adapter;
 
-    public function execute(OutputInterface $output, $source_adapter, $target_adapter, $migrate, $verify, $limit, $chunksize = 100)
+    public function execute(OutputInterface $output, $source_adapter, $target_adapter, $migrate, $verify, $limit, $chunksize = 100): void
     {
         $this->output = $output;
         $this->assertInput($source_adapter, $target_adapter, $migrate, $verify);
@@ -64,7 +64,7 @@ class AttachmentMigrateCommand extends Command
         }
     }
 
-    private function verifyAttachments($chunkSize, $limit)
+    private function verifyAttachments($chunkSize, $limit): void
     {
         $this->writeln("Verifying data in '{$this->source_adapter}://' Adapter");
         $this->writeln('Preparing temporary table. Please wait...');
@@ -111,7 +111,7 @@ class AttachmentMigrateCommand extends Command
         $this->writeln("Scanned $formatted files");
     }
 
-    private function migrateAttachments($chunkSize, $limit)
+    private function migrateAttachments($chunkSize, $limit): void
     {
         $this->writeln("Migrating data from '{$this->source_adapter}://' to '{$this->target_adapter}://'");
         $this->writeln('Preparing temporary table. Please wait...');
@@ -129,7 +129,7 @@ class AttachmentMigrateCommand extends Command
         }
     }
 
-    private function moveFile($file)
+    private function moveFile($file): void
     {
         $iaf_id = $file['iaf_id'];
         $filename = $file['iaf_filename'];
@@ -151,7 +151,7 @@ class AttachmentMigrateCommand extends Command
      * @param string $path
      * @param array $entry
      */
-    private function touchLocalFile($path, array $entry)
+    private function touchLocalFile($path, array $entry): void
     {
         $file = $this->sm->getFile($path);
         $filesystemPath = $this->getLocalPath($file);
@@ -221,14 +221,14 @@ class AttachmentMigrateCommand extends Command
         return $this->db->getAll($sql);
     }
 
-    private function moveFileDatabase($iaf_id, $path)
+    private function moveFileDatabase($iaf_id, $path): void
     {
         $sql = 'UPDATE `issue_attachment_file_path` SET iap_flysystem_path = ? WHERE iap_iaf_id = ?';
         $this->db->query($sql, [$path, $iaf_id]);
         $this->db->query('DELETE FROM `migrate_storage_adapter` WHERE iaf_id=?', [$iaf_id]);
     }
 
-    private function assertInput($source_adapter, $target_adapter, $migrate, $verify)
+    private function assertInput($source_adapter, $target_adapter, $migrate, $verify): void
     {
         if (!$migrate && !$verify) {
             throw new RuntimeException(
@@ -249,7 +249,7 @@ class AttachmentMigrateCommand extends Command
         }
     }
 
-    private function postUpgradeNotice()
+    private function postUpgradeNotice(): void
     {
         if ($this->source_adapter === 'legacy') {
             $message = "You might need to run 'OPTIMIZE TABLE issue_attachment_file' " .

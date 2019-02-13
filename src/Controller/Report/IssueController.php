@@ -26,7 +26,7 @@ class IssueController extends ReportBaseController
     /**
      * {@inheritdoc}
      */
-    protected function configure()
+    protected function configure(): void
     {
         $request = $this->getRequest();
 
@@ -36,7 +36,7 @@ class IssueController extends ReportBaseController
     /**
      * {@inheritdoc}
      */
-    protected function defaultAction()
+    protected function defaultAction(): void
     {
         if ($this->cat == 'user') {
             $res = Report::getIssuesByUser($this->prj_id);
@@ -47,7 +47,7 @@ class IssueController extends ReportBaseController
     /**
      * {@inheritdoc}
      */
-    protected function prepareTemplate()
+    protected function prepareTemplate(): void
     {
     }
 }

@@ -34,7 +34,7 @@ class ProjectsController extends ManageBaseController
     /**
      * {@inheritdoc}
      */
-    protected function configure()
+    protected function configure(): void
     {
         $request = $this->getRequest();
 
@@ -45,7 +45,7 @@ class ProjectsController extends ManageBaseController
     /**
      * {@inheritdoc}
      */
-    protected function defaultAction()
+    protected function defaultAction(): void
     {
         if ($this->cat == 'new') {
             $this->newAction();
@@ -56,7 +56,7 @@ class ProjectsController extends ManageBaseController
         }
     }
 
-    private function newAction()
+    private function newAction(): void
     {
         if (!$this->csrf->isValid('manage-projects', $this->getRequest()->request->get('token'))) {
             $this->error('Invalid CSRF Token');
@@ -69,7 +69,7 @@ class ProjectsController extends ManageBaseController
         $this->messages->mapMessages(Project::insert(), $map);
     }
 
-    private function updateAction()
+    private function updateAction(): void
     {
         if (!$this->csrf->isValid('manage-projects', $this->getRequest()->request->get('token'))) {
             $this->error('Invalid CSRF Token');
@@ -82,7 +82,7 @@ class ProjectsController extends ManageBaseController
         $this->messages->mapMessages(Project::update(), $map);
     }
 
-    private function editAction()
+    private function editAction(): void
     {
         $get = $this->getRequest()->query;
 
@@ -92,7 +92,7 @@ class ProjectsController extends ManageBaseController
     /**
      * {@inheritdoc}
      */
-    protected function prepareTemplate()
+    protected function prepareTemplate(): void
     {
         $usr_id = Auth::getUserID();
         $this->tpl->assign(

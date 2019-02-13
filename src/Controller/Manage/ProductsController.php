@@ -31,7 +31,7 @@ class ProductsController extends ManageBaseController
     /**
      * {@inheritdoc}
      */
-    protected function configure()
+    protected function configure(): void
     {
         $request = $this->getRequest();
 
@@ -42,7 +42,7 @@ class ProductsController extends ManageBaseController
     /**
      * {@inheritdoc}
      */
-    protected function defaultAction()
+    protected function defaultAction(): void
     {
         if ($this->cat == 'new') {
             $this->newAction();
@@ -57,7 +57,7 @@ class ProductsController extends ManageBaseController
         }
     }
 
-    private function newAction()
+    private function newAction(): void
     {
         $post = $this->getRequest()->request;
 
@@ -72,7 +72,7 @@ class ProductsController extends ManageBaseController
         $this->messages->mapMessages($res, $map);
     }
 
-    private function updateAction()
+    private function updateAction(): void
     {
         $post = $this->getRequest()->request;
 
@@ -87,14 +87,14 @@ class ProductsController extends ManageBaseController
         $this->messages->mapMessages($res, $map);
     }
 
-    private function deleteAction()
+    private function deleteAction(): void
     {
         $post = $this->getRequest()->request;
 
         Product::remove($post->get('items'));
     }
 
-    private function editAction()
+    private function editAction(): void
     {
         $get = $this->getRequest()->query;
 
@@ -105,7 +105,7 @@ class ProductsController extends ManageBaseController
     /**
      * {@inheritdoc}
      */
-    protected function prepareTemplate()
+    protected function prepareTemplate(): void
     {
         $this->tpl->assign(
             [

@@ -15,7 +15,7 @@ use Eventum\Db\AbstractMigration;
 
 class EventumMarkdownPreference extends AbstractMigration
 {
-    public function change()
+    public function change(): void
     {
         $setup = Setup::get();
         $default = (int) ($setup['markdown'] == 'enabled');

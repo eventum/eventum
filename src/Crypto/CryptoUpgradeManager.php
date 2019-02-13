@@ -35,7 +35,7 @@ class CryptoUpgradeManager
      * @param bool $enable TRUE if action is to enable, FALSE if action is to disable
      * @throws CryptoException
      */
-    private function canPerform($enable)
+    private function canPerform($enable): void
     {
         $enabled = CryptoManager::encryptionEnabled();
         if (($enabled && $enable) || (!$enabled && !$enable)) {
@@ -61,7 +61,7 @@ class CryptoUpgradeManager
      *
      * @throws CryptoException if that can not be performed
      */
-    public function enable()
+    public function enable(): void
     {
         $this->canPerform(true);
 
@@ -79,7 +79,7 @@ class CryptoUpgradeManager
     /**
      * Disable encryption
      */
-    public function disable()
+    public function disable(): void
     {
         $this->canPerform(false);
         $this->downgradeConfig();
@@ -96,7 +96,7 @@ class CryptoUpgradeManager
     /**
      * Generate new encryption key and re-encrypt data
      */
-    public function regenerateKey()
+    public function regenerateKey(): void
     {
         if (!CryptoManager::encryptionEnabled()) {
             throw new CryptoException('Encryption not enabled');
@@ -111,7 +111,7 @@ class CryptoUpgradeManager
     /**
      * Upgrade config so that values contain EncryptedValue where some secrecy is wanted
      */
-    private function upgradeConfig()
+    private function upgradeConfig(): void
     {
         if (!$this->config['database']['password'] instanceof EncryptedValue) {
             $this->config['database']['password'] = new EncryptedValue(
@@ -131,7 +131,7 @@ class CryptoUpgradeManager
     /**
      * Downgrade config: remove all EncryptedValue elements
      */
-    private function downgradeConfig()
+    private function downgradeConfig(): void
     {
         if ($this->config['database']['password'] instanceof EncryptedValue) {
             /** @var EncryptedValue $value */
@@ -148,7 +148,7 @@ class CryptoUpgradeManager
         EventManager::dispatch(SystemEvents::CONFIG_CRYPTO_DOWNGRADE);
     }
 
-    private function upgradeEmailAccounts()
+    private function upgradeEmailAccounts(): void
     {
         // encrypt email account passwords
         $accounts = Email_Account::getList();
@@ -161,7 +161,7 @@ class CryptoUpgradeManager
         }
     }
 
-    private function downgradeEmailAccounts()
+    private function downgradeEmailAccounts(): void
     {
         $accounts = Email_Account::getList();
 

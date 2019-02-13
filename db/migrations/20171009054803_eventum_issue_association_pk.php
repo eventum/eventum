@@ -15,7 +15,7 @@ use Eventum\Db\AbstractMigration;
 
 class EventumIssueAssociationPk extends AbstractMigration
 {
-    public function up()
+    public function up(): void
     {
         /*
          * use raw sql because:
@@ -35,7 +35,7 @@ class EventumIssueAssociationPk extends AbstractMigration
         );
     }
 
-    public function down()
+    public function down(): void
     {
         $this->execute('ALTER TABLE `issue_association` DROP COLUMN `isa_id`');
     }

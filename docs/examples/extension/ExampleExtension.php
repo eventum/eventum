@@ -34,7 +34,7 @@ class ExampleExtension extends AbstractExtension
      *
      * @param \Composer\Autoload\ClassLoader $loader
      */
-    public function registerAutoloader($loader)
+    public function registerAutoloader($loader): void
     {
         $phpDir = '/usr/share/php';
         $baseDir = dirname(__DIR__, 3);

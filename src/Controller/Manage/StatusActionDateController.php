@@ -37,7 +37,7 @@ class StatusActionDateController extends ManageBaseController
     /**
      * {@inheritdoc}
      */
-    protected function configure()
+    protected function configure(): void
     {
         $request = $this->getRequest();
 
@@ -48,7 +48,7 @@ class StatusActionDateController extends ManageBaseController
     /**
      * {@inheritdoc}
      */
-    protected function defaultAction()
+    protected function defaultAction(): void
     {
         if ($this->cat == 'new') {
             $this->newAction();
@@ -63,7 +63,7 @@ class StatusActionDateController extends ManageBaseController
         }
     }
 
-    private function newAction()
+    private function newAction(): void
     {
         $post = $this->getRequest()->request;
 
@@ -78,7 +78,7 @@ class StatusActionDateController extends ManageBaseController
         $this->messages->mapMessages($res, $map);
     }
 
-    private function updateAction()
+    private function updateAction(): void
     {
         $post = $this->getRequest()->request;
 
@@ -93,7 +93,7 @@ class StatusActionDateController extends ManageBaseController
         $this->messages->mapMessages($res, $map);
     }
 
-    private function deleteAction()
+    private function deleteAction(): void
     {
         $post = $this->getRequest()->request;
 
@@ -106,7 +106,7 @@ class StatusActionDateController extends ManageBaseController
         );
     }
 
-    private function editAction()
+    private function editAction(): void
     {
         $get = $this->getRequest()->query;
 
@@ -123,7 +123,7 @@ class StatusActionDateController extends ManageBaseController
     /**
      * {@inheritdoc}
      */
-    protected function prepareTemplate()
+    protected function prepareTemplate(): void
     {
         if ($this->prj_id) {
             $this->tpl->assign(

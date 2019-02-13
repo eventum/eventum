@@ -28,7 +28,7 @@ class WorkloadTimePeriodController extends ReportBaseController
     /**
      * {@inheritdoc}
      */
-    protected function configure()
+    protected function configure(): void
     {
         $request = $this->getRequest();
 
@@ -38,14 +38,14 @@ class WorkloadTimePeriodController extends ReportBaseController
     /**
      * {@inheritdoc}
      */
-    protected function defaultAction()
+    protected function defaultAction(): void
     {
     }
 
     /**
      * {@inheritdoc}
      */
-    protected function prepareTemplate()
+    protected function prepareTemplate(): void
     {
         $user_prefs = Prefs::get($this->usr_id);
         $timezone = $user_prefs['timezone'];

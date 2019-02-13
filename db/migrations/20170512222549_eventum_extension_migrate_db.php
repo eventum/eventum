@@ -17,7 +17,7 @@ use Eventum\Extension\ExtensionLoader;
 
 class EventumExtensionMigrateDb extends AbstractMigration
 {
-    public function up()
+    public function up(): void
     {
         $this->migratePartners();
         $this->migrateCustomFields();
@@ -29,7 +29,7 @@ class EventumExtensionMigrateDb extends AbstractMigration
     /**
      * Setup BuiltinLegacyLoaderExtension being loaded by default
      */
-    private function setupLegacyLoader()
+    private function setupLegacyLoader(): void
     {
         $setup = Setup::get();
         $rf = new ReflectionClass(BuiltinLegacyLoaderExtension::class);
@@ -37,7 +37,7 @@ class EventumExtensionMigrateDb extends AbstractMigration
         Setup::save();
     }
 
-    private function migratePartners()
+    private function migratePartners(): void
     {
         $el = Partner::getExtensionLoader();
         $this->migrate('partner_project', 'pap_par_code', $el);
@@ -45,19 +45,19 @@ class EventumExtensionMigrateDb extends AbstractMigration
         $this->migrate('issue_partner', 'ipa_par_code', $el);
     }
 
-    private function migrateCustomFields()
+    private function migrateCustomFields(): void
     {
         $el = Custom_Field::getExtensionLoader();
         $this->migrate('custom_field', 'fld_backend', $el);
     }
 
-    private function migrateWorkflows()
+    private function migrateWorkflows(): void
     {
         $el = Workflow::getExtensionLoader();
         $this->migrate('project', 'prj_workflow_backend', $el);
     }
 
-    private function migrateCustomers()
+    private function migrateCustomers(): void
     {
         $el = CRM::getExtensionLoader();
         $this->migrate('project', 'prj_customer_backend', $el);
@@ -68,7 +68,7 @@ class EventumExtensionMigrateDb extends AbstractMigration
      * @param string $field
      * @param ExtensionLoader $el
      */
-    private function migrate($table, $field, $el)
+    private function migrate($table, $field, $el): void
     {
         $table = $this->quoteColumnName($table);
         $column = $this->quoteTableName($field);

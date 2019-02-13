@@ -397,7 +397,7 @@ class Support
      * @param ImapMessage $mail
      * @param RoutingException $e error to bounce
      */
-    private static function bounceMessage(ImapMessage $mail, RoutingException $e)
+    private static function bounceMessage(ImapMessage $mail, RoutingException $e): void
     {
         // open text template
         $tpl = new Template_Helper();
@@ -444,7 +444,7 @@ class Support
      * @param   ImapMessage $mail The Mail object
      * @param   array $info The support email account information
      */
-    public static function processMailMessage(ImapMessage $mail, $info)
+    public static function processMailMessage(ImapMessage $mail, $info): void
     {
         $logger = Logger::app();
 
@@ -1237,7 +1237,7 @@ class Support
      * @param   bool $internal_only Whether these files are supposed to be internal only or not
      * @param   int $associated_note_id The note ID that these attachments should be associated with
      */
-    public static function extractAttachments($issue_id, MailMessage $mail, $internal_only = false, $associated_note_id = null)
+    public static function extractAttachments($issue_id, MailMessage $mail, $internal_only = false, $associated_note_id = null): void
     {
         // figure out who should be the 'owner' of this attachment
         $sender_email = $mail->getSender();
@@ -1799,7 +1799,7 @@ class Support
      * - int $sender_usr_id the ID of the user sending this message
      * - array $iaf_ids an array with attachment information
      */
-    public static function sendDirectEmail(MailMessage $mail, $options = [])
+    public static function sendDirectEmail(MailMessage $mail, $options = []): void
     {
         $issue_id = $options['issue_id'];
         $iaf_ids = $options['iaf_ids'];
@@ -2438,7 +2438,7 @@ class Support
         return false;
     }
 
-    public static function addExtraRecipientsToNotificationList($prj_id, $email, $is_auto_created = false)
+    public static function addExtraRecipientsToNotificationList($prj_id, $email, $is_auto_created = false): void
     {
         if ((empty($email['to'])) && (!empty($email['sup_to']))) {
             $email['to'] = $email['sup_to'];

@@ -37,7 +37,7 @@ class SetupController extends BaseController
     /** @var string */
     private $cat;
 
-    protected function configure()
+    protected function configure(): void
     {
         $request = $this->getRequest();
         $this->cat = $request->request->get('cat');
@@ -48,7 +48,7 @@ class SetupController extends BaseController
         return true;
     }
 
-    protected function defaultAction()
+    protected function defaultAction(): void
     {
         try {
             Requirements::check();
@@ -65,7 +65,7 @@ class SetupController extends BaseController
         }
     }
 
-    protected function prepareTemplate()
+    protected function prepareTemplate(): void
     {
         $appInfo = new AppInfo();
         $request = $this->getRequest();
@@ -89,7 +89,7 @@ class SetupController extends BaseController
         );
     }
 
-    protected function displayTemplate($tpl_name = null)
+    protected function displayTemplate($tpl_name = null): void
     {
         $this->tpl->displayTemplate(false);
     }

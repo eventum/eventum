@@ -27,7 +27,7 @@ class ClockStatusController extends BaseController
     /**
      * {@inheritdoc}
      */
-    protected function configure()
+    protected function configure(): void
     {
         $request = $this->getRequest();
 
@@ -49,7 +49,7 @@ class ClockStatusController extends BaseController
     /**
      * {@inheritdoc}
      */
-    protected function defaultAction()
+    protected function defaultAction(): void
     {
         if (User::isClockedIn($this->usr_id)) {
             User::clockOut($this->usr_id);
@@ -68,7 +68,7 @@ class ClockStatusController extends BaseController
     /**
      * {@inheritdoc}
      */
-    protected function prepareTemplate()
+    protected function prepareTemplate(): void
     {
     }
 }

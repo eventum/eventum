@@ -52,7 +52,7 @@ class CloseController extends BaseController
     /**
      * {@inheritdoc}
      */
-    protected function configure()
+    protected function configure(): void
     {
         $request = $this->getRequest();
 
@@ -82,7 +82,7 @@ class CloseController extends BaseController
     /**
      * {@inheritdoc}
      */
-    protected function defaultAction()
+    protected function defaultAction(): void
     {
         $extra_title = ev_gettext('Close Issue #%1$s', $this->issue_id);
         $this->tpl->assign(
@@ -120,7 +120,7 @@ class CloseController extends BaseController
         }
     }
 
-    private function closeAction()
+    private function closeAction(): void
     {
         $request = $this->getRequest();
         $post = $request->request;
@@ -158,7 +158,7 @@ class CloseController extends BaseController
         }
     }
 
-    private function displayNotifiedUsers($notify_list)
+    private function displayNotifiedUsers($notify_list): void
     {
         if (!$notify_list) {
             return;
@@ -170,7 +170,7 @@ class CloseController extends BaseController
         $this->messages->addHtmlBoxMessage($update_tpl->getTemplateContents(false));
     }
 
-    private function addTimeEntry()
+    private function addTimeEntry(): void
     {
         $post = $this->getRequest()->request;
 
@@ -184,7 +184,7 @@ class CloseController extends BaseController
     /**
      * {@inheritdoc}
      */
-    protected function prepareTemplate()
+    protected function prepareTemplate(): void
     {
         $custom_fields = Custom_Field::getListByIssue($this->prj_id, $this->issue_id, $this->usr_id, 'close_form', true);
 

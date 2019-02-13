@@ -20,7 +20,7 @@ use Eventum\Db\AbstractMigration;
  */
 class EventumFlysystemPdo extends AbstractMigration
 {
-    public function change()
+    public function change(): void
     {
         $this->table('attachment_path', ['id' => false, 'primary_key' => 'path_id'])
             ->addColumn('path_id', 'integer', ['limit' => self::INT_MEDIUM, 'signed' => false, 'identity' => true])

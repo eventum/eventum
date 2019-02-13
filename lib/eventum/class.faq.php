@@ -212,7 +212,7 @@ class FAQ
      * @param   int $faq_id The FAQ ID
      * @param   int $support_level_id The support level ID
      */
-    public static function addSupportLevelAssociation($faq_id, $support_level_id)
+    public static function addSupportLevelAssociation($faq_id, $support_level_id): void
     {
         $stmt = 'INSERT INTO
                     `faq_support_level`

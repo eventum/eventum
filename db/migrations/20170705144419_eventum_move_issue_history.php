@@ -18,7 +18,7 @@ class EventumMoveIssueHistory extends AbstractMigration
     /**
      * Create a history type for moving a project between issues
      */
-    public function up()
+    public function up(): void
     {
         $table = $this->table('history_type');
         $row = [
@@ -31,7 +31,7 @@ class EventumMoveIssueHistory extends AbstractMigration
     /**
      * Removes history type for moving project between issues
      */
-    public function down()
+    public function down(): void
     {
         $this->execute("DELETE FROM history_type WHERE htt_name='issue_moved'");
     }

@@ -83,7 +83,7 @@ class TextMessage
     /**
      * @param PartInterface $part
      */
-    private function processPart($part)
+    private function processPart($part): void
     {
         $headers = $part->getHeaders();
         $ctype = $part->getHeaderField('Content-Type');

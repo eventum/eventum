@@ -40,7 +40,7 @@ class IssueAutoCreationController extends ManageBaseController
     /**
      * {@inheritdoc}
      */
-    protected function configure()
+    protected function configure(): void
     {
         $request = $this->getRequest();
 
@@ -51,7 +51,7 @@ class IssueAutoCreationController extends ManageBaseController
     /**
      * {@inheritdoc}
      */
-    protected function defaultAction()
+    protected function defaultAction(): void
     {
         $this->prj_id = Email_Account::getProjectID($this->ema_id);
 
@@ -60,7 +60,7 @@ class IssueAutoCreationController extends ManageBaseController
         }
     }
 
-    private function updateAction()
+    private function updateAction(): void
     {
         $post = $this->getRequest()->request;
         Email_Account::updateIssueAutoCreation($this->ema_id, $post->get('issue_auto_creation'), $post->get('options'));
@@ -69,7 +69,7 @@ class IssueAutoCreationController extends ManageBaseController
     /**
      * {@inheritdoc}
      */
-    protected function prepareTemplate()
+    protected function prepareTemplate(): void
     {
         $this->tpl->assign(
             [

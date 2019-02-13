@@ -38,7 +38,7 @@ class EditReporterController extends BaseController
     /**
      * {@inheritdoc}
      */
-    protected function configure()
+    protected function configure(): void
     {
         $request = $this->getRequest();
 
@@ -67,14 +67,14 @@ class EditReporterController extends BaseController
     /**
      * {@inheritdoc}
      */
-    protected function defaultAction()
+    protected function defaultAction(): void
     {
         if ($this->cat == 'update') {
             $this->updateReporterAction();
         }
     }
 
-    private function updateReporterAction()
+    private function updateReporterAction(): void
     {
         $post = $this->getRequest()->request;
         $email = trim($post->get('email'));
@@ -92,7 +92,7 @@ class EditReporterController extends BaseController
     /**
      * {@inheritdoc}
      */
-    protected function prepareTemplate()
+    protected function prepareTemplate(): void
     {
         $this->tpl->assign(
             [

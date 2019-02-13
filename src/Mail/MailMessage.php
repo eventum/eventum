@@ -294,7 +294,7 @@ class MailMessage extends Message
      *
      * @param string $value
      */
-    public function setInReplyTo($value)
+    public function setInReplyTo($value): void
     {
         /** @var GenericHeader $header */
         $header = $this->getHeaderByName('In-Reply-To');
@@ -306,7 +306,7 @@ class MailMessage extends Message
      *
      * @param string|string[] $value
      */
-    public function setReferences($value)
+    public function setReferences($value): void
     {
         if (is_array($value)) {
             $value = implode(' ', $value);
@@ -482,7 +482,7 @@ class MailMessage extends Message
      * @param string $name
      * @param string|AddressList $value
      */
-    public function setAddressListHeader($name, $value)
+    public function setAddressListHeader($name, $value): void
     {
         /** @var AbstractAddressList $header */
         $header = $this->getHeader($name);
@@ -502,7 +502,7 @@ class MailMessage extends Message
      *
      * @param array|\Traversable $headerlist
      */
-    public function addHeaders(array $headerlist)
+    public function addHeaders(array $headerlist): void
     {
         // NOTE: could use addHeaders() but that blows if value is not mime encoded. wtf
         //$this->headers->addHeaders($headerlist);
@@ -598,7 +598,7 @@ class MailMessage extends Message
      *
      * FIXME: think of better method name
      */
-    public function stripHeaders()
+    public function stripHeaders(): void
     {
         $headers = $this->headers;
 
@@ -620,7 +620,7 @@ class MailMessage extends Message
         // process patterns
         $array = $headers->toArray();
         array_walk(
-            $array, function ($value, $name) use ($headers) {
+            $array, function ($value, $name) use ($headers): void {
                 if (preg_match('/^resent.*/i', $name)) {
                     $headers->removeHeader($name);
                 }

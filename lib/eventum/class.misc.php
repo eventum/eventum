@@ -265,7 +265,7 @@ class Misc
      * @param string|array $value input to modify in place
      * @author Elan Ruusamäe <glen@delfi.ee>
      */
-    public static function stripInput(&$value)
+    public static function stripInput(&$value): void
     {
         if (is_array($value)) {
             foreach ($value as &$v) {
@@ -761,7 +761,7 @@ class Misc
      * @param   $filesize
      * @param   bool $force_inline If the file should be forced to render in the browser
      */
-    public static function outputDownload($data, $filename, $filesize, $filetype, $force_inline = false)
+    public static function outputDownload($data, $filename, $filesize, $filetype, $force_inline = false): void
     {
         if ($force_inline == true) {
             header('Content-Type: text/plain');

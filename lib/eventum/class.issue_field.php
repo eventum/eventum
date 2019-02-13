@@ -159,7 +159,7 @@ class Issue_Field
      * @param   string $location The name of the location
      * @param   array $values an array of new values
      */
-    public static function updateValues($issue_id, $location, $values)
+    public static function updateValues($issue_id, $location, $values): void
     {
         $fields = self::getFieldsToDisplay($issue_id, $location);
         foreach ($fields as $field_name => $field_options) {

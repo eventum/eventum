@@ -121,7 +121,7 @@ class Attachment
      * @throws AttachmentException
      * @throws DatabaseException
      */
-    public function save()
+    public function save(): void
     {
         if ($this->id) {
             if ($this->group) {
@@ -169,7 +169,7 @@ class Attachment
      * Saves the path of a file
      * @param bool $insert
      */
-    private function savePath($insert = false)
+    private function savePath($insert = false): void
     {
         if ($insert) {
             $sql = 'INSERT INTO
@@ -231,7 +231,7 @@ class Attachment
     /**
      * @param \Eventum\Attachment\AttachmentGroup $group
      */
-    public function setGroup(AttachmentGroup $group)
+    public function setGroup(AttachmentGroup $group): void
     {
         $this->group = $group;
     }
@@ -254,7 +254,7 @@ class Attachment
      *
      * @param   bool $force_inline If the file should be forced to render in the browser
      */
-    public function outputDownload($force_inline = false)
+    public function outputDownload($force_inline = false): void
     {
         try {
             Misc::outputDownload($this->getFile()->read(), $this->filename, $this->filesize, $this->filetype, $force_inline);

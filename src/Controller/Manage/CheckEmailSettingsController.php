@@ -23,14 +23,14 @@ class CheckEmailSettingsController extends ManageBaseController
     /**
      * {@inheritdoc}
      */
-    protected function configure()
+    protected function configure(): void
     {
     }
 
     /**
      * {@inheritdoc}
      */
-    protected function defaultAction()
+    protected function defaultAction(): void
     {
         // we need the IMAP extension for this to work
         if (!function_exists('imap_open')) {
@@ -82,7 +82,7 @@ class CheckEmailSettingsController extends ManageBaseController
     /**
      * {@inheritdoc}
      */
-    protected function prepareTemplate()
+    protected function prepareTemplate(): void
     {
     }
 }

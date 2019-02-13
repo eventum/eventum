@@ -286,7 +286,7 @@ class Partner
     /**
      * @param int $iss_id
      */
-    public static function handleNewEmail($iss_id, $sup_id)
+    public static function handleNewEmail($iss_id, $sup_id): void
     {
         foreach (self::getBackendsByIssue($iss_id) as $backend) {
             $backend->handleNewEmail($iss_id, $sup_id);
@@ -297,7 +297,7 @@ class Partner
      * @param int $iss_id
      * @param int $not_id
      */
-    public static function handleNewNote($iss_id, $not_id)
+    public static function handleNewNote($iss_id, $not_id): void
     {
         foreach (self::getBackendsByIssue($iss_id) as $backend) {
             $backend->handleNewNote($iss_id, $not_id);
@@ -308,7 +308,7 @@ class Partner
      * @param int $iss_id
      * @param int $usr_id
      */
-    public static function handleIssueChange($iss_id, $usr_id, $old_details, $changes)
+    public static function handleIssueChange($iss_id, $usr_id, $old_details, $changes): void
     {
         foreach (self::getBackendsByIssue($iss_id) as $backend) {
             $backend->handleIssueChange($iss_id, $usr_id, $old_details, $changes);

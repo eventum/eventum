@@ -32,7 +32,7 @@ class ReminderActionsController extends ManageBaseController
     /**
      * {@inheritdoc}
      */
-    protected function configure()
+    protected function configure(): void
     {
         $request = $this->getRequest();
 
@@ -43,7 +43,7 @@ class ReminderActionsController extends ManageBaseController
     /**
      * {@inheritdoc}
      */
-    protected function defaultAction()
+    protected function defaultAction(): void
     {
         if ($this->cat == 'new') {
             $this->newAction();
@@ -60,7 +60,7 @@ class ReminderActionsController extends ManageBaseController
         }
     }
 
-    private function newAction()
+    private function newAction(): void
     {
         $res = Reminder_Action::insert();
         $map = [
@@ -73,7 +73,7 @@ class ReminderActionsController extends ManageBaseController
         $this->redirect("reminder_actions.php?rem_id={$rem_id}");
     }
 
-    private function updateAction()
+    private function updateAction(): void
     {
         $res = Reminder_Action::update();
         $map = [
@@ -86,21 +86,21 @@ class ReminderActionsController extends ManageBaseController
         $this->redirect("reminder_actions.php?rem_id={$rem_id}");
     }
 
-    private function deleteAction()
+    private function deleteAction(): void
     {
         $post = $this->getRequest()->request;
 
         Reminder_Action::remove($post->get('items'));
     }
 
-    private function editAction()
+    private function editAction(): void
     {
         $get = $this->getRequest()->query;
 
         $this->tpl->assign('info', Reminder_Action::getDetails($get->getInt('id')));
     }
 
-    private function changeRankAction()
+    private function changeRankAction(): void
     {
         $get = $this->getRequest()->query;
 
@@ -110,7 +110,7 @@ class ReminderActionsController extends ManageBaseController
     /**
      * {@inheritdoc}
      */
-    protected function prepareTemplate()
+    protected function prepareTemplate(): void
     {
         $user_options = User::getActiveAssocList(Reminder::getProjectID($this->rem_id), User::ROLE_CUSTOMER);
         $this->tpl->assign(

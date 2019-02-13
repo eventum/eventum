@@ -33,7 +33,7 @@ class EmailAliasController extends ManageBaseController
     /**
      * {@inheritdoc}
      */
-    protected function configure()
+    protected function configure(): void
     {
         $request = $this->getRequest();
 
@@ -44,7 +44,7 @@ class EmailAliasController extends ManageBaseController
     /**
      * {@inheritdoc}
      */
-    protected function defaultAction()
+    protected function defaultAction(): void
     {
         if ($this->cat == 'save') {
             $this->saveAction();
@@ -53,7 +53,7 @@ class EmailAliasController extends ManageBaseController
         }
     }
 
-    private function saveAction()
+    private function saveAction(): void
     {
         $post = $this->getRequest()->request;
 
@@ -65,7 +65,7 @@ class EmailAliasController extends ManageBaseController
         $this->messages->mapMessages($res, $map);
     }
 
-    private function removeAction()
+    private function removeAction(): void
     {
         $post = $this->getRequest()->request;
 
@@ -83,7 +83,7 @@ class EmailAliasController extends ManageBaseController
     /**
      * {@inheritdoc}
      */
-    protected function prepareTemplate()
+    protected function prepareTemplate(): void
     {
         $this->tpl->assign(
             [

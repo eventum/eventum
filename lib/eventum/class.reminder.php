@@ -467,7 +467,7 @@ class Reminder
      *
      * @param   int $rem_id The reminder ID
      */
-    public static function removeAllAssociations($rem_id)
+    public static function removeAllAssociations($rem_id): void
     {
         if (!is_array($rem_id)) {
             $rem_id = [$rem_id];

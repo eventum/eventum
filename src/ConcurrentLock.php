@@ -32,7 +32,7 @@ class ConcurrentLock
         $this->mutex = new FlockMutex($fh);
     }
 
-    public function synchronized(callable $code)
+    public function synchronized(callable $code): void
     {
         $this->mutex->synchronized($code);
     }

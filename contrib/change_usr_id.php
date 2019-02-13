@@ -35,7 +35,7 @@ echo "# change usr_id=$source_usr_id to usr_id=$target_usr_id\n";
 /** @var AdapterInterface $db */
 $db = DB_Helper::getInstance();
 
-function replace(AdapterInterface $db, $table, $prefix, $source_usr_id, $target_usr_id)
+function replace(AdapterInterface $db, $table, $prefix, $source_usr_id, $target_usr_id): void
 {
     $column = ($prefix ? "${prefix}_" : '') . 'usr_id';
     $query = "select count(*) from `{$table}` where {$column}=?";

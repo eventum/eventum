@@ -269,7 +269,7 @@ class Time_Tracking
      *
      * @param   array $result The result set
      */
-    public static function fillTimeSpentByIssues(&$result)
+    public static function fillTimeSpentByIssues(&$result): void
     {
         $ids = [];
         foreach ($result as $res) {
@@ -694,7 +694,7 @@ class Time_Tracking
      * @param   int $start the timestamp of the beginning of the report
      * @param   int $end the timestamp of the end of this report
      */
-    public static function fillTimeSpentByIssueAndTime(&$res, $usr_id, $start, $end)
+    public static function fillTimeSpentByIssueAndTime(&$res, $usr_id, $start, $end): void
     {
         $issue_ids = [];
         foreach ($res as $row) {

@@ -25,7 +25,7 @@ class SwitchController extends BaseController
     /**
      * {@inheritdoc}
      */
-    protected function configure()
+    protected function configure(): void
     {
         $request = $this->getRequest();
 
@@ -45,7 +45,7 @@ class SwitchController extends BaseController
     /**
      * {@inheritdoc}
      */
-    protected function defaultAction()
+    protected function defaultAction(): void
     {
         if (!Project::exists($this->prj_id)) {
             $this->error('The specified project does not exist');
@@ -75,7 +75,7 @@ class SwitchController extends BaseController
     /**
      * {@inheritdoc}
      */
-    protected function prepareTemplate()
+    protected function prepareTemplate(): void
     {
     }
 }

@@ -27,7 +27,7 @@ class ShouldEmailAddressSubscriber implements EventSubscriberInterface
         ];
     }
 
-    public function shouldEmailAddress(ResultableEvent $event)
+    public function shouldEmailAddress(ResultableEvent $event): void
     {
         /** @var Address $address */
         $address = $event['address'];

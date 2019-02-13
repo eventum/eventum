@@ -34,7 +34,7 @@ class CustomFieldOptionsController extends ManageBaseController
     /**
      * {@inheritdoc}
      */
-    protected function configure()
+    protected function configure(): void
     {
         $request = $this->getRequest();
 
@@ -46,14 +46,14 @@ class CustomFieldOptionsController extends ManageBaseController
     /**
      * {@inheritdoc}
      */
-    protected function defaultAction()
+    protected function defaultAction(): void
     {
         if ($this->cat == 'update') {
             $this->updateAction();
         }
     }
 
-    private function updateAction()
+    private function updateAction(): void
     {
         $post = $this->getRequest()->request;
         $res = Custom_Field::updateOptions($this->fld_id, $post->get('existing_options'), $post->get('new_options'));
@@ -69,7 +69,7 @@ class CustomFieldOptionsController extends ManageBaseController
     /**
      * {@inheritdoc}
      */
-    protected function prepareTemplate()
+    protected function prepareTemplate(): void
     {
         $field_info = Custom_Field::getDetails($this->fld_id);
         if (empty($field_info)) {

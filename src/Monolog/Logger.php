@@ -35,7 +35,7 @@ class Logger extends Registry
      * Eventum\Monolog\Logger::api()->addError('Sent to $api Eventum\Monolog\Logger instance');
      * Eventum\Monolog\Logger::application()->addError('Sent to $application Eventum\Monolog\Logger instance');
      */
-    public static function initialize()
+    public static function initialize(): void
     {
         // Configure it use Eventum timezone
         Monolog\Logger::setTimezone(new DateTimeZone(APP_DEFAULT_TIMEZONE));

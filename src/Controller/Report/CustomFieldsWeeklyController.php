@@ -46,7 +46,7 @@ class CustomFieldsWeeklyController extends ReportBaseController
     /**
      * {@inheritdoc}
      */
-    protected function configure()
+    protected function configure(): void
     {
         $request = $this->getRequest();
 
@@ -68,14 +68,14 @@ class CustomFieldsWeeklyController extends ReportBaseController
     /**
      * {@inheritdoc}
      */
-    protected function defaultAction()
+    protected function defaultAction(): void
     {
     }
 
     /**
      * {@inheritdoc}
      */
-    protected function prepareTemplate()
+    protected function prepareTemplate(): void
     {
         // get list of fields and convert info useful arrays
         $fields = Custom_Field::getListByProject($this->prj_id, '');

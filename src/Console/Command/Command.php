@@ -31,7 +31,7 @@ abstract class Command
      * @param string|array $messages The message as an array of lines of a single string
      * @param int $options A bitmask of options (one of the OUTPUT or VERBOSITY constants), 0 is considered the same as self::OUTPUT_NORMAL | self::VERBOSITY_NORMAL
      */
-    protected function writeln($messages, $options = 0)
+    protected function writeln($messages, $options = 0): void
     {
         $this->output->writeln($messages, $options);
     }

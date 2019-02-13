@@ -37,7 +37,7 @@ class CryptoSubscriber implements EventSubscriberInterface
      *
      * @see \Eventum\Crypto\CryptoUpgradeManager::upgradeConfig
      */
-    public function upgradeConfig()
+    public function upgradeConfig(): void
     {
         $config = $this->getConfig();
 
@@ -53,7 +53,7 @@ class CryptoSubscriber implements EventSubscriberInterface
      *
      * @see \Eventum\Crypto\CryptoUpgradeManager::downgradeConfig
      */
-    public function downgradeConfig()
+    public function downgradeConfig(): void
     {
         $config = $this->getConfig();
 
