@@ -4,6 +4,8 @@
 
 Upgrading to 3.6.x versions requires that you upgrade to latest 3.5.x version first.
 
+- Add TaskListMatcher with example to update issue complete percentage (@glensc, #473)
+
 [3.6.1]: https://github.com/eventum/eventum/compare/v3.6.0...master
 
 ## [3.6.0] - 2019-02-11
