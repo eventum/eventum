@@ -2596,6 +2596,13 @@ class Issue
         return $res;
     }
 
+    public static function setIssueCompletePercentage(int $issueId, int $percentage): void
+    {
+        $stmt = 'UPDATE `issue` SET iss_percent_complete=? WHERE iss_id=?';
+
+        DB_Helper::getInstance()->query($stmt, [$percentage, $issueId]);
+    }
+
     /**
      * Method used to get some simple details about the given duplicated issue.
      *
