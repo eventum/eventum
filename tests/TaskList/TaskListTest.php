@@ -13,6 +13,7 @@
 
 namespace Eventum\Test\TaskList;
 
+use Eventum\TaskList\TaskListItem;
 use Eventum\TaskList\TaskListMatcher;
 use Eventum\Test\TestCase;
 
@@ -24,5 +25,10 @@ class TaskListTest extends TestCase
         $tm = new TaskListMatcher();
         $tasks = iterator_to_array($tm->getTasks($content));
         $this->assertCount(5, $tasks);
+
+        $complete = array_filter(array_map(function (TaskListItem $c) {
+            return $c->isChecked();
+        }, $tasks));
+        $this->assertCount(1, $complete);
     }
 }
