@@ -127,7 +127,7 @@ class CustomField
 
     /**
      * @var bool
-     * @ORM\Column(name="fld_min_role_edit", type="boolean", nullable=false)
+     * @ORM\Column(name="fld_min_role_edit", type="integer", nullable=false)
      */
     private $minRoleEdit;
 
