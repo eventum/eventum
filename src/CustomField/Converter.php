@@ -57,7 +57,8 @@ class Converter
                 $row['selected_cfo_id'] = $row['value'];
                 $row['original_value'] = $row['value'];
                 $row['value'] = $this->getOptionValue($cf, $fld_id, $row['value']);
-                $row['field_options'] = Custom_Field::getOptions($fld_id, false, $issueId);
+                $backend = Custom_Field::getBackend($fld_id);
+                $row['field_options'] = $this->getOptions($row, $backend, $formType, $issueId);
 
                 // add the select option to the list of values if it isn't on the list (useful for fields with active and non-active items)
                 if (!empty($row['original_value']) && !isset($row['field_options'][$row['original_value']])) {
@@ -77,7 +78,9 @@ class Converter
                 if ($found_index === null) {
                     $row['selected_cfo_id'] = [$row['value']];
                     $row['value'] = $this->getOptionValue($cf, $fld_id, $row['value']);
-                    $row['field_options'] = Custom_Field::getOptions($fld_id);
+                    $backend = Custom_Field::getBackend($fld_id);
+                    $row['field_options'] = $this->getOptions($row, $backend, $formType, $issueId);
+
                     $fields[] = $row;
                     $found_index = count($fields) - 1;
                 } else {
@@ -144,10 +147,10 @@ class Converter
     /**
      * @see Custom_Field::getOptions
      */
-    private function getOptions(array $field, ?Proxy $backend, ?string $formType): array
+    private function getOptions(array $field, ?Proxy $backend, ?string $formType = null, ?int $issueId = null): array
     {
         if ($backend && $backend->hasInterface(ListInterface::class)) {
-            return $backend->getList($field['fld_id'], null, $formType);
+            return $backend->getList($field['fld_id'], $issueId, $formType);
         }
 
         /** @var CustomField $cf */
