@@ -385,27 +385,14 @@ class CustomField
         return in_array($this->type, self::OPTION_TYPES, true);
     }
 
-    public function getSortedOptions(string $orderBy): Collection
+    public function getOptions(): Collection
     {
-        [$columnName, $direction] = explode(' ', $orderBy);
+        [$columnName, $direction] = explode(' ', $this->orderBy);
 
         $columnName = $this->options->getTypeClass()->getFieldName($columnName);
         $criteria = Criteria::create()->orderBy([$columnName => $direction]);
 
         return $this->options->matching($criteria);
-    }
-
-    public function getOptions(): array
-    {
-        $options = $this->getSortedOptions($this->orderBy);
-
-        $result = [];
-        /** @var CustomFieldOption $option */
-        foreach ($options as $option) {
-            $result[$option->getId()] = $option->getValue();
-        }
-
-        return $result;
     }
 
     public function getOptionById(int $cfo_id): ?CustomFieldOption

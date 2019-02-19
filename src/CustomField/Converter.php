@@ -156,7 +156,12 @@ class Converter
             return $backend->getList($field['fld_id'], $issueId, $formType);
         }
 
-        return $cf->getOptions();
+        $result = [];
+        foreach ($cf->getOptions() as $option) {
+            $result[$option->getId()] = $option->getValue();
+        }
+
+        return $result;
     }
 
     /**
