@@ -15,7 +15,6 @@ namespace Eventum\Controller\Manage;
 
 use Custom_Field;
 use Eventum\Db\Doctrine;
-use Eventum\Monolog\Logger;
 use Throwable;
 use User;
 
@@ -67,8 +66,7 @@ class CustomFieldOptionsController extends ManageBaseController
             $message = ev_gettext('Thank you, the custom field options were updated successfully.');
             $this->messages->addInfoMessage($message);
         } catch (Throwable $e) {
-            Logger::app()->error($e);
-
+            $this->logger->error($e);
             $message = ev_gettext('An error occurred while trying to update the custom field options.');
             $this->messages->addErrorMessage($message);
         }

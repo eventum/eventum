@@ -20,7 +20,6 @@ use Eventum\Controller\Helper\MessagesHelper;
 use Eventum\Db\Doctrine;
 use Eventum\Extension\ExtensionManager;
 use Eventum\Model\Entity\CustomField;
-use Eventum\Monolog\Logger;
 use Project;
 use Symfony\Component\HttpFoundation\ParameterBag;
 use Throwable;
@@ -100,8 +99,7 @@ class CustomFieldsController extends ManageBaseController
             $message = ev_gettext('Thank you, the custom field was updated successfully.');
             $this->messages->addInfoMessage($message);
         } catch (Throwable $e) {
-            Logger::app()->error($e);
-
+            $this->logger->error($e);
             $message = ev_gettext('An error occurred while trying to update the custom field information.');
             $this->messages->addErrorMessage($message);
         }
