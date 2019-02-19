@@ -401,9 +401,13 @@ class CustomField
         $criteria = Criteria::create()->where($expr);
 
         $collection = $this->options->matching($criteria);
-        if (!in_array($collection->count(), [0, 1], true)) {
+        if ($collection->isEmpty()) {
+            return null;
+        }
+
+        if ($collection->count() !== 1) {
             $count = $collection->count();
-            throw new RuntimeException("Expected 0 or 1, got $count");
+            throw new RuntimeException("Expected one element, got $count");
         }
 
         return $collection->first();
