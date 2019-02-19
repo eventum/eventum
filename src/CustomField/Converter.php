@@ -57,8 +57,7 @@ class Converter
                 $row['selected_cfo_id'] = $row['value'];
                 $row['original_value'] = $row['value'];
                 $row['value'] = $this->getOptionValue($cf, $fld_id, $row['value']);
-                $backend = Custom_Field::getBackend($fld_id);
-                $row['field_options'] = $this->getOptions($row, $backend, $formType, $issueId);
+                $row['field_options'] = $this->getOptions($row, $formType, $issueId);
 
                 // add the select option to the list of values if it isn't on the list (useful for fields with active and non-active items)
                 if (!empty($row['original_value']) && !isset($row['field_options'][$row['original_value']])) {
@@ -78,8 +77,7 @@ class Converter
                 if ($found_index === null) {
                     $row['selected_cfo_id'] = [$row['value']];
                     $row['value'] = $this->getOptionValue($cf, $fld_id, $row['value']);
-                    $backend = Custom_Field::getBackend($fld_id);
-                    $row['field_options'] = $this->getOptions($row, $backend, $formType, $issueId);
+                    $row['field_options'] = $this->getOptions($row, $formType, $issueId);
 
                     $fields[] = $row;
                     $found_index = count($fields) - 1;
@@ -106,7 +104,9 @@ class Converter
     {
         foreach ($fields as &$field) {
             $fld_id = $field['fld_id'];
-            $backend = Custom_Field::getBackend($fld_id);
+            /** @var CustomField $cf */
+            $cf = $field['_cf'];
+            $backend = $cf->getBackend();
 
             if ($backend && $backend->hasInterface(DynamicCustomFieldInterface::class)) {
                 $field['dynamic_options'] = $backend->getStructuredData();
@@ -130,7 +130,7 @@ class Converter
             }
 
             if (!$skipValueOptions) {
-                $field['field_options'] = $this->getOptions($field, $backend, $formType);
+                $field['field_options'] = $this->getOptions($field, $formType);
 
                 if ($backend && $backend->hasInterface(DefaultValueInterface::class)) {
                     $field['default_value'] = $backend->getDefaultValue($fld_id);
@@ -147,14 +147,15 @@ class Converter
     /**
      * @see Custom_Field::getOptions
      */
-    private function getOptions(array $field, ?Proxy $backend, ?string $formType = null, ?int $issueId = null): array
+    private function getOptions(array $field, ?string $formType = null, ?int $issueId = null): array
     {
+        /** @var CustomField $cf */
+        $cf = $field['_cf'];
+        $backend = $cf->getBackend();
+
         if ($backend && $backend->hasInterface(ListInterface::class)) {
             return $backend->getList($field['fld_id'], $issueId, $formType);
         }
-
-        /** @var CustomField $cf */
-        $cf = $field['_cf'];
 
         return $cf->getOptions();
     }
@@ -169,7 +170,7 @@ class Converter
             return $value;
         }
 
-        $backend = Custom_Field::getBackend($fld_id);
+        $backend = $cf->getBackend();
 
         if ($backend && $backend->hasInterface(OptionValueInterface::class)) {
             return $backend->getOptionValue($fld_id, $value);

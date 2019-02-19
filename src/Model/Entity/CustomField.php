@@ -18,6 +18,10 @@ use Doctrine\Common\Collections\Criteria;
 use Doctrine\Common\Collections\Expr\Comparison;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\PersistentCollection;
+use Eventum\CustomField\Factory;
+use Eventum\CustomField\Proxy;
+use Eventum\Monolog\Logger;
+use InvalidArgumentException;
 use RuntimeException;
 
 /**
@@ -132,6 +136,9 @@ class CustomField
      * @ORM\Column(name="fld_backend", type="string", length=255, nullable=true)
      */
     private $backend;
+
+    /** @var Proxy|null */
+    private $proxy;
 
     /**
      * @var string
@@ -341,9 +348,18 @@ class CustomField
         return $this;
     }
 
-    public function getBackend(): ?string
+    public function getBackend(): ?Proxy
     {
-        return $this->backend;
+        if ($this->proxy === null && $this->backend) {
+            try {
+                $this->proxy = Factory::create($this->backend);
+            } catch (InvalidArgumentException $e) {
+                Logger::app()->error("Could not load backend {$this->backend}", ['exception' => $e]);
+                $this->proxy = false;
+            }
+        }
+
+        return $this->proxy ?: null;
     }
 
     public function setOrderBy(string $orderBy): self
