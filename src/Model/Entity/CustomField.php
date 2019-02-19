@@ -39,6 +39,12 @@ class CustomField
         'edit_form' => null,
     ];
 
+    private const OPTION_TYPES = [
+        'checkbox',
+        'combo',
+        'multiple',
+    ];
+
     /**
      * @var int
      * @ORM\Column(name="fld_id", type="integer", nullable=false)
@@ -372,6 +378,11 @@ class CustomField
     public function getOrderBy(): string
     {
         return $this->orderBy;
+    }
+
+    public function isOptionType(): bool
+    {
+        return in_array($this->type, self::OPTION_TYPES, true);
     }
 
     public function getSortedOptions(string $orderBy): Collection

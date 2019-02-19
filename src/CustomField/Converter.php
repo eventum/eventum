@@ -13,7 +13,6 @@
 
 namespace Eventum\CustomField;
 
-use Custom_Field;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Eventum\CustomField\Fields\DefaultValueInterface;
@@ -65,7 +64,7 @@ class Converter
                 }
 
                 $fields[] = $row;
-            } elseif (in_array($row['fld_type'], Custom_Field::$option_types, true)) {
+            } elseif ($cf->isOptionType()) {
                 // check whether this field is already in the array
                 $found_index = null;
                 foreach ($fields as $y => $field) {
