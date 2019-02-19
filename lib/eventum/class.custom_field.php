@@ -918,109 +918,28 @@ class Custom_Field
      *
      * @return  int 1 if the update worked, -1 otherwise
      */
-    public static function update()
+    public static function updateFieldRelationsFromPost(int $fld_id, string $fldType): int
     {
-        if (empty($_POST['report_form'])) {
-            $_POST['report_form'] = 0;
-        }
-        if (empty($_POST['report_form_required'])) {
-            $_POST['report_form_required'] = 0;
-        }
-        if (empty($_POST['anon_form'])) {
-            $_POST['anon_form'] = 0;
-        }
-        if (empty($_POST['anon_form_required'])) {
-            $_POST['anon_form_required'] = 0;
-        }
-        if (empty($_POST['list_display'])) {
-            $_POST['list_display'] = 0;
-        }
-        if (empty($_POST['close_form'])) {
-            $_POST['close_form'] = 0;
-        }
-        if (empty($_POST['close_form_required'])) {
-            $_POST['close_form_required'] = 0;
-        }
-        if (empty($_POST['edit_form_required'])) {
-            $_POST['edit_form_required'] = 0;
-        }
-        if (empty($_POST['min_role'])) {
-            $_POST['min_role'] = 1;
-        }
-        if (empty($_POST['min_role_edit'])) {
-            $_POST['min_role_edit'] = 1;
-        }
-        if (!isset($_POST['rank'])) {
-            $_POST['rank'] = (self::getMaxRank() + 1);
-        }
-        if (!isset($_POST['order_by'])) {
-            $_POST['order_by'] = 'cfo_id ASC';
-        }
-        $old_details = self::getDetails($_POST['id']);
-        $stmt = 'UPDATE
-                    `custom_field`
-                 SET
-                    fld_title=?,
-                    fld_description=?,
-                    fld_type=?,
-                    fld_report_form=?,
-                    fld_report_form_required=?,
-                    fld_anonymous_form=?,
-                    fld_anonymous_form_required=?,
-                    fld_close_form=?,
-                    fld_close_form_required=?,
-                    fld_edit_form_required=?,
-                    fld_list_display=?,
-                    fld_min_role=?,
-                    fld_min_role_edit=?,
-                    fld_rank = ?,
-                    fld_backend = ?,
-                    fld_order_by = ?
-                 WHERE
-                    fld_id=?';
-        try {
-            DB_Helper::getInstance()->query($stmt, [
-                $_POST['title'],
-                $_POST['description'],
-                $_POST['field_type'],
-                $_POST['report_form'],
-                $_POST['report_form_required'],
-                $_POST['anon_form'],
-                $_POST['anon_form_required'],
-                $_POST['close_form'],
-                $_POST['close_form_required'],
-                $_POST['edit_form_required'],
-                $_POST['list_display'],
-                $_POST['min_role'],
-                $_POST['min_role_edit'],
-                $_POST['rank'],
-                @$_POST['custom_field_backend'],
-                $_POST['order_by'],
-                $_POST['id'],
-            ]);
-        } catch (DatabaseException $e) {
-            return -1;
-        }
-
-        if ($old_details['fld_type'] != $_POST['field_type']) {
+        if ($fldType != $_POST['field_type']) {
             // gotta remove all custom field options if the field is being changed from a combo box to a text field
-            if ((!in_array($old_details['fld_type'], ['text', 'textarea'])) &&
+            if ((!in_array($fldType, ['text', 'textarea'])) &&
                 (!in_array($_POST['field_type'], self::$option_types))) {
-                self::removeOptionsByFields($_POST['id']);
+                // XXX: wrong data type
+                self::removeOptionsByFields($fld_id);
             }
             if (in_array($_POST['field_type'], ['text', 'textarea', 'date', 'integer'])) {
                 // update values for all other option types
-                self::updateValuesForNewType($_POST['id']);
+                self::updateValuesForNewType($fld_id);
             }
         }
 
         // now we need to check for any changes in the project association of this custom field
         // and update the mapping table accordingly
-        $old_proj_ids = @array_keys(self::getAssociatedProjects($_POST['id']));
+        $old_proj_ids = @array_keys(self::getAssociatedProjects($fld_id));
         $diff_ids = array_diff($old_proj_ids, $_POST['projects']);
         if (count($diff_ids) > 0) {
             foreach ($diff_ids as $removed_prj_id) {
-                self::removeIssueAssociation($_POST['id'], false, $removed_prj_id);
+                self::removeIssueAssociation($fld_id, false, $removed_prj_id);
             }
         }
 
@@ -1030,13 +949,13 @@ class Custom_Field
                  WHERE
                     pcf_fld_id=?';
         try {
-            DB_Helper::getInstance()->query($stmt, [$_POST['id']]);
+            DB_Helper::getInstance()->query($stmt, [$fld_id]);
         } catch (DatabaseException $e) {
             return -1;
         }
 
         foreach ($_POST['projects'] as $prj_id) {
-            self::associateProject($prj_id, $_POST['id']);
+            self::associateProject($prj_id, $fld_id);
         }
 
         return 1;
@@ -1070,12 +989,11 @@ class Custom_Field
      * Method used to remove the issue associations related to a given
      * custom field ID.
      *
-     * @param   int[] $fld_id The custom field ID
+     * @param   int|int[] $fld_id The custom field ID
      * @param   int $issue_id The issue ID (not required)
      * @param   int $prj_id The project ID (not required)
-     * @return  bool
      */
-    public static function removeIssueAssociation($fld_id, $issue_id = null, $prj_id = null)
+    public static function removeIssueAssociation($fld_id, $issue_id = null, $prj_id = null): void
     {
         if (!is_array($fld_id)) {
             $fld_id = [$fld_id];
@@ -1091,11 +1009,7 @@ class Custom_Field
                         `issue`
                     WHERE
                         iss_prj_id = ?';
-            try {
-                $res = DB_Helper::getInstance()->getColumn($sql, [$prj_id]);
-            } catch (DatabaseException $e) {
-                return false;
-            }
+            $res = DB_Helper::getInstance()->getColumn($sql, [$prj_id]);
 
             $issues = $res;
         }
@@ -1109,20 +1023,14 @@ class Custom_Field
             $stmt .= ' AND icf_iss_id IN(' . DB_Helper::buildList($issues) . ')';
             $params = array_merge($params, $issues);
         }
-        try {
-            DB_Helper::getInstance()->query($stmt, $params);
-        } catch (DatabaseException $e) {
-            return false;
-        }
-
-        return true;
+        DB_Helper::getInstance()->query($stmt, $params);
     }
 
     /**
      * Method used to remove the custom field options associated with
      * a given list of custom field IDs.
      *
-     * @param   array $ids The list of custom field IDs
+     * @param   int[] $ids The list of custom field IDs
      * @return  bool
      */
     public static function removeOptionsByFields($ids)

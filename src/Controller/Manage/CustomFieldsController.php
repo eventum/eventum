@@ -17,8 +17,13 @@ use Auth;
 use CRM;
 use Custom_Field;
 use Eventum\Controller\Helper\MessagesHelper;
+use Eventum\Db\Doctrine;
 use Eventum\Extension\ExtensionManager;
+use Eventum\Model\Entity\CustomField;
+use Eventum\Monolog\Logger;
 use Project;
+use Symfony\Component\HttpFoundation\ParameterBag;
+use Throwable;
 use User;
 
 class CustomFieldsController extends ManageBaseController
@@ -47,19 +52,23 @@ class CustomFieldsController extends ManageBaseController
      */
     protected function defaultAction(): void
     {
-        if ($this->cat == 'new') {
-            $this->newAction();
-        } elseif ($this->cat == 'update') {
-            $this->updateAction();
-        } elseif ($this->cat == 'delete') {
-            $this->deleteAction();
-        } elseif ($this->cat == 'change_rank') {
-            $this->changeRankAction();
-        }
-
-        if ($this->cat == 'edit') {
-            $id = $this->getRequest()->query->get('id');
-            $this->tpl->assign('info', Custom_Field::getDetails($id));
+        switch ($this->cat) {
+            case 'new':
+                $this->newAction();
+                break;
+            case 'update':
+                $this->updateAction();
+                break;
+            case 'delete':
+                $this->deleteAction();
+                break;
+            case 'change_rank':
+                $this->changeRankAction();
+                break;
+            case 'edit':
+                $id = $this->getRequest()->query->get('id');
+                $this->tpl->assign('info', Custom_Field::getDetails($id));
+                break;
         }
     }
 
@@ -73,16 +82,31 @@ class CustomFieldsController extends ManageBaseController
         $this->messages->mapMessages($res, $map);
     }
 
+    /**
+     * @see Custom_Field::updateFieldRelationsFromPost()
+     */
     private function updateAction(): void
     {
-        $res = Custom_Field::update();
-        $this->messages->mapMessages(
-            $res, [
-                1 => [ev_gettext('Thank you, the custom field was updated successfully.'), MessagesHelper::MSG_INFO],
-                -1 => [ev_gettext('An error occurred while trying to update the custom field information.'), MessagesHelper::MSG_ERROR],
-            ]
-        );
-        $this->redirect(APP_RELATIVE_URL . 'manage/custom_fields.php');
+        $post = $this->getRequest()->request;
+        $fld_id = $post->get('id');
+
+        try {
+            $repo = Doctrine::getCustomFieldRepository();
+            $cf = $this->updateFromRequest($repo->findOrCreate($fld_id), $post);
+            $old_details = Custom_Field::getDetails($fld_id);
+            $repo->persistAndFlush($cf);
+            Custom_Field::updateFieldRelationsFromPost($fld_id, $old_details['fld_type']);
+
+            $message = ev_gettext('Thank you, the custom field was updated successfully.');
+            $this->messages->addInfoMessage($message);
+        } catch (Throwable $e) {
+            Logger::app()->error($e);
+
+            $message = ev_gettext('An error occurred while trying to update the custom field information.');
+            $this->messages->addErrorMessage($message);
+        }
+
+        $this->redirect(APP_RELATIVE_URL . 'manage/custom_fields.php?cat=edit&id=' . $fld_id);
     }
 
     private function deleteAction(): void
@@ -144,5 +168,26 @@ class CustomFieldsController extends ManageBaseController
         }
 
         return $res;
+    }
+
+    private function updateFromRequest(CustomField $cf, ParameterBag $post): CustomField
+    {
+        return $cf
+            ->setTitle($post->get('title'))
+            ->setDescription($post->get('description'))
+            ->setType($post->get('field_type'))
+            ->setShowReportForm($post->get('report_form', 0))
+            ->setIsReportFormRequired($post->get('report_form_required', 0))
+            ->setShowAnonymousForm($post->get('anon_form', 0))
+            ->setIsAnonymousFormRequired($post->get('anon_form_required', 0))
+            ->setShowListDisplay($post->get('list_display', 0))
+            ->setShowCloseForm($post->get('close_form', 0))
+            ->setIsCloseFormRequired($post->get('close_form_required', 0))
+            ->setIsEditFormRequired($post->get('edit_form_required', 0))
+            ->setMinRole($post->get('min_role', User::ROLE_VIEWER))
+            ->setMinRoleEdit($post->get('min_role_edit', User::ROLE_VIEWER))
+            ->setRank($post->get('rank', Custom_Field::getMaxRank() + 1))
+            ->setOrderBy($post->get('order_by', 'cfo_id ASC'))
+            ->setBackend($post->get('custom_field_backend'));
     }
 }

@@ -24,6 +24,23 @@ class CustomFieldRepository extends EntityRepository
 {
     use FindByIdTrait;
 
+    public function persistAndFlush(Entity\CustomField $cf): void
+    {
+        $em = $this->getEntityManager();
+        $em->persist($cf);
+        $em->flush($cf);
+    }
+
+    public function findOrCreate(int $id): Entity\CustomField
+    {
+        $cf = $this->find($id);
+        if (!$cf) {
+            $cf = new Entity\CustomField();
+        }
+
+        return $cf;
+    }
+
     private function getQueryBuilder(): QueryBuilder
     {
         return $this->createQueryBuilder('cf');

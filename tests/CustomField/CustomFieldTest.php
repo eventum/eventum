@@ -83,7 +83,7 @@ class CustomFieldTest extends TestCase
         $new_options = [
             0 => '',
             1 => '',
-            2 => 'option3'
+            2 => 'option3',
         ];
         $options = [
             1 => 'option1',
