@@ -158,7 +158,7 @@ class CustomField
      * @ORM\JoinColumn(name="id", referencedColumnName="cfo_fld_id")
      * @ORM\OrderBy({"id" = "ASC"})
      */
-    public $options;
+    private $options;
 
     /**
      * @var IssueCustomField[]|PersistentCollection
@@ -385,6 +385,13 @@ class CustomField
         return in_array($this->type, self::OPTION_TYPES, true);
     }
 
+    public function addOption(CustomFieldOption $cfo): self
+    {
+        $this->options->add($cfo);
+
+        return $this;
+    }
+
     public function getOptions(): Collection
     {
         [$columnName, $direction] = explode(' ', $this->orderBy);
@@ -393,6 +400,30 @@ class CustomField
         $criteria = Criteria::create()->orderBy([$columnName => $direction]);
 
         return $this->options->matching($criteria);
+    }
+
+    public function updateOptionValue(int $cfo_id, string $value, int $rank): CustomFieldOption
+    {
+        $cfo = $this->getOptionById($cfo_id);
+        if (!$cfo) {
+            $cfo = new CustomFieldOption();
+            $cfo->setCustomField($this);
+        }
+
+        $cfo->setValue($value);
+        $cfo->setRank($rank);
+
+        return $cfo;
+    }
+
+    public function addOptionValue(string $value, int $rank): CustomFieldOption
+    {
+        $cfo = new CustomFieldOption();
+        $cfo->setCustomField($this);
+        $cfo->setValue($value);
+        $cfo->setRank($rank);
+
+        return $cfo;
     }
 
     public function getOptionById(int $cfo_id): ?CustomFieldOption

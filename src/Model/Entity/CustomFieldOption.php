@@ -40,7 +40,7 @@ class CustomFieldOption
      * @ORM\ManyToOne(targetEntity="CustomField", inversedBy="options")
      * @ORM\JoinColumn(name="cfo_fld_id", referencedColumnName="fld_id")
      */
-    public $customField;
+    private $customField;
 
     /**
      * @var int
@@ -57,6 +57,15 @@ class CustomFieldOption
     public function getId(): int
     {
         return $this->id;
+    }
+
+    public function setCustomField(CustomField $cf): self
+    {
+        $this->customField = $cf;
+        $this->fieldId = $cf->getId();
+        $cf->addOption($this);
+
+        return $this;
     }
 
     public function setFieldId(int $fieldId): self

@@ -136,4 +136,35 @@ class CustomFieldRepository extends EntityRepository
 
         return $qb->getQuery()->getResult();
     }
+
+    public function updateCustomFieldOptions(int $fld_id, array $updateOptions, array $addOptions): void
+    {
+        /** @var Entity\CustomField $cf */
+        $cf = $this->findById($fld_id);
+        $options = $cf->getOptions();
+        $em = $this->getEntityManager();
+
+        $rank = 1;
+        foreach ($updateOptions as $cfo_id => $cfo_value) {
+            $cfo = $cf->updateOptionValue($cfo_id, $cfo_value, $rank++);
+            $em->persist($cfo);
+            $options->removeElement($cfo);
+        }
+
+        // delete any options leftover
+        foreach ($options as $cfo) {
+            $em->remove($cfo);
+        }
+
+        foreach ($addOptions as $cfo_value) {
+            if (!$cfo_value) {
+                continue;
+            }
+
+            $cfo = $cf->addOptionValue($cfo_value, $rank++);
+            $em->persist($cfo);
+        }
+
+        $em->flush();
+    }
 }

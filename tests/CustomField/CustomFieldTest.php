@@ -76,4 +76,21 @@ class CustomFieldTest extends TestCase
         $fields = $converter->convertCustomFields($customFields, $iss_id, $formType);
         dump(count($fields));
     }
+
+    public function testUpdateCustomFieldOptions(): void
+    {
+        $fld_id = 2;
+        $new_options = [
+            0 => '',
+            1 => '',
+            2 => 'option3'
+        ];
+        $options = [
+            1 => 'option1',
+            2 => 'option2',
+        ];
+
+        $repo = Doctrine::getCustomFieldRepository();
+        $repo->updateCustomFieldOptions($fld_id, $options, $new_options);
+    }
 }

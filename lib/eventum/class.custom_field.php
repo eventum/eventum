@@ -40,31 +40,6 @@ class Custom_Field
     ];
 
     /**
-     * @param int $fld_id
-     */
-    public static function updateOptions($fld_id, $options, $new_options)
-    {
-        $old_options = self::getOptions($fld_id);
-
-        $rank = 1;
-        foreach ($options as $cfo_id => $cfo_value) {
-            self::updateOption($cfo_id, $cfo_value, $rank++);
-            unset($old_options[$cfo_id]);
-        }
-
-        // delete any options leftover
-        if (count($old_options) > 0) {
-            self::removeOptions($fld_id, array_keys($old_options));
-        }
-
-        if (count($new_options) > 0) {
-            self::addOptions($fld_id, $new_options, $rank);
-        }
-
-        return 1;
-    }
-
-    /**
      * Method used to remove a group of custom field options.
      *
      * @param   array $fld_id The list of custom field IDs
@@ -98,72 +73,6 @@ class Custom_Field
                     icf_value IN (' . DB_Helper::buildList($cfo_id) . ')';
         $params = array_merge($fld_id, $cfo_id);
         DB_Helper::getInstance()->query($stmt, $params);
-
-        return true;
-    }
-
-    /**
-     * Method used to add possible options into a given custom field.
-     *
-     * @param   int $fld_id The custom field ID
-     * @param   array $options The list of options that need to be added
-     * @param   int $start_rank The rank for the first new option to be inserted with
-     * @return  int 1 if the insert worked, -1 otherwise
-     */
-    public static function addOptions($fld_id, $options, $start_rank)
-    {
-        if (!is_array($options)) {
-            $options = [$options];
-        }
-
-        foreach ($options as $option) {
-            if (empty($option)) {
-                continue;
-            }
-            $stmt = 'INSERT INTO
-                        `custom_field_option`
-                     (
-                        cfo_fld_id,
-                        cfo_value,
-                        cfo_rank
-                     ) VALUES (
-                        ?,
-                        ?,
-                        ?
-                     )';
-            $params = [$fld_id, $option, $start_rank++];
-            try {
-                DB_Helper::getInstance()->query($stmt, $params);
-            } catch (DatabaseException $e) {
-                return -1;
-            }
-        }
-
-        return 1;
-    }
-
-    /**
-     * Method used to update an existing custom field option value.
-     *
-     * @param   int $cfo_id The custom field option ID
-     * @param   string $cfo_value The custom field option value
-     * @param   int $rank The rank of the custom field option
-     * @return  bool
-     */
-    public static function updateOption($cfo_id, $cfo_value, $rank = null)
-    {
-        $stmt = 'UPDATE
-                    `custom_field_option`
-                 SET
-                    cfo_value=?,
-                    cfo_rank=?
-                 WHERE
-                    cfo_id=?';
-        try {
-            DB_Helper::getInstance()->query($stmt, [$cfo_value, $rank, $cfo_id]);
-        } catch (DatabaseException $e) {
-            return false;
-        }
 
         return true;
     }
