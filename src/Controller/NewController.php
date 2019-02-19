@@ -51,7 +51,7 @@ class NewController extends BaseController
     /**
      * {@inheritdoc}
      */
-    protected function configure()
+    protected function configure(): void
     {
         $request = $this->getRequest();
 
@@ -92,7 +92,7 @@ class NewController extends BaseController
     /**
      * {@inheritdoc}
      */
-    protected function defaultAction()
+    protected function defaultAction(): void
     {
         $this->tpl->assign('new_issue_id', '');
 
@@ -112,7 +112,7 @@ class NewController extends BaseController
         }
     }
 
-    private function reportAction()
+    private function reportAction(): void
     {
         $res = Issue::createFromPost();
         if ($res != -1) {
@@ -126,7 +126,7 @@ class NewController extends BaseController
         $this->tpl->assign('error_msg', '1');
     }
 
-    private function associateAction()
+    private function associateAction(): void
     {
         $request = $this->getRequest();
         $item = $request->query->get('item');
@@ -183,7 +183,7 @@ class NewController extends BaseController
     /**
      * {@inheritdoc}
      */
-    protected function prepareTemplate()
+    protected function prepareTemplate(): void
     {
         $request = $this->getRequest();
 

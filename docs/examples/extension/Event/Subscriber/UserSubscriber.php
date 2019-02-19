@@ -22,7 +22,7 @@ class UserSubscriber implements EventSubscriberInterface
     /**
      * {@inheritdoc}
      */
-    public static function getSubscribedEvents()
+    public static function getSubscribedEvents(): array
     {
         return [
             SystemEvents::USER_CREATE => 'userCreated',
@@ -33,7 +33,7 @@ class UserSubscriber implements EventSubscriberInterface
     /**
      * @param GenericEvent $event
      */
-    public function userCreated(GenericEvent $event)
+    public function userCreated(GenericEvent $event): void
     {
         error_log("user created: #{$event['id']}");
     }
@@ -41,7 +41,7 @@ class UserSubscriber implements EventSubscriberInterface
     /**
      * @param GenericEvent $event
      */
-    public function userUpdated(GenericEvent $event)
+    public function userUpdated(GenericEvent $event): void
     {
         error_log("user updated: #{$event['id']}");
     }

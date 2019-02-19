@@ -31,7 +31,7 @@ class TimeTrackingController extends ManageBaseController
     /**
      * {@inheritdoc}
      */
-    protected function configure()
+    protected function configure(): void
     {
         $request = $this->getRequest();
 
@@ -42,7 +42,7 @@ class TimeTrackingController extends ManageBaseController
     /**
      * {@inheritdoc}
      */
-    protected function defaultAction()
+    protected function defaultAction(): void
     {
         if ($this->cat == 'new') {
             $this->newAction();
@@ -57,7 +57,7 @@ class TimeTrackingController extends ManageBaseController
         }
     }
 
-    private function newAction()
+    private function newAction(): void
     {
         $post = $this->getRequest()->request;
 
@@ -70,7 +70,7 @@ class TimeTrackingController extends ManageBaseController
         $this->messages->mapMessages($res, $map);
     }
 
-    private function updateAction()
+    private function updateAction(): void
     {
         $post = $this->getRequest()->request;
 
@@ -83,14 +83,14 @@ class TimeTrackingController extends ManageBaseController
         $this->messages->mapMessages($res, $map);
     }
 
-    private function deleteAction()
+    private function deleteAction(): void
     {
         $post = $this->getRequest()->request;
 
         Time_Tracking::removeCategory($post->get('items'));
     }
 
-    private function editAction()
+    private function editAction(): void
     {
         $get = $this->getRequest()->query;
 
@@ -100,7 +100,7 @@ class TimeTrackingController extends ManageBaseController
     /**
      * {@inheritdoc}
      */
-    protected function prepareTemplate()
+    protected function prepareTemplate(): void
     {
         $this->tpl->assign(
             [

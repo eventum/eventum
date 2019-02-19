@@ -15,7 +15,7 @@ use Eventum\Db\AbstractMigration;
 
 class EventumAttachments extends AbstractMigration
 {
-    public function change()
+    public function change(): void
     {
         $this->table('issue_attachment')
             ->addColumn('iat_min_role', 'integer', ['after' => 'iat_usr_id', 'length' => '1', 'signed' => false, 'null' => false, 'default' => 1])

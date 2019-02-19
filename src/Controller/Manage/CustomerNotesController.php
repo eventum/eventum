@@ -31,7 +31,7 @@ class CustomerNotesController extends ManageBaseController
     /**
      * {@inheritdoc}
      */
-    protected function configure()
+    protected function configure(): void
     {
         $request = $this->getRequest();
 
@@ -42,7 +42,7 @@ class CustomerNotesController extends ManageBaseController
     /**
      * {@inheritdoc}
      */
-    protected function defaultAction()
+    protected function defaultAction(): void
     {
         if ($this->cat == 'new') {
             $this->newNoteAction();
@@ -73,7 +73,7 @@ class CustomerNotesController extends ManageBaseController
         }
     }
 
-    private function newNoteAction()
+    private function newNoteAction(): void
     {
         $post = $this->getRequest()->request;
 
@@ -85,7 +85,7 @@ class CustomerNotesController extends ManageBaseController
         $this->messages->mapMessages($res, $map);
     }
 
-    private function updateNoteAction()
+    private function updateNoteAction(): void
     {
         $post = $this->getRequest()->request;
 
@@ -98,7 +98,7 @@ class CustomerNotesController extends ManageBaseController
         );
     }
 
-    private function deleteNoteAction()
+    private function deleteNoteAction(): void
     {
         $post = $this->getRequest()->request;
 
@@ -113,7 +113,7 @@ class CustomerNotesController extends ManageBaseController
     /**
      * {@inheritdoc}
      */
-    protected function prepareTemplate()
+    protected function prepareTemplate(): void
     {
         $this->tpl->assign(
             [

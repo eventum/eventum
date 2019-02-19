@@ -31,7 +31,7 @@ class PostController extends BaseController
     /**
      * {@inheritdoc}
      */
-    protected function configure()
+    protected function configure(): void
     {
         $request = $this->getRequest();
 
@@ -50,7 +50,7 @@ class PostController extends BaseController
     /**
      * {@inheritdoc}
      */
-    protected function defaultAction()
+    protected function defaultAction(): void
     {
         if ($this->cat == 'report') {
             $this->reportAction();
@@ -61,7 +61,7 @@ class PostController extends BaseController
         }
     }
 
-    private function reportAction()
+    private function reportAction(): void
     {
         $iss_id = Issue::addAnonymousReport();
 
@@ -74,7 +74,7 @@ class PostController extends BaseController
         }
     }
 
-    private function postFormAction()
+    private function postFormAction(): void
     {
         $get = $this->getRequest()->query;
         $prj_id = $get->getInt('project');
@@ -127,7 +127,7 @@ class PostController extends BaseController
     /**
      * {@inheritdoc}
      */
-    protected function prepareTemplate()
+    protected function prepareTemplate(): void
     {
     }
 }

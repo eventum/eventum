@@ -15,7 +15,7 @@ use Eventum\Db\AbstractMigration;
 
 class EventumIrcNoticeIndices extends AbstractMigration
 {
-    public function change()
+    public function change(): void
     {
         $this->table('irc_notice')
             ->addIndex(['ino_status', 'ino_prj_id'])

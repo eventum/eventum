@@ -25,7 +25,7 @@ class EventumCustomFilterMultiselect extends AbstractMigration
         'cst_pro_id' => 'cst_products',
     ];
 
-    public function up()
+    public function up(): void
     {
         $table = $this->table('custom_filter');
         foreach (self::COLUMNS as $old_name => $new_name) {
@@ -36,7 +36,7 @@ class EventumCustomFilterMultiselect extends AbstractMigration
         $table->save();
     }
 
-    public function down()
+    public function down(): void
     {
         $table = $this->table('custom_filter');
         foreach (self::COLUMNS as $old_name => $new_name) {

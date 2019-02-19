@@ -25,7 +25,7 @@ class ScmPingController extends BaseController
     /**
      * {@inheritdoc}
      */
-    protected function configure()
+    protected function configure(): void
     {
         $this->logger = Logger::app();
     }
@@ -41,7 +41,7 @@ class ScmPingController extends BaseController
     /**
      * {@inheritdoc}
      */
-    protected function defaultAction()
+    protected function defaultAction(): void
     {
         try {
             ob_start();
@@ -63,7 +63,7 @@ class ScmPingController extends BaseController
         echo json_encode($status);
     }
 
-    private function process()
+    private function process(): void
     {
         // NOTE: output is captured from all adapters
         // but if exception is thrown. not all adapters are processed
@@ -91,7 +91,7 @@ class ScmPingController extends BaseController
     /**
      * {@inheritdoc}
      */
-    protected function prepareTemplate()
+    protected function prepareTemplate(): void
     {
         // no template to render
         exit;

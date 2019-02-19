@@ -54,7 +54,11 @@ $risky_rules = [
     'ereg_to_preg' => true,
     'no_alias_functions' => true,
     'no_php4_constructor' => true,
+    'escape_implicit_backslashes' => false,
+    'strict_comparison' => false, // not always safe to enable: https://github.com/FriendsOfPHP/PHP-CS-Fixer/issues/4317
     '@PHP71Migration' => true,
+    'combine_nested_dirname' => true,
+//    'void_return' => true, // not enabled generally, may break things
 ];
 
 $symfony_rules = [

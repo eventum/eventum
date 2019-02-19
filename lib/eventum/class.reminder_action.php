@@ -239,7 +239,7 @@ class Reminder_Action
      * @param   int $rma_id The reminder action ID
      * @param   array $user_list The list of users
      */
-    public static function associateUserList($rma_id, $user_list)
+    public static function associateUserList($rma_id, $user_list): void
     {
         foreach ($user_list as $user) {
             if (!self::isEmail($user)) {
@@ -345,7 +345,7 @@ class Reminder_Action
      *
      * @param   int $rma_id The reminder action ID
      */
-    public static function clearActionUserList($rma_id)
+    public static function clearActionUserList($rma_id): void
     {
         if (!is_array($rma_id)) {
             $rma_id = [$rma_id];
@@ -363,7 +363,7 @@ class Reminder_Action
      * Method used to remove reminder actions by using the administrative
      * interface of the system.
      */
-    public static function remove($action_ids)
+    public static function remove($action_ids): void
     {
         $items = DB_Helper::buildList($action_ids);
 
@@ -731,7 +731,7 @@ class Reminder_Action
      * @param   array $reminder The reminder details
      * @param   array $action The action details
      */
-    private static function _recordNoRecipientError($issue_id, $type, $reminder, $action, $data, $conditions)
+    private static function _recordNoRecipientError($issue_id, $type, $reminder, $action, $data, $conditions): void
     {
         $to = Reminder::_getReminderAlertAddresses();
         if (count($to) > 0) {

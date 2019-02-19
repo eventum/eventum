@@ -23,7 +23,7 @@ class StatsChartController extends BaseController
     /**
      * {@inheritdoc}
      */
-    protected function configure()
+    protected function configure(): void
     {
     }
 
@@ -40,7 +40,7 @@ class StatsChartController extends BaseController
     /**
      * {@inheritdoc}
      */
-    protected function defaultAction()
+    protected function defaultAction(): void
     {
         $request = $this->getRequest();
 
@@ -58,7 +58,7 @@ class StatsChartController extends BaseController
     /**
      * {@inheritdoc}
      */
-    protected function prepareTemplate()
+    protected function prepareTemplate(): void
     {
     }
 }

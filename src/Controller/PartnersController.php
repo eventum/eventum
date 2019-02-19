@@ -45,7 +45,7 @@ class PartnersController extends BaseController
     /**
      * {@inheritdoc}
      */
-    protected function configure()
+    protected function configure(): void
     {
         $request = $this->getRequest();
 
@@ -72,14 +72,14 @@ class PartnersController extends BaseController
     /**
      * {@inheritdoc}
      */
-    protected function defaultAction()
+    protected function defaultAction(): void
     {
         if ($this->cat == 'update') {
             $this->updatePartnerAction();
         }
     }
 
-    private function updatePartnerAction()
+    private function updatePartnerAction(): void
     {
         $post = $this->getRequest()->request;
 
@@ -90,7 +90,7 @@ class PartnersController extends BaseController
     /**
      * {@inheritdoc}
      */
-    protected function prepareTemplate()
+    protected function prepareTemplate(): void
     {
         $this->tpl->assign(
             [

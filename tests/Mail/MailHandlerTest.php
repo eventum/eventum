@@ -12,7 +12,7 @@
  */
 
 namespace Monolog\Handler {
-    function mail()
+    function mail(): void
     {
         global $mail;
         $mail[] = func_get_args();

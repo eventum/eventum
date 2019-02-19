@@ -40,7 +40,7 @@ class PreferencesController extends BaseController
     /**
      * {@inheritdoc}
      */
-    protected function configure()
+    protected function configure(): void
     {
         $post = $this->getRequest()->request;
 
@@ -67,7 +67,7 @@ class PreferencesController extends BaseController
     /**
      * {@inheritdoc}
      */
-    protected function defaultAction()
+    protected function defaultAction(): void
     {
         $res = null;
 
@@ -165,7 +165,7 @@ class PreferencesController extends BaseController
         }
     }
 
-    private function regenerateApiTokenAction()
+    private function regenerateApiTokenAction(): void
     {
         $res = APIAuthToken::regenerateKey($this->usr_id);
         if ($res == 1) {
@@ -178,7 +178,7 @@ class PreferencesController extends BaseController
     /**
      * {@inheritdoc}
      */
-    protected function prepareTemplate()
+    protected function prepareTemplate(): void
     {
         $prefs = Prefs::get($this->usr_id);
         $prefs['sms_email'] = User::getSMS($this->usr_id);

@@ -32,7 +32,7 @@ class LdapSyncCommand extends Command
     /** @var bool */
     private $dryrun;
 
-    public function execute(OutputInterface $output, $dryrun = false, $createUsers, $noUpdate, $noDisable)
+    public function execute(OutputInterface $output, $dryrun = false, $createUsers, $noUpdate, $noDisable): void
     {
         $this->output = $output;
         $this->dryrun = $dryrun;
@@ -49,7 +49,7 @@ class LdapSyncCommand extends Command
      *
      * @param bool $enabled
      */
-    private function updateUsers($enabled)
+    private function updateUsers($enabled): void
     {
         if (!$enabled || !$this->ldap->active_dn) {
             $this->writeln('Skipping update users');
@@ -79,7 +79,7 @@ class LdapSyncCommand extends Command
      *
      * @param bool $enabled
      */
-    private function disableUsers($enabled)
+    private function disableUsers($enabled): void
     {
         if (!$enabled || !$this->ldap->inactive_dn) {
             $this->writeln('Skipping disable users');
@@ -145,7 +145,7 @@ class LdapSyncCommand extends Command
      *
      * @param string $uid
      */
-    private function updateLocalUserFromBackend($uid)
+    private function updateLocalUserFromBackend($uid): void
     {
         if ($this->dryrun) {
             $this->writeln("<info>would run</info> updateLocalUserFromBackend($uid)");
@@ -155,7 +155,7 @@ class LdapSyncCommand extends Command
         $this->ldap->updateLocalUserFromBackend($uid);
     }
 
-    private function disableAccount($dn, $uid)
+    private function disableAccount($dn, $uid): void
     {
         if ($this->dryrun) {
             $this->writeln("<info>would run</info> disableAccount($uid)");

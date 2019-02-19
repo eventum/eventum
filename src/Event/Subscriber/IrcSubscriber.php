@@ -26,7 +26,7 @@ class IrcSubscriber implements EventSubscriberInterface
     /**
      * {@inheritdoc}
      */
-    public static function getSubscribedEvents()
+    public static function getSubscribedEvents(): array
     {
         return [
             SystemEvents::IRC_NOTIFY => 'notifyIrc',
@@ -40,7 +40,7 @@ class IrcSubscriber implements EventSubscriberInterface
      * @param string $eventName
      * @param EventDispatcherInterface $dispatcher
      */
-    public function notifyIrc(GenericEvent $event, $eventName, EventDispatcherInterface $dispatcher)
+    public function notifyIrc(GenericEvent $event, $eventName, EventDispatcherInterface $dispatcher): void
     {
         if (!$this->notificationEnabled()) {
             return;

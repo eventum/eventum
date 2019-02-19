@@ -56,7 +56,7 @@ class ListController extends BaseController
     /**
      * {@inheritdoc}
      */
-    protected function configure()
+    protected function configure(): void
     {
         $this->nosave = (bool) $this->getRequest()->get('nosave');
     }
@@ -74,7 +74,7 @@ class ListController extends BaseController
     /**
      * {@inheritdoc}
      */
-    protected function defaultAction()
+    protected function defaultAction(): void
     {
         $this->usr_id = Auth::getUserID();
         $this->prj_id = Auth::getCurrentProject();
@@ -90,7 +90,7 @@ class ListController extends BaseController
     /**
      * handle $view parameter actions
      */
-    private function viewAction()
+    private function viewAction(): void
     {
         $request = $this->getRequest();
 
@@ -188,7 +188,7 @@ class ListController extends BaseController
     /**
      * {@inheritdoc}
      */
-    protected function prepareTemplate()
+    protected function prepareTemplate(): void
     {
         if ($this->nosave) {
             $options = Search::saveSearchParams(false);

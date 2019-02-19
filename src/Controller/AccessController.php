@@ -42,7 +42,7 @@ class AccessController extends BaseController
     /**
      * {@inheritdoc}
      */
-    protected function configure()
+    protected function configure(): void
     {
         $request = $this->getRequest();
 
@@ -67,7 +67,7 @@ class AccessController extends BaseController
     /**
      * {@inheritdoc}
      */
-    protected function defaultAction()
+    protected function defaultAction(): void
     {
         switch ($this->cat) {
             case 'set_level':
@@ -79,7 +79,7 @@ class AccessController extends BaseController
         }
     }
 
-    private function setLevelAction()
+    private function setLevelAction(): void
     {
         $post = $this->getRequest()->request;
 
@@ -91,7 +91,7 @@ class AccessController extends BaseController
         }
     }
 
-    private function updateUsersAction()
+    private function updateUsersAction(): void
     {
         $post = $this->getRequest()->request;
 
@@ -112,7 +112,7 @@ class AccessController extends BaseController
     /**
      * {@inheritdoc}
      */
-    protected function prepareTemplate()
+    protected function prepareTemplate(): void
     {
         $this->tpl->assign(
             [

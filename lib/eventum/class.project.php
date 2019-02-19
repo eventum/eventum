@@ -1066,7 +1066,7 @@ class Project
      *
      * @param $prj_id
      */
-    public static function setDefaultDisplayFields($prj_id)
+    public static function setDefaultDisplayFields($prj_id): void
     {
         $fields = self::getDisplayFields();
         $settings = [];

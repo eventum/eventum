@@ -25,7 +25,7 @@ use Symfony\Component\EventDispatcher\GenericEvent;
 
 class MailQueueListener implements EventSubscriberInterface
 {
-    public static function getSubscribedEvents()
+    public static function getSubscribedEvents(): array
     {
         return [
             SystemEvents::MAIL_QUEUE_SEND => 'send',
@@ -34,7 +34,7 @@ class MailQueueListener implements EventSubscriberInterface
         ];
     }
 
-    public function send(GenericEvent $event)
+    public function send(GenericEvent $event): void
     {
         /** @var MailMessage $mail */
         $mail = $event->getSubject();
@@ -45,7 +45,7 @@ class MailQueueListener implements EventSubscriberInterface
         $headers->removeHeader('Return-Path');
     }
 
-    public function sent(GenericEvent $event)
+    public function sent(GenericEvent $event): void
     {
         /** @var MailMessage $mail */
         $mail = $event->getSubject();
@@ -57,7 +57,7 @@ class MailQueueListener implements EventSubscriberInterface
         }
     }
 
-    public function error(GenericEvent $event)
+    public function error(GenericEvent $event): void
     {
         /** @var Exception $e */
         $e = $event->getSubject();
@@ -87,7 +87,7 @@ class MailQueueListener implements EventSubscriberInterface
      * @param   string $status The status of the attempt ('sent' or 'error')
      * @param   string $server_message The full message from the SMTP server, in case of an error
      */
-    private function addStatusLog($maq_id, $status, $server_message = '')
+    private function addStatusLog($maq_id, $status, $server_message = ''): void
     {
         $stmt = 'INSERT INTO
                     `mail_queue_log`
@@ -108,7 +108,7 @@ class MailQueueListener implements EventSubscriberInterface
         DB_Helper::getInstance()->query($stmt, $params);
     }
 
-    private function setStatus($maq_id, $status)
+    private function setStatus($maq_id, $status): void
     {
         $stmt = 'UPDATE
                     `mail_queue`

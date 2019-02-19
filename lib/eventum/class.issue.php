@@ -1173,7 +1173,7 @@ class Issue
      * @param array $associated_issues issue_id's to associate with
      * @deprecated use IssueAssociationRepository
      */
-    private static function updateAssociatedIssuesRelations($usr_id, $issue_id, $associated_issues)
+    private static function updateAssociatedIssuesRelations($usr_id, $issue_id, $associated_issues): void
     {
         $repo = Doctrine::getIssueAssociationRepository();
         $res = $repo->updateAssociations($usr_id, $issue_id, $associated_issues);
@@ -2150,7 +2150,7 @@ class Issue
      *
      * @param   array $result The result set
      */
-    public static function formatLastActionDates(&$result)
+    public static function formatLastActionDates(&$result): void
     {
         $role_id = Auth::getCurrentRole();
         $customer_role_id = User::ROLE_CUSTOMER;
@@ -2222,7 +2222,7 @@ class Issue
      * @param   array $result The associative array of data
      * @see     Search::getListing()
      */
-    public static function getLastStatusActionDates($prj_id, &$result)
+    public static function getLastStatusActionDates($prj_id, &$result): void
     {
         $ids = [];
         foreach ($result as $res) {
@@ -2333,7 +2333,7 @@ class Issue
      *
      * @param   array $result The result set
      */
-    public static function getAssignedUsersByIssues(&$result)
+    public static function getAssignedUsersByIssues(&$result): void
     {
         $ids = [];
         foreach ($result as $item) {
@@ -2377,7 +2377,7 @@ class Issue
      *
      * @param   array $result The result set
      */
-    public static function getDescriptionByIssues(&$result)
+    public static function getDescriptionByIssues(&$result): void
     {
         if (count($result) == 0) {
             return;
@@ -2902,7 +2902,7 @@ class Issue
      * @param   int $status The quarantine status
      * @param   string $expiration The expiration date of quarantine (default empty)
      */
-    public static function setQuarantine($issue_id, $status, $expiration = '')
+    public static function setQuarantine($issue_id, $status, $expiration = ''): void
     {
         $issue_id = (int)$issue_id;
         $status = (int)$status;

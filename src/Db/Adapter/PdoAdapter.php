@@ -201,7 +201,7 @@ class PdoAdapter implements AdapterInterface
      *
      * The error comes mostly with BuildSet
      */
-    private function convertParams(&$params)
+    private function convertParams(&$params): void
     {
         $params = array_values($params);
     }
@@ -266,7 +266,7 @@ class PdoAdapter implements AdapterInterface
      * @param int $fetchMode
      * @throws UnexpectedValueException
      */
-    private function convertFetchMode(&$fetchMode)
+    private function convertFetchMode(&$fetchMode): void
     {
         switch ($fetchMode) {
             case AdapterInterface::DB_FETCHMODE_ASSOC:

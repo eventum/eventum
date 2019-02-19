@@ -32,7 +32,7 @@ class RoundRobinController extends ManageBaseController
     /**
      * {@inheritdoc}
      */
-    protected function configure()
+    protected function configure(): void
     {
         $request = $this->getRequest();
 
@@ -43,7 +43,7 @@ class RoundRobinController extends ManageBaseController
     /**
      * {@inheritdoc}
      */
-    protected function defaultAction()
+    protected function defaultAction(): void
     {
         if ($this->cat == 'new') {
             $this->newAction();
@@ -58,7 +58,7 @@ class RoundRobinController extends ManageBaseController
         }
     }
 
-    private function newAction()
+    private function newAction(): void
     {
         $res = Round_Robin::insert();
         $map = [
@@ -70,7 +70,7 @@ class RoundRobinController extends ManageBaseController
         $this->messages->mapMessages($res, $map);
     }
 
-    private function updateAction()
+    private function updateAction(): void
     {
         $res = Round_Robin::update();
         $map = [
@@ -82,12 +82,12 @@ class RoundRobinController extends ManageBaseController
         $this->messages->mapMessages($res, $map);
     }
 
-    private function deleteAction()
+    private function deleteAction(): void
     {
         Round_Robin::remove();
     }
 
-    private function editAction()
+    private function editAction(): void
     {
         $get = $this->getRequest()->query;
 
@@ -99,7 +99,7 @@ class RoundRobinController extends ManageBaseController
     /**
      * {@inheritdoc}
      */
-    protected function prepareTemplate()
+    protected function prepareTemplate(): void
     {
         $this->tpl->assign(
             [

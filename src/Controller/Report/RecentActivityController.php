@@ -29,14 +29,14 @@ class RecentActivityController extends ReportBaseController
     /**
      * {@inheritdoc}
      */
-    protected function configure()
+    protected function configure(): void
     {
     }
 
     /**
      * {@inheritdoc}
      */
-    protected function defaultAction()
+    protected function defaultAction(): void
     {
         try {
             $controller = new RecentActivity();
@@ -50,7 +50,7 @@ class RecentActivityController extends ReportBaseController
     /**
      * {@inheritdoc}
      */
-    protected function prepareTemplate()
+    protected function prepareTemplate(): void
     {
     }
 }

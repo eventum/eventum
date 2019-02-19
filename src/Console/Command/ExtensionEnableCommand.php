@@ -28,7 +28,7 @@ class ExtensionEnableCommand
     /** @var OutputInterface */
     private $output;
 
-    public function execute(OutputInterface $output, $filename, $classname)
+    public function execute(OutputInterface $output, $filename, $classname): void
     {
         $this->output = $output;
 
@@ -42,7 +42,7 @@ class ExtensionEnableCommand
      * @param string $extensionName class name of extension, must implement ExtensionInterface
      * @throws ReflectionException
      */
-    public function setupExtension($extensionFile, $extensionName)
+    public function setupExtension($extensionFile, $extensionName): void
     {
         $this->loadExtensionFile($extensionFile);
         $reflectionClass = $this->getExtensionClass($extensionName);
@@ -61,7 +61,7 @@ class ExtensionEnableCommand
         Setup::save();
     }
 
-    private function loadExtensionFile($fileName)
+    private function loadExtensionFile($fileName): void
     {
         if (!$fileName) {
             throw new InvalidArgumentException('Extension filename not specified');

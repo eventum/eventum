@@ -111,7 +111,7 @@ class MonitorCommand
      * @throws DatabaseException
      * @throws Exception
      */
-    protected function checkDatabase()
+    protected function checkDatabase(): void
     {
         $required_tables = Db\Table::getTableList();
 
@@ -127,7 +127,7 @@ class MonitorCommand
     /**
      * Checks the mail queue logs for any email that wasn't delivered.
      */
-    protected function checkMailQueue()
+    protected function checkMailQueue(): void
     {
         $stmt = 'select maq_status,count(*) from mail_queue group by maq_status';
         try {
@@ -166,7 +166,7 @@ class MonitorCommand
      *
      * @see \Support::getEmailListing()
      */
-    protected function checkMailAssociation()
+    protected function checkMailAssociation(): void
     {
         // TODO: optimize this
         // TODO: should we check it per project?
@@ -200,7 +200,7 @@ class MonitorCommand
     /**
      * Checks the free disk space status on the server.
      */
-    protected function checkDiskspace($partition, $low_limit = 5, $high_limit = 15)
+    protected function checkDiskspace($partition, $low_limit = 5, $high_limit = 15): void
     {
         $total_space = disk_total_space($partition);
         $free_space = disk_free_space($partition);
@@ -229,7 +229,7 @@ class MonitorCommand
      *
      * @param   array $required_files an array of files that should be checked on
      */
-    protected function checkRequiredFiles($required_files)
+    protected function checkRequiredFiles($required_files): void
     {
         foreach ($required_files as $file_path => $options) {
             // check if file exists
@@ -278,7 +278,7 @@ class MonitorCommand
      *
      * @param   array $required_directories an array of files that should be checked on
      */
-    protected function checkRequiredDirs($required_directories)
+    protected function checkRequiredDirs($required_directories): void
     {
         foreach ($required_directories as $dir_path => $options) {
             // check if directory exists
@@ -304,7 +304,7 @@ class MonitorCommand
      *
      * @param string $message
      */
-    private function error($message)
+    private function error($message): void
     {
         $this->output->writeln("<error>$message</error>");
         $this->errors++;

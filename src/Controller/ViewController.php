@@ -64,7 +64,7 @@ class ViewController extends BaseController
     /**
      * {@inheritdoc}
      */
-    protected function configure()
+    protected function configure(): void
     {
         $request = $this->getRequest();
 
@@ -81,7 +81,7 @@ class ViewController extends BaseController
         return true;
     }
 
-    private function checkProject()
+    private function checkProject(): void
     {
         $associated_projects = array_keys(Project::getAssocList($this->usr_id));
 
@@ -114,7 +114,7 @@ class ViewController extends BaseController
     /**
      * {@inheritdoc}
      */
-    protected function defaultAction()
+    protected function defaultAction(): void
     {
         $this->prj_id = Auth::getCurrentProject();
         $this->usr_id = Auth::getUserID();
@@ -151,7 +151,7 @@ class ViewController extends BaseController
     /**
      * {@inheritdoc}
      */
-    protected function prepareTemplate()
+    protected function prepareTemplate(): void
     {
         $options = Search::saveSearchParams();
         $sides = Issue::getSides($this->issue_id, $options);
@@ -193,7 +193,7 @@ class ViewController extends BaseController
     /**
      * Set template variables for non-customers
      */
-    private function setTemplateNonCustomer()
+    private function setTemplateNonCustomer(): void
     {
         $cookie = $this->getRequest()->cookies;
         $show_all_drafts = $cookie->get('show_all_drafts') == 1;

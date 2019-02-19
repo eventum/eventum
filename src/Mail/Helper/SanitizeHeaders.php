@@ -37,7 +37,7 @@ class SanitizeHeaders
      *
      * @param MailMessage $mail
      */
-    public function __invoke(MailMessage $mail)
+    public function __invoke(MailMessage $mail): void
     {
         $headers = $mail->getHeaders();
 
@@ -80,7 +80,7 @@ class SanitizeHeaders
      * @param Headers $headerBag
      * @param HeaderInterface|HeaderInterface[] $headers
      */
-    private function removeDuplicateHeader(Headers $headerBag, $headers)
+    private function removeDuplicateHeader(Headers $headerBag, $headers): void
     {
         if ($headers instanceof HeaderInterface) {
             // all good
@@ -98,7 +98,7 @@ class SanitizeHeaders
      * @param Headers $headerBag
      * @param HeaderInterface|AbstractAddressList[] $headers
      */
-    private function mergeDuplicateHeader(Headers $headerBag, $headers)
+    private function mergeDuplicateHeader(Headers $headerBag, $headers): void
     {
         if ($headers instanceof HeaderInterface) {
             // all good

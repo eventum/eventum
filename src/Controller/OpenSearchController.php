@@ -28,7 +28,7 @@ class OpenSearchController extends BaseController
     /**
      * {@inheritdoc}
      */
-    protected function configure()
+    protected function configure(): void
     {
     }
 
@@ -48,14 +48,14 @@ class OpenSearchController extends BaseController
     /**
      * {@inheritdoc}
      */
-    protected function defaultAction()
+    protected function defaultAction(): void
     {
     }
 
     /**
      * {@inheritdoc}
      */
-    protected function prepareTemplate()
+    protected function prepareTemplate(): void
     {
         header('Content-Type: text/xml; charset=' . APP_CHARSET);
         $this->tpl->assign('app_charset', APP_CHARSET);

@@ -51,7 +51,7 @@ class ViewEmailController extends BaseController
     /**
      * {@inheritdoc}
      */
-    protected function configure()
+    protected function configure(): void
     {
         $request = $this->getRequest();
 
@@ -95,7 +95,7 @@ class ViewEmailController extends BaseController
     /**
      * {@inheritdoc}
      */
-    protected function defaultAction()
+    protected function defaultAction(): void
     {
         if ($this->cat == 'list_emails') {
             $this->listEmailsAction();
@@ -112,7 +112,7 @@ class ViewEmailController extends BaseController
         }
     }
 
-    private function listEmailsAction()
+    private function listEmailsAction(): void
     {
         $sides = Support::getListingSides($this->sup_id);
         $this->tpl->assign(
@@ -123,7 +123,7 @@ class ViewEmailController extends BaseController
         );
     }
 
-    private function moveMailAction()
+    private function moveMailAction(): void
     {
         $res = Support::moveEmail($this->sup_id, $this->ema_id, $this->new_ema_id);
         $this->tpl->assign(
@@ -136,7 +136,7 @@ class ViewEmailController extends BaseController
     /**
      * {@inheritdoc}
      */
-    protected function prepareTemplate()
+    protected function prepareTemplate(): void
     {
         $email = Support::getEmailDetails($this->sup_id);
         $email['seb_body'] = str_replace('&amp;nbsp;', '&nbsp;', $email['seb_body']);

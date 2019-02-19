@@ -37,7 +37,7 @@ class CustomFieldsController extends BaseController
     /**
      * {@inheritdoc}
      */
-    protected function configure()
+    protected function configure(): void
     {
         $request = $this->getRequest();
 
@@ -66,14 +66,14 @@ class CustomFieldsController extends BaseController
     /**
      * {@inheritdoc}
      */
-    protected function defaultAction()
+    protected function defaultAction(): void
     {
         if ($this->cat == 'update_values') {
             $this->updateValuesAction();
         }
     }
 
-    private function updateValuesAction()
+    private function updateValuesAction(): void
     {
         $res = Custom_Field::updateFromPost(true);
         if (is_array($res)) {
@@ -85,7 +85,7 @@ class CustomFieldsController extends BaseController
     /**
      * {@inheritdoc}
      */
-    protected function prepareTemplate()
+    protected function prepareTemplate(): void
     {
         $custom_fields = Custom_Field::getListByIssue($this->prj_id, $this->issue_id, null, false, true);
 

@@ -52,7 +52,7 @@ class RemoteDataController extends BaseController
     /**
      * {@inheritdoc}
      */
-    protected function configure()
+    protected function configure(): void
     {
         $request = $this->getRequest();
 
@@ -78,7 +78,7 @@ class RemoteDataController extends BaseController
     /**
      * {@inheritdoc}
      */
-    protected function defaultAction()
+    protected function defaultAction(): void
     {
         switch ($this->action) {
             case 'email':
@@ -252,7 +252,7 @@ class RemoteDataController extends BaseController
     /**
      * {@inheritdoc}
      */
-    protected function prepareTemplate()
+    protected function prepareTemplate(): void
     {
     }
 }

@@ -34,7 +34,7 @@ class CategoriesController extends ManageBaseController
     /**
      * {@inheritdoc}
      */
-    protected function configure()
+    protected function configure(): void
     {
         $request = $this->getRequest();
 
@@ -46,7 +46,7 @@ class CategoriesController extends ManageBaseController
     /**
      * {@inheritdoc}
      */
-    protected function defaultAction()
+    protected function defaultAction(): void
     {
         if ($this->cat == 'new') {
             $res = Category::insert();
@@ -66,7 +66,7 @@ class CategoriesController extends ManageBaseController
     /**
      * @param int $res
      */
-    private function updateResult($res)
+    private function updateResult($res): void
     {
         $this->tpl->assign('result', $res);
         $map = [
@@ -80,7 +80,7 @@ class CategoriesController extends ManageBaseController
     /**
      * {@inheritdoc}
      */
-    protected function prepareTemplate()
+    protected function prepareTemplate(): void
     {
         $this->tpl->assign(
             [

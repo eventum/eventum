@@ -100,7 +100,7 @@ class ScmApiCommitTest extends ScmTestCase
 
     private function addFilesListener(&$files): void
     {
-        $listener = function (GenericEvent $event) use (&$files) {
+        $listener = function (GenericEvent $event) use (&$files): void {
             /** @var Entity\Commit $commit */
             $commit = $event->getSubject();
             foreach ($commit->getFiles() as $cf) {

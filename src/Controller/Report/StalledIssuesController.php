@@ -47,7 +47,7 @@ class StalledIssuesController extends ReportBaseController
     /**
      * {@inheritdoc}
      */
-    protected function configure()
+    protected function configure(): void
     {
         $request = $this->getRequest();
 
@@ -69,7 +69,7 @@ class StalledIssuesController extends ReportBaseController
     /**
      * {@inheritdoc}
      */
-    protected function defaultAction()
+    protected function defaultAction(): void
     {
     }
 
@@ -90,7 +90,7 @@ class StalledIssuesController extends ReportBaseController
     /**
      * {@inheritdoc}
      */
-    protected function prepareTemplate()
+    protected function prepareTemplate(): void
     {
         $now = time();
         $before = $this->before ?: date('Y-m-d', $now - Date_Helper::MONTH);

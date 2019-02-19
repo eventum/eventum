@@ -151,7 +151,7 @@ class Mail_Helper
      * @param int $issue_id
      * @param string $maq_type
      */
-    public static function saveOutgoingEmailCopy(MailMessage $mail, $issue_id, $maq_type)
+    public static function saveOutgoingEmailCopy(MailMessage $mail, $issue_id, $maq_type): void
     {
         // check early: do we really want to save every outgoing email?
         $setup = Setup::get();
@@ -187,7 +187,7 @@ class Mail_Helper
      * @param int $issue_id The issue ID
      * @param string $type The type of message this is
      */
-    public static function addSpecializedHeaders(MailMessage $mail, $issue_id, $type)
+    public static function addSpecializedHeaders(MailMessage $mail, $issue_id, $type): void
     {
         $new_headers = [];
         $new_headers['X-Eventum-Type'] = $type;
@@ -296,7 +296,7 @@ class Mail_Helper
      * @param int $issue_id
      * @param string $type
      */
-    public static function rewriteThreadingHeaders(MailMessage $mail, $issue_id, $type = 'email')
+    public static function rewriteThreadingHeaders(MailMessage $mail, $issue_id, $type = 'email'): void
     {
         // check if the In-Reply-To header exists and if so,
         // does it relate to a message stored in Eventum
@@ -348,7 +348,7 @@ class Mail_Helper
      * @param   string $type If this is a note or an email
      * @param   array $references the array the references will be stored in
      */
-    private static function _getReferences($msg_id, $type, &$references)
+    private static function _getReferences($msg_id, $type, &$references): void
     {
         $references[] = $msg_id;
         if ($type == 'note') {

@@ -68,7 +68,7 @@ class News
      * @param   int $nws_id The news ID
      * @param   int $prj_id The project ID
      */
-    public static function addProjectAssociation($nws_id, $prj_id)
+    public static function addProjectAssociation($nws_id, $prj_id): void
     {
         $stmt = 'INSERT INTO
                     `project_news`

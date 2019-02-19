@@ -26,7 +26,7 @@ class ForgotPasswordController extends BaseController
     /**
      * {@inheritdoc}
      */
-    protected function configure()
+    protected function configure(): void
     {
         $request = $this->getRequest();
 
@@ -44,7 +44,7 @@ class ForgotPasswordController extends BaseController
     /**
      * {@inheritdoc}
      */
-    protected function defaultAction()
+    protected function defaultAction(): void
     {
         if ($this->cat == 'reset_password') {
             $res = $this->resetPasswordAction();
@@ -79,7 +79,7 @@ class ForgotPasswordController extends BaseController
     /**
      * {@inheritdoc}
      */
-    protected function prepareTemplate()
+    protected function prepareTemplate(): void
     {
     }
 }

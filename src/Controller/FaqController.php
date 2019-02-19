@@ -32,7 +32,7 @@ class FaqController extends BaseController
     /**
      * {@inheritdoc}
      */
-    protected function configure()
+    protected function configure(): void
     {
         $request = $this->getRequest();
 
@@ -54,7 +54,7 @@ class FaqController extends BaseController
     /**
      * {@inheritdoc}
      */
-    protected function defaultAction()
+    protected function defaultAction(): void
     {
     }
 
@@ -105,7 +105,7 @@ class FaqController extends BaseController
     /**
      * {@inheritdoc}
      */
-    protected function prepareTemplate()
+    protected function prepareTemplate(): void
     {
         $support_level_ids = $this->getSupportLevelIds();
         $this->tpl->assign(

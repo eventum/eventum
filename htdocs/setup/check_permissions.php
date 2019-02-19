@@ -56,7 +56,7 @@ echo '</table>
 </body>
 </html>';
 
-function check_file($title, $path, $comment, $desired_permission)
+function check_file($title, $path, $comment, $desired_permission): void
 {
     $readable = is_readable($path);
     $writeable = is_writable($path);

@@ -105,7 +105,7 @@ class Workflow
      * @param array $updated_custom_fields
      * @since 3.5.0 emits ISSUE_UPDATED event
      */
-    public static function handleIssueUpdated($prj_id, $issue_id, $usr_id, $old_details, $raw_post, $updated_fields, $updated_custom_fields)
+    public static function handleIssueUpdated($prj_id, $issue_id, $usr_id, $old_details, $raw_post, $updated_fields, $updated_custom_fields): void
     {
         Partner::handleIssueChange($issue_id, $usr_id, $old_details, $raw_post);
 
@@ -174,7 +174,7 @@ class Workflow
      * @param   int $usr_id the id of the user who attached this file
      * @param   AttachmentGroup $attachment_group The attachment object
      */
-    public static function handleAttachment($prj_id, $issue_id, $usr_id, AttachmentGroup $attachment_group)
+    public static function handleAttachment($prj_id, $issue_id, $usr_id, AttachmentGroup $attachment_group): void
     {
         if (!self::hasWorkflowIntegration($prj_id)) {
             return;
@@ -212,7 +212,7 @@ class Workflow
      * @param   array $old_details the old details of the issue
      * @param   array $changes The changes that were applied to this issue (the $_POST)
      */
-    public static function handlePriorityChange($prj_id, $issue_id, $usr_id, $old_details, $changes)
+    public static function handlePriorityChange($prj_id, $issue_id, $usr_id, $old_details, $changes): void
     {
         if (!self::hasWorkflowIntegration($prj_id)) {
             return;
@@ -231,7 +231,7 @@ class Workflow
      * @param   array $old_details the old details of the issue
      * @param   array $changes The changes that were applied to this issue (the $_POST)
      */
-    public static function handleSeverityChange($prj_id, $issue_id, $usr_id, $old_details, $changes)
+    public static function handleSeverityChange($prj_id, $issue_id, $usr_id, $old_details, $changes): void
     {
         if (!self::hasWorkflowIntegration($prj_id)) {
             return;
@@ -252,7 +252,7 @@ class Workflow
      * @since 3.4.2 emits BLOCKED_EMAIL event
      * @deprecated use SystemEvents::EMAIL_BLOCKED event listener
      */
-    public static function handleBlockedEmail($prj_id, $issue_id, $email_details, $type, $mail = null)
+    public static function handleBlockedEmail($prj_id, $issue_id, $email_details, $type, $mail = null): void
     {
         $arguments = [
             'prj_id' => (int)$prj_id,
@@ -284,7 +284,7 @@ class Workflow
      * @since 3.4.2 emits ISSUE_ASSIGNMENT_CHANGE event
      * @deprecated since 3.4.2
      */
-    public static function handleAssignmentChange($prj_id, $issue_id, $usr_id, $issue_details, $new_assignees, $remote_assignment = false)
+    public static function handleAssignmentChange($prj_id, $issue_id, $usr_id, $issue_details, $new_assignees, $remote_assignment = false): void
     {
         $arguments = [
             'prj_id' => (int)$prj_id,
@@ -315,7 +315,7 @@ class Workflow
      * @param   bool $has_RR if Round Robin was used to assign this issue
      * @since 3.5.0 emits ISSUE_CREATED event
      */
-    public static function handleNewIssue($prj_id, $issue_id, $has_TAM, $has_RR)
+    public static function handleNewIssue($prj_id, $issue_id, $has_TAM, $has_RR): void
     {
         $usr_id = Auth::getUserID() ?: APP_SYSTEM_USER_ID;
         $arguments = [
@@ -347,7 +347,7 @@ class Workflow
      * @since 3.4.2 emits MAIL_PENDING event
      * @deprecated since 3.4.2
      */
-    public static function handleNewEmail($prj_id, $issue_id, MailMessage $mail, $row, $closing = false)
+    public static function handleNewEmail($prj_id, $issue_id, MailMessage $mail, $row, $closing = false): void
     {
         Partner::handleNewEmail($issue_id, $row['sup_id']);
 
@@ -380,7 +380,7 @@ class Workflow
      * @param   int $prj_id The project ID
      * @param   int $issue_id the ID of the issue
      */
-    public static function handleManualEmailAssociation($prj_id, $issue_id)
+    public static function handleManualEmailAssociation($prj_id, $issue_id): void
     {
         if (!self::hasWorkflowIntegration($prj_id)) {
             return;
@@ -400,7 +400,7 @@ class Workflow
      * @param   int $note_id The ID of the new note
      * @since 3.5.0 emits NOTE_CREATED event
      */
-    public static function handleNewNote($prj_id, $issue_id, $usr_id, $closing, $note_id)
+    public static function handleNewNote($prj_id, $issue_id, $usr_id, $closing, $note_id): void
     {
         Partner::handleNewNote($issue_id, $note_id);
 
@@ -452,7 +452,7 @@ class Workflow
      * @since 3.4.2 emits ISSUE_CLOSED event
      * @deprecated since 3.4.2
      */
-    public static function handleIssueClosed($prj_id, $issue_id, $send_notification, $resolution_id, $status_id, $reason, $usr_id)
+    public static function handleIssueClosed($prj_id, $issue_id, $send_notification, $resolution_id, $status_id, $reason, $usr_id): void
     {
         $issue_details = Issue::getDetails($issue_id, true);
 
@@ -486,7 +486,7 @@ class Workflow
      * @param   array $new the custom fields after the update
      * @param   array $changed an array containing what was changed
      */
-    public static function handleCustomFieldsUpdated($prj_id, $issue_id, $old, $new, $changed)
+    public static function handleCustomFieldsUpdated($prj_id, $issue_id, $old, $new, $changed): void
     {
         if (!self::hasWorkflowIntegration($prj_id)) {
             return;
@@ -748,7 +748,7 @@ class Workflow
      * @param array $options Optional options, see Mail_Queue::queue
      * @since 3.3.0 the method signature changed
      */
-    public static function modifyMailQueue($prj_id, $recipient, MailMessage $mail, $options)
+    public static function modifyMailQueue($prj_id, $recipient, MailMessage $mail, $options): void
     {
         if (!self::hasWorkflowIntegration($prj_id)) {
             return;

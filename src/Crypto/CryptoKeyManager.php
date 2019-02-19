@@ -34,7 +34,7 @@ final class CryptoKeyManager
         $this->keyfile = Setup::getConfigPath() . '/secret_key.php';
     }
 
-    public function regen()
+    public function regen(): void
     {
         $this->generateKey();
     }
@@ -43,7 +43,7 @@ final class CryptoKeyManager
      * Checks if key file can be updated
      * @throws CryptoException
      */
-    public function canUpdate()
+    public function canUpdate(): void
     {
         if (file_exists($this->keyfile) && !is_writable($this->keyfile)) {
             throw new CryptoException("Secret file '{$this->keyfile}' not writable");
@@ -72,7 +72,7 @@ final class CryptoKeyManager
     /**
      * @throws CryptoException
      */
-    private function generateKey()
+    private function generateKey(): void
     {
         try {
             $this->key = Key::createNewRandomKey();
@@ -126,7 +126,7 @@ final class CryptoKeyManager
     /**
      * @throws CryptoException
      */
-    private function storePrivateKey()
+    private function storePrivateKey(): void
     {
         $this->canUpdate();
 

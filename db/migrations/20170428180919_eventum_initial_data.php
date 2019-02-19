@@ -18,7 +18,7 @@ class EventumInitialData extends AbstractMigration
 {
     private const PROJECT_ID = 1;
 
-    public function up()
+    public function up(): void
     {
         $this->columns_to_display();
         $this->history_type();
@@ -43,7 +43,7 @@ class EventumInitialData extends AbstractMigration
     /**
      * @see https://github.com/eventum/eventum/blob/v3.1.10/upgrade/schema.sql#L942-L957
      */
-    private function columns_to_display()
+    private function columns_to_display(): void
     {
         $ctd_prj_id = self::PROJECT_ID;
         $ctd_page = 'list_issues';
@@ -87,7 +87,7 @@ class EventumInitialData extends AbstractMigration
     /**
      * @see https://github.com/eventum/eventum/blob/v3.1.10/upgrade/schema.sql#L73-L132
      */
-    private function history_type()
+    private function history_type(): void
     {
         $history_types = [
             'attachment_removed' => [1, 0],
@@ -175,7 +175,7 @@ class EventumInitialData extends AbstractMigration
     /**
      * @see https://github.com/eventum/eventum/blob/v3.1.10/upgrade/schema.sql#L322
      */
-    private function project()
+    private function project(): void
     {
         $table = $this->table(__FUNCTION__);
         // TODO: use constants or values from config
@@ -199,7 +199,7 @@ class EventumInitialData extends AbstractMigration
     /**
      * @see https://github.com/eventum/eventum/blob/v3.1.10/upgrade/schema.sql#L339-L341
      */
-    private function project_category()
+    private function project_category(): void
     {
         $categories = [
             'Bug',
@@ -222,7 +222,7 @@ class EventumInitialData extends AbstractMigration
     /**
      * @see https://github.com/eventum/eventum/blob/v3.1.10/upgrade/patches/33_set_required_fields.php
      */
-    private function project_field_display()
+    private function project_field_display(): void
     {
         $fields = [
             'category' => 1,
@@ -256,7 +256,7 @@ class EventumInitialData extends AbstractMigration
     /**
      * @see https://github.com/eventum/eventum/blob/v3.1.10/upgrade/schema.sql#L884-L887
      */
-    private function project_phone_category()
+    private function project_phone_category(): void
     {
         $categories = [
             'Sales Issues',
@@ -283,7 +283,7 @@ class EventumInitialData extends AbstractMigration
      * @see https://github.com/eventum/eventum/blob/v3.1.10/upgrade/schema.sql#L296-L300
      * @see https://github.com/eventum/eventum/blob/v3.1.10/upgrade/patches/63_project_priority_icon.sql
      */
-    private function project_priority()
+    private function project_priority(): void
     {
         $priorities = [
             'Critical',
@@ -313,7 +313,7 @@ class EventumInitialData extends AbstractMigration
     /**
      * @see https://github.com/eventum/eventum/blob/v3.1.10/upgrade/schema.sql#L352
      */
-    private function project_release()
+    private function project_release(): void
     {
         $table = $this->table(__FUNCTION__);
         $row = [
@@ -331,7 +331,7 @@ class EventumInitialData extends AbstractMigration
     /**
      * @see https://github.com/eventum/eventum/blob/v3.1.10/upgrade/patches/15_severity.sql
      */
-    private function project_severity()
+    private function project_severity(): void
     {
         $severities = [
             'S1' => 'Total Production Outage',
@@ -360,7 +360,7 @@ class EventumInitialData extends AbstractMigration
     /**
      * @see https://github.com/eventum/eventum/blob/v3.1.10/upgrade/schema.sql#L594-L599
      */
-    private function project_status()
+    private function project_status(): void
     {
         $prs_id = 1;
 
@@ -380,7 +380,7 @@ class EventumInitialData extends AbstractMigration
     /**
      * @see https://github.com/eventum/eventum/blob/v3.1.10/upgrade/schema.sql#L362
      */
-    private function project_user()
+    private function project_user(): void
     {
         $table = $this->table(__FUNCTION__);
         $row = [
@@ -397,7 +397,7 @@ class EventumInitialData extends AbstractMigration
     /**
      * @see https://github.com/eventum/eventum/blob/v3.1.10/upgrade/schema.sql#L687-L690
      */
-    private function reminder_action_type()
+    private function reminder_action_type(): void
     {
         $action_types = [
             'email_assignee' => 'Send Email Alert to Assignee',
@@ -423,7 +423,7 @@ class EventumInitialData extends AbstractMigration
     /**
      * @see https://github.com/eventum/eventum/blob/v3.1.10/upgrade/schema.sql#L713-L720
      */
-    private function reminder_field()
+    private function reminder_field(): void
     {
         $reminder_fields = [
             'Status' => [
@@ -502,7 +502,7 @@ class EventumInitialData extends AbstractMigration
     /**
      * @see https://github.com/eventum/eventum/blob/v3.1.10/upgrade/schema.sql#L729-L736
      */
-    private function reminder_operator()
+    private function reminder_operator(): void
     {
         $reminder_operators = [
             'equal to' => '=',
@@ -533,7 +533,7 @@ class EventumInitialData extends AbstractMigration
      * @see https://github.com/eventum/eventum/blob/v3.1.10/upgrade/schema.sql#L371-L377
      * @see https://github.com/eventum/eventum/blob/v3.1.10/upgrade/patches/09_resolution_rank.sql
      */
-    private function resolution()
+    private function resolution(): void
     {
         $resolutions = [
             2 => 'fixed',
@@ -562,7 +562,7 @@ class EventumInitialData extends AbstractMigration
     /**
      * @see https://github.com/eventum/eventum/blob/v3.1.10/upgrade/schema.sql#L580-L585
      */
-    private function status()
+    private function status(): void
     {
         $statuses = [
             1 => ['discovery', 'DSC', 1, '#CCFFFF', 0],
@@ -593,7 +593,7 @@ class EventumInitialData extends AbstractMigration
     /**
      * @see https://github.com/eventum/eventum/blob/v3.1.10/upgrade/schema.sql#L451-L460
      */
-    private function time_tracking_category()
+    private function time_tracking_category(): void
     {
         $titles = [
             'Development',
@@ -626,7 +626,7 @@ class EventumInitialData extends AbstractMigration
     /**
      * @see https://github.com/eventum/eventum/blob/v3.1.10/upgrade/schema.sql#L481-L482
      */
-    private function user()
+    private function user(): void
     {
         $titles = [
             1 => [

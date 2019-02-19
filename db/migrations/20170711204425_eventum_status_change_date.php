@@ -15,7 +15,7 @@ use Eventum\Db\AbstractMigration;
 
 class EventumStatusChangeDate extends AbstractMigration
 {
-    public function change()
+    public function change(): void
     {
         $this->table('issue')
             ->addColumn('iss_status_change_date', 'datetime',

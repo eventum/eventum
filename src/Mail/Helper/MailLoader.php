@@ -21,7 +21,7 @@ use Zend\Mime;
 
 class MailLoader
 {
-    public static function splitMessage($raw, &$headers, &$content)
+    public static function splitMessage($raw, &$headers, &$content): void
     {
         // do our own header-body splitting.
         //
@@ -52,7 +52,7 @@ class MailLoader
         }
     }
 
-    public static function encodeHeaders(array &$headers)
+    public static function encodeHeaders(array &$headers): void
     {
         foreach ($headers as $k => $v) {
             // Zend\Mail does not like empty headers, "Cc:" for example
@@ -67,7 +67,7 @@ class MailLoader
         }
     }
 
-    public static function convertHeaders(&$headers)
+    public static function convertHeaders(&$headers): void
     {
         // unfold message headers
         $headers = preg_replace("/\r?\n/", "\r\n", $headers);
@@ -83,7 +83,7 @@ class MailLoader
         static::fixBrokenHeaders($headers);
     }
 
-    private static function fallbackMessageSplit($raw, &$headers, &$content)
+    private static function fallbackMessageSplit($raw, &$headers, &$content): void
     {
         // retry with manual \r\n splitting
         // retry our own splitting
@@ -105,7 +105,7 @@ class MailLoader
      *
      * @param string[] $headers
      */
-    private static function fixBrokenHeaders(&$headers)
+    private static function fixBrokenHeaders(&$headers): void
     {
         $bag = new Headers();
 

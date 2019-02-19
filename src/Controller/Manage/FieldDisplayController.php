@@ -32,7 +32,7 @@ class FieldDisplayController extends ManageBaseController
     /**
      * {@inheritdoc}
      */
-    protected function configure()
+    protected function configure(): void
     {
         $request = $this->getRequest();
 
@@ -43,14 +43,14 @@ class FieldDisplayController extends ManageBaseController
     /**
      * {@inheritdoc}
      */
-    protected function defaultAction()
+    protected function defaultAction(): void
     {
         if ($this->fields) {
             $this->updateAction();
         }
     }
 
-    private function updateAction()
+    private function updateAction(): void
     {
         $res = Project::updateFieldDisplaySettings($this->prj_id, $this->fields);
         $this->tpl->assign('result', $res);
@@ -64,7 +64,7 @@ class FieldDisplayController extends ManageBaseController
     /**
      * {@inheritdoc}
      */
-    protected function prepareTemplate()
+    protected function prepareTemplate(): void
     {
         $fields = Project::getDisplayFields();
 

@@ -24,7 +24,7 @@ class HelpController extends BaseController
     /**
      * {@inheritdoc}
      */
-    protected function configure()
+    protected function configure(): void
     {
     }
 
@@ -41,7 +41,7 @@ class HelpController extends BaseController
     /**
      * {@inheritdoc}
      */
-    protected function defaultAction()
+    protected function defaultAction(): void
     {
     }
 
@@ -63,7 +63,7 @@ class HelpController extends BaseController
     /**
      * {@inheritdoc}
      */
-    protected function prepareTemplate()
+    protected function prepareTemplate(): void
     {
         $topic = $this->getTopic();
         $this->tpl->assign(

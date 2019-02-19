@@ -35,7 +35,7 @@ class CustomFieldsController extends ManageBaseController
     /**
      * {@inheritdoc}
      */
-    protected function configure()
+    protected function configure(): void
     {
         $request = $this->getRequest();
 
@@ -45,7 +45,7 @@ class CustomFieldsController extends ManageBaseController
     /**
      * {@inheritdoc}
      */
-    protected function defaultAction()
+    protected function defaultAction(): void
     {
         if ($this->cat == 'new') {
             $this->newAction();
@@ -63,7 +63,7 @@ class CustomFieldsController extends ManageBaseController
         }
     }
 
-    private function newAction()
+    private function newAction(): void
     {
         $res = Custom_Field::insert();
         $map = [
@@ -73,7 +73,7 @@ class CustomFieldsController extends ManageBaseController
         $this->messages->mapMessages($res, $map);
     }
 
-    private function updateAction()
+    private function updateAction(): void
     {
         $res = Custom_Field::update();
         $this->messages->mapMessages(
@@ -85,7 +85,7 @@ class CustomFieldsController extends ManageBaseController
         $this->redirect(APP_RELATIVE_URL . 'manage/custom_fields.php');
     }
 
-    private function deleteAction()
+    private function deleteAction(): void
     {
         $res = Custom_Field::remove();
         $map = [
@@ -95,7 +95,7 @@ class CustomFieldsController extends ManageBaseController
         $this->messages->mapMessages($res, $map);
     }
 
-    private function changeRankAction()
+    private function changeRankAction(): void
     {
         Custom_Field::changeRank();
     }
@@ -103,7 +103,7 @@ class CustomFieldsController extends ManageBaseController
     /**
      * {@inheritdoc}
      */
-    protected function prepareTemplate()
+    protected function prepareTemplate(): void
     {
         $excluded_roles = [];
         if (!CRM::hasCustomerIntegration(Auth::getCurrentProject())) {

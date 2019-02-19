@@ -16,17 +16,17 @@ use Eventum\Extension\IrcNotifyExtension;
 
 class EventumIrcExtension extends AbstractMigration
 {
-    public function up()
+    public function up(): void
     {
         $this->registerExtension();
     }
 
-    public function down()
+    public function down(): void
     {
         $this->unregisterExtension();
     }
 
-    private function registerExtension()
+    private function registerExtension(): void
     {
         $setup = Setup::get();
 
@@ -37,7 +37,7 @@ class EventumIrcExtension extends AbstractMigration
         }
     }
 
-    private function unregisterExtension()
+    private function unregisterExtension(): void
     {
         $setup = Setup::get();
 

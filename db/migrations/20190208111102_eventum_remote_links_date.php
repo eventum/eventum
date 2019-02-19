@@ -15,7 +15,7 @@ use Eventum\Db\AbstractMigration;
 
 class EventumRemoteLinksDate extends AbstractMigration
 {
-    public function change()
+    public function change(): void
     {
         $this->table('remote_link')
             ->addColumn('rel_created_date', 'datetime', ['after' => 'rel_iss_id', 'null' => false])

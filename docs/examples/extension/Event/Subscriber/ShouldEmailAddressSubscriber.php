@@ -20,14 +20,14 @@ use Zend\Mail\Address;
 
 class ShouldEmailAddressSubscriber implements EventSubscriberInterface
 {
-    public static function getSubscribedEvents()
+    public static function getSubscribedEvents(): array
     {
         return [
             SystemEvents::NOTIFICATION_NOTIFY_ADDRESS => 'shouldEmailAddress',
         ];
     }
 
-    public function shouldEmailAddress(ResultableEvent $event)
+    public function shouldEmailAddress(ResultableEvent $event): void
     {
         /** @var Address $address */
         $address = $event['address'];

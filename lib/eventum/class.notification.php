@@ -324,7 +324,7 @@ class Notification
      * - string|bool $type The type of email this is
      * - int $sup_id the ID of this email
      */
-    public static function notifyNewEmail(MailMessage $mail, array $options = [])
+    public static function notifyNewEmail(MailMessage $mail, array $options = []): void
     {
         // create copy of message object to prevent modifications made in this method from
         // being seen in calling method.
@@ -605,7 +605,7 @@ class Notification
      * @param   array $new The new issue details
      * @param   array $updated_custom_fields an array of the custom fields that were changed
      */
-    public static function notifyIssueUpdated($issue_id, $old, $new, $updated_custom_fields)
+    public static function notifyIssueUpdated($issue_id, $old, $new, $updated_custom_fields): void
     {
         $prj_id = Issue::getProjectID($issue_id);
         $diffs = [];
@@ -737,7 +737,7 @@ class Notification
      * @param   int $old_status The old issue status
      * @param   int $new_status The new issue status
      */
-    public static function notifyStatusChange($issue_id, $old_status, $new_status)
+    public static function notifyStatusChange($issue_id, $old_status, $new_status): void
     {
         $diffs = [];
         if ($old_status != $new_status) {
@@ -783,7 +783,7 @@ class Notification
      * @param array $old_assignees array of old assignee user ids
      * @param array $new_assignees array of new assignee user ids
      */
-    public static function notifyAssignmentChange($issue_id, $old_assignees, $new_assignees)
+    public static function notifyAssignmentChange($issue_id, $old_assignees, $new_assignees): void
     {
         $old = [
             'assigned_users' => $old_assignees,
@@ -805,7 +805,7 @@ class Notification
      * @param bool $internal_only Whether the notification should only be sent to internal users or not
      * @param string[] $extra_recipients extra recipients to notify (usr_id list)
      */
-    public static function notify($issue_id, $type, $entry_id, $internal_only, $extra_recipients = [])
+    public static function notify($issue_id, $type, $entry_id, $internal_only, $extra_recipients = []): void
     {
         $prj_id = Issue::getProjectID($issue_id);
         $extra = [];
@@ -973,7 +973,7 @@ class Notification
      * @param   int $type_id The ID of the event that triggered this notification (issue_id, sup_id, not_id, etc)
      * @param   array $headers Any extra headers that need to be added to this email (Default false)
      */
-    private static function notifySubscribers($issue_id, $emails, $type, $data, $subject, $internal_only, $type_id = null, $headers = [])
+    private static function notifySubscribers($issue_id, $emails, $type, $data, $subject, $internal_only, $type_id = null, $headers = []): void
     {
         global $_EVENTUM_LAST_NOTIFIED_LIST;
 
@@ -1117,7 +1117,7 @@ class Notification
      * @param   int $issue_id The issue ID
      * @param   array $exclude_list The list of users NOT to notify. This can either be usr_ids or email addresses
      */
-    public static function notifyNewIssue($prj_id, $issue_id, $exclude_list = [])
+    public static function notifyNewIssue($prj_id, $issue_id, $exclude_list = []): void
     {
         // get all users associated with this project
         $stmt = "SELECT
@@ -1239,7 +1239,7 @@ class Notification
      * @param   string $subject The subject line of the email message
      * @param bool|string $additional_recipient the user who should receive this email who is not the sender of the original email
      */
-    public static function notifyAutoCreatedIssue($prj_id, $issue_id, $sender, $date, $subject, $additional_recipient = false)
+    public static function notifyAutoCreatedIssue($prj_id, $issue_id, $sender, $date, $subject, $additional_recipient = false): void
     {
         if (CRM::hasCustomerIntegration($prj_id)) {
             $crm = CRM::getInstance($prj_id);
@@ -1402,7 +1402,7 @@ class Notification
      *
      * @param   int $usr_id The user ID
      */
-    public static function notifyUserAccount($usr_id)
+    public static function notifyUserAccount($usr_id): void
     {
         $info = User::getDetails($usr_id);
         $info['projects'] = Project::getAssocList($usr_id, true, true);
@@ -1427,7 +1427,7 @@ class Notification
      * @param   int $usr_id The user ID
      * @param   string $password The user' password
      */
-    public static function notifyUserPassword($usr_id, $password)
+    public static function notifyUserPassword($usr_id, $password): void
     {
         $info = User::getDetails($usr_id);
         $info['usr_password'] = $password;
@@ -1453,7 +1453,7 @@ class Notification
      * @param   int $usr_id The user ID
      * @param   string $password The user' password
      */
-    public static function notifyNewUser($usr_id, $password)
+    public static function notifyNewUser($usr_id, $password): void
     {
         $info = User::getDetails($usr_id);
         $info['usr_password'] = $password;
@@ -1479,7 +1479,7 @@ class Notification
      * @param   array $users The list of users
      * @param   int $issue_id The issue ID
      */
-    public static function notifyNewAssignment($users, $issue_id)
+    public static function notifyNewAssignment($users, $issue_id): void
     {
         $prj_id = Issue::getProjectID($issue_id);
         $emails = [];
@@ -2134,7 +2134,7 @@ class Notification
      * @param   int $sub_id The subscription ID
      * @param   string $type The subscription type
      */
-    public static function addType($sub_id, $type)
+    public static function addType($sub_id, $type): void
     {
         $stmt = 'INSERT INTO
                     `subscription_type`
@@ -2217,7 +2217,7 @@ class Notification
      * @param string $subject
      * @param string $text_message
      */
-    private static function notifyUserByMail($usr_id, $subject, $text_message)
+    private static function notifyUserByMail($usr_id, $subject, $text_message): void
     {
         $info = User::getDetails($usr_id);
 
@@ -2248,7 +2248,7 @@ class Notification
      * @param array $options
      * @internal used by reminder_action, otherwise would be private
      */
-    public static function notifyByMail($text_message, $from, $to, $subject, $issue_id, $options = [])
+    public static function notifyByMail($text_message, $from, $to, $subject, $issue_id, $options = []): void
     {
         $to = AddressHeader::fromString($to)->getAddress();
         $from = AddressHeader::fromString($from ?: Setup::get()->smtp->from)->getAddress();

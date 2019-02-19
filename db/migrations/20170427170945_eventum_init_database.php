@@ -15,7 +15,7 @@ use Eventum\Db\AbstractMigration;
 
 class EventumInitDatabase extends AbstractMigration
 {
-    public function change()
+    public function change(): void
     {
         $this->table('api_token', ['id' => false, 'primary_key' => 'apt_id'])
             ->addColumn('apt_id', 'integer', ['length' => 10, 'signed' => false, 'identity' => true])

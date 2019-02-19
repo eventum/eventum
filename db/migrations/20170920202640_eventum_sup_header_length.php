@@ -20,7 +20,7 @@ class EventumSupHeaderLength extends AbstractMigration
     /**
      * here's no down() because we only changed column width
      */
-    public function up()
+    public function up(): void
     {
         $type = self::PHINX_TYPE_STRING;
         $options = ['limit' => self::HEADER_LENGTH, 'default' => ''];

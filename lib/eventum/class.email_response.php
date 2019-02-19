@@ -26,7 +26,7 @@ class Email_Response
      * @param   int $ere_id The email response ID
      * @param   int $prj_id The project ID
      */
-    public static function addProjectAssociation($ere_id, $prj_id)
+    public static function addProjectAssociation($ere_id, $prj_id): void
     {
         $stmt = 'INSERT INTO
                     `project_email_response`

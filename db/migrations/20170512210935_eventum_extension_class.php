@@ -20,7 +20,7 @@ class EventumExtensionClass extends AbstractMigration
      * and we don't implement it ourselves,
      * because it's just width increase change.
      */
-    public function up()
+    public function up(): void
     {
         $this->modifyColumn('partner_project', 'pap_par_code');
         $this->modifyColumn('custom_field', 'fld_backend', ['null' => true]);
@@ -30,7 +30,7 @@ class EventumExtensionClass extends AbstractMigration
         $this->modifyColumn('issue_partner', 'ipa_par_code');
     }
 
-    private function modifyColumn($table, $column, $options = [])
+    private function modifyColumn($table, $column, $options = []): void
     {
         $options += ['limit' => self::TEXT_TINY, 'encoding' => 'ascii'];
         $this->table($table)

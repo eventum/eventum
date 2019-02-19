@@ -27,7 +27,7 @@ class ResolutionController extends ManageBaseController
     /**
      * {@inheritdoc}
      */
-    protected function configure()
+    protected function configure(): void
     {
         $request = $this->getRequest();
 
@@ -37,7 +37,7 @@ class ResolutionController extends ManageBaseController
     /**
      * {@inheritdoc}
      */
-    protected function defaultAction()
+    protected function defaultAction(): void
     {
         if ($this->cat == 'new') {
             $this->newAction();
@@ -52,7 +52,7 @@ class ResolutionController extends ManageBaseController
         }
     }
 
-    private function newAction()
+    private function newAction(): void
     {
         $res = Resolution::insert();
         $map = [
@@ -63,7 +63,7 @@ class ResolutionController extends ManageBaseController
         $this->messages->mapMessages($res, $map);
     }
 
-    private function updateAction()
+    private function updateAction(): void
     {
         $res = Resolution::update();
         $map = [
@@ -74,12 +74,12 @@ class ResolutionController extends ManageBaseController
         $this->messages->mapMessages($res, $map);
     }
 
-    private function deleteAction()
+    private function deleteAction(): void
     {
         Resolution::remove();
     }
 
-    private function editAction()
+    private function editAction(): void
     {
         $get = $this->getRequest()->query;
 
@@ -89,7 +89,7 @@ class ResolutionController extends ManageBaseController
     /**
      * {@inheritdoc}
      */
-    protected function prepareTemplate()
+    protected function prepareTemplate(): void
     {
         $this->tpl->assign(
             [

@@ -39,7 +39,7 @@ class ConvertNoteController extends BaseController
     /**
      * {@inheritdoc}
      */
-    protected function configure()
+    protected function configure(): void
     {
         $request = $this->getRequest();
 
@@ -71,7 +71,7 @@ class ConvertNoteController extends BaseController
     /**
      * {@inheritdoc}
      */
-    protected function defaultAction()
+    protected function defaultAction(): void
     {
         switch ($this->cat) {
             case 'convert':
@@ -80,7 +80,7 @@ class ConvertNoteController extends BaseController
         }
     }
 
-    private function convertNoteAction()
+    private function convertNoteAction(): void
     {
         $post = $this->getRequest()->request;
 
@@ -95,7 +95,7 @@ class ConvertNoteController extends BaseController
     /**
      * {@inheritdoc}
      */
-    protected function prepareTemplate()
+    protected function prepareTemplate(): void
     {
         $this->tpl->assign(
             [

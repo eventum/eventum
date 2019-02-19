@@ -23,7 +23,7 @@ class HistorySubscriber implements EventSubscriberInterface
     /**
      * {@inheritdoc}
      */
-    public static function getSubscribedEvents()
+    public static function getSubscribedEvents(): array
     {
         return [
             SystemEvents::HISTORY_ADD => 'historyAdded',
@@ -33,7 +33,7 @@ class HistorySubscriber implements EventSubscriberInterface
     /**
      * @param GenericEvent $event
      */
-    public function historyAdded(GenericEvent $event)
+    public function historyAdded(GenericEvent $event): void
     {
         $his_summary = Misc::processTokens(ev_gettext($event['his_summary']), $event['his_context']);
 

@@ -15,7 +15,7 @@ use Eventum\Db\AbstractMigration;
 
 class EventumAttachmentsDropStatus extends AbstractMigration
 {
-    public function up()
+    public function up(): void
     {
         $this->table('issue_attachment')
             ->removeColumn('iat_status')
@@ -27,7 +27,7 @@ class EventumAttachmentsDropStatus extends AbstractMigration
      * the default is 'internal' (different than in original db),
      * however this method should be used in development only.
      */
-    public function down()
+    public function down(): void
     {
         $this->table('issue_attachment')
             ->addColumn('iat_status', 'enum', ['default' => 'internal', 'values' => [0 => 'internal', 1 => 'public']])

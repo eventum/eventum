@@ -70,7 +70,7 @@ abstract class AbstractMigration extends PhinxAbstractMigration
      */
     protected $collation;
 
-    public function init()
+    public function init(): void
     {
         // undefine to lazy init the values
         unset($this->engine, $this->charset, $this->collation);
@@ -92,7 +92,7 @@ abstract class AbstractMigration extends PhinxAbstractMigration
      *
      * @see https://github.com/robmorgan/phinx/issues/1095
      */
-    private function initOptions()
+    private function initOptions(): void
     {
         // extract options from phinx.php config
         $options = $this->getAdapter()->getOptions();
@@ -247,7 +247,7 @@ abstract class AbstractMigration extends PhinxAbstractMigration
      * @param string|array $messages The message as an array of lines of a single string
      * @param int $options A bitmask of options (one of the OUTPUT or VERBOSITY constants)
      */
-    protected function writeln($messages, $options = OutputInterface::OUTPUT_NORMAL | OutputInterface::VERBOSITY_NORMAL)
+    protected function writeln($messages, $options = OutputInterface::OUTPUT_NORMAL | OutputInterface::VERBOSITY_NORMAL): void
     {
         $this->output->writeln($messages, $options);
     }

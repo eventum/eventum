@@ -32,7 +32,7 @@ class LdapController extends ManageBaseController
     /**
      * {@inheritdoc}
      */
-    protected function configure()
+    protected function configure(): void
     {
         $request = $this->getRequest();
 
@@ -42,14 +42,14 @@ class LdapController extends ManageBaseController
     /**
      * {@inheritdoc}
      */
-    protected function defaultAction()
+    protected function defaultAction(): void
     {
         if ($this->cat === 'update') {
             $this->updateAction();
         }
     }
 
-    private function updateAction()
+    private function updateAction(): void
     {
         $post = $this->getRequest()->request;
 
@@ -108,7 +108,7 @@ class LdapController extends ManageBaseController
     /**
      * {@inheritdoc}
      */
-    protected function prepareTemplate()
+    protected function prepareTemplate(): void
     {
         $setup = Setup::setDefaults('ldap', $this->getDefaults());
 

@@ -39,7 +39,7 @@ class ResultableEvent extends GenericEvent
     /**
      * Set the result of the event
      */
-    public function setResult($result)
+    public function setResult($result): void
     {
         if ($result === null) {
             throw new InvalidArgumentException('Can not set value as null');

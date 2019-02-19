@@ -35,7 +35,7 @@ class AccountManagersController extends ManageBaseController
     /**
      * {@inheritdoc}
      */
-    protected function configure()
+    protected function configure(): void
     {
         $request = $this->getRequest();
 
@@ -47,7 +47,7 @@ class AccountManagersController extends ManageBaseController
     /**
      * {@inheritdoc}
      */
-    protected function defaultAction()
+    protected function defaultAction(): void
     {
         if ($this->cat == 'new') {
             $res = CRM::insertAccountManager();
@@ -85,7 +85,7 @@ class AccountManagersController extends ManageBaseController
     /**
      * @param int $res
      */
-    private function mapMessages($res)
+    private function mapMessages($res): void
     {
         $map = [
             1 => [ev_gettext('Thank you, the account manager was added successfully.'), MessagesHelper::MSG_INFO],
@@ -97,7 +97,7 @@ class AccountManagersController extends ManageBaseController
     /**
      * {@inheritdoc}
      */
-    protected function prepareTemplate()
+    protected function prepareTemplate(): void
     {
         $this->tpl->assign(
             [

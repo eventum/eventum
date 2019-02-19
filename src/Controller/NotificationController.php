@@ -41,7 +41,7 @@ class NotificationController extends BaseController
     /**
      * {@inheritdoc}
      */
-    protected function configure()
+    protected function configure(): void
     {
         $request = $this->getRequest();
 
@@ -66,7 +66,7 @@ class NotificationController extends BaseController
     /**
      * {@inheritdoc}
      */
-    protected function defaultAction()
+    protected function defaultAction(): void
     {
         switch ($this->cat) {
             case 'insert':
@@ -84,7 +84,7 @@ class NotificationController extends BaseController
         }
     }
 
-    private function insertAction()
+    private function insertAction(): void
     {
         $post = $this->getRequest()->request;
 
@@ -94,7 +94,7 @@ class NotificationController extends BaseController
         }
     }
 
-    private function updateAction()
+    private function updateAction(): void
     {
         $post = $this->getRequest()->request;
 
@@ -110,7 +110,7 @@ class NotificationController extends BaseController
         $this->redirect(APP_RELATIVE_URL . 'notification.php', ['iss_id' => $this->issue_id]);
     }
 
-    private function deleteAction()
+    private function deleteAction(): void
     {
         $post = $this->getRequest()->request;
 
@@ -123,7 +123,7 @@ class NotificationController extends BaseController
     /**
      * {@inheritdoc}
      */
-    protected function prepareTemplate()
+    protected function prepareTemplate(): void
     {
         $default_actions = Notification::getDefaultActions();
 

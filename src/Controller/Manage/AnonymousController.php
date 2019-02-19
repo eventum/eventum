@@ -32,7 +32,7 @@ class AnonymousController extends ManageBaseController
     /**
      * {@inheritdoc}
      */
-    protected function configure()
+    protected function configure(): void
     {
         $request = $this->getRequest();
 
@@ -43,14 +43,14 @@ class AnonymousController extends ManageBaseController
     /**
      * {@inheritdoc}
      */
-    protected function defaultAction()
+    protected function defaultAction(): void
     {
         if ($this->cat == 'update') {
             $this->updateAnonymousPostAction();
         }
     }
 
-    private function updateAnonymousPostAction()
+    private function updateAnonymousPostAction(): void
     {
         $res = Project::updateAnonymousPost($this->prj_id);
         $this->tpl->assign('result', $res);
@@ -64,7 +64,7 @@ class AnonymousController extends ManageBaseController
     /**
      * {@inheritdoc}
      */
-    protected function prepareTemplate()
+    protected function prepareTemplate(): void
     {
         // load the form fields
         $this->tpl->assign(

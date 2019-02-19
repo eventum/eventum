@@ -25,7 +25,7 @@ class EventumAuthAdapterSetup extends AbstractMigration
         'cas_auth_backend' => Adapter\CasAdapter::class,
     ];
 
-    public function up()
+    public function up(): void
     {
         if ($this->hasFallbackEnabled()) {
             $this->classMapping['ldap_auth_backend'] = Adapter\ChainAdapter::class;
@@ -34,7 +34,7 @@ class EventumAuthAdapterSetup extends AbstractMigration
         $this->setupAuthAdapter();
     }
 
-    public function down()
+    public function down(): void
     {
     }
 

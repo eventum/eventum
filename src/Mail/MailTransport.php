@@ -35,7 +35,7 @@ class MailTransport
      * @param MailMessage $mail
      * @throws Exception
      */
-    public function send($recipient, MailMessage $mail)
+    public function send($recipient, MailMessage $mail): void
     {
         $transport = $this->getTransport();
 

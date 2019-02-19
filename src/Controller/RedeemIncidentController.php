@@ -43,7 +43,7 @@ class RedeemIncidentController extends BaseController
     /**
      * {@inheritdoc}
      */
-    protected function configure()
+    protected function configure(): void
     {
         $request = $this->getRequest();
 
@@ -75,7 +75,7 @@ class RedeemIncidentController extends BaseController
     /**
      * {@inheritdoc}
      */
-    protected function defaultAction()
+    protected function defaultAction(): void
     {
         $crm = CRM::getInstance($this->prj_id);
         $contract = $crm->getContract(Issue::getContractID($this->issue_id));
@@ -99,7 +99,7 @@ class RedeemIncidentController extends BaseController
      *
      * @param Contract $contract
      */
-    private function updateRedeemedIncidents(Contract $contract)
+    private function updateRedeemedIncidents(Contract $contract): void
     {
         $request = $this->getRequest();
         $redeem = $request->get('redeem');
@@ -118,7 +118,7 @@ class RedeemIncidentController extends BaseController
     /**
      * {@inheritdoc}
      */
-    protected function prepareTemplate()
+    protected function prepareTemplate(): void
     {
     }
 }

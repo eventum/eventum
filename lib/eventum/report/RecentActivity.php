@@ -59,7 +59,7 @@ class RecentActivity
         }
     }
 
-    public function __invoke(Template_Helper $tpl)
+    public function __invoke(Template_Helper $tpl): void
     {
         $units = [
             'hour' => ev_gettext('Hours'),
@@ -304,7 +304,7 @@ class RecentActivity
      * @param string $date_field
      * @param string $user_field
      */
-    private function createWhereClause(&$sql, &$params, $date_field, $user_field = null)
+    private function createWhereClause(&$sql, &$params, $date_field, $user_field = null): void
     {
         if ($this->report_type == 'recent') {
             $sql .= "$date_field >= DATE_SUB(?, INTERVAL ? {$this->unit})";
@@ -327,7 +327,7 @@ class RecentActivity
      * @param string $date_field
      * @param string $issue_field
      */
-    private function processResult(&$data, $date_field, $issue_field)
+    private function processResult(&$data, $date_field, $issue_field): void
     {
         $timezone = Date_Helper::getPreferredTimezone($this->usr_id);
         foreach ($data as &$res) {

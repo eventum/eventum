@@ -15,7 +15,7 @@ use Eventum\Db\AbstractMigration;
 
 class EventumDbCharsetConfig extends AbstractMigration
 {
-    public function up()
+    public function up(): void
     {
         $config = Setup::get();
         $config['database']['charset'] = $this->getCharset();

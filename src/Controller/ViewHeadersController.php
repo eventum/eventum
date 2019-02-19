@@ -31,7 +31,7 @@ class ViewHeadersController extends BaseController
     /**
      * {@inheritdoc}
      */
-    protected function configure()
+    protected function configure(): void
     {
         $request = $this->getRequest();
 
@@ -52,14 +52,14 @@ class ViewHeadersController extends BaseController
     /**
      * {@inheritdoc}
      */
-    protected function defaultAction()
+    protected function defaultAction(): void
     {
     }
 
     /**
      * {@inheritdoc}
      */
-    protected function prepareTemplate()
+    protected function prepareTemplate(): void
     {
         if ($this->cat == 'note') {
             $mail = Note::getNoteMessage($this->id);

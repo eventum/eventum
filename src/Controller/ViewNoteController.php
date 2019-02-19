@@ -41,7 +41,7 @@ class ViewNoteController extends BaseController
     /**
      * {@inheritdoc}
      */
-    protected function configure()
+    protected function configure(): void
     {
         $get = $this->getRequest()->query;
 
@@ -72,14 +72,14 @@ class ViewNoteController extends BaseController
     /**
      * {@inheritdoc}
      */
-    protected function defaultAction()
+    protected function defaultAction(): void
     {
     }
 
     /**
      * {@inheritdoc}
      */
-    protected function prepareTemplate()
+    protected function prepareTemplate(): void
     {
         $seq_no = Note::getNoteSequenceNumber($this->issue_id, $this->note_id);
         // TRANSLATORS: %1: note sequence number, %2: note title
@@ -99,7 +99,7 @@ class ViewNoteController extends BaseController
      * Sets the next and previous notes associated with the given issue Id
      * and the currently selected note.
      */
-    private function setSideLinks()
+    private function setSideLinks(): void
     {
         if (!$this->issue_id) {
             return;

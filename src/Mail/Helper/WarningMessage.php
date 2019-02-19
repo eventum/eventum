@@ -39,7 +39,7 @@ class WarningMessage
      * @param int $issue_id The issue ID
      * @param string $recipient_email The recipient email of the message
      */
-    public function add($issue_id, $recipient_email)
+    public function add($issue_id, $recipient_email): void
     {
         if (!$this->enabled()) {
             return;
@@ -63,7 +63,7 @@ class WarningMessage
         );
     }
 
-    public function remove()
+    public function remove(): void
     {
         if (!$this->enabled()) {
             return;
@@ -84,7 +84,7 @@ class WarningMessage
     /**
      * @param Closure $callback
      */
-    protected function modifyContent(Closure $callback)
+    protected function modifyContent(Closure $callback): void
     {
         $mail = $this->mail;
 

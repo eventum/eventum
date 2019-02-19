@@ -32,7 +32,7 @@ class EncryptionController extends ManageBaseController
     /**
      * {@inheritdoc}
      */
-    protected function configure()
+    protected function configure(): void
     {
         $request = $this->getRequest();
 
@@ -42,7 +42,7 @@ class EncryptionController extends ManageBaseController
     /**
      * {@inheritdoc}
      */
-    protected function defaultAction()
+    protected function defaultAction(): void
     {
         switch ($this->cat) {
             case 'regenerate':
@@ -54,7 +54,7 @@ class EncryptionController extends ManageBaseController
         }
     }
 
-    private function regenerateAction()
+    private function regenerateAction(): void
     {
         $cm = new CryptoUpgradeManager();
 
@@ -67,7 +67,7 @@ class EncryptionController extends ManageBaseController
         }
     }
 
-    private function activateAction()
+    private function activateAction(): void
     {
         $post = $this->getRequest()->request;
         $enable = $post->get('encryption');
@@ -97,7 +97,7 @@ class EncryptionController extends ManageBaseController
     /**
      * {@inheritdoc}
      */
-    protected function prepareTemplate()
+    protected function prepareTemplate(): void
     {
         $setup = Setup::get();
         $this->tpl->assign(

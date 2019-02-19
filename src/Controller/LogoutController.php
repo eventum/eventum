@@ -20,7 +20,7 @@ class LogoutController extends BaseController
     /**
      * {@inheritdoc}
      */
-    protected function configure()
+    protected function configure(): void
     {
     }
 
@@ -35,7 +35,7 @@ class LogoutController extends BaseController
     /**
      * {@inheritdoc}
      */
-    protected function defaultAction()
+    protected function defaultAction(): void
     {
         Auth::logout();
         $this->redirect('index.php?err=6');
@@ -44,7 +44,7 @@ class LogoutController extends BaseController
     /**
      * {@inheritdoc}
      */
-    protected function prepareTemplate()
+    protected function prepareTemplate(): void
     {
     }
 }

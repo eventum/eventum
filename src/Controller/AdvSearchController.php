@@ -42,7 +42,7 @@ class AdvSearchController extends BaseController
     /**
      * {@inheritdoc}
      */
-    protected function configure()
+    protected function configure(): void
     {
         $request = $this->getRequest();
 
@@ -72,14 +72,14 @@ class AdvSearchController extends BaseController
     /**
      * {@inheritdoc}
      */
-    protected function defaultAction()
+    protected function defaultAction(): void
     {
     }
 
     /**
      * {@inheritdoc}
      */
-    protected function prepareTemplate()
+    protected function prepareTemplate(): void
     {
         $users = Project::getUserAssocList($this->prj_id, 'active', User::ROLE_CUSTOMER);
         $assign_options = $this->assign->getAssignOptions($users);

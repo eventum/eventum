@@ -196,7 +196,7 @@ class PlotHelper
      *
      * @param string $type
      */
-    public function WorkloadTimePeriodGraph($type)
+    public function WorkloadTimePeriodGraph($type): void
     {
         $usr_id = Auth::getUserID();
 

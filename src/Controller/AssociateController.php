@@ -50,7 +50,7 @@ class AssociateController extends BaseController
     /**
      * {@inheritdoc}
      */
-    protected function configure()
+    protected function configure(): void
     {
         $request = $this->getRequest();
 
@@ -76,7 +76,7 @@ class AssociateController extends BaseController
     /**
      * {@inheritdoc}
      */
-    protected function defaultAction()
+    protected function defaultAction(): void
     {
         if ($this->cat === 'associate') {
             $this->associateAction();
@@ -87,7 +87,7 @@ class AssociateController extends BaseController
 
     // TODO: this method could use cleanup/rewrite
     // FIXME: get rid of $_POST
-    public function associateAction()
+    public function associateAction(): void
     {
         if ($this->target === 'email') {
             $res = Support::associate($this->usr_id, $this->issue_id, $this->items);
@@ -126,7 +126,7 @@ class AssociateController extends BaseController
     }
 
     // TODO: this method could use cleanup/rewrite
-    private function listAction()
+    private function listAction(): void
     {
         $this->tpl->assign([
             'emails' => $this->items,
@@ -179,7 +179,7 @@ class AssociateController extends BaseController
     /**
      * {@inheritdoc}
      */
-    protected function prepareTemplate()
+    protected function prepareTemplate(): void
     {
     }
 }

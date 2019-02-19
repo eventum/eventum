@@ -320,7 +320,7 @@ class Email_Account
      * @param int $ema_id
      * @param string $password plain text password
      */
-    public static function updatePassword($ema_id, $password)
+    public static function updatePassword($ema_id, $password): void
     {
         $stmt = 'UPDATE
                     `email_account`

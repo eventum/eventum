@@ -22,7 +22,7 @@ class EventumMaqMessageId extends AbstractMigration
     /** @var LoggerInterface */
     private $logger;
 
-    public function up()
+    public function up(): void
     {
         $this->logger = Logger::getInstance('db');
 
@@ -117,7 +117,7 @@ class EventumMaqMessageId extends AbstractMigration
         return $rows[0];
     }
 
-    private function setMessageId($maq_id, $messageId)
+    private function setMessageId($maq_id, $messageId): void
     {
         // NOTE: no method to quote from phinx,
         // but $messageId should be sql safe after it came from Zend\Mail

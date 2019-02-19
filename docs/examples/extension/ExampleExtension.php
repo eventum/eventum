@@ -34,10 +34,10 @@ class ExampleExtension extends AbstractExtension
      *
      * @param \Composer\Autoload\ClassLoader $loader
      */
-    public function registerAutoloader($loader)
+    public function registerAutoloader($loader): void
     {
         $phpDir = '/usr/share/php';
-        $baseDir = dirname(dirname(dirname(__DIR__)));
+        $baseDir = dirname(__DIR__, 3);
 
         $classmap = [
             'example_Workflow_Backend' => $baseDir . '/src/Workflow/example_Workflow_Backend.php',
@@ -65,7 +65,7 @@ class ExampleExtension extends AbstractExtension
      *
      * @return string[]
      */
-    public function getAvailableWorkflows()
+    public function getAvailableWorkflows(): array
     {
         return [
             /*
@@ -79,7 +79,7 @@ class ExampleExtension extends AbstractExtension
      *
      * @return string[]
      */
-    public function getAvailableCustomFields()
+    public function getAvailableCustomFields(): array
     {
         return [
         ];
@@ -90,7 +90,7 @@ class ExampleExtension extends AbstractExtension
      *
      * @return string[]
      */
-    public function getAvailablePartners()
+    public function getAvailablePartners(): array
     {
         return [
             /*
@@ -105,7 +105,7 @@ class ExampleExtension extends AbstractExtension
      *
      * @return string[]
      */
-    public function getAvailableCRMs()
+    public function getAvailableCRMs(): array
     {
         return [
             /*
@@ -121,7 +121,7 @@ class ExampleExtension extends AbstractExtension
      * @see \Symfony\Component\EventDispatcher\EventSubscriberInterface
      * @return string[]
      */
-    public function getSubscribers()
+    public function getSubscribers(): array
     {
         return [
             Subscriber\CryptoSubscriber::class,

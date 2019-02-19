@@ -25,7 +25,7 @@ use User;
 
 class IrcSubscriber implements EventSubscriberInterface
 {
-    public static function getSubscribedEvents()
+    public static function getSubscribedEvents(): array
     {
         return [
             SystemEvents::EMAIL_BLOCKED => 'emailBlocked',
@@ -42,7 +42,7 @@ class IrcSubscriber implements EventSubscriberInterface
      * @param string $eventName
      * @param EventDispatcherInterface $dispatcher
      */
-    public function emailBlocked(GenericEvent $event, $eventName, EventDispatcherInterface $dispatcher)
+    public function emailBlocked(GenericEvent $event, $eventName, EventDispatcherInterface $dispatcher): void
     {
         $issue_id = $event['issue_id'];
         $email_details = $event['email_details'];
@@ -59,7 +59,7 @@ class IrcSubscriber implements EventSubscriberInterface
         $this->notifyIrc($dispatcher, $event, $notice);
     }
 
-    public function assignmentChange(GenericEvent $event, $eventName, EventDispatcherInterface $dispatcher)
+    public function assignmentChange(GenericEvent $event, $eventName, EventDispatcherInterface $dispatcher): void
     {
         $new_assignees = $event['new_assignees'];
 
@@ -98,7 +98,7 @@ class IrcSubscriber implements EventSubscriberInterface
         $this->notifyIrc($dispatcher, $event, $notice);
     }
 
-    public function issueClosed(GenericEvent $event, $eventName, EventDispatcherInterface $dispatcher)
+    public function issueClosed(GenericEvent $event, $eventName, EventDispatcherInterface $dispatcher): void
     {
         $issue_details = $event['issue_details'];
 
@@ -113,7 +113,7 @@ class IrcSubscriber implements EventSubscriberInterface
         $this->notifyIrc($dispatcher, $event, $irc_message);
     }
 
-    public function mailPending(GenericEvent $event, $eventName, EventDispatcherInterface $dispatcher)
+    public function mailPending(GenericEvent $event, $eventName, EventDispatcherInterface $dispatcher): void
     {
         /** @var MailMessage $mail */
         $mail = $event->getSubject();
@@ -131,7 +131,7 @@ class IrcSubscriber implements EventSubscriberInterface
      * @param string $eventName
      * @param EventDispatcherInterface $dispatcher
      */
-    public function notifyIssueCreated(GenericEvent $event, $eventName, EventDispatcherInterface $dispatcher)
+    public function notifyIssueCreated(GenericEvent $event, $eventName, EventDispatcherInterface $dispatcher): void
     {
         $issue_id = $event['issue_id'];
         $data = $event['data'];
@@ -168,7 +168,7 @@ class IrcSubscriber implements EventSubscriberInterface
      * @param string $eventName
      * @param EventDispatcherInterface $dispatcher
      */
-    public function reminderAction(GenericEvent $event, $eventName, EventDispatcherInterface $dispatcher)
+    public function reminderAction(GenericEvent $event, $eventName, EventDispatcherInterface $dispatcher): void
     {
         $issue_id = $event['issue_id'];
         $action = $event['action'];
@@ -205,7 +205,7 @@ class IrcSubscriber implements EventSubscriberInterface
      * @param string $category
      * @param string $type
      */
-    private function notifyIrc(EventDispatcherInterface $dispatcher, GenericEvent $sourceEvent, $notice, $category = null, $type = null)
+    private function notifyIrc(EventDispatcherInterface $dispatcher, GenericEvent $sourceEvent, $notice, $category = null, $type = null): void
     {
         $arguments = [
             'prj_id' => $sourceEvent['project_id'],

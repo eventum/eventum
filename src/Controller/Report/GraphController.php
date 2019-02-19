@@ -24,7 +24,7 @@ class GraphController extends ReportBaseController
     /**
      * {@inheritdoc}
      */
-    protected function configure()
+    protected function configure(): void
     {
         $request = $this->getRequest();
 
@@ -34,7 +34,7 @@ class GraphController extends ReportBaseController
     /**
      * {@inheritdoc}
      */
-    protected function defaultAction()
+    protected function defaultAction(): void
     {
         switch ($this->graph) {
             case 'custom_fields':
@@ -109,7 +109,7 @@ class GraphController extends ReportBaseController
     /**
      * {@inheritdoc}
      */
-    protected function prepareTemplate()
+    protected function prepareTemplate(): void
     {
     }
 }

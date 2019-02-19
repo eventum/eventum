@@ -44,7 +44,7 @@ class UserFile
         $this->userdir = $userdir;
     }
 
-    public function __invoke()
+    public function __invoke(): void
     {
         $userfiles = [
             'userscript' => 'js',

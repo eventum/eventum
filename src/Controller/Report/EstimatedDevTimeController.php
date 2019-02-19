@@ -23,14 +23,14 @@ class EstimatedDevTimeController extends ReportBaseController
     /**
      * {@inheritdoc}
      */
-    protected function configure()
+    protected function configure(): void
     {
     }
 
     /**
      * {@inheritdoc}
      */
-    protected function defaultAction()
+    protected function defaultAction(): void
     {
     }
 
@@ -74,7 +74,7 @@ class EstimatedDevTimeController extends ReportBaseController
     /**
      * {@inheritdoc}
      */
-    protected function prepareTemplate()
+    protected function prepareTemplate(): void
     {
         $this->tpl->assign('data', $this->getEstimatedDevTimeReport());
     }

@@ -68,7 +68,7 @@ abstract class BaseController
      * Checks access, invokes defaultAction()
      * and if defaultAction() does not return proper value, throws an exception
      */
-    public function run()
+    public function run(): void
     {
         // NOTE: canAccess needs $issue_id for the template
         if (!$this->canRoleAccess() || !$this->canAccess()) {
@@ -104,7 +104,7 @@ abstract class BaseController
      *
      * @param string $tpl_name
      */
-    protected function displayTemplate($tpl_name = null)
+    protected function displayTemplate($tpl_name = null): void
     {
         $this->tpl->assign(
             [
@@ -148,7 +148,7 @@ abstract class BaseController
      *
      * @param string $msg
      */
-    protected function error($msg)
+    protected function error($msg): void
     {
         $this->messages->addErrorMessage($msg);
         $this->displayTemplate('error_message.tpl.html');
@@ -163,7 +163,7 @@ abstract class BaseController
      * @param array $params
      * @param bool $allow_external If external urls should be allowed
      */
-    protected function redirect($url, $params = [], $allow_external = false)
+    protected function redirect($url, $params = [], $allow_external = false): void
     {
         $url = trim($url);
         if ($params) {

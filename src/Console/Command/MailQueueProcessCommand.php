@@ -24,17 +24,17 @@ class MailQueueProcessCommand
     /** @var string */
     private $lock_name = 'process_mail_queue';
 
-    public function execute()
+    public function execute(): void
     {
         $lock = new ConcurrentLock($this->lock_name);
         $lock->synchronized(
-            function () {
+            function (): void {
                 $this->processMailQueue();
             }
         );
     }
 
-    private function processMailQueue()
+    private function processMailQueue(): void
     {
         // handle only pending emails
         $limit = 50;
