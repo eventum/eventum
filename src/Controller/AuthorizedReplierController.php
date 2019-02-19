@@ -16,7 +16,6 @@ namespace Eventum\Controller;
 use Access;
 use Auth;
 use Authorized_Replier;
-use Eventum\Monolog\Logger;
 use Project;
 use RuntimeException;
 use Throwable;
@@ -116,8 +115,7 @@ class AuthorizedReplierController extends BaseController
             $message = ev_gettext('Thank you, the authorized replier was deleted successfully.');
             $this->messages->addInfoMessage($message);
         } catch (Throwable $e) {
-            Logger::app()->error($e);
-
+            $this->logger->error($e);
             $message = ev_gettext('An error occurred while trying to delete the authorized replier.');
             $this->messages->addErrorMessage($message);
         }

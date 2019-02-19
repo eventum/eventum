@@ -27,6 +27,7 @@ use Template_Helper;
  * @property-read Helper\AttachHelper $attach
  * @property-read Helper\CsrfHelper $csrf
  * @property-read Helper\HtmlHelper $html
+ * @property-read Helper\LoggerHelper $logger
  * @property-read Helper\MessagesHelper $messages
  * @property-read Helper\PlotHelper $plot
  * @property-read Helper\RepositoryHelper $repository

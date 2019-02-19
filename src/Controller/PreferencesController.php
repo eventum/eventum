@@ -16,7 +16,6 @@ namespace Eventum\Controller;
 use APIAuthToken;
 use Auth;
 use Date_Helper;
-use Eventum\Monolog\Logger;
 use Exception;
 use Language;
 use Prefs;
@@ -159,7 +158,7 @@ class PreferencesController extends BaseController
 
             return 1;
         } catch (Exception $e) {
-            Logger::app()->error($e);
+            $this->logger->error($e);
 
             return -1;
         }

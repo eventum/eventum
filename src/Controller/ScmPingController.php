@@ -13,21 +13,16 @@
 
 namespace Eventum\Controller;
 
-use Eventum\Monolog\Logger;
 use Eventum\Scm;
 use Exception;
 
 class ScmPingController extends BaseController
 {
-    /** @var \Monolog\Logger */
-    private $logger;
-
     /**
      * {@inheritdoc}
      */
     protected function configure(): void
     {
-        $this->logger = Logger::app();
     }
 
     /**
