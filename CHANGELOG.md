@@ -5,6 +5,7 @@
 Upgrading to 3.6.x versions requires that you upgrade to latest 3.5.x version first.
 
 - Add TaskListMatcher with example to update issue complete percentage (@glensc, #473)
+- Match better merge request title from GitLab event (@glensc, #475)
 
 [3.6.1]: https://github.com/eventum/eventum/compare/v3.6.0...master
 
@@ -27,7 +28,7 @@ first, also the PHP version required is 7.1, see [#426].
 - Move Login-Back-Off logic to MySQL adapter only (@glensc, #455)
 - Use `symfony/var-exporter` for writing config files (@glensc, #456)
 - Add support to fill "Mentioned on" data (remote links) (@glensc, #447, #449, #467)
-- Listen for Issue/Note GitLab events (@glensc, #337, #448)
+- Listen for Issue/Note GitLab events (@glensc, #448)
 - xmlrpc: verify token first to avoid incrementing failed logins (@glensc, #463)
 - Do issue duplication and close in same step (@glensc, #127)
 - Fixed bug when remove authorized replier removed only first user (@glensc, #464)
