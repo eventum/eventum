@@ -99,31 +99,27 @@ class GitlabPayload implements PayloadInterface
 
     public function getIssueId(): ?int
     {
-        return $this->getObjectId(self::OBJECT_TYPE_ISSUE);
+        return $this->getObjectAttribute(self::OBJECT_TYPE_ISSUE, 'iid');
     }
 
     public function getMergeRequestId(): ?int
     {
-        return $this->getObjectId(self::OBJECT_TYPE_MERGE_REQUEST);
-    }
-
-    private function getObjectId(string $objectKind): ?int
-    {
-        $id = $this->payload[$objectKind]['iid'] ?? null;
-        if ($id) {
-            return $id;
-        }
-
-        if ($this->payload['object_kind'] ?? null === $objectKind) {
-            return $this->payload['object_attributes']['iid'];
-        }
-
-        return null;
+        return $this->getObjectAttribute(self::OBJECT_TYPE_MERGE_REQUEST, 'iid');
     }
 
     public function getTitle(): ?string
     {
-        return $this->payload['object_attributes']['title'] ?? null;
+        return $this->getIssueTitle() ?: $this->getMergeRequestTitle() ?: null;
+    }
+
+    public function getIssueTitle(): ?string
+    {
+        return $this->getObjectAttribute(self::OBJECT_TYPE_ISSUE, 'title');
+    }
+
+    public function getMergeRequestTitle(): ?string
+    {
+        return $this->getObjectAttribute(self::OBJECT_TYPE_MERGE_REQUEST, 'title');
     }
 
     /**
@@ -164,5 +160,19 @@ class GitlabPayload implements PayloadInterface
     public function getPayload(): array
     {
         return $this->payload;
+    }
+
+    private function getObjectAttribute(string $kind, string $attribute): ?int
+    {
+        $value = $this->payload[$kind][$attribute] ?? null;
+        if ($value !== null) {
+            return $value;
+        }
+
+        if ($this->payload['object_kind'] ?? null === $kind) {
+            return $this->payload['object_attributes'][$attribute] ?? null;
+        }
+
+        return null;
     }
 }
