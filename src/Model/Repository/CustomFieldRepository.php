@@ -20,6 +20,9 @@ use Eventum\Model\Entity;
 use Eventum\Model\Repository\Traits\FindByIdTrait;
 use RuntimeException;
 
+/**
+ * @method Entity\CustomField findById(int $fld_id)
+ */
 class CustomFieldRepository extends EntityRepository
 {
     use FindByIdTrait;
@@ -156,7 +159,6 @@ class CustomFieldRepository extends EntityRepository
 
     public function updateCustomFieldOptions(int $fld_id, array $updateOptions, array $addOptions): void
     {
-        /** @var Entity\CustomField $cf */
         $cf = $this->findById($fld_id);
         $options = $cf->getOptions();
         $em = $this->getEntityManager();
@@ -168,7 +170,6 @@ class CustomFieldRepository extends EntityRepository
             $options->removeElement($cfo);
         }
 
-        // delete any options leftover
         foreach ($options as $cfo) {
             $em->remove($cfo);
         }
@@ -180,6 +181,24 @@ class CustomFieldRepository extends EntityRepository
 
             $cfo = $cf->addOptionValue($cfo_value, $rank++);
             $em->persist($cfo);
+        }
+
+        $em->flush();
+    }
+
+    public function setProjectAssociation(Entity\CustomField $cf, array $projects): void
+    {
+        $em = $this->getEntityManager();
+        $collection = $cf->getProjects();
+
+        foreach ($projects as $prj_id) {
+            $pcf = $cf->addProjectById($prj_id);
+            $em->persist($pcf);
+            $collection->removeElement($pcf);
+        }
+
+        foreach ($collection as $pcf) {
+            $em->remove($pcf);
         }
 
         $em->flush();

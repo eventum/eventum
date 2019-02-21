@@ -13,6 +13,7 @@
 
 namespace Eventum\Model\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\Common\Collections\Expr\Comparison;
@@ -168,11 +169,16 @@ class CustomField
     public $issues;
 
     /**
-     * @var ProjectCustomField[]
+     * @var ProjectCustomField[]|PersistentCollection
      * @ORM\OneToMany(targetEntity="ProjectCustomField", mappedBy="customField")
      * @ORM\JoinColumn(name="id", referencedColumnName="icf_iss_id")
      */
     public $projects;
+
+    public function __construct()
+    {
+        $this->projects = new ArrayCollection();
+    }
 
     public function getId(): int
     {
@@ -431,17 +437,40 @@ class CustomField
         $expr = new Comparison('id', '=', $cfo_id);
         $criteria = Criteria::create()->where($expr);
 
-        $collection = $this->options->matching($criteria);
-        if ($collection->isEmpty()) {
-            return null;
+        return $this->getOne($this->options, $criteria);
+    }
+
+    public function getProjects(): Collection
+    {
+        return $this->projects;
+    }
+
+    public function addProject(ProjectCustomField $pcf): self
+    {
+        $this->projects->add($pcf);
+
+        return $this;
+    }
+
+    public function addProjectById(int $prj_id): ProjectCustomField
+    {
+        $pcf = $this->getProjectFieldById($prj_id);
+        if (!$pcf) {
+            $pcf = new ProjectCustomField();
+            $pcf->setCustomField($this);
         }
 
-        if ($collection->count() !== 1) {
-            $count = $collection->count();
-            throw new RuntimeException("Expected one element, got $count");
-        }
+        $pcf->setProjectId($prj_id);
 
-        return $collection->first();
+        return $pcf;
+    }
+
+    private function getProjectFieldById(int $prj_id): ?ProjectCustomField
+    {
+        $expr = new Comparison('projectId', '=', $prj_id);
+        $criteria = Criteria::create()->where($expr);
+
+        return $this->getOne($this->projects, $criteria);
     }
 
     /**
@@ -453,5 +482,20 @@ class CustomField
         $criteria = Criteria::create()->where($expr);
 
         return $this->issues->matching($criteria);
+    }
+
+    private function getOne(PersistentCollection $collection, Criteria $criteria)
+    {
+        $matches = $collection->matching($criteria);
+        if ($matches->isEmpty()) {
+            return null;
+        }
+
+        if ($matches->count() !== 1) {
+            $count = $matches->count();
+            throw new RuntimeException("Expected one element, got $count");
+        }
+
+        return $matches->first();
     }
 }

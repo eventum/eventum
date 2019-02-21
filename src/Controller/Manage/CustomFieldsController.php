@@ -95,6 +95,7 @@ class CustomFieldsController extends ManageBaseController
             $old_details = Custom_Field::getDetails($fld_id);
             $repo->persistAndFlush($cf);
             Custom_Field::updateFieldRelationsFromPost($fld_id, $old_details['fld_type']);
+            $repo->setProjectAssociation($cf, $post->get('projects'));
 
             $message = ev_gettext('Thank you, the custom field was updated successfully.');
             $this->messages->addInfoMessage($message);

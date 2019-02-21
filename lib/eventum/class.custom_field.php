@@ -915,10 +915,8 @@ class Custom_Field
 
     /**
      * Method used to update the details for a specific custom field.
-     *
-     * @return  int 1 if the update worked, -1 otherwise
      */
-    public static function updateFieldRelationsFromPost(int $fld_id, string $fldType): int
+    public static function updateFieldRelationsFromPost(int $fld_id, string $fldType): void
     {
         if ($fldType != $_POST['field_type']) {
             // gotta remove all custom field options if the field is being changed from a combo box to a text field
@@ -932,33 +930,6 @@ class Custom_Field
                 self::updateValuesForNewType($fld_id);
             }
         }
-
-        // now we need to check for any changes in the project association of this custom field
-        // and update the mapping table accordingly
-        $old_proj_ids = @array_keys(self::getAssociatedProjects($fld_id));
-        $diff_ids = array_diff($old_proj_ids, $_POST['projects']);
-        if (count($diff_ids) > 0) {
-            foreach ($diff_ids as $removed_prj_id) {
-                self::removeIssueAssociation($fld_id, false, $removed_prj_id);
-            }
-        }
-
-        // update the project associations now
-        $stmt = 'DELETE FROM
-                    `project_custom_field`
-                 WHERE
-                    pcf_fld_id=?';
-        try {
-            DB_Helper::getInstance()->query($stmt, [$fld_id]);
-        } catch (DatabaseException $e) {
-            return -1;
-        }
-
-        foreach ($_POST['projects'] as $prj_id) {
-            self::associateProject($prj_id, $fld_id);
-        }
-
-        return 1;
     }
 
     /**
