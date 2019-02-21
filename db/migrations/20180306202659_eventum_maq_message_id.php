@@ -61,7 +61,7 @@ class EventumMaqMessageId extends AbstractMigration
             );
             $changed++;
 
-            if ($current % 5000 == 0) {
+            if ($current % 5000 === 0) {
                 $p = round($current / $total * 100, 2);
                 $this->writeln("... updated $current rows, $p%");
             }

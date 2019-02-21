@@ -13,7 +13,7 @@
 
 if (!file_exists(__DIR__ . '/config/config.php') || !filesize(__DIR__ . '/config/config.php')) {
     // redirect to setup
-    if (PHP_SAPI == 'cli') {
+    if (PHP_SAPI === 'cli') {
         throw new RuntimeException('Eventum is not configured');
     }
     header('Location: setup/');

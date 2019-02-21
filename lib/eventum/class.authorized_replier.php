@@ -304,7 +304,7 @@ class Authorized_Replier
     public static function remoteAddAuthorizedReplier($issue_id, $usr_id, $replier)
     {
         $res = self::manualInsert($issue_id, $replier, false);
-        if ($res != -1) {
+        if ($res !== -1) {
             // save a history entry about this...
             History::add($issue_id, $usr_id, 'remote_replier_added', '{replier} remotely added to authorized repliers by {user}', [
                 'replier' => $replier,

@@ -26,7 +26,7 @@ if ($role_id < User::ROLE_DEVELOPER) {
     Auth::redirect('list.php');
 }
 
-if (@$_POST['cat'] == 'lookup') {
+if (@$_POST['cat'] === 'lookup') {
     $tpl->assign('results', Customer_OLD::lookup($prj_id, $_POST['field'], $_POST['value']));
 }
 

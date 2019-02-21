@@ -39,7 +39,7 @@ class LocaleTest extends TestCase
         $localeDir = APP_PATH . '/localization';
 
         $rc = system("make -sC $localeDir install localedir=.");
-        if ($rc != 0) {
+        if ($rc !== 0) {
             throw new RuntimeException('Locale setup failed');
         }
     }

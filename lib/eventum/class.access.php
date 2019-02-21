@@ -70,7 +70,7 @@ class Access
             $is_assignee_or_access_list = (Issue::isAssignedToUser($issue_id, $usr_id) or self::isOnAccessList($issue_id, $usr_id));
             if ($usr_role >= User::ROLE_MANAGER || $is_assignee_or_access_list) {
                 $return = true;
-            } elseif (substr($details['iss_access_level'], 0, 6) == 'group_' &&
+            } elseif (substr($details['iss_access_level'], 0, 6) === 'group_' &&
                 in_array(substr($details['iss_access_level'], 6), User::getGroupIDs($usr_id))) {
                 $return = true;
             } else {
@@ -649,7 +649,7 @@ class Access
                             )';
 
             $workflow = Workflow::getAdditionalAccessSQL($prj_id, Auth::getUserID());
-            if ($workflow != null) {
+            if ($workflow !== null) {
                 $sql .= $workflow;
             }
 
@@ -665,7 +665,7 @@ class Access
      */
     public static function log($return, $issue_id, $usr_id, $item = null, $item_id = null)
     {
-        if (Setup::get()->get('audit_trail') != 'enabled') {
+        if (Setup::get()->get('audit_trail') !== 'enabled') {
             return $return;
         }
 

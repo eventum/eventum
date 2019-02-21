@@ -62,11 +62,11 @@ function check_file($title, $path, $comment, $desired_permission): void
     $writeable = is_writable($path);
 
     $needs_attention = false;
-    if (($desired_permission == 'r') && (($writeable == true) || ($readable == false))) {
+    if (($desired_permission === 'r') && (($writeable === true) || ($readable === false))) {
         $needs_attention = true;
-    } elseif (($desired_permission == 'w') && (($writeable == false) || ($readable == true))) {
+    } elseif (($desired_permission === 'w') && (($writeable === false) || ($readable === true))) {
         $needs_attention = true;
-    } elseif (($desired_permission == 'rw') && (($writeable == false) || ($readable == false))) {
+    } elseif (($desired_permission === 'rw') && (($writeable === false) || ($readable === false))) {
         $needs_attention = true;
     }
 
@@ -79,8 +79,8 @@ function check_file($title, $path, $comment, $desired_permission): void
     echo "<tr class=\"default\">
             <td style=\"border: 1px solid black;\">$title</td>
             <td style=\"border: 1px solid black;\">$path</td>
-            <td align=\"center\" style=\"border: 1px solid black;\">" . ($readable == true ? 'yes' : 'no') . '</td>
-            <td align="center" style="border: 1px solid black;">' . ($writeable == true ? 'yes' : 'no') . "</td>
+            <td align=\"center\" style=\"border: 1px solid black;\">" . ($readable === true ? 'yes' : 'no') . '</td>
+            <td align="center" style="border: 1px solid black;">' . ($writeable === true ? 'yes' : 'no') . "</td>
             <td style=\"border: 1px solid black;\"><span style=\"color: $color\">$comment</span></td>
           </tr>";
 }

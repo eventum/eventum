@@ -82,7 +82,7 @@ class AuthCookie
         }
 
         $hash = self::generateHash($cookie['login_time'], $cookie['email']);
-        if ($cookie['hash'] != $hash) {
+        if ($cookie['hash'] !== $hash) {
             return false;
         }
 

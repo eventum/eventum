@@ -50,7 +50,7 @@ switch ($field_name) {
         }
 
         $res = Issue::setExpectedResolutionDate($issue_id, $date);
-        if ($res == -1) {
+        if ($res === -1) {
             die('Update failed');
         }
 

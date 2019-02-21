@@ -18,7 +18,7 @@ class EventumMarkdownPreference extends AbstractMigration
     public function change(): void
     {
         $setup = Setup::get();
-        $default = (int) ($setup['markdown'] == 'enabled');
+        $default = (int) ($setup['markdown'] === 'enabled');
 
         $this->table('user_preference')
             ->addColumn('upr_markdown', 'boolean', ['default' => $default, 'null' => true])

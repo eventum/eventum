@@ -91,7 +91,7 @@ class Auth
         try {
             self::getAuthBackend()->checkAuthentication();
 
-            if ($failed_url == null) {
+            if ($failed_url === null) {
                 $failed_url = APP_RELATIVE_URL . 'index.php?err=5';
             }
             $failed_url .= '&url=' . urlencode($_SERVER['REQUEST_URI']);
@@ -398,7 +398,7 @@ class Auth
     public static function getCurrentCustomerID($redirect = true)
     {
         $customer_id = Session::get('current_customer_id');
-        if (empty($customer_id) && $redirect == true) {
+        if (empty($customer_id) && $redirect === true) {
             self::redirect(APP_RELATIVE_URL . 'select_customer.php');
         } else {
             return $customer_id;
@@ -431,7 +431,7 @@ class Auth
     public static function setCookie($name, $value, $expiration): void
     {
         // for testing
-        if (PHP_SAPI == 'cli') {
+        if (PHP_SAPI === 'cli') {
             return;
         }
         if (APP_COOKIE_DOMAIN === null) {

@@ -182,7 +182,7 @@ class Example_Workflow_Backend extends Abstract_Workflow_Backend
     public function handleSubscription($prj_id, $issue_id, &$subscriber_usr_id, &$email, &$actions)
     {
         // prevent a certain email address from being added to the notification list.
-        if ($email == 'invalidemail@example.com') {
+        if ($email === 'invalidemail@example.com') {
             return false;
         }
         // just for this example, if the usr_id is 99, change the usr_id to 100
@@ -195,7 +195,7 @@ class Example_Workflow_Backend extends Abstract_Workflow_Backend
             $actions[] = 'emails';
         }
         // you can also change the email address being subscribed
-        if ($email == 'changethis@example.com') {
+        if ($email === 'changethis@example.com') {
             $email = 'changed@example.com';
         }
         // if you want the subscription to be added with no changes, simply return true;
@@ -255,7 +255,7 @@ class Example_Workflow_Backend extends Abstract_Workflow_Backend
      */
     public function shouldEmailAddress($prj_id, $address, $issue_id = null, $type = null)
     {
-        if ($address == 'bad_email@example.com') {
+        if ($address === 'bad_email@example.com') {
             return false;
         }
 
@@ -273,7 +273,7 @@ class Example_Workflow_Backend extends Abstract_Workflow_Backend
      */
     public function getIssueFieldsToDisplay($prj_id, $issue_id, $location)
     {
-        if ($location == 'post_note') {
+        if ($location === 'post_note') {
             return [
                         'assignee' => [],
                         'custom' => [1],
