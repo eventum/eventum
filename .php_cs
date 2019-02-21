@@ -56,9 +56,10 @@ $risky_rules = [
     'no_php4_constructor' => true,
     'escape_implicit_backslashes' => false,
     'strict_comparison' => false, // not always safe to enable: https://github.com/FriendsOfPHP/PHP-CS-Fixer/issues/4317
+    'function_to_constant' => true,
     '@PHP71Migration' => true,
     'combine_nested_dirname' => true,
-//    'void_return' => true, // not enabled generally, may break things
+    'void_return' => false, // not enabled generally, may break things
 ];
 
 $symfony_rules = [

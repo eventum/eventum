@@ -17,7 +17,7 @@ if (!defined('APP_PATH')) {
 }
 
 $tpl = new Template_Helper();
-if (php_sapi_name() == 'cli') {
+if (PHP_SAPI === 'cli') {
     $tpl->setTemplate('offline.tpl.text');
 } else {
     $tpl->setTemplate('offline.tpl.html');
