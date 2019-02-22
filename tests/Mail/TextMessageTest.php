@@ -62,6 +62,10 @@ class TextMessageTest extends TestCase
                 'email-106251.txt',
                 "here\nbe\ndragons",
             ],
+            'pull request #477' => [
+                'gnus511.txt',
+                'Body text',
+            ],
         ];
     }
 }

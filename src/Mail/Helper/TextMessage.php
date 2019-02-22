@@ -86,15 +86,15 @@ class TextMessage
     private function processPart($part): void
     {
         $headers = $part->getHeaders();
-        $ctype = $part->getHeaderField('Content-Type');
+        $hasContentType = $headers->has('Content-Type');
         $hasDisposition = $headers->has('Content-Disposition');
+        $contentType = $hasContentType ? $part->getHeaderField('Content-Type') : null;
         $disposition = $hasDisposition ? $part->getHeaderField('Content-Disposition') : null;
         $filename = $hasDisposition ? $part->getHeaderField('Content-Disposition', 'filename') : null;
         $is_attachment = $disposition === 'attachment' || $filename;
+        $charset = $hasContentType ? $part->getHeaderField('Content-Type', 'charset') : null;
 
-        $charset = $part->getHeaderField('Content-Type', 'charset');
-
-        switch ($ctype) {
+        switch ($contentType) {
             case 'multipart/related':
                 // multipart/related is likely a container for html with image multiparts
                 // see https://tools.ietf.org/html/rfc2387
@@ -136,9 +136,9 @@ class TextMessage
 
             default:
                 // avoid treating forwarded messages as attachments
-                $is_attachment |= ($disposition === 'inline' && $ctype !== 'message/rfc822');
+                $is_attachment |= ($disposition === 'inline' && $contentType !== 'message/rfc822');
                 // handle inline images
-                $type = current(explode('/', $ctype));
+                $type = current(explode('/', $contentType));
                 $is_attachment |= $type === 'image';
 
                 if (!$is_attachment) {
