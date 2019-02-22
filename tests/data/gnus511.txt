@@ -1,0 +1,23 @@
+Received: from localhost (/10.111.111.116)
+	by default (Boring Booring Gateway v4.0)
+        with ESMTP ; Thu, 21 Feb 2010 02:41:04 -0800
+To: issue-61545@hoste01.us.boring.com
+Subject: Test patch file
+From: John Smithz <john.smithz@boring.com>
+Date: Thu, 21 Feb 2010 11:41:02 +0100
+Message-ID: <m1bm35mnk1.fsf@johnsmbp123016.lan>
+User-Agent: Gnus/5.11 (Gnus v5.11) Emacs/22.1 (darwin)
+MIME-Version: 1.0
+Content-Type: multipart/mixed; boundary="=-=-="
+
+--=-=-=
+
+Body text
+
+--=-=-=
+Content-Type: text/x-patch
+Content-Disposition: attachment; filename=some-attachment.patch
+
+Attachment text
+
+--=-=-=--

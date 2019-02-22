@@ -26,7 +26,7 @@ class TextMessageTest extends TestCase
     public function testTextMessage($dataFile, $expectedText): void
     {
         $mail = MailMessage::createFromFile($this->getDataFile($dataFile));
-        $textBody = trim($mail->getMessageBody());
+        $textBody = $mail->getMessageBody();
         $this->assertEquals($expectedText, $textBody);
     }
 
@@ -61,6 +61,10 @@ class TextMessageTest extends TestCase
             'mail with no mime headers, should be plain text' => [
                 'email-106251.txt',
                 "here\nbe\ndragons",
+            ],
+            'pull request #477' => [
+                'gnus511.txt',
+                'Body text',
             ],
         ];
     }
