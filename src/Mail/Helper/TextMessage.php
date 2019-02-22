@@ -35,7 +35,7 @@ class TextMessage
         $this->message = $message;
     }
 
-    public function getMessageBody()
+    public function getMessageBody(): string
     {
         $isMultipart = $this->message->isMultipart();
 
@@ -63,8 +63,7 @@ class TextMessage
 
         if (!$isMultipart) {
             // fallback to read just main part
-            // NOTE: this is likely dead code after #429
-            return (new DecodePart($this->message))->decode();
+            return trim((new DecodePart($this->message))->decode());
         }
 
         return '';
@@ -149,7 +148,7 @@ class TextMessage
 
     private function getText()
     {
-        return implode("\n\n", $this->text);
+        return trim(implode("\n\n", $this->text));
     }
 
     private function getHtml()
@@ -164,6 +163,6 @@ class TextMessage
         // convert html entities. this should be done after strip tags
         $str = html_entity_decode($str, ENT_QUOTES, APP_CHARSET);
 
-        return $str;
+        return trim($str);
     }
 }

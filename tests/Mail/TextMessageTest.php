@@ -26,7 +26,7 @@ class TextMessageTest extends TestCase
     public function testTextMessage($dataFile, $expectedText): void
     {
         $mail = MailMessage::createFromFile($this->getDataFile($dataFile));
-        $textBody = trim($mail->getMessageBody());
+        $textBody = $mail->getMessageBody();
         $this->assertEquals($expectedText, $textBody);
     }
 

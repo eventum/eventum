@@ -234,9 +234,8 @@ class MailMessage extends Message
      * Returns the text message body.
      *
      * @return string|null The message body
-     * @deprecated use TextMessage class
      */
-    public function getMessageBody()
+    public function getMessageBody(): ?string
     {
         return (new TextMessage($this))->getMessageBody();
     }
