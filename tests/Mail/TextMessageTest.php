@@ -66,6 +66,10 @@ class TextMessageTest extends TestCase
                 'gnus511.txt',
                 'Body text',
             ],
+            'bug #478' => [
+                'message-chopped.eml',
+                $this->readDataFile('message-chopped.txt'),
+            ],
         ];
     }
 }
