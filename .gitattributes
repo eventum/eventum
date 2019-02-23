@@ -29,3 +29,6 @@
 # https://github.com/eventum/eventum/pull/325
 *.pot diff=msgcat
 *.po diff=msgcat
+
+# saved emails need usually to retain their newlines configuration
+/tests/data/*.eml -text
