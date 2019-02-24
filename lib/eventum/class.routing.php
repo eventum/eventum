@@ -111,8 +111,6 @@ class Routing
         unset($sys_account);
 
         $headers = $mail->getHeaders();
-
-        // remove the reply-to: header
         $headers->removeHeader('Reply-To');
 
         // find which issue ID this email refers to
@@ -129,12 +127,12 @@ class Routing
             throw RoutingException::noRecipientError();
         }
 
-        $issue_prj_id = Issue::getProjectID($issue_id);
-        if (!$issue_prj_id) {
+        $prj_id = Issue::getProjectID($issue_id);
+        if (!$prj_id) {
             throw RoutingException::noRecipientError();
         }
 
-        $email_account_id = Email_Account::getEmailAccount($issue_prj_id);
+        $email_account_id = Email_Account::getEmailAccount($prj_id);
         if (!$email_account_id) {
             throw RoutingException::noEmaiAccountConfigured();
         }
@@ -145,7 +143,6 @@ class Routing
         $wm = new WarningMessage($mail);
         $wm->remove();
 
-        $prj_id = Issue::getProjectID($issue_id);
         AuthCookie::setAuthCookie(APP_SYSTEM_USER_ID);
         AuthCookie::setProjectCookie($prj_id);
 

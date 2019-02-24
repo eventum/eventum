@@ -925,7 +925,7 @@ class Support
         $issue_id = $email_options['issue_id'] ?? null;
 
         // try to get the parent ID
-        $reference_message_id = $mail->getReferenceMessageID();
+        $reference_message_id = $mail->getReferenceMessageId();
         $parent_id = null;
         if ($reference_message_id) {
             $parent_id = self::getIDByMessageID($reference_message_id);
