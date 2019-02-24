@@ -26,9 +26,6 @@ use Zend\Mail\Header\To;
  */
 class AddressHeader
 {
-    // if address can not be parsed, this value is returned instead
-    const INVALID_ADDRESS = 'INVALID ADDRESS:;';
-
     /** @var To */
     private $header;
 
@@ -42,7 +39,7 @@ class AddressHeader
      * @throws \Zend\Mail\Header\Exception\InvalidArgumentException
      * @return AddressHeader
      */
-    public static function fromString($addresses)
+    public static function fromString($addresses): self
     {
         // avoid exceptions if NULL or empty string passed as input
         if (!$addresses) {
@@ -61,7 +58,7 @@ class AddressHeader
      *
      * @return string[]
      */
-    public function getEmails()
+    public function getEmails(): array
     {
         $res = [];
         foreach ($this->header->getAddressList() as $address) {
@@ -77,7 +74,7 @@ class AddressHeader
      *
      * @return string[]
      */
-    public function getNames()
+    public function getNames(): array
     {
         $res = [];
         foreach ($this->header->getAddressList() as $address) {
@@ -91,17 +88,16 @@ class AddressHeader
     /**
      * @return AddressList
      */
-    public function getAddressList()
+    public function getAddressList(): AddressList
     {
         return $this->header->getAddressList();
     }
 
     /**
      * @param bool $format Whether to Mime-Encode header or not
-     *
      * @return string
      */
-    public function toString($format = HeaderInterface::FORMAT_ENCODED)
+    public function toString($format = HeaderInterface::FORMAT_ENCODED): string
     {
         return $this->header->getFieldValue($format);
     }
@@ -113,7 +109,7 @@ class AddressHeader
      * @throws InvalidArgumentException
      * @return Address
      */
-    public function getAddress()
+    public function getAddress(): Address
     {
         $addressList = $this->getAddressList();
         $count = $addressList->count();
