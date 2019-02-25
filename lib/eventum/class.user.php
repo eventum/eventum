@@ -437,12 +437,6 @@ class User
         static $returns;
 
         if (!is_string($email)) {
-            if (Misc::isError($email)) {
-                Logger::app()->error($email->getMessage(), ['debug' => $email->getDebugInfo()]);
-
-                return null;
-            }
-
             Logger::app()->error('$email parameter is not a string', ['type' => gettype($email), 'value' => $email]);
 
             return null;
