@@ -74,6 +74,8 @@
 		"enrise/urihelper": "^1.0",
 		"fonts/liberation": "*",
 		"glen/filename-normalizer": "^2.0",
+		"horde/text-flowed": "dev-patch-1 as 2.0.3",
+		"horde/util": "dev-patch-1 as 2.5.8",
 		"ircmaxell/random-lib": "~1.1.0",
 		"league/flysystem": "^1.0",
 		"malkusch/lock": "^0.4.0",

@@ -13,6 +13,7 @@
 
 namespace Eventum\Mail\Helper;
 
+use Horde_Text_Flowed;
 use LogicException;
 use Mime_Helper;
 use Zend\Mail\Storage\Part\PartInterface;
@@ -110,11 +111,13 @@ class TextMessage
             case 'text/plain':
                 if (!$is_attachment) {
                     $format = $part->getHeaderField('Content-Type', 'format');
-                    $delsp = $part->getHeaderField('Content-Type', 'delsp');
 
                     $content = Mime_Helper::convertString((new DecodePart($part))->decode(), $charset);
                     if ($format === 'flowed') {
-                        $content = Mime_Helper::decodeFlowedBodies($content, $delsp);
+                        $delsp = $part->getHeaderField('Content-Type', 'delsp');
+                        $flowed = new Horde_Text_Flowed($content, 'UTF-8');
+                        $flowed->setDelSp($delsp === 'yes');
+                        $content = $flowed->toFixed();
                     }
                     $this->text[] = $content;
                 }
