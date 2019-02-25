@@ -182,16 +182,13 @@ class Sphinx_Fulltext_Search extends Abstract_Fulltext_Search
      * @param string $str
      * @return string
      */
-    private function cleanUpExcerpt($str)
+    private function cleanUpExcerpt($str): string
     {
         return str_replace(
-                [
-                    $this->excerpt_placeholder . '-before',
-                    $this->excerpt_placeholder . '-after',
-                ],
-                ['<b>', '</b>'],
-                htmlspecialchars(Misc::removeNewLines($str)
-            ));
+            [$this->excerpt_placeholder . '-before', $this->excerpt_placeholder . '-after'],
+            ['<b>', '</b>'],
+            htmlspecialchars(str_replace(["\n", "\r"], ' ', $str))
+        );
     }
 
     public function getMatchModes()

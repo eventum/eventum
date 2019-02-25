@@ -628,20 +628,6 @@ class Misc
         return ev_gettext('No');
     }
 
-    /**
-     * @return string
-     */
-    public static function removeNewLines($str, $no_space = false)
-    {
-        if ($no_space) {
-            $replacement = '';
-        } else {
-            $replacement = ' ';
-        }
-
-        return str_replace(["\n", "\r"], $replacement, $str);
-    }
-
     public static function htmlentities($var)
     {
         return htmlentities($var, ENT_QUOTES, APP_CHARSET);
