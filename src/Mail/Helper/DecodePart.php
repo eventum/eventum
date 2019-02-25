@@ -28,10 +28,8 @@ class DecodePart
     }
 
     /**
-     * get body.
-     * have to decode ourselves or use something like Mime\Message::createFromMessage
-     *
-     * @return string
+     * Decode transfer encoding of an MIME multipart.
+     * We have to decode ourselves or use something like Mime\Message::createFromMessage
      */
     public function decode()
     {

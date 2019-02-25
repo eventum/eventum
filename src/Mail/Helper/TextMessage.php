@@ -13,6 +13,7 @@
 
 namespace Eventum\Mail\Helper;
 
+use LogicException;
 use Mime_Helper;
 use Zend\Mail\Storage\Part\PartInterface;
 
@@ -44,7 +45,7 @@ class TextMessage
         }
 
         // if no parts were extracted, process main message itself
-        if (!$isMultipart && !$this->hasText() && $this->hasContentType()) {
+        if (!$isMultipart && !$this->hasText()) {
             $this->processPart($this->message);
         }
 
@@ -62,8 +63,7 @@ class TextMessage
         }
 
         if (!$isMultipart) {
-            // fallback to read just main part
-            return trim((new DecodePart($this->message))->decode());
+            throw new LogicException('Should not be reached');
         }
 
         return '';
