@@ -7,6 +7,7 @@ Upgrading to 3.6.x versions requires that you upgrade to latest 3.5.x version fi
 - Add TaskListMatcher with example to update issue complete percentage (@glensc, #473)
 - Match better merge request title from GitLab event (@glensc, #475)
 - TextMessage: Handle mails without content-type headers created by Emacs Gnus 5.11 (@glensc, #477)
+- Replace `Mime_Helper::decodeFlowedBodies` with Horde version (@glensc, #480, #478)
 
 [3.6.1]: https://github.com/eventum/eventum/compare/v3.6.0...master
 
