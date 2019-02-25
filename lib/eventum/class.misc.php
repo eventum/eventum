@@ -634,33 +634,6 @@ class Misc
     }
 
     /**
-     * Tell whether a value is a PEAR error.
-     *
-     * @param   mixed $data the value to test
-     * @param   int $code if $data is an error object, return true
-     *                        only if $code is a string and
-     *                        $obj->getMessage() == $code or
-     *                        $code is an integer and $obj->getCode() == $code
-     * @return  bool    true if parameter is an error
-     */
-    public static function isError($data, $code = null)
-    {
-        if (!$data instanceof PEAR_Error) {
-            return false;
-        }
-
-        if ($code === null) {
-            return true;
-        }
-
-        if (is_string($code)) {
-            return $data->getMessage() == $code;
-        }
-
-        return $data->getCode() == $code;
-    }
-
-    /**
      * Generate a random byte string of the requested size.
      *
      * Uses Medium Strength Generator
