@@ -11,6 +11,8 @@
  * that were distributed with this source code.
  */
 
+use Monolog\Processor\PsrLogMessageProcessor;
+
 /**
  * Class to hold methods and algorithms that woudln't fit in other classes, such
  * as functions to work around PHP bugs or incompatibilities between separate
@@ -669,43 +671,26 @@ class Misc
      *
      * It replaces {foo} with the value from $context['foo']
      *
-     * @see \Monolog\Processor\PsrLogMessageProcessor()
-     * @see https://github.com/Seldaek/monolog/blob/master/src/Monolog/Processor/PsrLogMessageProcessor.php
      * @param string $message
-     * @param  array $context
+     * @param array|string $context
      * @return string
      */
-    public static function processTokens($message, $context)
+    public static function processTokens(string $message, $context): string
     {
-        // shortcut out
-        if (false === strpos($message, '{')) {
-            return $message;
-        }
-
-        // handle empty context
-        if (!$context) {
-            $context = [];
-        }
+        $processor = new PsrLogMessageProcessor();
 
         // handle raw data from database (json encoded)
         if (!is_array($context)) {
             $context = json_decode($context, true);
         }
 
-        $replacements = [];
-        foreach ($context as $key => $val) {
-            if (is_null($val) || is_scalar($val) || (is_object($val) && method_exists($val, '__toString'))) {
-                $replacements['{' . $key . '}'] = $val;
-            } elseif (is_object($val)) {
-                $replacements['{' . $key . '}'] = '[object ' . get_class($val) . ']';
-            } else {
-                $replacements['{' . $key . '}'] = '[' . gettype($val) . ']';
-            }
-        }
+        $record = [
+            'message' => $message,
+            'context' => $context,
+        ];
+        $record = $processor($record);
 
-        $message = strtr($message, $replacements);
-
-        return $message;
+        return $record['message'];
     }
 
     /**

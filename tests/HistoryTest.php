@@ -28,4 +28,13 @@ class HistoryTest extends TestCase
         $exp = "Issue updated to status 'closed' by Random User";
         $this->assertEquals($exp, $message);
     }
+
+    public function testHistoryContextJson(): void
+    {
+        $message = "Issue updated to status '{status}' by {actor}";
+        $context = '{"status":"closed","actor":"Random User"}';
+        $message = Misc::processTokens($message, $context);
+        $exp = "Issue updated to status 'closed' by Random User";
+        $this->assertEquals($exp, $message);
+    }
 }
