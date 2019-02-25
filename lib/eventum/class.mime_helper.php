@@ -247,39 +247,4 @@ class Mime_Helper
 
         return $res === false ? $string : $res;
     }
-
-    /**
-     * Initial implementation of flowed body handling per RFC 3676. This is probably
-     * not complete but is a start.
-     *
-     * @see     http://www.faqs.org/rfcs/rfc3676.html
-     * @param   string $body The text to "unflow"
-     * @param   string $delsp If spaces should be deleted
-     * @return  string The decoded body
-     */
-    public static function decodeFlowedBodies($body, $delsp)
-    {
-        if ($delsp == 'yes') {
-            $delsp = true;
-        } else {
-            $delsp = false;
-        }
-
-        $lines = explode("\n", $body);
-
-        $text = '';
-        foreach ($lines as $line) {
-            if (($line != '-- ') && (substr(Misc::removeNewLines($line, true), -1) == ' ')) {
-                if ($delsp) {
-                    $text .= substr(Misc::removeNewLines($line, true), 0, -1);
-                } else {
-                    $text .= Misc::removeNewLines($line, true);
-                }
-            } else {
-                $text .= $line . "\n";
-            }
-        }
-
-        return $text;
-    }
 }
