@@ -46,6 +46,18 @@ class CustomField
         'multiple',
     ];
 
+    private const TEXT_TYPES = [
+        'text',
+        'textarea',
+    ];
+
+    private const OTHER_TYPES = [
+        'text',
+        'textarea',
+        'date',
+        'integer',
+    ];
+
     /**
      * @var int
      * @ORM\Column(name="fld_id", type="integer", nullable=false)
@@ -389,6 +401,16 @@ class CustomField
     public function isOptionType(): bool
     {
         return in_array($this->type, self::OPTION_TYPES, true);
+    }
+
+    public function isTextType(): bool
+    {
+        return in_array($this->type, self::TEXT_TYPES, true);
+    }
+
+    public function isOtherType(): bool
+    {
+        return in_array($this->type, self::OTHER_TYPES, true);
     }
 
     public function addOption(CustomFieldOption $cfo): self

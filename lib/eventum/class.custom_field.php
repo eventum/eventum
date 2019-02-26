@@ -914,25 +914,6 @@ class Custom_Field
     }
 
     /**
-     * Method used to update the details for a specific custom field.
-     */
-    public static function updateFieldRelationsFromPost(int $fld_id, string $fldType): void
-    {
-        if ($fldType != $_POST['field_type']) {
-            // gotta remove all custom field options if the field is being changed from a combo box to a text field
-            if ((!in_array($fldType, ['text', 'textarea'])) &&
-                (!in_array($_POST['field_type'], self::$option_types))) {
-                // XXX: wrong data type
-                self::removeOptionsByFields($fld_id);
-            }
-            if (in_array($_POST['field_type'], ['text', 'textarea', 'date', 'integer'])) {
-                // update values for all other option types
-                self::updateValuesForNewType($fld_id);
-            }
-        }
-    }
-
-    /**
      * Method used to get the list of custom fields associated with a
      * given project.
      *

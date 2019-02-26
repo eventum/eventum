@@ -92,9 +92,8 @@ class CustomFieldsController extends ManageBaseController
         try {
             $repo = Doctrine::getCustomFieldRepository();
             $cf = $this->updateFromRequest($repo->findOrCreate($fld_id), $post);
-            $old_details = Custom_Field::getDetails($fld_id);
+            $repo->setFieldType($cf, $post->get('field_type'));
             $repo->persistAndFlush($cf);
-            Custom_Field::updateFieldRelationsFromPost($fld_id, $old_details['fld_type']);
             $repo->setProjectAssociation($cf, $post->get('projects'));
 
             $message = ev_gettext('Thank you, the custom field was updated successfully.');
@@ -174,7 +173,6 @@ class CustomFieldsController extends ManageBaseController
         return $cf
             ->setTitle($post->get('title'))
             ->setDescription($post->get('description'))
-            ->setType($post->get('field_type'))
             ->setShowReportForm($post->get('report_form', 0))
             ->setIsReportFormRequired($post->get('report_form_required', 0))
             ->setShowAnonymousForm($post->get('anon_form', 0))

@@ -13,6 +13,7 @@
 
 namespace Eventum\Model\Repository;
 
+use Custom_Field;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\ORM\QueryBuilder;
@@ -202,5 +203,32 @@ class CustomFieldRepository extends EntityRepository
         }
 
         $em->flush();
+    }
+
+    /**
+     * Set field type.
+     * May need to remove all custom field options if the field is being changed from a combo box to a text field
+     */
+    public function setFieldType(Entity\CustomField $cf, string $fieldType): void
+    {
+        if ($cf->getType() === $fieldType) {
+            return;
+        }
+
+        $fld_id = $cf->getId();
+        $wasTextField = $cf->isTextType();
+
+        $cf->setType($fieldType);
+        $isOptionType = $cf->isOptionType();
+
+        if (!$wasTextField && !$isOptionType) {
+            // XXX: wrong data type
+            Custom_Field::removeOptionsByFields($fld_id);
+        }
+
+        // update values for all other option types
+        if ($cf->isOtherType()) {
+            Custom_Field::updateValuesForNewType($fld_id);
+        }
     }
 }
