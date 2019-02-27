@@ -24,14 +24,14 @@ use Symfony\Component\EventDispatcher\GenericEvent;
  */
 class User
 {
-    const ROLE_VIEWER = 1;
-    const ROLE_REPORTER = 2;
-    const ROLE_CUSTOMER = 3;
-    const ROLE_USER = 4;
-    const ROLE_DEVELOPER = 5;
-    const ROLE_MANAGER = 6;
-    const ROLE_ADMINISTRATOR = 7;
-    const ROLE_NEVER_DISPLAY = 9;
+    public const ROLE_VIEWER = 1;
+    public const ROLE_REPORTER = 2;
+    public const ROLE_CUSTOMER = 3;
+    public const ROLE_USER = 4;
+    public const ROLE_DEVELOPER = 5;
+    public const ROLE_MANAGER = 6;
+    public const ROLE_ADMINISTRATOR = 7;
+    public const ROLE_NEVER_DISPLAY = 9;
 
     // definition of roles
     private static $roles = [
