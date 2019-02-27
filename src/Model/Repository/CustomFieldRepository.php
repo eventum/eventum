@@ -215,6 +215,7 @@ class CustomFieldRepository extends EntityRepository
             return;
         }
 
+        $em = $this->getEntityManager();
         $fld_id = $cf->getId();
         $wasTextField = $cf->isTextType();
 
@@ -222,13 +223,25 @@ class CustomFieldRepository extends EntityRepository
         $isOptionType = $cf->isOptionType();
 
         if (!$wasTextField && !$isOptionType) {
-            // XXX: wrong data type
-            Custom_Field::removeOptionsByFields($fld_id);
+            $cfoIds = [];
+            foreach ($cf->getOptions() as $cfo) {
+                $cfoIds[] = $cfo->getId();
+                $em->remove($cfo);
+            }
+
+            // also remove any custom field option that is currently assigned to an issue
+            foreach ($cf->getIssues() as $icf) {
+                if (in_array($icf->getStringValue(), $cfoIds, true)) {
+                    $em->remove($icf);
+                }
+            }
         }
 
         // update values for all other option types
         if ($cf->isOtherType()) {
             Custom_Field::updateValuesForNewType($fld_id);
         }
+
+        $em->flush();
     }
 }

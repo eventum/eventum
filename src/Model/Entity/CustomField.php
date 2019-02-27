@@ -430,6 +430,14 @@ class CustomField
         return $this->options->matching($criteria);
     }
 
+    /**
+     * @return Collection|IssueCustomField[]
+     */
+    public function getIssues(): Collection
+    {
+        return $this->issues;
+    }
+
     public function updateOptionValue(int $cfo_id, string $value, int $rank): CustomFieldOption
     {
         $cfo = $this->getOptionById($cfo_id);

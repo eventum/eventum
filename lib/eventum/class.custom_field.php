@@ -40,44 +40,6 @@ class Custom_Field
     ];
 
     /**
-     * Method used to remove a group of custom field options.
-     *
-     * @param   array $fld_id The list of custom field IDs
-     * @param   array $fld_id The list of custom field option IDs
-     * @return  bool
-     */
-    public static function removeOptions($fld_id, $cfo_id)
-    {
-        if (!is_array($fld_id)) {
-            $fld_id = [$fld_id];
-        }
-        if (!is_array($cfo_id)) {
-            $cfo_id = [$cfo_id];
-        }
-        $stmt = 'DELETE FROM
-                    `custom_field_option`
-                 WHERE
-                    cfo_id IN (' . DB_Helper::buildList($cfo_id) . ')';
-        try {
-            DB_Helper::getInstance()->query($stmt, $cfo_id);
-        } catch (DatabaseException $e) {
-            return false;
-        }
-
-        // also remove any custom field option that is currently assigned to an issue
-        // FIXME: review this
-        $stmt = 'DELETE FROM
-                    `issue_custom_field`
-                 WHERE
-                    icf_fld_id IN (' . DB_Helper::buildList($fld_id) . ') AND
-                    icf_value IN (' . DB_Helper::buildList($cfo_id) . ')';
-        $params = array_merge($fld_id, $cfo_id);
-        DB_Helper::getInstance()->query($stmt, $params);
-
-        return true;
-    }
-
-    /**
      * Updates custom field values from the $_POST array.
      */
     public static function updateFromPost($send_notification = false)
@@ -976,33 +938,6 @@ class Custom_Field
             $params = array_merge($params, $issues);
         }
         DB_Helper::getInstance()->query($stmt, $params);
-    }
-
-    /**
-     * Method used to remove the custom field options associated with
-     * a given list of custom field IDs.
-     *
-     * @param   int[] $ids The list of custom field IDs
-     * @return  bool
-     */
-    public static function removeOptionsByFields($ids)
-    {
-        $items = DB_Helper::buildList($ids);
-        $stmt = "SELECT
-                    cfo_id
-                 FROM
-                    `custom_field_option`
-                 WHERE
-                    cfo_fld_id IN ($items)";
-        try {
-            $res = DB_Helper::getInstance()->getColumn($stmt, $ids);
-        } catch (DatabaseException $e) {
-            return false;
-        }
-
-        self::removeOptions($ids, $res);
-
-        return true;
     }
 
     /**
