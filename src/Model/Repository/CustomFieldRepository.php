@@ -239,7 +239,10 @@ class CustomFieldRepository extends EntityRepository
 
         // update values for all other option types
         if ($cf->isOtherType()) {
-            Custom_Field::updateValuesForNewType($fld_id);
+            foreach ($cf->getIssues() as $icf) {
+                $icf->updateValuesForNewType();
+                $em->persist($icf);
+            }
         }
 
         $em->flush();

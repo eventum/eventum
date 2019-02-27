@@ -1211,49 +1211,6 @@ class Custom_Field
     }
 
     /**
-     * Analyzes the contents of the issue_custom_field and updates
-     * contents based on the fld_type.
-     *
-     * @param   int $fld_id
-     * @return bool
-     */
-    public static function updateValuesForNewType($fld_id)
-    {
-        $details = self::getDetails($fld_id, true);
-        $db_field_name = self::getDBValueFieldNameByType($details['fld_type']);
-
-        $sql = 'UPDATE
-                    `issue_custom_field`
-                SET
-                    ';
-        if ($details['fld_type'] == 'integer') {
-            $sql .= "$db_field_name = IFNULL(icf_value, IFNULL(icf_value_date, NULL)),
-                    icf_value = NULL,
-                    icf_value_date = NULL";
-        } elseif ($details['fld_type'] == 'date') {
-            $sql .= "$db_field_name = IFNULL(icf_value, IFNULL(icf_value_date, NULL)),
-                    icf_value = NULL,
-                    icf_value_integer = NULL";
-        } else {
-            $sql .= "$db_field_name = IFNULL(icf_value_integer, IFNULL(icf_value_date, NULL)),
-                    icf_value_integer = NULL,
-                    icf_value_date = NULL";
-        }
-        $sql .= "
-                WHERE
-                    $db_field_name IS NULL AND
-                    icf_fld_id = ?";
-        $params = [$fld_id];
-        try {
-            DB_Helper::getInstance()->query($sql, $params);
-        } catch (DatabaseException $e) {
-            return false;
-        }
-
-        return true;
-    }
-
-    /**
      * @return ExtensionLoader
      * @internal
      */

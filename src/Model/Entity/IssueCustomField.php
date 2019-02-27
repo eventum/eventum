@@ -13,8 +13,10 @@
 
 namespace Eventum\Model\Entity;
 
+use Date_Helper;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
+use Exception;
 
 /**
  * @ORM\Table(name="issue_custom_field", indexes={@ORM\Index(name="icf_iss_id", columns={"icf_iss_id"}), @ORM\Index(name="icf_fld_id", columns={"icf_fld_id"}), @ORM\Index(name="ft_icf_value", columns={"icf_value"})})
@@ -22,6 +24,8 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class IssueCustomField
 {
+    private const DATE_FORMAT = 'Y-m-d';
+
     /**
      * @var int
      * @ORM\Column(name="icf_id", type="integer", nullable=false)
@@ -98,6 +102,8 @@ class IssueCustomField
 
     public function setStringValue(?string $stringValue): self
     {
+        $this->integerValue = null;
+        $this->dateValue = null;
         $this->stringValue = $stringValue;
 
         return $this;
@@ -110,6 +116,8 @@ class IssueCustomField
 
     public function setIntegerValue(?int $integerValue): self
     {
+        $this->stringValue = null;
+        $this->dateValue = null;
         $this->integerValue = $integerValue;
 
         return $this;
@@ -122,6 +130,8 @@ class IssueCustomField
 
     public function setDateValue(?DateTime $dateValue): self
     {
+        $this->stringValue = null;
+        $this->integerValue = null;
         $this->dateValue = $dateValue;
 
         return $this;
@@ -132,6 +142,15 @@ class IssueCustomField
         return $this->dateValue;
     }
 
+    public function getDate(): ?string
+    {
+        if (!$this->dateValue) {
+            return null;
+        }
+
+        return $this->dateValue->format(self::DATE_FORMAT);
+    }
+
     /**
      * @see Custom_Field::getDBValueFieldSQL
      * @return DateTime|int|null|string
@@ -140,11 +159,41 @@ class IssueCustomField
     {
         switch ($this->customField->getType()) {
             case 'date':
-                return $this->getDateValue();
+                return $this->getDate();
             case 'integer':
                 return $this->getIntegerValue();
             default:
                 return $this->getStringValue();
+        }
+    }
+
+    /**
+     * Analyzes the contents of the issue_custom_field and updates contents based on the fld_type.
+     */
+    public function updateValuesForNewType(): self
+    {
+        switch ($this->customField->getType()) {
+            case 'date':
+                // XXX converting previous integer or text to date makes no sense!
+                $value = $this->getDate() ?? $this->getStringValue();
+                try {
+                    $date = Date_Helper::getDateTime($value, 'GMT');
+                } catch (Exception $e) {
+                    return $this;
+                }
+
+                return $this->setDateValue($date);
+
+            case 'integer':
+                // XXX converting from date makes no sense!
+                $value = $this->getIntegerValue() ?? $this->getStringValue() ?? $this->getDate();
+
+                return $this->setIntegerValue($value);
+
+            default:
+                $value = $this->getStringValue() ?? $this->getIntegerValue() ?? $this->getDate();
+
+                return $this->setStringValue($value);
         }
     }
 }

@@ -13,7 +13,6 @@
 
 namespace Eventum\CustomField;
 
-use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Eventum\CustomField\Fields\DefaultValueInterface;
 use Eventum\CustomField\Fields\DynamicCustomFieldInterface;
@@ -27,8 +26,6 @@ use Generator;
 
 class Converter
 {
-    private const DATE_FORMAT = 'Y-m-d';
-
     public function convertCustomFields(array $customFields, ?int $issueId, ?string $formType): array
     {
         $fields = [];
@@ -186,6 +183,11 @@ class Converter
             return $values[$value] ?? null;
         }
 
+        if (!is_numeric($value)) {
+            // wrong type, log it?
+            return null;
+        }
+
         $cfo = $cf->getOptionById($value);
 
         return $cfo ? $cfo->getValue() : null;
@@ -223,7 +225,7 @@ class Converter
             '_icf' => $icf,
             'value' => $value,
             'icf_value' => $icf->getStringValue(),
-            'icf_value_date' => $value instanceof DateTime ? $value->format(self::DATE_FORMAT) : null,
+            'icf_value_date' => $icf->getDate(),
             'icf_value_integer' => $icf->getIntegerValue(),
         ];
 
