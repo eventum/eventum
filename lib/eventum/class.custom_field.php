@@ -542,58 +542,6 @@ class Custom_Field
     }
 
     /**
-     * Method used to remove a given list of custom fields.
-     *
-     * @return  bool
-     */
-    public static function remove()
-    {
-        $items = $_POST['items'];
-        $list = DB_Helper::buildList($items);
-        $stmt = "DELETE FROM
-                    `custom_field`
-                 WHERE
-                    fld_id IN ($list)";
-        try {
-            DB_Helper::getInstance()->query($stmt, $items);
-        } catch (DatabaseException $e) {
-            return false;
-        }
-
-        $stmt = "DELETE FROM
-                    `project_custom_field`
-                 WHERE
-                    pcf_fld_id IN ($list)";
-        try {
-            DB_Helper::getInstance()->query($stmt, $items);
-        } catch (DatabaseException $e) {
-            return false;
-        }
-
-        $stmt = "DELETE FROM
-                    `issue_custom_field`
-                 WHERE
-                    icf_fld_id IN ($list)";
-        try {
-            DB_Helper::getInstance()->query($stmt, $items);
-        } catch (DatabaseException $e) {
-            return false;
-        }
-
-        $stmt = "DELETE FROM
-                    `custom_field_option`
-                 WHERE
-                    cfo_fld_id IN ($list)";
-        try {
-            DB_Helper::getInstance()->query($stmt, $items);
-        } catch (DatabaseException $e) {
-            return false;
-        }
-
-        return true;
-    }
-
-    /**
      * Method used to add a new custom field to the system.
      *
      * @return  int 1 if the insert worked, -1 otherwise

@@ -187,6 +187,26 @@ class CustomFieldRepository extends EntityRepository
         $em->flush();
     }
 
+    public function removeCustomField(Entity\CustomField $cf): void
+    {
+        // TODO: use query builder, as this will not perform for large database
+        $em = $this->getEntityManager();
+
+        // TODO: these foreach would not be needed if delete cascade is enabled
+        foreach ($cf->getOptions() as $cfo) {
+            $em->remove($cfo);
+        }
+        foreach ($cf->getIssues() as $icf) {
+            $em->remove($icf);
+        }
+        foreach ($cf->getProjects() as $pcf) {
+            $em->remove($pcf);
+        }
+
+        $em->remove($cf);
+        $em->flush();
+    }
+
     public function setProjectAssociation(Entity\CustomField $cf, array $projects): void
     {
         $em = $this->getEntityManager();

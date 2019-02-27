@@ -109,12 +109,26 @@ class CustomFieldsController extends ManageBaseController
 
     private function deleteAction(): void
     {
-        $res = Custom_Field::remove();
-        $map = [
-            true => [ev_gettext('Thank you, the custom field was removed successfully.'), MessagesHelper::MSG_INFO],
-            false => [ev_gettext('An error occurred while trying to remove the custom field information.'), MessagesHelper::MSG_ERROR],
-        ];
-        $this->messages->mapMessages($res, $map);
+        $post = $this->getRequest()->request;
+        $fields = $post->get('items', []);
+
+        try {
+            $repo = Doctrine::getCustomFieldRepository();
+
+            foreach ($fields as $fld_id) {
+                $cf = $repo->findById($fld_id);
+                $repo->removeCustomField($cf);
+            }
+
+            $message = ev_gettext('Thank you, the custom field was removed successfully.');
+            $this->messages->addInfoMessage($message);
+        } catch (Throwable $e) {
+            $this->logger->error($e);
+            $message = ev_gettext('An error occurred while trying to remove the custom field information.');
+            $this->messages->addErrorMessage($message);
+        }
+
+        $this->redirect(APP_RELATIVE_URL . 'manage/custom_fields.php');
     }
 
     private function changeRankAction(): void
