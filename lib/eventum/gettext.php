@@ -44,7 +44,7 @@ if (!function_exists('gettext') || (defined('APP_GETTEXT_MODE') && APP_GETTEXT_M
     {
         if (func_num_args() > 1) {
             $arg = [];
-            for ($i = 1; $i < func_num_args(); $i++) {
+            for ($i = 1, $iMax = func_num_args(); $i < $iMax; $i++) {
                 $arg[] = func_get_arg($i);
             }
 
