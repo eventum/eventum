@@ -56,8 +56,8 @@ class CustomFieldOptionsController extends ManageBaseController
     private function updateAction(): void
     {
         $post = $this->getRequest()->request;
-        $options = $post->get('existing_options');
-        $new_options = $post->get('new_options');
+        $options = $post->get('existing_options', []);
+        $new_options = $post->get('new_options', []);
 
         try {
             $repo = Doctrine::getCustomFieldRepository();
