@@ -31,6 +31,7 @@ class User
     const ROLE_DEVELOPER = 5;
     const ROLE_MANAGER = 6;
     const ROLE_ADMINISTRATOR = 7;
+    const ROLE_NEVER_DISPLAY = 9;
 
     // definition of roles
     private static $roles = [
