@@ -73,12 +73,23 @@ class CustomFieldsController extends ManageBaseController
 
     private function newAction(): void
     {
-        $res = Custom_Field::insert();
-        $map = [
-            1 => [ev_gettext('Thank you, the custom field was added successfully.'), MessagesHelper::MSG_INFO],
-            -1 => [ev_gettext('An error occurred while trying to add the new custom field.'), MessagesHelper::MSG_ERROR],
-        ];
-        $this->messages->mapMessages($res, $map);
+        $post = $this->getRequest()->request;
+
+        try {
+            $repo = Doctrine::getCustomFieldRepository();
+            $cf = $this->updateFromRequest(new CustomField(), $post);
+            $cf->setType($post->get('field_type'));
+            $repo->persistAndFlush($cf);
+            $repo->setProjectAssociation($cf, $post->get('projects'));
+
+            $message = ev_gettext('Thank you, the custom field was added successfully.');
+            $this->messages->addInfoMessage($message);
+            $this->redirect(APP_RELATIVE_URL . 'manage/custom_fields.php?cat=edit&id=' . $cf->getId());
+        } catch (Throwable $e) {
+            $this->logger->error($e);
+            $message = ev_gettext('An error occurred while trying to add the new custom field.');
+            $this->messages->addErrorMessage($message);
+        }
     }
 
     /**
@@ -197,7 +208,7 @@ class CustomFieldsController extends ManageBaseController
             ->setIsEditFormRequired($post->get('edit_form_required', 0))
             ->setMinRole($post->get('min_role', User::ROLE_VIEWER))
             ->setMinRoleEdit($post->get('min_role_edit', User::ROLE_VIEWER))
-            ->setRank($post->get('rank', Custom_Field::getMaxRank() + 1))
+            ->setRank($post->getInt('rank', Custom_Field::getMaxRank() + 1))
             ->setOrderBy($post->get('order_by', 'cfo_id ASC'))
             ->setBackend($post->get('custom_field_backend'));
     }

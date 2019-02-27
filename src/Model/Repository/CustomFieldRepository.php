@@ -236,7 +236,6 @@ class CustomFieldRepository extends EntityRepository
         }
 
         $em = $this->getEntityManager();
-        $fld_id = $cf->getId();
         $wasTextField = $cf->isTextType();
 
         $cf->setType($fieldType);
