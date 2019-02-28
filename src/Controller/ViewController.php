@@ -50,7 +50,7 @@ class ViewController extends BaseController
     protected $tpl_name = 'view.tpl.html';
 
     /** @var int */
-    private $usr_id;
+    protected $usr_id;
 
     /** @var int */
     private $prj_id;
@@ -155,7 +155,7 @@ class ViewController extends BaseController
             'previous' => null,
         ];
 
-        $prefs = Doctrine::getUserPreferenceRepository()->findById($this->usr_id);
+        $prefs = $this->repository->getUserPreferences();
         if ($prefs->isIssueNavigationEnabled()) {
             $options = Search::saveSearchParams();
             $sides = Issue::getSides($this->issue_id, $options);
