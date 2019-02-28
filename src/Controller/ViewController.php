@@ -74,7 +74,7 @@ class ViewController extends BaseController
     /**
      * {@inheritdoc}
      */
-    protected function canAccess()
+    protected function canAccess(): bool
     {
         Auth::checkAuthentication();
 
@@ -148,13 +148,28 @@ class ViewController extends BaseController
         }
     }
 
+    private function getSides(): array
+    {
+        $sides = [
+            'next' => null,
+            'previous' => null,
+        ];
+
+        $prefs = Doctrine::getUserPreferenceRepository()->findById($this->usr_id);
+        if ($prefs->isIssueNavigationEnabled()) {
+            $options = Search::saveSearchParams();
+            $sides = Issue::getSides($this->issue_id, $options);
+        }
+
+        return $sides;
+    }
+
     /**
      * {@inheritdoc}
      */
     protected function prepareTemplate(): void
     {
-        $options = Search::saveSearchParams();
-        $sides = Issue::getSides($this->issue_id, $options);
+        $sides = $this->getSides();
 
         $this->tpl->assign(
             [
