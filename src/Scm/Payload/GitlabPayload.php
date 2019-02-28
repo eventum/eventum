@@ -162,7 +162,10 @@ class GitlabPayload implements PayloadInterface
         return $this->payload;
     }
 
-    private function getObjectAttribute(string $kind, string $attribute): ?int
+    /**
+     * @return int|string|null
+     */
+    private function getObjectAttribute(string $kind, string $attribute)
     {
         $value = $this->payload[$kind][$attribute] ?? null;
         if ($value !== null) {
