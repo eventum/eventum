@@ -153,9 +153,6 @@ class ViewController extends BaseController
      */
     protected function prepareTemplate(): void
     {
-        $options = Search::saveSearchParams();
-        $sides = Issue::getSides($this->issue_id, $options);
-
         $this->tpl->assign(
             [
                 'issue_id' => $this->issue_id,
@@ -164,8 +161,8 @@ class ViewController extends BaseController
                 // TRANSLATORS: Page HTML title: %1 = issue id, %2 = issue summary
                 'extra_title' => ev_gettext('#%1$s - %2$s', $this->issue_id, $this->details['iss_summary']),
 
-                'next_issue' => $sides['next'],
-                'previous_issue' => $sides['previous'],
+                'next_issue' => null,
+                'previous_issue' => null,
                 'subscribers' => Notification::getSubscribers($this->issue_id),
                 'custom_fields' => Custom_Field::getListByIssue($this->prj_id, $this->issue_id),
                 'files' => AttachmentManager::getList($this->issue_id),
