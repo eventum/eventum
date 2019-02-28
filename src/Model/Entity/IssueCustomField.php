@@ -16,6 +16,8 @@ namespace Eventum\Model\Entity;
 use Date_Helper;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
+use Eventum\CustomField\Fields\ListInterface;
+use Eventum\CustomField\Fields\OptionValueInterface;
 use Exception;
 
 /**
@@ -165,6 +167,42 @@ class IssueCustomField
             default:
                 return $this->getStringValue();
         }
+    }
+
+    /**
+     * @see Custom_Field::getOptionValue
+     */
+    public function getOptionValue(): ?string
+    {
+        $cf = $this->customField;
+        $value = $this->getValue();
+
+        // FIXME: why?
+        if (!$value) {
+            return $value;
+        }
+
+        $backend = $cf->getBackend();
+        $fld_id = $cf->getId();
+
+        if ($backend && $backend->hasInterface(OptionValueInterface::class)) {
+            return $backend->getOptionValue($fld_id, $value);
+        }
+
+        if ($backend && $backend->hasInterface(ListInterface::class)) {
+            $values = $backend->getList($fld_id, false);
+
+            return $values[$value] ?? null;
+        }
+
+        if (!is_numeric($value)) {
+            // wrong type, log it?
+            return null;
+        }
+
+        $cfo = $cf->getOptionById($value);
+
+        return $cfo ? $cfo->getValue() : null;
     }
 
     /**
