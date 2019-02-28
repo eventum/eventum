@@ -17,7 +17,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Table(name="user_preference")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Eventum\Model\Repository\UserPreferenceRepository")
  */
 class UserPreference
 {
