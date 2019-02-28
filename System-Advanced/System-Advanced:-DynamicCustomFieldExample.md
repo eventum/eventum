@@ -79,7 +79,7 @@ Also, please make sure that **either fields got a ranking \> 0** (the default), 
 
         function getControllingCustomFieldID()
         {
-            return Custom_Field::getIDByTitle(self::getControllingCustomFieldName());
+            return Custom_Field::getIdByTitle(self::getControllingCustomFieldName());
         }
 
 
