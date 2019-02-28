@@ -4657,16 +4657,16 @@
         },
         {
             "name": "rmm5t/jquery-timeago",
-            "version": "v1.6.3",
+            "version": "v1.6.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/rmm5t/jquery-timeago.git",
-                "reference": "36d331096b66f22ec5eaea776584a853b49b81bf"
+                "reference": "2ea30c143a9fd3a77dda4c4a9156dfdb9cc858bb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/rmm5t/jquery-timeago/zipball/36d331096b66f22ec5eaea776584a853b49b81bf",
-                "reference": "36d331096b66f22ec5eaea776584a853b49b81bf",
+                "url": "https://api.github.com/repos/rmm5t/jquery-timeago/zipball/2ea30c143a9fd3a77dda4c4a9156dfdb9cc858bb",
+                "reference": "2ea30c143a9fd3a77dda4c4a9156dfdb9cc858bb",
                 "shasum": ""
             },
             "require": {
@@ -4700,9 +4700,9 @@
             ],
             "support": {
                 "issues": "https://github.com/rmm5t/jquery-timeago/issues",
-                "source": "https://github.com/rmm5t/jquery-timeago/tree/v1.6.3"
+                "source": "https://github.com/rmm5t/jquery-timeago/tree/v1.6.5"
             },
-            "time": "2018-02-23T15:27:54+00:00"
+            "time": "2019-02-24T19:46:29+00:00"
         },
         {
             "name": "robloach/component-installer",
