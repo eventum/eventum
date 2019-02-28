@@ -78,6 +78,10 @@ class ViewController extends BaseController
     {
         Auth::checkAuthentication();
 
+        $this->prj_id = Auth::getCurrentProject();
+        $this->usr_id = Auth::getUserID();
+        $this->role_id = Auth::getCurrentRole();
+
         return true;
     }
 
@@ -116,10 +120,6 @@ class ViewController extends BaseController
      */
     protected function defaultAction(): void
     {
-        $this->prj_id = Auth::getCurrentProject();
-        $this->usr_id = Auth::getUserID();
-        $this->role_id = Auth::getCurrentRole();
-
         $this->checkProject();
 
         $this->details = $details = Issue::getDetails($this->issue_id);
