@@ -74,7 +74,7 @@ class ViewController extends BaseController
     /**
      * {@inheritdoc}
      */
-    protected function canAccess()
+    protected function canAccess(): bool
     {
         Auth::checkAuthentication();
 
@@ -148,11 +148,29 @@ class ViewController extends BaseController
         }
     }
 
+    private function getSides(): array
+    {
+        $sides = [
+            'next' => null,
+            'previous' => null,
+        ];
+
+        $prefs = Doctrine::getUserPreferenceRepository()->findById($this->usr_id);
+        if ($prefs->isIssueNavigationEnabled()) {
+            $options = Search::saveSearchParams();
+            $sides = Issue::getSides($this->issue_id, $options);
+        }
+
+        return $sides;
+    }
+
     /**
      * {@inheritdoc}
      */
     protected function prepareTemplate(): void
     {
+        $sides = $this->getSides();
+
         $this->tpl->assign(
             [
                 'issue_id' => $this->issue_id,
@@ -161,8 +179,8 @@ class ViewController extends BaseController
                 // TRANSLATORS: Page HTML title: %1 = issue id, %2 = issue summary
                 'extra_title' => ev_gettext('#%1$s - %2$s', $this->issue_id, $this->details['iss_summary']),
 
-                'next_issue' => null,
-                'previous_issue' => null,
+                'next_issue' => $sides['next'],
+                'previous_issue' => $sides['previous'],
                 'subscribers' => Notification::getSubscribers($this->issue_id),
                 'custom_fields' => Custom_Field::getListByIssue($this->prj_id, $this->issue_id),
                 'files' => AttachmentManager::getList($this->issue_id),
