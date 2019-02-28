@@ -39,12 +39,13 @@ git pull --rebase
 
 patch_changelog "s/^## \[$(quote "$VERSION")\] *-* *$/& - $RELDATE/"
 patch_changelog "/^\[$(quote "$VERSION")\]/ s/\.\.\.master/...$TAG/"
-git commit -am "prepare for $VERSION release"
 
 cd $topdir/docs/wiki
 git checkout master
 git pull --rebase
 cd ../..
+
+git commit -am "prepare for $VERSION release"
 
 cd $topdir/docs/wiki
 git tag $TAG
