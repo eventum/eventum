@@ -121,6 +121,20 @@ class CustomFieldRepository extends EntityRepository
     }
 
     /**
+     * Returns next maximum rank of any custom fields.
+     */
+    public function getNextRank(): int
+    {
+        $qb = $this->getQueryBuilder();
+
+        $qb->select('MAX(cf.rank) AS rank');
+
+        $rank = $qb->getQuery()->getSingleScalarResult();
+
+        return $rank + 1;
+    }
+
+    /**
      * @return Entity\CustomField[]
      * @see Custom_Field::getListByIssue
      */

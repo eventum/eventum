@@ -195,6 +195,8 @@ class CustomFieldsController extends ManageBaseController
 
     private function updateFromRequest(CustomField $cf, ParameterBag $post): CustomField
     {
+        $repo = Doctrine::getCustomFieldRepository();
+
         return $cf
             ->setTitle($post->get('title'))
             ->setDescription($post->get('description'))
@@ -208,7 +210,7 @@ class CustomFieldsController extends ManageBaseController
             ->setIsEditFormRequired($post->get('edit_form_required', 0))
             ->setMinRole($post->get('min_role', User::ROLE_VIEWER))
             ->setMinRoleEdit($post->get('min_role_edit', User::ROLE_VIEWER))
-            ->setRank($post->getInt('rank', Custom_Field::getMaxRank() + 1))
+            ->setRank($post->getInt('rank', $repo->getNextRank()))
             ->setOrderBy($post->get('order_by', 'cfo_id ASC'))
             ->setBackend($post->get('custom_field_backend'));
     }

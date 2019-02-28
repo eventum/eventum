@@ -849,21 +849,6 @@ class Custom_Field
     }
 
     /**
-     * Returns the current maximum rank of any custom fields.
-     *
-     * @return  int The highest rank
-     */
-    public static function getMaxRank()
-    {
-        $sql = 'SELECT
-                    max(fld_rank)
-                FROM
-                    `custom_field`';
-
-        return DB_Helper::getInstance()->getOne($sql);
-    }
-
-    /**
      * Changes the rank of a custom field
      */
     public static function changeRank()
