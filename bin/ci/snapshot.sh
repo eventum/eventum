@@ -68,8 +68,8 @@ travis_build_id() {
 
 # show build log of travis build
 travis_log() {
-	# ".6" is the "deploy" job
-	local branch="snapshot" job_id=6 build_id
+	# ".7" is the "deploy" job
+	local branch="snapshot" job_id=7 build_id
 
 	printf >&2 "travis: figuring out build id..."
 	build_id=$(travis_build_id "$branch")
