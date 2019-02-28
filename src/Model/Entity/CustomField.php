@@ -367,7 +367,7 @@ class CustomField
 
     public function setBackend(?string $backend): self
     {
-        $this->backend = $backend;
+        $this->backend = $backend ?: null;
 
         return $this;
     }
