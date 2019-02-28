@@ -32,7 +32,7 @@ class ConfigPersistenceTest extends TestCase
         $configFile = $configDir . '/setup.php';
 
         $config = $this->handler->load($configFile);
-        $this->assertIsArray($config, 'Loading missing file yelds empty config');
+        $this->assertIsArray($config, 'Loading missing file yields empty config');
 
         $this->handler->store($configFile, $config);
         $contents = $this->readFile($configFile);
