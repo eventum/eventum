@@ -4,6 +4,8 @@
 
 Upgrading to 3.6.x versions requires that you upgrade to latest 3.5.x version first.
 
+- Remove `NULL` values from `user_preference` table (@glensc, #486)
+
 [3.6.2]: https://github.com/eventum/eventum/compare/v3.6.1...master
 
 ## [3.6.1] - 2019-02-28
