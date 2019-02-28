@@ -31,12 +31,15 @@ use RuntimeException;
  */
 class CustomField
 {
+    public const LIST_DISPLAY = 'list_display';
+
     public const FORM_TYPES = [
         // fld_<type> list
         // note "edit" form always enabled
         'report_form' => 'showReportForm',
         'anonymous_form' => 'showAnonymousForm',
         'close_form' => 'showCloseForm',
+        self::LIST_DISPLAY => 'showListDisplay',
         'edit_form' => null,
     ];
 

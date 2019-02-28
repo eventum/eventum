@@ -21,6 +21,7 @@ use Eventum\Db\DatabaseException;
 use Eventum\Db\Doctrine;
 use Eventum\Differ;
 use Eventum\Extension\ExtensionLoader;
+use Eventum\Model\Entity\CustomField;
 use Eventum\Monolog\Logger;
 
 /**
@@ -750,25 +751,15 @@ class Custom_Field
      * @param   int $prj_id the ID of the project
      * @return  array an array of custom field names
      */
-    public static function getFieldsToBeListed($prj_id)
+    public static function getFieldsToBeListed(int $prj_id): array
     {
-        $sql = 'SELECT
-                    fld_id,
-                    fld_title
-                FROM
-                    `custom_field`,
-                    `project_custom_field`
-                WHERE
-                    fld_id = pcf_fld_id AND
-                    pcf_prj_id = ? AND
-                    fld_list_display = 1  AND
-                    fld_min_role <= ?
-                ORDER BY
-                    fld_rank ASC';
-        try {
-            $res = DB_Helper::getInstance()->getPair($sql, [$prj_id, Auth::getCurrentRole()]);
-        } catch (DatabaseException $e) {
-            return [];
+        $role_id = Auth::getCurrentRole();
+        $repo = Doctrine::getCustomFieldRepository();
+        $fields = $repo->getListByProject($prj_id, $role_id, CustomField::LIST_DISPLAY);
+
+        $res = [];
+        foreach ($fields as $field) {
+            $res[$field->getId()] = $field->getTitle();
         }
 
         return $res;
