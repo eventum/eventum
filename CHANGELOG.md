@@ -1,6 +1,6 @@
 # Eventum Issue Tracking System
 
-## [3.6.1]
+## [3.6.1] - 2019-02-28
 
 Upgrading to 3.6.x versions requires that you upgrade to latest 3.5.x version first.
 
@@ -9,7 +9,7 @@ Upgrading to 3.6.x versions requires that you upgrade to latest 3.5.x version fi
 - TextMessage: Handle mails without content-type headers created by Emacs Gnus 5.11 (@glensc, #477)
 - Replace `Mime_Helper::decodeFlowedBodies` with Horde version (@glensc, #480, #478)
 
-[3.6.1]: https://github.com/eventum/eventum/compare/v3.6.0...master
+[3.6.1]: https://github.com/eventum/eventum/compare/v3.6.0...v3.6.1
 
 ## [3.6.0] - 2019-02-11
 
