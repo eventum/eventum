@@ -784,42 +784,25 @@ class Custom_Field
      *
      * @param   int $iss_id The ID of the issue
      * @param   int $fld_id The ID of the field
-     * @param   bool $raw If the raw value should be displayed
+     * @param   bool $original If the raw value should be displayed
      * @return mixed an array or string containing the value
      */
-    public static function getDisplayValue($iss_id, $fld_id, $raw = false)
+    public static function getDisplayValue(int $iss_id, int $fld_id, bool $original = false)
     {
-        $sql = 'SELECT
-                    fld_id,
-                    fld_type,
-                    ' . self::getDBValueFieldSQL() . ' as value
-                FROM
-                    `custom_field`,
-                    `issue_custom_field`
-                WHERE
-                    fld_id=icf_fld_id AND
-                    icf_iss_id=? AND
-                    fld_id = ?';
-        try {
-            $res = DB_Helper::getInstance()->getAll($sql, [$iss_id, $fld_id]);
-        } catch (DatabaseException $e) {
-            return '';
-        }
+        $repo = Doctrine::getCustomFieldRepository();
+        $cf = $repo->findById($fld_id);
 
+        $convertValue = !$original && $cf->isOptionType();
         $values = [];
-        foreach ($res as $row) {
-            if (in_array($row['fld_type'], self::$option_types, true)) {
-                if ($raw) {
-                    $values[] = $row['value'];
-                } else {
-                    $values[] = self::getOptionValue($row['fld_id'], $row['value']);
-                }
-            } else {
-                $values[] = $row['value'];
+        foreach ($cf->getMatchingIssues($iss_id) as $icf) {
+            $value = $icf->getValue();
+            if ($convertValue) {
+                $value = self::getOptionValue($cf->getId(), $value);
             }
+            $values[] = $value;
         }
 
-        if ($raw) {
+        if ($original) {
             return $values;
         }
 

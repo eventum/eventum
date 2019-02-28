@@ -508,6 +508,8 @@ class CustomField
 
     /**
      * The doctrine join probably wrong, we get excess relations with wrong issues
+     *
+     * @return Collection|IssueCustomField[]
      */
     public function getMatchingIssues(int $issue_id): Collection
     {
