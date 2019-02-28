@@ -771,25 +771,12 @@ class Custom_Field
      * @param   string $title The title of the field
      * @return  int The fld_id
      */
-    public static function getIDByTitle($title)
+    public static function getIdByTitle($title): ?int
     {
-        $sql = 'SELECT
-                    fld_id
-                FROM
-                    `custom_field`
-                WHERE
-                    fld_title = ?';
-        try {
-            $res = DB_Helper::getInstance()->getOne($sql, [$title]);
-        } catch (DatabaseException $e) {
-            return 0;
-        }
+        $repo = Doctrine::getCustomFieldRepository();
+        $cf = $repo->findOneBy(['title' => $title]);
 
-        if (empty($res)) {
-            return 0;
-        }
-
-        return $res;
+        return $cf ? $cf->getId() : null;
     }
 
     /**

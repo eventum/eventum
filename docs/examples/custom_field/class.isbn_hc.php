@@ -29,7 +29,7 @@ class Isbn_Hc_Custom_Field_Backend extends Dynamic_Custom_Field_Backend
 
     public function getControllingCustomFieldId(): int
     {
-        return Custom_Field::getIDByTitle($this->getControllingCustomFieldName());
+        return Custom_Field::getIdByTitle($this->getControllingCustomFieldName());
     }
 
     public function getControllingCustomFieldName(): string
