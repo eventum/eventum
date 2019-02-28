@@ -1457,7 +1457,7 @@ class Support
      * @param   int $sup_id The support email ID
      * @return  array The email entry summary
      */
-    public static function getEmailSummary($sup_id)
+    public static function getEmailSummary($sup_id): array
     {
         $stmt = 'SELECT
                     `support_email`.sup_subject,
