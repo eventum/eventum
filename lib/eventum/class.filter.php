@@ -12,6 +12,7 @@
  */
 
 use Eventum\Db\DatabaseException;
+use Eventum\Db\Doctrine;
 
 /**
  * Class to handle the business logic related to the custom filters.
@@ -935,17 +936,19 @@ class Filter
         ];
 
         // add custom fields
-        $custom_fields = Custom_Field::getFieldsByProject(Auth::getCurrentProject());
-        if (count($custom_fields) > 0) {
-            foreach ($custom_fields as $fld_id) {
-                $field = Custom_Field::getDetails($fld_id);
-                $fields['custom_field_' . $fld_id] = [
-                    'title' => $field['fld_title'],
-                    'is_custom' => 1,
-                    'fld_id' => $fld_id,
-                    'fld_type' => $field['fld_type'],
-                ];
-            }
+        $prj_id = Auth::getCurrentProject();
+        $repo = Doctrine::getCustomFieldRepository();
+        // XXX should the minRole be Auth::getCurrentRole()?
+        // XXX should fromType be passed?
+        $custom_fields = $repo->getListByProject($prj_id, User::ROLE_VIEWER, null);
+        foreach ($custom_fields as $cf) {
+            $fld_id = $cf->getId();
+            $fields['custom_field_' . $fld_id] = [
+                'title' => $cf->getTitle(),
+                'is_custom' => 1,
+                'fld_id' => $fld_id,
+                'fld_type' => $cf->getType(),
+            ];
         }
 
         return $fields;

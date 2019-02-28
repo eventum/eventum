@@ -704,30 +704,6 @@ class Custom_Field
     }
 
     /**
-     * Method used to get the list of custom fields associated with a
-     * given project.
-     *
-     * @param   int $prj_id The project ID
-     * @return  array The list of custom fields
-     */
-    public static function getFieldsByProject($prj_id)
-    {
-        $stmt = 'SELECT
-                    pcf_fld_id
-                 FROM
-                    `project_custom_field`
-                 WHERE
-                    pcf_prj_id=?';
-        try {
-            $res = DB_Helper::getInstance()->getColumn($stmt, [$prj_id]);
-        } catch (DatabaseException $e) {
-            return [];
-        }
-
-        return $res;
-    }
-
-    /**
      * Method used to remove the issue associations related to a given
      * custom field ID.
      *
