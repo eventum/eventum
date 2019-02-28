@@ -144,7 +144,13 @@ class CustomFieldsController extends ManageBaseController
 
     private function changeRankAction(): void
     {
-        Custom_Field::changeRank();
+        $get = $this->getRequest()->query;
+        $fld_id = $get->getInt('id');
+        $direction = $get->getInt('direction');
+
+        $this->repo->updateRank($fld_id, $direction);
+
+        $this->redirect(APP_RELATIVE_URL . 'manage/custom_fields.php');
     }
 
     /**

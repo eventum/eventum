@@ -14,6 +14,7 @@
 namespace Eventum\Model\Repository;
 
 use Custom_Field;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\ORM\QueryBuilder;
@@ -172,6 +173,18 @@ class CustomFieldRepository extends EntityRepository
         return $qb->getQuery()->getResult();
     }
 
+    /**
+     * @return Entity\CustomField[]|ArrayCollection
+     */
+    public function getList(): ArrayCollection
+    {
+        $qb = $this->getQueryBuilder();
+
+        $qb->addOrderBy('cf.rank');
+
+        return new ArrayCollection($qb->getQuery()->getResult());
+    }
+
     public function updateCustomFieldOptions(int $fld_id, array $updateOptions, array $addOptions): void
     {
         $cf = $this->findById($fld_id);
@@ -198,6 +211,42 @@ class CustomFieldRepository extends EntityRepository
             $em->persist($cfo);
         }
 
+        $em->flush();
+    }
+
+    public function updateRank(int $fld_id, int $direction): void
+    {
+        $fields = $this->getList();
+
+        $cf = $fields->filter(function (Entity\CustomField $cf) use ($fld_id) {
+            return $cf->getId() === $fld_id;
+        })->first();
+
+        if (!$cf) {
+            return;
+        }
+
+        // trying to move first entry lower or last entry higher will not work
+        if ($direction === -1 && $cf === $fields->first()) {
+            return;
+        }
+        if ($direction === +1 && $cf === $fields->last()) {
+            return;
+        }
+
+        $index = $fields->indexOf($cf);
+
+        // swap the fields
+        $fields[$index] = $fields[$index + $direction];
+        $fields[$index + $direction] = $cf;
+
+        // re-order everything starting from 1
+        $em = $this->getEntityManager();
+        $rank = 1;
+        foreach ($fields as $cf) {
+            $cf->setRank($rank++);
+            $em->persist($cf);
+        }
         $em->flush();
     }
 
