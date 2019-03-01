@@ -1452,6 +1452,34 @@ class Support
     }
 
     /**
+     * Method used to get the support email body and subject.
+     *
+     * @param   int $sup_id The support email ID
+     * @return  array The email entry summary
+     */
+    public static function getEmailSummary(int $sup_id): array
+    {
+        $stmt = 'SELECT
+                    `support_email`.sup_subject,
+                    `support_email_body`.seb_body
+                 FROM
+                    `support_email`,
+                    `support_email_body`
+                 WHERE
+                    sup_id=seb_sup_id AND
+                    sup_id=?';
+
+        $res = DB_Helper::getInstance()->getRow($stmt, [$sup_id]);
+        if (!$res) {
+            throw new InvalidArgumentException("Could not fetch email: $sup_id");
+        }
+
+        $res['message'] = $res['seb_body'];
+
+        return $res;
+    }
+
+    /**
      * Returns the nth note for a specific issue. The sequence starts at 1.
      *
      * @param   int $issue_id the id of the issue
