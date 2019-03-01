@@ -75,11 +75,6 @@ class TextMessage
         return $this->html || $this->text || $this->alttext;
     }
 
-    private function hasContentType(): bool
-    {
-        return $this->message->getHeaders()->has('Content-Type');
-    }
-
     /**
      * @param PartInterface $part
      */

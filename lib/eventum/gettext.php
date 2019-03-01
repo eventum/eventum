@@ -11,11 +11,6 @@
  * that were distributed with this source code.
  */
 
-// if gettext disabled, return early
-if (!defined('APP_PATH')) {
-    return;
-}
-
 // if there is no gettext support built into PHP, or we are running in language compatibility mode include PHP-gettext
 if (!function_exists('gettext') || (defined('APP_GETTEXT_MODE') && APP_GETTEXT_MODE === 'php')) {
     /** @noinspection PhpIncludeInspection */
@@ -44,7 +39,7 @@ if (!function_exists('gettext') || (defined('APP_GETTEXT_MODE') && APP_GETTEXT_M
     {
         if (func_num_args() > 1) {
             $arg = [];
-            for ($i = 1; $i < func_num_args(); $i++) {
+            for ($i = 1, $iMax = func_num_args(); $i < $iMax; $i++) {
                 $arg[] = func_get_arg($i);
             }
 
@@ -86,7 +81,8 @@ if (!function_exists('gettext') || (defined('APP_GETTEXT_MODE') && APP_GETTEXT_M
     }
 }
 
-// this won't change over the request. so set it once and permanently
-_bindtextdomain('eventum', APP_PATH . '/localization/');
-_bind_textdomain_codeset('eventum', APP_CHARSET);
-_textdomain('eventum');
+if (defined('APP_PATH')) {
+    _bindtextdomain('eventum', APP_PATH . '/localization/');
+    _bind_textdomain_codeset('eventum', APP_CHARSET);
+    _textdomain('eventum');
+}
