@@ -5,6 +5,7 @@
 Upgrading to 3.6.x versions requires that you upgrade to latest 3.5.x version first.
 
 - Remove `NULL` values from `user_preference` table (@glensc, #486)
+- Remove email parser overhead on Sphinx search (@vladsf, #487)
 
 [3.6.2]: https://github.com/eventum/eventum/compare/v3.6.1...master
 
@@ -16,7 +17,6 @@ Upgrading to 3.6.x versions requires that you upgrade to latest 3.5.x version fi
 - Match better merge request title from GitLab event (@glensc, #475)
 - TextMessage: Handle mails without content-type headers created by Emacs Gnus 5.11 (@glensc, #477)
 - Replace `Mime_Helper::decodeFlowedBodies` with Horde version (@glensc, #480, #478)
-- Remove email parser overhead on Sphinx search (@vladsf, #487)
 
 [3.6.1]: https://github.com/eventum/eventum/compare/v3.6.0...v3.6.1
 
