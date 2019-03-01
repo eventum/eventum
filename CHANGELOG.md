@@ -6,6 +6,7 @@ Upgrading to 3.6.x versions requires that you upgrade to latest 3.5.x version fi
 
 - Remove `NULL` values from `user_preference` table (@glensc, #486)
 - Remove email parser overhead on Sphinx search (@vladsf, #487)
+- Make issue navigation respect user preference, default off (performance!) (@glensc, #485, #488)
 
 [3.6.2]: https://github.com/eventum/eventum/compare/v3.6.1...master
 

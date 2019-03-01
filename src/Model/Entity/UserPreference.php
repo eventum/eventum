@@ -95,6 +95,12 @@ class UserPreference
      */
     private $enableMarkdown;
 
+    /**
+     * @var bool
+     * @ORM\Column(name="upr_issue_navigation", type="boolean", nullable=false)
+     */
+    private $issueNavigation;
+
     public function getId(): int
     {
         return $this->id;
@@ -230,5 +236,17 @@ class UserPreference
     public function isMarkdownEnabled(): bool
     {
         return $this->enableMarkdown;
+    }
+
+    public function setIssueNavigation(bool $enable): self
+    {
+        $this->issueNavigation = $enable;
+
+        return $this;
+    }
+
+    public function isIssueNavigationEnabled(): bool
+    {
+        return $this->issueNavigation;
     }
 }

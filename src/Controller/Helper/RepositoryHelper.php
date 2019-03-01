@@ -11,16 +11,18 @@
  * that were distributed with this source code.
  */
 
-namespace Eventum\Model\Repository;
+namespace Eventum\Controller\Helper;
 
-use Doctrine\ORM\EntityRepository;
+use Eventum\Db\Doctrine;
 use Eventum\Model\Entity\UserPreference;
-use Eventum\Model\Repository\Traits\FindByIdTrait;
 
-/**
- * @method UserPreference findById(int $usr_id)
- */
-class UserPreferenceRepository extends EntityRepository
+class RepositoryHelper
 {
-    use FindByIdTrait;
+    /** @var int */
+    private $usr_id;
+
+    public function getUserPreferences(): UserPreference
+    {
+        return Doctrine::getUserPreferenceRepository()->findById($this->usr_id);
+    }
 }

@@ -50,7 +50,7 @@ class ViewController extends BaseController
     protected $tpl_name = 'view.tpl.html';
 
     /** @var int */
-    private $usr_id;
+    protected $usr_id;
 
     /** @var int */
     private $prj_id;
@@ -74,9 +74,13 @@ class ViewController extends BaseController
     /**
      * {@inheritdoc}
      */
-    protected function canAccess()
+    protected function canAccess(): bool
     {
         Auth::checkAuthentication();
+
+        $this->prj_id = Auth::getCurrentProject();
+        $this->usr_id = Auth::getUserID();
+        $this->role_id = Auth::getCurrentRole();
 
         return true;
     }
@@ -116,10 +120,6 @@ class ViewController extends BaseController
      */
     protected function defaultAction(): void
     {
-        $this->prj_id = Auth::getCurrentProject();
-        $this->usr_id = Auth::getUserID();
-        $this->role_id = Auth::getCurrentRole();
-
         $this->checkProject();
 
         $this->details = $details = Issue::getDetails($this->issue_id);
@@ -148,13 +148,28 @@ class ViewController extends BaseController
         }
     }
 
+    private function getSides(): array
+    {
+        $sides = [
+            'next' => null,
+            'previous' => null,
+        ];
+
+        $prefs = $this->repository->getUserPreferences();
+        if ($prefs->isIssueNavigationEnabled()) {
+            $options = Search::saveSearchParams();
+            $sides = Issue::getSides($this->issue_id, $options);
+        }
+
+        return $sides;
+    }
+
     /**
      * {@inheritdoc}
      */
     protected function prepareTemplate(): void
     {
-        $options = Search::saveSearchParams();
-        $sides = Issue::getSides($this->issue_id, $options);
+        $sides = $this->getSides();
 
         $this->tpl->assign(
             [

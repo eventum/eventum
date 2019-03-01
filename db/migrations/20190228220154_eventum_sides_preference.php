@@ -11,16 +11,14 @@
  * that were distributed with this source code.
  */
 
-namespace Eventum\Model\Repository;
+use Eventum\Db\AbstractMigration;
 
-use Doctrine\ORM\EntityRepository;
-use Eventum\Model\Entity\UserPreference;
-use Eventum\Model\Repository\Traits\FindByIdTrait;
-
-/**
- * @method UserPreference findById(int $usr_id)
- */
-class UserPreferenceRepository extends EntityRepository
+class EventumSidesPreference extends AbstractMigration
 {
-    use FindByIdTrait;
+    public function change(): void
+    {
+        $this->table('user_preference')
+            ->addColumn('upr_issue_navigation', 'boolean', ['default' => false])
+            ->update();
+    }
 }
