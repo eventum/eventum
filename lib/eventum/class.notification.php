@@ -13,6 +13,7 @@
 
 use Eventum\Attachment\AttachmentManager;
 use Eventum\Db\DatabaseException;
+use Eventum\Differ;
 use Eventum\Event\SystemEvents;
 use Eventum\EventDispatcher\EventManager;
 use Eventum\Mail\Helper\AddressHeader;
@@ -659,12 +660,9 @@ class Notification
             $diffs[] = '-' . ev_gettext('Percent complete') . ': ' . $old['iss_original_percent_complete'];
             $diffs[] = '+' . ev_gettext('Percent complete') . ': ' . $new['percentage_complete'];
         }
-        if (isset($new['description']) && $old['iss_original_description'] != $new['description']) {
-            $old['iss_description'] = explode("\n", $old['iss_original_description']);
-            $new['description'] = explode("\n", $new['description']);
-            $diff = new Text_Diff($old['iss_description'], $new['description']);
-            $renderer = new Text_Diff_Renderer_unified();
-            $desc_diff = explode("\n", trim($renderer->render($diff)));
+        if (isset($new['description']) && $old['iss_original_description'] !== $new['description']) {
+            $differ = new Differ();
+            $desc_diff = $differ->diff($old['iss_original_description'], $new['description']);
             $diffs[] = ev_gettext('Description') . ':';
             foreach ($desc_diff as $diff) {
                 $diffs[] = $diff;

@@ -12,6 +12,7 @@
  */
 
 use Eventum\Db\DatabaseException;
+use Eventum\Differ;
 use Eventum\Extension\ExtensionLoader;
 use Eventum\Monolog\Logger;
 
@@ -402,14 +403,11 @@ class Custom_Field
             $updated_fields = self::getUpdatedFieldsForRole($updated_fields, $role);
         }
         $diffs = [];
+        $differ = new Differ();
         foreach ($updated_fields as $fld_id => $field) {
             if ($field['old_display'] != $field['new_display']) {
-                if ($field['type'] == 'textarea') {
-                    $old = explode("\n", $field['old_display']);
-                    $new = explode("\n", $field['new_display']);
-                    $diff = new Text_Diff($old, $new);
-                    $renderer = new Text_Diff_Renderer_unified();
-                    $desc_diff = explode("\n", trim($renderer->render($diff)));
+                if ($field['type'] === 'textarea') {
+                    $desc_diff = $differ->diff($field['old_display'], $field['new_display']);
                     $diffs[] = $field['title'] . ':';
                     foreach ($desc_diff as $diff) {
                         $diffs[] = $diff;
