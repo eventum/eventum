@@ -33,9 +33,11 @@
 				<include name="**/*.txt"/>
 				<include name="**/*.y"/>
 				<include name="**/.coveralls.yml"/>
+				<include name="**/.doctrine-project.json"/>
 				<include name="**/.gitattributes"/>
-				<include name="**/.github*"/>
+				<include name="**/.github/**"/>
 				<include name="**/.gitignore"/>
+				<include name="**/.horde.yml"/>
 				<include name="**/.php_cs*"/>
 				<include name="**/.scrutinizer.yml"/>
 				<include name="**/.travis.yml"/>
@@ -59,9 +61,11 @@
 				<include name="**/humbug.json*"/>
 				<include name="**/package.xml"/>
 				<include name="**/pakefile.php"/>
+				<include name="**/phpbench.json"/>
 				<include name="**/phpmd.xml*"/>
 				<include name="**/phpstan.neon"/>
 				<include name="**/phpunit.xml*"/>
+				<include name="**/psalm.xml"/>
 				<include name="**/travis.ini"/>
 				<!-- traits are not commonly used -->
 				<include name="**/*Trait.php"/>
@@ -151,9 +155,9 @@
 			</fileset>
 
 			<fileset dir="${vendor}/phpxmlrpc/phpxmlrpc">
-				<include name="debugger"/>
-				<include name="extras"/>
-				<include name="lib"/>
+				<include name="debugger/*"/>
+				<include name="extras/*"/>
+				<include name="lib/*"/>
 			</fileset>
 
 			<fileset dir="${vendor}/robmorgan/phinx">
@@ -230,6 +234,11 @@
 
 			<fileset dir="${vendor}/doctrine/orm">
 				<include name="**/*.xsd"/>
+			</fileset>
+
+			<fileset dir="${vendor}/defuse/php-encryption">
+				<include name="bin/*"/>
+				<include name="dist/*"/>
 			</fileset>
 		</delete>
 	</target>
