@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "8900c210f6eb48cf1f9dbaf2ecae210e",
+    "content-hash": "0f433ada3eb58725b0eb909614d0cb96",
     "packages": [
         {
             "name": "cakephp/cache",
@@ -1939,36 +1939,6 @@
             "description": "Package to calculate statistical parameters of numerical arrays\nof data. The data can be in a simple numerical array, or in a \ncummulative numerical array. A cummulative array, has the value\nas the index and the number of repeats as the value for the\narray item, e.g. $data = array(3=&gt;4, 2.3=&gt;5, 1.25=&gt;6, 0.5=&gt;3).\nNulls can be rejected, ignored or handled as zero values."
         },
         {
-            "name": "pear-pear.php.net/Text_Diff",
-            "version": "1.2.2",
-            "dist": {
-                "type": "file",
-                "url": "https://pear.php.net/get/Text_Diff-1.2.2.tgz",
-                "reference": null,
-                "shasum": null
-            },
-            "require": {
-                "php": ">=5.3.0.0"
-            },
-            "replace": {
-                "pear-pear/text_diff": "== 1.2.2.0",
-                "pear/text_diff": "== 1.2.2.0"
-            },
-            "type": "pear-library",
-            "autoload": {
-                "classmap": [
-                    ""
-                ]
-            },
-            "include-path": [
-                "/"
-            ],
-            "license": [
-                "LGPL"
-            ],
-            "description": "This package provides a text-based diff engine and renderers for multiple diff output formats."
-        },
-        {
             "name": "pear/console_getopt",
             "version": "v1.4.2",
             "source": {
@@ -2476,6 +2446,62 @@
                 "phinx"
             ],
             "time": "2018-08-12T17:22:43+00:00"
+        },
+        {
+            "name": "sebastian/diff",
+            "version": "3.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/sebastianbergmann/diff.git",
+                "reference": "720fcc7e9b5cf384ea68d9d930d480907a0c1a29"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/sebastianbergmann/diff/zipball/720fcc7e9b5cf384ea68d9d930d480907a0c1a29",
+                "reference": "720fcc7e9b5cf384ea68d9d930d480907a0c1a29",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.1"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^7.5 || ^8.0",
+                "symfony/process": "^2 || ^3.3 || ^4"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "3.0-dev"
+                }
+            },
+            "autoload": {
+                "classmap": [
+                    "src/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Kore Nordmann",
+                    "email": "mail@kore-nordmann.de"
+                },
+                {
+                    "name": "Sebastian Bergmann",
+                    "email": "sebastian@phpunit.de"
+                }
+            ],
+            "description": "Diff implementation",
+            "homepage": "https://github.com/sebastianbergmann/diff",
+            "keywords": [
+                "diff",
+                "udiff",
+                "unidiff",
+                "unified diff"
+            ],
+            "time": "2019-02-04T06:01:07+00:00"
         },
         {
             "name": "smarty-gettext/smarty-gettext",
@@ -3686,7 +3712,7 @@
                 "zf2"
             ],
             "support": {
-                "source": "https://github.com/eventum/zend-mail/tree/develop-2.4"
+                "source": "https://github.com/glensc/zend-mail/tree/develop-2.4"
             },
             "time": "2018-03-13T21:01:43+00:00"
         },
