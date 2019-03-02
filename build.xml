@@ -34,6 +34,7 @@
 				<include name="**/*.y"/>
 				<include name="**/.coveralls.yml"/>
 				<include name="**/.gitattributes"/>
+				<include name="**/.github*"/>
 				<include name="**/.gitignore"/>
 				<include name="**/.php_cs*"/>
 				<include name="**/.scrutinizer.yml"/>

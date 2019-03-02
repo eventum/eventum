@@ -13,20 +13,22 @@
 
 namespace Eventum;
 
-use Text_Diff;
-use Text_Diff_Renderer_unified;
+use SebastianBergmann\Diff;
 
 class Differ
 {
+    private $differ;
+
+    public function __construct()
+    {
+        $builder = new Diff\Output\UnifiedDiffOutputBuilder('', true);
+        $this->differ = new Diff\Differ($builder);
+    }
+
     public function diff(string $old, string $new): array
     {
-        $params = [
-            explode("\n", $old),
-            explode("\n", $new),
-        ];
-        $differ = new Text_Diff('auto', $params);
-        $renderer = new Text_Diff_Renderer_unified();
+        $diff = $this->differ->diff($old, $new);
 
-        return explode("\n", trim($renderer->render($differ)));
+        return explode("\n", trim($diff));
     }
 }
