@@ -370,64 +370,6 @@ class Custom_Field
     }
 
     /**
-     * Method used to get the custom field option value.
-     *
-     * @param   int $fld_id The custom field ID
-     * @param   int $value The custom field option ID
-     * @return  string The custom field option value
-     */
-    public static function getOptionValue($fld_id, $value)
-    {
-        static $returns;
-
-        if (empty($value)) {
-            return '';
-        }
-
-        $cacheKey = $fld_id . $value;
-
-        if (isset($returns[$cacheKey])) {
-            return $returns[$cacheKey];
-        }
-
-        $backend = self::getBackend($fld_id);
-
-        if ($backend && $backend->hasInterface(OptionValueInterface::class)) {
-            return $backend->getOptionValue($fld_id, $value);
-        }
-
-        if ($backend && $backend->hasInterface(ListInterface::class)) {
-            $values = $backend->getList($fld_id, false);
-            $returns[$cacheKey] = @$values[$value];
-
-            return @$values[$value];
-        }
-
-        $stmt = 'SELECT
-                    cfo_value
-                 FROM
-                    `custom_field_option`
-                 WHERE
-                    cfo_fld_id=? AND
-                    cfo_id=?';
-        try {
-            $res = DB_Helper::getInstance()->getOne($stmt, [$fld_id, $value]);
-        } catch (DatabaseException $e) {
-            return '';
-        }
-
-        if ($res == null) {
-            $returns[$cacheKey] = '';
-
-            return '';
-        }
-
-        $returns[$cacheKey] = $res;
-
-        return $res;
-    }
-
-    /**
      * Method used to get the custom field key based on the value.
      *
      * @param   int $fld_id The custom field ID
@@ -750,6 +692,7 @@ class Custom_Field
      *
      * @param   int $prj_id the ID of the project
      * @return  array an array of custom field names
+     * @see Custom_Field::formatValue()
      */
     public static function getFieldsToBeListed(int $prj_id): array
     {
@@ -857,6 +800,7 @@ class Custom_Field
      * @param   int $fld_id The ID of the field
      * @param   int $issue_id The ID of the issue
      * @return  mixed   the formatted value
+     * @see Custom_Field::getFieldsToBeListed
      */
     public static function formatValue($value, $fld_id, $issue_id)
     {

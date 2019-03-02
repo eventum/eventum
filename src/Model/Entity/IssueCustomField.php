@@ -169,9 +169,6 @@ class IssueCustomField
         }
     }
 
-    /**
-     * @see Custom_Field::getOptionValue
-     */
     public function getOptionValue(): ?string
     {
         $cf = $this->customField;
