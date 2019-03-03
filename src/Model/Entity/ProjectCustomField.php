@@ -36,6 +36,13 @@ class ProjectCustomField
     private $projectId;
 
     /**
+     * @var Project
+     * @ORM\ManyToOne(targetEntity="Project", inversedBy="customField")
+     * @ORM\JoinColumn(name="pcf_prj_id", referencedColumnName="prj_id")
+     */
+    private $project;
+
+    /**
      * TODO: drop, if could know where to move the pcf_fld_id field declaration
      * @var int
      * @ORM\Column(name="pcf_fld_id", type="integer", nullable=false)
@@ -64,6 +71,11 @@ class ProjectCustomField
     public function getProjectId(): int
     {
         return $this->projectId;
+    }
+
+    public function getProject(): Project
+    {
+        return $this->project;
     }
 
     public function setCustomField(CustomField $cf): self

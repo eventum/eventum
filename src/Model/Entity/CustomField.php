@@ -187,9 +187,9 @@ class CustomField
     /**
      * @var ProjectCustomField[]|PersistentCollection
      * @ORM\OneToMany(targetEntity="ProjectCustomField", mappedBy="customField")
-     * @ORM\JoinColumn(name="id", referencedColumnName="icf_iss_id")
+     * @ORM\JoinColumn(name="id", referencedColumnName="pcf_prj_id")
      */
-    public $projects;
+    private $projects;
 
     public function __construct()
     {
