@@ -102,11 +102,11 @@ class IssueCustomField
         return $this->fieldId;
     }
 
-    public function setStringValue(?string $stringValue): self
+    public function setStringValue(?string $value): self
     {
         $this->integerValue = null;
         $this->dateValue = null;
-        $this->stringValue = $stringValue;
+        $this->stringValue = $value;
 
         return $this;
     }
@@ -116,11 +116,11 @@ class IssueCustomField
         return $this->stringValue;
     }
 
-    public function setIntegerValue(?int $integerValue): self
+    public function setIntegerValue(?int $value): self
     {
         $this->stringValue = null;
         $this->dateValue = null;
-        $this->integerValue = $integerValue;
+        $this->integerValue = $value;
 
         return $this;
     }
@@ -130,11 +130,19 @@ class IssueCustomField
         return $this->integerValue;
     }
 
-    public function setDateValue(?DateTime $dateValue): self
+    public function setDateValue($value): self
     {
+        if (!$value instanceof DateTime) {
+            try {
+                $value = Date_Helper::getDateTime($value, 'GMT');
+            } catch (Exception $e) {
+                return $this;
+            }
+        }
+
         $this->stringValue = null;
         $this->integerValue = null;
-        $this->dateValue = $dateValue;
+        $this->dateValue = $value;
 
         return $this;
     }
@@ -166,6 +174,27 @@ class IssueCustomField
             default:
                 return $this->getStringValue();
         }
+    }
+
+    public function setValue(?string $value): self
+    {
+        switch ($this->customField->getType()) {
+            case 'date':
+                return $this->setDateValue($value);
+            case 'integer':
+                return $this->setIntegerValue($value);
+            default:
+                return $this->setStringValue($value);
+        }
+    }
+
+    public function setCustomField(CustomField $cf): self
+    {
+        $this->customField = $cf;
+        $this->fieldId = $cf->getId();
+        $cf->addIssue($this);
+
+        return $this;
     }
 
     public function getOptionValue(): ?string
@@ -210,13 +239,8 @@ class IssueCustomField
             case 'date':
                 // XXX converting previous integer or text to date makes no sense!
                 $value = $this->getDate() ?? $this->getStringValue();
-                try {
-                    $date = Date_Helper::getDateTime($value, 'GMT');
-                } catch (Exception $e) {
-                    return $this;
-                }
 
-                return $this->setDateValue($date);
+                return $this->setDateValue($value);
 
             case 'integer':
                 // XXX converting from date makes no sense!

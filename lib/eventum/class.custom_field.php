@@ -45,209 +45,66 @@ class Custom_Field
      */
     public static function updateFromPost($send_notification = false)
     {
-        if (isset($_POST['custom_fields'])) {
-            $updated_fields = self::updateValues($_POST['issue_id'], $_POST['custom_fields']);
+        $issue_id = $_POST['issue_id'];
+        $custom_fields = $_POST['custom_fields'] ?? null;
+        if ($custom_fields) {
+            $updated_fields = self::updateValues($issue_id, $custom_fields);
             if ($send_notification) {
-                Notification::notifyIssueUpdated($_POST['issue_id'], [], [], $updated_fields);
+                Notification::notifyIssueUpdated($issue_id, [], [], $updated_fields);
             }
 
             return $updated_fields;
         }
+
+        return null;
     }
 
     /**
      * Method used to update the values stored in the database.
-     *
-     * @param $issue_id
-     * @param $custom_fields
-     * @return array|int -1 if there is an error, otherwise an array of the updated fields
      */
-    public static function updateValues($issue_id, $custom_fields)
+    public static function updateValues(int $issue_id, array $custom_fields): array
     {
-        $prj_id = Auth::getCurrentProject();
-
-        $old_values = self::getValuesByIssue($prj_id, $issue_id);
-
-        if (count($custom_fields) > 0) {
-            // get the types for all of the custom fields being submitted
-            $cf = array_keys($custom_fields);
-            $cf_list = DB_Helper::buildList($cf);
-            $stmt = "SELECT
-                        fld_id,
-                        fld_type
-                     FROM
-                        `custom_field`
-                     WHERE
-                        fld_id IN ($cf_list)";
-            $field_types = DB_Helper::getInstance()->getPair($stmt, $cf);
-
-            // get the titles for all of the custom fields being submitted
-            $stmt = "SELECT
-                        fld_id,
-                        fld_title
-                     FROM
-                        `custom_field`
-                     WHERE
-                        fld_id IN ($cf_list)";
-            $field_titles = DB_Helper::getInstance()->getPair($stmt, $cf);
-
-            $updated_fields = [];
-            foreach ($custom_fields as $fld_id => $value) {
-                // security check
-                $sql = 'SELECT
-                            fld_min_role
-                        FROM
-                            `custom_field`
-                        WHERE
-                            fld_id = ?';
-
-                $min_role = DB_Helper::getInstance()->getOne($sql, [$fld_id]);
-                if ($min_role > Auth::getCurrentRole()) {
-                    continue;
-                }
-
-                $updated_fields[$fld_id] = [
-                    'title' => $field_titles[$fld_id],
-                    'type' => $field_types[$fld_id],
-                    'min_role' => $min_role,
-                    'changes' => '',
-                    'old_display' => '',
-                    'new_display' => '',
-                ];
-                if (!in_array($field_types[$fld_id], self::$option_types)) {
-                    // check if this is a date field
-                    $fld_db_name = self::getDBValueFieldNameByType($field_types[$fld_id]);
-
-                    // first check if there is actually a record for this field for the issue
-                    $stmt = "SELECT
-                                icf_id,
-                                $fld_db_name as value
-                             FROM
-                                `issue_custom_field`
-                             WHERE
-                                icf_iss_id=? AND
-                                icf_fld_id=?";
-
-                    try {
-                        $res = DB_Helper::getInstance()->getRow($stmt, [$issue_id, $fld_id]);
-                    } catch (DatabaseException $e) {
-                        return -1;
-                    }
-                    $icf_id = $res['icf_id'];
-                    $old_value = $res['value'];
-
-                    if ($old_value == $value) {
-                        unset($updated_fields[$fld_id]);
-                        continue;
-                    }
-
-                    if (empty($icf_id)) {
-                        // record doesn't exist, insert new record
-                        $stmt = "INSERT INTO
-                                    `issue_custom_field`
-                                 (
-                                    icf_iss_id,
-                                    icf_fld_id,
-                                    $fld_db_name
-                                 ) VALUES (
-                                    ?, ?, ?
-                                 )";
-                        $params = [
-                            $issue_id, $fld_id, $value,
-                        ];
-                        try {
-                            DB_Helper::getInstance()->query($stmt, $params);
-                        } catch (DatabaseException $e) {
-                            return -1;
-                        }
-                    } else {
-                        // record exists, update it
-                        $stmt = "UPDATE
-                                    `issue_custom_field`
-                                 SET
-                                    $fld_db_name=?
-                                 WHERE
-                                    icf_id=?";
-                        $params = [$value, $icf_id];
-                        try {
-                            DB_Helper::getInstance()->query($stmt, $params);
-                        } catch (DatabaseException $e) {
-                            return -1;
-                        }
-                    }
-                    $updated_fields[$fld_id]['old_display'] = $old_value;
-                    $updated_fields[$fld_id]['new_display'] = $value;
-                    if ($field_types[$fld_id] == 'textarea') {
-                        $updated_fields[$fld_id]['changes'] = '';
-                    } else {
-                        $updated_fields[$fld_id]['changes'] = History::formatChanges($old_value, $value);
-                    }
-                } else {
-                    $old_value = self::getDisplayValue($issue_id, $fld_id, true);
-
-                    // remove dummy value from checkboxes. This dummy value is required so all real values can be unchecked.
-                    if ($field_types[$fld_id] == 'checkbox') {
-                        $value = array_filter($value);
-                    }
-
-                    if (!is_array($old_value)) {
-                        $old_value = [$old_value];
-                    }
-                    if (!is_array($value)) {
-                        $value = [$value];
-                    }
-                    if ((count(array_diff($old_value, $value)) > 0) || (count(array_diff($value, $old_value)) > 0)) {
-                        $old_display_value = self::getDisplayValue($issue_id, $fld_id);
-                        // need to remove all associated options from issue_custom_field and then
-                        // add the selected options coming from the form
-                        self::removeIssueAssociation($fld_id, $issue_id);
-                        if (@count($value) > 0) {
-                            self::associateIssue($issue_id, $fld_id, $value);
-                        }
-                        $new_display_value = self::getDisplayValue($issue_id, $fld_id);
-                        $updated_fields[$fld_id]['changes'] = History::formatChanges($old_display_value, $new_display_value);
-                        $updated_fields[$fld_id]['old_display'] = $old_display_value;
-                        $updated_fields[$fld_id]['new_display'] = $new_display_value;
-                    } else {
-                        unset($updated_fields[$fld_id]);
-                    }
-                }
-            }
-
-            Workflow::handleCustomFieldsUpdated($prj_id, $issue_id, $old_values, self::getValuesByIssue($prj_id, $issue_id), $updated_fields);
-            Issue::markAsUpdated($issue_id);
-
-            if (count($updated_fields) > 0) {
-                // log the changes
-                $changes = [];
-                foreach ($updated_fields as $fld_id => $updated_field) {
-                    if (!isset($changes[$updated_field['min_role']])) {
-                        $changes[$updated_field['min_role']] = [];
-                    }
-                    $title = $updated_field['title'];
-                    $value = $updated_field['changes'];
-
-                    if (!empty($value)) {
-                        $changes[$updated_field['min_role']][] = "$title: $value";
-                    } else {
-                        $changes[$updated_field['min_role']][] = $title;
-                    }
-                }
-
-                $usr_id = Auth::getUserID();
-                $usr_full_name = User::getFullName($usr_id);
-                foreach ($changes as $min_role => $role_changes) {
-                    History::add($issue_id, $usr_id, 'custom_field_updated', 'Custom field updated ({changes}) by {user}', [
-                        'changes' => implode('; ', $role_changes),
-                        'user' => $usr_full_name,
-                    ], $min_role);
-                }
-            }
-
-            return $updated_fields;
+        if (!$custom_fields) {
+            return [];
         }
 
-        return [];
+        $prj_id = Auth::getCurrentProject();
+        $role_id = Auth::getCurrentRole();
+        $usr_id = Auth::getUserID();
+        $usr_full_name = User::getFullName($usr_id);
+
+        $repo = Doctrine::getCustomFieldRepository();
+        $old_values = self::getValuesByIssue($prj_id, $issue_id);
+        $updated_fields = $repo->updateCustomFieldValues($issue_id, $role_id, $custom_fields);
+        $new_values = self::getValuesByIssue($prj_id, $issue_id);
+
+        Workflow::handleCustomFieldsUpdated($prj_id, $issue_id, $old_values, $new_values, $updated_fields);
+        Issue::markAsUpdated($issue_id);
+
+        // log the changes
+        $changes = [];
+        foreach ($updated_fields as $fld_id => $updated_field) {
+            if (!isset($changes[$updated_field['min_role']])) {
+                $changes[$updated_field['min_role']] = [];
+            }
+            $title = $updated_field['title'];
+            $value = $updated_field['changes'];
+
+            if ($value) {
+                $changes[$updated_field['min_role']][] = "$title: $value";
+            } else {
+                $changes[$updated_field['min_role']][] = $title;
+            }
+        }
+
+        foreach ($changes as $min_role => $role_changes) {
+            History::add($issue_id, $usr_id, 'custom_field_updated', 'Custom field updated ({changes}) by {user}', [
+                'changes' => implode('; ', $role_changes),
+                'user' => $usr_full_name,
+            ], $min_role);
+        }
+
+        return $updated_fields;
     }
 
     /**

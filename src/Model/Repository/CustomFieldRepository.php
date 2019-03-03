@@ -19,7 +19,9 @@ use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\ORM\QueryBuilder;
 use Eventum\Model\Entity;
+use Eventum\Model\Entity\IssueCustomField;
 use Eventum\Model\Repository\Traits\FindByIdTrait;
+use History;
 use RuntimeException;
 
 /**
@@ -183,6 +185,94 @@ class CustomFieldRepository extends EntityRepository
         $qb->addOrderBy('cf.rank');
 
         return new ArrayCollection($qb->getQuery()->getResult());
+    }
+
+    public function updateCustomFieldValues(int $issue_id, int $role_id, array $custom_fields): array
+    {
+        $em = $this->getEntityManager();
+        $updated_fields = [];
+
+        foreach ($custom_fields as $fld_id => $value) {
+            $cf = $this->findById($fld_id);
+
+            // security check
+            if ($cf->getMinRole() > $role_id) {
+                continue;
+            }
+
+            $field = [
+                'title' => $cf->getTitle(),
+                'type' => $cf->getType(),
+                'min_role' => $cf->getMinRole(),
+                'changes' => '',
+                'old_display' => '',
+                'new_display' => '',
+            ];
+
+            if ($cf->isOptionType()) {
+                $old_value = $cf->getMatchingIssues($issue_id)->map(function (IssueCustomField $icf) {
+                    return $icf->getValue();
+                })->toArray();
+
+                // remove dummy value from checkboxes. This dummy value is required so all real values can be unchecked.
+                if ($cf->getType() === 'checkbox') {
+                    $value = array_filter($value);
+                }
+
+                if (!is_array($old_value)) {
+                    $old_value = [$old_value];
+                }
+                if (!is_array($value)) {
+                    $value = [$value];
+                }
+
+                $hasChanges = count(array_diff($old_value, $value)) > 0 || count(array_diff($value, $old_value)) > 0;
+                if (!$hasChanges) {
+                    continue;
+                }
+
+                $old_display_value = Custom_Field::getDisplayValue($issue_id, $fld_id);
+                // need to remove all associated options from issue_custom_field and then
+                // add the selected options coming from the form
+                Custom_Field::removeIssueAssociation($fld_id, $issue_id);
+                if (count($value) > 0) {
+                    Custom_Field::associateIssue($issue_id, $fld_id, $value);
+                }
+                $new_display_value = Custom_Field::getDisplayValue($issue_id, $fld_id);
+                $field['changes'] = History::formatChanges($old_display_value, $new_display_value);
+                $field['old_display'] = $old_display_value;
+                $field['new_display'] = $new_display_value;
+            } else {
+                $icf = $cf->getIssueCustomField($issue_id);
+                $old_value = $icf ? $icf->getValue() : null;
+
+                if ($old_value === $value) {
+                    continue;
+                }
+
+                if (!$icf) {
+                    $icf = $cf->addIssueCustomField($issue_id, $value);
+                } else {
+                    $icf->setValue($value);
+                }
+                $em->persist($icf);
+
+                $field['old_display'] = $old_value;
+                $field['new_display'] = $value;
+
+                if ($cf->getType() === 'textarea') {
+                    $field['changes'] = '';
+                } else {
+                    $field['changes'] = History::formatChanges($old_value, $value);
+                }
+            }
+
+            $updated_fields[$fld_id] = $field;
+        }
+
+        $em->flush();
+
+        return $updated_fields;
     }
 
     public function updateCustomFieldOptions(int $fld_id, array $updateOptions, array $addOptions): void

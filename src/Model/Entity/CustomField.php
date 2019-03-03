@@ -424,6 +424,13 @@ class CustomField
         return $this;
     }
 
+    public function addIssue(IssueCustomField $icf): self
+    {
+        $this->issues->add($icf);
+
+        return $this;
+    }
+
     public function getOptions(): Collection
     {
         [$columnName, $direction] = explode(' ', $this->orderBy);
@@ -473,6 +480,16 @@ class CustomField
         $cfo->setRank($rank);
 
         return $cfo;
+    }
+
+    public function addIssueCustomField(int $issue_id, string $value): IssueCustomField
+    {
+        $icf = new IssueCustomField();
+        $icf->setIssueId($issue_id);
+        $icf->setCustomField($this);
+        $icf->setValue($value);
+
+        return $icf;
     }
 
     public function addOptionValue(string $value, int $rank): CustomFieldOption
@@ -527,6 +544,14 @@ class CustomField
         $criteria = Criteria::create()->where($expr);
 
         return $this->getOne($this->projects, $criteria);
+    }
+
+    public function getIssueCustomField(int $issue_id): ?IssueCustomField
+    {
+        $expr = new Comparison('issueId', '=', $issue_id);
+        $criteria = Criteria::create()->where($expr);
+
+        return $this->getOne($this->issues, $criteria) ?: null;
     }
 
     /**
