@@ -149,51 +149,14 @@ class Custom_Field
      * @param   int $value The custom field option ID
      * @return  string The custom field option value
      */
-    public static function getOptionKey($fld_id, $value)
+    public static function getOptionKey(int $fld_id, $value): ?int
     {
-        static $returns;
+        $repo = Doctrine::getCustomFieldRepository();
+        $cf = $repo->findById($fld_id);
+        $values = $cf->getOptionValues();
+        $cfo_id = array_search($value, $values, true);
 
-        if (empty($value)) {
-            return '';
-        }
-
-        $cacheKey = $fld_id . $value;
-        if (isset($returns[$cacheKey])) {
-            return $returns[$cacheKey];
-        }
-
-        $backend = self::getBackend($fld_id);
-        // TODO: add OptionKey interface, instead of using possibly heavy getList()
-        if ($backend && $backend->hasInterface(ListInterface::class)) {
-            $values = $backend->getList($fld_id, false);
-            $key = array_search($value, $values);
-            $returns[$cacheKey] = $key;
-
-            return $key;
-        }
-
-        $stmt = 'SELECT
-                    cfo_id
-                 FROM
-                    `custom_field_option`
-                 WHERE
-                    cfo_fld_id=? AND
-                    cfo_value=?';
-        try {
-            $res = DB_Helper::getInstance()->getOne($stmt, [$fld_id, $value]);
-        } catch (DatabaseException $e) {
-            return '';
-        }
-
-        if ($res == null) {
-            $returns[$cacheKey] = '';
-
-            return '';
-        }
-
-        $returns[$cacheKey] = $res;
-
-        return $res;
+        return $cfo_id ?: null;
     }
 
     /**
