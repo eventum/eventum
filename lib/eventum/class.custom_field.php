@@ -14,9 +14,7 @@
 use Eventum\CustomField\Converter;
 use Eventum\CustomField\Factory;
 use Eventum\CustomField\Fields\FormatValueInterface;
-use Eventum\CustomField\Fields\ListInterface;
 use Eventum\CustomField\Proxy;
-use Eventum\Db\DatabaseException;
 use Eventum\Db\Doctrine;
 use Eventum\Diff;
 use Eventum\Extension\ExtensionLoader;
@@ -208,11 +206,11 @@ class Custom_Field
         $values = [];
         $list = self::getListByIssue($prj_id, $iss_id);
         foreach ($list as $field) {
-            if ($field['fld_type'] == 'combo') {
+            if ($field['fld_type'] === 'combo') {
                 $values[$field['fld_id']] = [
                     $field['selected_cfo_id'] => $field['value'],
                 ];
-            } elseif ($field['fld_type'] == 'multiple' || $field['fld_type'] == 'checkbox') {
+            } elseif ($field['fld_type'] === 'multiple' || $field['fld_type'] === 'checkbox') {
                 $selected = $field['selected_cfo_id'];
                 foreach ($selected as $cfo_id) {
                     $values[$field['fld_id']][$cfo_id] = @$field['field_options'][$cfo_id];
@@ -252,66 +250,24 @@ class Custom_Field
      * with a given custom field ID.
      *
      * @param   int $fld_id The custom field ID
-     * @param   array $ids an array of ids to return values for
-     * @param   int $issue_id The ID of the issue
-     * @param   string $form_type
-     * @param   string $order_by The field and order to sort by. If null it will use the field setting
+     * @param   array $cfo_ids an array of ids to return values for
      * @return array The list of custom field options
      */
-    public static function getOptions($fld_id, $ids = null, $issue_id = null, $form_type = null, $order_by = null)
+    public static function getOptions(int $fld_id, array $cfo_ids = []): array
     {
-        static $returns;
+        $repo = Doctrine::getCustomFieldRepository();
+        $cf = $repo->findById($fld_id);
+        $list = $cf->getOptionValues();
 
-        $return_key = $fld_id . serialize($ids);
-
-        if (isset($returns[$return_key])) {
-            return $returns[$return_key];
-        }
-
-        $backend = self::getBackend($fld_id);
-        if ($backend && $backend->hasInterface(ListInterface::class)) {
-            $list = $backend->getList($fld_id, $issue_id, $form_type);
-            if ($ids) {
-                foreach ($list as $id => $value) {
-                    if (!in_array($id, $ids)) {
-                        unset($list[$id]);
-                    }
+        if ($cfo_ids) {
+            foreach ($list as $id => $value) {
+                if (!in_array($id, $cfo_ids, true)) {
+                    unset($list[$id]);
                 }
             }
-            // don't cache the return value for fields with backends
-            return $list;
         }
 
-        if ($order_by === null) {
-            $fld_details = self::getDetails($fld_id);
-            $order_by = $fld_details['fld_order_by'];
-        }
-
-        $stmt = 'SELECT
-                    cfo_id,
-                    cfo_value
-                 FROM
-                    `custom_field_option`
-                 WHERE
-                    cfo_fld_id=?';
-        $params = [$fld_id];
-        if ($ids) {
-            $stmt .= ' AND
-                    cfo_id IN(' . DB_Helper::buildList($ids) . ')';
-            $params = array_merge($params, $ids);
-        }
-        $stmt .= '
-                 ORDER BY
-                    ' . $order_by;
-        try {
-            $res = DB_Helper::getInstance()->getPair($stmt, $params);
-        } catch (DatabaseException $e) {
-            return '';
-        }
-
-        $returns[$return_key] = $res;
-
-        return $res;
+        return $list;
     }
 
     /**

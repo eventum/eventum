@@ -140,9 +140,6 @@ class Converter
         }
     }
 
-    /**
-     * @see Custom_Field::getOptions
-     */
     private function getOptions(array $field, ?string $formType = null, ?int $issueId = null): array
     {
         /** @var CustomField $cf */
