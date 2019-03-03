@@ -154,7 +154,6 @@ class IssueCustomField
     }
 
     /**
-     * @see Custom_Field::getDBValueFieldSQL
      * @return DateTime|int|null|string
      */
     public function getValue()

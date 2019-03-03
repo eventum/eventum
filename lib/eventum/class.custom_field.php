@@ -485,35 +485,6 @@ class Custom_Field
     }
 
     /**
-     * Method used to get the list of associated projects with a given
-     * custom field ID.
-     *
-     * @param   int $fld_id The project ID
-     * @return  array The list of associated projects
-     */
-    public static function getAssociatedProjects($fld_id)
-    {
-        $stmt = 'SELECT
-                    prj_id,
-                    prj_title
-                 FROM
-                    `project`,
-                    `project_custom_field`
-                 WHERE
-                    pcf_prj_id=prj_id AND
-                    pcf_fld_id=?
-                 ORDER BY
-                    prj_title ASC';
-        try {
-            $res = DB_Helper::getInstance()->getPair($stmt, [$fld_id]);
-        } catch (DatabaseException $e) {
-            return '';
-        }
-
-        return $res;
-    }
-
-    /**
      * Method used to get the details of a specific custom field.
      *
      * @param   int $fld_id The custom field ID
@@ -786,19 +757,10 @@ class Custom_Field
         }
     }
 
-    public static function getDBValueFieldSQL()
-    {
-        return "(CASE
-        WHEN fld_type = 'date' THEN icf_value_date
-        WHEN fld_type = 'integer' THEN icf_value_integer
-        ELSE icf_value END)";
-    }
-
     /**
-     * @return ExtensionLoader
      * @internal
      */
-    public static function getExtensionLoader()
+    public static function getExtensionLoader(): ExtensionLoader
     {
         $dirs = [
             APP_INC_PATH . '/custom_field',
