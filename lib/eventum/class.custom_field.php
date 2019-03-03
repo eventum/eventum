@@ -469,15 +469,14 @@ class Custom_Field
      *
      * @param   int $iss_id The ID of the issue
      * @param   int $fld_id The ID of the field
-     * @param   bool $original If the raw value should be displayed
      * @return mixed an array or string containing the value
      */
-    public static function getDisplayValue(int $iss_id, int $fld_id, bool $original = false)
+    public static function getDisplayValue(int $iss_id, int $fld_id)
     {
         $repo = Doctrine::getCustomFieldRepository();
         $cf = $repo->findById($fld_id);
 
-        $convertValue = !$original && $cf->isOptionType();
+        $convertValue = $cf->isOptionType();
         $values = [];
         foreach ($cf->getIssueCustomFields($iss_id) as $icf) {
             if ($convertValue) {
@@ -486,10 +485,6 @@ class Custom_Field
                 $value = $icf->getValue();
             }
             $values[] = $value;
-        }
-
-        if ($original) {
-            return $values;
         }
 
         return implode(', ', $values);
