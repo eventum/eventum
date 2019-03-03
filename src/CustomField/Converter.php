@@ -15,7 +15,6 @@ namespace Eventum\CustomField;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Eventum\CustomField\Fields\DefaultValueInterface;
-use Eventum\CustomField\Fields\DynamicCustomFieldInterface;
 use Eventum\CustomField\Fields\JavascriptValidationInterface;
 use Eventum\CustomField\Fields\RequiredValueInterface;
 use Eventum\Model\Entity\CustomField;
@@ -103,14 +102,6 @@ class Converter
             /** @var CustomField $cf */
             $cf = $field['_cf'];
             $backend = $cf->getProxy();
-
-            if ($backend && $backend->hasInterface(DynamicCustomFieldInterface::class)) {
-                $field['dynamic_options'] = $backend->getStructuredData();
-                $field['controlling_field_id'] = $backend->getControllingCustomFieldId();
-                $field['controlling_field_name'] = $backend->getControllingCustomFieldName();
-                $field['hide_when_no_options'] = $backend->hideWhenNoOptions();
-                $field['lookup_method'] = $backend->lookupMethod();
-            }
 
             if ($backend && $backend->hasInterface(RequiredValueInterface::class)) {
                 $field['fld_report_form_required'] = $backend->isRequired($fld_id, 'report', $issueId);

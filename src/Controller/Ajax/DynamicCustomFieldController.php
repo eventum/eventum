@@ -14,8 +14,9 @@
 namespace Eventum\Controller\Ajax;
 
 use Auth;
-use Custom_Field;
 use Eventum\CustomField\Fields\DynamicCustomFieldInterface;
+use Eventum\Db\Doctrine;
+use Eventum\Model\Repository\CustomFieldRepository;
 
 class DynamicCustomFieldController extends AjaxBaseController
 {
@@ -27,6 +28,8 @@ class DynamicCustomFieldController extends AjaxBaseController
     private $issue_id;
     /** @var string */
     private $form_type;
+    /** @var CustomFieldRepository */
+    private $repo;
 
     /**
      * {@inheritdoc}
@@ -37,6 +40,7 @@ class DynamicCustomFieldController extends AjaxBaseController
 
         $this->issue_id = $request->request->getInt('iss_id') ?: $request->query->getInt('iss_id');
         $this->form_type = $request->request->get('form_type') ?: $request->query->get('form_type');
+        $this->repo = Doctrine::getCustomFieldRepository();
     }
 
     /**
@@ -47,6 +51,7 @@ class DynamicCustomFieldController extends AjaxBaseController
         Auth::checkAuthentication();
 
         $this->prj_id = Auth::getCurrentProject();
+        $this->role_id = Auth::getCurrentRole();
 
         return true;
     }
@@ -58,18 +63,26 @@ class DynamicCustomFieldController extends AjaxBaseController
     private function getData(): array
     {
         if ($this->issue_id) {
-            $fields = Custom_Field::getListByIssue($this->prj_id, $this->issue_id, null, false, true);
+            $customFields = $this->repo->getListByIssue($this->prj_id, $this->issue_id, $this->role_id, null, true);
         } else {
-            $fields = Custom_Field::getListByProject($this->prj_id, $this->form_type, false, true);
+            $customFields = $this->repo->getListByProject($this->prj_id, $this->role_id, $this->form_type, null, true);
         }
 
         $data = [];
-        foreach ($fields as $field) {
-            $backend = Custom_Field::getBackend($field['fld_id']);
-            if ($backend && $backend->hasInterface(DynamicCustomFieldInterface::class)) {
-                $field['structured_data'] = $backend->getStructuredData();
-                $data[] = $field;
+        foreach ($customFields as $cf) {
+            $backend = $cf->getProxy();
+            if (!$backend || !$backend->hasInterface(DynamicCustomFieldInterface::class)) {
+                continue;
             }
+
+            $field = $cf->toArray();
+            $field['structured_data'] = $backend->getStructuredData();
+            $field['controlling_field_id'] = $backend->getControllingCustomFieldId();
+            $field['controlling_field_name'] = $backend->getControllingCustomFieldName();
+            $field['hide_when_no_options'] = $backend->hideWhenNoOptions();
+            $field['lookup_method'] = $backend->lookupMethod();
+
+            $data[] = $field;
         }
 
         return $data;
