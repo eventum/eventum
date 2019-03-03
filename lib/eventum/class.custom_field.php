@@ -32,14 +32,6 @@ class Custom_Field
 {
     public static $option_types = ['combo', 'multiple', 'checkbox'];
 
-    public static $order_by_choices = [
-        'cfo_id ASC' => 'Insert',
-        'cfo_id DESC' => 'Reverse insert',
-        'cfo_value ASC' => 'Alphabetical',
-        'cfo_value DESC' => 'Reverse alphabetical',
-        'cfo_rank ASC' => 'Manual',
-    ];
-
     /**
      * Updates custom field values from the $_POST array.
      */

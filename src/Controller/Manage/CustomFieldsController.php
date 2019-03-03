@@ -28,6 +28,14 @@ use User;
 
 class CustomFieldsController extends ManageBaseController
 {
+    private const ORDER_BY_CHOICES = [
+        'cfo_id ASC' => 'Insert',
+        'cfo_id DESC' => 'Reverse insert',
+        'cfo_value ASC' => 'Alphabetical',
+        'cfo_value DESC' => 'Reverse alphabetical',
+        'cfo_rank ASC' => 'Manual',
+    ];
+
     /** @var string */
     protected $tpl_name = 'manage/custom_fields.tpl.html';
 
@@ -172,7 +180,7 @@ class CustomFieldsController extends ManageBaseController
                 'list' => $this->getList(),
                 'user_roles' => $user_roles,
                 'backend_list' => $this->getBackends(),
-                'order_by_list' => Custom_Field::$order_by_choices,
+                'order_by_list' => self::ORDER_BY_CHOICES,
             ]
         );
     }
