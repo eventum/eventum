@@ -170,14 +170,13 @@ class Custom_Field
      */
     public static function associateIssue($iss_id, $fld_id, $value)
     {
-        // check if this is a date field
         $fld_details = self::getDetails($fld_id);
         if (!is_array($value)) {
             $value = [$value];
         }
         foreach ($value as $item) {
             $params = [$iss_id, $fld_id];
-            if ($fld_details['fld_type'] == 'integer') {
+            if ($fld_details['fld_type'] === 'integer') {
                 $params[] = $item;
             } elseif ((in_array($fld_details['fld_type'], self::$option_types) && ($item == -1))) {
                 continue;
@@ -428,47 +427,6 @@ class Custom_Field
         $returns[$return_key] = $res;
 
         return $res;
-    }
-
-    /**
-     * Method used to remove the issue associations related to a given
-     * custom field ID.
-     *
-     * @param   int|int[] $fld_id The custom field ID
-     * @param   int $issue_id The issue ID (not required)
-     * @param   int $prj_id The project ID (not required)
-     */
-    public static function removeIssueAssociation($fld_id, $issue_id = null, $prj_id = null): void
-    {
-        if (!is_array($fld_id)) {
-            $fld_id = [$fld_id];
-        }
-
-        $issues = [];
-        if ($issue_id) {
-            $issues = [$issue_id];
-        } elseif ($prj_id) {
-            $sql = 'SELECT
-                        iss_id
-                    FROM
-                        `issue`
-                    WHERE
-                        iss_prj_id = ?';
-            $res = DB_Helper::getInstance()->getColumn($sql, [$prj_id]);
-
-            $issues = $res;
-        }
-
-        $stmt = 'DELETE FROM
-                    `issue_custom_field`
-                 WHERE
-                    icf_fld_id IN (' . DB_Helper::buildList($fld_id) . ')';
-        $params = $fld_id;
-        if (count($issues) > 0) {
-            $stmt .= ' AND icf_iss_id IN(' . DB_Helper::buildList($issues) . ')';
-            $params = array_merge($params, $issues);
-        }
-        DB_Helper::getInstance()->query($stmt, $params);
     }
 
     /**

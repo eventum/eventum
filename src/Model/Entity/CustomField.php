@@ -482,6 +482,15 @@ class CustomField
         return $cfo;
     }
 
+    public function updateIssueCustomField(int $issue_id, string $value): IssueCustomField
+    {
+        return $this->getMatchingIssues($issue_id)
+            ->filter(function (IssueCustomField $icf) use ($value) {
+                return $icf->getValue() === $value;
+            })
+            ->first() ?: $this->addIssueCustomField($issue_id, $value);
+    }
+
     public function addIssueCustomField(int $issue_id, string $value): IssueCustomField
     {
         $icf = new IssueCustomField();

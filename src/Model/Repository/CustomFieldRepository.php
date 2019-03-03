@@ -232,13 +232,9 @@ class CustomFieldRepository extends EntityRepository
                 }
 
                 $old_display_value = Custom_Field::getDisplayValue($issue_id, $fld_id);
-                // need to remove all associated options from issue_custom_field and then
-                // add the selected options coming from the form
-                Custom_Field::removeIssueAssociation($fld_id, $issue_id);
-                if (count($value) > 0) {
-                    Custom_Field::associateIssue($issue_id, $fld_id, $value);
-                }
+                $this->setIssueAssociation($cf, $issue_id, $value);
                 $new_display_value = Custom_Field::getDisplayValue($issue_id, $fld_id);
+
                 $field['changes'] = History::formatChanges($old_display_value, $new_display_value);
                 $field['old_display'] = $old_display_value;
                 $field['new_display'] = $new_display_value;
@@ -373,6 +369,31 @@ class CustomFieldRepository extends EntityRepository
 
         foreach ($collection as $pcf) {
             $em->remove($pcf);
+        }
+
+        $em->flush();
+    }
+
+    public function setIssueAssociation(Entity\CustomField $cf, int $issue_id, array $values): void
+    {
+        $em = $this->getEntityManager();
+        $collection = $cf->getMatchingIssues($issue_id);
+
+        $isOptionType = $cf->isOptionType();
+        foreach ($values as $value) {
+            // "-1" means: don't store placeholder values to database
+            // https://github.com/eventum/eventum/blob/v3.6.1/lib/eventum/class.custom_field.php#L448
+            // https://github.com/eventum/eventum/commit/b2d0e72800c10ba6b4faa6c6d7e4460ebe60e46d
+            if ($isOptionType && $value === '-1') {
+                continue;
+            }
+            $icf = $cf->updateIssueCustomField($issue_id, $value);
+            $em->persist($icf);
+            $collection->removeElement($icf);
+        }
+
+        foreach ($collection as $icf) {
+            $em->remove($icf);
         }
 
         $em->flush();
