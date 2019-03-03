@@ -15,14 +15,13 @@ namespace Eventum\Controller\Ajax;
 
 use AuthCookie;
 use Eventum\Attachment\AttachmentManager;
-use Eventum\Controller\BaseController;
 use InvalidArgumentException;
 use Throwable;
 
-class UploadController extends BaseController
+class UploadController extends AjaxBaseController
 {
-    /** @var string */
-    protected $tpl_name;
+    protected $isJson = true;
+
     /** @var string */
     private $file;
 
@@ -36,9 +35,6 @@ class UploadController extends BaseController
         $this->file = $request->query->get('file');
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function canAccess(): bool
     {
         // check if logged in. if not, just give error
@@ -49,10 +45,7 @@ class UploadController extends BaseController
         return true;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function defaultAction(): void
+    protected function ajaxAction(): void
     {
         try {
             $res = $this->uploadAction();
@@ -65,7 +58,6 @@ class UploadController extends BaseController
             $this->logger->error($e);
         }
 
-        header('Content-Type: application/json; charset=UTF-8');
         echo json_encode($res);
     }
 
@@ -89,13 +81,5 @@ class UploadController extends BaseController
             'error' => 0,
             'iaf_id' => $iaf_ids,
         ];
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function prepareTemplate(): void
-    {
-        exit(0);
     }
 }

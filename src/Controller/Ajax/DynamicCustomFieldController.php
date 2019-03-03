@@ -15,10 +15,9 @@ namespace Eventum\Controller\Ajax;
 
 use Auth;
 use Custom_Field;
-use Eventum\Controller\BaseController;
 use Eventum\CustomField\Fields\DynamicCustomFieldInterface;
 
-class DynamicCustomFieldController extends BaseController
+class DynamicCustomFieldController extends AjaxBaseController
 {
     /** @var string */
     protected $tpl_name = 'js/dynamic_custom_field.tpl.js';
@@ -52,12 +51,8 @@ class DynamicCustomFieldController extends BaseController
         return true;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function defaultAction(): void
+    protected function ajaxAction(): void
     {
-        header('Content-Type: text/javascript; charset=UTF-8');
     }
 
     private function getData(): array

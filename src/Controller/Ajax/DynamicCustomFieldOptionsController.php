@@ -14,13 +14,12 @@
 namespace Eventum\Controller\Ajax;
 
 use Custom_Field;
-use Eventum\Controller\BaseController;
 use Eventum\CustomField\Fields\DynamicCustomFieldInterface;
 
-class DynamicCustomFieldOptionsController extends BaseController
+class DynamicCustomFieldOptionsController extends AjaxBaseController
 {
-    /** @var string */
-    protected $tpl_name;
+    protected $isJson = true;
+
     /** @var */
     private $fld_id;
 
@@ -37,15 +36,7 @@ class DynamicCustomFieldOptionsController extends BaseController
     /**
      * {@inheritdoc}
      */
-    protected function canAccess(): bool
-    {
-        return true;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function defaultAction(): void
+    protected function ajaxAction(): void
     {
         if ($this->fld_id) {
             return;
@@ -53,16 +44,7 @@ class DynamicCustomFieldOptionsController extends BaseController
 
         $backend = Custom_Field::getBackend($this->fld_id);
         if ($backend && $backend->hasInterface(DynamicCustomFieldInterface::class)) {
-            header('Content-Type: application/json; charset=UTF-8');
             echo json_encode($backend->getDynamicOptions($_GET));
         }
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function prepareTemplate(): void
-    {
-        exit(0);
     }
 }

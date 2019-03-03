@@ -15,14 +15,11 @@ namespace Eventum\Controller\Ajax;
 
 use Auth;
 use Date_Helper;
-use Eventum\Controller\BaseController;
 use Issue;
 use User;
 
-class UpdateController extends BaseController
+class UpdateController extends AjaxBaseController
 {
-    /** @var string */
-    protected $tpl_name;
     /** @var int */
     private $usr_id;
     /** @var int */
@@ -71,7 +68,7 @@ class UpdateController extends BaseController
     /**
      * {@inheritdoc}
      */
-    protected function defaultAction(): void
+    protected function ajaxAction(): void
     {
         switch ($this->field_name) {
             case 'expected_resolution_date':
@@ -82,14 +79,6 @@ class UpdateController extends BaseController
                 $this->error("Object type '$this->field_name' not supported");
                 break;
         }
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function prepareTemplate(): void
-    {
-        exit(0);
     }
 
     private function updateExpectedResolutionDate(): void

@@ -174,7 +174,7 @@ class PostNoteController extends BaseController
 
         $options = [
             'parent_id' => $post->get('parent_id', null),
-            'add_extra_recipients' => ($post->get('add_extra_recipients', '') == 'yes'),
+            'add_extra_recipients' => $post->get('add_extra_recipients', '') === 'yes',
             'cc' => $post->get('note_cc'),
         ];
 
