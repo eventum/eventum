@@ -30,8 +30,6 @@ use Eventum\Monolog\Logger;
  */
 class Custom_Field
 {
-    public static $option_types = ['combo', 'multiple', 'checkbox'];
-
     /**
      * Updates custom field values from the $_POST array.
      */
@@ -51,6 +49,17 @@ class Custom_Field
         return null;
     }
 
+    public static function updateCustomFieldValues(int $issue_id, int $role_id, array $custom_fields): array
+    {
+        if (!$custom_fields) {
+            return [];
+        }
+
+        $repo = Doctrine::getCustomFieldRepository();
+
+        return $repo->updateCustomFieldValues($issue_id, $role_id, $custom_fields);
+    }
+
     /**
      * Method used to update the values stored in the database.
      */
@@ -65,9 +74,8 @@ class Custom_Field
         $usr_id = Auth::getUserID();
         $usr_full_name = User::getFullName($usr_id);
 
-        $repo = Doctrine::getCustomFieldRepository();
         $old_values = self::getValuesByIssue($prj_id, $issue_id);
-        $updated_fields = $repo->updateCustomFieldValues($issue_id, $role_id, $custom_fields);
+        $updated_fields = self::updateCustomFieldValues($issue_id, $role_id, $custom_fields);
         $new_values = self::getValuesByIssue($prj_id, $issue_id);
 
         Workflow::handleCustomFieldsUpdated($prj_id, $issue_id, $old_values, $new_values, $updated_fields);
@@ -111,51 +119,6 @@ class Custom_Field
         $differ = new Diff\CustomField();
 
         return $differ->diff($updated_fields, $role_id);
-    }
-
-    /**
-     * Method used to associate a custom field value to a given
-     * issue ID.
-     *
-     * @param   int $iss_id The issue ID
-     * @param   int $fld_id The custom field ID
-     * @param   string $value The custom field value
-     * @return  bool Whether the association worked or not
-     */
-    public static function associateIssue($iss_id, $fld_id, $value)
-    {
-        $fld_details = self::getDetails($fld_id);
-        if (!is_array($value)) {
-            $value = [$value];
-        }
-        foreach ($value as $item) {
-            $params = [$iss_id, $fld_id];
-            if ($fld_details['fld_type'] === 'integer') {
-                $params[] = $item;
-            } elseif ((in_array($fld_details['fld_type'], self::$option_types) && ($item == -1))) {
-                continue;
-            } else {
-                $params[] = $item;
-            }
-
-            $fld_name = self::getDBValueFieldNameByType($fld_details['fld_type']);
-            $stmt = "INSERT INTO
-                        `issue_custom_field`
-                     (
-                        icf_iss_id,
-                        icf_fld_id,
-                        $fld_name
-                     ) VALUES (
-                        ?, ?, ?
-                     )";
-            try {
-                DB_Helper::getInstance()->query($stmt, $params);
-            } catch (DatabaseException $e) {
-                return false;
-            }
-        }
-
-        return true;
     }
 
     /**
