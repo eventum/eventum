@@ -17,7 +17,6 @@
               {if $custom_fields[i].fld_type == 'textarea'}
                 {$custom_fields[i].value|escape:"html"|activateLinks:"link"|nl2br}
               {else}
-                {assign var=issue_id value=$smarty.get.id|intval}
                 {$custom_fields[i].formatted_value}
               {/if}
             </td>
