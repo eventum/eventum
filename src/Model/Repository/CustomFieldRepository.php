@@ -13,7 +13,6 @@
 
 namespace Eventum\Model\Repository;
 
-use Custom_Field;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Query\Expr\Join;
@@ -225,9 +224,9 @@ class CustomFieldRepository extends EntityRepository
                     continue;
                 }
 
-                $old_display_value = Custom_Field::getDisplayValue($issue_id, $fld_id);
+                $old_display_value = $cf->getDisplayValue($issue_id);
                 $this->setIssueAssociation($cf, $issue_id, $value);
-                $new_display_value = Custom_Field::getDisplayValue($issue_id, $fld_id);
+                $new_display_value = $cf->getDisplayValue($issue_id);
 
                 $field['changes'] = History::formatChanges($old_display_value, $new_display_value);
                 $field['old_display'] = $old_display_value;

@@ -596,6 +596,16 @@ class CustomField
         return $matches->first();
     }
 
+    public function getDisplayValue(int $issue_id): string
+    {
+        $values = $this->getIssueCustomFields($issue_id)
+            ->map(function (IssueCustomField $icf) {
+                return $icf->getDisplayValue();
+            });
+
+        return implode(', ', $values->toArray());
+    }
+
     public function toArray(): array
     {
         return [

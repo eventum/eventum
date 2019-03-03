@@ -176,6 +176,15 @@ class IssueCustomField
         }
     }
 
+    public function getDisplayValue(): string
+    {
+        if ($this->customField->isOptionType()) {
+            return $this->getOptionValue();
+        }
+
+        return $this->getValue();
+    }
+
     public function setValue(?string $value): self
     {
         switch ($this->customField->getType()) {

@@ -474,20 +474,8 @@ class Custom_Field
     public static function getDisplayValue(int $iss_id, int $fld_id)
     {
         $repo = Doctrine::getCustomFieldRepository();
-        $cf = $repo->findById($fld_id);
 
-        $convertValue = $cf->isOptionType();
-        $values = [];
-        foreach ($cf->getIssueCustomFields($iss_id) as $icf) {
-            if ($convertValue) {
-                $value = $icf->getOptionValue();
-            } else {
-                $value = $icf->getValue();
-            }
-            $values[] = $value;
-        }
-
-        return implode(', ', $values);
+        return $repo->findById($fld_id)->getDisplayValue($iss_id);
     }
 
     /**
