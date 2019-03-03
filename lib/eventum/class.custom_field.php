@@ -151,6 +151,11 @@ class Custom_Field
      */
     public static function getOptionKey(int $fld_id, $value): ?int
     {
+        // to compensate broken custom field backends
+        if (!$fld_id) {
+            return 0;
+        }
+
         $repo = Doctrine::getCustomFieldRepository();
         $cf = $repo->findById($fld_id);
         $values = $cf->getOptionValues();

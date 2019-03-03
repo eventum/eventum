@@ -34,12 +34,12 @@ class IsbnHcCustomField extends Dynamic_Custom_Field_Backend
 
     public function getControllingCustomFieldId(): int
     {
-        return Custom_Field::getIdByTitle($this->getControllingCustomFieldName());
+        return Custom_Field::getIdByTitle($this->getControllingCustomFieldName()) ?: 0;
     }
 
     public function getControllingCustomFieldName(): string
     {
-        return '';
+        return 'isbn';
     }
 
     public function hideWhenNoOptions(): bool
