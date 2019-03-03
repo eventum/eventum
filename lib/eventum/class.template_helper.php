@@ -42,7 +42,6 @@ class Template_Helper
 
         $smarty->registerPlugin('modifier', 'activateLinks', [Link_Filter::class, 'activateLinks']);
         $smarty->registerPlugin('modifier', 'activateAttachmentLinks', [Link_Filter::class, 'activateAttachmentLinks']);
-        $smarty->registerPlugin('modifier', 'formatCustomValue', [Custom_Field::class, 'formatValue']);
         $smarty->registerPlugin('modifier', 'bool', [Misc::class, 'getBooleanDisplayValue']);
         $smarty->registerPlugin('modifier', 'format_date', [Date_Helper::class, 'getFormattedDate']);
         $smarty->registerPlugin('modifier', 'timeago', [Date_Helper::class, 'formatTimeAgo']);

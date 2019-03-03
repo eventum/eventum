@@ -91,9 +91,9 @@
           {/if}
           {foreach from=$columns item=column key=field_name}
           {if $field_name == 'custom_fields'}
-            {foreach from=$list[i].custom_field key=fld_id item=fld_value}
+            {foreach from=$list[i].custom_field key=fld_id item=cf}
                 <td style="background: {$list[i].status_color}" align="{$column.align|default:'center'}" class="custom_field cstm_{$fld_id}">
-                  {$fld_value|formatCustomValue:$fld_id:$list[i].iss_id}
+                  {$cf.formatted_value}
                 </td>
               {/foreach}
           {else}

@@ -182,7 +182,7 @@ class ViewController extends BaseController
                 'next_issue' => $sides['next'],
                 'previous_issue' => $sides['previous'],
                 'subscribers' => Notification::getSubscribers($this->issue_id),
-                'custom_fields' => Custom_Field::getListByIssue($this->prj_id, $this->issue_id),
+                'custom_fields' => $this->getCustomFields(),
                 'files' => AttachmentManager::getList($this->issue_id),
                 'emails' => Support::getEmailsByIssue($this->issue_id),
                 'zones' => Date_Helper::getTimezoneList(),
@@ -454,5 +454,17 @@ class ViewController extends BaseController
         }
 
         return $checkins;
+    }
+
+    protected function getCustomFields(): array
+    {
+        $fields = Custom_Field::getListByIssue($this->prj_id, $this->issue_id);
+
+        foreach ($fields as &$field) {
+            $formattedValue = Custom_Field::formatValue($field['value'], $field['fld_id'], $this->issue_id);
+            $field['formatted_value'] = $formattedValue;
+        }
+
+        return $fields;
     }
 }
