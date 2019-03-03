@@ -232,7 +232,7 @@ class CustomFieldRepository extends EntityRepository
                 $field['old_display'] = $old_display_value;
                 $field['new_display'] = $new_display_value;
             } else {
-                $old_value = $currentValues->first() ?: null;
+                $old_value = $currentValues->first() ?: '';
                 if ($old_value === $value) {
                     continue;
                 }
