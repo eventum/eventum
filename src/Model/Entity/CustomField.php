@@ -601,6 +601,7 @@ class CustomField
             'fld_title' => $this->getTitle(),
             'fld_type' => $this->getType(),
             'fld_rank' => $this->getRank(),
+            'fld_order_by' => $this->getOrderBy(),
             'fld_report_form_required' => (string)(int)$this->isReportFormRequired(),
             'fld_anonymous_form_required' => (string)(int)$this->isAnonymousFormRequired(),
             'fld_close_form_required' => (string)(int)$this->isCloseFormRequired(),
