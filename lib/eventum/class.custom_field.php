@@ -12,15 +12,12 @@
  */
 
 use Eventum\CustomField\Converter;
-use Eventum\CustomField\Factory;
 use Eventum\CustomField\Fields\FormatValueInterface;
-use Eventum\CustomField\Proxy;
 use Eventum\Db\Doctrine;
 use Eventum\Diff;
 use Eventum\Extension\ExtensionLoader;
 use Eventum\Model\Entity\CustomField;
 use Eventum\Model\Entity\ProjectCustomField;
-use Eventum\Monolog\Logger;
 
 /**
  * Class to handle the business logic related to the administration
@@ -320,46 +317,6 @@ class Custom_Field
     }
 
     /**
-     * Returns an instance of custom field backend class if it exists for the
-     * specified field.
-     *
-     * @param   int $fld_id The ID of the field
-     * @return  Proxy null if there is no backend or an instance of the backend class
-     */
-    public static function getBackend($fld_id): ?Proxy
-    {
-        static $returns;
-
-        // poor mans caching
-        if (isset($returns[$fld_id])) {
-            return $returns[$fld_id] ?: null;
-        }
-
-        $sql = 'SELECT
-                    fld_backend
-                FROM
-                    `custom_field`
-                WHERE
-                    fld_id = ?';
-        $res = DB_Helper::getInstance()->getOne($sql, [$fld_id]);
-
-        if ($res) {
-            try {
-                $instance = Factory::create($res);
-            } catch (InvalidArgumentException $e) {
-                Logger::app()->error("Could not load backend $res", ['exception' => $e]);
-                $instance = false;
-            }
-
-            $returns[$fld_id] = $instance;
-        } else {
-            $returns[$fld_id] = false;
-        }
-
-        return $returns[$fld_id] ?: null;
-    }
-
-    /**
      * Formats the return value
      *
      * @param   mixed $value The value to format
@@ -370,12 +327,17 @@ class Custom_Field
      */
     public static function formatValue($value, $fld_id, $issue_id)
     {
-        $backend = self::getBackend($fld_id);
+        $repo = Doctrine::getCustomFieldRepository();
+        $cf = $repo->findById($fld_id);
+        $backend = $cf->getProxy();
+
         if ($backend && $backend->hasInterface(FormatValueInterface::class)) {
             return $backend->formatValue($value, $fld_id, $issue_id);
         }
 
-        return Link_Filter::processText(Auth::getCurrentProject(), Misc::htmlentities($value));
+        $prj_id = Auth::getCurrentProject();
+
+        return Link_Filter::processText($prj_id, Misc::htmlentities($value));
     }
 
     /**
