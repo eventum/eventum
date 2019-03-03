@@ -387,6 +387,8 @@ class CustomFieldRepository extends EntityRepository
         foreach ($collection as $icf) {
             $em->remove($icf);
         }
+
+        $em->flush();
     }
 
     /**
