@@ -248,6 +248,6 @@ class CustomFieldsController extends ManageBaseController
             ->setMinRoleEdit($post->get('min_role_edit', User::ROLE_VIEWER))
             ->setRank($post->getInt('rank') ?: $this->repo->getNextRank())
             ->setOrderBy($post->get('order_by', 'cfo_id ASC'))
-            ->setBackend($post->get('custom_field_backend'));
+            ->setBackendClass($post->get('custom_field_backend'));
     }
 }

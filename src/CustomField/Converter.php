@@ -102,7 +102,7 @@ class Converter
             $fld_id = $field['fld_id'];
             /** @var CustomField $cf */
             $cf = $field['_cf'];
-            $backend = $cf->getBackend();
+            $backend = $cf->getProxy();
 
             if ($backend && $backend->hasInterface(DynamicCustomFieldInterface::class)) {
                 $field['dynamic_options'] = $backend->getStructuredData();

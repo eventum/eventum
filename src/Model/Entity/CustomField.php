@@ -158,7 +158,7 @@ class CustomField
      * @var string
      * @ORM\Column(name="fld_backend", type="string", length=255, nullable=true)
      */
-    private $backend;
+    private $backendClassName;
 
     /** @var Proxy|null */
     private $proxy;
@@ -369,20 +369,25 @@ class CustomField
         return $this->rank;
     }
 
-    public function setBackend(?string $backend): self
+    public function setBackendClass(?string $backend): self
     {
-        $this->backend = $backend ?: null;
+        $this->backendClassName = $backend ?: null;
 
         return $this;
     }
 
-    public function getBackend(): ?Proxy
+    public function getBackendClass(): ?string
     {
-        if ($this->proxy === null && $this->backend) {
+        return $this->backendClassName;
+    }
+
+    public function getProxy(): ?Proxy
+    {
+        if ($this->proxy === null && $this->backendClassName) {
             try {
-                $this->proxy = Factory::create($this->backend);
+                $this->proxy = Factory::create($this->backendClassName);
             } catch (InvalidArgumentException $e) {
-                Logger::app()->error("Could not load backend {$this->backend}", ['exception' => $e]);
+                Logger::app()->error("Could not load backend {$this->backendClassName}", ['exception' => $e]);
                 $this->proxy = false;
             }
         }
@@ -446,7 +451,7 @@ class CustomField
      */
     public function getOptionValues(?string $formType = null, ?int $issueId = null): array
     {
-        $backend = $this->getBackend();
+        $backend = $this->getProxy();
 
         if ($backend && $backend->hasInterface(ListInterface::class)) {
             return $backend->getList($this->getId(), $issueId, $formType);
@@ -602,6 +607,7 @@ class CustomField
             'fld_type' => $this->getType(),
             'fld_rank' => $this->getRank(),
             'fld_order_by' => $this->getOrderBy(),
+            'fld_backend' => $this->getBackendClass(),
             'fld_report_form_required' => (string)(int)$this->isReportFormRequired(),
             'fld_anonymous_form_required' => (string)(int)$this->isAnonymousFormRequired(),
             'fld_close_form_required' => (string)(int)$this->isCloseFormRequired(),

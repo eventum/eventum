@@ -216,7 +216,7 @@ class IssueCustomField
             return $value;
         }
 
-        $backend = $cf->getBackend();
+        $backend = $cf->getProxy();
         $fld_id = $cf->getId();
 
         if ($backend && $backend->hasInterface(OptionValueInterface::class)) {
