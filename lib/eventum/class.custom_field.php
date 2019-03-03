@@ -21,6 +21,7 @@ use Eventum\Db\Doctrine;
 use Eventum\Differ;
 use Eventum\Extension\ExtensionLoader;
 use Eventum\Model\Entity\CustomField;
+use Eventum\Model\Entity\ProjectCustomField;
 use Eventum\Monolog\Logger;
 
 /**
@@ -516,36 +517,20 @@ class Custom_Field
      * Method used to get the details of a specific custom field.
      *
      * @param   int $fld_id The custom field ID
-     * @param   bool $force_refresh If the details must be loaded again from the database
      * @return  array The custom field details
      */
-    public static function getDetails($fld_id, $force_refresh = false)
+    public static function getDetails(int $fld_id): array
     {
-        static $returns;
+        $repo = Doctrine::getCustomFieldRepository();
+        $cf = $repo->findById($fld_id);
+        $res = $cf->toArray();
 
-        if ((isset($returns[$fld_id])) && ($force_refresh == false)) {
-            return $returns[$fld_id];
-        }
+        $projects = $cf->getProjects()->map(function (ProjectCustomField $pcf) {
+            return $pcf->getProject()->getId();
+        })->toArray();
 
-        $stmt = 'SELECT
-                    *
-                 FROM
-                    `custom_field`
-                 WHERE
-                    fld_id=?';
-        try {
-            $res = DB_Helper::getInstance()->getRow($stmt, [$fld_id]);
-        } catch (DatabaseException $e) {
-            return '';
-        }
-        if (empty($res)) {
-            return null;
-        }
-
-        $res['projects'] = @array_keys(self::getAssociatedProjects($fld_id));
-        $res['field_options'] = self::getOptions($fld_id, null, null, null, $res['fld_order_by']);
-
-        $returns[$fld_id] = $res;
+        $res['projects'] = $projects;
+        $res['field_options'] = $cf->getOptionValues();
 
         return $res;
     }
