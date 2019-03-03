@@ -88,10 +88,7 @@ abstract class BaseController
         $this->displayTemplate();
     }
 
-    /**
-     * @return Request
-     */
-    protected function getRequest()
+    protected function getRequest(): Request
     {
         static $request;
         if (!$request) {
@@ -189,7 +186,7 @@ abstract class BaseController
      * @return bool
      * @since 3.1.4
      */
-    protected function isPostRequest()
+    protected function isPostRequest(): bool
     {
         return $this->getRequest()->isMethod(Request::METHOD_POST);
     }

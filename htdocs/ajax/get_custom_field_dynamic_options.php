@@ -11,18 +11,7 @@
  * that were distributed with this source code.
  */
 
-use Eventum\CustomField\Fields\DynamicCustomFieldInterface;
-
 require_once __DIR__ . '/../../init.php';
 
-// if there is no field ID, return false
-$fld_id = $_GET['fld_id'] ?? null;
-if (!$fld_id) {
-    exit(0);
-}
-
-$backend = Custom_Field::getBackend($fld_id);
-if ($backend && $backend->hasInterface(DynamicCustomFieldInterface::class)) {
-    header('Content-Type: application/json; charset=UTF-8');
-    echo json_encode($backend->getDynamicOptions($_GET));
-}
+$controller = new Eventum\Controller\Ajax\DynamicCustomFieldOptionsController();
+$controller->run();
