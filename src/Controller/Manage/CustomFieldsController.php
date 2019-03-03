@@ -168,7 +168,7 @@ class CustomFieldsController extends ManageBaseController
         $this->tpl->assign(
             [
                 'project_list' => Project::getAll(),
-                'list' => Custom_Field::getList(),
+                'list' => $this->getList(),
                 'user_roles' => $user_roles,
                 'backend_list' => $this->getBackends(),
                 'order_by_list' => Custom_Field::$order_by_choices,
@@ -176,7 +176,27 @@ class CustomFieldsController extends ManageBaseController
         );
     }
 
-    private function getBackends()
+    /**
+     * Method used to get the list of custom fields available in the
+     * system.
+     */
+    private function getList(): array
+    {
+        $res = [];
+        foreach ($this->repo->getList() as $cf) {
+            $row = $cf->toArray();
+            $row['projects'] = implode(', ', array_values(Custom_Field::getAssociatedProjects($row['fld_id'])));
+            $row['min_role_name'] = User::getRole($cf->getMinRole());
+            $row['min_role_edit_name'] = User::getRole($cf->getMinRoleEdit());
+            $row['has_options'] = $cf->isOptionType();
+            $row['field_options'] = $cf->getOptionValues();
+            $res[] = $row;
+        }
+
+        return $res;
+    }
+
+    private function getBackends(): array
     {
         // load classes from extension manager
         $manager = ExtensionManager::getManager();
@@ -189,7 +209,7 @@ class CustomFieldsController extends ManageBaseController
      * Create array with key,value from $values $key,
      * i.e discarding values.
      */
-    private function filterValues($values)
+    private function filterValues($values): array
     {
         $res = [];
         foreach ($values as $key => $value) {

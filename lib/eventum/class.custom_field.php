@@ -15,7 +15,6 @@ use Eventum\CustomField\Converter;
 use Eventum\CustomField\Factory;
 use Eventum\CustomField\Fields\FormatValueInterface;
 use Eventum\CustomField\Fields\ListInterface;
-use Eventum\CustomField\Fields\OptionValueInterface;
 use Eventum\CustomField\Proxy;
 use Eventum\Db\DatabaseException;
 use Eventum\Db\Doctrine;
@@ -482,34 +481,6 @@ class Custom_Field
         }
 
         return $values;
-    }
-
-    /**
-     * Method used to get the list of custom fields available in the
-     * system.
-     *
-     * @return  array The list of custom fields
-     */
-    public static function getList()
-    {
-        $stmt = 'SELECT
-                    *
-                 FROM
-                    `custom_field`
-                 ORDER BY
-                    fld_rank ASC';
-
-        $res = DB_Helper::getInstance()->getAll($stmt);
-
-        foreach ($res as &$row) {
-            $row['projects'] = @implode(', ', array_values(self::getAssociatedProjects($row['fld_id'])));
-            $row['min_role_name'] = User::getRole($row['fld_min_role']);
-            $row['min_role_edit_name'] = User::getRole($row['fld_min_role_edit']);
-            $row['has_options'] = in_array($row['fld_type'], self::$option_types);
-            $row['field_options'] = self::getOptions($row['fld_id']);
-        }
-
-        return $res;
     }
 
     /**

@@ -20,6 +20,7 @@ use Doctrine\Common\Collections\Expr\Comparison;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\PersistentCollection;
 use Eventum\CustomField\Factory;
+use Eventum\CustomField\Fields\ListInterface;
 use Eventum\CustomField\Proxy;
 use Eventum\Monolog\Logger;
 use InvalidArgumentException;
@@ -434,6 +435,25 @@ class CustomField
     }
 
     /**
+     * @see Custom_Field::getOptions
+     */
+    public function getOptionValues(?string $formType = null, ?int $issueId = null): array
+    {
+        $backend = $this->getBackend();
+
+        if ($backend && $backend->hasInterface(ListInterface::class)) {
+            return $backend->getList($this->getId(), $issueId, $formType);
+        }
+
+        $result = [];
+        foreach ($this->getOptions() as $option) {
+            $result[$option->getId()] = $option->getValue();
+        }
+
+        return $result;
+    }
+
+    /**
      * @return Collection|IssueCustomField[]
      */
     public function getIssues(): Collection
@@ -473,6 +493,9 @@ class CustomField
         return $this->getOne($this->options, $criteria);
     }
 
+    /**
+     * @return ProjectCustomField[]|Collection
+     */
     public function getProjects(): Collection
     {
         return $this->projects;
@@ -532,5 +555,21 @@ class CustomField
         }
 
         return $matches->first();
+    }
+
+    public function toArray(): array
+    {
+        return [
+            'fld_id' => $this->getId(),
+            'fld_title' => $this->getTitle(),
+            'fld_type' => $this->getType(),
+            'fld_rank' => $this->getRank(),
+            'fld_report_form_required' => (string)(int)$this->isReportFormRequired(),
+            'fld_anonymous_form_required' => (string)(int)$this->isAnonymousFormRequired(),
+            'fld_close_form_required' => (string)(int)$this->isCloseFormRequired(),
+            'fld_edit_form_required' => (string)(int)$this->isEditFormRequired(),
+            'fld_min_role' => $this->getMinRole(),
+            'fld_description' => $this->getDescription(),
+        ];
     }
 }

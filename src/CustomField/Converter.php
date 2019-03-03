@@ -17,7 +17,6 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Eventum\CustomField\Fields\DefaultValueInterface;
 use Eventum\CustomField\Fields\DynamicCustomFieldInterface;
 use Eventum\CustomField\Fields\JavascriptValidationInterface;
-use Eventum\CustomField\Fields\ListInterface;
 use Eventum\CustomField\Fields\RequiredValueInterface;
 use Eventum\Model\Entity\CustomField;
 use Eventum\Model\Entity\IssueCustomField;
@@ -148,18 +147,8 @@ class Converter
     {
         /** @var CustomField $cf */
         $cf = $field['_cf'];
-        $backend = $cf->getBackend();
 
-        if ($backend && $backend->hasInterface(ListInterface::class)) {
-            return $backend->getList($field['fld_id'], $issueId, $formType);
-        }
-
-        $result = [];
-        foreach ($cf->getOptions() as $option) {
-            $result[$option->getId()] = $option->getValue();
-        }
-
-        return $result;
+        return $cf->getOptionValues($formType, $issueId);
     }
 
     private function expandIssueCustomFields(array $customFields, int $issueId): Generator
@@ -203,17 +192,9 @@ class Converter
 
     private function convertCustomField(CustomField $field): array
     {
-        return [
-            '_cf' => $field,
-            'fld_id' => $field->getId(),
-            'fld_title' => $field->getTitle(),
-            'fld_type' => $field->getType(),
-            'fld_report_form_required' => (string)(int)$field->isReportFormRequired(),
-            'fld_anonymous_form_required' => (string)(int)$field->isAnonymousFormRequired(),
-            'fld_close_form_required' => (string)(int)$field->isCloseFormRequired(),
-            'fld_edit_form_required' => (string)(int)$field->isEditFormRequired(),
-            'fld_min_role' => $field->getMinRole(),
-            'fld_description' => $field->getDescription(),
-        ];
+        $result = $field->toArray();
+        $result['_cf'] = $field;
+
+        return $result;
     }
 }
