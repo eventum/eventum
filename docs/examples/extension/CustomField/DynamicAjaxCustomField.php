@@ -11,9 +11,12 @@
  * that were distributed with this source code.
  */
 
+namespace Example\Extension\CustomField;
+
+use Dynamic_Custom_Field_Backend;
 use Eventum\CustomField\Fields\OptionValueInterface;
 
-class Dynamic_Ajax_Example_Custom_Field_Backend extends Dynamic_Custom_Field_Backend implements OptionValueInterface
+class DynamicAjaxCustomField extends Dynamic_Custom_Field_Backend implements OptionValueInterface
 {
     public function getStructuredData(): array
     {

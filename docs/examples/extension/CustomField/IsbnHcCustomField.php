@@ -11,7 +11,12 @@
  * that were distributed with this source code.
  */
 
-class Isbn_Hc_Custom_Field_Backend extends Dynamic_Custom_Field_Backend
+namespace Example\Extension\CustomField;
+
+use Custom_Field;
+use Dynamic_Custom_Field_Backend;
+
+class IsbnHcCustomField extends Dynamic_Custom_Field_Backend
 {
     public function getStructuredData(): array
     {

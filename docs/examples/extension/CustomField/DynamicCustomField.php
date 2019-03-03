@@ -11,13 +11,16 @@
  * that were distributed with this source code.
  */
 
-require_once 'class.dynamic.php';
+namespace Example\Extension\CustomField;
+
+use Custom_Field;
+use Dynamic_Custom_Field_Backend;
 
 /**
  * Example dynamic custom field. This requires you create a custom field with the name "Dynamic Controller" and the options "red",
  * "blue" and "yellow". You also must create another custom field named whatever you like, with this file as the "Custom Field Backend".
  */
-class Dynamic_Example_Custom_Field_Backend extends Dynamic_Custom_Field_Backend
+class DynamicCustomField extends Dynamic_Custom_Field_Backend
 {
     public function getStructuredData(): array
     {

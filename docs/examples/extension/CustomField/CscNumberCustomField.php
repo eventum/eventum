@@ -11,9 +11,11 @@
  * that were distributed with this source code.
  */
 
+namespace Example\Extension\CustomField;
+
 use Eventum\CustomField\Fields\FormatValueInterface;
 
-class CSC_Number_Custom_Field_Backend implements FormatValueInterface
+class CscNumberCustomField implements FormatValueInterface
 {
     public function formatValue(?string $value, int $fld_id, int $iss_id): ?string
     {

@@ -47,6 +47,7 @@ class ExampleExtension extends AbstractExtension
         ];
         $psr4 = [
             'Eventum\\Event\\' => [$baseDir . '/docs/examples/extension/Event'],
+            'Example\\Extension\\' => [$baseDir . '/docs/examples/extension'],
         ];
 
         $loader->addClassMap($classmap);
@@ -82,6 +83,11 @@ class ExampleExtension extends AbstractExtension
     public function getAvailableCustomFields(): array
     {
         return [
+            CustomField\CscNumberCustomField::class,
+            CustomField\DefaultValueCustomField::class,
+            CustomField\DynamicAjaxCustomField::class,
+            CustomField\DynamicCustomField::class,
+            CustomField\IsbnHcCustomField::class,
         ];
     }
 
