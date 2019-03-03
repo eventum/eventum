@@ -19,7 +19,6 @@ use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\ORM\QueryBuilder;
 use Eventum\Model\Entity;
-use Eventum\Model\Entity\IssueCustomField;
 use Eventum\Model\Repository\Traits\FindByIdTrait;
 use History;
 use RuntimeException;
@@ -208,20 +207,15 @@ class CustomFieldRepository extends EntityRepository
                 'old_display' => '',
                 'new_display' => '',
             ];
+            $currentValues = $cf->getIssueOptionValues($issue_id);
 
             if ($cf->isOptionType()) {
-                $old_value = $cf->getMatchingIssues($issue_id)->map(function (IssueCustomField $icf) {
-                    return $icf->getValue();
-                })->toArray();
-
                 // remove dummy value from checkboxes. This dummy value is required so all real values can be unchecked.
                 if ($cf->getType() === 'checkbox') {
                     $value = array_filter($value);
                 }
 
-                if (!is_array($old_value)) {
-                    $old_value = [$old_value];
-                }
+                $old_value = $currentValues->toArray();
                 if (!is_array($value)) {
                     $value = [$value];
                 }
@@ -239,13 +233,12 @@ class CustomFieldRepository extends EntityRepository
                 $field['old_display'] = $old_display_value;
                 $field['new_display'] = $new_display_value;
             } else {
-                $icf = $cf->getIssueCustomField($issue_id);
-                $old_value = $icf ? $icf->getValue() : null;
-
+                $old_value = $currentValues->first() ?: null;
                 if ($old_value === $value) {
                     continue;
                 }
 
+                $icf = $cf->getIssueCustomField($issue_id);
                 if (!$icf) {
                     $icf = $cf->addIssueCustomField($issue_id, $value);
                 } else {
@@ -374,10 +367,10 @@ class CustomFieldRepository extends EntityRepository
         $em->flush();
     }
 
-    public function setIssueAssociation(Entity\CustomField $cf, int $issue_id, array $values): void
+    private function setIssueAssociation(Entity\CustomField $cf, int $issue_id, array $values): void
     {
         $em = $this->getEntityManager();
-        $collection = $cf->getMatchingIssues($issue_id);
+        $collection = $cf->getIssueCustomFields($issue_id);
 
         $isOptionType = $cf->isOptionType();
         foreach ($values as $value) {
@@ -395,8 +388,6 @@ class CustomFieldRepository extends EntityRepository
         foreach ($collection as $icf) {
             $em->remove($icf);
         }
-
-        $em->flush();
     }
 
     /**

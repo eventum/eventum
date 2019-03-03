@@ -479,7 +479,7 @@ class Custom_Field
 
         $convertValue = !$original && $cf->isOptionType();
         $values = [];
-        foreach ($cf->getMatchingIssues($iss_id) as $icf) {
+        foreach ($cf->getIssueCustomFields($iss_id) as $icf) {
             if ($convertValue) {
                 $value = $icf->getOptionValue();
             } else {

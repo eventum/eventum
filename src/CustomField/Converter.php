@@ -156,7 +156,7 @@ class Converter
         $result = new ArrayCollection();
         /** @var CustomField $cf */
         foreach ($customFields as $cf) {
-            $issueFields = $cf->getMatchingIssues($issueId);
+            $issueFields = $cf->getIssueCustomFields($issueId);
             if ($issueFields->count()) {
                 foreach ($issueFields as $isc) {
                     $row = $this->convertIssueCustomField($isc);

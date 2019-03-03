@@ -460,6 +460,13 @@ class CustomField
         return $result;
     }
 
+    public function getIssueOptionValues(int $issue_id): Collection
+    {
+        return $this->getIssueCustomFields($issue_id)->map(function (IssueCustomField $icf) {
+            return $icf->getValue();
+        });
+    }
+
     /**
      * @return Collection|IssueCustomField[]
      */
@@ -484,7 +491,7 @@ class CustomField
 
     public function updateIssueCustomField(int $issue_id, string $value): IssueCustomField
     {
-        return $this->getMatchingIssues($issue_id)
+        return $this->getIssueCustomFields($issue_id)
             ->filter(function (IssueCustomField $icf) use ($value) {
                 return $icf->getValue() === $value;
             })
@@ -564,11 +571,9 @@ class CustomField
     }
 
     /**
-     * The doctrine join probably wrong, we get excess relations with wrong issues
-     *
      * @return Collection|IssueCustomField[]
      */
-    public function getMatchingIssues(int $issue_id): Collection
+    public function getIssueCustomFields(int $issue_id): Collection
     {
         $expr = new Comparison('issueId', '=', $issue_id);
         $criteria = Criteria::create()->where($expr);
