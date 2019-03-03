@@ -340,7 +340,7 @@ class CustomFieldRepository extends EntityRepository
         foreach ($cf->getIssues() as $icf) {
             $em->remove($icf);
         }
-        foreach ($cf->getProjects() as $pcf) {
+        foreach ($cf->getProjectCustomFields() as $pcf) {
             $em->remove($pcf);
         }
 
@@ -351,10 +351,18 @@ class CustomFieldRepository extends EntityRepository
     public function setProjectAssociation(Entity\CustomField $cf, array $projects): void
     {
         $em = $this->getEntityManager();
-        $collection = $cf->getProjects();
+        $projectRepo = $em->getRepository(Entity\Project::class);
+        $collection = $cf->getProjectCustomFields();
 
         foreach ($projects as $prj_id) {
-            $pcf = $cf->addProjectById($prj_id);
+            $pcf = $cf->getProjectCustomFieldById($prj_id);
+            if (!$pcf) {
+                $project = $projectRepo->findById($prj_id);
+                $pcf = new Entity\ProjectCustomField();
+                $pcf->setProject($project);
+                $cf->addProjectCustomField($pcf);
+            }
+
             $em->persist($pcf);
             $collection->removeElement($pcf);
         }

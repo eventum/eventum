@@ -38,7 +38,7 @@ class ProjectCustomField
     /**
      * @var Project
      * @ORM\ManyToOne(targetEntity="Project", inversedBy="customField")
-     * @ORM\JoinColumn(name="pcf_prj_id", referencedColumnName="prj_id")
+     * @ORM\JoinColumn(name="pcf_prj_id", referencedColumnName="prj_id", nullable=false)
      */
     private $project;
 
@@ -52,7 +52,7 @@ class ProjectCustomField
     /**
      * @var CustomField
      * @ORM\ManyToOne(targetEntity="CustomField", inversedBy="projects")
-     * @ORM\JoinColumn(name="pcf_fld_id", referencedColumnName="fld_id")
+     * @ORM\JoinColumn(name="pcf_fld_id", referencedColumnName="fld_id", nullable=false)
      */
     private $customField;
 
@@ -61,16 +61,12 @@ class ProjectCustomField
         return $this->id;
     }
 
-    public function setProjectId(int $projectId): self
+    public function setProject(Project $project): self
     {
-        $this->projectId = $projectId;
+        $this->project = $project;
+        $this->projectId = $project->getId();
 
         return $this;
-    }
-
-    public function getProjectId(): int
-    {
-        return $this->projectId;
     }
 
     public function getProject(): Project
@@ -82,7 +78,6 @@ class ProjectCustomField
     {
         $this->customField = $cf;
         $this->fieldId = $cf->getId();
-        $cf->addProject($this);
 
         return $this;
     }

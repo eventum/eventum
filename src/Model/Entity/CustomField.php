@@ -529,32 +529,20 @@ class CustomField
     /**
      * @return ProjectCustomField[]|Collection
      */
-    public function getProjects(): Collection
+    public function getProjectCustomFields(): Collection
     {
         return $this->projects;
     }
 
-    public function addProject(ProjectCustomField $pcf): self
+    public function addProjectCustomField(ProjectCustomField $pcf): self
     {
+        $pcf->setCustomField($this);
         $this->projects->add($pcf);
 
         return $this;
     }
 
-    public function addProjectById(int $prj_id): ProjectCustomField
-    {
-        $pcf = $this->getProjectFieldById($prj_id);
-        if (!$pcf) {
-            $pcf = new ProjectCustomField();
-            $pcf->setCustomField($this);
-        }
-
-        $pcf->setProjectId($prj_id);
-
-        return $pcf;
-    }
-
-    private function getProjectFieldById(int $prj_id): ?ProjectCustomField
+    public function getProjectCustomFieldById(int $prj_id): ?ProjectCustomField
     {
         $expr = new Comparison('projectId', '=', $prj_id);
         $criteria = Criteria::create()->where($expr);

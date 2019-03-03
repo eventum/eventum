@@ -269,7 +269,7 @@ class Custom_Field
         $cf = $repo->findById($fld_id);
         $res = $cf->toArray();
 
-        $projects = $cf->getProjects()->map(function (ProjectCustomField $pcf) {
+        $projects = $cf->getProjectCustomFields()->map(function (ProjectCustomField $pcf) {
             return $pcf->getProject()->getId();
         })->toArray();
 

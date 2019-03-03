@@ -194,7 +194,7 @@ class CustomFieldsController extends ManageBaseController
         $res = [];
         foreach ($this->repo->getList() as $cf) {
             $row = $cf->toArray();
-            $projects = $cf->getProjects()->map(function (ProjectCustomField $pcf) {
+            $projects = $cf->getProjectCustomFields()->map(function (ProjectCustomField $pcf) {
                 return $pcf->getProject()->getTitle();
             })->toArray();
             $row['projects'] = implode(', ', $projects);
