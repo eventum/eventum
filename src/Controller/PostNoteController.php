@@ -263,7 +263,7 @@ class PostNoteController extends BaseController
                 'current_issue_status' => Issue::getStatusID($this->issue_id),
                 'time_categories' => Time_Tracking::getAssocCategories($this->prj_id),
                 'note_category_id' => Time_Tracking::getCategoryId($this->prj_id, 'Note Discussion'),
-                'issue_fields' => Issue_Field::getDisplayData($this->issue_id, 'post_note'),
+                'issue_fields' => Issue_Field::getDisplayData($this->issue_id, Issue_Field::LOCATION_POST_NOTE),
             ]
         );
     }

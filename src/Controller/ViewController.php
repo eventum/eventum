@@ -245,10 +245,10 @@ class ViewController extends BaseController
         );
     }
 
-    private function getColumnsForDisplay()
+    private function getColumnsForDisplay(): array
     {
         $details = $this->details;
-        $display = Issue_Field::getFieldsToDisplay($this->issue_id, 'view_issue');
+        $display = Issue_Field::getFieldsToDisplay($this->issue_id, Issue_Field::LOCATION_VIEW_ISSUE);
 
         // figure out what data to show in each column
         $columns = [0 => [], 1 => []];

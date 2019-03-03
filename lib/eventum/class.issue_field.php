@@ -16,12 +16,13 @@
  */
 class Issue_Field
 {
+    public const LOCATION_POST_NOTE = 'post_note';
+    public const LOCATION_VIEW_ISSUE = 'view_issue';
+
     /**
      * Returns an array of field names => titles that this class manages
-     *
-     * @return array
      */
-    public static function getAvailableFields()
+    public static function getAvailableFields(): array
     {
         return [
             'assignee' => 'Assignee',
@@ -39,11 +40,12 @@ class Issue_Field
      * @param   string  $location The name of the location to display fields
      * @return  array an array of data
      */
-    public static function getDisplayData($issue_id, $location)
+    public static function getDisplayData(int $issue_id, string $location): array
     {
         $prj_id = Issue::getProjectID($issue_id);
         $available_fields = self::getAvailableFields();
         $fields = self::getFieldsToDisplay($issue_id, $location);
+        $usr_id = Auth::getUserID();
         $data = [];
         foreach ($fields as $field_name => $field_options) {
             $data[$field_name] = [
@@ -51,8 +53,8 @@ class Issue_Field
                 'options' => self::getOptions($field_name, $issue_id),
                 'value' => self::getValue($issue_id, $field_name),
             ];
-            if ($field_name == 'custom') {
-                $data[$field_name]['custom'] = Custom_Field::getListByIssue($prj_id, $issue_id, Auth::getUserID(), $field_options, true);
+            if ($field_name === 'custom') {
+                $data[$field_name]['custom'] = Custom_Field::getListByIssue($prj_id, $issue_id, $usr_id, $field_options, true);
             }
         }
 
@@ -68,12 +70,11 @@ class Issue_Field
      * @param   string $location The name of the location
      * @return  array an array of field names
      */
-    public static function getFieldsToDisplay($issue_id, $location)
+    public static function getFieldsToDisplay($issue_id, $location): array
     {
         $prj_id = Issue::getProjectID($issue_id);
-        $workflow = Workflow::getIssueFieldsToDisplay($prj_id, $issue_id, $location);
 
-        return $workflow;
+        return Workflow::getIssueFieldsToDisplay($prj_id, $issue_id, $location);
     }
 
     /**
@@ -81,10 +82,10 @@ class Issue_Field
      * the appropriate class / method
      *
      * @param   int $issue_id
-     * @param   int $field_name
-     * @return  mixed
+     * @param   string $field_name
+     * @return  array|int|null
      */
-    private static function getValue($issue_id, $field_name)
+    private static function getValue(int $issue_id, string $field_name)
     {
         switch ($field_name) {
             case 'assignee':
@@ -95,7 +96,7 @@ class Issue_Field
                 return Issue::getSeverity($issue_id);
         }
 
-        return false;
+        return null;
     }
 
     /**
@@ -104,10 +105,10 @@ class Issue_Field
      *
      * @param int $issue_id
      * @param string $field_name
-     * @param mixed $value
-     * @return bool|int|null
+     * @param string|array $value
+     * @return int|null
      */
-    private static function setValue($issue_id, $field_name, $value)
+    private static function setValue($issue_id, $field_name, $value): ?int
     {
         switch ($field_name) {
             case 'assignee':
@@ -128,7 +129,7 @@ class Issue_Field
      * @param   int $issue_id The ID of the issue
      * @return  array An array of options for the specified field
      */
-    private static function getOptions($field_name, $issue_id)
+    private static function getOptions(string $field_name, int $issue_id): array
     {
         $prj_id = Issue::getProjectID($issue_id);
         switch ($field_name) {
@@ -159,11 +160,11 @@ class Issue_Field
      * @param   string $location The name of the location
      * @param   array $values an array of new values
      */
-    public static function updateValues($issue_id, $location, $values): void
+    public static function updateValues(int $issue_id, string $location, array $values): void
     {
         $fields = self::getFieldsToDisplay($issue_id, $location);
         foreach ($fields as $field_name => $field_options) {
-            if ($field_name == 'custom') {
+            if ($field_name === 'custom') {
                 Custom_Field::updateFromPost();
             } else {
                 self::setValue($issue_id, $field_name, $values[$field_name]);
