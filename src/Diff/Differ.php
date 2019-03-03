@@ -11,7 +11,7 @@
  * that were distributed with this source code.
  */
 
-namespace Eventum;
+namespace Eventum\Diff;
 
 use SebastianBergmann\Diff;
 

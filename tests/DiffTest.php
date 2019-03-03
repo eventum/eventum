@@ -13,7 +13,7 @@
 
 namespace Eventum\Test;
 
-use Eventum\Differ;
+use Eventum\Diff\Differ;
 
 class DiffTest extends TestCase
 {

@@ -18,7 +18,7 @@ use Eventum\CustomField\Fields\ListInterface;
 use Eventum\CustomField\Proxy;
 use Eventum\Db\DatabaseException;
 use Eventum\Db\Doctrine;
-use Eventum\Differ;
+use Eventum\Diff;
 use Eventum\Extension\ExtensionLoader;
 use Eventum\Model\Entity\CustomField;
 use Eventum\Model\Entity\ProjectCustomField;
@@ -108,55 +108,17 @@ class Custom_Field
     }
 
     /**
-     * Returns custom field updates that are visible to the specified role
-     *
-     * @param   array $updated_fields
-     * @param   int $role
-     * @return  array
-     */
-    public static function getUpdatedFieldsForRole($updated_fields, $role)
-    {
-        $role_updates = [];
-        foreach ($updated_fields as $fld_id => $field) {
-            if ($role >= $field['min_role']) {
-                $role_updates[$fld_id] = $field;
-            }
-        }
-
-        return $role_updates;
-    }
-
-    /**
      * Returns custom field updates in a diff format
      *
      * @param   array $updated_fields
-     * @param   bool $role If specified only fields that $role can see will be returned
+     * @param   int|null $role_id If specified only fields that $role can see will be returned
      * @return  array
      */
-    public static function formatUpdatesToDiffs($updated_fields, $role = false)
+    public static function formatUpdatesToDiffs(array $updated_fields, ?int $role_id = null)
     {
-        if ($role) {
-            $updated_fields = self::getUpdatedFieldsForRole($updated_fields, $role);
-        }
-        $diffs = [];
-        $differ = new Differ();
-        foreach ($updated_fields as $fld_id => $field) {
-            if ($field['old_display'] != $field['new_display']) {
-                if ($field['type'] === 'textarea') {
-                    $desc_diff = $differ->diff($field['old_display'], $field['new_display']);
-                    $diffs[] = $field['title'] . ':';
-                    foreach ($desc_diff as $diff) {
-                        $diffs[] = $diff;
-                    }
-                    $diffs[] = '';
-                } else {
-                    $diffs[] = '-' . $field['title'] . ': ' . $field['old_display'];
-                    $diffs[] = '+' . $field['title'] . ': ' . $field['new_display'];
-                }
-            }
-        }
+        $differ = new Diff\CustomField();
 
-        return $diffs;
+        return $differ->diff($updated_fields, $role_id);
     }
 
     /**
