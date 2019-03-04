@@ -24,6 +24,7 @@ use Routing;
 use Setup;
 use Zend;
 use Zend\Mail\AddressList;
+use Zend\Mail\Headers;
 
 /**
  * @group mail
@@ -210,16 +211,17 @@ class MailMessageTest extends TestCase
         $exp = '<CAG5u9y_0RRMmCf_o28KmfmyCn5UN9PVM1=avWp4wWqbHGgojsA@4.example.org>';
         $this->assertEquals($exp, $msg_id);
 
-        $this->assertEquals($exp, $mail->InReplyTo);
+        $this->assertEquals($exp, $mail->inReplyTo);
 
         $mail->setInReplyTo('foo-bar-123');
-        $value = 'foo-bar-123';
-        $this->assertEquals($value, $mail->InReplyTo);
+        $value = '<foo-bar-123>';
+        $this->assertEquals($value, $mail->inReplyTo);
 
         $references = [1, $msg_id];
         $mail->setReferences($references);
-        $exp = '1 <CAG5u9y_0RRMmCf_o28KmfmyCn5UN9PVM1=avWp4wWqbHGgojsA@4.example.org>';
-        $this->assertEquals($exp, $mail->References);
+        $folding = Headers::FOLDING;
+        $exp = "<1>$folding<CAG5u9y_0RRMmCf_o28KmfmyCn5UN9PVM1=avWp4wWqbHGgojsA@4.example.org>";
+        $this->assertEquals($exp, $mail->references);
     }
 
     /**
