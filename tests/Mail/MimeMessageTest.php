@@ -117,7 +117,7 @@ class MimeMessageTest extends TestCase
         $property = new ReflectionProperty($attachment, 'blob');
 
         $property->setAccessible(true);
-        $property->setValue($attachment, 'iaf_file');
+        $property->setValue($attachment, $params['iaf_file']);
 
         return $attachment;
     }
