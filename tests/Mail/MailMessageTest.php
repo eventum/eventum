@@ -377,8 +377,6 @@ class MailMessageTest extends TestCase
 
     public function testHeadersCloning(): void
     {
-        $this->markTestSkipped('cloning does not work');
-
         $mail = MailMessage::createFromFile(__DIR__ . '/../data/duplicate-from.txt');
         $clone = clone $mail;
 

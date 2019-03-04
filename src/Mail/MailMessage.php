@@ -656,10 +656,17 @@ class MailMessage extends Message
      * Deep clone handling.
      *
      * Zend Does not handle this, do it ourselves.
+     *
+     * As the headers are deep objects with possibly unknown structure
+     * only way to clone and ensure they are cloned, is to serialize to text.
+     *
+     * so, rather using clone, remove the header you are about to modify instead.
      */
     public function __clone()
     {
-        $this->headers = clone $this->headers;
+        $headers = Headers::fromString($this->headers->toString());
+
+        $this->headers = $headers;
     }
 
     /**
