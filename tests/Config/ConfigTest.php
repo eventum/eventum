@@ -38,9 +38,9 @@ class ConfigTest extends TestCase
         $this->assertNull($config['noentry']['host'], 'Can access inaccessible parent as array');
         //$this->assertNull($config->noentry->host, 'Can not access inaccessible parent as object');
 
-        $this->assertEmpty($config->noentry->host, 'can do empty checks on inaccessible parents');
+        $this->assertTrue(empty($config->noentry->host), 'can do empty checks on inaccessible parents');
         $this->assertFalse(isset($config->noentry->host), 'can do isset checks on inaccessible parents');
-        $this->assertEmpty($config['noentry']['host'], 'can do empty checks on inaccessible parents');
+        $this->assertNull($config['noentry']['host'], 'can do empty checks on inaccessible parents');
         $this->assertFalse(isset($config['noentry']['host']), 'can do isset checks on inaccessible parents');
 
         // this avoids the "indirect" error
