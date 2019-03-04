@@ -66,7 +66,7 @@ class MailBuilder
      * @param Attachment $attachment
      * @return $this
      */
-    public function addAttachment(Attachment $attachment)
+    public function addAttachment(Attachment $attachment): self
     {
         $part = MimePart::createAttachmentPart(
             $attachment->getFileContents(),

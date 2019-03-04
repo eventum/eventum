@@ -17,9 +17,9 @@ use Zend\Mime;
 
 class MimePart extends Mime\Part
 {
-    const CHARSET = APP_CHARSET;
+    private const CHARSET = APP_CHARSET;
 
-    public static function create($content, $type, $charset = self::CHARSET)
+    public static function create($content, $type, $charset = self::CHARSET): self
     {
         $part = new self($content);
         $part->type = $type;
@@ -32,7 +32,7 @@ class MimePart extends Mime\Part
      * @param string $content
      * @return MimePart
      */
-    public static function createTextPart($content)
+    public static function createTextPart($content): self
     {
         return self::create($content, Mime\Mime::TYPE_TEXT);
     }
@@ -43,7 +43,7 @@ class MimePart extends Mime\Part
      * @param string $filename
      * @return Mime\Part
      */
-    public static function createAttachmentPart($content, $type, $filename)
+    public static function createAttachmentPart($content, $type, $filename): self
     {
         return self::create($content, $type)
             ->setDisposition(Mime\Mime::DISPOSITION_ATTACHMENT)
