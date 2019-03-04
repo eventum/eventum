@@ -4,7 +4,7 @@
 
 Upgrading to 3.6.x versions requires that you upgrade to latest 3.5.x version first.
 
-- Remove `NULL` values from `user_preference` table (@glensc, #486)
+- Remove `NULL` values from `user_preference` table (@glensc, #486, #490)
 - Remove email parser overhead on Sphinx search (@vladsf, #487)
 - Make issue navigation respect user preference, default off (performance!) (@glensc, #485, #488)
 - Replace `pear/text_diff` with `sebastian/diff` (@glensc, #489)
