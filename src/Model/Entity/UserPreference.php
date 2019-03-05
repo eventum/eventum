@@ -233,7 +233,7 @@ class UserPreference
         return $this;
     }
 
-    public function collapseEmails(): bool
+    public function collapsedEmails(): bool
     {
         return $this->collapsedEmails;
     }

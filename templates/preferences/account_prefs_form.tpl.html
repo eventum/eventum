@@ -32,7 +32,7 @@
             <td>
                 <select name="timezone" class="chosen-select" data-placeholder="{t}Choose a timezone...{/t}">
                     <option></option>
-                    {html_options values=$zones output=$zones selected=$user_prefs.timezone}
+                    {html_options values=$zones output=$zones selected=$timezone}
                 </select>
             </td>
         </tr>
@@ -52,8 +52,7 @@
                 {t}Display relative dates{/t}:
             </th>
             <td>
-                <label><input type="radio" name="relative_date" {if $user_prefs.relative_date == "1"}checked{/if} value="1"> {t}Yes{/t}</label>
-                <label><input type="radio" name="relative_date" {if $user_prefs.relative_date != "1"}checked{/if} value="0"> {t}No{/t}</label>
+                {html_radios name="relative_date" options=$relative_date.options selected=$relative_date.selected}
             </td>
         </tr>
 
@@ -62,8 +61,7 @@
                 {t}Markdown rendering{/t}:
             </th>
             <td>
-                <label><input type="radio" name="markdown" {if $user_prefs.markdown == "1"}checked{/if} value="1"> {t}Yes{/t}</label>
-                <label><input type="radio" name="markdown" {if $user_prefs.markdown != "1"}checked{/if} value="0"> {t}No{/t}</label>
+                {html_radios name="markdown" options=$markdown.options selected=$markdown.selected}
             </td>
         </tr>
 
@@ -72,8 +70,7 @@
                 {t}Collapse email replies{/t}:
             </th>
             <td>
-                <label><input type="radio" name="collapsed_emails" {if $user_prefs.collapsed_emails == "1"}checked{/if} value="1"> {t}Yes{/t}</label>
-                <label><input type="radio" name="collapsed_emails" {if $user_prefs.collapsed_emails != "1"}checked{/if} value="0"> {t}No{/t}</label>
+                {html_radios name="collapsed_emails" options=$collapsed_emails.options selected=$collapsed_emails.selected}
             </td>
         </tr>
 
@@ -83,8 +80,7 @@
                 {t}Automatically close confirmation popup windows?{/t}
             </th>
             <td>
-                <label><input type="radio" name="close_popup_windows" {if $user_prefs.close_popup_windows == "1"}checked{/if} value="1"> {t}Yes{/t}</label>&nbsp;&nbsp;
-                <label><input type="radio" name="close_popup_windows" {if $user_prefs.close_popup_windows != "1"}checked{/if} value="0"> {t}No{/t}</label>
+                {html_radios name="close_popup_windows" options=$close_popup_windows.options selected=$close_popup_windows.selected}
             </td>
         </tr>
         {/if}

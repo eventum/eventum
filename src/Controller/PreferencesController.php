@@ -253,9 +253,15 @@ class PreferencesController extends BaseController
     protected function prepareTemplate(): void
     {
         $prefs = Prefs::get($this->usr_id);
+        $upr = $this->repo->findById($this->usr_id);
 
         $this->tpl->assign([
                 'user_prefs' => $prefs,
+                'timezone' => $upr->getTimezone(),
+                'relative_date' => $this->html->radioYesNoButtons($upr->useRelativeDate()),
+                'markdown' => $this->html->radioYesNoButtons($upr->isMarkdownEnabled()),
+                'collapsed_emails' => $this->html->radioYesNoButtons($upr->collapsedEmails()),
+                'close_popup_windows' => $this->html->radioYesNoButtons($upr->autoClosePopupWindow()),
                 'sms_email' => User::getSMS($this->usr_id),
                 'user_info' => User::getDetails($this->usr_id),
                 'assigned_projects' => Project::getAssocList($this->usr_id, false, true),

@@ -36,7 +36,7 @@ class UserPreferenceTest extends TestCase
         $this->assertEquals($prefs['email_signature'], $userPrefs->getEmailSignature());
         $this->assertEquals($prefs['close_popup_windows'], $userPrefs->autoClosePopupWindow());
         $this->assertEquals($prefs['relative_date'], $userPrefs->useRelativeDate());
-        $this->assertEquals($prefs['collapsed_emails'], $userPrefs->collapseEmails());
+        $this->assertEquals($prefs['collapsed_emails'], $userPrefs->collapsedEmails());
 
         // booleans
         $this->assertEquals($prefs['auto_append_email_sig'], (int)$userPrefs->autoAppendEmailSignature());
