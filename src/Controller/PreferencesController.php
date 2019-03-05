@@ -29,12 +29,12 @@ class PreferencesController extends BaseController
 
     /** @var int */
     private $usr_id;
-
     /** @var string */
     private $cat;
-
     /** @var string */
     private $lang;
+    /** @var array */
+    private $permissions;
 
     /**
      * {@inheritdoc}
@@ -50,7 +50,7 @@ class PreferencesController extends BaseController
     /**
      * {@inheritdoc}
      */
-    protected function canAccess()
+    protected function canAccess(): bool
     {
         Auth::checkAuthentication();
 
@@ -59,6 +59,7 @@ class PreferencesController extends BaseController
         }
 
         $this->usr_id = Auth::getUserID();
+        $this->permissions = $this->getPermissions();
 
         return true;
     }
@@ -76,11 +77,11 @@ class PreferencesController extends BaseController
                 break;
 
             case 'update_name':
-                $res = User::updateFullName($this->usr_id);
+                $res = $this->updateNameAction();
                 break;
 
             case 'update_email':
-                $res = User::updateEmail($this->usr_id);
+                $res = $this->updateEmailAction();
                 break;
 
             case 'update_password':
@@ -105,7 +106,7 @@ class PreferencesController extends BaseController
         }
     }
 
-    private function updateAccountAction()
+    private function updateAccountAction(): int
     {
         $preferences = $this->getRequest()->request->all();
 
@@ -126,8 +127,12 @@ class PreferencesController extends BaseController
         return $res;
     }
 
-    private function updatePasswordAction()
+    private function updatePasswordAction(): int
     {
+        if (!$this->permissions['can_update_password']) {
+            return 0;
+        }
+
         $post = $this->getRequest()->request;
         $password = $post->get('password');
 
@@ -164,14 +169,38 @@ class PreferencesController extends BaseController
         }
     }
 
-    private function regenerateApiTokenAction(): void
+    private function regenerateApiTokenAction(): int
     {
+        if (!$this->permissions['api_tokens']) {
+            return 0;
+        }
+
         $res = APIAuthToken::regenerateKey($this->usr_id);
         if ($res == 1) {
             // FIXME: looks like hack, return error string instead
             $this->messages->addInfoMessage(ev_gettext('Your key has been regenerated. All previous keys are now invalid.'));
             $res = null;
         }
+
+        return $res;
+    }
+
+    protected function updateNameAction(): int
+    {
+        if (!$this->permissions['can_update_name']) {
+            return 0;
+        }
+
+        return User::updateFullName($this->usr_id);
+    }
+
+    protected function updateEmailAction(): int
+    {
+        if (!$this->permissions['can_update_email']) {
+            return 0;
+        }
+
+        return User::updateEmail($this->usr_id);
     }
 
     /**
@@ -189,15 +218,24 @@ class PreferencesController extends BaseController
                 'zones' => Date_Helper::getTimezoneList(),
                 'avail_langs' => Language::getAvailableLanguages(),
                 'current_locale' => User::getLang($this->usr_id, true),
-
-                'can_update_name' => Auth::canUserUpdateName($this->usr_id),
-                'can_update_email' => Auth::canUserUpdateEmail($this->usr_id),
-                'can_update_password' => Auth::canUserUpdatePassword($this->usr_id),
+                'permissions' => $this->permissions,
             ]
         );
 
-        if (Auth::getCurrentRole() >= User::ROLE_USER) {
+        if ($this->permissions['api_tokens']) {
             $this->tpl->assign('api_tokens', APIAuthToken::getTokensForUser($this->usr_id, false, true));
         }
+    }
+
+    private function getPermissions(): array
+    {
+        $isCustomer = $this->role_id === User::ROLE_CUSTOMER;
+
+        return [
+            'can_update_name' => !$isCustomer && Auth::canUserUpdateName($this->usr_id),
+            'can_update_email' => !$isCustomer && Auth::canUserUpdateEmail($this->usr_id),
+            'can_update_password' => Auth::canUserUpdatePassword($this->usr_id),
+            'api_tokens' => $this->role_id >= User::ROLE_USER,
+        ];
     }
 }
