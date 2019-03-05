@@ -241,8 +241,8 @@ class PreferencesController extends BaseController
 
     protected function updateSmsAction(): int
     {
-        $preferences = $this->getRequest()->request->all();
-        $res = User::updateSMS($this->usr_id, $preferences['sms_email']);
+        $post = $this->getRequest()->request;
+        $res = User::updateSMS($this->usr_id, $post->get('sms_email'));
 
         return $res ? 1 : 0;
     }
@@ -253,10 +253,10 @@ class PreferencesController extends BaseController
     protected function prepareTemplate(): void
     {
         $prefs = Prefs::get($this->usr_id);
-        $prefs['sms_email'] = User::getSMS($this->usr_id);
 
         $this->tpl->assign([
                 'user_prefs' => $prefs,
+                'sms_email' => User::getSMS($this->usr_id),
                 'user_info' => User::getDetails($this->usr_id),
                 'assigned_projects' => Project::getAssocList($this->usr_id, false, true),
                 'zones' => Date_Helper::getTimezoneList(),
