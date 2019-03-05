@@ -252,22 +252,22 @@ class PreferencesController extends BaseController
      */
     protected function prepareTemplate(): void
     {
-        $prefs = Prefs::get($this->usr_id);
         $upr = $this->repo->findById($this->usr_id);
 
         $this->tpl->assign([
-                'user_prefs' => $prefs,
                 'timezone' => $upr->getTimezone(),
                 'relative_date' => $this->html->radioYesNoButtons($upr->useRelativeDate()),
                 'markdown' => $this->html->radioYesNoButtons($upr->isMarkdownEnabled()),
                 'collapsed_emails' => $this->html->radioYesNoButtons($upr->collapsedEmails()),
                 'close_popup_windows' => $this->html->radioYesNoButtons($upr->autoClosePopupWindow()),
+                'receive_new_issue_email' => $this->html->radioYesNoButtons($upr->autoClosePopupWindow()),
                 'auto_append_email_sig' => $upr->autoAppendNoteSignature(),
                 'auto_append_note_sig' => $upr->autoAppendNoteSignature(),
                 'week_firstday' => $upr->getWeekFirstday(),
                 'list_refresh_rate' => $upr->getListRefreshRate(),
                 'email_refresh_rate' => $upr->getEmailRefreshRate(),
                 'email_signature' => $upr->getEmailSignature(),
+                'projects' => $this->getProjectPreferences($upr),
                 'sms_email' => User::getSMS($this->usr_id),
                 'user_info' => User::getDetails($this->usr_id),
                 'assigned_projects' => Project::getAssocList($this->usr_id, false, true),
@@ -281,6 +281,20 @@ class PreferencesController extends BaseController
         if ($this->permissions['regenerate_token']) {
             $this->tpl->assign('api_tokens', APIAuthToken::getTokensForUser($this->usr_id, false, true));
         }
+    }
+
+    private function getProjectPreferences(UserPreference $upr): array
+    {
+        $result = [];
+        foreach ($upr->getProjects() as $upp) {
+            $result[$upp->getProjectId()] = [
+                'receive_new_issue_email' => $this->html->radioYesNoButtons($upp->receiveNewIssueEmail()),
+                'receive_assigned_email' => $this->html->radioYesNoButtons($upp->receiveAssignedEmail()),
+                'receive_copy_of_own_action' => $this->html->radioYesNoButtons($upp->receiveCopyOfOwnAction()),
+            ];
+        }
+
+        return $result;
     }
 
     private function getPermissions(): array
