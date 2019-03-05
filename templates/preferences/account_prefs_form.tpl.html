@@ -30,10 +30,10 @@
                 {t}Timezone{/t}
             </th>
             <td colspan="{$assigned_projects|@count}">
-                <select name="timezone">
+                <select name="timezone" class="chosen-select" data-placeholder="{t}Choose a timezone...{/t}">
+                    <option></option>
                     {html_options values=$zones output=$zones selected=$user_prefs.timezone}
                 </select>
-                {include file="lookup_field.tpl.html" lookup_field_name="search" lookup_field_target="timezone"}
             </td>
         </tr>
 
