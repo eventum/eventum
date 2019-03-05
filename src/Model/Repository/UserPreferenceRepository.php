@@ -23,4 +23,21 @@ use Eventum\Model\Repository\Traits\FindByIdTrait;
 class UserPreferenceRepository extends EntityRepository
 {
     use FindByIdTrait;
+
+    public function persistAndFlush(UserPreference $entity): void
+    {
+        $em = $this->getEntityManager();
+        $em->persist($entity);
+        $em->flush($entity);
+    }
+
+    public function findOrCreate(int $id): UserPreference
+    {
+        $cf = $this->find($id);
+        if (!$cf) {
+            $cf = new UserPreference();
+        }
+
+        return $cf;
+    }
 }

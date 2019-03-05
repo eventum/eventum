@@ -16,10 +16,15 @@ namespace Eventum\Controller;
 use APIAuthToken;
 use Auth;
 use Date_Helper;
+use Eventum\Db\Doctrine;
+use Eventum\Model\Entity\UserPreference;
+use Eventum\Model\Repository\UserPreferenceRepository;
 use Exception;
 use Language;
 use Prefs;
 use Project;
+use Symfony\Component\HttpFoundation\ParameterBag;
+use Throwable;
 use User;
 
 class PreferencesController extends BaseController
@@ -35,6 +40,8 @@ class PreferencesController extends BaseController
     private $lang;
     /** @var array */
     private $permissions;
+    /** @var UserPreferenceRepository */
+    private $repo;
 
     /**
      * {@inheritdoc}
@@ -45,6 +52,7 @@ class PreferencesController extends BaseController
 
         $this->cat = $post->get('cat');
         $this->lang = $post->get('language');
+        $this->repo = Doctrine::getUserPreferenceRepository();
     }
 
     /**
@@ -130,15 +138,25 @@ class PreferencesController extends BaseController
 
     private function updateAccountAction(): int
     {
-        $preferences = $this->getRequest()->request->all();
+        try {
+            $post = $this->getRequest()->request;
 
-        // if the user is trying to upload a new signature, override any changes to the textarea
-        if (!empty($_FILES['file_signature']['name'])) {
-            $preferences['email_signature'] = file_get_contents($_FILES['file_signature']['tmp_name']);
+            // if the user is trying to upload a new signature, override any changes to the textarea
+            if (!empty($_FILES['file_signature']['name'])) {
+                $contents = file_get_contents($_FILES['file_signature']['tmp_name']);
+                $post->set('email_signature', $contents);
+            }
+
+            $prefs = $this->repo->findOrCreate($this->usr_id);
+            $this->updateFromRequest($prefs, $post);
+            $this->repo->persistAndFlush($prefs);
+
+            $res = 1;
+        } catch (Throwable $e) {
+            $this->logger->error($e->getMessage(), ['exception' => $e]);
+
+            $res = -1;
         }
-
-        // XXX: $res only updated for Prefs::set
-        $res = Prefs::set($this->usr_id, $preferences, false);
 
         if ($this->lang) {
             User::setLang($this->usr_id, $this->lang);
@@ -255,5 +273,21 @@ class PreferencesController extends BaseController
             'update_password' => Auth::canUserUpdatePassword($this->usr_id),
             'regenerate_token' => $isUser,
         ];
+    }
+
+    private function updateFromRequest(UserPreference $prefs, ParameterBag $post): UserPreference
+    {
+        return $prefs
+            ->setTimezone($post->get('timezone'))
+            ->setWeekFirstday($post->getInt('week_firstday'))
+            ->setListRefreshRate($post->getInt('list_refresh_rate'))
+            ->setEmailRefreshRate($post->getInt('email_refresh_rate'))
+            ->setEmailSignature($post->get('email_signature'))
+            ->setAutoClosePopupWindow($post->getBoolean('close_popup_windows'))
+            ->setRelativeDate($post->getBoolean('relative_date'))
+            ->setCollapsedEmails($post->getBoolean('collapsed_emails'))
+            ->setAutoAppendEmailSignature($post->getBoolean('auto_append_email_sig'))
+            ->setAutoAppendNoteSignature($post->getBoolean('auto_append_note_sig'))
+            ->setEnableMarkdown($post->getBoolean('markdown'));
     }
 }
