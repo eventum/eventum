@@ -20,8 +20,12 @@ use RuntimeException;
 
 trait GetOneTrait
 {
-    private function getOne(PersistentCollection $collection, string $field, string $operator, $value)
+    private function getOne(?PersistentCollection $collection, string $field, string $operator, $value)
     {
+        if (!$collection) {
+            return null;
+        }
+
         $expr = new Comparison($field, $operator, $value);
         $criteria = Criteria::create()->where($expr);
 

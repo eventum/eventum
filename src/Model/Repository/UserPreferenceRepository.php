@@ -32,14 +32,15 @@ class UserPreferenceRepository extends EntityRepository
         $em->flush($entity);
     }
 
-    public function findOrCreate(int $id): UserPreference
+    public function findOrCreate(int $usr_id): UserPreference
     {
-        $cf = $this->find($id);
-        if (!$cf) {
-            $cf = new UserPreference();
+        $upr = $this->find($usr_id);
+        if (!$upr) {
+            $upr = new UserPreference();
+            $upr->setUserId($usr_id);
         }
 
-        return $cf;
+        return $upr;
     }
 
     public function updateProjectPreference(int $usr_id, array $projects): void

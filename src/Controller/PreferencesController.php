@@ -252,7 +252,7 @@ class PreferencesController extends BaseController
      */
     protected function prepareTemplate(): void
     {
-        $upr = $this->repo->findById($this->usr_id);
+        $upr = $this->repo->findOrCreate($this->usr_id);
         $projects = Project::getAssocList($this->usr_id, false, true);
 
         $this->tpl->assign([

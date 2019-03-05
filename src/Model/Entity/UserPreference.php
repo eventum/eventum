@@ -13,10 +13,12 @@
 
 namespace Eventum\Model\Entity;
 
+use Date_Helper;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\PersistentCollection;
 use Eventum\Model\Repository\Traits\GetOneTrait;
+use Setup;
 
 /**
  * @ORM\Table(name="user_preference")
@@ -30,7 +32,6 @@ class UserPreference
      * @var int
      * @ORM\Column(name="upr_usr_id", type="integer", nullable=false)
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $userId;
 
@@ -50,13 +51,13 @@ class UserPreference
      * @var int
      * @ORM\Column(name="upr_list_refresh_rate", type="integer", nullable=false)
      */
-    private $listRefreshRate;
+    private $listRefreshRate = APP_DEFAULT_REFRESH_RATE;
 
     /**
      * @var int
      * @ORM\Column(name="upr_email_refresh_rate", type="integer", nullable=false)
      */
-    private $emailRefreshRate;
+    private $emailRefreshRate = APP_DEFAULT_REFRESH_RATE;
 
     /**
      * @var string
@@ -68,19 +69,19 @@ class UserPreference
      * @var bool
      * @ORM\Column(name="upr_auto_append_email_sig", type="boolean", nullable=false)
      */
-    private $autoAppendEmailSignature;
+    private $autoAppendEmailSignature = false;
 
     /**
      * @var bool
      * @ORM\Column(name="upr_auto_append_note_sig", type="boolean", nullable=false)
      */
-    private $autoAppendNoteSignature;
+    private $autoAppendNoteSignature = false;
 
     /**
      * @var bool
      * @ORM\Column(name="upr_auto_close_popup_window", type="boolean", nullable=false)
      */
-    private $autoClosePopupWindow;
+    private $autoClosePopupWindow = true;
 
     /**
      * @var bool
@@ -92,7 +93,7 @@ class UserPreference
      * @var bool
      * @ORM\Column(name="upr_collapsed_emails", type="boolean", nullable=false)
      */
-    private $collapsedEmails;
+    private $collapsedEmails = true;
 
     /**
      * @var bool
@@ -104,7 +105,7 @@ class UserPreference
      * @var bool
      * @ORM\Column(name="upr_issue_navigation", type="boolean", nullable=false)
      */
-    private $issueNavigation;
+    private $issueNavigation = false;
 
     /**
      * @var UserProjectPreference[]|PersistentCollection
@@ -112,6 +113,23 @@ class UserPreference
      * @ORM\JoinColumn(name="id", referencedColumnName="upp_prj_id")
      */
     private $projects;
+
+    public function __construct()
+    {
+        $setup = Setup::get();
+
+        $this->timezone = Date_Helper::getDefaultTimezone();
+        $this->weekFirstday = Date_Helper::getDefaultWeekday();
+        $this->relativeDate = $setup['relative_date'] === 'enabled';
+        $this->enableMarkdown = $setup['markdown'] === 'enabled';
+    }
+
+    public function setUserId(int $usr_id): self
+    {
+        $this->userId = $usr_id;
+
+        return $this;
+    }
 
     public function getUserId(): int
     {
