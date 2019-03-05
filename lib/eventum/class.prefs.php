@@ -135,8 +135,10 @@ class Prefs
      * @param   array   $preferences An array of preferences
      * @return  int 1 if the update worked, -1 otherwise
      */
-    public static function set($usr_id, $preferences)
+    public static function set($usr_id, $preferences, $updateProjectPrefs = false)
     {
+        if (!$updateProjectPrefs) {
+
         // set global preferences
         $sql = 'REPLACE INTO
                     `user_preference`
@@ -169,6 +171,9 @@ class Prefs
             $preferences['markdown'] ?? 1,
             $preferences['collapsed_emails'] ?? 1,
         ]);
+
+            return 1;
+        }
 
         // set per project preferences
         $projects = Project::getAssocList($usr_id);

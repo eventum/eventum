@@ -9,8 +9,12 @@
 {include file="preferences/update_password_form.tpl.html"}
 {include file="preferences/account_prefs_form.tpl.html"}
 
+{if $permissions.can_update_projects}
+    {include file="preferences/project_prefs_form.tpl.html"}
+{/if}
+
 {if $permissions.api_tokens}
-{include file="preferences/api_token_form.tpl.html"}
+    {include file="preferences/api_token_form.tpl.html"}
 {/if}
 
 {/block}

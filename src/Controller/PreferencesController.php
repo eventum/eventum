@@ -76,6 +76,10 @@ class PreferencesController extends BaseController
                 $res = $this->updateAccountAction();
                 break;
 
+            case 'update_project':
+                $res = $this->updateProjectAction();
+                break;
+
             case 'update_name':
                 $res = $this->updateNameAction();
                 break;
@@ -110,6 +114,17 @@ class PreferencesController extends BaseController
         }
     }
 
+    private function updateProjectAction(): int
+    {
+        if (!$this->permissions['can_update_projects']) {
+            return 0;
+        }
+
+        $preferences = $this->getRequest()->request->all();
+
+        return Prefs::set($this->usr_id, $preferences, true);
+    }
+
     private function updateAccountAction(): int
     {
         $preferences = $this->getRequest()->request->all();
@@ -120,7 +135,7 @@ class PreferencesController extends BaseController
         }
 
         // XXX: $res only updated for Prefs::set
-        $res = Prefs::set($this->usr_id, $preferences);
+        $res = Prefs::set($this->usr_id, $preferences, false);
 
         if ($this->lang) {
             User::setLang($this->usr_id, $this->lang);
@@ -243,14 +258,17 @@ class PreferencesController extends BaseController
 
     private function getPermissions(): array
     {
-        $isCustomer = $this->role_id === User::ROLE_CUSTOMER;
+        $notCustomer = $this->role_id !== User::ROLE_CUSTOMER;
+        $isCustomer = $this->role_id >= User::ROLE_CUSTOMER;
+        $isUser = $this->role_id >= User::ROLE_USER;
 
         return [
-            'can_update_name' => !$isCustomer && Auth::canUserUpdateName($this->usr_id),
-            'can_update_email' => !$isCustomer && Auth::canUserUpdateEmail($this->usr_id),
-            'can_update_sms' => !$isCustomer,
+            'can_update_name' => $notCustomer && Auth::canUserUpdateName($this->usr_id),
+            'can_update_email' => $notCustomer && Auth::canUserUpdateEmail($this->usr_id),
+            'can_update_sms' => $isCustomer,
+            'can_update_projects' => $isCustomer,
             'can_update_password' => Auth::canUserUpdatePassword($this->usr_id),
-            'api_tokens' => $this->role_id >= User::ROLE_USER,
+            'api_tokens' => $isUser,
         ];
     }
 }
