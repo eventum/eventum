@@ -18,10 +18,10 @@ use Auth;
 use Date_Helper;
 use Eventum\Db\Doctrine;
 use Eventum\Model\Entity\UserPreference;
+use Eventum\Model\Entity\UserProjectPreference;
 use Eventum\Model\Repository\UserPreferenceRepository;
 use Exception;
 use Language;
-use Prefs;
 use Project;
 use Symfony\Component\HttpFoundation\ParameterBag;
 use Throwable;
@@ -253,6 +253,7 @@ class PreferencesController extends BaseController
     protected function prepareTemplate(): void
     {
         $upr = $this->repo->findById($this->usr_id);
+        $projects = Project::getAssocList($this->usr_id, false, true);
 
         $this->tpl->assign([
                 'timezone' => $upr->getTimezone(),
@@ -267,10 +268,10 @@ class PreferencesController extends BaseController
                 'list_refresh_rate' => $upr->getListRefreshRate(),
                 'email_refresh_rate' => $upr->getEmailRefreshRate(),
                 'email_signature' => $upr->getEmailSignature(),
-                'projects' => $this->getProjectPreferences($upr),
+                'projects' => $this->getProjectPreferences($upr, $projects),
                 'sms_email' => User::getSMS($this->usr_id),
                 'user_info' => User::getDetails($this->usr_id),
-                'assigned_projects' => Project::getAssocList($this->usr_id, false, true),
+                'assigned_projects' => $projects,
                 'zones' => Date_Helper::getTimezoneList(),
                 'avail_langs' => Language::getAvailableLanguages(),
                 'current_locale' => User::getLang($this->usr_id, true),
@@ -283,10 +284,16 @@ class PreferencesController extends BaseController
         }
     }
 
-    private function getProjectPreferences(UserPreference $upr): array
+    private function getProjectPreferences(UserPreference $upr, array $projects): array
     {
         $result = [];
-        foreach ($upr->getProjects() as $upp) {
+        foreach ($projects as $prj_id => $project) {
+            $upp = $upr->getProjectById($prj_id);
+            if (!$upp) {
+                // create new object to initialize defaults
+                $upp = new UserProjectPreference();
+                $upp->setProjectId($prj_id);
+            }
             $result[$upp->getProjectId()] = [
                 'receive_new_issue_email' => $this->html->radioYesNoButtons($upp->receiveNewIssueEmail()),
                 'receive_assigned_email' => $this->html->radioYesNoButtons($upp->receiveAssignedEmail()),

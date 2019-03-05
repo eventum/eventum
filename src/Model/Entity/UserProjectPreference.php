@@ -48,19 +48,19 @@ class UserProjectPreference
      * @var bool
      * @ORM\Column(name="upp_receive_assigned_email", type="boolean", nullable=false)
      */
-    private $receiveAssignedEmail;
+    private $receiveAssignedEmail = APP_DEFAULT_ASSIGNED_EMAILS;
 
     /**
      * @var bool
      * @ORM\Column(name="upp_receive_new_issue_email", type="boolean", nullable=false)
      */
-    private $receiveNewIssueEmail;
+    private $receiveNewIssueEmail = APP_DEFAULT_NEW_EMAILS;
 
     /**
      * @var bool
      * @ORM\Column(name="upp_receive_copy_of_own_action", type="boolean", nullable=false)
      */
-    private $receiveCopyOfOwnAction;
+    private $receiveCopyOfOwnAction = APP_DEFAULT_COPY_OF_OWN_ACTION;
 
     public function setUserPreference(UserPreference $upp): self
     {
