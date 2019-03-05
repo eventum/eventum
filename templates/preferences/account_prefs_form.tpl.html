@@ -122,12 +122,12 @@
                 </label><br />
 
                 <label>
-                    <input type="checkbox" name="auto_append_email_sig" value="1" {if $user_prefs.auto_append_email_sig == '1'}checked{/if}>
+                    <input type="checkbox" name="auto_append_email_sig" value="1" {if $auto_append_email_sig}checked{/if}>
                     {t}Automatically append email signature when composing web based emails{/t}
                 </label><br />
 
                 <label>
-                    <input type="checkbox" name="auto_append_note_sig" value="1" {if $user_prefs.auto_append_note_sig == '1'}checked{/if}>
+                    <input type="checkbox" name="auto_append_note_sig" value="1" {if $auto_append_note_sig}checked{/if}>
                     {t}Automatically append email signature when composing internal notes{/t}
                 </label>
             </td>

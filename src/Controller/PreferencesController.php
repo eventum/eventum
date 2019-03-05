@@ -262,6 +262,8 @@ class PreferencesController extends BaseController
                 'markdown' => $this->html->radioYesNoButtons($upr->isMarkdownEnabled()),
                 'collapsed_emails' => $this->html->radioYesNoButtons($upr->collapsedEmails()),
                 'close_popup_windows' => $this->html->radioYesNoButtons($upr->autoClosePopupWindow()),
+                'auto_append_email_sig' => $upr->autoAppendNoteSignature(),
+                'auto_append_note_sig' => $upr->autoAppendNoteSignature(),
                 'week_firstday' => $upr->getWeekFirstday(),
                 'list_refresh_rate' => $upr->getListRefreshRate(),
                 'email_refresh_rate' => $upr->getEmailRefreshRate(),
