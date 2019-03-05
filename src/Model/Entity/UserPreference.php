@@ -13,7 +13,9 @@
 
 namespace Eventum\Model\Entity;
 
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\PersistentCollection;
 
 /**
  * @ORM\Table(name="user_preference")
@@ -100,6 +102,13 @@ class UserPreference
      * @ORM\Column(name="upr_issue_navigation", type="boolean", nullable=false)
      */
     private $issueNavigation;
+
+    /**
+     * @var UserProjectPreference[]|PersistentCollection
+     * @ORM\OneToMany(targetEntity="UserProjectPreference", mappedBy="userPreference")
+     * @ORM\JoinColumn(name="id", referencedColumnName="upp_prj_id")
+     */
+    private $projects;
 
     public function getId(): int
     {
@@ -248,5 +257,13 @@ class UserPreference
     public function isIssueNavigationEnabled(): bool
     {
         return $this->issueNavigation;
+    }
+
+    /**
+     * @return UserProjectPreference[]|Collection
+     */
+    public function getProjects(): Collection
+    {
+        return $this->projects;
     }
 }

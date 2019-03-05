@@ -38,6 +38,13 @@ class UserProjectPreference
     private $projectId;
 
     /**
+     * @var UserPreference
+     * @ORM\ManyToOne(targetEntity="UserPreference", inversedBy="projects")
+     * @ORM\JoinColumn(name="upp_usr_id", referencedColumnName="upr_usr_id")
+     */
+    private $userPreference;
+
+    /**
      * @var bool
      * @ORM\Column(name="upp_receive_assigned_email", type="boolean", nullable=false)
      */

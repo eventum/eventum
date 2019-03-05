@@ -42,5 +42,13 @@ class UserPreferenceTest extends TestCase
         $this->assertEquals($prefs['auto_append_email_sig'], (int)$userPrefs->autoAppendEmailSignature());
         $this->assertEquals($prefs['auto_append_note_sig'], (int)$userPrefs->autoAppendNoteSignature());
         $this->assertEquals($prefs['markdown'], (int)$userPrefs->isMarkdownEnabled());
+
+        foreach ($userPrefs->getProjects() as $projectPrefs) {
+            $prj_id = $projectPrefs->getProjectId();
+            // all fields are booleans
+            $this->assertEquals($prefs['receive_assigned_email'][$prj_id], (int)$projectPrefs->receiveAssignedEmail());
+            $this->assertEquals($prefs['receive_new_issue_email'][$prj_id], (int)$projectPrefs->receiveNewIssueEmail());
+            $this->assertEquals($prefs['receive_copy_of_own_action'][$prj_id], (int)$projectPrefs->receiveCopyOfOwnAction());
+        }
     }
 }
