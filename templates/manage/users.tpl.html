@@ -25,11 +25,13 @@
 {/block}
 
 {*
- NOTE: we load the includes in reverse orders
+ NOTE: we load the includes in reverse order
  even logically in users.tpl we append form and list templates,
  but smarty messes it up and reverses the order:
 
  list.tpl, form.tpl while it should be form.tpl, list.tpl
+
+ see https://github.com/smarty-php/smarty/issues/303
 *}
 
 {if isset($list)}
