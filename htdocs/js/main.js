@@ -79,17 +79,10 @@ $(document).ready(function() {
         $e.progressbar({value: $e.data('percent')});
     });
 
-    // chosen config
-    var config = {
-        '.chosen-select'           : {},
-        '.chosen-select-deselect'  : {allow_single_deselect:true},
-        '.chosen-select-no-single' : {disable_search_threshold:10},
-        '.chosen-select-no-results': {no_results_text:'Oops, nothing found!'},
-        '.chosen-select-width'     : {width:"95%"}
-    };
-    for (var selector in config) {
-        $(selector).chosen(config[selector]);
-    }
+    // configure chosen
+    // https://harvesthq.github.io/chosen/
+    // https://harvesthq.github.io/chosen/options.html
+    $('.chosen-select').chosen({search_contains: true});
 
     var $textarea = $('textarea');
 
