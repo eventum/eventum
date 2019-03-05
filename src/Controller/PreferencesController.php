@@ -61,6 +61,13 @@ class PreferencesController extends BaseController
         $this->usr_id = Auth::getUserID();
         $this->permissions = $this->getPermissions();
 
+        if ($this->isPostRequest()) {
+            $hasAccess = $this->permissions[$this->cat] ?? null;
+            if (!$hasAccess) {
+                return false;
+            }
+        }
+
         return true;
     }
 
@@ -116,10 +123,6 @@ class PreferencesController extends BaseController
 
     private function updateProjectAction(): int
     {
-        if (!$this->permissions['can_update_projects']) {
-            return 0;
-        }
-
         $preferences = $this->getRequest()->request->all();
 
         return Prefs::set($this->usr_id, $preferences, true);
@@ -146,10 +149,6 @@ class PreferencesController extends BaseController
 
     private function updatePasswordAction(): int
     {
-        if (!$this->permissions['can_update_password']) {
-            return 0;
-        }
-
         $post = $this->getRequest()->request;
         $password = $post->get('password');
 
@@ -186,12 +185,8 @@ class PreferencesController extends BaseController
         }
     }
 
-    private function regenerateApiTokenAction(): int
+    private function regenerateApiTokenAction(): ?int
     {
-        if (!$this->permissions['api_tokens']) {
-            return 0;
-        }
-
         $res = APIAuthToken::regenerateKey($this->usr_id);
         if ($res == 1) {
             // FIXME: looks like hack, return error string instead
@@ -204,28 +199,16 @@ class PreferencesController extends BaseController
 
     protected function updateNameAction(): int
     {
-        if (!$this->permissions['can_update_name']) {
-            return 0;
-        }
-
         return User::updateFullName($this->usr_id);
     }
 
     protected function updateEmailAction(): int
     {
-        if (!$this->permissions['can_update_email']) {
-            return 0;
-        }
-
         return User::updateEmail($this->usr_id);
     }
 
     protected function updateSmsAction(): int
     {
-        if (!$this->permissions['can_update_sms']) {
-            return 0;
-        }
-
         $preferences = $this->getRequest()->request->all();
         $res = User::updateSMS($this->usr_id, $preferences['sms_email']);
 
@@ -251,7 +234,7 @@ class PreferencesController extends BaseController
             ]
         );
 
-        if ($this->permissions['api_tokens']) {
+        if ($this->permissions['regenerate_token']) {
             $this->tpl->assign('api_tokens', APIAuthToken::getTokensForUser($this->usr_id, false, true));
         }
     }
@@ -261,14 +244,16 @@ class PreferencesController extends BaseController
         $notCustomer = $this->role_id !== User::ROLE_CUSTOMER;
         $isCustomer = $this->role_id >= User::ROLE_CUSTOMER;
         $isUser = $this->role_id >= User::ROLE_USER;
+        $isViewer = $this->role_id >= User::ROLE_VIEWER;
 
         return [
-            'can_update_name' => $notCustomer && Auth::canUserUpdateName($this->usr_id),
-            'can_update_email' => $notCustomer && Auth::canUserUpdateEmail($this->usr_id),
-            'can_update_sms' => $isCustomer,
-            'can_update_projects' => $isCustomer,
-            'can_update_password' => Auth::canUserUpdatePassword($this->usr_id),
-            'api_tokens' => $isUser,
+            'update_account' => $isViewer,
+            'update_name' => $notCustomer && Auth::canUserUpdateName($this->usr_id),
+            'update_email' => $notCustomer && Auth::canUserUpdateEmail($this->usr_id),
+            'update_sms' => $isCustomer,
+            'update_project' => $isCustomer,
+            'update_password' => Auth::canUserUpdatePassword($this->usr_id),
+            'regenerate_token' => $isUser,
         ];
     }
 }
