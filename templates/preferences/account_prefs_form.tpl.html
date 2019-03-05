@@ -190,15 +190,6 @@
                 </label>
             </td>
         </tr>
-        <tr>
-            <th width="190">
-                {t}SMS Email Address{/t}
-            </th>
-            <td colspan="{$assigned_projects|@count}">
-                <input type="text" size="40" name="sms_email" value="{$user_prefs.sms_email|escape:"html"}">
-                <em>({t}only used for automatic issue reminders{/t})</em>
-            </td>
-        </tr>
         {else}
             <input type="hidden" name="email_refresh_rate" value="10">
         {/if}

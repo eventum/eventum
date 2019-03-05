@@ -84,6 +84,10 @@ class PreferencesController extends BaseController
                 $res = $this->updateEmailAction();
                 break;
 
+            case 'update_sms':
+                $res = $this->updateSmsAction();
+                break;
+
             case 'update_password':
                 $res = $this->updatePasswordAction();
                 break;
@@ -117,8 +121,6 @@ class PreferencesController extends BaseController
 
         // XXX: $res only updated for Prefs::set
         $res = Prefs::set($this->usr_id, $preferences);
-
-        User::updateSMS($this->usr_id, $preferences['sms_email']);
 
         if ($this->lang) {
             User::setLang($this->usr_id, $this->lang);
@@ -203,6 +205,18 @@ class PreferencesController extends BaseController
         return User::updateEmail($this->usr_id);
     }
 
+    protected function updateSmsAction(): int
+    {
+        if (!$this->permissions['can_update_sms']) {
+            return 0;
+        }
+
+        $preferences = $this->getRequest()->request->all();
+        $res = User::updateSMS($this->usr_id, $preferences['sms_email']);
+
+        return $res ? 1 : 0;
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -234,6 +248,7 @@ class PreferencesController extends BaseController
         return [
             'can_update_name' => !$isCustomer && Auth::canUserUpdateName($this->usr_id),
             'can_update_email' => !$isCustomer && Auth::canUserUpdateEmail($this->usr_id),
+            'can_update_sms' => !$isCustomer,
             'can_update_password' => Auth::canUserUpdatePassword($this->usr_id),
             'api_tokens' => $this->role_id >= User::ROLE_USER,
         ];
