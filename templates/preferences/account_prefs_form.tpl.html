@@ -42,8 +42,8 @@
                 {t}Week starts on{/t}:
             </th>
             <td>
-                <label><input type="radio" name="week_firstday" {if $user_prefs.week_firstday != "1"}checked{/if} value="0"> {t}Sunday{/t}</label>
-                <label><input type="radio" name="week_firstday" {if $user_prefs.week_firstday == "1"}checked{/if} value="1"> {t}Monday{/t}</label>
+                <label><input type="radio" name="week_firstday" {if not $week_firstday}checked{/if} value="0"> {t}Sunday{/t}</label>
+                <label><input type="radio" name="week_firstday" {if $week_firstday}checked{/if} value="1"> {t}Monday{/t}</label>
             </td>
         </tr>
 
@@ -90,7 +90,7 @@
                 {t}Refresh Rate for Issue Listing Page{/t}
             </th>
             <td>
-                <input type="text" size="10" name="list_refresh_rate" value="{$user_prefs.list_refresh_rate|escape:"html"}">
+                <input type="text" size="10" name="list_refresh_rate" value="{$list_refresh_rate|escape:html}">
                 <em>({t}in minutes{/t})</em>
             </td>
         </tr>
@@ -100,8 +100,8 @@
             <th width="190">
                 {t}Refresh Rate for Email Listing Page{/t}
             </th>
-            <td colspan="{$assigned_projects|@count}">
-                <input type="text" size="10" name="email_refresh_rate" value="{$user_prefs.email_refresh_rate|escape:"html"}">
+            <td>
+                <input type="text" size="10" name="email_refresh_rate" value="{$email_refresh_rate|escape:html}">
                 <em>({t}in minutes{/t})</em>
             </td>
         </tr>
@@ -113,7 +113,7 @@
             <td>
                 <label>
                     {t}Edit Signature{/t}:<br />
-                    <textarea name="email_signature" style="width: 97%" rows="10">{$user_prefs.email_signature}</textarea>
+                    <textarea name="email_signature" style="width: 97%" rows="10">{$email_signature}</textarea>
                 </label>
 
                 <label>
