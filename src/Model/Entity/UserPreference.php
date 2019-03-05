@@ -16,6 +16,7 @@ namespace Eventum\Model\Entity;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\PersistentCollection;
+use Eventum\Model\Repository\Traits\GetOneTrait;
 
 /**
  * @ORM\Table(name="user_preference")
@@ -23,13 +24,15 @@ use Doctrine\ORM\PersistentCollection;
  */
 class UserPreference
 {
+    use GetOneTrait;
+
     /**
      * @var int
      * @ORM\Column(name="upr_usr_id", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
-    private $id;
+    private $userId;
 
     /**
      * @var string
@@ -110,9 +113,9 @@ class UserPreference
      */
     private $projects;
 
-    public function getId(): int
+    public function getUserId(): int
     {
-        return $this->id;
+        return $this->userId;
     }
 
     public function setTimezone(string $timezone): self
@@ -265,5 +268,10 @@ class UserPreference
     public function getProjects(): Collection
     {
         return $this->projects;
+    }
+
+    public function getProjectById(int $prj_id): ?UserProjectPreference
+    {
+        return $this->getOne($this->projects, 'projectId', '=', $prj_id) ?: null;
     }
 }

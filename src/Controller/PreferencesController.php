@@ -131,9 +131,23 @@ class PreferencesController extends BaseController
 
     private function updateProjectAction(): int
     {
-        $preferences = $this->getRequest()->request->all();
+        try {
+            $post = $this->getRequest()->request;
+            $projects = $post->get('projects') ?: [];
+            $this->repo->updateProjectPreference($this->usr_id, $projects);
 
-        return Prefs::set($this->usr_id, $preferences, true);
+            $res = 1;
+        } catch (Throwable $e) {
+            $this->logger->error($e->getMessage(), ['exception' => $e]);
+
+            $res = -1;
+        }
+
+        if ($this->lang) {
+            User::setLang($this->usr_id, $this->lang);
+        }
+
+        return $res;
     }
 
     private function updateAccountAction(): int

@@ -62,6 +62,14 @@ class UserProjectPreference
      */
     private $receiveCopyOfOwnAction;
 
+    public function setUserPreference(UserPreference $upp): self
+    {
+        $this->userPreference = $upp;
+        $this->userId = $upp->getUserId();
+
+        return $this;
+    }
+
     public function setUserId(int $userId): self
     {
         $this->userId = $userId;
