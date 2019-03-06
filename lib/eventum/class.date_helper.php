@@ -11,8 +11,6 @@
  * that were distributed with this source code.
  */
 
-use Eventum\Db\Doctrine;
-
 /**
  * Class to handle date conversion issues, which enable the
  * application of storing all dates in GMT dates and allowing each
@@ -266,10 +264,7 @@ class Date_Helper
             return self::getDefaultTimezone();
         }
 
-        $repo = Doctrine::getUserPreferenceRepository();
-        $prefs = $repo->findOrCreate($usr_id);
-
-        return $prefs->getTimezone();
+        return Prefs::getTimezone($usr_id);
     }
 
     /**
@@ -277,7 +272,7 @@ class Date_Helper
      *
      * @return  string The default timezone
      */
-    public static function getDefaultTimezone()
+    public static function getDefaultTimezone(): string
     {
         return APP_DEFAULT_TIMEZONE;
     }
@@ -287,7 +282,7 @@ class Date_Helper
      *
      * @return  int 0 - Sunday, 1 - Monday
      */
-    public static function getDefaultWeekday()
+    public static function getDefaultWeekday(): int
     {
         return APP_DEFAULT_WEEKDAY;
     }

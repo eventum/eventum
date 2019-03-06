@@ -69,12 +69,12 @@ class Prefs
 
     public static function getProjectPreference(int $prj_id, int $usr_id): UserProjectPreference
     {
-        // NOTE: do not need to cache here,
-        // Doctrine UnitOfWork does this pretty well even without having Cache configured
-        $repo = Doctrine::getUserPreferenceRepository();
-        $prefs = $repo->findOrCreate($usr_id);
+        return self::getUserPreference($usr_id)->findOrCreateProjectById($prj_id);
+    }
 
-        return $prefs->findOrCreateProjectById($prj_id);
+    public static function getTimezone(int $usr_id): string
+    {
+        return self::getUserPreference($usr_id)->getTimezone();
     }
 
     /**

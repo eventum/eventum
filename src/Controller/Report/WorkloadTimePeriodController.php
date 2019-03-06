@@ -47,10 +47,9 @@ class WorkloadTimePeriodController extends ReportBaseController
      */
     protected function prepareTemplate(): void
     {
-        $user_prefs = Prefs::get($this->usr_id);
-        $timezone = $user_prefs['timezone'];
+        $timezone = Prefs::getTimezone($this->usr_id);
 
-        if ($this->type == 'email') {
+        if ($this->type === 'email') {
             $data = Report::getEmailWorkloadByTimePeriod($timezone);
         } else {
             $data = Report::getWorkloadByTimePeriod($timezone);
