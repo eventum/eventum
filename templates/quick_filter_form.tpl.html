@@ -122,7 +122,7 @@
             {if $categories|@count > 0}
             <td valign="top">
                 <span>{t}Category{/t}:</span><br />
-                <select name="category" class="chosen-select">
+                <select name="category" class="chosen-select" style="width: 150px">
                     {if $options.category|@count > 1}
                     <option value="last" selected>{t}multiple selections{/t}</option>
                     <option value="">{t}any{/t}</option>
@@ -137,7 +137,7 @@
             {if $priorities|@count > 0}
             <td valign="top">
                 <span>{t}Priority{/t}:</span><br />
-                <select name="priority" class="chosen-select">
+                <select name="priority" class="chosen-select" style="width: 150px">
                     {if $options.priority|@count > 1}
                     <option value="last" selected>{t}multiple selections{/t}</option>
                     <option value="">{t}any{/t}</option>
@@ -152,7 +152,7 @@
             {if $severities|@count > 0}
             <td valign="top">
                 <span>{t}Severity{/t}:</span><br />
-                <select name="severity" class="chosen-select">
+                <select name="severity" class="chosen-select" style="width: 150px">
                     {if $options.severity|@count > 1}
                     <option value="last" selected>{t}multiple selections{/t}</option>
                     <option value="">{t}any{/t}</option>
@@ -166,7 +166,7 @@
             {/if}
             <td valign="top">
                 <span>{t}Status{/t}:</span><br />
-                <select name="status" class="chosen-select">
+                <select name="status" class="chosen-select" style="width: 150px">
                     {if $options.status|@count > 1}
                     <option value="last" selected>{t}multiple selections{/t}</option>
                     <option value="">{t}any{/t}</option>

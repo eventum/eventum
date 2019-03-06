@@ -4,6 +4,8 @@
 
 Upgrading to 3.6.x versions requires that you upgrade to latest 3.5.x version first.
 
+- Add jQuery chosen to quick filter (@glensc, #493)
+
 [3.6.3]: https://github.com/eventum/eventum/compare/v3.6.2...master
 
 ## [3.6.2] - 2019-03-08
