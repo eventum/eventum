@@ -125,7 +125,7 @@ class SendController extends BaseController
                 $this->otherAction();
         }
 
-        if ($this->cat == 'reply') {
+        if ($this->cat === 'reply') {
             $this->replyAction();
         }
     }
@@ -151,8 +151,6 @@ class SendController extends BaseController
 
         $this->tpl->assign('ema_id', $this->ema_id);
 
-        $user_prefs = Prefs::get($this->usr_id);
-
         $this->tpl->assign(
             [
                 'from' => User::getFromHeader($this->usr_id),
@@ -165,13 +163,6 @@ class SendController extends BaseController
                 'email_category_id' => Time_Tracking::getCategoryId($this->prj_id, 'Email Discussion'),
             ]
         );
-
-        // don't add signature if it already exists. Note: This won't handle multiple user duplicate sigs.
-        if (!empty($draft['emd_body']) && $user_prefs['auto_append_email_sig'] == 1
-            && strpos($draft['emd_body'], $user_prefs['email_signature']) !== false
-        ) {
-            $this->tpl->assign('body_has_sig_already', 1);
-        }
     }
 
     private function sendEmailAction()
@@ -285,8 +276,12 @@ class SendController extends BaseController
             ]
         );
 
-        if ($draft['emd_status'] != 'pending') {
+        if ($draft['emd_status'] !== 'pending') {
             $this->tpl->assign('read_only', 1);
+        }
+
+        if ($this->hasSignature($draft['emd_body'] ?? null)) {
+            $this->tpl->assign('body_has_sig_already', 1);
         }
     }
 
@@ -360,6 +355,18 @@ class SendController extends BaseController
                 'extra_title' => $extra_title,
             ]
         );
+    }
+
+    protected function hasSignature(string $body): bool
+    {
+        // don't add signature if it already exists.
+        // Note: This won't handle multiple user duplicate sigs.
+        $prefs = Prefs::getUserPreference($this->usr_id);
+        $autoAppendSignature = $prefs->autoAppendNoteSignature();
+        $emailSignature = $prefs->getEmailSignature();
+        $hasSignature = strpos($body, $emailSignature) !== false;
+
+        return $autoAppendSignature && $hasSignature;
     }
 
     /**
