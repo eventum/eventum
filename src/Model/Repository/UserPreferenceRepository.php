@@ -35,8 +35,7 @@ class UserPreferenceRepository extends EntityRepository
     {
         $upr = $this->find($usr_id);
         if (!$upr) {
-            $upr = new UserPreference();
-            $upr->setUserId($usr_id);
+            $upr = new UserPreference($usr_id);
         }
 
         return $upr;

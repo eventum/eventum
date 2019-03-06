@@ -114,10 +114,11 @@ class UserPreference
      */
     private $projects;
 
-    public function __construct()
+    public function __construct(int $usr_id)
     {
         $setup = Setup::get();
 
+        $this->userId = $usr_id;
         $this->timezone = Date_Helper::getDefaultTimezone();
         $this->weekFirstday = Date_Helper::getDefaultWeekday();
         $this->relativeDate = $setup['relative_date'] === 'enabled';
