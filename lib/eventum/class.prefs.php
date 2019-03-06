@@ -12,6 +12,8 @@
  */
 
 use Eventum\Db\Adapter\AdapterInterface;
+use Eventum\Db\Doctrine;
+use Eventum\Model\Entity\UserPreference;
 
 /**
  * Class to handle the business logic related to the user preferences
@@ -53,6 +55,15 @@ class Prefs
         }
 
         return $prefs;
+    }
+
+    public static function getUserPreference(int $usr_id): UserPreference
+    {
+        // NOTE: do not need to cache here,
+        // Doctrine UnitOfWork does this pretty well even without having Cache configured
+        $repo = Doctrine::getUserPreferenceRepository();
+
+        return $repo->findOrCreate($usr_id);
     }
 
     /**

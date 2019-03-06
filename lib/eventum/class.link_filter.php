@@ -457,7 +457,7 @@ class Link_Filter
      * @param bool $value force value. internal for testing
      * @return bool
      */
-    public static function markdownEnabled($value = null)
+    public static function markdownEnabled($value = null): bool
     {
         static $markdown;
 
@@ -465,8 +465,7 @@ class Link_Filter
 
         if (!isset($markdown[$usr_id])) {
             if ($value === null) {
-                $prefs = Prefs::get($usr_id);
-                $value = $prefs['markdown'] == '1';
+                $value = Prefs::getUserPreference($usr_id)->isMarkdownEnabled();
             }
 
             $markdown[$usr_id]['markdown'] = $value;
