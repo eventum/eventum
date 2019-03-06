@@ -39,19 +39,13 @@ class RemoteLinkRepository extends EntityRepository
             $entity = null;
         }
 
-        $now = new DateTime();
-
         // not found, or no gid
         if (!$entity) {
-            $entity = (new Entity\RemoteLink())
-                ->setCreatedDate($now)
-                ->setIssueId($issue_id)
-                // empty gid means null
-                ->setGid($gid ?: null);
+            $entity = new Entity\RemoteLink($issue_id, $gid);
         }
 
         $entity
-            ->setUpdatedDate($now)
+            ->setUpdatedDate(new DateTime())
             ->setRelation($relation)
             ->setUrl($url)
             ->setTitle($title);
