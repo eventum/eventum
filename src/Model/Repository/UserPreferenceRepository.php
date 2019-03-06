@@ -47,7 +47,7 @@ class UserPreferenceRepository extends EntityRepository
         $upr = $this->findOrCreate($usr_id);
 
         foreach ($projects as $prj_id => $data) {
-            $upp = $upr->addOrGetProjectById($prj_id);
+            $upp = $upr->findOrCreateProjectById($prj_id);
             $upp
                 ->setReceiveNewIssueEmail($data['receive_new_issue_email'])
                 ->setReceiveAssignedEmail($data['receive_assigned_email'])

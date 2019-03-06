@@ -294,7 +294,7 @@ class UserPreference
         return $this->getOne($this->projects, 'projectId', '=', $prj_id) ?: null;
     }
 
-    public function addOrGetProjectById(int $prj_id): UserProjectPreference
+    public function findOrCreateProjectById(int $prj_id): UserProjectPreference
     {
         $upp = $this->getProjectById($prj_id);
         if (!$upp) {

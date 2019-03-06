@@ -287,7 +287,7 @@ class PreferencesController extends BaseController
     {
         $result = [];
         foreach ($projects as $prj_id => $project) {
-            $upp = $upr->addOrGetProjectById($prj_id);
+            $upp = $upr->findOrCreateProjectById($prj_id);
             $result[$upp->getProjectId()] = [
                 'receive_new_issue_email' => $this->html->radioYesNoButtons($upp->receiveNewIssueEmail()),
                 'receive_assigned_email' => $this->html->radioYesNoButtons($upp->receiveAssignedEmail()),
