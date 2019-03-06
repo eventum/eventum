@@ -334,8 +334,6 @@ class User
             Project::associateUser($prj_id, $usr_id, $role);
         }
 
-        Prefs::set($usr_id, Prefs::getDefaults($projects));
-
         // send confirmation email to user
         $hash = md5($full_name . $usr_email . Auth::privateKey());
 
@@ -1149,8 +1147,6 @@ class User
                 Group::addUser($usr_id, $grp_id);
             }
         }
-
-        Prefs::set($usr_id, Prefs::getDefaults($projects));
 
         // send email to user
         Notification::notifyNewUser($usr_id, $user['password']);
