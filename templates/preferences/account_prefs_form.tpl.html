@@ -95,7 +95,6 @@
             </td>
         </tr>
 
-        {if $core.current_role > $core.roles.customer}
         <tr>
             <th width="190">
                 {t}Refresh Rate for Email Listing Page{/t}
@@ -132,9 +131,6 @@
                 </label>
             </td>
         </tr>
-        {else}
-            <input type="hidden" name="email_refresh_rate" value="10">
-        {/if}
 
         <tr class="buttons">
             <td colspan="2">
