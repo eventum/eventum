@@ -109,7 +109,7 @@ class UserPreference
 
     /**
      * @var UserProjectPreference[]|PersistentCollection
-     * @ORM\OneToMany(targetEntity="UserProjectPreference", mappedBy="userPreference")
+     * @ORM\OneToMany(targetEntity="UserProjectPreference", mappedBy="userPreference", cascade={"ALL"}, indexBy="projectId")
      * @ORM\JoinColumn(name="id", referencedColumnName="upp_prj_id")
      */
     private $projects;
@@ -283,7 +283,7 @@ class UserPreference
     /**
      * @return UserProjectPreference[]|Collection
      */
-    public function getProjects(): Collection
+    public function getProjects(): ?Collection
     {
         return $this->projects;
     }
@@ -291,5 +291,15 @@ class UserPreference
     public function getProjectById(int $prj_id): ?UserProjectPreference
     {
         return $this->getOne($this->projects, 'projectId', '=', $prj_id) ?: null;
+    }
+
+    public function addOrGetProjectById(int $prj_id): UserProjectPreference
+    {
+        $upp = $this->getProjectById($prj_id);
+        if (!$upp) {
+            $upp = new UserProjectPreference($this, $prj_id);
+        }
+
+        return $upp;
     }
 }

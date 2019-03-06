@@ -23,14 +23,6 @@ class UserProjectPreference
 {
     /**
      * @var int
-     * @ORM\Column(name="upp_usr_id", type="integer", nullable=false)
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="NONE")
-     */
-    private $userId;
-
-    /**
-     * @var int
      * @ORM\Column(name="upp_prj_id", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="NONE")
@@ -40,7 +32,9 @@ class UserProjectPreference
     /**
      * @var UserPreference
      * @ORM\ManyToOne(targetEntity="UserPreference", inversedBy="projects")
-     * @ORM\JoinColumn(name="upp_usr_id", referencedColumnName="upr_usr_id")
+     * @ORM\JoinColumn(name="upp_usr_id", referencedColumnName="upr_usr_id", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="NONE")
      */
     private $userPreference;
 
@@ -62,24 +56,10 @@ class UserProjectPreference
      */
     private $receiveCopyOfOwnAction = APP_DEFAULT_COPY_OF_OWN_ACTION;
 
-    public function setUserPreference(UserPreference $upp): self
+    public function __construct(UserPreference $upr, int $projectId)
     {
-        $this->userPreference = $upp;
-        $this->userId = $upp->getUserId();
-
-        return $this;
-    }
-
-    public function setUserId(int $userId): self
-    {
-        $this->userId = $userId;
-
-        return $this;
-    }
-
-    public function getUserId(): int
-    {
-        return $this->userId;
+        $this->userPreference = $upr;
+        $this->projectId = $projectId;
     }
 
     public function setProjectId(int $projectId): self

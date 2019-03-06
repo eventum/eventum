@@ -15,7 +15,6 @@ namespace Eventum\Model\Repository;
 
 use Doctrine\ORM\EntityRepository;
 use Eventum\Model\Entity\UserPreference;
-use Eventum\Model\Entity\UserProjectPreference;
 use Eventum\Model\Repository\Traits\FindByIdTrait;
 
 /**
@@ -49,13 +48,7 @@ class UserPreferenceRepository extends EntityRepository
         $upr = $this->findOrCreate($usr_id);
 
         foreach ($projects as $prj_id => $data) {
-            $upp = $upr->getProjectById($prj_id);
-            if (!$upp) {
-                $upp = new UserProjectPreference();
-                $upp->setUserPreference($upr);
-                $upp->setProjectId($prj_id);
-            }
-
+            $upp = $upr->addOrGetProjectById($prj_id);
             $upp
                 ->setReceiveNewIssueEmail($data['receive_new_issue_email'])
                 ->setReceiveAssignedEmail($data['receive_assigned_email'])
@@ -63,6 +56,7 @@ class UserPreferenceRepository extends EntityRepository
             $em->persist($upp);
         }
 
+        $em->persist($upr);
         $em->flush();
     }
 }

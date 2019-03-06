@@ -18,7 +18,6 @@ use Auth;
 use Date_Helper;
 use Eventum\Db\Doctrine;
 use Eventum\Model\Entity\UserPreference;
-use Eventum\Model\Entity\UserProjectPreference;
 use Eventum\Model\Repository\UserPreferenceRepository;
 use Exception;
 use Language;
@@ -288,12 +287,7 @@ class PreferencesController extends BaseController
     {
         $result = [];
         foreach ($projects as $prj_id => $project) {
-            $upp = $upr->getProjectById($prj_id);
-            if (!$upp) {
-                // create new object to initialize defaults
-                $upp = new UserProjectPreference();
-                $upp->setProjectId($prj_id);
-            }
+            $upp = $upr->addOrGetProjectById($prj_id);
             $result[$upp->getProjectId()] = [
                 'receive_new_issue_email' => $this->html->radioYesNoButtons($upp->receiveNewIssueEmail()),
                 'receive_assigned_email' => $this->html->radioYesNoButtons($upp->receiveAssignedEmail()),

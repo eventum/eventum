@@ -13,7 +13,9 @@
 
 namespace Eventum\Test;
 
+use Doctrine\ORM\EntityManager;
 use Eventum\Db\Doctrine;
+use Eventum\Model\Repository\UserPreferenceRepository;
 use Prefs;
 
 /**
@@ -21,12 +23,22 @@ use Prefs;
  */
 class UserPreferenceTest extends TestCase
 {
+    /** @var EntityManager */
+    private $em;
+    /** @var UserPreferenceRepository */
+    private $repo;
+
+    public function setUp()
+    {
+        $this->em = Doctrine::getEntityManager();
+        $this->repo = Doctrine::getUserPreferenceRepository();
+    }
+
     public function testCompatibility(): void
     {
         $usr_id = APP_SYSTEM_USER_ID;
 
-        $repo = Doctrine::getUserPreferenceRepository();
-        $userPrefs = $repo->findById($usr_id);
+        $userPrefs = $this->repo->findById($usr_id);
         $prefs = Prefs::get($usr_id);
 
         $this->assertEquals($prefs['timezone'], $userPrefs->getTimezone());
@@ -50,5 +62,31 @@ class UserPreferenceTest extends TestCase
             $this->assertEquals($prefs['receive_new_issue_email'][$prj_id], (int)$projectPrefs->receiveNewIssueEmail());
             $this->assertEquals($prefs['receive_copy_of_own_action'][$prj_id], (int)$projectPrefs->receiveCopyOfOwnAction());
         }
+    }
+
+    public function testModifyCascade(): void
+    {
+        $usr_id = 771718;
+        $this->deletePreferences($usr_id);
+
+        $projects = [
+            1 => [
+                'receive_new_issue_email' => true,
+                'receive_assigned_email' => false,
+                'receive_copy_of_own_action' => false,
+            ],
+        ];
+        $this->repo->updateProjectPreference($usr_id, $projects);
+    }
+
+    private function deletePreferences(int $usr_id): void
+    {
+        if ($userPrefs = $this->repo->find($usr_id)) {
+            // this cascades delete user_preference and user_project_preference
+            $this->em->remove($userPrefs);
+            $this->em->flush();
+        }
+
+        $this->assertNull($this->repo->find($usr_id));
     }
 }
