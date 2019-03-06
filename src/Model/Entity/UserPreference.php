@@ -48,12 +48,16 @@ class UserPreference
     private $weekFirstday;
 
     /**
+     * Refresh rate, in minutes
+     *
      * @var int
      * @ORM\Column(name="upr_list_refresh_rate", type="integer", nullable=false)
      */
     private $listRefreshRate = APP_DEFAULT_REFRESH_RATE;
 
     /**
+     * Refresh rate, in minutes
+     *
      * @var int
      * @ORM\Column(name="upr_email_refresh_rate", type="integer", nullable=false)
      */
