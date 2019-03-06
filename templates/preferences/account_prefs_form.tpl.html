@@ -113,7 +113,7 @@
             <td>
                 <label>
                     {t}Edit Signature{/t}:<br />
-                    <textarea name="email_signature" style="width: 97%" rows="10">{$email_signature}</textarea>
+                    <textarea name="email_signature" style="width: 97%" rows="10">{$email_signature|escape:html}</textarea>
                 </label>
 
                 <label>

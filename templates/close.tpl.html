@@ -91,10 +91,10 @@
             {t}Reason for closing issue{/t} *
           </th>
           <td>
-            <textarea name="reason" rows="8" style="width: 97%">{if $core.current_user_prefs.auto_append_email_sig == 1}
+            <textarea name="reason" rows="8" style="width: 97%">{if $core.current_user_prefs.auto_append_email_sig}
 
 
-{$core.current_user_prefs.email_signature|escape:"html"}{/if}</textarea>
+{$core.current_user_prefs.email_signature|escape:html}{/if}</textarea>
             {include file="error_icon.tpl.html" field="reason"}
           </td>
         </tr>
@@ -134,7 +134,7 @@
         <tr class="buttons">
           <td colspan="2">
                 <input type="submit" value="{t}Close Issue{/t}">
-                {if $core.current_user_prefs.email_signature != "" and $core.current_user_prefs.auto_append_email_sig != 1}
+                {if not $core.current_user_prefs.auto_append_email_sig and $core.current_user_prefs.email_signature}
                 <div class="right">
                   <label>
                       <input type="checkbox" name="add_email_signature" value="yes">

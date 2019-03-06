@@ -24,7 +24,6 @@ use Group;
 use Issue;
 use Issue_Lock;
 use Notification;
-use Prefs;
 use Priority;
 use Product;
 use Project;

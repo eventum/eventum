@@ -25,7 +25,6 @@ use Eventum\Attachment\AttachmentManager;
 use Group;
 use Issue;
 use Mail_Helper;
-use Prefs;
 use Priority;
 use Product;
 use Project;
