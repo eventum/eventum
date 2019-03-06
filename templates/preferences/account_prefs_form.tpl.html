@@ -74,7 +74,6 @@
             </td>
         </tr>
 
-        {if $core.current_role != $core.roles.customer}
         <tr>
             <th width="190">
                 {t}Automatically close confirmation popup windows?{/t}
@@ -83,7 +82,6 @@
                 {html_radios name="close_popup_windows" options=$close_popup_windows.options selected=$close_popup_windows.selected}
             </td>
         </tr>
-        {/if}
 
         <tr>
             <th width="190">
