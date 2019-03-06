@@ -204,8 +204,6 @@ class NewController extends BaseController
             ]
         );
 
-        $prefs = Prefs::get($this->usr_id);
-        $this->tpl->assign('user_prefs', $prefs);
         $this->tpl->assign('zones', Date_Helper::getTimezoneList());
         if (Auth::getCurrentRole() == User::ROLE_CUSTOMER && ($crm = CRM::getInstance($this->prj_id))) {
             $customer_contact_id = User::getCustomerContactID($this->usr_id);
