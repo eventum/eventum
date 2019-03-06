@@ -109,7 +109,7 @@
             {if $core.current_role != $core.roles.customer}
             <td valign="top">
                 <span>{t}Assigned{/t}:</span><br />
-                <select name="users">
+                <select name="users" class="chosen-select">
                     {if $options.users|@count > 1}
                     <option value="last" selected>{t}multiple selections{/t}</option>
                     {html_options options=$assign_options}
@@ -122,7 +122,7 @@
             {if $categories|@count > 0}
             <td valign="top">
                 <span>{t}Category{/t}:</span><br />
-                <select name="category">
+                <select name="category" class="chosen-select">
                     {if $options.category|@count > 1}
                     <option value="last" selected>{t}multiple selections{/t}</option>
                     <option value="">{t}any{/t}</option>
@@ -137,7 +137,7 @@
             {if $priorities|@count > 0}
             <td valign="top">
                 <span>{t}Priority{/t}:</span><br />
-                <select name="priority">
+                <select name="priority" class="chosen-select">
                     {if $options.priority|@count > 1}
                     <option value="last" selected>{t}multiple selections{/t}</option>
                     <option value="">{t}any{/t}</option>
@@ -152,7 +152,7 @@
             {if $severities|@count > 0}
             <td valign="top">
                 <span>{t}Severity{/t}:</span><br />
-                <select name="severity">
+                <select name="severity" class="chosen-select">
                     {if $options.severity|@count > 1}
                     <option value="last" selected>{t}multiple selections{/t}</option>
                     <option value="">{t}any{/t}</option>
@@ -166,7 +166,7 @@
             {/if}
             <td valign="top">
                 <span>{t}Status{/t}:</span><br />
-                <select name="status">
+                <select name="status" class="chosen-select">
                     {if $options.status|@count > 1}
                     <option value="last" selected>{t}multiple selections{/t}</option>
                     <option value="">{t}any{/t}</option>
@@ -192,7 +192,7 @@
                 </td>
                 <td align="right">
                     <span>{t}Saved Searches{/t}:</span>
-                    <select name="custom_filter" id="custom_filter">
+                    <select name="custom_filter" id="custom_filter" class="chosen-select">
                         <option value="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</option>
                         {section name="i" loop=$csts}
                         <option value="{$csts[i].url}">{$csts[i].cst_title}</option>
