@@ -15,6 +15,7 @@ namespace Eventum\Db;
 
 use BadMethodCallException;
 use DB_Helper;
+use Doctrine\Common\Cache;
 use Doctrine\DBAL\Types\Type;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Tools\Setup;
@@ -40,13 +41,11 @@ class Doctrine
             return $entityManager;
         }
 
-        // Create a simple "default" Doctrine ORM configuration for Annotations
-        $isDevMode = true;
+        $isDevMode = false;
         $paths = [
             APP_PATH . '/src/Model/Entity',
         ];
 
-        // database configuration parameters
         $config = DB_Helper::getConfig();
         $conn = [
             'driver' => 'pdo_mysql',
@@ -59,7 +58,16 @@ class Doctrine
             'charset' => $config['charset'],
         ];
 
+        $cacheDriver = new Cache\ArrayCache();
+
         $config = Setup::createAnnotationMetadataConfiguration($paths, $isDevMode, $proxyDir = null, $cache = null, $useSimpleAnnotationReader = false);
+
+        // https://www.doctrine-project.org/projects/doctrine-orm/en/2.6/reference/caching.html#query-cache
+        $config->setQueryCacheImpl($cacheDriver);
+        // https://www.doctrine-project.org/projects/doctrine-orm/en/2.6/reference/caching.html#result-cache
+        $config->setResultCacheImpl($cacheDriver);
+        // https://www.doctrine-project.org/projects/doctrine-orm/en/2.6/reference/caching.html#metadata-cache
+        $config->setMetadataCacheImpl($cacheDriver);
 
         Type::overrideType(Type::DATETIME, UTCDateTimeType::class);
 
