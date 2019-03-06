@@ -9,6 +9,7 @@ Upgrading to 3.6.x versions requires that you upgrade to latest 3.5.x version fi
 - Make issue navigation respect user preference, default off (performance!) (@glensc, #485, #488)
 - Replace `pear/text_diff` with `sebastian/diff` (@glensc, #489)
 - Increase default height of Issue Reply pop-up (@vladsf, #470)
+- Update preferences UI, add some consistency how they are used (@glensc, #492)
 
 [3.6.2]: https://github.com/eventum/eventum/compare/v3.6.1...master
 
