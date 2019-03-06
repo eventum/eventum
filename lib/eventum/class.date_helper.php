@@ -11,6 +11,8 @@
  * that were distributed with this source code.
  */
 
+use Eventum\Db\Doctrine;
+
 /**
  * Class to handle date conversion issues, which enable the
  * application of storing all dates in GMT dates and allowing each
@@ -36,7 +38,7 @@ class Date_Helper
      * used.
      *
      * @param int|DateTime|string $ts
-     * @param string|null  $timezone
+     * @param string|null $timezone
      * @return DateTime
      */
     public static function getDateTime($ts = 'now', $timezone = null)
@@ -197,7 +199,7 @@ class Date_Helper
      * @param   int $usr_id The user ID
      * @return  string The timezone short name
      */
-    public static function getTimezoneShortNameByUser($usr_id)
+    public static function getTimezoneShortNameByUser(int $usr_id): string
     {
         $timezone = self::getPreferredTimezone($usr_id);
         $date = self::getDateTime(null, $timezone);
@@ -253,12 +255,9 @@ class Date_Helper
     }
 
     /**
-     * Method used to get the timezone preferred by the user.
-     *
-     * @param int $usr_id The user ID
-     * @return string The timezone preferred by the user
+     * Get the timezone preferred by the user.
      */
-    public static function getPreferredTimezone($usr_id = null)
+    public static function getPreferredTimezone(?int $usr_id = null): string
     {
         if (!$usr_id) {
             $usr_id = Auth::getUserID();
@@ -266,12 +265,11 @@ class Date_Helper
         if (!$usr_id) {
             return self::getDefaultTimezone();
         }
-        $prefs = Prefs::get($usr_id);
-        if (!empty($prefs['timezone'])) {
-            return $prefs['timezone'];
-        }
 
-        return self::getDefaultTimezone();
+        $repo = Doctrine::getUserPreferenceRepository();
+        $prefs = $repo->findOrCreate($usr_id);
+
+        return $prefs->getTimezone();
     }
 
     /**
