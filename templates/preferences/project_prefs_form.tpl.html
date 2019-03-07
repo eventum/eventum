@@ -1,0 +1,63 @@
+<form class="project_prefs_form" method="post" enctype="multipart/form-data">
+    <input type="hidden" name="cat" value="update_project">
+
+    {math assign="colspan" equation="x+1" x=$assigned_projects|@count}
+    <table class="bordered">
+        <tr class="title">
+            <th colspan="{$colspan}">
+                {t}Project preferences{/t}
+            </th>
+        </tr>
+
+        <tr>
+            <td width="190">
+                &nbsp;
+            </td>
+            {foreach from=$assigned_projects key=prj_id item=project_info}
+            <td>
+                <strong>{$project_info.prj_title}</strong>
+            </td>
+            {/foreach}
+        </tr>
+
+        <tr>
+            <th width="190">
+                {t}Receive emails when all issues are created?{/t}
+            </th>
+            {foreach from=$assigned_projects key=prj_id item=project_info}
+            <td>
+                {html_radios name="projects[{$prj_id}][receive_new_issue_email]" options=$projects.$prj_id.receive_new_issue_email.options selected=$projects.$prj_id.receive_new_issue_email.selected}
+            </td>
+            {/foreach}
+        </tr>
+
+        <tr>
+            <th width="190">
+                {t}Receive emails when new issues are assigned to you?{/t}
+            </th>
+            {foreach from=$assigned_projects key=prj_id item=project_info}
+            <td>
+                {html_radios name="projects[$prj_id][receive_assigned_email]" options=$projects.$prj_id.receive_assigned_email.options selected=$projects.$prj_id.receive_assigned_email.selected}
+            </td>
+            {/foreach}
+        </tr>
+
+        <tr>
+            <th width="190">
+                {t}Receive notifications for your own actions?{/t}
+            </th>
+            {foreach from=$assigned_projects key=prj_id item=project_info}
+            <td>
+                {html_radios name="projects[{$prj_id}][receive_copy_of_own_action]" options=$projects.$prj_id.receive_copy_of_own_action.options selected=$projects.$prj_id.receive_copy_of_own_action.selected}
+            </td>
+            {/foreach}
+        </tr>
+
+        <tr class="buttons">
+            <td colspan="{$colspan}">
+                <input type="submit" value="{t}Update Project Preferences{/t}">
+                <input type="reset" value="{t}Reset{/t}">
+            </td>
+        </tr>
+    </table>
+</form>

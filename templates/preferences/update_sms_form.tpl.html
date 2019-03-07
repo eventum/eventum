@@ -1,0 +1,27 @@
+<form class="update_sms_form" method="post">
+    <input type="hidden" name="cat" value="update_sms">
+
+    <table class="bordered">
+        {if $permissions.update_sms}
+        <tr>
+            <th width="190">
+                {t}SMS Email Address{/t}
+            </th>
+            <td>
+                <input type="text" size="40" name="sms_email" value="{$sms_email|escape:html}">
+                <em>({t}only used for automatic issue reminders{/t})</em>
+            </td>
+        </tr>
+        <tr class="buttons">
+            <td colspan="2">
+                <input type="submit" value="{t}Update SMS Email Address{/t}">
+                <input type="reset" value="{t}Reset{/t}">
+            </td>
+        </tr>
+        {else}
+        <tr>
+            <td colspan="2">{t}Please contact the admin to change your SMS Email.{/t}</td>
+        </tr>
+        {/if}
+    </table>
+</form>

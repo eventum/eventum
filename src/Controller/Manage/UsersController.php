@@ -14,7 +14,6 @@
 namespace Eventum\Controller\Manage;
 
 use Eventum\Extension\ExtensionManager;
-use Eventum\Monolog\Logger;
 use Exception;
 use Group;
 use Project;
@@ -127,7 +126,7 @@ class UsersController extends ManageBaseController
             $message = ev_gettext('Thank you, the user was updated successfully.');
             $this->messages->addInfoMessage($message);
         } catch (Exception $e) {
-            Logger::app()->error($e);
+            $this->logger->error($e);
             $message = ev_gettext('An error occurred while trying to update the user information.');
             $this->messages->addErrorMessage($message);
         }
@@ -153,7 +152,7 @@ class UsersController extends ManageBaseController
             $message = ev_gettext('Thank you, user was unlocked successfully.');
             $this->messages->addInfoMessage($message);
         } catch (Exception $e) {
-            Logger::app()->error($e);
+            $this->logger->error($e);
             $message = ev_gettext('An error occurred while trying to unlock the user.');
             $this->messages->addErrorMessage($message);
         }

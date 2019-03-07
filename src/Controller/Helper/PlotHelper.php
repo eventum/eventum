@@ -200,15 +200,14 @@ class PlotHelper
     {
         $usr_id = Auth::getUserID();
 
-        // get timezone of current user
-        $user_prefs = Prefs::get($usr_id);
+        $timezone = Prefs::getTimezone($usr_id);
 
-        if ($type == 'email') {
-            $data = Report::getEmailWorkloadByTimePeriod($user_prefs['timezone'], true);
+        if ($type === 'email') {
+            $data = Report::getEmailWorkloadByTimePeriod($timezone, true);
             $graph_title = ev_gettext('Email by Time Period');
             $event_type = ev_gettext('emails');
         } else {
-            $data = Report::getWorkloadByTimePeriod($user_prefs['timezone'], true);
+            $data = Report::getWorkloadByTimePeriod($timezone, true);
             $graph_title = ev_gettext('Workload by Time Period');
             $event_type = ev_gettext('actions');
         }

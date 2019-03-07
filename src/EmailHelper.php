@@ -17,9 +17,9 @@ use Auth;
 use EmailReplyParser\EmailReplyParser;
 use EmailReplyParser\Fragment;
 use EmailReplyParser\Parser\EmailParser;
+use Eventum\Db\Doctrine;
 use Link_Filter;
 use Misc;
-use Prefs;
 
 class EmailHelper
 {
@@ -27,21 +27,19 @@ class EmailHelper
      * Signature regexp, without greedy "^-\w" pattern
      * https://github.com/willdurand/EmailReplyParser/pull/42
      */
-    const SIG_REGEX = '/(?:^\s*__|^-- $)|(?:^Sent from my (?:\s*\w+){1,3})$/s';
+    private const SIG_REGEX = '/(?:^\s*__|^-- $)|(?:^Sent from my (?:\s*\w+){1,3})$/s';
 
     /**
      * Format email body in view emails/view notes popup and expandable view
-     *
-     * @param string $text
-     * @return string
      */
-    public static function formatEmail($text)
+    public static function formatEmail(string $text): string
     {
         static $enabled;
 
         if ($enabled === null) {
-            $prefs = Prefs::get(Auth::getUserID());
-            $enabled = $prefs['collapsed_emails'] == 1;
+            $usr_id = Auth::getUserID();
+            $prefs = Doctrine::getUserPreferenceRepository()->findOrCreate($usr_id);
+            $enabled = $prefs->isMarkdownEnabled();
         }
 
         $text = self::collapseReplies($text, $enabled);
@@ -56,11 +54,8 @@ class EmailHelper
 
     /**
      * Collapse email replies and signatures into expandable block
-     *
-     * @param string $text
-     * @return string
      */
-    private static function collapseReplies($text, $enabled)
+    private static function collapseReplies(string $text, bool $enabled): string
     {
         if (!$enabled) {
             return Misc::highlightQuotedReply($text);

@@ -1,0 +1,43 @@
+<form id="api_token_form" method="post">
+    <input type="hidden" name="cat" value="regenerate_token">
+
+    <table class="bordered api_token">
+        <tr class="title">
+            <th colspan="4">
+                {t}API Key{/t}
+            </th>
+        </tr>
+        <tr>
+            <th>
+                {t}Status{/t}
+            </th>
+            <th>
+                {t}Created{/t}
+            </th>
+            <th class="token">
+                {t}Token{/t}
+            </th>
+        </tr>
+
+        {foreach from=$api_tokens item=token}
+        <tr class="{$token.status}">
+            <td>
+                {$token.status}
+            </td>
+            <td>
+                {$token.created}
+            </td>
+            <td class="token">
+                <input type="text" class="api_token" value="{$token.token}" />
+            </td>
+        </tr>
+        {/foreach}
+
+        <tr class="buttons">
+            <td colspan="4">
+                <input type="submit" value="{t}Regenerate{/t}">
+                <input type="button" value="{t}Show revoked{/t}" id="show_revoked">
+            </td>
+        </tr>
+    </table>
+</form>

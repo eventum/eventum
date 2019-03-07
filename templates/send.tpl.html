@@ -49,7 +49,7 @@ setTimeout('Eventum.close_and_refresh()', 2000);
 </center>
 <script type="text/javascript">
 <!--
-{if $core.current_user_prefs.close_popup_windows == '1'}
+{if $core.current_user_prefs.close_popup_windows}
 setTimeout('Eventum.close_and_refresh()', 2000);
 {/if}
 //-->
@@ -276,10 +276,10 @@ $().ready(function() {
     {/if}
     <tr>
       <td colspan="2">
-        <textarea name="message" rows="15" style="width: 97%" {if $read_only|default:'' == 1}readonly{/if}>{$email.seb_body|escape:"html"|default:''}{if $core.current_user_prefs.auto_append_email_sig == 1 && $body_has_sig_already|default:0 != 1}
+        <textarea name="message" rows="15" style="width: 97%" {if $read_only|default:'' == 1}readonly{/if}>{$email.seb_body|escape:"html"|default:''}{if $core.current_user_prefs.auto_append_email_sig && $body_has_sig_already|default:0 != 1}
 
 
-{$core.current_user_prefs.email_signature|escape:"html"}{/if}</textarea>
+{$core.current_user_prefs.email_signature|escape:html}{/if}</textarea>
         {include file="error_icon.tpl.html" field="message"}
       </td>
     </tr>
@@ -346,7 +346,7 @@ $().ready(function() {
           <input name="cancel" type="reset" value="{t}Cancel{/t}" id="reset">
 
           <div class="right">
-            {if $core.current_user_prefs.email_signature != "" and $core.current_user_prefs.auto_append_email_sig != 1}
+            {if not $core.current_user_prefs.auto_append_email_sig and $core.current_user_prefs.email_signature}
               <label>
               <input type="checkbox" name="add_email_signature" value="yes" onClick="setSignature(this.form);">
               {t}Add Email Signature{/t}

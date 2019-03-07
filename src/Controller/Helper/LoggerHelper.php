@@ -11,22 +11,18 @@
  * that were distributed with this source code.
  */
 
-namespace Eventum\Scm\Adapter;
+namespace Eventum\Controller\Helper;
 
+use Eventum\Monolog\Logger;
 use Psr\Log\LoggerInterface;
-use Symfony\Component\HttpFoundation\Request;
+use Psr\Log\LoggerTrait;
 
-interface AdapterInterface
+class LoggerHelper implements LoggerInterface
 {
-    public function __construct(Request $request, LoggerInterface $logger);
+    use LoggerTrait;
 
-    /**
-     * Return true if this adapter can process
-     */
-    public function can(): bool;
-
-    /**
-     * Process the request
-     */
-    public function process(): void;
+    public function log($level, $message, array $context = [])
+    {
+        Logger::app()->log($level, $message, $context);
+    }
 }

@@ -1,0 +1,140 @@
+<form class="account_prefs_form" method="post" enctype="multipart/form-data">
+    <input type="hidden" name="cat" value="update_account">
+
+    <table class="bordered">
+        <tr class="title">
+            <th>
+                {t}Account Preferences{/t}
+                <span class="menu">
+                    {include file="help_link.tpl.html" topic="preferences"}
+                </span>
+            </th>
+        </tr>
+
+        {if $avail_langs}
+        <tr>
+            <th width="190">
+                {t}Available Languages{/t}
+            </th>
+            <td>
+                <select name="language">
+                    <option value="en_US">English</option>
+                    {html_options options=$avail_langs selected=$current_locale}
+                </select>
+            </td>
+        </tr>
+        {/if}
+
+        <tr>
+            <th width="190">
+                {t}Timezone{/t}
+            </th>
+            <td>
+                <select name="timezone" class="chosen-select" data-placeholder="{t}Choose a timezone...{/t}">
+                    <option></option>
+                    {html_options values=$zones output=$zones selected=$timezone}
+                </select>
+            </td>
+        </tr>
+
+        <tr>
+            <th width="190">
+                {t}Week starts on{/t}:
+            </th>
+            <td>
+                <label><input type="radio" name="week_firstday" {if not $week_firstday}checked{/if} value="0"> {t}Sunday{/t}</label>
+                <label><input type="radio" name="week_firstday" {if $week_firstday}checked{/if} value="1"> {t}Monday{/t}</label>
+            </td>
+        </tr>
+
+        <tr>
+            <th width="190">
+                {t}Display relative dates{/t}:
+            </th>
+            <td>
+                {html_radios name="relative_date" options=$relative_date.options selected=$relative_date.selected}
+            </td>
+        </tr>
+
+        <tr>
+            <th width="190">
+                {t}Markdown rendering{/t}:
+            </th>
+            <td>
+                {html_radios name="markdown" options=$markdown.options selected=$markdown.selected}
+            </td>
+        </tr>
+
+        <tr>
+            <th width="190">
+                {t}Collapse email replies{/t}:
+            </th>
+            <td>
+                {html_radios name="collapsed_emails" options=$collapsed_emails.options selected=$collapsed_emails.selected}
+            </td>
+        </tr>
+
+        <tr>
+            <th width="190">
+                {t}Automatically close confirmation popup windows?{/t}
+            </th>
+            <td>
+                {html_radios name="close_popup_windows" options=$close_popup_windows.options selected=$close_popup_windows.selected}
+            </td>
+        </tr>
+
+        <tr>
+            <th width="190">
+                {t}Refresh Rate for Issue Listing Page{/t}
+            </th>
+            <td>
+                <input type="text" size="10" name="list_refresh_rate" value="{$list_refresh_rate|escape:html}">
+                <em>({t}in minutes{/t})</em>
+            </td>
+        </tr>
+
+        <tr>
+            <th width="190">
+                {t}Refresh Rate for Email Listing Page{/t}
+            </th>
+            <td>
+                <input type="text" size="10" name="email_refresh_rate" value="{$email_refresh_rate|escape:html}">
+                <em>({t}in minutes{/t})</em>
+            </td>
+        </tr>
+
+        <tr>
+            <th width="190">
+                {t}Email Signature{/t}
+            </th>
+            <td>
+                <label>
+                    {t}Edit Signature{/t}:<br />
+                    <textarea name="email_signature" style="width: 97%" rows="10">{$email_signature|escape:html}</textarea>
+                </label>
+
+                <label>
+                    {t}Upload New Signature{/t}:
+                    <input size="40" type="file" name="file_signature">
+                </label><br />
+
+                <label>
+                    <input type="checkbox" name="auto_append_email_sig" value="1" {if $auto_append_email_sig}checked{/if}>
+                    {t}Automatically append email signature when composing web based emails{/t}
+                </label><br />
+
+                <label>
+                    <input type="checkbox" name="auto_append_note_sig" value="1" {if $auto_append_note_sig}checked{/if}>
+                    {t}Automatically append email signature when composing internal notes{/t}
+                </label>
+            </td>
+        </tr>
+
+        <tr class="buttons">
+            <td colspan="2">
+                <input type="submit" value="{t}Update Preferences{/t}">
+                <input type="reset" value="{t}Reset{/t}">
+            </td>
+        </tr>
+    </table>
+</form>

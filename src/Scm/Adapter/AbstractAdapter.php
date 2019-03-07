@@ -13,7 +13,7 @@
 
 namespace Eventum\Scm\Adapter;
 
-use Monolog\Logger;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\Request;
 
 abstract class AbstractAdapter implements AdapterInterface
@@ -21,10 +21,10 @@ abstract class AbstractAdapter implements AdapterInterface
     /** @var Request */
     protected $request;
 
-    /** @var Logger */
+    /** @var LoggerInterface */
     protected $log;
 
-    public function __construct(Request $request, Logger $logger)
+    public function __construct(Request $request, LoggerInterface $logger)
     {
         $this->request = $request;
         $this->log = $logger;

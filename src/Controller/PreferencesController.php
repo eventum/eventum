@@ -16,11 +16,14 @@ namespace Eventum\Controller;
 use APIAuthToken;
 use Auth;
 use Date_Helper;
-use Eventum\Monolog\Logger;
+use Eventum\Db\Doctrine;
+use Eventum\Model\Entity\UserPreference;
+use Eventum\Model\Repository\UserPreferenceRepository;
 use Exception;
 use Language;
-use Prefs;
 use Project;
+use Symfony\Component\HttpFoundation\ParameterBag;
+use Throwable;
 use User;
 
 class PreferencesController extends BaseController
@@ -30,12 +33,14 @@ class PreferencesController extends BaseController
 
     /** @var int */
     private $usr_id;
-
     /** @var string */
     private $cat;
-
     /** @var string */
     private $lang;
+    /** @var array */
+    private $permissions;
+    /** @var UserPreferenceRepository */
+    private $repo;
 
     /**
      * {@inheritdoc}
@@ -46,12 +51,13 @@ class PreferencesController extends BaseController
 
         $this->cat = $post->get('cat');
         $this->lang = $post->get('language');
+        $this->repo = Doctrine::getUserPreferenceRepository();
     }
 
     /**
      * {@inheritdoc}
      */
-    protected function canAccess()
+    protected function canAccess(): bool
     {
         Auth::checkAuthentication();
 
@@ -60,6 +66,14 @@ class PreferencesController extends BaseController
         }
 
         $this->usr_id = Auth::getUserID();
+        $this->permissions = $this->getPermissions();
+
+        if ($this->isPostRequest()) {
+            $hasAccess = $this->permissions[$this->cat] ?? null;
+            if (!$hasAccess) {
+                return false;
+            }
+        }
 
         return true;
     }
@@ -76,12 +90,20 @@ class PreferencesController extends BaseController
                 $res = $this->updateAccountAction();
                 break;
 
+            case 'update_project':
+                $res = $this->updateProjectAction();
+                break;
+
             case 'update_name':
-                $res = User::updateFullName($this->usr_id);
+                $res = $this->updateNameAction();
                 break;
 
             case 'update_email':
-                $res = User::updateEmail($this->usr_id);
+                $res = $this->updateEmailAction();
+                break;
+
+            case 'update_sms':
+                $res = $this->updateSmsAction();
                 break;
 
             case 'update_password':
@@ -106,19 +128,19 @@ class PreferencesController extends BaseController
         }
     }
 
-    private function updateAccountAction()
+    private function updateProjectAction(): int
     {
-        $preferences = $this->getRequest()->request->all();
+        try {
+            $post = $this->getRequest()->request;
+            $projects = $post->get('projects') ?: [];
+            $this->repo->updateProjectPreference($this->usr_id, $projects);
 
-        // if the user is trying to upload a new signature, override any changes to the textarea
-        if (!empty($_FILES['file_signature']['name'])) {
-            $preferences['email_signature'] = file_get_contents($_FILES['file_signature']['tmp_name']);
+            $res = 1;
+        } catch (Throwable $e) {
+            $this->logger->error($e->getMessage(), ['exception' => $e]);
+
+            $res = -1;
         }
-
-        // XXX: $res only updated for Prefs::set
-        $res = Prefs::set($this->usr_id, $preferences);
-
-        User::updateSMS($this->usr_id, $preferences['sms_email']);
 
         if ($this->lang) {
             User::setLang($this->usr_id, $this->lang);
@@ -127,7 +149,36 @@ class PreferencesController extends BaseController
         return $res;
     }
 
-    private function updatePasswordAction()
+    private function updateAccountAction(): int
+    {
+        try {
+            $post = $this->getRequest()->request;
+
+            // if the user is trying to upload a new signature, override any changes to the textarea
+            if (!empty($_FILES['file_signature']['name'])) {
+                $contents = file_get_contents($_FILES['file_signature']['tmp_name']);
+                $post->set('email_signature', $contents);
+            }
+
+            $prefs = $this->repo->findOrCreate($this->usr_id);
+            $this->updateFromRequest($prefs, $post);
+            $this->repo->persistAndFlush($prefs);
+
+            $res = 1;
+        } catch (Throwable $e) {
+            $this->logger->error($e->getMessage(), ['exception' => $e]);
+
+            $res = -1;
+        }
+
+        if ($this->lang) {
+            User::setLang($this->usr_id, $this->lang);
+        }
+
+        return $res;
+    }
+
+    private function updatePasswordAction(): int
     {
         $post = $this->getRequest()->request;
         $password = $post->get('password');
@@ -159,13 +210,13 @@ class PreferencesController extends BaseController
 
             return 1;
         } catch (Exception $e) {
-            Logger::app()->error($e);
+            $this->logger->error($e);
 
             return -1;
         }
     }
 
-    private function regenerateApiTokenAction(): void
+    private function regenerateApiTokenAction(): ?int
     {
         $res = APIAuthToken::regenerateKey($this->usr_id);
         if ($res == 1) {
@@ -173,6 +224,26 @@ class PreferencesController extends BaseController
             $this->messages->addInfoMessage(ev_gettext('Your key has been regenerated. All previous keys are now invalid.'));
             $res = null;
         }
+
+        return $res;
+    }
+
+    protected function updateNameAction(): int
+    {
+        return User::updateFullName($this->usr_id);
+    }
+
+    protected function updateEmailAction(): int
+    {
+        return User::updateEmail($this->usr_id);
+    }
+
+    protected function updateSmsAction(): int
+    {
+        $post = $this->getRequest()->request;
+        $res = User::updateSMS($this->usr_id, $post->get('sms_email'));
+
+        return $res ? 1 : 0;
     }
 
     /**
@@ -180,25 +251,84 @@ class PreferencesController extends BaseController
      */
     protected function prepareTemplate(): void
     {
-        $prefs = Prefs::get($this->usr_id);
-        $prefs['sms_email'] = User::getSMS($this->usr_id);
+        $upr = $this->repo->findOrCreate($this->usr_id);
+        $projects = Project::getAssocList($this->usr_id, false, true);
 
         $this->tpl->assign([
-                'user_prefs' => $prefs,
+                'timezone' => $upr->getTimezone(),
+                'relative_date' => $this->html->radioYesNoButtons($upr->useRelativeDate()),
+                'markdown' => $this->html->radioYesNoButtons($upr->isMarkdownEnabled()),
+                'collapsed_emails' => $this->html->radioYesNoButtons($upr->collapsedEmails()),
+                'close_popup_windows' => $this->html->radioYesNoButtons($upr->autoClosePopupWindow()),
+                'receive_new_issue_email' => $this->html->radioYesNoButtons($upr->autoClosePopupWindow()),
+                'auto_append_email_sig' => $upr->autoAppendNoteSignature(),
+                'auto_append_note_sig' => $upr->autoAppendNoteSignature(),
+                'week_firstday' => $upr->getWeekFirstday(),
+                'list_refresh_rate' => $upr->getListRefreshRate(),
+                'email_refresh_rate' => $upr->getEmailRefreshRate(),
+                'email_signature' => $upr->getEmailSignature(),
+                'projects' => $this->getProjectPreferences($upr, $projects),
+                'sms_email' => User::getSMS($this->usr_id),
                 'user_info' => User::getDetails($this->usr_id),
-                'assigned_projects' => Project::getAssocList($this->usr_id, false, true),
+                'assigned_projects' => $projects,
                 'zones' => Date_Helper::getTimezoneList(),
                 'avail_langs' => Language::getAvailableLanguages(),
                 'current_locale' => User::getLang($this->usr_id, true),
-
-                'can_update_name' => Auth::canUserUpdateName($this->usr_id),
-                'can_update_email' => Auth::canUserUpdateEmail($this->usr_id),
-                'can_update_password' => Auth::canUserUpdatePassword($this->usr_id),
+                'permissions' => $this->permissions,
             ]
         );
 
-        if (Auth::getCurrentRole() >= User::ROLE_USER) {
+        if ($this->permissions['regenerate_token']) {
             $this->tpl->assign('api_tokens', APIAuthToken::getTokensForUser($this->usr_id, false, true));
         }
+    }
+
+    private function getProjectPreferences(UserPreference $upr, array $projects): array
+    {
+        $result = [];
+        foreach ($projects as $prj_id => $project) {
+            $upp = $upr->findOrCreateProjectById($prj_id);
+            $result[$upp->getProjectId()] = [
+                'receive_new_issue_email' => $this->html->radioYesNoButtons($upp->receiveNewIssueEmail()),
+                'receive_assigned_email' => $this->html->radioYesNoButtons($upp->receiveAssignedEmail()),
+                'receive_copy_of_own_action' => $this->html->radioYesNoButtons($upp->receiveCopyOfOwnAction()),
+            ];
+        }
+
+        return $result;
+    }
+
+    private function getPermissions(): array
+    {
+        $notCustomer = $this->role_id !== User::ROLE_CUSTOMER;
+        $isCustomer = $this->role_id >= User::ROLE_CUSTOMER;
+        $isUser = $this->role_id >= User::ROLE_USER;
+        $isViewer = $this->role_id >= User::ROLE_VIEWER;
+
+        return [
+            'update_account' => $isViewer,
+            'update_name' => $notCustomer && Auth::canUserUpdateName($this->usr_id),
+            'update_email' => $notCustomer && Auth::canUserUpdateEmail($this->usr_id),
+            'update_sms' => $isCustomer,
+            'update_project' => $isCustomer,
+            'update_password' => Auth::canUserUpdatePassword($this->usr_id),
+            'regenerate_token' => $isUser,
+        ];
+    }
+
+    private function updateFromRequest(UserPreference $prefs, ParameterBag $post): UserPreference
+    {
+        return $prefs
+            ->setTimezone($post->get('timezone'))
+            ->setWeekFirstday($post->getInt('week_firstday'))
+            ->setListRefreshRate($post->getInt('list_refresh_rate'))
+            ->setEmailRefreshRate($post->getInt('email_refresh_rate'))
+            ->setEmailSignature($post->get('email_signature'))
+            ->setAutoClosePopupWindow($post->getBoolean('close_popup_windows'))
+            ->setRelativeDate($post->getBoolean('relative_date'))
+            ->setCollapsedEmails($post->getBoolean('collapsed_emails'))
+            ->setAutoAppendEmailSignature($post->getBoolean('auto_append_email_sig'))
+            ->setAutoAppendNoteSignature($post->getBoolean('auto_append_note_sig'))
+            ->setEnableMarkdown($post->getBoolean('markdown'));
     }
 }

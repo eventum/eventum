@@ -27,6 +27,7 @@ use Template_Helper;
  * @property-read Helper\AttachHelper $attach
  * @property-read Helper\CsrfHelper $csrf
  * @property-read Helper\HtmlHelper $html
+ * @property-read Helper\LoggerHelper $logger
  * @property-read Helper\MessagesHelper $messages
  * @property-read Helper\PlotHelper $plot
  * @property-read Helper\RepositoryHelper $repository
@@ -126,8 +127,10 @@ abstract class BaseController
      *
      * @return bool
      */
-    final protected function canRoleAccess()
+    final protected function canRoleAccess(): bool
     {
+        $this->role_id = Auth::getCurrentRole();
+
         if ($this->min_role === null) {
             // not restricted
             return true;
@@ -138,8 +141,6 @@ abstract class BaseController
         } else {
             Auth::checkAuthentication();
         }
-
-        $this->role_id = Auth::getCurrentRole();
 
         return $this->role_id >= $this->min_role;
     }

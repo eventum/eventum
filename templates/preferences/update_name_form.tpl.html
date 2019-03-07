@@ -1,0 +1,27 @@
+<form class="update_name_form" method="post">
+    <input type="hidden" name="cat" value="update_name">
+
+    <table class="bordered">
+        {if $permissions.update_name}
+        <tr>
+            <th width="190">
+                {t}Full Name{/t}:
+            </th>
+            <td>
+                <input type="text" name="full_name" size="40" value="{$user_info.usr_full_name|escape:"html"}">
+                {include file="error_icon.tpl.html" field="full_name"}
+            </td>
+        </tr>
+        <tr class="buttons">
+            <td colspan="2">
+                <input type="submit" value="{t}Update Full Name{/t}">
+                <input type="reset" value="{t}Reset{/t}">
+            </td>
+        </tr>
+        {else}
+        <tr>
+            <td colspan="2">Please contact the admin to change your name.</td>
+        </tr>
+        {/if}
+    </table>
+</form>

@@ -36,7 +36,7 @@ class Date_Helper
      * used.
      *
      * @param int|DateTime|string $ts
-     * @param string|null  $timezone
+     * @param string|null $timezone
      * @return DateTime
      */
     public static function getDateTime($ts = 'now', $timezone = null)
@@ -197,7 +197,7 @@ class Date_Helper
      * @param   int $usr_id The user ID
      * @return  string The timezone short name
      */
-    public static function getTimezoneShortNameByUser($usr_id)
+    public static function getTimezoneShortNameByUser(int $usr_id): string
     {
         $timezone = self::getPreferredTimezone($usr_id);
         $date = self::getDateTime(null, $timezone);
@@ -253,12 +253,9 @@ class Date_Helper
     }
 
     /**
-     * Method used to get the timezone preferred by the user.
-     *
-     * @param int $usr_id The user ID
-     * @return string The timezone preferred by the user
+     * Get the timezone preferred by the user.
      */
-    public static function getPreferredTimezone($usr_id = null)
+    public static function getPreferredTimezone(?int $usr_id = null): string
     {
         if (!$usr_id) {
             $usr_id = Auth::getUserID();
@@ -266,12 +263,8 @@ class Date_Helper
         if (!$usr_id) {
             return self::getDefaultTimezone();
         }
-        $prefs = Prefs::get($usr_id);
-        if (!empty($prefs['timezone'])) {
-            return $prefs['timezone'];
-        }
 
-        return self::getDefaultTimezone();
+        return Prefs::getTimezone($usr_id);
     }
 
     /**
@@ -279,7 +272,7 @@ class Date_Helper
      *
      * @return  string The default timezone
      */
-    public static function getDefaultTimezone()
+    public static function getDefaultTimezone(): string
     {
         return APP_DEFAULT_TIMEZONE;
     }
@@ -289,7 +282,7 @@ class Date_Helper
      *
      * @return  int 0 - Sunday, 1 - Monday
      */
-    public static function getDefaultWeekday()
+    public static function getDefaultWeekday(): int
     {
         return APP_DEFAULT_WEEKDAY;
     }

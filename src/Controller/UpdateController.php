@@ -24,7 +24,6 @@ use Group;
 use Issue;
 use Issue_Lock;
 use Notification;
-use Prefs;
 use Priority;
 use Product;
 use Project;
@@ -215,7 +214,6 @@ class UpdateController extends BaseController
         $severities = Severity::getList($this->prj_id);
         $this->tpl->assign(
             [
-                'user_prefs' => Prefs::get($this->usr_id),
                 'issue_id' => $this->issue_id,
                 'issue' => $this->details,
                 'extra_title' => ev_gettext('Update Issue #%1$s', $this->issue_id),

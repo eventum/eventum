@@ -258,9 +258,8 @@ class Round_Robin
         foreach ($res as $row) {
             $blackout_start = $row['prr_blackout_start'];
             $blackout_end = $row['prr_blackout_end'];
-            $prefs = Prefs::get($row['usr_id']);
             $t[$row['usr_id']] = [
-                'timezone' => $prefs['timezone'],
+                'timezone' => Prefs::getTimezone($row['usr_id']),
                 'is_next' => $row['rru_next'],
             ];
         }

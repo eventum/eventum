@@ -202,8 +202,9 @@ class ListController extends BaseController
         $users = Project::getUserAssocList($this->prj_id, 'active', User::ROLE_CUSTOMER);
         $assign_options = $this->assign->getAssignOptions($users);
 
-        $prefs = Prefs::get($this->usr_id);
         $list = Search::getListing($this->prj_id, $options, $this->pagerRow, $this->rows);
+        $refreshRate = Prefs::getUserPreference($this->usr_id)->getListRefreshRate() * 60;
+
         $this->tpl->assign(
             [
                 'options' => $options,
@@ -225,7 +226,7 @@ class ListController extends BaseController
                 'releases' => Release::getAssocList($this->prj_id, true),
                 'reporters' => Project::getReporters($this->prj_id),
                 'products' => Product::getAssocList(false),
-                'refresh_rate' => $prefs['list_refresh_rate'] * 60,
+                'refresh_rate' => $refreshRate,
                 'refresh_page' => 'list.php',
             ]
         );

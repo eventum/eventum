@@ -301,9 +301,7 @@ class Report
      */
     public static function getWeeklyReport($usr_id, $prj_id, $start, $end, $options = [])
     {
-        // figure out timezone
-        $user_prefs = Prefs::get($usr_id);
-        $tz = $user_prefs['timezone'];
+        $tz = Prefs::getTimezone($usr_id);
 
         // if start or end is string, convert assume min and max date are specified
         if (!$start instanceof DateTime) {

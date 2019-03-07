@@ -76,9 +76,12 @@ list_issues.ready = function(page_id)
 
     list_issues.disableFields();
 
-    setTimeout(function() {
-        location.reload();
-    }, parseInt(list_form.attr('data-refresh-rate')) * 1000);
+    var refreshRate = parseInt(list_form.attr('data-refresh-rate')) * 1000;
+    if (refreshRate) {
+        setTimeout(function () {
+            location.reload();
+        }, refreshRate);
+    }
 };
 
 list_issues.reset_bulk_update = function(e)

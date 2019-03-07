@@ -84,7 +84,7 @@ class EmailsController extends BaseController
 
         $options = Support::saveSearchParams();
         $list = Support::getEmailListing($options, $pagerRow, $rows);
-        $prefs = Prefs::get($this->usr_id);
+        $refreshRate = Prefs::getUserPreference($this->usr_id)->getEmailRefreshRate() * 60;
 
         $this->tpl->assign(
             [
@@ -96,7 +96,7 @@ class EmailsController extends BaseController
                 'issues' => Issue::getColList(),
                 'accounts' => Email_Account::getAssocList($this->prj_id),
 
-                'refresh_rate' => $prefs['email_refresh_rate'] * 60,
+                'refresh_rate' => $refreshRate,
                 'refresh_page' => 'emails.php',
             ]
         );

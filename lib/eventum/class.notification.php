@@ -385,13 +385,10 @@ class Notification
 
             // don't send the email to the same person who sent it unless they want it
             if ($sender_usr_id) {
-                $prefs = Prefs::get($sender_usr_id);
-                if (!isset($prefs['receive_copy_of_own_action'][$prj_id])) {
-                    $prefs['receive_copy_of_own_action'][$prj_id] = 0;
-                }
-                if (($prefs['receive_copy_of_own_action'][$prj_id] == 0) &&
-                        ((!empty($user['sub_usr_id'])) && ($sender_usr_id == $user['sub_usr_id']) ||
-                        (Mail_Helper::getEmailAddress($email) == $sender_email))) {
+                $prefs = Prefs::getProjectPreference($prj_id, $sender_usr_id);
+                $sameSender = Mail_Helper::getEmailAddress($email) === $sender_email;
+                $sameUser = $user['sub_usr_id'] ?? null === $sender_usr_id;
+                if (($sameUser || $sameSender) && !$prefs->receiveCopyOfOwnAction()) {
                     continue;
                 }
             }
@@ -671,7 +668,8 @@ class Notification
 
         $data = Issue::getDetails($issue_id);
         $data['diffs'] = implode("\n", $diffs);
-        $data['updated_by'] = User::getFullName(Auth::getUserID());
+        $usr_id = Auth::getUserID();
+        $data['updated_by'] = User::getFullName($usr_id);
 
         $all_emails = [];
         $role_emails = [
@@ -690,10 +688,9 @@ class Notification
                 // non users are treated as "Viewers" for permission checks
                 $role = User::ROLE_VIEWER;
             } else {
-                $prefs = Prefs::get($user['sub_usr_id']);
-                if ((Auth::getUserID() == $user['sub_usr_id']) &&
-                        ((empty($prefs['receive_copy_of_own_action'][$prj_id])) ||
-                            ($prefs['receive_copy_of_own_action'][$prj_id] == false))) {
+                $prefs = Prefs::getProjectPreference($prj_id, $user['sub_usr_id']);
+                $sameUser = $user['sub_usr_id'] ?? null === $usr_id;
+                if ($sameUser && !$prefs->receiveCopyOfOwnAction()) {
                     continue;
                 }
                 $email = User::getFromHeader($user['sub_usr_id']);
@@ -750,14 +747,14 @@ class Notification
         $prj_id = Issue::getProjectID($issue_id);
         $emails = [];
         $users = self::getUsersByIssue($issue_id, 'updated');
+        $usr_id = Auth::getUserID();
         foreach ($users as $user) {
             if (empty($user['sub_usr_id'])) {
                 $email = $user['sub_email'];
             } else {
-                $prefs = Prefs::get($user['sub_usr_id']);
-                if ((Auth::getUserID() == $user['sub_usr_id']) &&
-                        ((empty($prefs['receive_copy_of_own_action'][$prj_id])) ||
-                            ($prefs['receive_copy_of_own_action'][$prj_id] == false))) {
+                $prefs = Prefs::getProjectPreference($prj_id, $user['sub_usr_id']);
+                $sameUser = $user['sub_usr_id'] ?? null === $usr_id;
+                if ($sameUser && !$prefs->receiveCopyOfOwnAction()) {
                     continue;
                 }
                 $email = User::getFromHeader($user['sub_usr_id']);
@@ -769,7 +766,7 @@ class Notification
         }
         $data = Issue::getDetails($issue_id);
         $data['diffs'] = implode("\n", $diffs);
-        $data['updated_by'] = User::getFullName(Auth::getUserID());
+        $data['updated_by'] = User::getFullName($usr_id);
 
         self::notifySubscribers($issue_id, $emails, 'updated', $data, ev_gettext('Status Change'), false);
     }
@@ -822,6 +819,7 @@ class Notification
         }
         $user_emails = Project::getUserEmailAssocList(Issue::getProjectID($issue_id), 'active', User::ROLE_CUSTOMER);
         $user_emails = Misc::lowercase($user_emails);
+        $usr_id = Auth::getUserID();
 
         foreach ($users as $user) {
             if (empty($user['sub_usr_id'])) {
@@ -829,10 +827,9 @@ class Notification
                     $email = $user['sub_email'];
                 }
             } else {
-                $prefs = Prefs::get($user['sub_usr_id']);
-                if (Auth::getUserID() == $user['sub_usr_id'] &&
-                        ((empty($prefs['receive_copy_of_own_action'][$prj_id])) ||
-                            ($prefs['receive_copy_of_own_action'][$prj_id] == false))) {
+                $prefs = Prefs::getProjectPreference($prj_id, $user['sub_usr_id']);
+                $sameUser = $user['sub_usr_id'] ?? null === $usr_id;
+                if ($sameUser && !$prefs->receiveCopyOfOwnAction()) {
                     continue;
                 }
                 // if we are only supposed to send email to internal users, check if the role is lower than standard user
@@ -1152,10 +1149,9 @@ class Notification
                     || (!empty($row['usr_customer_contact_id']))) {
                 continue;
             }
-            $prefs = Prefs::get($row['usr_id']);
-            if ((!empty($prefs['receive_new_issue_email'][$prj_id]))
-                    && (@$prefs['receive_new_issue_email'][$prj_id])
-                    && (!in_array($subscriber, $emails))) {
+            $prefs = Prefs::getProjectPreference($prj_id, $row['usr_id']);
+            $notSubscribed = !in_array($subscriber, $emails, true);
+            if ($notSubscribed && $prefs->receiveNewIssueEmail()) {
                 $emails[] = $subscriber;
             }
         }
@@ -1176,9 +1172,9 @@ class Notification
         foreach ($res as $row) {
             $subscriber = Mail_Helper::getFormattedName($row['usr_full_name'], $row['usr_email']);
 
-            $prefs = Prefs::get($row['usr_id']);
-            if ((!empty($prefs['receive_assigned_email'][$prj_id])) &&
-            (@$prefs['receive_assigned_email'][$prj_id]) && (!in_array($subscriber, $emails))) {
+            $prefs = Prefs::getProjectPreference($prj_id, $row['usr_id']);
+            $notSubscribed = !in_array($subscriber, $emails, true);
+            if ($notSubscribed && $prefs->receiveAssignedEmail()) {
                 $emails[] = $subscriber;
             }
         }
@@ -1485,9 +1481,8 @@ class Notification
             if ($usr_id == Auth::getUserID()) {
                 continue;
             }
-            $prefs = Prefs::get($usr_id);
-            if ((!empty($prefs)) && (isset($prefs['receive_assigned_email'][$prj_id])) &&
-                    ($prefs['receive_assigned_email'][$prj_id]) && ($usr_id != Auth::getUserID())) {
+            $prefs = Prefs::getProjectPreference($prj_id, $usr_id);
+            if ($prefs->receiveAssignedEmail()) {
                 $emails[] = User::getFromHeader($usr_id);
             }
         }

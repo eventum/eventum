@@ -72,6 +72,13 @@ class RemoteLink
      */
     private $title;
 
+    public function __construct(int $issue_id, ?string $gid = null)
+    {
+        $this->setIssueId($issue_id);
+        $this->setGid($gid);
+        $this->setCreatedDate(new DateTime());
+    }
+
     public function getId(): int
     {
         return $this->id;
@@ -115,7 +122,8 @@ class RemoteLink
 
     public function setGid(?string $gid): self
     {
-        $this->gid = $gid;
+        // empty gid means null
+        $this->gid = $gid ?: null;
 
         return $this;
     }

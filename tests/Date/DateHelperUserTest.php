@@ -14,8 +14,8 @@
 namespace Eventum\Test\Date;
 
 use Date_Helper;
+use Eventum\Db\Doctrine;
 use Eventum\Test\TestCase;
-use Prefs;
 
 /**
  * DateHelper tests involving user (using database)
@@ -37,13 +37,14 @@ class DateHelperUserTest extends TestCase
         self::setTimezone(APP_SYSTEM_USER_ID, self::ADMIN_TIMEZONE);
     }
 
-    private static function setTimezone($usr_id, $timezone): void
+    private static function setTimezone(int $usr_id, string $timezone): void
     {
-        $prefs = Prefs::get($usr_id);
-        $prefs['timezone'] = $timezone;
-        Prefs::set($usr_id, $prefs);
-        // this will force db refetch
-        Prefs::get($usr_id, true);
+        $repo = Doctrine::getUserPreferenceRepository();
+        $prefs = $repo->findOrCreate($usr_id);
+        $prefs->setTimezone($timezone);
+        $em = Doctrine::getEntityManager();
+        $em->persist($prefs);
+        $em->flush($prefs);
     }
 
     /**

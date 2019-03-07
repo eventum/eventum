@@ -1,0 +1,27 @@
+<form class="update_email_form" method="post">
+    <input type="hidden" name="cat" value="update_email">
+
+    <table class="bordered">
+        {if $permissions.update_email}
+        <tr>
+            <th width="190">
+                {t}Login{/t} &amp; {t}Email Address{/t}
+            </th>
+            <td>
+                <input type="text" name="email" size="40" value="{$user_info.usr_email|escape:"html"}">
+                {include file="error_icon.tpl.html" field="email"}
+            </td>
+        </tr>
+        <tr class="buttons">
+            <td colspan="2">
+                <input type="submit" value="{t}Update Email Address{/t}">
+                <input type="reset" value="{t}Reset{/t}">
+            </td>
+        </tr>
+        {else}
+        <tr>
+            <td colspan="2">Please contact the admin to change your email.</td>
+        </tr>
+        {/if}
+    </table>
+</form>

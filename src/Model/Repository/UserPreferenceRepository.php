@@ -23,4 +23,39 @@ use Eventum\Model\Repository\Traits\FindByIdTrait;
 class UserPreferenceRepository extends EntityRepository
 {
     use FindByIdTrait;
+
+    public function persistAndFlush(UserPreference $entity): void
+    {
+        $em = $this->getEntityManager();
+        $em->persist($entity);
+        $em->flush($entity);
+    }
+
+    public function findOrCreate(int $usr_id): UserPreference
+    {
+        $upr = $this->find($usr_id);
+        if (!$upr) {
+            $upr = new UserPreference($usr_id);
+        }
+
+        return $upr;
+    }
+
+    public function updateProjectPreference(int $usr_id, array $projects): void
+    {
+        $em = $this->getEntityManager();
+        $upr = $this->findOrCreate($usr_id);
+
+        foreach ($projects as $prj_id => $data) {
+            $upp = $upr->findOrCreateProjectById($prj_id);
+            $upp
+                ->setReceiveNewIssueEmail($data['receive_new_issue_email'])
+                ->setReceiveAssignedEmail($data['receive_assigned_email'])
+                ->setReceiveCopyOfOwnAction($data['receive_copy_of_own_action']);
+            $em->persist($upp);
+        }
+
+        $em->persist($upr);
+        $em->flush();
+    }
 }

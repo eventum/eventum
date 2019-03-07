@@ -34,7 +34,18 @@ class HtmlHelper
                 1 => ev_gettext('Enabled'),
                 0 => ev_gettext('Disabled'),
             ],
-            'selected' => (int)($value == 'enabled'),
+            'selected' => (int)($value === 'enabled'),
+        ];
+    }
+
+    public function radioYesNoButtons(bool $value): array
+    {
+        return [
+            'options' => [
+                1 => ev_gettext('Yes'),
+                0 => ev_gettext('No'),
+            ],
+            'selected' => (int)$value,
         ];
     }
 }

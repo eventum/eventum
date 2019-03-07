@@ -15,7 +15,6 @@ namespace Eventum\Controller;
 
 use Auth;
 use Eventum\Attachment\AttachmentManager;
-use Eventum\Monolog\Logger;
 use Exception;
 use User;
 
@@ -79,7 +78,7 @@ class FileUploadController extends BaseController
             $attachment_group = AttachmentManager::attachFiles($this->issue_id, $usr_id, $iaf_ids, $minimum_role, $file_description);
             $res = 1;
         } catch (Exception $e) {
-            Logger::app()->error($e);
+            $this->logger->error($e);
             $res = -1;
         }
 

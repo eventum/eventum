@@ -13,7 +13,12 @@
 
 namespace Eventum\Model\Entity;
 
+use Date_Helper;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\PersistentCollection;
+use Eventum\Model\Repository\Traits\GetOneTrait;
+use Setup;
 
 /**
  * @ORM\Table(name="user_preference")
@@ -21,13 +26,14 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class UserPreference
 {
+    use GetOneTrait;
+
     /**
      * @var int
      * @ORM\Column(name="upr_usr_id", type="integer", nullable=false)
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
      */
-    private $id;
+    private $userId;
 
     /**
      * @var string
@@ -42,16 +48,20 @@ class UserPreference
     private $weekFirstday;
 
     /**
+     * Refresh rate, in minutes
+     *
      * @var int
      * @ORM\Column(name="upr_list_refresh_rate", type="integer", nullable=false)
      */
-    private $listRefreshRate;
+    private $listRefreshRate = APP_DEFAULT_REFRESH_RATE;
 
     /**
+     * Refresh rate, in minutes
+     *
      * @var int
      * @ORM\Column(name="upr_email_refresh_rate", type="integer", nullable=false)
      */
-    private $emailRefreshRate;
+    private $emailRefreshRate = APP_DEFAULT_REFRESH_RATE;
 
     /**
      * @var string
@@ -63,19 +73,19 @@ class UserPreference
      * @var bool
      * @ORM\Column(name="upr_auto_append_email_sig", type="boolean", nullable=false)
      */
-    private $autoAppendEmailSignature;
+    private $autoAppendEmailSignature = false;
 
     /**
      * @var bool
      * @ORM\Column(name="upr_auto_append_note_sig", type="boolean", nullable=false)
      */
-    private $autoAppendNoteSignature;
+    private $autoAppendNoteSignature = false;
 
     /**
      * @var bool
      * @ORM\Column(name="upr_auto_close_popup_window", type="boolean", nullable=false)
      */
-    private $autoClosePopupWindow;
+    private $autoClosePopupWindow = true;
 
     /**
      * @var bool
@@ -87,7 +97,7 @@ class UserPreference
      * @var bool
      * @ORM\Column(name="upr_collapsed_emails", type="boolean", nullable=false)
      */
-    private $collapsedEmails;
+    private $collapsedEmails = true;
 
     /**
      * @var bool
@@ -99,11 +109,36 @@ class UserPreference
      * @var bool
      * @ORM\Column(name="upr_issue_navigation", type="boolean", nullable=false)
      */
-    private $issueNavigation;
+    private $issueNavigation = false;
 
-    public function getId(): int
+    /**
+     * @var UserProjectPreference[]|PersistentCollection
+     * @ORM\OneToMany(targetEntity="UserProjectPreference", mappedBy="userPreference", cascade={"ALL"}, indexBy="projectId")
+     * @ORM\JoinColumn(name="id", referencedColumnName="upp_prj_id")
+     */
+    private $projects;
+
+    public function __construct(int $usr_id)
     {
-        return $this->id;
+        $setup = Setup::get();
+
+        $this->userId = $usr_id;
+        $this->timezone = Date_Helper::getDefaultTimezone();
+        $this->weekFirstday = Date_Helper::getDefaultWeekday();
+        $this->relativeDate = $setup['relative_date'] === 'enabled';
+        $this->enableMarkdown = $setup['markdown'] === 'enabled';
+    }
+
+    public function setUserId(int $usr_id): self
+    {
+        $this->userId = $usr_id;
+
+        return $this;
+    }
+
+    public function getUserId(): int
+    {
+        return $this->userId;
     }
 
     public function setTimezone(string $timezone): self
@@ -221,7 +256,7 @@ class UserPreference
         return $this;
     }
 
-    public function collapseEmails(): bool
+    public function collapsedEmails(): bool
     {
         return $this->collapsedEmails;
     }
@@ -248,5 +283,28 @@ class UserPreference
     public function isIssueNavigationEnabled(): bool
     {
         return $this->issueNavigation;
+    }
+
+    /**
+     * @return UserProjectPreference[]|Collection
+     */
+    public function getProjects(): ?Collection
+    {
+        return $this->projects;
+    }
+
+    public function getProjectById(int $prj_id): ?UserProjectPreference
+    {
+        return $this->getOne($this->projects, 'projectId', '=', $prj_id) ?: null;
+    }
+
+    public function findOrCreateProjectById(int $prj_id): UserProjectPreference
+    {
+        $upp = $this->getProjectById($prj_id);
+        if (!$upp) {
+            $upp = new UserProjectPreference($this, $prj_id);
+        }
+
+        return $upp;
     }
 }

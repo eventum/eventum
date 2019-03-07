@@ -130,7 +130,7 @@
         </tr>
         <tr>
             <td colspan="2">
-                <textarea id="note" name="note" rows="16" style="width: 97%">{$note.not_body|default:""|escape:"html"}{if $core.current_user_prefs.auto_append_note_sig == 1}
+                <textarea id="note" name="note" rows="16" style="width: 97%">{$note.not_body|default:""|escape:"html"}{if $core.current_user_prefs.auto_append_note_sig}
 
 
 {$core.current_user_prefs.email_signature|escape:"html"}{/if}</textarea>
@@ -216,7 +216,7 @@
                 <input name="cancel" type="reset" value="{t}Cancel{/t}" id="reset">
 
 
-                {if $core.current_user_prefs.email_signature != "" and $core.current_user_prefs.auto_append_note_sig != 'yes'}
+                {if not $core.current_user_prefs.auto_append_note_sig and $core.current_user_prefs.email_signature}
                 <div class="right">
                     <label>
                         <input type="checkbox" name="add_email_signature" value="yes" id="add_email_signature">
