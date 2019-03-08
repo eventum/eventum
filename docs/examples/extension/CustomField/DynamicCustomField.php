@@ -24,7 +24,7 @@ class DynamicCustomField extends Dynamic_Custom_Field_Backend
 {
     public function getStructuredData(): array
     {
-        $fld_id = $this->getControllingCustomFieldID();
+        $fld_id = $this->getControllingCustomFieldId();
         // should pull from a dynamic data source but will hard code for now
         $data = [
             [
