@@ -910,7 +910,7 @@ class Support
      * - string cc (overwrites $mail->cc) !!!
      * @return  int The support ID inserted to database
      */
-    public static function insertEmail(MailMessage $mail, $email_options)
+    public static function insertEmail(MailMessage $mail, $email_options): int
     {
         $closing = $email_options['closing'] ?? false;
 
@@ -2330,7 +2330,7 @@ class Support
      * @param   int $new_ema_id the ID of the account to move the message too
      * @return  int -1 if there was error moving the message, 1 otherwise
      */
-    public static function moveEmail($sup_id, $current_ema_id, $new_ema_id)
+    public static function moveEmail($sup_id, $current_ema_id, $new_ema_id): int
     {
         $email = self::getEmailDetails($sup_id);
         if (!empty($email['sup_iss_id'])) {
@@ -2362,11 +2362,7 @@ class Support
                     sup_id = ? AND
                     sup_ema_id = ?';
         $params = [$new_ema_id, $issue_id, $customer_id, $sup_id, $current_ema_id];
-        try {
-            DB_Helper::getInstance()->query($sql, $params);
-        } catch (DatabaseException $e) {
-            return -1;
-        }
+        DB_Helper::getInstance()->query($sql, $params);
 
         $row = [
             'sup_id' => $email['sup_id'],

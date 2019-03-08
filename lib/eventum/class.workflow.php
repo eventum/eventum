@@ -346,16 +346,25 @@ class Workflow
      * @param   bool $closing if we are closing the issue
      * @since 3.4.2 emits MAIL_PENDING event
      * @deprecated since 3.4.2
+     * @see Support::moveEmail
+     * @see Support::insertEmail
      */
     public static function handleNewEmail($prj_id, $issue_id, MailMessage $mail, $row, $closing = false): void
     {
         Partner::handleNewEmail($issue_id, $row['sup_id']);
 
+        // there are more variable options in $row
+        // add just useful ones for event handler
         $arguments = [
             'prj_id' => (int)$prj_id,
             'issue_id' => (int)$issue_id,
-            'data' => $row,
             'closing' => (bool)$closing,
+            'customer_id' => $row['customer_id'] ?? null,
+            'contact_id' => $row['contact_id'] ?? null,
+            'ema_id' => $row['ema_id'] ?? null,
+            'sup_id' => $row['sup_id'] ?? null,
+            'should_create_issue' => $row['should_create_issue'] ?? null,
+            'data' => $row,
         ];
 
         if (empty($row['issue_id'])) {

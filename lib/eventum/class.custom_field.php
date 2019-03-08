@@ -18,6 +18,7 @@ use Eventum\Diff;
 use Eventum\Extension\ExtensionLoader;
 use Eventum\Model\Entity\CustomField;
 use Eventum\Model\Entity\ProjectCustomField;
+use Eventum\Monolog\Logger;
 
 /**
  * Class to handle the business logic related to the administration
@@ -369,5 +370,42 @@ class Custom_Field
         ];
 
         return new ExtensionLoader($dirs, '%s_Custom_Field_Backend');
+    }
+
+    /**
+     * @deprecated preserved for workflow methods
+     */
+    public static function getFieldsByProject(int $prj_id): array
+    {
+        $repo = Doctrine::getCustomFieldRepository();
+        // get all fields, regardless user level
+        $fields = $repo->getListByProject($prj_id, User::ROLE_NEVER_DISPLAY, null);
+
+        $result = [];
+        foreach ($fields as $field) {
+            $result[] = $field->getId();
+        }
+
+        return $result;
+    }
+
+    /**
+     * @deprecated preserved for workflow methods
+     */
+    public static function associateIssue($issue_id, $fld_id, $value): bool
+    {
+        $role_id = Auth::getCurrentRole();
+        $custom_fields = [
+            $fld_id => $value,
+        ];
+        try {
+            self::updateCustomFieldValues($issue_id, $role_id, $custom_fields);
+        } catch (Throwable $e) {
+            Logger::app()->error($e->getMessage(), ['exception' => $e]);
+
+            return false;
+        }
+
+        return true;
     }
 }
