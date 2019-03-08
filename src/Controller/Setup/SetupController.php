@@ -43,7 +43,7 @@ class SetupController extends BaseController
         $this->cat = $request->request->get('cat');
     }
 
-    protected function canAccess()
+    protected function canAccess(): bool
     {
         return true;
     }
@@ -94,7 +94,7 @@ class SetupController extends BaseController
         $this->tpl->displayTemplate(false);
     }
 
-    private function getTimezone()
+    private function getTimezone(): string
     {
         $ini = ini_get('date.timezone');
         if ($ini) {
@@ -105,7 +105,7 @@ class SetupController extends BaseController
         return @date_default_timezone_get();
     }
 
-    private function getFirstWeekday()
+    private function getFirstWeekday(): int
     {
         // this works on Linux
         // http://stackoverflow.com/questions/727471/how-do-i-get-the-first-day-of-the-week-for-the-current-locale-php-l8n
