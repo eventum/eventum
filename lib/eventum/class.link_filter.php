@@ -12,6 +12,7 @@
  */
 
 use cebe\markdown\GithubMarkdown;
+use Ds\Set;
 use Eventum\Attachment\AttachmentManager;
 use Eventum\Db\Adapter\AdapterInterface;
 use Eventum\Db\DatabaseException;
@@ -286,9 +287,7 @@ class Link_Filter
             $text = Misc::activateLinks($text, $class);
         }
 
-        $filters = array_merge(
-            self::getFilters(), self::getFiltersByProject($prj_id), Workflow::getLinkFilters($prj_id)
-        );
+        $filters = self::getFilters($prj_id);
         foreach ($filters as $filter) {
             list($pattern, $replacement) = $filter;
             // replacement may be a callback, provided by workflow
@@ -370,10 +369,8 @@ class Link_Filter
 
     /**
      * Returns an array of patterns and replacements.
-     *
-     * @return  array An array of patterns and replacements
      */
-    public static function getFilters()
+    public static function getFilters(?int $prj_id = null): Set
     {
         // link eventum issue ids
         $base_url = APP_BASE_URL;
@@ -383,7 +380,15 @@ class Link_Filter
             ["#(?<!open |href=\"){$base_url}view\.php\?id=(?P<issue_id>\d+)#", [__CLASS__, 'LinkFilter_issues']],
         ];
 
-        return $patterns;
+        $filters = new Set();
+        $filters->add(...$patterns);
+
+        if ($prj_id) {
+            $filters->add(...self::getFiltersByProject($prj_id));
+            Workflow::addLinkFilters($filters, $prj_id);
+        }
+
+        return $filters;
     }
 
     /**

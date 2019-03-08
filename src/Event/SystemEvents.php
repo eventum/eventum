@@ -168,7 +168,7 @@ final class SystemEvents
 
     /**
      * @since 3.6.3
-     * @see Workflow::getLinkFilters()
+     * @see Workflow::addLinkFilters()
      */
     public const ISSUE_LINK_FILTERS = 'issue.link.filters';
 

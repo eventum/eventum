@@ -13,6 +13,7 @@
 
 namespace Eventum\Test;
 
+use Ds\Set;
 use Link_Filter;
 
 /**
@@ -20,15 +21,21 @@ use Link_Filter;
  */
 class LinkFilterTest extends TestCase
 {
+    /** @var Set */
+    private static $filters;
+
+    public static function setUpBeforeClass(): void
+    {
+        self::$filters = Link_Filter::getFilters();
+    }
+
     /**
      * @dataProvider dataTestIssueLinking
      * @see          Link_Filter::proccessText
      */
     public function testIssueLinking($text, $exp): void
     {
-        $filters = Link_Filter::getFilters();
-
-        foreach ((array)$filters as $filter) {
+        foreach (self::$filters as $filter) {
             list($pattern, $replacement) = $filter;
             // replacement may be a callback, provided by workflow
             if (is_callable($replacement)) {

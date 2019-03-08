@@ -11,6 +11,7 @@
  * that were distributed with this source code.
  */
 
+use Ds\Set;
 use Eventum\Attachment\AttachmentGroup;
 use Eventum\Event\ResultableEvent;
 use Eventum\Event\SystemEvents;
@@ -891,30 +892,25 @@ class Workflow
     }
 
     /**
-     * Returns an array of patterns and replacements.
+     * Updates filters in $filters.
      *
-     * @param   int $prj_id The ID of the project
-     * @return  array An array of patterns and replacements
      * @since 3.6.3 emits ATTACHMENT_ATTACH_FILE event
      * @deprecated
      */
-    public static function getLinkFilters($prj_id): array
+    public static function addLinkFilters(Set $filters, int $prj_id): void
     {
         $arguments = [
             'prj_id' => $prj_id,
         ];
-        $event = new ResultableEvent(null, $arguments);
+        $event = new GenericEvent($filters, $arguments);
         EventManager::dispatch(SystemEvents::ISSUE_LINK_FILTERS, $event);
-        if ($event->hasResult()) {
-            return $event->getResult();
-        }
 
         if (!self::hasWorkflowIntegration($prj_id)) {
-            return [];
+            return;
         }
-        $backend = self::_getBackend($prj_id);
 
-        return $backend->getLinkFilters($prj_id);
+        $backend = self::_getBackend($prj_id);
+        $filters->add(...$backend->getLinkFilters($prj_id));
     }
 
     /**
