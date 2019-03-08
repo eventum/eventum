@@ -192,9 +192,22 @@ class Workflow
      * @param   int $usr_id The id of the user who attached the file
      * @param   array $attachment attachment object
      * @return  bool
+     * @since 3.6.3 emits ATTACHMENT_ATTACH_FILE event
+     * @deprecated
      */
-    public static function shouldAttachFile($prj_id, $issue_id, $usr_id, $attachment)
+    public static function shouldAttachFile(int $prj_id, int $issue_id, $usr_id, array $attachment): bool
     {
+        $arguments = [
+            'prj_id' => $prj_id,
+            'issue_id' => $issue_id,
+            'usr_id' => is_numeric($usr_id) ? (int)$usr_id : $usr_id,
+        ];
+        $event = new ResultableEvent($attachment, $arguments);
+        EventManager::dispatch(SystemEvents::ATTACHMENT_ATTACH_FILE, $event);
+        if ($event->hasResult()) {
+            return $event->getResult();
+        }
+
         if (!self::hasWorkflowIntegration($prj_id)) {
             return true;
         }

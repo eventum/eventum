@@ -181,6 +181,7 @@ abstract class Abstract_Workflow_Backend
      * @param   int $usr_id The id of the user who attached the file
      * @param   array $attachment attachment object
      * @return  bool
+     * @deprecated use ATTACHMENT_ATTACH_FILE event instead
      */
     public function shouldAttachFile($prj_id, $issue_id, $usr_id, $attachment)
     {

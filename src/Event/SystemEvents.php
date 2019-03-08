@@ -19,6 +19,12 @@ use Eventum\Model\Repository\CommitRepository;
 final class SystemEvents
 {
     /**
+     * @since 3.6.3
+     * @see Workflow::shouldAttachFile()
+     */
+    public const ATTACHMENT_ATTACH_FILE = 'attachment.attach.file';
+
+    /**
      * Event fired when history entry is added
      *
      * @since 3.3.0
