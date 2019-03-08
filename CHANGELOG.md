@@ -1,6 +1,6 @@
 # Eventum Issue Tracking System
 
-## [3.6.2]
+## [3.6.2] - 2019-03-08
 
 Upgrading to 3.6.x versions requires that you upgrade to latest 3.5.x version first.
 
@@ -11,7 +11,7 @@ Upgrading to 3.6.x versions requires that you upgrade to latest 3.5.x version fi
 - Increase default height of Issue Reply pop-up (@vladsf, #470)
 - Update preferences UI, add some consistency how they are used (@glensc, #492)
 
-[3.6.2]: https://github.com/eventum/eventum/compare/v3.6.1...master
+[3.6.2]: https://github.com/eventum/eventum/compare/v3.6.1...v3.6.2
 
 ## [3.6.1] - 2019-02-28
 
