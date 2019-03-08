@@ -14,6 +14,14 @@ get_version() {
 	$topdir/contrib/shell-semver/increment_version.sh -p $oldver
 }
 
+# git doesn't askpass, so warm it up
+cache_gpg_askpass() {
+	local sign_key
+	sign_key=$(git config --get user.email)
+
+	date | gpg --clearsign --default-key "$sign_key" --output=/dev/null
+}
+
 quote() {
 	echo "$*" | sed -e 's/[\.]/\\&/g'
 }
@@ -37,14 +45,15 @@ cd $topdir
 git checkout master
 git pull --rebase
 
-patch_changelog "s/^## \[$(quote "$VERSION")\] *-* *$/& - $RELDATE/"
-patch_changelog "/^\[$(quote "$VERSION")\]/ s/\.\.\.master/...$TAG/"
-
 cd $topdir/docs/wiki
 git checkout master
 git pull --rebase
 cd ../..
 
+cache_gpg_askpass
+
+patch_changelog "s/^## \[$(quote "$VERSION")\] *-* *$/& - $RELDATE/"
+patch_changelog "/^\[$(quote "$VERSION")\]/ s/\.\.\.master/...$TAG/"
 git commit -am "prepare for $VERSION release"
 
 cd $topdir/docs/wiki
