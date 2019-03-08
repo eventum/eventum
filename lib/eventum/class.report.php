@@ -642,7 +642,7 @@ class Report
         // get field values
         $options = Custom_Field::getOptions($fld_id, $cfo_ids);
 
-        if ($group_by == 'customer') {
+        if ($group_by === 'customer') {
             $group_by_field = 'iss_customer_id';
         } else {
             $group_by_field = 'iss_id';

@@ -11,7 +11,9 @@
  * that were distributed with this source code.
  */
 
-require_once __DIR__ . '/../../init.php';
+namespace Eventum\CustomField\Fields;
 
-$controller = new Eventum\Controller\Ajax\DynamicCustomFieldController();
-$controller->run();
+interface RequiredValueInterface extends CustomFieldInterface
+{
+    public function isRequired(int $fld_id, string $formType, ?int $issue_id = null): bool;
+}

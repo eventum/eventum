@@ -11,13 +11,16 @@
  * that were distributed with this source code.
  */
 
-require_once 'class.dynamic.php';
+namespace Example\Extension\CustomField;
 
-class Dynamic_Ajax_Example_Custom_Field_Backend extends Dynamic_Custom_Field_Backend
+use Dynamic_Custom_Field_Backend;
+use Eventum\CustomField\Fields\OptionValueInterface;
+
+class DynamicAjaxCustomField extends Dynamic_Custom_Field_Backend implements OptionValueInterface
 {
-    public function getStructuredData()
+    public function getStructuredData(): array
     {
-        $fld_id = self::getControllingCustomFieldID();
+        $fld_id = $this->getControllingCustomFieldId();
         // should pull from a dynamic data source but will hard code for now
         $data = [
             [
@@ -49,37 +52,35 @@ class Dynamic_Ajax_Example_Custom_Field_Backend extends Dynamic_Custom_Field_Bac
         return $data;
     }
 
-    public function getOptionValue($fld_id, $value)
+    public function getOptionValue(int $fld_id, string $value): string
     {
         return $value;
     }
 
-    public function getControllingCustomFieldName()
+    public function getControllingCustomFieldName(): string
     {
         return 'Priority';
     }
 
-    public function hideWhenNoOptions()
+    public function hideWhenNoOptions(): bool
     {
         return false;
     }
 
-    public function getDomID()
+    public function getDomId(): string
     {
         return 'priority';
     }
 
     /**
      * Should return 'local' or 'ajax'.
-     *
-     * @return string
      */
-    public function lookupMethod()
+    public function lookupMethod(): string
     {
         return 'ajax';
     }
 
-    public function getDynamicOptions($data)
+    public function getDynamicOptions(array $data): array
     {
         $value = $data['priority'];
         foreach ($this->getStructuredData() as $row) {
@@ -87,5 +88,7 @@ class Dynamic_Ajax_Example_Custom_Field_Backend extends Dynamic_Custom_Field_Bac
                 return array_merge(['' => 'Please choose an option'], $row['options']);
             }
         }
+
+        return [];
     }
 }

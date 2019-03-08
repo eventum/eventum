@@ -11,14 +11,9 @@
  * that were distributed with this source code.
  */
 
-/**
- * Custom field backend showing example default value
- */
-class Default_Value_Custom_Field_Backend
+namespace Eventum\CustomField\Fields;
+
+interface ListInterface extends CustomFieldInterface
 {
-    public function getDefaultValue($fld_id)
-    {
-        // your logic here
-        return '123';
-    }
+    public function getList(int $fld_id, ?int $issue_id = null, ?string $form_type = null): array;
 }

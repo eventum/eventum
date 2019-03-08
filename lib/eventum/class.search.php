@@ -432,12 +432,15 @@ class Search
                     case 'iss_customer_id':
                         $col_key = 'customer_title';break;
                 }
-                if ($col_key == 'custom_fields' && count($custom_fields) > 0) {
+                if ($col_key === 'custom_fields' && count($custom_fields) > 0) {
                     $custom_field_values = Custom_Field::getListByIssue($prj_id, $row['iss_id']);
-                    foreach ($custom_field_values as $this_field) {
-                        if (!empty($custom_fields[$this_field['fld_id']])) {
-                            $row['custom_field'][$this_field['fld_id']] = $this_field['value'];
-                            $fields[] = $this_field['value'];
+                    foreach ($custom_field_values as $cf) {
+                        if (!empty($custom_fields[$cf['fld_id']])) {
+                            $formattedValue = Custom_Field::formatValue($cf['value'], $cf['fld_id'], $row['iss_id']);
+                            $cf['formatted_value'] = $formattedValue;
+
+                            $row['custom_field'][$cf['fld_id']] = $cf;
+                            $fields[] = $cf['value'];
                         }
                     }
                 } else {

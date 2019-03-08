@@ -34,7 +34,7 @@ abstract class ManageBaseController extends BaseController
         );
     }
 
-    protected function canAccess()
+    protected function canAccess(): bool
     {
         // if manage controller does not implement this
         // then give access permission.
@@ -42,7 +42,7 @@ abstract class ManageBaseController extends BaseController
         return true;
     }
 
-    private function hasLdapAuth()
+    private function hasLdapAuth(): bool
     {
         try {
             new LdapAdapter();

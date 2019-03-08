@@ -4,7 +4,7 @@
   {include file="include/rank_icon.tpl.html" direction=$direction href=$href}
 {/function}
 
-{block "manage_content"}
+{block "javascripts" append}
 
   <script type="text/javascript">
   <!--
@@ -28,6 +28,12 @@
           return false;
       }
 
+      if (!Eventum.getField('field_type').filter(":checked").length) {
+          alert('{t escape=js}Field type is required.{/t}');
+          Validation.selectField('field_type');
+          return false;
+      }
+
       // warn if they have de-selected a project
       var projects = Eventum.getField('projects[]');
       var selections = projects.val();
@@ -35,11 +41,11 @@
       for (var i=0; i < selected_projects.length; i++) {
           var is_still_selected = false;
           for (var j=0; j < selections.length; j++) {
-              if (selections[j].value == selected_projects[i].value) {
+              if (selections[j].value === selected_projects[i].value) {
                   is_still_selected = true;
               }
           }
-          if (is_still_selected == false) {
+          if (is_still_selected === false) {
               if (removed_projects.length > 0) {
                   removed_projects += ', ';
               }
@@ -50,7 +56,7 @@
           var answer = confirm('{t escape=js}WARNING: You have removed project(s){/t} ' + removed_projects + ' {t}from the list{/t} ' +
              '{t escape=js}of associated projects. This will remove all data for this field from the selected project(s).{/t} ' +
              '{t escape=js}Do you want to continue?{/t}');
-          if (answer == false) {
+          if (answer === false) {
               return false;
           }
       }
@@ -193,6 +199,9 @@
   {/if}
   //-->
   </script>
+{/block}
+
+{block "manage_content"}
   <form id="custom_field_form" method="post">
   {if $smarty.get.cat|default:'' == 'edit'}
   <input type="hidden" name="cat" value="update">

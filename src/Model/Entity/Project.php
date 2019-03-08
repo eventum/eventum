@@ -15,6 +15,7 @@ namespace Eventum\Model\Entity;
 
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\PersistentCollection;
 
 /**
  * Project
@@ -127,6 +128,13 @@ class Project
      * @ORM\Column(name="prj_segregate_reporter", type="boolean", nullable=true)
      */
     private $segregateReporter;
+
+    /**
+     * @var ProjectCustomField[]|PersistentCollection
+     * @ORM\OneToMany(targetEntity="ProjectCustomField", mappedBy="project")
+     * @ORM\JoinColumn(name="id", referencedColumnName="pcf_prj_id")
+     */
+    public $customField;
 
     public function getId(): int
     {

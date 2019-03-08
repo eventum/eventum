@@ -11,7 +11,9 @@
  * that were distributed with this source code.
  */
 
-require_once __DIR__ . '/../../init.php';
+namespace Eventum\CustomField\Fields;
 
-$controller = new Eventum\Controller\Ajax\DynamicCustomFieldController();
-$controller->run();
+interface DefaultValueInterface extends CustomFieldInterface
+{
+    public function getDefaultValue(int $fld_id): string;
+}

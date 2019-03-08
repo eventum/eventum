@@ -16,13 +16,26 @@ namespace Eventum\Controller\Manage;
 use Auth;
 use CRM;
 use Custom_Field;
-use Eventum\Controller\Helper\MessagesHelper;
+use Eventum\Db\Doctrine;
 use Eventum\Extension\ExtensionManager;
+use Eventum\Model\Entity\CustomField;
+use Eventum\Model\Entity\ProjectCustomField;
+use Eventum\Model\Repository\CustomFieldRepository;
 use Project;
+use Symfony\Component\HttpFoundation\ParameterBag;
+use Throwable;
 use User;
 
 class CustomFieldsController extends ManageBaseController
 {
+    private const ORDER_BY_CHOICES = [
+        'cfo_id ASC' => 'Insert',
+        'cfo_id DESC' => 'Reverse insert',
+        'cfo_value ASC' => 'Alphabetical',
+        'cfo_value DESC' => 'Reverse alphabetical',
+        'cfo_rank ASC' => 'Manual',
+    ];
+
     /** @var string */
     protected $tpl_name = 'manage/custom_fields.tpl.html';
 
@@ -32,6 +45,9 @@ class CustomFieldsController extends ManageBaseController
     /** @var string */
     private $cat;
 
+    /** @var CustomFieldRepository */
+    private $repo;
+
     /**
      * {@inheritdoc}
      */
@@ -40,6 +56,7 @@ class CustomFieldsController extends ManageBaseController
         $request = $this->getRequest();
 
         $this->cat = $request->request->get('cat') ?: $request->query->get('cat');
+        $this->repo = Doctrine::getCustomFieldRepository();
     }
 
     /**
@@ -47,57 +64,102 @@ class CustomFieldsController extends ManageBaseController
      */
     protected function defaultAction(): void
     {
-        if ($this->cat == 'new') {
-            $this->newAction();
-        } elseif ($this->cat == 'update') {
-            $this->updateAction();
-        } elseif ($this->cat == 'delete') {
-            $this->deleteAction();
-        } elseif ($this->cat == 'change_rank') {
-            $this->changeRankAction();
-        }
-
-        if ($this->cat == 'edit') {
-            $id = $this->getRequest()->query->get('id');
-            $this->tpl->assign('info', Custom_Field::getDetails($id));
+        switch ($this->cat) {
+            case 'new':
+                $this->newAction();
+                break;
+            case 'update':
+                $this->updateAction();
+                break;
+            case 'delete':
+                $this->deleteAction();
+                break;
+            case 'change_rank':
+                $this->changeRankAction();
+                break;
+            case 'edit':
+                $id = $this->getRequest()->query->get('id');
+                $this->tpl->assign('info', Custom_Field::getDetails($id));
+                break;
         }
     }
 
     private function newAction(): void
     {
-        $res = Custom_Field::insert();
-        $map = [
-            1 => [ev_gettext('Thank you, the custom field was added successfully.'), MessagesHelper::MSG_INFO],
-            -1 => [ev_gettext('An error occurred while trying to add the new custom field.'), MessagesHelper::MSG_ERROR],
-        ];
-        $this->messages->mapMessages($res, $map);
+        $post = $this->getRequest()->request;
+
+        try {
+            $cf = $this->updateFromRequest(new CustomField(), $post);
+            $cf->setType($post->get('field_type'));
+            $this->repo->persistAndFlush($cf);
+            $this->repo->setProjectAssociation($cf, $post->get('projects'));
+
+            $message = ev_gettext('Thank you, the custom field was added successfully.');
+            $this->messages->addInfoMessage($message);
+            $this->redirect(APP_RELATIVE_URL . 'manage/custom_fields.php?cat=edit&id=' . $cf->getId());
+        } catch (Throwable $e) {
+            $this->logger->error($e);
+            $message = ev_gettext('An error occurred while trying to add the new custom field.');
+            $this->messages->addErrorMessage($message);
+        }
     }
 
+    /**
+     * @see Custom_Field::updateFieldRelationsFromPost()
+     */
     private function updateAction(): void
     {
-        $res = Custom_Field::update();
-        $this->messages->mapMessages(
-            $res, [
-                1 => [ev_gettext('Thank you, the custom field was updated successfully.'), MessagesHelper::MSG_INFO],
-                -1 => [ev_gettext('An error occurred while trying to update the custom field information.'), MessagesHelper::MSG_ERROR],
-            ]
-        );
-        $this->redirect(APP_RELATIVE_URL . 'manage/custom_fields.php');
+        $post = $this->getRequest()->request;
+        $fld_id = $post->get('id');
+
+        try {
+            $cf = $this->updateFromRequest($this->repo->findOrCreate($fld_id), $post);
+            $this->repo->setFieldType($cf, $post->get('field_type'));
+            $this->repo->persistAndFlush($cf);
+            $this->repo->setProjectAssociation($cf, $post->get('projects'));
+
+            $message = ev_gettext('Thank you, the custom field was updated successfully.');
+            $this->messages->addInfoMessage($message);
+        } catch (Throwable $e) {
+            $this->logger->error($e);
+            $message = ev_gettext('An error occurred while trying to update the custom field information.');
+            $this->messages->addErrorMessage($message);
+        }
+
+        $this->redirect(APP_RELATIVE_URL . 'manage/custom_fields.php?cat=edit&id=' . $fld_id);
     }
 
     private function deleteAction(): void
     {
-        $res = Custom_Field::remove();
-        $map = [
-            true => [ev_gettext('Thank you, the custom field was removed successfully.'), MessagesHelper::MSG_INFO],
-            false => [ev_gettext('An error occurred while trying to remove the custom field information.'), MessagesHelper::MSG_ERROR],
-        ];
-        $this->messages->mapMessages($res, $map);
+        $post = $this->getRequest()->request;
+        $fields = $post->get('items', []);
+
+        try {
+            foreach ($fields as $fld_id) {
+                $cf = $this->repo->findById($fld_id);
+                $this->repo->removeCustomField($cf);
+            }
+
+            $message = ev_gettext('Thank you, the custom field was removed successfully.');
+            $this->messages->addInfoMessage($message);
+        } catch (Throwable $e) {
+            $this->logger->error($e);
+            $message = ev_gettext('An error occurred while trying to remove the custom field information.');
+            $this->messages->addErrorMessage($message);
+        }
+
+        $this->redirect(APP_RELATIVE_URL . 'manage/custom_fields.php');
     }
 
     private function changeRankAction(): void
     {
-        Custom_Field::changeRank();
+        $get = $this->getRequest()->query;
+        $fld_id = $get->getInt('id');
+        $direction = $get->getInt('direction');
+
+        $this->repo->updateRank($fld_id, $direction);
+
+        $this->redirect(APP_RELATIVE_URL . 'manage/custom_fields.php');
     }
 
     /**
@@ -115,15 +177,38 @@ class CustomFieldsController extends ManageBaseController
         $this->tpl->assign(
             [
                 'project_list' => Project::getAll(),
-                'list' => Custom_Field::getList(),
+                'list' => $this->getList(),
                 'user_roles' => $user_roles,
                 'backend_list' => $this->getBackends(),
-                'order_by_list' => Custom_Field::$order_by_choices,
+                'order_by_list' => self::ORDER_BY_CHOICES,
             ]
         );
     }
 
-    private function getBackends()
+    /**
+     * Method used to get the list of custom fields available in the
+     * system.
+     */
+    private function getList(): array
+    {
+        $res = [];
+        foreach ($this->repo->getList() as $cf) {
+            $row = $cf->toArray();
+            $projects = $cf->getProjectCustomFields()->map(function (ProjectCustomField $pcf) {
+                return $pcf->getProject()->getTitle();
+            })->toArray();
+            $row['projects'] = implode(', ', $projects);
+            $row['min_role_name'] = User::getRole($cf->getMinRole());
+            $row['min_role_edit_name'] = User::getRole($cf->getMinRoleEdit());
+            $row['has_options'] = $cf->isOptionType();
+            $row['field_options'] = $cf->getOptionValues();
+            $res[] = $row;
+        }
+
+        return $res;
+    }
+
+    private function getBackends(): array
     {
         // load classes from extension manager
         $manager = ExtensionManager::getManager();
@@ -136,7 +221,7 @@ class CustomFieldsController extends ManageBaseController
      * Create array with key,value from $values $key,
      * i.e discarding values.
      */
-    private function filterValues($values)
+    private function filterValues($values): array
     {
         $res = [];
         foreach ($values as $key => $value) {
@@ -144,5 +229,25 @@ class CustomFieldsController extends ManageBaseController
         }
 
         return $res;
+    }
+
+    private function updateFromRequest(CustomField $cf, ParameterBag $post): CustomField
+    {
+        return $cf
+            ->setTitle($post->get('title'))
+            ->setDescription($post->get('description'))
+            ->setShowReportForm($post->get('report_form', 0))
+            ->setIsReportFormRequired($post->get('report_form_required', 0))
+            ->setShowAnonymousForm($post->get('anon_form', 0))
+            ->setIsAnonymousFormRequired($post->get('anon_form_required', 0))
+            ->setShowListDisplay($post->get('list_display', 0))
+            ->setShowCloseForm($post->get('close_form', 0))
+            ->setIsCloseFormRequired($post->get('close_form_required', 0))
+            ->setIsEditFormRequired($post->get('edit_form_required', 0))
+            ->setMinRole($post->get('min_role', User::ROLE_VIEWER))
+            ->setMinRoleEdit($post->get('min_role_edit', User::ROLE_VIEWER))
+            ->setRank($post->getInt('rank') ?: $this->repo->getNextRank())
+            ->setOrderBy($post->get('order_by', 'cfo_id ASC'))
+            ->setBackendClass($post->get('custom_field_backend'));
     }
 }

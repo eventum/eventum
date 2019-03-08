@@ -13,13 +13,5 @@
 
 require_once __DIR__ . '/../../init.php';
 
-// if there is no field ID, return false
-if (empty($_GET['fld_id'])) {
-    exit(0);
-}
-
-$backend = Custom_Field::getBackend($_GET['fld_id']);
-if (is_object($backend) && is_subclass_of($backend, 'Dynamic_Custom_Field_Backend')) {
-    header('Content-Type: application/json; charset=UTF-8');
-    echo json_encode($backend->getDynamicOptions($_GET));
-}
+$controller = new Eventum\Controller\Ajax\DynamicCustomFieldOptionsController();
+$controller->run();

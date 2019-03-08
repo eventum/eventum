@@ -14,7 +14,8 @@
 namespace Eventum\Controller\Manage;
 
 use Custom_Field;
-use Eventum\Controller\Helper\MessagesHelper;
+use Eventum\Db\Doctrine;
+use Throwable;
 use User;
 
 class CustomFieldOptionsController extends ManageBaseController
@@ -39,7 +40,6 @@ class CustomFieldOptionsController extends ManageBaseController
         $request = $this->getRequest();
 
         $this->fld_id = $request->request->get('fld_id') ?: $request->query->get('fld_id');
-
         $this->cat = $request->request->get('cat') ?: $request->query->get('cat');
     }
 
@@ -48,7 +48,7 @@ class CustomFieldOptionsController extends ManageBaseController
      */
     protected function defaultAction(): void
     {
-        if ($this->cat == 'update') {
+        if ($this->cat === 'update') {
             $this->updateAction();
         }
     }
@@ -56,13 +56,21 @@ class CustomFieldOptionsController extends ManageBaseController
     private function updateAction(): void
     {
         $post = $this->getRequest()->request;
-        $res = Custom_Field::updateOptions($this->fld_id, $post->get('existing_options'), $post->get('new_options'));
-        $this->messages->mapMessages(
-            $res, [
-                1 => [ev_gettext('Thank you, the custom field options were updated successfully.'), MessagesHelper::MSG_INFO],
-                -1 => [ev_gettext('An error occurred while trying to update the custom field options.'), MessagesHelper::MSG_ERROR],
-            ]
-        );
+        $options = $post->get('existing_options', []);
+        $new_options = $post->get('new_options', []);
+
+        try {
+            $repo = Doctrine::getCustomFieldRepository();
+            $repo->updateCustomFieldOptions($this->fld_id, $options, $new_options);
+
+            $message = ev_gettext('Thank you, the custom field options were updated successfully.');
+            $this->messages->addInfoMessage($message);
+        } catch (Throwable $e) {
+            $this->logger->error($e);
+            $message = ev_gettext('An error occurred while trying to update the custom field options.');
+            $this->messages->addErrorMessage($message);
+        }
+
         $this->redirect(APP_RELATIVE_URL . 'manage/custom_field_options.php?fld_id=' . $this->fld_id);
     }
 
@@ -77,8 +85,8 @@ class CustomFieldOptionsController extends ManageBaseController
         }
 
         $this->tpl->assign([
-                'info' => $field_info,
-                'options' => Custom_Field::getOptions($this->fld_id),
+            'info' => $field_info,
+            'options' => Custom_Field::getOptions($this->fld_id),
         ]);
     }
 }

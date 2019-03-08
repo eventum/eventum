@@ -11,11 +11,16 @@
  * that were distributed with this source code.
  */
 
-class Isbn_Hc_Custom_Field_Backend extends Dynamic_Custom_Field_Backend
+namespace Example\Extension\CustomField;
+
+use Custom_Field;
+use Dynamic_Custom_Field_Backend;
+
+class IsbnHcCustomField extends Dynamic_Custom_Field_Backend
 {
-    public function getStructuredData()
+    public function getStructuredData(): array
     {
-        $fld_id = self::getControllingCustomFieldID();
+        $fld_id = $this->getControllingCustomFieldId();
         // should pull from a dynamic data source but will hard code for now
         $data = [
             [
@@ -27,17 +32,17 @@ class Isbn_Hc_Custom_Field_Backend extends Dynamic_Custom_Field_Backend
         return $data;
     }
 
-    public function getControllingCustomFieldID()
+    public function getControllingCustomFieldId(): int
     {
-        return Custom_Field::getIDByTitle(self::getControllingCustomFieldName());
+        return Custom_Field::getIdByTitle($this->getControllingCustomFieldName()) ?: 0;
     }
 
-    public function getControllingCustomFieldName()
+    public function getControllingCustomFieldName(): string
     {
-        return '';
+        return 'isbn';
     }
 
-    public function hideWhenNoOptions()
+    public function hideWhenNoOptions(): bool
     {
         return true;
     }

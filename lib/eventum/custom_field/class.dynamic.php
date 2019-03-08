@@ -11,13 +11,15 @@
  * that were distributed with this source code.
  */
 
+use Eventum\CustomField\Fields\DynamicCustomFieldInterface;
+
 /**
  * Custom field backend to assist other backends in dynamically changing the
  * contents of one field or hiding/showing based on another field.
  */
-class Dynamic_Custom_Field_Backend
+abstract class Dynamic_Custom_Field_Backend implements DynamicCustomFieldInterface
 {
-    public function getList($fld_id, $issue_id = false)
+    public function getList(int $fld_id, ?int $issue_id = null, ?string $form_type = null): array
     {
         $list = [];
         $data = $this->getStructuredData();
@@ -29,102 +31,58 @@ class Dynamic_Custom_Field_Backend
     }
 
     /**
-     * Returns a multi dimension array of data to display. The values listed
-     * in the "keys" array are possible values for the controlling field to display
-     * options from the "options" array.
-     * For example, if you have a field 'name' that you want to display different
-     * options in, depending on the contents of the 'color' field the array should
-     * have the following structure:
-     * array(
-     *      array(
-     *          "keys" =>   array("male", "dude"),
-     *          "options"   =>  array(
-     *              "bryan" =>  "Bryan",
-     *              "joao"  =>  "Joao",
-     *              "bob"   =>  "Bob"
-     *          )
-     *      ),
-     *      array(
-     *          "keys"  =>  array("female", "chick"),
-     *          "options"   =>  array(
-     *              "freya" =>  "Freya",
-     *              "becky" =>  "Becky",
-     *              "sharon"    =>  "Sharon",
-     *              "layla"     =>  "Layla"
-     *          )
-     *      )
-     * );
-     *
-     * @return  array An array of data to display
+     * {@inheritdoc}
      */
-    public function getStructuredData()
+    public function getStructuredData(): array
     {
         return [];
     }
 
     /**
-     * Returns the ID of the "controlling" custom field.
-     *
-     * @return   int The ID of the controlling custom field
+     * {@inheritdoc}
      */
-    public function getControllingCustomFieldID()
+    public function getControllingCustomFieldId(): int
     {
         return 0;
     }
 
     /**
-     * Returns the name of the "controlling" custom field.
-     *
-     * @return   string The name of the controlling custom field
+     * {@inheritdoc}
      */
-    public function getControllingCustomFieldName()
+    public function getControllingCustomFieldName(): string
     {
         return '';
     }
 
     /**
-     * Returns true if this row should be hidden if it has no value
-     *
-     * @return  bool True if this field should be hidden before options are set
+     * {@inheritdoc}
      */
-    public function hideWhenNoOptions()
+    public function hideWhenNoOptions(): bool
     {
         return false;
     }
 
     /**
-     * Returns the DOM ID of the controlling field, by default this will return
-     * 'custom_field_XX' where XX is the ID returned by getControllingCustomFieldID()
-     * but this should be overridden if a field other then a custom field
-     * is used.
-     *
-     * @return  string
+     * {@inheritdoc}
      */
-    public function getDomID()
+    public function getDomId(): string
     {
-        return 'custom_field_' . $this->getControllingCustomFieldID();
+        return 'custom_field_' . $this->getControllingCustomFieldId();
     }
 
     /**
-     * Should return 'local' or 'ajax'. If ajax is specified then getDynamicOptions()
-     * should be implemented as well
-     *
-     * @return string
+     * {@inheritdoc}
      */
-    public function lookupMethod()
+    public function lookupMethod(): string
     {
         return 'local';
     }
 
     /**
-     * This method should return the correct options to display for the given
-     * data. This array of data will contain all the information from the
-     * new issue form or the edit custom field form (as appropriate)
-     * @param   $data   array
-     * @return  array
+     * {@inheritdoc}
      */
-    public function getDynamicOptions($data)
+    public function getDynamicOptions(array $data): ?array
     {
-        return null;
+        return [];
     }
 }

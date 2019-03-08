@@ -13,7 +13,7 @@
 
 use Eventum\Attachment\AttachmentManager;
 use Eventum\Db\DatabaseException;
-use Eventum\Differ;
+use Eventum\Diff\Differ;
 use Eventum\Event\SystemEvents;
 use Eventum\EventDispatcher\EventManager;
 use Eventum\Mail\Helper\AddressHeader;

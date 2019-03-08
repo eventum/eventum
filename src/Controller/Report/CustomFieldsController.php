@@ -26,7 +26,7 @@ class CustomFieldsController extends ReportBaseController
     /** @var int */
     private $custom_field;
 
-    /** @var string */
+    /** @var int[] */
     private $custom_options;
 
     /** @var string */
@@ -52,7 +52,6 @@ class CustomFieldsController extends ReportBaseController
         $request = $this->getRequest();
 
         $this->custom_field = $request->query->getInt('custom_field');
-
         $this->custom_options = $request->query->get('custom_options');
         $this->group_by = $request->query->get('group_by');
 

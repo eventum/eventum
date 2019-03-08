@@ -1013,12 +1013,7 @@ class Issue
         }
 
         $stmt = 'INSERT INTO `issue` SET ' . DB_Helper::buildSet($params);
-
-        try {
-            DB_Helper::getInstance()->query($stmt, $params);
-        } catch (DatabaseException $e) {
-            return -1;
-        }
+        DB_Helper::getInstance()->query($stmt, $params);
 
         $issue_id = DB_Helper::get_last_insert_id();
         // log the creation of the issue
@@ -1034,11 +1029,9 @@ class Issue
             }
         }
 
-        // need to process any custom fields ?
-        if (@count($_POST['custom_fields']) > 0) {
-            foreach ($_POST['custom_fields'] as $fld_id => $value) {
-                Custom_Field::associateIssue($issue_id, $fld_id, $value);
-            }
+        if (count($_POST['custom_fields']) > 0) {
+            $role_id = Auth::getCurrentRole();
+            Custom_Field::updateCustomFieldValues($issue_id, $role_id, $_POST['custom_fields']);
         }
 
         // now add the user/issue association
@@ -1989,11 +1982,10 @@ class Issue
         } else {
             $recipients = [];
         }
-        // need to process any custom fields ?
-        if (@count($data['custom_fields']) > 0) {
-            foreach ($data['custom_fields'] as $fld_id => $value) {
-                Custom_Field::associateIssue($issue_id, $fld_id, $value);
-            }
+
+        if (count($data['custom_fields']) > 0) {
+            $role_id = Auth::getCurrentRole();
+            Custom_Field::updateCustomFieldValues($issue_id, $role_id, $data['custom_fields']);
         }
         // also send a special confirmation email to the customer contact
         if ((@$data['notify_customer'] == 'yes') && (!empty($data['contact']))) {

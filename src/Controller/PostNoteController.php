@@ -174,7 +174,7 @@ class PostNoteController extends BaseController
 
         $options = [
             'parent_id' => $post->get('parent_id', null),
-            'add_extra_recipients' => ($post->get('add_extra_recipients', '') == 'yes'),
+            'add_extra_recipients' => $post->get('add_extra_recipients', '') === 'yes',
             'cc' => $post->get('note_cc'),
         ];
 
@@ -263,7 +263,7 @@ class PostNoteController extends BaseController
                 'current_issue_status' => Issue::getStatusID($this->issue_id),
                 'time_categories' => Time_Tracking::getAssocCategories($this->prj_id),
                 'note_category_id' => Time_Tracking::getCategoryId($this->prj_id, 'Note Discussion'),
-                'issue_fields' => Issue_Field::getDisplayData($this->issue_id, 'post_note'),
+                'issue_fields' => Issue_Field::getDisplayData($this->issue_id, Issue_Field::LOCATION_POST_NOTE),
             ]
         );
     }
