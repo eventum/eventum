@@ -198,12 +198,8 @@ class UpdateController extends BaseController
             $releases = [$this->details['iss_pre_id'] => $this->details['pre_title']] + $releases;
         }
 
-        if (Workflow::hasWorkflowIntegration($this->prj_id)) {
-            // if currently selected release is not on list, go ahead and add it.
-            $statuses = Workflow::getAllowedStatuses($this->prj_id, $this->issue_id);
-        } else {
-            $statuses = Status::getAssocStatusList($this->prj_id, false);
-        }
+        // if currently selected release is not on list, go ahead and add it.
+        $statuses = Workflow::getAllowedStatuses($this->prj_id, $this->issue_id);
 
         if (!empty($this->details['iss_sta_id']) && empty($statuses[$this->details['iss_sta_id']])) {
             $statuses[$this->details['iss_sta_id']] = Status::getStatusTitle($this->details['iss_sta_id']);

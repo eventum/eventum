@@ -437,16 +437,30 @@ class Workflow
      * @param   int $prj_id The project ID
      * @param   int $issue_id the ID of the issue
      * @return  array an associative array of statuses valid for this issue
+     * @since 3.6.3 emits ISSUE_ALLOWED_STATUSES event
+     * @deprecated
      */
-    public static function getAllowedStatuses($prj_id, $issue_id = null)
+    public static function getAllowedStatuses($prj_id, $issue_id = null): array
     {
-        if (!self::hasWorkflowIntegration($prj_id)) {
-            return null;
+        $arguments = [
+            'prj_id' => (int)$prj_id,
+            'issue_id' => $issue_id ? (int)$issue_id : null,
+        ];
+
+        $event = new ResultableEvent(null, $arguments);
+        EventManager::dispatch(SystemEvents::ISSUE_ALLOWED_STATUSES, $event);
+        if ($event->hasResult()) {
+            return $event->getResult();
         }
 
-        $backend = self::_getBackend($prj_id);
+        if (self::hasWorkflowIntegration($prj_id)) {
+            $backend = self::_getBackend($prj_id);
+            $statusList = $backend->getAllowedStatuses($prj_id, $issue_id);
+        } else {
+            $statusList = Status::getAssocStatusList($prj_id, false);
+        }
 
-        return $backend->getAllowedStatuses($prj_id, $issue_id);
+        return $statusList;
     }
 
     /**

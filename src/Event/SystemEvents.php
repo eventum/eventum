@@ -149,6 +149,12 @@ final class SystemEvents
     const ISSUE_UPDATED = 'issue.updated';
 
     /**
+     * @since 3.6.3
+     * @see Workflow::getAllowedStatuses()
+     */
+    public const ISSUE_ALLOWED_STATUSES = 'issue.allowed.statuses';
+
+    /**
      * @since 3.5.0
      * @see Workflow::handleNewNote()
      */
