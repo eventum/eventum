@@ -102,6 +102,12 @@ final class SystemEvents
     const NOTIFICATION_NOTIFY_ADDRESS = 'notification.notify.address';
 
     /**
+     * @since 3.6.3
+     * @see Workflow::handleSubscription()
+     */
+    public const NOTIFICATION_HANDLE_SUBSCRIPTION = 'notification.handle.subscription';
+
+    /**
      * @since 3.4.2
      */
     const IRC_NOTIFY = 'irc.notify';

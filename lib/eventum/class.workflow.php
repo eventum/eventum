@@ -526,20 +526,41 @@ class Workflow
      *
      * @param   int $prj_id The project ID
      * @param   int $issue_id the ID of the issue
-     * @param   int $subscriber_usr_id the ID of the user to subscribe if this is a real user (false otherwise)
+     * @param   int|bool $subscriber_usr_id the ID of the user to subscribe if this is a real user (false otherwise)
      * @param   string $email the email address  to subscribe (if this is not a real user)
-     * @param   array $types the action types
+     * @param   array $actions the action types
      * @return  array|bool|null an array of information or true to continue unchanged or false to prevent the user from being added
+     * @since 3.6.3 emits NOTIFICATION_HANDLE_SUBSCRIPTION event
+     * @deprecated
      */
-    public static function handleSubscription($prj_id, $issue_id, &$subscriber_usr_id, &$email, &$types)
+    public static function handleSubscription($prj_id, $issue_id, &$subscriber_usr_id, &$email, &$actions)
     {
+        $arguments = [
+            'prj_id' => (int)$prj_id,
+            'issue_id' => (int)$issue_id,
+            'subscriber_usr_id' => is_numeric($subscriber_usr_id) ? (int)$subscriber_usr_id : $subscriber_usr_id,
+            'email' => $email,
+            'actions' => $actions,
+        ];
+        $event = new ResultableEvent(null, $arguments);
+        EventManager::dispatch(SystemEvents::NOTIFICATION_HANDLE_SUBSCRIPTION, $event);
+
+        // assign back, in case these were changed
+        $subscriber_usr_id = $event['subscriber_usr_id'];
+        $email = $event['email'];
+        $actions = $event['actions'];
+
+        if ($event->hasResult()) {
+            return $event->getResult();
+        }
+
         if (!self::hasWorkflowIntegration($prj_id)) {
             return null;
         }
 
         $backend = self::_getBackend($prj_id);
 
-        return $backend->handleSubscription($prj_id, $issue_id, $subscriber_usr_id, $email, $types);
+        return $backend->handleSubscription($prj_id, $issue_id, $subscriber_usr_id, $email, $actions);
     }
 
     /**
