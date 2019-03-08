@@ -66,6 +66,7 @@ class PreferencesController extends BaseController
         }
 
         $this->usr_id = Auth::getUserID();
+        $this->role_id = Auth::getCurrentRole();
         $this->permissions = $this->getPermissions();
 
         if ($this->isPostRequest()) {

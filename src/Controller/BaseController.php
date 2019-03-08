@@ -129,12 +129,12 @@ abstract class BaseController
      */
     final protected function canRoleAccess(): bool
     {
-        $this->role_id = Auth::getCurrentRole();
-
         if ($this->min_role === null) {
             // not restricted
             return true;
         }
+
+        $this->role_id = Auth::getCurrentRole();
 
         if ($this->is_popup) {
             Auth::checkAuthentication(null, true);
