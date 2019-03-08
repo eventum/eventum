@@ -167,6 +167,12 @@ final class SystemEvents
     public const ISSUE_ALLOWED_STATUSES = 'issue.allowed.statuses';
 
     /**
+     * @since 3.6.3
+     * @see Workflow::getLinkFilters()
+     */
+    public const ISSUE_LINK_FILTERS = 'issue.link.filters';
+
+    /**
      * @since 3.5.0
      * @see Workflow::handleNewNote()
      */

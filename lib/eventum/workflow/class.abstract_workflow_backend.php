@@ -544,6 +544,7 @@ abstract class Abstract_Workflow_Backend
      *
      * @param   int $prj_id The ID of the project
      * @return  array An array of patterns and replacements
+     * @deprecated use ATTACHMENT_ATTACH_FILE event instead
      */
     public function getLinkFilters($prj_id)
     {

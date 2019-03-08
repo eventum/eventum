@@ -895,9 +895,20 @@ class Workflow
      *
      * @param   int $prj_id The ID of the project
      * @return  array An array of patterns and replacements
+     * @since 3.6.3 emits ATTACHMENT_ATTACH_FILE event
+     * @deprecated
      */
-    public static function getLinkFilters($prj_id)
+    public static function getLinkFilters($prj_id): array
     {
+        $arguments = [
+            'prj_id' => $prj_id,
+        ];
+        $event = new ResultableEvent(null, $arguments);
+        EventManager::dispatch(SystemEvents::ISSUE_LINK_FILTERS, $event);
+        if ($event->hasResult()) {
+            return $event->getResult();
+        }
+
         if (!self::hasWorkflowIntegration($prj_id)) {
             return [];
         }
