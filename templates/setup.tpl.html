@@ -376,7 +376,7 @@ function disableAuthFields(bool)
             <b>{t}Timezone{/t}:</b>
           </td>
           <td width="80%">
-            <select name="default_timezone">
+            <select name="default_timezone" class="chosen-select" data-placeholder="{t}Choose a timezone...{/t}">
               {html_options values=$zones output=$zones selected=$smarty.post.default_timezone|default:$default_timezone}
             </select><br/>
             {include file="lookup_field.tpl.html" lookup_field_name="search" lookup_field_target="default_timezone"}
