@@ -6,6 +6,7 @@ Upgrading to 3.6.x versions requires that you upgrade to latest 3.5.x version fi
 
 - Add jQuery chosen to quick filter (@glensc, #493)
 - Refactor Custom Fields to use Interfaces and Doctrine Models (@glensc, #466)
+- Initialize `usr_id`, needed for preferences (@glensc, #498, #499, #500)
 
 [3.6.3]: https://github.com/eventum/eventum/compare/v3.6.2...master
 

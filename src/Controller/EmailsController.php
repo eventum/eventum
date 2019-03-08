@@ -28,7 +28,7 @@ class EmailsController extends BaseController
     protected $tpl_name = 'emails.tpl.html';
 
     /** @var int */
-    private $usr_id;
+    protected $usr_id;
 
     /** @var int */
     private $prj_id;
@@ -46,12 +46,12 @@ class EmailsController extends BaseController
     /**
      * {@inheritdoc}
      */
-    protected function canAccess()
+    protected function canAccess(): bool
     {
         Auth::checkAuthentication();
 
-        $usr_id = Auth::getUserID();
-        if (!Access::canAccessAssociateEmails($usr_id)) {
+        $this->usr_id = Auth::getUserID();
+        if (!Access::canAccessAssociateEmails($this->usr_id)) {
             // TODO: cleanup template from 'no_access'
             //$tpl->assign('no_access', 1);
             return false;
