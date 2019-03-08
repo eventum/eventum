@@ -73,10 +73,8 @@ class ExtensionLoader
      * Get Classname -> Filename of extensions found.
      *
      * NOTE: this method does require_once to each of the files.
-     *
-     * @return array
      */
-    public function getClassList()
+    public function getClassList(): array
     {
         $list = $files = [];
         foreach ($this->paths as $path) {
@@ -110,12 +108,8 @@ class ExtensionLoader
     /**
      * Determines whether $className is an extension.
      * That is it is an class that can be instantiated.
-     *
-     * @param string $filename
-     * @param string $classname
-     * @return bool
      */
-    private function isExtension($filename, $classname)
+    private function isExtension(string $filename, string $classname): bool
     {
         // skip if filename pattern gave no result
         if (!$classname) {
@@ -139,11 +133,9 @@ class ExtensionLoader
     /**
      * Get class name from file name.
      *
-     * @param string $filename
-     * @return string
      * @internal
      */
-    public function getClassName($filename)
+    public function getClassName(string $filename): string
     {
         if (!preg_match('/^class\.(.*)\.php$/', $filename, $matches)) {
             return null;
@@ -154,12 +146,8 @@ class ExtensionLoader
 
     /**
      * Find class filename from set of directories
-     *
-     * @param string $filename
-     * @return null|string
-     * @internal
      */
-    public function findClassFilename($filename)
+    private function findClassFilename(string $filename): ?string
     {
         foreach ($this->paths as $path) {
             $class_filename = "$path/$filename";

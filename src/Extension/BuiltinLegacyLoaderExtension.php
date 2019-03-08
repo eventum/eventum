@@ -55,22 +55,22 @@ class BuiltinLegacyLoaderExtension extends AbstractExtension
         $loader->addClassMap($classmap);
     }
 
-    public function getAvailableCustomFields()
+    public function getAvailableCustomFields(): array
     {
         return $this->custom_fields;
     }
 
-    public function getAvailablePartners()
+    public function getAvailablePartners(): array
     {
         return $this->partners;
     }
 
-    public function getAvailableWorkflows()
+    public function getAvailableWorkflows(): array
     {
         return $this->workflows;
     }
 
-    public function getAvailableCRMs()
+    public function getAvailableCRMs(): array
     {
         return $this->customers;
     }
@@ -80,7 +80,7 @@ class BuiltinLegacyLoaderExtension extends AbstractExtension
      * @param array $classnames array where to append found class names
      * @return array
      */
-    private function createAutoloadMap($loader, &$classnames)
+    private function createAutoloadMap($loader, &$classnames): array
     {
         $map = [];
 

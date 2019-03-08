@@ -32,7 +32,7 @@ class XmlRpcServer
      *
      * @var string[]
      */
-    const SERIALIZE_ALLOWED_CLASSES = [
+    private const SERIALIZE_ALLOWED_CLASSES = [
         DateTime::class,
     ];
 

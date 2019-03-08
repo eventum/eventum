@@ -17,10 +17,10 @@ use RuntimeException;
 
 class RemoteApiException extends RuntimeException
 {
-    const AUTHENTICATION_FAILED = 'Authentication failed for %s. Your login/password/api key is invalid or you do not have the proper role.';
+    private const AUTHENTICATION_FAILED = 'Authentication failed for %s. Your login/password/api key is invalid or you do not have the proper role.';
 
-    public static function authenticationFailed($email)
+    public static function authenticationFailed(string $login)
     {
-        return new static(sprintf(self::AUTHENTICATION_FAILED, $email));
+        return new static(sprintf(self::AUTHENTICATION_FAILED, $login));
     }
 }
