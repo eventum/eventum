@@ -107,7 +107,7 @@ Upgrading to 3.5.x versions requires that you upgrade to 3.2.0 version first.
 Special thanks to Yaroslav Babin of Positive Technologies for reporting the security issues
 fixed in this release.
 
-[3.5.2]: https://github.com/eventum/eventum/compare/v3.5.1...3.5.2
+[3.5.2]: https://github.com/eventum/eventum/compare/v3.5.1...v3.5.2
 [CVE-2018-11569]: https://cve.mitre.org/cgi-bin/cvename.cgi?name=2018-11569
 [CVE-2018-12621]: https://cve.mitre.org/cgi-bin/cvename.cgi?name=2018-12621
 [CVE-2018-12622]: https://cve.mitre.org/cgi-bin/cvename.cgi?name=2018-12622
@@ -318,7 +318,7 @@ Upgrading to 3.2.x versions requires that you upgrade to 3.2.0 version first.
 - add real 'Status Change Date' column and rename old column to 'Status Action Date' (@balsdorf, #277)
 - rpc: setIssueStatus: validate parameters server side (@glensc, #280)
 
-[3.2.2]: https://github.com/eventum/eventum/compare/v3.2.1...3.2.2
+[3.2.2]: https://github.com/eventum/eventum/compare/v3.2.1...v3.2.2
 
 ## [3.2.1] - 2017-06-09
 
