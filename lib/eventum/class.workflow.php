@@ -418,7 +418,8 @@ class Workflow
             'prj_id' => (int)$prj_id,
             'usr_id' => (int)$usr_id,
             'note_id' => (int)$note_id,
-            'closing' => $closing,
+            'note_details' => Note::getDetails($note_id),
+            'closing' => (bool)$closing,
         ];
         EventManager::dispatch(SystemEvents::NOTE_CREATED, new GenericEvent(null, $arguments));
 
