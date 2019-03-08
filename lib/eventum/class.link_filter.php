@@ -12,11 +12,11 @@
  */
 
 use cebe\markdown\GithubMarkdown;
-use Ds\Set;
 use Eventum\Attachment\AttachmentManager;
 use Eventum\Db\Adapter\AdapterInterface;
 use Eventum\Db\DatabaseException;
 use Eventum\LinkFilter\IssueLinkFilter;
+use Eventum\LinkFilter\LinkFilter;
 
 /**
  * Class to handle parsing content for links.
@@ -288,16 +288,8 @@ class Link_Filter
             $text = Misc::activateLinks($text, $class);
         }
 
-        $filters = self::getFilters($prj_id);
-        foreach ($filters as $filter) {
-            list($pattern, $replacement) = $filter;
-            // replacement may be a callback, provided by workflow
-            if (is_callable($replacement)) {
-                $text = preg_replace_callback($pattern, $replacement, $text);
-            } else {
-                $text = preg_replace($pattern, $replacement, $text);
-            }
-        }
+        $linkFilter = self::getLinkFilter($prj_id);
+        $text = $linkFilter->replace($text);
 
         // enable markdown
         if (self::markdownEnabled()) {
@@ -371,26 +363,17 @@ class Link_Filter
     /**
      * Returns an array of patterns and replacements.
      */
-    public static function getFilters(?int $prj_id = null): Set
+    public static function getLinkFilter(?int $prj_id = null): LinkFilter
     {
-        // link eventum issue ids
-        $base_url = APP_BASE_URL;
-        $issueLinkFilter = new IssueLinkFilter();
-        $patterns = [
-            ['/(?P<match>issue:?\s\#?(?P<issue_id>\d+))/i', $issueLinkFilter],
-            # lookbehind here avoid matching "open http:// in new window" and href="http://"
-            ["#(?<!open |href=\"){$base_url}view\.php\?id=(?P<issue_id>\d+)#", $issueLinkFilter],
-        ];
-
-        $filters = new Set();
-        $filters->add(...$patterns);
+        $linkFilter = new LinkFilter();
+        $linkFilter->addFilter(new IssueLinkFilter(APP_BASE_URL));
 
         if ($prj_id) {
-            $filters->add(...self::getFiltersByProject($prj_id));
-            Workflow::addLinkFilters($filters, $prj_id);
+            $linkFilter->addRules(self::getFiltersByProject($prj_id));
+            Workflow::addLinkFilters($linkFilter, $prj_id);
         }
 
-        return $filters;
+        return $linkFilter;
     }
 
     /**

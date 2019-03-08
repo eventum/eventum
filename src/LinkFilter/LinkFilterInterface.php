@@ -15,6 +15,8 @@ namespace Eventum\LinkFilter;
 
 interface LinkFilterInterface
 {
+    public function getPatterns(): array;
+
     /**
      * Method used as a callback with the regular expression code that parses
      * text and creates links to other issues.

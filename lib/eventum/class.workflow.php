@@ -17,6 +17,7 @@ use Eventum\Event\ResultableEvent;
 use Eventum\Event\SystemEvents;
 use Eventum\EventDispatcher\EventManager;
 use Eventum\Extension\ExtensionLoader;
+use Eventum\LinkFilter\LinkFilter;
 use Eventum\Mail\Helper\AddressHeader;
 use Eventum\Mail\ImapMessage;
 use Eventum\Mail\MailMessage;
@@ -897,12 +898,12 @@ class Workflow
      * @since 3.6.3 emits ATTACHMENT_ATTACH_FILE event
      * @deprecated
      */
-    public static function addLinkFilters(Set $filters, int $prj_id): void
+    public static function addLinkFilters(LinkFilter $linkFilter, int $prj_id): void
     {
         $arguments = [
             'prj_id' => $prj_id,
         ];
-        $event = new GenericEvent($filters, $arguments);
+        $event = new GenericEvent($linkFilter, $arguments);
         EventManager::dispatch(SystemEvents::ISSUE_LINK_FILTERS, $event);
 
         if (!self::hasWorkflowIntegration($prj_id)) {
@@ -910,7 +911,7 @@ class Workflow
         }
 
         $backend = self::_getBackend($prj_id);
-        $filters->add(...$backend->getLinkFilters($prj_id));
+        $linkFilter->addRules($backend->getLinkFilters($prj_id));
     }
 
     /**

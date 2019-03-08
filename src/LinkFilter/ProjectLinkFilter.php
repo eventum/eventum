@@ -16,9 +16,9 @@ namespace Eventum\LinkFilter;
 use Issue;
 
 /**
- * Linkfilter to Link Eventum issue id's
+ * Load LinkFilters from database for a project
  */
-class IssueLinkFilter implements LinkFilterInterface
+class ProjectLinkFilter implements LinkFilterInterface
 {
     /** @var string */
     private $baseUrl;
