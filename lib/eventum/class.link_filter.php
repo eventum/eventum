@@ -16,6 +16,7 @@ use Ds\Set;
 use Eventum\Attachment\AttachmentManager;
 use Eventum\Db\Adapter\AdapterInterface;
 use Eventum\Db\DatabaseException;
+use Eventum\LinkFilter\IssueLinkFilter;
 
 /**
  * Class to handle parsing content for links.
@@ -374,10 +375,11 @@ class Link_Filter
     {
         // link eventum issue ids
         $base_url = APP_BASE_URL;
+        $issueLinkFilter = new IssueLinkFilter();
         $patterns = [
-            ['/(?P<match>issue:?\s\#?(?P<issue_id>\d+))/i', [__CLASS__, 'LinkFilter_issues']],
+            ['/(?P<match>issue:?\s\#?(?P<issue_id>\d+))/i', $issueLinkFilter],
             # lookbehind here avoid matching "open http:// in new window" and href="http://"
-            ["#(?<!open |href=\"){$base_url}view\.php\?id=(?P<issue_id>\d+)#", [__CLASS__, 'LinkFilter_issues']],
+            ["#(?<!open |href=\"){$base_url}view\.php\?id=(?P<issue_id>\d+)#", $issueLinkFilter],
         ];
 
         $filters = new Set();
@@ -428,31 +430,6 @@ class Link_Filter
         $filters[$prj_id] = $res;
 
         return $res;
-    }
-
-    /**
-     * Method used as a callback with the regular expression code that parses
-     * text and creates links to other issues.
-     *
-     * @param   array $matches Regular expression matches
-     * @return  string The link to the appropriate issue
-     */
-    public static function LinkFilter_issues($matches)
-    {
-        $issue_id = $matches['issue_id'];
-        // check if the issue is still open
-        if (Issue::isClosed($issue_id)) {
-            $class = 'closed';
-        } else {
-            $class = '';
-        }
-        $issue_title = Issue::getTitle($issue_id);
-        $link_title = htmlspecialchars("issue {$issue_id} - {$issue_title}");
-
-        // use named capture 'match' if present
-        $match = $matches['match'] ?? "issue {$issue_id}";
-
-        return "<a title=\"{$link_title}\" class=\"{$class}\" href=\"view.php?id={$matches['issue_id']}\">{$match}</a>";
     }
 
     /**
