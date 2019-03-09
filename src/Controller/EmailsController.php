@@ -51,6 +51,7 @@ class EmailsController extends BaseController
         Auth::checkAuthentication();
 
         $usr_id = Auth::getUserID();
+        $this->usr_id = Auth::getUserID();
         if (!Access::canAccessAssociateEmails($usr_id)) {
             // TODO: cleanup template from 'no_access'
             //$tpl->assign('no_access', 1);
