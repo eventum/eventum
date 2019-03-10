@@ -11,12 +11,12 @@
  * that were distributed with this source code.
  */
 
-use cebe\markdown\GithubMarkdown;
 use Eventum\Attachment\AttachmentManager;
 use Eventum\Db\Adapter\AdapterInterface;
 use Eventum\Db\DatabaseException;
 use Eventum\LinkFilter\IssueLinkFilter;
 use Eventum\LinkFilter\LinkFilter;
+use Eventum\Markdown;
 
 /**
  * Class to handle parsing content for links.
@@ -252,24 +252,15 @@ class Link_Filter
         return 1;
     }
 
-    /**
-     * @param string $text
-     * @return string
-     */
-    public static function markdownFormat($text)
+    public static function markdownFormat(string $text): string
     {
         static $parser;
 
         if (!$parser) {
-            $parser = new GithubMarkdown();
-            $parser->enableNewlines = true;
+            $parser = new Markdown();
         }
 
-        $text = $parser->parse($text);
-        // strip paragraph, confuses single line areas
-        $text = preg_replace("{^<p>(.+)</p>\n$}", '$1', $text);
-
-        return $text;
+        return $parser->render($text);
     }
 
     /**
