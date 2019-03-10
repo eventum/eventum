@@ -40,6 +40,9 @@ class Markdown
             'html_input' => Environment::HTML_INPUT_ALLOW,
             'allow_unsafe_links' => false,
             'max_nesting_level' => self::MAX_NESTING_LEVEL,
+            'renderer' => [
+                'soft_break' => "<br />\n",
+            ],
         ];
         $this->converter = new CommonMarkConverter($config, $environment);
     }
