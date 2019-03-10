@@ -13,25 +13,21 @@
 
 namespace Eventum;
 
-use cebe\markdown\GithubMarkdown;
+use League\CommonMark\ConverterInterface;
+use League\CommonMark\CommonMarkConverter;
 
 class Markdown
 {
-    /** @var GithubMarkdown */
-    private $parser;
+    /** @var ConverterInterface */
+    private $converter;
 
     public function __construct()
     {
-        $this->parser = new GithubMarkdown();
-        $this->parser->enableNewlines = true;
+        $this->converter = new CommonMarkConverter();
     }
 
     public function render(string $text): string
     {
-        $text = $this->parser->parse($text);
-        // strip paragraph, confuses single line areas
-        $text = preg_replace("{^<p>(.+)</p>\n$}", '$1', $text);
-
-        return $text;
+        return $this->converter->convertToHtml($text);
     }
 }
