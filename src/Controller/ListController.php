@@ -64,9 +64,12 @@ class ListController extends BaseController
     /**
      * {@inheritdoc}
      */
-    protected function canAccess()
+    protected function canAccess(): bool
     {
         Auth::checkAuthentication();
+
+        $this->usr_id = Auth::getUserID();
+        $this->prj_id = Auth::getCurrentProject();
 
         return true;
     }
@@ -76,8 +79,6 @@ class ListController extends BaseController
      */
     protected function defaultAction(): void
     {
-        $this->usr_id = Auth::getUserID();
-        $this->prj_id = Auth::getCurrentProject();
         $this->pagerRow = (int) Search::getParam('pagerRow');
 
         $rows = Search::getParam('rows');
@@ -299,7 +300,7 @@ class ListController extends BaseController
         foreach ($sortfields as $field => $sortfield) {
             $sort_order = $fields[$field];
             if ($current_sort_by == $sortfield) {
-                if (strtolower($current_sort_order) == 'asc') {
+                if (strtolower($current_sort_order) === 'asc') {
                     $sort_order = 'desc';
                 } else {
                     $sort_order = 'asc';

@@ -47,10 +47,10 @@ class SendController extends BaseController
     private $issue_id;
 
     /** @var int */
-    private $usr_id;
+    protected $usr_id;
 
     /** @var int */
-    private $prj_id;
+    protected $prj_id;
 
     // TODO: $ema_id is likely not needed
     /** @var int */
