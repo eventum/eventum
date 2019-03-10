@@ -15,15 +15,33 @@ namespace Eventum;
 
 use League\CommonMark\ConverterInterface;
 use League\CommonMark\CommonMarkConverter;
+use League\CommonMark\Environment;
 
 class Markdown
 {
+    /**
+     * Use moderately sane value
+     *
+     * @see https://commonmark.thephpleague.com/security/#nesting-level
+     */
+    private const MAX_NESTING_LEVEL = 500;
+
     /** @var ConverterInterface */
     private $converter;
 
     public function __construct()
     {
-        $this->converter = new CommonMarkConverter();
+        $environment = Environment::createCommonMarkEnvironment();
+
+        /**
+         * @see https://commonmark.thephpleague.com/security/
+         */
+        $config = [
+            'html_input' => Environment::HTML_INPUT_ALLOW,
+            'allow_unsafe_links' => false,
+            'max_nesting_level' => self::MAX_NESTING_LEVEL,
+        ];
+        $this->converter = new CommonMarkConverter($config, $environment);
     }
 
     public function render(string $text): string
