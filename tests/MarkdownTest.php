@@ -37,7 +37,14 @@ class MarkdownTest extends TestCase
     public function dataProvider(): array
     {
         return [
-            ["<h1>closed h1</h1>\n", '# closed h1 #'],
+            'simple' => [
+                "<h1>closed h1</h1>\n",
+                '# closed h1 #',
+            ],
+            'https://github.com/cebe/markdown/issues/157#issuecomment-385439965' => [
+                "<p>here is a <a href=\"http://github.com\">linkref</a>.<br />\nand <a href=\"http://google.com\">inline</a></p>\n",
+                "here is a [linkref].\nand [inline](http://google.com)\n\n[linkref]: http://github.com",
+            ],
         ];
     }
 }
