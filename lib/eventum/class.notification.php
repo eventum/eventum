@@ -387,7 +387,7 @@ class Notification
             if ($sender_usr_id) {
                 $prefs = Prefs::getProjectPreference($prj_id, $sender_usr_id);
                 $sameSender = Mail_Helper::getEmailAddress($email) === $sender_email;
-                $sameUser = $user['sub_usr_id'] ?? null == $sender_usr_id;
+                $sameUser = ($user['sub_usr_id'] ?? null) == $sender_usr_id;
                 if (($sameUser || $sameSender) && !$prefs->receiveCopyOfOwnAction()) {
                     continue;
                 }
@@ -689,7 +689,7 @@ class Notification
                 $role = User::ROLE_VIEWER;
             } else {
                 $prefs = Prefs::getProjectPreference($prj_id, $user['sub_usr_id']);
-                $sameUser = $user['sub_usr_id'] ?? null == $usr_id;
+                $sameUser = ($user['sub_usr_id'] ?? null) == $usr_id;
                 if ($sameUser && !$prefs->receiveCopyOfOwnAction()) {
                     continue;
                 }
@@ -753,7 +753,7 @@ class Notification
                 $email = $user['sub_email'];
             } else {
                 $prefs = Prefs::getProjectPreference($prj_id, $user['sub_usr_id']);
-                $sameUser = $user['sub_usr_id'] ?? null == $usr_id;
+                $sameUser = ($user['sub_usr_id'] ?? null) == $usr_id;
                 if ($sameUser && !$prefs->receiveCopyOfOwnAction()) {
                     continue;
                 }
@@ -828,7 +828,7 @@ class Notification
                 }
             } else {
                 $prefs = Prefs::getProjectPreference($prj_id, $user['sub_usr_id']);
-                $sameUser = $user['sub_usr_id'] ?? null == $usr_id;
+                $sameUser = ($user['sub_usr_id'] ?? null) == $usr_id;
                 if ($sameUser && !$prefs->receiveCopyOfOwnAction()) {
                     continue;
                 }
@@ -836,7 +836,7 @@ class Notification
                 if ($internal_only == true && (User::getRoleByUser($user['sub_usr_id'], Issue::getProjectID($issue_id)) < User::ROLE_USER)) {
                     continue;
                 }
-                if ($type == 'notes' && User::isPartner($user['sub_usr_id']) &&
+                if ($type === 'notes' && User::isPartner($user['sub_usr_id']) &&
                         !Partner::canUserAccessIssueSection($user['sub_usr_id'], 'notes')) {
                     continue;
                 }
@@ -850,7 +850,7 @@ class Notification
         }
 
         // prevent the primary customer contact from receiving two emails about the issue being closed
-        if ($type == 'closed') {
+        if ($type === 'closed') {
             if (CRM::hasCustomerIntegration($prj_id)) {
                 $crm = CRM::getInstance($prj_id);
                 $stmt = 'SELECT
