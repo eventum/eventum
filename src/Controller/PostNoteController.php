@@ -187,7 +187,7 @@ class PostNoteController extends BaseController
         );
 
         $issue_field = $post->get('issue_field') ?: $get->get('issue_field');
-        Issue_Field::updateValues($this->issue_id, 'post_note', $issue_field);
+        Issue_Field::updateValues($this->issue_id, 'post_note', $issue_field ?: []);
 
         if ($res == -1) {
             $this->messages->addErrorMessage(ev_gettext('An error occurred while trying to run your query'));
