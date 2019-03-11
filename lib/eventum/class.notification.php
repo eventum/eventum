@@ -387,7 +387,7 @@ class Notification
             if ($sender_usr_id) {
                 $prefs = Prefs::getProjectPreference($prj_id, $sender_usr_id);
                 $sameSender = Mail_Helper::getEmailAddress($email) === $sender_email;
-                $sameUser = $user['sub_usr_id'] ?? null === $sender_usr_id;
+                $sameUser = $user['sub_usr_id'] ?? null == $sender_usr_id;
                 if (($sameUser || $sameSender) && !$prefs->receiveCopyOfOwnAction()) {
                     continue;
                 }
@@ -689,7 +689,7 @@ class Notification
                 $role = User::ROLE_VIEWER;
             } else {
                 $prefs = Prefs::getProjectPreference($prj_id, $user['sub_usr_id']);
-                $sameUser = $user['sub_usr_id'] ?? null === $usr_id;
+                $sameUser = $user['sub_usr_id'] ?? null == $usr_id;
                 if ($sameUser && !$prefs->receiveCopyOfOwnAction()) {
                     continue;
                 }
@@ -753,7 +753,7 @@ class Notification
                 $email = $user['sub_email'];
             } else {
                 $prefs = Prefs::getProjectPreference($prj_id, $user['sub_usr_id']);
-                $sameUser = $user['sub_usr_id'] ?? null === $usr_id;
+                $sameUser = $user['sub_usr_id'] ?? null == $usr_id;
                 if ($sameUser && !$prefs->receiveCopyOfOwnAction()) {
                     continue;
                 }
@@ -828,7 +828,7 @@ class Notification
                 }
             } else {
                 $prefs = Prefs::getProjectPreference($prj_id, $user['sub_usr_id']);
-                $sameUser = $user['sub_usr_id'] ?? null === $usr_id;
+                $sameUser = $user['sub_usr_id'] ?? null == $usr_id;
                 if ($sameUser && !$prefs->receiveCopyOfOwnAction()) {
                     continue;
                 }
@@ -1150,7 +1150,7 @@ class Notification
                 continue;
             }
             $prefs = Prefs::getProjectPreference($prj_id, $row['usr_id']);
-            $notSubscribed = !in_array($subscriber, $emails, true);
+            $notSubscribed = !in_array($subscriber, $emails);
             if ($notSubscribed && $prefs->receiveNewIssueEmail()) {
                 $emails[] = $subscriber;
             }
@@ -1173,7 +1173,7 @@ class Notification
             $subscriber = Mail_Helper::getFormattedName($row['usr_full_name'], $row['usr_email']);
 
             $prefs = Prefs::getProjectPreference($prj_id, $row['usr_id']);
-            $notSubscribed = !in_array($subscriber, $emails, true);
+            $notSubscribed = !in_array($subscriber, $emails);
             if ($notSubscribed && $prefs->receiveAssignedEmail()) {
                 $emails[] = $subscriber;
             }
