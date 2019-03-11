@@ -13,11 +13,13 @@
 
 namespace Eventum\Extension;
 
+use Abstract_Partner_Backend;
+use Composer\Autoload\ClassLoader;
 use Eventum\Monolog\Logger;
-use Exception;
 use InvalidArgumentException;
 use Setup;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Throwable;
 use Zend\Config\Config;
 
 class ExtensionManager
@@ -30,7 +32,7 @@ class ExtensionManager
      *
      * @return ExtensionManager
      */
-    public static function getManager()
+    public static function getManager(): ExtensionManager
     {
         static $manager;
         if (!$manager) {
@@ -50,7 +52,7 @@ class ExtensionManager
      *
      * @return array
      */
-    public function getWorkflowClasses()
+    public function getWorkflowClasses(): array
     {
         return $this->createInstances('getAvailableWorkflows');
     }
@@ -60,7 +62,7 @@ class ExtensionManager
      *
      * @return array
      */
-    public function getCustomFieldClasses()
+    public function getCustomFieldClasses(): array
     {
         return $this->createInstances('getAvailableCustomFields');
     }
@@ -70,7 +72,7 @@ class ExtensionManager
      *
      * @return array
      */
-    public function getCustomerClasses()
+    public function getCustomerClasses(): array
     {
         return $this->createInstances('getAvailableCRMs');
     }
@@ -78,11 +80,11 @@ class ExtensionManager
     /**
      * Return instances of Partner implementations.
      *
-     * @return \Abstract_Partner_Backend[]
+     * @return Abstract_Partner_Backend[]
      */
-    public function getPartnerClasses()
+    public function getPartnerClasses(): array
     {
-        /** @var \Abstract_Partner_Backend[] $backends */
+        /** @var Abstract_Partner_Backend[] $backends */
         $backends = $this->createInstances('getAvailablePartners');
 
         return $backends;
@@ -94,7 +96,7 @@ class ExtensionManager
      * @see http://symfony.com/doc/current/components/event_dispatcher.html#using-event-subscribers
      * @return EventSubscriberInterface[]
      */
-    public function getSubscribers()
+    public function getSubscribers(): array
     {
         /** @var EventSubscriberInterface[] $subscribers */
         $subscribers = $this->createInstances(__FUNCTION__);
@@ -108,14 +110,14 @@ class ExtensionManager
      * @param string $methodName
      * @return object[]
      */
-    protected function createInstances($methodName)
+    protected function createInstances(string $methodName): array
     {
         $instances = [];
         foreach ($this->extensions as $extension) {
             foreach ($extension->$methodName() as $className) {
                 try {
                     $instances[$className] = $this->createInstance($extension, $className);
-                } catch (Exception $e) {
+                } catch (Throwable $e) {
                     Logger::app()->error("Unable to create $className: {$e->getMessage()}", ['exception' => $e]);
                 }
             }
@@ -128,11 +130,9 @@ class ExtensionManager
      * Create new instance of named class,
      * use factory method from extension if extension provides it.
      *
-     * @param ExtensionInterface $extension
-     * @param string $classname
      * @return object
      */
-    protected function createInstance(ExtensionInterface $extension, $classname)
+    protected function createInstance(ExtensionInterface $extension, string $classname)
     {
         if ($extension instanceof ExtensionFactoryInterface) {
             $object = $extension->factory($classname);
@@ -156,7 +156,7 @@ class ExtensionManager
      *
      * @return ExtensionInterface[]
      */
-    protected function loadExtensions()
+    protected function loadExtensions(): array
     {
         $extensions = [];
         $loader = $this->getAutoloader();
@@ -172,12 +172,8 @@ class ExtensionManager
 
     /**
      * Load $filename and create $classname instance
-     *
-     * @param string $classname
-     * @param string $filename
-     * @return ExtensionInterface
      */
-    protected function loadExtension($classname, $filename)
+    protected function loadExtension(string $classname, string $filename): ExtensionInterface
     {
         // class may already be loaded
         // can ignore the filename requirement
@@ -210,9 +206,9 @@ class ExtensionManager
     /**
      * Return composer autoloader
      *
-     * @return \Composer\Autoload\ClassLoader
+     * @return ClassLoader
      */
-    protected function getAutoloader()
+    protected function getAutoloader(): ClassLoader
     {
         foreach ([APP_PATH . '/vendor/autoload.php', APP_PATH . '/../../../vendor/autoload.php'] as $autoload) {
             if (file_exists($autoload)) {
