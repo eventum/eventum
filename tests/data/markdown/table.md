@@ -7,3 +7,7 @@
 | item 3           | active |
 | item 4           | active |
 
+
+th | th(center) | th(right)
+---|:----------:|----------:
+td | td         | td
