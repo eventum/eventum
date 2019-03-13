@@ -23,6 +23,6 @@ class RepositoryHelper
 
     public function getUserPreferences(): UserPreference
     {
-        return Doctrine::getUserPreferenceRepository()->findById($this->usr_id);
+        return Doctrine::getUserPreferenceRepository()->findOrCreate($this->usr_id);
     }
 }
