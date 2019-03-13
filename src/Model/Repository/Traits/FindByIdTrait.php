@@ -26,7 +26,9 @@ trait FindByIdTrait
     {
         $res = $this->find($id);
         if (!$res) {
-            throw new EntityNotFoundException();
+            $type = get_class($this);
+
+            throw new EntityNotFoundException("$type $id not found");
         }
 
         return $res;
