@@ -49,6 +49,7 @@ class MarkdownTest extends TestCase
             'linkrefs',
             'table',
             'tasklist',
+            'headers',
         ]);
 
         return iterator_to_array($tests);
