@@ -364,7 +364,7 @@ class SendController extends BaseController
         $prefs = Prefs::getUserPreference($this->usr_id);
         $autoAppendSignature = $prefs->autoAppendNoteSignature();
         $emailSignature = $prefs->getEmailSignature();
-        $hasSignature = strpos($body, $emailSignature) !== false;
+        $hasSignature = $emailSignature && strpos($body, $emailSignature) !== false;
 
         return $autoAppendSignature && $hasSignature;
     }
