@@ -16,6 +16,8 @@ namespace Eventum;
 use League\CommonMark\CommonMarkConverter;
 use League\CommonMark\ConverterInterface;
 use League\CommonMark\Environment;
+use League\CommonMark\Ext\InlinesOnly\InlinesOnlyExtension;
+use League\CommonMark\Extension\CommonMarkCoreExtension;
 use Lossendae\CommonMark\TaskLists\TaskListsCheckbox;
 use Lossendae\CommonMark\TaskLists\TaskListsCheckboxRenderer;
 use Lossendae\CommonMark\TaskLists\TaskListsParser;
@@ -30,31 +32,47 @@ class Markdown
      */
     private const MAX_NESTING_LEVEL = 500;
 
-    /** @var ConverterInterface */
-    private $converter;
-
-    public function __construct()
-    {
-        $environment = Environment::createCommonMarkEnvironment();
-        $this->applyExtensions($environment);
-
-        /**
-         * @see https://commonmark.thephpleague.com/security/
-         */
-        $config = [
-            'html_input' => Environment::HTML_INPUT_ALLOW,
-            'allow_unsafe_links' => false,
-            'max_nesting_level' => self::MAX_NESTING_LEVEL,
-            'renderer' => [
-                'soft_break' => "<br />\n",
-            ],
-        ];
-        $this->converter = new CommonMarkConverter($config, $environment);
-    }
+    /** @var ConverterInterface[] */
+    private $converter = [];
 
     public function render(string $text): string
     {
-        return $this->converter->convertToHtml($text);
+        return $this->getConverter(false)->convertToHtml($text);
+    }
+
+    public function renderInline(string $text): string
+    {
+        return $this->getConverter(true)->convertToHtml($text);
+    }
+
+    private function getConverter(bool $inline): ConverterInterface
+    {
+        return $this->converter[(int)$inline] ?? $this->createConverter($inline);
+    }
+
+    private function createConverter(bool $inline): ConverterInterface
+    {
+        $environment = new Environment();
+        if ($inline) {
+            $environment->addExtension(new InlinesOnlyExtension());
+        } else {
+            $environment->addExtension(new CommonMarkCoreExtension());
+        }
+
+        $this->applyExtensions($environment);
+
+        $config = [
+            'renderer' => [
+                'block_separator' => "\n",
+                'inner_separator' => "\n",
+                'soft_break' => "<br />\n",
+            ],
+            'html_input' => Environment::HTML_INPUT_ALLOW,
+            'allow_unsafe_links' => false,
+            'max_nesting_level' => self::MAX_NESTING_LEVEL,
+        ];
+
+        return new CommonMarkConverter($config, $environment);
     }
 
     private function applyExtensions(Environment $environment): void

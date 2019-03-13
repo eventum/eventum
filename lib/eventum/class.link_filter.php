@@ -252,12 +252,16 @@ class Link_Filter
         return 1;
     }
 
-    public static function markdownFormat(string $text): string
+    public static function markdownFormat(string $text, bool $inline = false): string
     {
         static $parser;
 
         if (!$parser) {
             $parser = new Markdown();
+        }
+
+        if ($inline) {
+            return $parser->renderInline($text);
         }
 
         return $parser->render($text);
@@ -269,9 +273,10 @@ class Link_Filter
      * @param   int $prj_id The ID of the project
      * @param   string $text The text to process
      * @param   string $class The CSS class to use on the actual links
+     * @param bool $inline
      * @return  string the processed text
      */
-    public static function processText($prj_id, $text, $class = 'link')
+    public static function processText($prj_id, $text, $class = 'link', bool $inline = false): string
     {
         // process issue link separatly since it has to do something special
         if (!self::markdownEnabled()) {
@@ -284,7 +289,7 @@ class Link_Filter
 
         // enable markdown
         if (self::markdownEnabled()) {
-            $text = self::markdownFormat($text);
+            $text = self::markdownFormat($text, $inline);
         }
 
         return $text;

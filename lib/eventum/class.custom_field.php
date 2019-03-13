@@ -338,7 +338,7 @@ class Custom_Field
 
         $prj_id = Auth::getCurrentProject();
 
-        return Link_Filter::processText($prj_id, Misc::htmlentities($value));
+        return Link_Filter::processText($prj_id, Misc::htmlentities($value), 'link', true);
     }
 
     /**
