@@ -11,11 +11,13 @@
  * that were distributed with this source code.
  */
 
+use Ds\Set;
 use Eventum\Attachment\AttachmentGroup;
 use Eventum\Event\ResultableEvent;
 use Eventum\Event\SystemEvents;
 use Eventum\EventDispatcher\EventManager;
 use Eventum\Extension\ExtensionLoader;
+use Eventum\LinkFilter\LinkFilter;
 use Eventum\Mail\Helper\AddressHeader;
 use Eventum\Mail\ImapMessage;
 use Eventum\Mail\MailMessage;
@@ -192,9 +194,22 @@ class Workflow
      * @param   int $usr_id The id of the user who attached the file
      * @param   array $attachment attachment object
      * @return  bool
+     * @since 3.6.3 emits ATTACHMENT_ATTACH_FILE event
+     * @deprecated
      */
-    public static function shouldAttachFile($prj_id, $issue_id, $usr_id, $attachment)
+    public static function shouldAttachFile(int $prj_id, int $issue_id, $usr_id, array $attachment): bool
     {
+        $arguments = [
+            'prj_id' => $prj_id,
+            'issue_id' => $issue_id,
+            'usr_id' => is_numeric($usr_id) ? (int)$usr_id : $usr_id,
+        ];
+        $event = new ResultableEvent($attachment, $arguments);
+        EventManager::dispatch(SystemEvents::ATTACHMENT_ATTACH_FILE, $event);
+        if ($event->hasResult()) {
+            return $event->getResult();
+        }
+
         if (!self::hasWorkflowIntegration($prj_id)) {
             return true;
         }
@@ -437,16 +452,30 @@ class Workflow
      * @param   int $prj_id The project ID
      * @param   int $issue_id the ID of the issue
      * @return  array an associative array of statuses valid for this issue
+     * @since 3.6.3 emits ISSUE_ALLOWED_STATUSES event
+     * @deprecated
      */
-    public static function getAllowedStatuses($prj_id, $issue_id = null)
+    public static function getAllowedStatuses($prj_id, $issue_id = null): array
     {
-        if (!self::hasWorkflowIntegration($prj_id)) {
-            return null;
+        $arguments = [
+            'prj_id' => (int)$prj_id,
+            'issue_id' => $issue_id ? (int)$issue_id : null,
+        ];
+
+        $event = new ResultableEvent(null, $arguments);
+        EventManager::dispatch(SystemEvents::ISSUE_ALLOWED_STATUSES, $event);
+        if ($event->hasResult()) {
+            return $event->getResult();
         }
 
-        $backend = self::_getBackend($prj_id);
+        if (self::hasWorkflowIntegration($prj_id)) {
+            $backend = self::_getBackend($prj_id);
+            $statusList = $backend->getAllowedStatuses($prj_id, $issue_id);
+        } else {
+            $statusList = Status::getAssocStatusList($prj_id, false);
+        }
 
-        return $backend->getAllowedStatuses($prj_id, $issue_id);
+        return $statusList;
     }
 
     /**
@@ -512,20 +541,41 @@ class Workflow
      *
      * @param   int $prj_id The project ID
      * @param   int $issue_id the ID of the issue
-     * @param   int $subscriber_usr_id the ID of the user to subscribe if this is a real user (false otherwise)
+     * @param   int|bool $subscriber_usr_id the ID of the user to subscribe if this is a real user (false otherwise)
      * @param   string $email the email address  to subscribe (if this is not a real user)
-     * @param   array $types the action types
+     * @param   array $actions the action types
      * @return  array|bool|null an array of information or true to continue unchanged or false to prevent the user from being added
+     * @since 3.6.3 emits NOTIFICATION_HANDLE_SUBSCRIPTION event
+     * @deprecated
      */
-    public static function handleSubscription($prj_id, $issue_id, &$subscriber_usr_id, &$email, &$types)
+    public static function handleSubscription($prj_id, $issue_id, &$subscriber_usr_id, &$email, &$actions)
     {
+        $arguments = [
+            'prj_id' => (int)$prj_id,
+            'issue_id' => (int)$issue_id,
+            'subscriber_usr_id' => is_numeric($subscriber_usr_id) ? (int)$subscriber_usr_id : $subscriber_usr_id,
+            'email' => $email,
+            'actions' => $actions,
+        ];
+        $event = new ResultableEvent(null, $arguments);
+        EventManager::dispatch(SystemEvents::NOTIFICATION_HANDLE_SUBSCRIPTION, $event);
+
+        // assign back, in case these were changed
+        $subscriber_usr_id = $event['subscriber_usr_id'];
+        $email = $event['email'];
+        $actions = $event['actions'];
+
+        if ($event->hasResult()) {
+            return $event->getResult();
+        }
+
         if (!self::hasWorkflowIntegration($prj_id)) {
             return null;
         }
 
         $backend = self::_getBackend($prj_id);
 
-        return $backend->handleSubscription($prj_id, $issue_id, $subscriber_usr_id, $email, $types);
+        return $backend->handleSubscription($prj_id, $issue_id, $subscriber_usr_id, $email, $actions);
     }
 
     /**
@@ -843,19 +893,25 @@ class Workflow
     }
 
     /**
-     * Returns an array of patterns and replacements.
+     * Updates filters in $filters.
      *
-     * @param   int $prj_id The ID of the project
-     * @return  array An array of patterns and replacements
+     * @since 3.6.3 emits ATTACHMENT_ATTACH_FILE event
+     * @deprecated
      */
-    public static function getLinkFilters($prj_id)
+    public static function addLinkFilters(LinkFilter $linkFilter, int $prj_id): void
     {
-        if (!self::hasWorkflowIntegration($prj_id)) {
-            return [];
-        }
-        $backend = self::_getBackend($prj_id);
+        $arguments = [
+            'prj_id' => $prj_id,
+        ];
+        $event = new GenericEvent($linkFilter, $arguments);
+        EventManager::dispatch(SystemEvents::ISSUE_LINK_FILTERS, $event);
 
-        return $backend->getLinkFilters($prj_id);
+        if (!self::hasWorkflowIntegration($prj_id)) {
+            return;
+        }
+
+        $backend = self::_getBackend($prj_id);
+        $linkFilter->addRules($backend->getLinkFilters($prj_id));
     }
 
     /**

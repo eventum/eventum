@@ -31,7 +31,7 @@ class ResultableEvent extends GenericEvent
     /**
      * Tells whether any consumer has set the result
      */
-    public function hasResult()
+    public function hasResult(): bool
     {
         return $this->result !== null;
     }

@@ -181,6 +181,7 @@ abstract class Abstract_Workflow_Backend
      * @param   int $usr_id The id of the user who attached the file
      * @param   array $attachment attachment object
      * @return  bool
+     * @deprecated use ATTACHMENT_ATTACH_FILE event instead
      */
     public function shouldAttachFile($prj_id, $issue_id, $usr_id, $attachment)
     {
@@ -338,6 +339,7 @@ abstract class Abstract_Workflow_Backend
      * @param   string $email the email address to subscribe to subscribe (if this is not a real user)
      * @param   array $actions the action types
      * @return  array|bool an array of information or true to continue unchanged or false to prevent the user from being added
+     * @deprecated use NOTIFICATION_HANDLE_SUBSCRIPTION instead
      */
     public function handleSubscription($prj_id, $issue_id, &$subscriber_usr_id, &$email, &$actions)
     {
@@ -352,6 +354,7 @@ abstract class Abstract_Workflow_Backend
      * @param   int $issue_id the ID of the issue
      * @param   string $type the type of notification to send
      * @return  bool
+     * @deprecated use NOTIFICATION_NOTIFY_ADDRESS event instead
      */
     public function shouldEmailAddress($prj_id, $address, $issue_id = null, $type = null)
     {
@@ -541,6 +544,7 @@ abstract class Abstract_Workflow_Backend
      *
      * @param   int $prj_id The ID of the project
      * @return  array An array of patterns and replacements
+     * @deprecated use ATTACHMENT_ATTACH_FILE event instead
      */
     public function getLinkFilters($prj_id)
     {

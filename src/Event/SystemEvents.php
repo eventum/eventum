@@ -19,6 +19,12 @@ use Eventum\Model\Repository\CommitRepository;
 final class SystemEvents
 {
     /**
+     * @since 3.6.3
+     * @see Workflow::shouldAttachFile()
+     */
+    public const ATTACHMENT_ATTACH_FILE = 'attachment.attach.file';
+
+    /**
      * Event fired when history entry is added
      *
      * @since 3.3.0
@@ -102,6 +108,12 @@ final class SystemEvents
     const NOTIFICATION_NOTIFY_ADDRESS = 'notification.notify.address';
 
     /**
+     * @since 3.6.3
+     * @see Workflow::handleSubscription()
+     */
+    public const NOTIFICATION_HANDLE_SUBSCRIPTION = 'notification.handle.subscription';
+
+    /**
      * @since 3.4.2
      */
     const IRC_NOTIFY = 'irc.notify';
@@ -147,6 +159,18 @@ final class SystemEvents
      * @see Workflow::handleIssueUpdated()
      */
     const ISSUE_UPDATED = 'issue.updated';
+
+    /**
+     * @since 3.6.3
+     * @see Workflow::getAllowedStatuses()
+     */
+    public const ISSUE_ALLOWED_STATUSES = 'issue.allowed.statuses';
+
+    /**
+     * @since 3.6.3
+     * @see Workflow::addLinkFilters()
+     */
+    public const ISSUE_LINK_FILTERS = 'issue.link.filters';
 
     /**
      * @since 3.5.0

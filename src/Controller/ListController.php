@@ -234,11 +234,7 @@ class ListController extends BaseController
 
         // items needed for bulk update tool
         if (Auth::getCurrentRole() > User::ROLE_DEVELOPER) {
-            if (Workflow::hasWorkflowIntegration($this->prj_id)) {
-                $open_statuses = Workflow::getAllowedStatuses($this->prj_id);
-            } else {
-                $open_statuses = Status::getAssocStatusList($this->prj_id, false);
-            }
+            $open_statuses = Workflow::getAllowedStatuses($this->prj_id);
             $this->tpl->assign(
                 [
                     'users' => $users,

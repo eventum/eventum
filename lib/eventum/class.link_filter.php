@@ -15,6 +15,8 @@ use cebe\markdown\GithubMarkdown;
 use Eventum\Attachment\AttachmentManager;
 use Eventum\Db\Adapter\AdapterInterface;
 use Eventum\Db\DatabaseException;
+use Eventum\LinkFilter\IssueLinkFilter;
+use Eventum\LinkFilter\LinkFilter;
 
 /**
  * Class to handle parsing content for links.
@@ -286,18 +288,8 @@ class Link_Filter
             $text = Misc::activateLinks($text, $class);
         }
 
-        $filters = array_merge(
-            self::getFilters(), self::getFiltersByProject($prj_id), Workflow::getLinkFilters($prj_id)
-        );
-        foreach ($filters as $filter) {
-            list($pattern, $replacement) = $filter;
-            // replacement may be a callback, provided by workflow
-            if (is_callable($replacement)) {
-                $text = preg_replace_callback($pattern, $replacement, $text);
-            } else {
-                $text = preg_replace($pattern, $replacement, $text);
-            }
-        }
+        $linkFilter = self::getLinkFilter($prj_id);
+        $text = $linkFilter->replace($text);
 
         // enable markdown
         if (self::markdownEnabled()) {
@@ -370,20 +362,18 @@ class Link_Filter
 
     /**
      * Returns an array of patterns and replacements.
-     *
-     * @return  array An array of patterns and replacements
      */
-    public static function getFilters()
+    public static function getLinkFilter(?int $prj_id = null): LinkFilter
     {
-        // link eventum issue ids
-        $base_url = APP_BASE_URL;
-        $patterns = [
-            ['/(?P<match>issue:?\s\#?(?P<issue_id>\d+))/i', [__CLASS__, 'LinkFilter_issues']],
-            # lookbehind here avoid matching "open http:// in new window" and href="http://"
-            ["#(?<!open |href=\"){$base_url}view\.php\?id=(?P<issue_id>\d+)#", [__CLASS__, 'LinkFilter_issues']],
-        ];
+        $linkFilter = new LinkFilter();
+        $linkFilter->addFilter(new IssueLinkFilter(APP_BASE_URL));
 
-        return $patterns;
+        if ($prj_id) {
+            $linkFilter->addRules(self::getFiltersByProject($prj_id));
+            Workflow::addLinkFilters($linkFilter, $prj_id);
+        }
+
+        return $linkFilter;
     }
 
     /**
@@ -423,31 +413,6 @@ class Link_Filter
         $filters[$prj_id] = $res;
 
         return $res;
-    }
-
-    /**
-     * Method used as a callback with the regular expression code that parses
-     * text and creates links to other issues.
-     *
-     * @param   array $matches Regular expression matches
-     * @return  string The link to the appropriate issue
-     */
-    public static function LinkFilter_issues($matches)
-    {
-        $issue_id = $matches['issue_id'];
-        // check if the issue is still open
-        if (Issue::isClosed($issue_id)) {
-            $class = 'closed';
-        } else {
-            $class = '';
-        }
-        $issue_title = Issue::getTitle($issue_id);
-        $link_title = htmlspecialchars("issue {$issue_id} - {$issue_title}");
-
-        // use named capture 'match' if present
-        $match = $matches['match'] ?? "issue {$issue_id}";
-
-        return "<a title=\"{$link_title}\" class=\"{$class}\" href=\"view.php?id={$matches['issue_id']}\">{$match}</a>";
     }
 
     /**

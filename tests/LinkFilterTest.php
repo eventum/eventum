@@ -13,6 +13,7 @@
 
 namespace Eventum\Test;
 
+use Eventum\LinkFilter\LinkFilter;
 use Link_Filter;
 
 /**
@@ -20,24 +21,21 @@ use Link_Filter;
  */
 class LinkFilterTest extends TestCase
 {
+    /** @var LinkFilter */
+    private static $linkFilter;
+
+    public static function setUpBeforeClass(): void
+    {
+        self::$linkFilter = Link_Filter::getLinkFilter();
+    }
+
     /**
      * @dataProvider dataTestIssueLinking
      * @see          Link_Filter::proccessText
      */
     public function testIssueLinking($text, $exp): void
     {
-        $filters = Link_Filter::getFilters();
-
-        foreach ((array)$filters as $filter) {
-            list($pattern, $replacement) = $filter;
-            // replacement may be a callback, provided by workflow
-            if (is_callable($replacement)) {
-                $text = preg_replace_callback($pattern, $replacement, $text);
-            } else {
-                $text = preg_replace($pattern, $replacement, $text);
-            }
-        }
-
+        $text = self::$linkFilter->replace($text);
         $this->assertRegExp($exp, $text);
     }
 

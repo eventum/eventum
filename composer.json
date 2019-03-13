@@ -84,6 +84,7 @@
 		"pear-pear.php.net/math_stats": "^0.9.1",
 		"pear/pear-core-minimal": "^1.10",
 		"phlib/flysystem-pdo": "^1.1",
+		"php-ds/php-ds": "^1.2",
 		"php-gettext/php-gettext": "1.0.*",
 		"phplot/phplot": "~6.1.0",
 		"phpxmlrpc/phpxmlrpc": "^4.1",
