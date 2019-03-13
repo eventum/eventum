@@ -158,6 +158,12 @@ class IssueCustomField
             return null;
         }
 
+        // avoid values like '-0001-11-30 00:00:00.000000'
+        // timestamp value on 64bit system is -62169989940
+        if ($this->dateValue->getTimestamp() < 0) {
+            return null;
+        }
+
         return $this->dateValue->format(self::DATE_FORMAT);
     }
 
