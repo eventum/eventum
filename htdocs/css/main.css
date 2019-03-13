@@ -621,3 +621,22 @@ span.toggle-trimmed-email a:active {
 .fa-sm {
     font-size: 0.63em;
 }
+
+/* markdown related */
+.markdown-body table {
+    border-spacing: 0;
+}
+
+.markdown-body table tr {
+    background-color: #fff;
+}
+
+.markdown-body table td, .markdown-body table th {
+    border: 1px solid #dfe2e5;
+    padding: 6px 13px;
+}
+
+/* the bordered rule is too heavy, override inside markdown block */
+table.bordered .markdown-body tr td {
+    background: inherit;
+}
