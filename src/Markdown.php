@@ -16,6 +16,7 @@ namespace Eventum;
 use League\CommonMark\CommonMarkConverter;
 use League\CommonMark\ConverterInterface;
 use League\CommonMark\Environment;
+use Webuni\CommonMark\TableExtension\TableExtension;
 
 class Markdown
 {
@@ -32,6 +33,7 @@ class Markdown
     public function __construct()
     {
         $environment = Environment::createCommonMarkEnvironment();
+        $this->applyExtensions($environment);
 
         /**
          * @see https://commonmark.thephpleague.com/security/
@@ -50,5 +52,10 @@ class Markdown
     public function render(string $text): string
     {
         return $this->converter->convertToHtml($text);
+    }
+
+    private function applyExtensions(Environment $environment): void
+    {
+        $environment->addExtension(new TableExtension());
     }
 }

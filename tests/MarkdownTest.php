@@ -47,6 +47,7 @@ class MarkdownTest extends TestCase
         $tests = $this->addTests([
             'inline',
             'linkrefs',
+            'table',
         ]);
 
         return iterator_to_array($tests);

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e24b1c81208bcb80fa0d27c715cbe3eb",
+    "content-hash": "adf218771e69b7a9c8feb5a860a01796",
     "packages": [
         {
             "name": "cakephp/cache",
@@ -3603,6 +3603,64 @@
                 "punycode"
             ],
             "time": "2016-11-16T10:37:54+00:00"
+        },
+        {
+            "name": "webuni/commonmark-table-extension",
+            "version": "0.9.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/webuni/commonmark-table-extension.git",
+                "reference": "94bc98d802d0b706e748716854e5fa0bd3644df3"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/webuni/commonmark-table-extension/zipball/94bc98d802d0b706e748716854e5fa0bd3644df3",
+                "reference": "94bc98d802d0b706e748716854e5fa0bd3644df3",
+                "shasum": ""
+            },
+            "require": {
+                "league/commonmark": "^0.16|^0.17|^0.18",
+                "php": "^5.6|^7.0"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^2.9",
+                "phpunit/phpunit": "^5.4|^6.0",
+                "symfony/var-dumper": "^3.0|^4.0",
+                "vimeo/psalm": "~0.3"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "0.9-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Webuni\\CommonMark\\TableExtension\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Martin Hasoň",
+                    "email": "martin.hason@gmail.com"
+                },
+                {
+                    "name": "Webuni s.r.o.",
+                    "homepage": "https://www.webuni.cz"
+                }
+            ],
+            "description": "The table extension for CommonMark PHP implementation",
+            "homepage": "https://github.com/webuni/commonmark-table-extension",
+            "keywords": [
+                "commonmark",
+                "markdown",
+                "table"
+            ],
+            "time": "2018-11-28T11:29:11+00:00"
         },
         {
             "name": "willdurand/email-reply-parser",
