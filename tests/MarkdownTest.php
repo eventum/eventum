@@ -50,6 +50,7 @@ class MarkdownTest extends TestCase
             'table',
             'tasklist',
             'headers',
+            'h5-details',
         ]);
 
         return iterator_to_array($tests);
