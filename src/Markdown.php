@@ -13,8 +13,8 @@
 
 namespace Eventum;
 
-use League\CommonMark\ConverterInterface;
 use League\CommonMark\CommonMarkConverter;
+use League\CommonMark\ConverterInterface;
 use League\CommonMark\Environment;
 
 class Markdown
