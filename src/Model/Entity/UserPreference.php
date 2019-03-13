@@ -103,7 +103,7 @@ class UserPreference
      * @var bool
      * @ORM\Column(name="upr_markdown", type="boolean", nullable=false)
      */
-    private $enableMarkdown;
+    private $enableMarkdown = true;
 
     /**
      * @var bool
@@ -126,7 +126,6 @@ class UserPreference
         $this->timezone = Date_Helper::getDefaultTimezone();
         $this->weekFirstday = Date_Helper::getDefaultWeekday();
         $this->relativeDate = $setup['relative_date'] === 'enabled';
-        $this->enableMarkdown = $setup['markdown'] === 'enabled';
     }
 
     public function setUserId(int $usr_id): self
