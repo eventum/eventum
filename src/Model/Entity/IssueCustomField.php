@@ -132,7 +132,7 @@ class IssueCustomField
 
     public function setDateValue($value): self
     {
-        if (!$value instanceof DateTime) {
+        if ($value && !$value instanceof DateTime) {
             try {
                 $value = Date_Helper::getDateTime($value, 'GMT');
             } catch (Exception $e) {
@@ -142,7 +142,7 @@ class IssueCustomField
 
         $this->stringValue = null;
         $this->integerValue = null;
-        $this->dateValue = $value;
+        $this->dateValue = $value ?: null;
 
         return $this;
     }

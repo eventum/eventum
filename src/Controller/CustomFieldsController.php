@@ -68,7 +68,7 @@ class CustomFieldsController extends BaseController
      */
     protected function defaultAction(): void
     {
-        if ($this->cat == 'update_values') {
+        if ($this->cat === 'update_values') {
             $this->updateValuesAction();
         }
     }
