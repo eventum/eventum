@@ -16,6 +16,9 @@ namespace Eventum;
 use League\CommonMark\CommonMarkConverter;
 use League\CommonMark\ConverterInterface;
 use League\CommonMark\Environment;
+use Lossendae\CommonMark\TaskLists\TaskListsCheckbox;
+use Lossendae\CommonMark\TaskLists\TaskListsCheckboxRenderer;
+use Lossendae\CommonMark\TaskLists\TaskListsParser;
 use Webuni\CommonMark\TableExtension\TableExtension;
 
 class Markdown
@@ -57,5 +60,8 @@ class Markdown
     private function applyExtensions(Environment $environment): void
     {
         $environment->addExtension(new TableExtension());
+
+        $environment->addInlineRenderer(TaskListsCheckbox::class, new TaskListsCheckboxRenderer());
+        $environment->addInlineParser(new TaskListsParser());
     }
 }

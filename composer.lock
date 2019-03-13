@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "adf218771e69b7a9c8feb5a860a01796",
+    "content-hash": "869f8d8307c88c0b1e5dbceac858bdab",
     "packages": [
         {
             "name": "cakephp/cache",
@@ -1733,6 +1733,61 @@
                 "storage"
             ],
             "time": "2019-02-01T08:50:36+00:00"
+        },
+        {
+            "name": "lossendae/commonmark-task-lists",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/sanpii/commonmark-task-lists.git",
+                "reference": "4317ae8050689eaca9eff585012dc45f5738cedc"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/sanpii/commonmark-task-lists/zipball/4317ae8050689eaca9eff585012dc45f5738cedc",
+                "reference": "4317ae8050689eaca9eff585012dc45f5738cedc",
+                "shasum": ""
+            },
+            "require": {
+                "league/commonmark": "^0.18",
+                "php": ">=5.4"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^7.1"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "0.2-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Lossendae\\CommonMark\\TaskLists\\": "src"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Stephane Boulard",
+                    "email": "lossendae@gmail.com",
+                    "role": "Lead Developer"
+                }
+            ],
+            "description": "Github Task Lists for CommonMark PHP implementation",
+            "homepage": "https://github.com/lossendae/commonmark-task-lists.git",
+            "keywords": [
+                "checklists",
+                "commonmark",
+                "markdown",
+                "task-lists"
+            ],
+            "support": {
+                "source": "https://github.com/sanpii/commonmark-task-lists/tree/master"
+            },
+            "time": "2019-03-07T09:17:29+00:00"
         },
         {
             "name": "malkusch/lock",
@@ -5198,12 +5253,19 @@
             "alias_normalized": "2.5.8.0",
             "version": "dev-patch-1",
             "package": "horde/util"
+        },
+        {
+            "alias": "0.2.0",
+            "alias_normalized": "0.2.0.0",
+            "version": "9999999-dev",
+            "package": "lossendae/commonmark-task-lists"
         }
     ],
     "minimum-stability": "dev",
     "stability-flags": {
         "horde/text-flowed": 20,
         "horde/util": 20,
+        "lossendae/commonmark-task-lists": 20,
         "zendframework/zend-mail": 20,
         "components/jquery-blockui": 20
     },
