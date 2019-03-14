@@ -202,7 +202,7 @@ class Template_Helper
         $userFile();
 
         if (isset($role_id) && $role_id >= User::ROLE_ADMINISTRATOR) {
-            DebugBarManager::register($this->smarty);
+            DebugBarManager::getDebugBarManager()->registerSmarty($this->smarty);
         }
 
         return $this;

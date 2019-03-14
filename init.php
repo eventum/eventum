@@ -110,5 +110,5 @@ if (APP_MAINTENANCE) {
     }
 }
 
-Eventum\DebugBarManager::initialize();
+Eventum\DebugBarManager::getDebugBarManager();
 Eventum\Extension\ExtensionManager::getManager();

@@ -75,7 +75,7 @@ class Doctrine
 
         $entityManager = EntityManager::create($conn, $config);
 
-        DebugBarManager::registerDoctrine($entityManager);
+        DebugBarManager::getDebugBarManager()->registerDoctrine($entityManager);
 
         return $entityManager;
     }

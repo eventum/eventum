@@ -26,6 +26,7 @@ use Doctrine\DBAL\Logging\DebugStack;
 use Doctrine\ORM\EntityManager;
 use Eventum\Monolog\Logger;
 use PDO;
+use Psr\Log\LoggerInterface;
 use Setup;
 use Smarty;
 
@@ -37,12 +38,20 @@ use Smarty;
 class DebugBarManager
 {
     /** @var DebugBar */
-    private static $debugBar;
+    private $debugBar;
 
-    /**
-     * Create DebugBar instance
-     */
-    public static function initialize(): void
+    /** @var LoggerInterface */
+    private $logger;
+
+    public static function getDebugBarManager(): self
+    {
+        /** @var DebugBar */
+        static $debugBar;
+
+        return $debugBar ?: $debugBar = new self();
+    }
+
+    public function __construct()
     {
         // disable debugBar in CLI
         if (PHP_SAPI === 'cli') {
@@ -54,31 +63,30 @@ class DebugBarManager
             return;
         }
 
-        self::$debugBar = new StandardDebugBar();
+        $this->logger = Logger::app();
+        $this->debugBar = new StandardDebugBar();
+
+        $rel_url = APP_RELATIVE_URL;
+        $this->debugBar->getJavascriptRenderer("{$rel_url}debugbar");
     }
 
-    /**
-     * Returns TRUE if DebugBar is available
-     *
-     * @return bool
-     */
-    public static function hasDebugBar(): bool
+    public function registerDoctrine(EntityManager $entityManager): void
     {
-        return self::$debugBar !== null;
-    }
-
-    public static function registerDoctrine(EntityManager $entityManager): void
-    {
-        if (!self::$debugBar) {
+        if (!$this->debugBar) {
             return;
         }
 
+        $debugBar = $this->debugBar;
         $debugStack = new DebugStack();
         $entityManager->getConnection()->getConfiguration()->setSQLLogger($debugStack);
-        $debugbar = self::$debugBar;
 
-        $debugbar->addCollector(new AggregatedCollector('doctrine'));
-        $debugbar['doctrine']->addCollector(new DoctrineCollector($debugStack));
+        $debugBar->addCollector(new AggregatedCollector('doctrine'));
+        $debugBar['doctrine']->addCollector(new DoctrineCollector($debugStack));
+        $debugBar->getJavascriptRenderer()->addControl('Doctrine', [
+            'widget' => 'PhpDebugBar.Widgets.SQLQueriesWidget',
+            'map' => 'doctrine',
+            'default' => '[]',
+        ]);
     }
 
     /**
@@ -86,28 +94,30 @@ class DebugBarManager
      *
      * @param PDO $pdo
      * @throws DebugBarException
-     * @return TraceablePDO
+     * @return PDO
      */
-    public static function getTraceablePDO(PDO $pdo): TraceablePDO
+    public function registerPdo(PDO $pdo): PDO
     {
-        $pdo = new TraceablePDO($pdo);
-        self::$debugBar->addCollector(new PDOCollector($pdo));
+        if ($this->debugBar) {
+            $pdo = new TraceablePDO($pdo);
+            $this->debugBar->addCollector(new PDOCollector($pdo));
+        }
 
         return $pdo;
     }
 
-    public static function register(Smarty $smarty): void
+    public function registerSmarty(Smarty $smarty): void
     {
-        if (!self::$debugBar) {
+        if (!$this->debugBar) {
             return;
         }
 
         try {
-            $renderer = self::getDebugBarRenderer($smarty);
+            $renderer = $this->getDebugBarRenderer($smarty);
             $smarty->assign('debugbar_head', $renderer->renderHead());
             $smarty->assign('debugbar_body', $renderer->render());
         } catch (DebugBarException $e) {
-            Logger::app()->error($e->getMessage());
+            $this->logger->error($e->getMessage());
         }
     }
 
@@ -118,17 +128,10 @@ class DebugBarManager
      * @throws DebugBarException
      * @return JavascriptRenderer
      */
-    private static function getDebugBarRenderer(Smarty $smarty): JavascriptRenderer
+    private function getDebugBarRenderer(Smarty $smarty): JavascriptRenderer
     {
-        static $renderer;
-
-        // the renderer can be created only once
-        if ($renderer) {
-            return $renderer;
-        }
-
-        $debugBar = self::$debugBar;
-        $rel_url = APP_RELATIVE_URL;
+        $debugBar = $this->debugBar;
+        $renderer = $debugBar->getJavascriptRenderer();
 
         $debugBar->addCollector(
             new ConfigCollector($smarty->tpl_vars, 'Smarty')
@@ -137,12 +140,6 @@ class DebugBarManager
             new ConfigCollector(Setup::get()->toArray(), 'Config')
         );
 
-        $renderer = $debugBar->getJavascriptRenderer("{$rel_url}debugbar");
-        $renderer->addControl('Doctrine', [
-            'widget' => 'PhpDebugBar.Widgets.SQLQueriesWidget',
-            'map' => 'doctrine',
-            'default' => '[]',
-        ]);
         $renderer->addControl(
             'Smarty', [
                 'widget' => 'PhpDebugBar.Widgets.VariableListWidget',
