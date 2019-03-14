@@ -13,6 +13,8 @@
 
 namespace Eventum;
 
+use DebugBar\Bridge\DoctrineCollector;
+use DebugBar\DataCollector\AggregatedCollector;
 use DebugBar\DataCollector\ConfigCollector;
 use DebugBar\DataCollector\PDO\PDOCollector;
 use DebugBar\DataCollector\PDO\TraceablePDO;
@@ -20,6 +22,8 @@ use DebugBar\DebugBar;
 use DebugBar\DebugBarException;
 use DebugBar\JavascriptRenderer;
 use DebugBar\StandardDebugBar;
+use Doctrine\DBAL\Logging\DebugStack;
+use Doctrine\ORM\EntityManager;
 use Eventum\Monolog\Logger;
 use PDO;
 use Setup;
@@ -58,9 +62,23 @@ class DebugBarManager
      *
      * @return bool
      */
-    public static function hasDebugBar()
+    public static function hasDebugBar(): bool
     {
         return self::$debugBar !== null;
+    }
+
+    public static function registerDoctrine(EntityManager $entityManager): void
+    {
+        if (!self::$debugBar) {
+            return;
+        }
+
+        $debugStack = new DebugStack();
+        $entityManager->getConnection()->getConfiguration()->setSQLLogger($debugStack);
+        $debugbar = self::$debugBar;
+
+        $debugbar->addCollector(new AggregatedCollector('doctrine'));
+        $debugbar['doctrine']->addCollector(new DoctrineCollector($debugStack));
     }
 
     /**
@@ -70,7 +88,7 @@ class DebugBarManager
      * @throws DebugBarException
      * @return TraceablePDO
      */
-    public static function getTraceablePDO(PDO $pdo)
+    public static function getTraceablePDO(PDO $pdo): TraceablePDO
     {
         $pdo = new TraceablePDO($pdo);
         self::$debugBar->addCollector(new PDOCollector($pdo));
@@ -100,7 +118,7 @@ class DebugBarManager
      * @throws DebugBarException
      * @return JavascriptRenderer
      */
-    private static function getDebugBarRenderer(Smarty $smarty)
+    private static function getDebugBarRenderer(Smarty $smarty): JavascriptRenderer
     {
         static $renderer;
 
@@ -120,6 +138,11 @@ class DebugBarManager
         );
 
         $renderer = $debugBar->getJavascriptRenderer("{$rel_url}debugbar");
+        $renderer->addControl('Doctrine', [
+            'widget' => 'PhpDebugBar.Widgets.SQLQueriesWidget',
+            'map' => 'doctrine',
+            'default' => '[]',
+        ]);
         $renderer->addControl(
             'Smarty', [
                 'widget' => 'PhpDebugBar.Widgets.VariableListWidget',
