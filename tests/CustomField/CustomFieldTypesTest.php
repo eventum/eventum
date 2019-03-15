@@ -26,5 +26,7 @@ class CustomFieldTypesTest extends TestCase
 
         $this->setEntityId($cf, self::ID_TEXT);
         $this->persistAndFlush($cf);
+
+        $this->repo->setProjectAssociation($cf, [self::PROJECT_ID]);
     }
 }
