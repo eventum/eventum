@@ -15,6 +15,7 @@ namespace Eventum\Monolog;
 
 use Cascade\Cascade;
 use DateTimeZone;
+use Eventum\DebugBarManager;
 use Monolog;
 use Monolog\Registry;
 use Setup;
@@ -57,7 +58,7 @@ class Logger extends Registry
      *
      * @return array
      */
-    private static function getConfig()
+    private static function getConfig(): array
     {
         // load $setup, so required files could use $setup variable
         /** @var \Zend\Config\Config $setup */
@@ -96,9 +97,9 @@ class Logger extends Registry
      * @param string $name
      * @param array $handlers
      * @param array $processors
-     * @return \Monolog\Logger
+     * @return Monolog\Logger
      */
-    public static function createLogger($name, $handlers = null, $processors = null)
+    public static function createLogger($name, $handlers = null, $processors = null): Monolog\Logger
     {
         if (self::hasLogger($name)) {
             return self::getInstance($name);
@@ -114,6 +115,7 @@ class Logger extends Registry
         $logger = new Monolog\Logger($name, $handlers, $processors);
 
         self::addLogger($logger);
+        DebugBarManager::getDebugBarManager()->registerMonolog($logger);
 
         return $logger;
     }

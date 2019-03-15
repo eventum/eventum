@@ -14,6 +14,7 @@
 namespace Eventum;
 
 use DebugBar\Bridge\DoctrineCollector;
+use DebugBar\Bridge\MonologCollector;
 use DebugBar\DataCollector\AggregatedCollector;
 use DebugBar\DataCollector\ConfigCollector;
 use DebugBar\DataCollector\PDO\PDOCollector;
@@ -25,6 +26,7 @@ use DebugBar\StandardDebugBar;
 use Doctrine\DBAL\Logging\DebugStack;
 use Doctrine\ORM\EntityManager;
 use Eventum\Monolog\Logger;
+use Monolog\Logger as MonologLogger;
 use PDO;
 use Psr\Log\LoggerInterface;
 use Setup;
@@ -87,6 +89,21 @@ class DebugBarManager
             'map' => 'doctrine',
             'default' => '[]',
         ]);
+    }
+
+    public function registerMonolog(MonologLogger $logger): void
+    {
+        if (!$this->debugBar) {
+            return;
+        }
+
+        $debugBar = $this->debugBar;
+
+        if (!$debugBar->hasCollector('monolog')) {
+            $debugBar->addCollector(new MonologCollector());
+        }
+
+        $debugBar['monolog']->addLogger($logger);
     }
 
     /**
