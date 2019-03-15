@@ -13,7 +13,6 @@
 
 namespace Eventum\Model\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\Common\Collections\Expr\Comparison;
@@ -22,9 +21,9 @@ use Doctrine\ORM\PersistentCollection;
 use Eventum\CustomField\Factory;
 use Eventum\CustomField\Fields\ListInterface;
 use Eventum\CustomField\Proxy;
+use Eventum\Model\Repository\Traits\GetOneTrait;
 use Eventum\Monolog\Logger;
 use InvalidArgumentException;
-use RuntimeException;
 use User;
 
 /**
@@ -33,6 +32,8 @@ use User;
  */
 class CustomField
 {
+    use GetOneTrait;
+
     public const LIST_DISPLAY = 'list_display';
 
     public const FORM_TYPES = [
@@ -193,11 +194,6 @@ class CustomField
      * @ORM\JoinColumn(name="id", referencedColumnName="pcf_prj_id")
      */
     private $projects;
-
-    public function __construct()
-    {
-        $this->projects = new ArrayCollection();
-    }
 
     public function getId(): int
     {
@@ -540,7 +536,7 @@ class CustomField
     /**
      * @return ProjectCustomField[]|Collection
      */
-    public function getProjectCustomFields(): Collection
+    public function getProjectCustomFields(): ?Collection
     {
         return $this->projects;
     }
@@ -555,18 +551,12 @@ class CustomField
 
     public function getProjectCustomFieldById(int $prj_id): ?ProjectCustomField
     {
-        $expr = new Comparison('projectId', '=', $prj_id);
-        $criteria = Criteria::create()->where($expr);
-
-        return $this->getOne($this->projects, $criteria);
+        return $this->getOne($this->projects, 'projectId', '=', $prj_id) ?: null;
     }
 
     public function getIssueCustomField(int $issue_id): ?IssueCustomField
     {
-        $expr = new Comparison('issueId', '=', $issue_id);
-        $criteria = Criteria::create()->where($expr);
-
-        return $this->getOne($this->issues, $criteria) ?: null;
+        return $this->getOne($this->issues, 'issueId', '=', $issue_id) ?: null;
     }
 
     /**
@@ -578,21 +568,6 @@ class CustomField
         $criteria = Criteria::create()->where($expr);
 
         return $this->issues->matching($criteria);
-    }
-
-    private function getOne(PersistentCollection $collection, Criteria $criteria)
-    {
-        $matches = $collection->matching($criteria);
-        if ($matches->isEmpty()) {
-            return null;
-        }
-
-        if ($matches->count() !== 1) {
-            $count = $matches->count();
-            throw new RuntimeException("Expected one element, got $count");
-        }
-
-        return $matches->first();
     }
 
     public function getDisplayValue(int $issue_id): string
