@@ -25,6 +25,7 @@ use Eventum\CustomField\Proxy;
 use Eventum\Monolog\Logger;
 use InvalidArgumentException;
 use RuntimeException;
+use User;
 
 /**
  * @ORM\Table(name="custom_field")*
@@ -44,6 +45,8 @@ class CustomField
         'edit_form' => null,
     ];
 
+    public const TYPE_TEXT = 'text';
+
     private const OPTION_TYPES = [
         'checkbox',
         'combo',
@@ -51,12 +54,12 @@ class CustomField
     ];
 
     private const TEXT_TYPES = [
-        'text',
+        self::TYPE_TEXT,
         'textarea',
     ];
 
     private const OTHER_TYPES = [
-        'text',
+        self::TYPE_TEXT,
         'textarea',
         'date',
         'integer',
@@ -92,61 +95,61 @@ class CustomField
      * @var bool
      * @ORM\Column(name="fld_report_form", type="boolean", nullable=false)
      */
-    private $showReportForm;
+    private $showReportForm = false;
 
     /**
      * @var bool
      * @ORM\Column(name="fld_report_form_required", type="boolean", nullable=false)
      */
-    private $isReportFormRequired;
+    private $isReportFormRequired = false;
 
     /**
      * @var bool
      * @ORM\Column(name="fld_anonymous_form", type="boolean", nullable=false)
      */
-    private $showAnonymousForm;
+    private $showAnonymousForm = false;
 
     /**
      * @var bool
      * @ORM\Column(name="fld_anonymous_form_required", type="boolean", nullable=false)
      */
-    private $isAnonymousFormRequired;
+    private $isAnonymousFormRequired = false;
 
     /**
      * @var bool
      * @ORM\Column(name="fld_close_form", type="boolean", nullable=false)
      */
-    private $showCloseForm;
+    private $showCloseForm = false;
 
     /**
      * @var bool
      * @ORM\Column(name="fld_close_form_required", type="boolean", nullable=false)
      */
-    private $isCloseFormRequired;
+    private $isCloseFormRequired = false;
 
     /**
      * @var bool
      * @ORM\Column(name="fld_edit_form_required", type="boolean", nullable=false)
      */
-    private $isEditFormRequired;
+    private $isEditFormRequired = false;
 
     /**
      * @var bool
      * @ORM\Column(name="fld_list_display", type="boolean", nullable=false)
      */
-    private $showListDisplay;
+    private $showListDisplay = false;
 
     /**
      * @var int
      * @ORM\Column(name="fld_min_role", type="integer", nullable=false)
      */
-    private $minRole;
+    private $minRole = User::ROLE_VIEWER;
 
     /**
      * @var bool
      * @ORM\Column(name="fld_min_role_edit", type="integer", nullable=false)
      */
-    private $minRoleEdit;
+    private $minRoleEdit = User::ROLE_VIEWER;
 
     /**
      * @var int
@@ -167,7 +170,7 @@ class CustomField
      * @var string
      * @ORM\Column(name="fld_order_by", type="string", length=20, nullable=false)
      */
-    private $orderBy;
+    private $orderBy = 'cfo_id ASC';
 
     /**
      * @var CustomFieldOption[]|PersistentCollection

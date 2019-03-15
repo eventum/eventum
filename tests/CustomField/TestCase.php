@@ -19,6 +19,8 @@ use Eventum\Test\TestCase as BaseTestCase;
 
 abstract class TestCase extends BaseTestCase
 {
+    protected const ID_TEXT = 0x6001;
+
     /** @var CustomFieldRepository */
     protected $repo;
 
