@@ -24,8 +24,7 @@ class CustomFieldTypesTest extends TestCase
         $cf->setType(CustomField::TYPE_TEXT);
         $cf->setRank($this->repo->getNextRank());
 
-        $em = $this->getEntityManager();
-        $em->persist($cf);
-        $em->flush($cf);
+        $this->setEntityId($cf, self::ID_TEXT);
+        $this->persistAndFlush($cf);
     }
 }

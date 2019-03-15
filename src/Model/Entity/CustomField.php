@@ -13,6 +13,7 @@
 
 namespace Eventum\Model\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\Common\Collections\Expr\Comparison;
@@ -194,6 +195,11 @@ class CustomField
      * @ORM\JoinColumn(name="id", referencedColumnName="pcf_prj_id")
      */
     private $projects;
+
+    public function __construct()
+    {
+        $this->projects = new ArrayCollection();
+    }
 
     public function getId(): int
     {
