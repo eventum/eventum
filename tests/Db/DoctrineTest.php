@@ -18,6 +18,7 @@ use Eventum\Db\Doctrine;
 use Eventum\Model\Entity;
 use Eventum\Model\Repository\ProjectRepository;
 use Eventum\Model\Repository\UserRepository;
+use Eventum\Test\DoctrineTraits;
 use Eventum\Test\TestCase;
 
 /**
@@ -27,6 +28,8 @@ use Eventum\Test\TestCase;
  */
 class DoctrineTest extends TestCase
 {
+    use DoctrineTraits;
+
     public function testFindAll(): void
     {
         $repo = $this->getEntityManager()->getRepository(Entity\Project::class);
