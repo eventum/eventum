@@ -17,15 +17,14 @@ use Eventum\Event\Subscriber\MailQueueListener;
 use Eventum\Extension\ExtensionManager;
 use Symfony\Component\EventDispatcher\Event;
 use Symfony\Component\EventDispatcher\EventDispatcher;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class EventManager
 {
     /**
      * Singleton for Event Dispatcher
-     *
-     * @return EventDispatcher
      */
-    public static function getEventDispatcher()
+    public static function getEventDispatcher(): EventDispatcherInterface
     {
         static $dispatcher;
         if (!$dispatcher) {
@@ -53,7 +52,7 @@ class EventManager
      * @return Event
      * @see EventDispatcherInterface::dispatch()
      */
-    public static function dispatch($eventName, Event $event = null)
+    public static function dispatch($eventName, Event $event = null): Event
     {
         return self::getEventDispatcher()->dispatch($eventName, $event);
     }

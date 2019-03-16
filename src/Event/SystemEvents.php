@@ -202,6 +202,14 @@ final class SystemEvents
     public const RPC_GITLAB_MATCH_ISSUE = 'rpc.gitlab.match.issue';
 
     /**
+     * Event to allow configuring markdown renderer.
+     *
+     * @since 3.6.3
+     * @see \Eventum\Markdown::applyExtensions
+     */
+    public const MARKDOWN_ENVIRONMENT_CONFIGURE = 'markdown.environment.configure';
+
+    /**
      * Helper to feature test whether specific event is being emitted by Eventum.
      *
      * @param string $eventName

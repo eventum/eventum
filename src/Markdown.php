@@ -13,6 +13,7 @@
 
 namespace Eventum;
 
+use Eventum\EventDispatcher\EventManager;
 use League\CommonMark\CommonMarkConverter;
 use League\CommonMark\ConverterInterface;
 use League\CommonMark\Environment;
@@ -22,6 +23,7 @@ use League\CommonMark\Extension\CommonMarkCoreExtension;
 use Lossendae\CommonMark\TaskLists\TaskListsCheckbox;
 use Lossendae\CommonMark\TaskLists\TaskListsCheckboxRenderer;
 use Lossendae\CommonMark\TaskLists\TaskListsParser;
+use Symfony\Component\EventDispatcher\GenericEvent;
 use Webuni\CommonMark\TableExtension\TableExtension;
 
 class Markdown
@@ -53,15 +55,6 @@ class Markdown
 
     private function createConverter(bool $inline): ConverterInterface
     {
-        $environment = new Environment();
-        if ($inline) {
-            $environment->addExtension(new InlinesOnlyExtension());
-        } else {
-            $environment->addExtension(new CommonMarkCoreExtension());
-        }
-
-        $this->applyExtensions($environment);
-
         $config = [
             'renderer' => [
                 'block_separator' => "\n",
@@ -73,7 +66,16 @@ class Markdown
             'max_nesting_level' => self::MAX_NESTING_LEVEL,
         ];
 
-        return new CommonMarkConverter($config, $environment);
+        $environment = new Environment($config);
+        if ($inline) {
+            $environment->addExtension(new InlinesOnlyExtension());
+        } else {
+            $environment->addExtension(new CommonMarkCoreExtension());
+        }
+
+        $this->applyExtensions($environment);
+
+        return new CommonMarkConverter([], $environment);
     }
 
     private function applyExtensions(Environment $environment): void
@@ -83,5 +85,9 @@ class Markdown
 
         $environment->addInlineRenderer(TaskListsCheckbox::class, new TaskListsCheckboxRenderer());
         $environment->addInlineParser(new TaskListsParser());
+
+        // allow extensions to apply behaviour
+        $event = new GenericEvent($environment);
+        EventManager::dispatch(Event\SystemEvents::MARKDOWN_ENVIRONMENT_CONFIGURE, $event);
     }
 }
