@@ -361,15 +361,21 @@ class Link_Filter
      */
     public static function getLinkFilter(?int $prj_id = null): LinkFilter
     {
-        $linkFilter = new LinkFilter();
-        $linkFilter->addFilter(new IssueLinkFilter(APP_BASE_URL));
+        static $cache;
 
-        if ($prj_id) {
-            $linkFilter->addRules(self::getFiltersByProject($prj_id));
-            Workflow::addLinkFilters($linkFilter, $prj_id);
-        }
+        $initialize = function (?int $prj_id) {
+            $linkFilter = new LinkFilter();
+            $linkFilter->addFilter(new IssueLinkFilter(APP_BASE_URL));
 
-        return $linkFilter;
+            if ($prj_id) {
+                $linkFilter->addRules(self::getFiltersByProject($prj_id));
+                Workflow::addLinkFilters($linkFilter, $prj_id);
+            }
+
+            return $linkFilter;
+        };
+
+        return $cache[(int)$prj_id] ?? $cache[(int)$prj_id] = $initialize($prj_id);
     }
 
     /**
