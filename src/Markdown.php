@@ -40,11 +40,19 @@ class Markdown
 
     public function render(string $text): string
     {
+        if (!$text) {
+            return $text;
+        }
+
         return $this->getConverter(false)->convertToHtml($text);
     }
 
     public function renderInline(string $text): string
     {
+        if (!$text) {
+            return $text;
+        }
+
         return $this->getConverter(true)->convertToHtml($text);
     }
 
