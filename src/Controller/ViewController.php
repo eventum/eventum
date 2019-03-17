@@ -37,6 +37,7 @@ use Product;
 use Project;
 use Release;
 use Search;
+use Setup;
 use Severity;
 use Status;
 use Support;
@@ -401,8 +402,12 @@ class ViewController extends BaseController
      * @param   int $issue_id The issue ID
      * @return  array The list of checkins
      */
-    private function getIssueCommits($issue_id)
+    private function getIssueCommits(int $issue_id): array
     {
+        if (Setup::get()['scm_integration'] !== 'enabled') {
+            return [];
+        }
+
         $commit = Doctrine::getIssueRepository()->getCommits($issue_id);
 
         $checkins = [];
