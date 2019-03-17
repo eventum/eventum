@@ -64,9 +64,8 @@ class EventumInitialData extends AbstractMigration
             'custom_fields' => User::ROLE_VIEWER,
             'iss_summary' => User::ROLE_VIEWER,
 
-            // FIXME: what is role '9'?
-            'iss_dev_time' => 9,
-            'iss_percent_complete' => 9,
+            'iss_dev_time' => USER::ROLE_NEVER_DISPLAY,
+            'iss_percent_complete' => USER::ROLE_NEVER_DISPLAY,
         ];
 
         $table = $this->table(__FUNCTION__);
@@ -162,8 +161,7 @@ class EventumInitialData extends AbstractMigration
         ];
 
         $table = $this->table(__FUNCTION__);
-        foreach ($history_types as $htt_name => $values) {
-            list($htt_id, $htt_role) = $values;
+        foreach ($history_types as $htt_name => [$htt_id, $htt_role]) {
             $row = [
                 'htt_id' => $htt_id,
                 'htt_name' => $htt_name,
@@ -487,8 +485,7 @@ class EventumInitialData extends AbstractMigration
         $rmt_id = 1;
 
         $table = $this->table(__FUNCTION__);
-        foreach ($reminder_fields as $rmf_title => $values) {
-            list($rmf_sql_field, $rmf_sql_representation, $rmf_allow_column_compare) = $values;
+        foreach ($reminder_fields as $rmf_title => [$rmf_sql_field, $rmf_sql_representation, $rmf_allow_column_compare]) {
             $row = [
                 'rmf_id' => $rmt_id++,
                 'rmf_title' => $rmf_title,
@@ -577,8 +574,7 @@ class EventumInitialData extends AbstractMigration
         ];
 
         $table = $this->table(__FUNCTION__);
-        foreach ($statuses as $sta_id => $values) {
-            list($sta_title, $sta_abbreviation, $sta_rank, $sta_color, $sta_is_closed) = $values;
+        foreach ($statuses as $sta_id => [$sta_title, $sta_abbreviation, $sta_rank, $sta_color, $sta_is_closed]) {
             $row = [
                 'sta_id' => $sta_id,
                 'sta_title' => $sta_title,
@@ -650,8 +646,7 @@ class EventumInitialData extends AbstractMigration
         ];
 
         $table = $this->table(__FUNCTION__);
-        foreach ($titles as $usr_id => $values) {
-            [$usr_full_name, $usr_email, $usr_password, $usr_status] = $values;
+        foreach ($titles as $usr_id => [$usr_full_name, $usr_email, $usr_password, $usr_status]) {
             $row = [
                 'usr_id' => $usr_id,
                 'usr_created_date' => $this->currentDateTime(),
