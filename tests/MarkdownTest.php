@@ -42,23 +42,18 @@ class MarkdownTest extends TestCase
         $this->assertEquals($expected, $rendered);
     }
 
-    public function dataProvider(): array
+    public function dataProvider(): Generator
     {
-        $tests = $this->addTests([
+        $testNames = [
+            'autolink',
+            'h5-details',
+            'headers',
             'inline',
             'linkrefs',
             'table',
             'tasklist',
-            'headers',
-            'h5-details',
-            'autolink',
-        ]);
+        ];
 
-        return iterator_to_array($tests);
-    }
-
-    private function addTests(array $testNames): Generator
-    {
         foreach ($testNames as $testName) {
             yield $testName => [
                 $this->readDataFile("markdown/$testName.md"),
