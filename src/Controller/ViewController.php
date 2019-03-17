@@ -411,13 +411,14 @@ class ViewController extends BaseController
         $commit = Doctrine::getIssueRepository()->getCommits($issue_id);
 
         $checkins = [];
+        $prj_id = Issue::getProjectID($issue_id);
         foreach ($commit as $c) {
             $scm = $c->getCommitRepo();
 
             $checkin = $c->toArray();
             $checkin['isc_commit_date'] = Date_Helper::convertDateGMT($checkin['com_commit_date']);
             $checkin['isc_commit_msg'] = Link_Filter::processText(
-                Issue::getProjectID($issue_id), nl2br(htmlspecialchars($checkin['com_message']))
+                $prj_id, nl2br(htmlspecialchars($checkin['com_message'])), 'link', true
             );
             $checkin['author'] = $c->getAuthor();
             $checkin['project_name'] = $c->getProjectName();
