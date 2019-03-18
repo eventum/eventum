@@ -19,8 +19,9 @@ use Doctrine\Common\Cache;
 use Doctrine\DBAL\Types\Type;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Tools\Setup;
+use Eventum;
 use Eventum\Db\Types\UTCDateTimeType;
-use Eventum\Model\Entity;
+use Eventum\DebugBarManager;
 use Eventum\Model\Repository;
 
 /**
@@ -72,8 +73,9 @@ class Doctrine
 
         Type::overrideType(Type::DATETIME, UTCDateTimeType::class);
 
-        // obtaining the entity manager
         $entityManager = EntityManager::create($conn, $config);
+
+        DebugBarManager::getDebugBarManager()->registerDoctrine($entityManager);
 
         return $entityManager;
     }
