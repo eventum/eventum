@@ -50,6 +50,7 @@ class MarkdownTest extends TestCase
             'headers',
             'inline',
             'linkrefs',
+            'smartpunct',
             'table',
             'tasklist',
         ];
