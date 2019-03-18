@@ -533,10 +533,7 @@ class CustomField
 
     public function getOptionById(int $cfo_id): ?CustomFieldOption
     {
-        $expr = new Comparison('id', '=', $cfo_id);
-        $criteria = Criteria::create()->where($expr);
-
-        return $this->getOne($this->options, $criteria);
+        return $this->getOne($this->options, 'id', '=', $cfo_id);
     }
 
     /**
@@ -557,12 +554,12 @@ class CustomField
 
     public function getProjectCustomFieldById(int $prj_id): ?ProjectCustomField
     {
-        return $this->getOne($this->projects, 'projectId', '=', $prj_id) ?: null;
+        return $this->getOne($this->projects, 'projectId', '=', $prj_id);
     }
 
     public function getIssueCustomField(int $issue_id): ?IssueCustomField
     {
-        return $this->getOne($this->issues, 'issueId', '=', $issue_id) ?: null;
+        return $this->getOne($this->issues, 'issueId', '=', $issue_id);
     }
 
     /**
