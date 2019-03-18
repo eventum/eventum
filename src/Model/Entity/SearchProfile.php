@@ -13,41 +13,43 @@
 
 namespace Eventum\Model\Entity;
 
+use Doctrine\ORM\Mapping as ORM;
+
 /**
- * @Table(name="search_profile", uniqueConstraints={@UniqueConstraint(name="sep_usr_id", columns={"sep_usr_id", "sep_prj_id", "sep_type"})})
- * @Entity(repositoryClass="Eventum\Model\Repository\SearchProfileRepository")
+ * @ORM\Table(name="search_profile", uniqueConstraints={@ORM\UniqueConstraint(name="sep_usr_id", columns={"sep_usr_id", "sep_prj_id", "sep_type"})})
+ * @ORM\Entity(repositoryClass="Eventum\Model\Repository\SearchProfileRepository")
  */
 class SearchProfile
 {
     /**
      * @var int
-     * @Column(name="sep_id", type="integer", nullable=false)
-     * @Id
-     * @GeneratedValue(strategy="IDENTITY")
+     * @ORM\Column(name="sep_id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $id;
 
     /**
      * @var int
-     * @Column(name="sep_usr_id", type="integer", nullable=false)
+     * @ORM\Column(name="sep_usr_id", type="integer", nullable=false)
      */
     private $userId;
 
     /**
      * @var int
-     * @Column(name="sep_prj_id", type="integer", nullable=false)
+     * @ORM\Column(name="sep_prj_id", type="integer", nullable=false)
      */
     private $projectId;
 
     /**
      * @var string The type of the search profile ('issue' or 'email')
-     * @Column(name="sep_type", type="string", length=5, nullable=false)
+     * @ORM\Column(name="sep_type", type="string", length=5, nullable=false)
      */
     private $type;
 
     /**
      * @var array
-     * @Column(name="sep_user_profile", type="array", length=65535, nullable=false)
+     * @ORM\Column(name="sep_user_profile", type="array", length=65535, nullable=false)
      */
     private $user_profile;
 
