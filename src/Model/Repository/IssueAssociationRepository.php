@@ -15,6 +15,7 @@ namespace Eventum\Model\Repository;
 
 use DB_Helper;
 use Doctrine\ORM\EntityRepository;
+use Ds\Set;
 use Eventum\Model\Entity;
 use History;
 use InvalidArgumentException;
@@ -50,15 +51,14 @@ class IssueAssociationRepository extends EntityRepository
         );
         $query->execute([':issue_id' => $issue_id]);
 
-        $res = [];
+        $set = new Set();
         while (($id = $query->fetchColumn()) !== false) {
-            $res[] = (int)$id;
+            $set->add((int)$id);
         }
 
-        // and sort
-        asort($res);
+        $set->sort();
 
-        return array_values($res);
+        return $set->toArray();
     }
 
     /**
