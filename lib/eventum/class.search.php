@@ -28,7 +28,7 @@ class Search
      * @return  mixed The value of the specified parameter
      * @return string
      */
-    public static function getParam($name, $request_only = false, $valid_values = null)
+    private static function getParam($name, $request_only = false, $valid_values = null)
     {
         $value = null;
         if (isset($_GET[$name])) {
@@ -62,10 +62,10 @@ class Search
      * @param bool $request_only If only $_GET and $_POST should be checked
      * @return array
      */
-    public static function getArrayParam($name, $request_only)
+    private static function getArrayParam($name, $request_only)
     {
         $value = self::getParam($name, $request_only);
-        if ($value == 'last') {
+        if ($value === 'last') {
             $value = self::getParam('last_' . $name, $request_only);
         }
         if (!is_array($value)) {
@@ -143,7 +143,7 @@ class Search
             if (empty($field)) {
                 continue;
             }
-            if (@$field['filter_type'] == 'in_past') {
+            if (@$field['filter_type'] === 'in_past') {
                 @$cookie[$field_name] = [
                     'filter_type' => 'in_past',
                     'time_period' => $field['time_period'],
@@ -186,7 +186,7 @@ class Search
      */
     public static function getListing($prj_id, $options, $current_row = 0, $max = 5)
     {
-        if (strtoupper($max) == 'ALL') {
+        if (strtoupper($max) === 'ALL') {
             $max = 9999999;
         }
         $start = $current_row * $max;
@@ -246,13 +246,13 @@ class Search
                     continue;
                 }
                 $field = Custom_Field::getDetails($fld_id);
-                if (($field['fld_type'] == 'date') && ((empty($search_value['Year'])) || (empty($search_value['Month'])) || (empty($search_value['Day'])))) {
+                if (($field['fld_type'] === 'date') && ((empty($search_value['Year'])) || (empty($search_value['Month'])) || (empty($search_value['Day'])))) {
                     continue;
                 }
-                if (($field['fld_type'] == 'integer') && empty($search_value['value'])) {
+                if (($field['fld_type'] === 'integer') && empty($search_value['value'])) {
                     continue;
                 }
-                if ($field['fld_type'] == 'multiple') {
+                if ($field['fld_type'] === 'multiple') {
                     $search_value = Misc::escapeString($search_value);
                     foreach ($search_value as $cfo_id) {
                         $stmt .= ",\n`issue_custom_field` as `cf" . $fld_id . '_' . $cfo_id . "`\n";
@@ -396,7 +396,7 @@ class Search
         $column_headings = [];
         $columns_to_display = Display_Column::getColumnsToDisplay($prj_id, 'list_issues');
         foreach ($columns_to_display as $col_key => $column) {
-            if ($col_key == 'custom_fields' && count($custom_fields) > 0) {
+            if ($col_key === 'custom_fields' && count($custom_fields) > 0) {
                 foreach ($custom_fields as $fld_id => $fld_title) {
                     $column_headings['cstm_' . $fld_id] = $fld_title;
                 }
@@ -447,20 +447,23 @@ class Search
                     $fields[] = $row[$col_key] ?? '';
                 }
             }
+            /*
             if (CRM::hasCustomerIntegration($prj_id)) {
                 // check if current user is a customer and has a per incident contract.
                 // if so, check if issue is redeemed.
                 if (User::getRoleByUser($usr_id, $prj_id) == User::ROLE_CUSTOMER) {
-                    // TODOCRM: Fix per incident usage
-//                    if ((Customer::hasPerIncidentContract($prj_id, Issue::getCustomerID($res[$i]['iss_id'])) &&
-//                            (Customer::isRedeemedIncident($prj_id, $res[$i]['iss_id'])))) {
-//                        $res[$i]['redeemed'] = true;
-//                    }
+                     TODOCRM: Fix per incident usage
+                    if ((Customer::hasPerIncidentContract($prj_id, Issue::getCustomerID($res[$i]['iss_id'])) &&
+                            (Customer::isRedeemedIncident($prj_id, $res[$i]['iss_id'])))) {
+                        $res[$i]['redeemed'] = true;
+                    }
                 }
             }
+            */
 
             $csv[] = @implode("\t", $fields);
         }
+        unset($row);
 
         $total_pages = ceil($total_rows / $max);
         $last_page = $total_pages - 1;
@@ -488,7 +491,7 @@ class Search
      * @param   array $options The search parameters
      * @return  string The where clause
      */
-    public static function buildWhereClause($options)
+    private static function buildWhereClause($options)
     {
         $usr_id = Auth::getUserID();
         $prj_id = Auth::getCurrentProject();
@@ -563,9 +566,9 @@ class Search
         }
         if (!empty($options['keywords'])) {
             $stmt .= " AND (\n";
-            if (($options['search_type'] == 'all_text') && (APP_ENABLE_FULLTEXT)) {
+            if (($options['search_type'] === 'all_text') && (APP_ENABLE_FULLTEXT)) {
                 $stmt .= 'iss_id IN(' . implode(', ', self::getFullTextIssues($options)) . ')';
-            } elseif (($options['search_type'] == 'customer') && (CRM::hasCustomerIntegration($prj_id))) {
+            } elseif (($options['search_type'] === 'customer') && (CRM::hasCustomerIntegration($prj_id))) {
                 // check if the user is trying to search by customer name / email
                 $crm = CRM::getInstance($prj_id);
                 $customer_ids = $crm->getCustomerIDsByString($options['keywords'], true);
@@ -646,15 +649,15 @@ class Search
                 }
                 $field = Custom_Field::getDetails($fld_id);
                 $fld_db_name = Custom_Field::getDBValueFieldNameByType($field['fld_type']);
-                if (($field['fld_type'] == 'date') &&
+                if (($field['fld_type'] === 'date') &&
                         ((empty($search_value['Year'])) || (empty($search_value['Month'])) || (empty($search_value['Day'])))) {
                     continue;
                 }
-                if (($field['fld_type'] == 'integer') && empty($search_value['value'])) {
+                if (($field['fld_type'] === 'integer') && empty($search_value['value'])) {
                     continue;
                 }
 
-                if ($field['fld_type'] == 'multiple') {
+                if ($field['fld_type'] === 'multiple') {
                     $search_value = Misc::escapeString($search_value);
                     foreach ($search_value as $cfo_id) {
                         $cfo_id = Misc::escapeString($cfo_id);
@@ -662,14 +665,14 @@ class Search
                         $stmt .= " AND\n `cf" . $fld_id . '_' . $cfo_id . "`.icf_fld_id = $fld_id";
                         $stmt .= " AND\n `cf" . $fld_id . '_' . $cfo_id . '`.' . $fld_db_name . " = '$cfo_id'";
                     }
-                } elseif ($field['fld_type'] == 'date') {
+                } elseif ($field['fld_type'] === 'date') {
                     if ((empty($search_value['Year'])) || (empty($search_value['Month'])) || (empty($search_value['Day']))) {
                         continue;
                     }
                     $search_value = $search_value['Year'] . '-' . $search_value['Month'] . '-' . $search_value['Day'];
                     $stmt .= " AND\n (iss_id = `cf" . $fld_id . '``.icf_iss_id AND
                         `cf' . $fld_id . '`.' . $fld_db_name . " = '" . Misc::escapeString($search_value) . "')";
-                } elseif ($field['fld_type'] == 'integer') {
+                } elseif ($field['fld_type'] === 'integer') {
                     $value = $search_value['value'];
                     switch ($search_value['filter_type']) {
                     case 'ge':
@@ -694,7 +697,7 @@ class Search
                 } else {
                     $stmt .= " AND\n (iss_id = cf" . $fld_id . '.icf_iss_id';
                     $stmt .= " AND\n cf" . $fld_id . ".icf_fld_id = $fld_id";
-                    if ($field['fld_type'] == 'combo' || $field['fld_type'] == 'checkbox') {
+                    if ($field['fld_type'] === 'combo' || $field['fld_type'] === 'checkbox') {
                         $stmt .= ' AND cf' . $fld_id . '.' . $fld_db_name . " IN('" . implode("', '", Misc::escapeString($search_value)) . "')";
                     } else {
                         $stmt .= ' AND cf' . $fld_id . '.' . $fld_db_name . " LIKE '%" . Misc::escapeString($search_value) . "%'";
@@ -708,7 +711,7 @@ class Search
         $stmt .= Access::getListingSQL($prj_id);
 
         // clear cached full-text values if we are not searching fulltext anymore
-        if ((APP_ENABLE_FULLTEXT) && (@$options['search_type'] != 'all_text')) {
+        if ((APP_ENABLE_FULLTEXT) && (@$options['search_type'] !== 'all_text')) {
             Session::set('fulltext_string', '');
             Session::set('fulltext_issues', '');
             Session::set('fulltext_excerpts', '');
@@ -748,7 +751,7 @@ class Search
     /**
      * This needs to be called after getFullTextIssues
      */
-    public static function getFullTextExcerpts($options)
+    private static function getFullTextExcerpts($options)
     {
         if (!APP_ENABLE_FULLTEXT || empty($options['keywords'])) {
             return [];
@@ -765,7 +768,6 @@ class Search
     }
 
     /**
-     * @static
      * @return Abstract_Fulltext_Search
      */
     private static function getFullTextSearchInstance()
@@ -776,9 +778,9 @@ class Search
             $class = APP_FULLTEXT_SEARCH_CLASS;
 
             // XXX legacy: handle lowercased classname
-            if ($class == 'mysql_fulltext_search') {
+            if ($class === 'mysql_fulltext_search') {
                 $class = 'MySQL_Fulltext_Search';
-            } elseif ($class == 'sphinx_fulltext_search') {
+            } elseif ($class === 'sphinx_fulltext_search') {
                 $class = 'Sphinx_Fulltext_Search';
             }
 
