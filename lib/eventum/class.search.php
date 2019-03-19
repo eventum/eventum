@@ -396,7 +396,7 @@ class Search
         $column_headings = [];
         $columns_to_display = Display_Column::getColumnsToDisplay($prj_id, 'list_issues');
         foreach ($columns_to_display as $col_key => $column) {
-            if ($col_key === 'custom_fields' && count($custom_fields) > 0) {
+            if ($col_key === 'custom_fields' && $custom_fields) {
                 foreach ($custom_fields as $fld_id => $fld_title) {
                     $column_headings['cstm_' . $fld_id] = $fld_title;
                 }
@@ -432,7 +432,7 @@ class Search
                     case 'iss_customer_id':
                         $col_key = 'customer_title';break;
                 }
-                if ($col_key === 'custom_fields' && count($custom_fields) > 0) {
+                if ($col_key === 'custom_fields' && $custom_fields) {
                     self::applyCustomFields($custom_fields, $row, $fields);
                 } else {
                     $fields[] = $row[$col_key] ?? '';
