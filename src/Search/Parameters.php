@@ -61,6 +61,6 @@ class Parameters
     {
         return
             $this->profile[$type] ??
-            Search_Profile::getProfile($this->usr_id, $this->prj_id, $type);
+            $this->profile[$type] = Search_Profile::getProfile($this->usr_id, $this->prj_id, $type);
     }
 }
