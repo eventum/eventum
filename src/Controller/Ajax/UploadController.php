@@ -66,7 +66,7 @@ class UploadController extends AjaxBaseController
      */
     protected function uploadAction(): array
     {
-        if ($this->file) {
+        if (!$this->file) {
             // TRANSLATORS: this is technical error and should not be displayed to end users
             throw new InvalidArgumentException(ev_gettext('No file argument'));
         }
