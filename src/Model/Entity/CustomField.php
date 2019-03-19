@@ -436,6 +436,9 @@ class CustomField
         return $this;
     }
 
+    /**
+     * @return CustomFieldOption[]|Collection
+     */
     public function getOptions(): Collection
     {
         [$columnName, $direction] = explode(' ', $this->orderBy);

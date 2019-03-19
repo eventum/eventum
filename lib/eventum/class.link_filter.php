@@ -11,12 +11,12 @@
  * that were distributed with this source code.
  */
 
-use cebe\markdown\GithubMarkdown;
 use Eventum\Attachment\AttachmentManager;
 use Eventum\Db\Adapter\AdapterInterface;
 use Eventum\Db\DatabaseException;
 use Eventum\LinkFilter\IssueLinkFilter;
 use Eventum\LinkFilter\LinkFilter;
+use Eventum\Markdown;
 
 /**
  * Class to handle parsing content for links.
@@ -252,24 +252,19 @@ class Link_Filter
         return 1;
     }
 
-    /**
-     * @param string $text
-     * @return string
-     */
-    public static function markdownFormat($text)
+    public static function markdownFormat(string $text, bool $inline = false): string
     {
         static $parser;
 
         if (!$parser) {
-            $parser = new GithubMarkdown();
-            $parser->enableNewlines = true;
+            $parser = new Markdown();
         }
 
-        $text = $parser->parse($text);
-        // strip paragraph, confuses single line areas
-        $text = preg_replace("{^<p>(.+)</p>\n$}", '$1', $text);
+        if ($inline) {
+            return $parser->renderInline($text);
+        }
 
-        return $text;
+        return $parser->render($text);
     }
 
     /**
@@ -278,9 +273,10 @@ class Link_Filter
      * @param   int $prj_id The ID of the project
      * @param   string $text The text to process
      * @param   string $class The CSS class to use on the actual links
+     * @param bool $inline
      * @return  string the processed text
      */
-    public static function processText($prj_id, $text, $class = 'link')
+    public static function processText($prj_id, $text, $class = 'link', bool $inline = false): string
     {
         // process issue link separatly since it has to do something special
         if (!self::markdownEnabled()) {
@@ -293,7 +289,7 @@ class Link_Filter
 
         // enable markdown
         if (self::markdownEnabled()) {
-            $text = self::markdownFormat($text);
+            $text = self::markdownFormat($text, $inline);
         }
 
         return $text;
@@ -365,15 +361,21 @@ class Link_Filter
      */
     public static function getLinkFilter(?int $prj_id = null): LinkFilter
     {
-        $linkFilter = new LinkFilter();
-        $linkFilter->addFilter(new IssueLinkFilter(APP_BASE_URL));
+        static $cache;
 
-        if ($prj_id) {
-            $linkFilter->addRules(self::getFiltersByProject($prj_id));
-            Workflow::addLinkFilters($linkFilter, $prj_id);
-        }
+        $initialize = function (?int $prj_id) {
+            $linkFilter = new LinkFilter();
+            $linkFilter->addFilter(new IssueLinkFilter(APP_BASE_URL));
 
-        return $linkFilter;
+            if ($prj_id) {
+                $linkFilter->addRules(self::getFiltersByProject($prj_id));
+                Workflow::addLinkFilters($linkFilter, $prj_id);
+            }
+
+            return $linkFilter;
+        };
+
+        return $cache[(int)$prj_id] ?? $cache[(int)$prj_id] = $initialize($prj_id);
     }
 
     /**

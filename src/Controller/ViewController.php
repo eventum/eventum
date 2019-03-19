@@ -37,6 +37,7 @@ use Product;
 use Project;
 use Release;
 use Search;
+use Setup;
 use Severity;
 use Status;
 use Support;
@@ -401,18 +402,23 @@ class ViewController extends BaseController
      * @param   int $issue_id The issue ID
      * @return  array The list of checkins
      */
-    private function getIssueCommits($issue_id)
+    private function getIssueCommits(int $issue_id): array
     {
+        if (Setup::get()['scm_integration'] !== 'enabled') {
+            return [];
+        }
+
         $commit = Doctrine::getIssueRepository()->getCommits($issue_id);
 
         $checkins = [];
+        $prj_id = Issue::getProjectID($issue_id);
         foreach ($commit as $c) {
             $scm = $c->getCommitRepo();
 
             $checkin = $c->toArray();
             $checkin['isc_commit_date'] = Date_Helper::convertDateGMT($checkin['com_commit_date']);
             $checkin['isc_commit_msg'] = Link_Filter::processText(
-                Issue::getProjectID($issue_id), nl2br(htmlspecialchars($checkin['com_message']))
+                $prj_id, nl2br(htmlspecialchars($checkin['com_message'])), 'link', true
             );
             $checkin['author'] = $c->getAuthor();
             $checkin['project_name'] = $c->getProjectName();

@@ -106,14 +106,14 @@ body.login form#login_form table td.button {
     border: 0;
     margin: 0;
 }
-#issue_overview tr.full_width td table {
+#issue_overview tr.full_width>td>table.grid {
     width: 100%;
     margin-top: -1px;
 }
-#issue_overview tr.full_width td table tr {
-    border-top: 0px;
+#issue_overview tr.full_width>td>table.grid tr {
+    border-top: 0;
 }
-#issue_overview tr.full_width td table th {
+#issue_overview tr.full_width>td>table.grid th {
     width: 15%;
 }
 #issue_overview .buttons1 td {
@@ -143,11 +143,11 @@ body.issue_view div.issue_section {
     margin-bottom: 1em;
 }
 
-body.issue_view div.issue_section div.content table {
+body.issue_view div.issue_section>div.content>table {
     width: 100%;
 }
 td#email_message,
-body.issue_view div.issue_section div.content table tr.note_content {
+body.issue_view div.issue_section>div.content>table>tr.note_content {
     -ms-word-break: break-all;
     word-break: break-all;
     word-break: break-word;

@@ -432,7 +432,7 @@ class Misc
      */
     public static function activateLinks($text, $class = 'link')
     {
-        // process issue link separatly since it has to do something special
+        // process issue link separately since it has to do something special
         if (Link_Filter::markdownEnabled()) {
             // conflicts with markdown
             return $text;

@@ -327,13 +327,13 @@ issue_view.toggle_plain_view = function()
     if (!plain.is(':visible')) {
         formatted.hide();
         plain.show();
-        link.text(link.attr('data-normal'));
+        link.text(link.attr('data-html'));
     } else {
         plain.hide();
         formatted.show();
-        link.text(link.attr('data-fixed'));
+        link.text(link.attr('data-plain'));
     }
-}
+};
 
 issue_view.toggle_issue_section = function(id)
 {

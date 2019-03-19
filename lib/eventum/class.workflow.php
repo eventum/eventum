@@ -895,7 +895,7 @@ class Workflow
     /**
      * Updates filters in $filters.
      *
-     * @since 3.6.3 emits ATTACHMENT_ATTACH_FILE event
+     * @since 3.6.3 emits ISSUE_LINK_FILTERS event
      * @deprecated
      */
     public static function addLinkFilters(LinkFilter $linkFilter, int $prj_id): void
