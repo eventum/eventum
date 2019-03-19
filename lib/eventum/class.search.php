@@ -433,16 +433,7 @@ class Search
                         $col_key = 'customer_title';break;
                 }
                 if ($col_key === 'custom_fields' && count($custom_fields) > 0) {
-                    $custom_field_values = Custom_Field::getListByIssue($prj_id, $row['iss_id']);
-                    foreach ($custom_field_values as $cf) {
-                        if (!empty($custom_fields[$cf['fld_id']])) {
-                            $formattedValue = Custom_Field::formatValue($cf['value'], $cf['fld_id'], $row['iss_id']);
-                            $cf['formatted_value'] = $formattedValue;
-
-                            $row['custom_field'][$cf['fld_id']] = $cf;
-                            $fields[] = $cf['value'];
-                        }
-                    }
+                    self::applyCustomFields($custom_fields, $row, $fields);
                 } else {
                     $fields[] = $row[$col_key] ?? '';
                 }
@@ -483,6 +474,24 @@ class Search
             ],
             'csv' => @implode("\n", $csv),
         ];
+    }
+
+    private static function applyCustomFields(array $custom_fields, array &$row, array &$fields): void
+    {
+        $prj_id = $row['iss_prj_id'];
+        $custom_field_values = Custom_Field::getListByIssue($prj_id, $row['iss_id']);
+
+        foreach ($custom_field_values as $cf) {
+            if (empty($custom_fields[$cf['fld_id']])) {
+                continue;
+            }
+
+            $formattedValue = Custom_Field::formatValue($cf['value'], $cf['fld_id'], $row['iss_id']);
+            $cf['formatted_value'] = $formattedValue;
+
+            $row['custom_field'][$cf['fld_id']] = $cf;
+            $fields[] = $cf['value'];
+        }
     }
 
     /**

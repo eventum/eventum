@@ -288,6 +288,7 @@ class Custom_Field
             foreach ($fields as $field) {
                 $res[$field->getId()] = $field->getTitle();
             }
+
             return $res;
         };
 
