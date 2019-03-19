@@ -35,7 +35,7 @@ class OpenSearchController extends BaseController
     /**
      * {@inheritdoc}
      */
-    protected function canAccess()
+    protected function canAccess(): bool
     {
         if (!AuthCookie::hasAuthCookie()) {
             header('HTTP/1.0 403 Forbidden');

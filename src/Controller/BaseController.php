@@ -237,7 +237,7 @@ abstract class BaseController
      *
      * @return bool
      */
-    abstract protected function canAccess();
+    abstract protected function canAccess(): bool;
 
     /**
      * default action of a controller

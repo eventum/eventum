@@ -60,7 +60,7 @@ class TimeTrackingController extends BaseController
     /**
      * {@inheritdoc}
      */
-    protected function canAccess()
+    protected function canAccess(): bool
     {
         Auth::checkAuthentication(null, true);
 

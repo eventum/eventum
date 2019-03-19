@@ -65,7 +65,7 @@ class SelectProjectController extends BaseController
     /**
      * {@inheritdoc}
      */
-    protected function canAccess()
+    protected function canAccess(): bool
     {
         // check if cookies are enabled, first of all
         if (!AuthCookie::hasCookieSupport()) {

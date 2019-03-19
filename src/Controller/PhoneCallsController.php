@@ -49,7 +49,7 @@ class PhoneCallsController extends BaseController
     /**
      * {@inheritdoc}
      */
-    protected function canAccess()
+    protected function canAccess(): bool
     {
         Auth::checkAuthentication(null, true);
 
@@ -72,7 +72,7 @@ class PhoneCallsController extends BaseController
      */
     protected function defaultAction(): void
     {
-        if ($this->cat == 'add_phone') {
+        if ($this->cat === 'add_phone') {
             $res = Phone_Support::insert();
             $this->tpl->assign('add_phone_result', $res);
         }

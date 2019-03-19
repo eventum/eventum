@@ -51,7 +51,7 @@ class RssController extends BaseController
     /**
      * {@inheritdoc}
      */
-    protected function canAccess()
+    protected function canAccess(): bool
     {
         // try current auth cookie
         $this->usr_id = Auth::getUserID();

@@ -31,7 +31,7 @@ class IndexController extends ReportBaseController
     /**
      * {@inheritdoc}
      */
-    protected function canAccess()
+    protected function canAccess(): bool
     {
         Auth::checkAuthentication();
         if (!Access::canAccessReports(Auth::getUserID())) {

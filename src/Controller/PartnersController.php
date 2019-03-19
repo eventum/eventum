@@ -56,7 +56,7 @@ class PartnersController extends BaseController
     /**
      * {@inheritdoc}
      */
-    protected function canAccess()
+    protected function canAccess(): bool
     {
         $this->usr_id = Auth::getUserID();
 
@@ -74,7 +74,7 @@ class PartnersController extends BaseController
      */
     protected function defaultAction(): void
     {
-        if ($this->cat == 'update') {
+        if ($this->cat === 'update') {
             $this->updatePartnerAction();
         }
     }

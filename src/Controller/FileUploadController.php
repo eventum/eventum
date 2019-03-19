@@ -43,7 +43,7 @@ class FileUploadController extends BaseController
     /**
      * {@inheritdoc}
      */
-    protected function canAccess()
+    protected function canAccess(): bool
     {
         Auth::checkAuthentication(null, true);
 
@@ -55,7 +55,7 @@ class FileUploadController extends BaseController
      */
     protected function defaultAction(): void
     {
-        if ($this->cat == 'upload_file') {
+        if ($this->cat === 'upload_file') {
             $this->uploadFileAction();
         }
     }

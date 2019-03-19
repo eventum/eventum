@@ -71,7 +71,7 @@ class SendController extends BaseController
         $this->note_id = $request->get('note_id');
     }
 
-    protected function canAccess()
+    protected function canAccess(): bool
     {
         Auth::checkAuthentication();
 

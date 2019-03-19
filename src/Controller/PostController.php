@@ -36,13 +36,13 @@ class PostController extends BaseController
         $request = $this->getRequest();
 
         $this->cat = $request->request->get('cat');
-        $this->post_form = $request->query->get('post_form') == 'yes';
+        $this->post_form = $request->query->get('post_form') === 'yes';
     }
 
     /**
      * {@inheritdoc}
      */
-    protected function canAccess()
+    protected function canAccess(): bool
     {
         return true;
     }
@@ -52,7 +52,7 @@ class PostController extends BaseController
      */
     protected function defaultAction(): void
     {
-        if ($this->cat == 'report') {
+        if ($this->cat === 'report') {
             $this->reportAction();
         } elseif ($this->post_form) {
             $this->postFormAction();

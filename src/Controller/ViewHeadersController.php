@@ -42,7 +42,7 @@ class ViewHeadersController extends BaseController
     /**
      * {@inheritdoc}
      */
-    protected function canAccess()
+    protected function canAccess(): bool
     {
         Auth::checkAuthentication(null, true);
 
@@ -61,7 +61,7 @@ class ViewHeadersController extends BaseController
      */
     protected function prepareTemplate(): void
     {
-        if ($this->cat == 'note') {
+        if ($this->cat === 'note') {
             $mail = Note::getNoteMessage($this->id);
         } else {
             $mail = Support::getSupportEmail($this->id);

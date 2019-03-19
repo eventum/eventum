@@ -42,7 +42,7 @@ class GetAttachmentController extends BaseController
     /**
      * {@inheritdoc}
      */
-    protected function canAccess()
+    protected function canAccess(): bool
     {
         Auth::checkAuthentication();
 
@@ -56,7 +56,7 @@ class GetAttachmentController extends BaseController
     {
         $get = $this->getRequest()->query;
 
-        if ($this->cat == 'blocked_email') {
+        if ($this->cat === 'blocked_email') {
             $mail = Note::getNoteMessage($get->getInt('note_id'));
         } else {
             $mail = Support::getSupportEmail($get->getInt('sup_id'));

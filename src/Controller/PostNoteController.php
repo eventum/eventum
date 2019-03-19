@@ -66,7 +66,7 @@ class PostNoteController extends BaseController
     /**
      * {@inheritdoc}
      */
-    protected function canAccess()
+    protected function canAccess(): bool
     {
         Auth::checkAuthentication(null, true);
 

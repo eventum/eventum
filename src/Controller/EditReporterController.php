@@ -49,7 +49,7 @@ class EditReporterController extends BaseController
     /**
      * {@inheritdoc}
      */
-    protected function canAccess()
+    protected function canAccess(): bool
     {
         Auth::checkAuthentication(null, true);
 
@@ -69,7 +69,7 @@ class EditReporterController extends BaseController
      */
     protected function defaultAction(): void
     {
-        if ($this->cat == 'update') {
+        if ($this->cat === 'update') {
             $this->updateReporterAction();
         }
     }

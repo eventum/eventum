@@ -28,7 +28,7 @@ class ScmPingController extends BaseController
     /**
      * {@inheritdoc}
      */
-    protected function canAccess()
+    protected function canAccess(): bool
     {
         return true;
     }

@@ -44,7 +44,7 @@ class ConfirmController extends BaseController
     /**
      * {@inheritdoc}
      */
-    protected function canAccess()
+    protected function canAccess(): bool
     {
         if (!in_array($this->cat, ['newuser', 'password'])) {
             return false;
@@ -58,9 +58,9 @@ class ConfirmController extends BaseController
      */
     protected function defaultAction(): void
     {
-        if ($this->cat == 'newuser') {
+        if ($this->cat === 'newuser') {
             $this->newUserAction();
-        } elseif ($this->cat == 'password') {
+        } elseif ($this->cat === 'password') {
             $this->passwordAction();
         }
     }

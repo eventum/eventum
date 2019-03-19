@@ -40,7 +40,7 @@ class SignupController extends BaseController
     /**
      * {@inheritdoc}
      */
-    protected function canAccess()
+    protected function canAccess(): bool
     {
         // log anonymous users out so they can use the signup form
         if (AuthCookie::hasAuthCookie() && Auth::isAnonUser()) {
@@ -55,7 +55,7 @@ class SignupController extends BaseController
      */
     protected function defaultAction(): void
     {
-        if ($this->cat == 'signup') {
+        if ($this->cat === 'signup') {
             $this->createVisitorAccountAction();
         }
     }
@@ -64,7 +64,7 @@ class SignupController extends BaseController
     {
         $setup = Setup::get();
 
-        if ($setup['open_signup'] != 'enabled') {
+        if ($setup['open_signup'] !== 'enabled') {
             $error = ev_gettext('Sorry, but this feature has been disabled by the administrator.');
             $this->error($error);
         }

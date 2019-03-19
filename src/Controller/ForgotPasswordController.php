@@ -36,7 +36,7 @@ class ForgotPasswordController extends BaseController
     /**
      * {@inheritdoc}
      */
-    protected function canAccess()
+    protected function canAccess(): bool
     {
         return true;
     }
@@ -46,7 +46,7 @@ class ForgotPasswordController extends BaseController
      */
     protected function defaultAction(): void
     {
-        if ($this->cat == 'reset_password') {
+        if ($this->cat === 'reset_password') {
             $res = $this->resetPasswordAction();
             $this->tpl->assign('result', $res);
         }

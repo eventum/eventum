@@ -32,7 +32,7 @@ class Template_Helper
      * @param string $templateName
      * @throws SmartyException
      */
-    public function __construct($templateName = null)
+    public function __construct(string $templateName = null)
     {
         $smarty = new Smarty();
         $smarty->setTemplateDir([APP_LOCAL_PATH . '/templates', APP_TPL_PATH]);
@@ -70,9 +70,8 @@ class Template_Helper
      * Sets the internal template filename for the current PHP script
      *
      * @param  string $tpl_name The filename of the template
-     * @return $this
      */
-    public function setTemplate($tpl_name)
+    public function setTemplate($tpl_name): self
     {
         $this->tpl_name = $tpl_name;
 
@@ -84,9 +83,8 @@ class Template_Helper
      *
      * @param  string|string[] $var_name Placeholder on the template
      * @param  string|array $value Value to be assigned to this placeholder
-     * @return $this
      */
-    public function assign($var_name, $value = null)
+    public function assign($var_name, $value = null): self
     {
         $this->smarty->assign($var_name, $value);
 
@@ -99,13 +97,12 @@ class Template_Helper
      * @param bool $process Whether to call process template to fill template variables. Default true
      * @return $this
      */
-    public function displayTemplate($process = true)
+    public function displayTemplate(bool $process = true): self
     {
         if ($process) {
             $this->processTemplate();
         }
 
-        // finally display the parsed template
         $this->smarty->display($this->tpl_name);
 
         return $this;
@@ -117,7 +114,7 @@ class Template_Helper
      * @param bool $process Whether to call process template to fill template variables. Default true
      * @return string The contents of the parsed template
      */
-    public function getTemplateContents($process = true)
+    public function getTemplateContents(bool $process = true): string
     {
         if ($process) {
             $this->processTemplate();
@@ -128,10 +125,8 @@ class Template_Helper
 
     /**
      * Processes the template and assign common variables automatically.
-     *
-     * @return $this
      */
-    private function processTemplate()
+    private function processTemplate(): self
     {
         $setup = Setup::get();
         $appInfo = AppInfo::getInstance();

@@ -64,7 +64,7 @@ class ViewEmailController extends BaseController
     /**
      * {@inheritdoc}
      */
-    protected function canAccess()
+    protected function canAccess(): bool
     {
         if (!$this->sup_id) {
             return false;
@@ -85,7 +85,7 @@ class ViewEmailController extends BaseController
         }
 
         $usr_role = User::getRoleByUser($this->usr_id, $this->prj_id);
-        if ($this->cat == 'move_email' && $usr_role < User::ROLE_USER) {
+        if ($this->cat === 'move_email' && $usr_role < User::ROLE_USER) {
             return false;
         }
 
