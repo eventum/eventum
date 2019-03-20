@@ -13,15 +13,14 @@
 
 namespace Eventum;
 
+use Eventum\CommonMark\MentionExtension;
 use Eventum\EventDispatcher\EventManager;
 use League\CommonMark\CommonMarkConverter;
 use League\CommonMark\ConverterInterface;
 use League\CommonMark\Environment;
-use Eventum\CommonMark\InlineMentionParser;
 use League\CommonMark\Ext\InlinesOnly\InlinesOnlyExtension;
 use League\CommonMark\Extension\CommonMarkCoreExtension;
 use League\CommonMark\Extras\CommonMarkExtrasExtension;
-use League\CommonMark\Inline\Parser\InlineParserInterface;
 use Lossendae\CommonMark\TaskLists\TaskListsCheckbox;
 use Lossendae\CommonMark\TaskLists\TaskListsCheckboxRenderer;
 use Lossendae\CommonMark\TaskLists\TaskListsParser;
@@ -92,8 +91,7 @@ class Markdown
     {
         $environment->addExtension(new CommonMarkExtrasExtension());
         $environment->addExtension(new TableExtension());
-
-        $environment->addInlineParser($this->getUserMentionParser());
+        $environment->addExtension(new MentionExtension());
 
         $environment->addInlineRenderer(TaskListsCheckbox::class, new TaskListsCheckboxRenderer());
         $environment->addInlineParser(new TaskListsParser());
@@ -101,10 +99,5 @@ class Markdown
         // allow extensions to apply behaviour
         $event = new GenericEvent($environment);
         EventManager::dispatch(Event\SystemEvents::MARKDOWN_ENVIRONMENT_CONFIGURE, $event);
-    }
-
-    private function getUserMentionParser(): InlineParserInterface
-    {
-        return new InlineMentionParser(APP_BASE_URL . 'user.php?uid=%s');
     }
 }

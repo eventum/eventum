@@ -16,11 +16,15 @@ namespace Eventum\CommonMark;
 use League\CommonMark\Inline\Element\Link;
 use League\CommonMark\Inline\Parser\InlineParserInterface;
 use League\CommonMark\InlineParserContext;
+use User;
 
 final class InlineMentionParser implements InlineParserInterface
 {
     /** @var string */
     private $linkPattern;
+
+    /** @var UserLookup */
+    private $lookup;
 
     /** @var string */
     private $handleRegex = '/^[A-Za-z0-9_]+(?!\w)/';
@@ -28,9 +32,10 @@ final class InlineMentionParser implements InlineParserInterface
     /**
      * @param string $linkPattern
      */
-    public function __construct(string $linkPattern)
+    public function __construct(string $linkPattern, UserLookup $lookup)
     {
         $this->linkPattern = $linkPattern;
+        $this->lookup = $lookup;
     }
 
     /**
@@ -71,14 +76,14 @@ final class InlineMentionParser implements InlineParserInterface
 
         // Parse the handle
         $handle = $cursor->match($this->handleRegex);
-        if (empty($handle)) {
-            // Regex failed to match; this isn't a valid Twitter handle
+        $usr_id = $this->lookup->lookup($handle);
+        if (!$handle || !$usr_id) {
             $cursor->restoreState($previousState);
 
             return false;
         }
 
-        $url = sprintf($this->linkPattern, $handle);
+        $url = sprintf($this->linkPattern, $usr_id);
 
         $inlineContext->getContainer()->appendChild(new Link($url, '@' . $handle));
 
