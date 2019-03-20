@@ -15,38 +15,21 @@ namespace Eventum\Controller;
 
 use Auth;
 use AuthCookie;
+use Eventum\Controller\Traits\RedirectResponseTrait;
+use Eventum\Controller\Traits\SmartyResponseTrait;
 use Project;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
-class IndexController extends BaseController
+class IndexController
 {
+    use RedirectResponseTrait;
+    use SmartyResponseTrait;
+
     /** @var string */
     protected $tpl_name = 'index.tpl.html';
 
-    /** @var string */
-    private $url;
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function configure(): void
-    {
-        $request = $this->getRequest();
-
-        $this->url = (string) $request->get('url');
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function canAccess(): bool
-    {
-        return true;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function defaultAction(): void
+    public function defaultAction(Request $request): Response
     {
         $has_valid_cookie = AuthCookie::hasAuthCookie();
         $is_anon_user = Auth::isAnonUser();
@@ -58,30 +41,24 @@ class IndexController extends BaseController
 
         if ($has_valid_cookie && !$is_anon_user) {
             $params = [];
-            if ($this->url) {
-                $params['url'] = $this->url;
+            $url = (string)$request->get('url');
+            if ($url) {
+                $params['url'] = $url;
             }
-            $this->redirect('select_project.php', $params);
+
+            return $this->redirect('select_project.php', $params);
         }
 
+        $externalLoginUrl = Auth::getExternalLoginURL();
         if (Auth::autoRedirectToExternalLogin()) {
-            $this->redirect(Auth::getExternalLoginURL(), [], true);
+            return $this->redirect($externalLoginUrl, [], true);
         }
-    }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function prepareTemplate(): void
-    {
-        $projects = Project::getAnonymousList();
-        $anonymous_post = (int) !empty($projects);
+        $params = [
+            'anonymous_post' => count(Project::getAnonymousList()) > 0,
+            'login_url' => $externalLoginUrl,
+        ];
 
-        $this->tpl->assign(
-            [
-                'anonymous_post' => $anonymous_post,
-                'login_url' => Auth::getExternalLoginURL(),
-            ]
-        );
+        return $this->render($this->tpl_name, $params);
     }
 }
