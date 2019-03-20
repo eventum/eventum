@@ -18,9 +18,6 @@
 // Contains constants defined for this specific eventum installation.
 // This file will not be overwritten when upgrading Eventum
 
-// NOTE: if you are looking for database connection info in this file,
-// then since 2.4.0 database configuration is in setup.php file.
-
 define('APP_NAME', 'Eventum');
 define('APP_SHORT_NAME', APP_NAME); // used in the subject of notification emails
 define('APP_HOSTNAME', '%{APP_HOSTNAME}%');
