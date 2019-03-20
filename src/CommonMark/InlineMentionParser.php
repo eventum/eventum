@@ -16,7 +16,6 @@ namespace Eventum\CommonMark;
 use League\CommonMark\Inline\Element\Link;
 use League\CommonMark\Inline\Parser\InlineParserInterface;
 use League\CommonMark\InlineParserContext;
-use User;
 
 final class InlineMentionParser implements InlineParserInterface
 {

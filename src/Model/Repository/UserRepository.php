@@ -24,18 +24,4 @@ use Eventum\Model\Entity;
  */
 class UserRepository extends EntityRepository
 {
-    /**
-     * Method used to get the user ID associated with the given customer
-     * contact ID.
-     *
-     * @param int $customerContactId The customer contact ID
-     * @return Entity\User|null
-     */
-    public function findByContactId($customerContactId)
-    {
-        /** @var UserRepository $repo */
-        $repo = $this->getEntityManager()->getRepository(Entity\User::class);
-
-        return $repo->findOneByCustomerContactId($customerContactId);
-    }
 }
