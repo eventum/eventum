@@ -17,7 +17,7 @@ use Eventum\EventDispatcher\EventManager;
 use League\CommonMark\CommonMarkConverter;
 use League\CommonMark\ConverterInterface;
 use League\CommonMark\Environment;
-use League\CommonMark\Ext\Autolink\InlineMentionParser;
+use Eventum\CommonMark\InlineMentionParser;
 use League\CommonMark\Ext\InlinesOnly\InlinesOnlyExtension;
 use League\CommonMark\Extension\CommonMarkCoreExtension;
 use League\CommonMark\Extras\CommonMarkExtrasExtension;
