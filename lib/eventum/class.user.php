@@ -408,11 +408,7 @@ class User
         self::updatePassword($usr_id, $password, true);
     }
 
-    /**
-     * @param int $external_id
-     * @return int
-     */
-    public static function getUserIDByExternalID($external_id)
+    public static function getUserIDByExternalID(string $external_id): ?int
     {
         $sql = 'SELECT
                     usr_id

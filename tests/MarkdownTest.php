@@ -53,6 +53,7 @@ class MarkdownTest extends TestCase
             'smartpunct',
             'table',
             'tasklist',
+            'userhandle',
         ];
 
         foreach ($testNames as $testName) {
