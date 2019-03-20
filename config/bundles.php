@@ -11,13 +11,6 @@
  * that were distributed with this source code.
  */
 
-use Eventum\Kernel;
-use Symfony\Component\HttpFoundation\Request;
-
-require __DIR__ . '/../init.php';
-
-$kernel = new Kernel($_SERVER['APP_ENV'], (bool)$_SERVER['APP_DEBUG']);
-$request = Request::createFromGlobals();
-$response = $kernel->handle($request);
-$response->send();
-$kernel->terminate($request, $response);
+return [
+    Symfony\Bundle\FrameworkBundle\FrameworkBundle::class => ['all' => true],
+];

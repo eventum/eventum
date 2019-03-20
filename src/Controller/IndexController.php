@@ -46,7 +46,7 @@ class IndexController extends BaseController
     /**
      * {@inheritdoc}
      */
-    protected function defaultAction(): void
+    public function defaultAction(): void
     {
         $has_valid_cookie = AuthCookie::hasAuthCookie();
         $is_anon_user = Auth::isAnonUser();
