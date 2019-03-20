@@ -34,6 +34,7 @@ use Eventum\Model\Repository;
  * @method static Repository\RemoteLinkRepository getRemoteLinkRepository()
  * @method static Repository\SearchProfileRepository getSearchProfileRepository()
  * @method static Repository\UserPreferenceRepository getUserPreferenceRepository()
+ * @method static Repository\UserRepository getUserRepository()
  */
 class Doctrine
 {

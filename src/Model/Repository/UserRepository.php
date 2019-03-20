@@ -20,6 +20,7 @@ use Eventum\Model\Entity;
  * Class UserRepository
  *
  * @method Entity\User|null findOneByCustomerContactId(int $customerContactId)
+ * @method Entity\User|null findOneByExternalId(string $externalId)
  */
 class UserRepository extends EntityRepository
 {

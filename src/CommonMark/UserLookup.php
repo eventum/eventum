@@ -13,12 +13,18 @@
 
 namespace Eventum\CommonMark;
 
-use User;
+use Eventum\Db\Doctrine;
+use Eventum\Model\Entity\User;
 
 class UserLookup
 {
-    public function lookup(string $handle): ?int
+    public function findUser(?string $handle): ?User
     {
-        return User::getUserIDByExternalID($handle);
+        if (!$handle) {
+            return null;
+        }
+        $repo = Doctrine::getUserRepository();
+
+        return $repo->findOneByExternalId($handle);
     }
 }

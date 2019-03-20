@@ -75,17 +75,18 @@ final class InlineMentionParser implements InlineParserInterface
         $cursor->advance();
 
         // Parse the handle
-        $handle = $cursor->match($this->handleRegex);
-        $usr_id = $this->lookup->lookup($handle);
-        if (!$handle || !$usr_id) {
+        $user = $this->lookup->findUser($cursor->match($this->handleRegex));
+        if (!$user) {
             $cursor->restoreState($previousState);
 
             return false;
         }
 
-        $url = sprintf($this->linkPattern, $usr_id);
+        $url = sprintf($this->linkPattern, $user->getId());
+        $text = "@{$user->getExternalId()}";
+        $title = ev_gettext('View %s issues', $user->getFullName());
 
-        $inlineContext->getContainer()->appendChild(new Link($url, '@' . $handle));
+        $inlineContext->getContainer()->appendChild(new Link($url, $text, $title));
 
         return true;
     }
