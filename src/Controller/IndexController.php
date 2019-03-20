@@ -15,7 +15,6 @@ namespace Eventum\Controller;
 
 use Auth;
 use AuthCookie;
-use Misc;
 use Project;
 
 class IndexController extends BaseController
@@ -25,14 +24,6 @@ class IndexController extends BaseController
 
     /** @var string */
     private $url;
-
-    public function __construct()
-    {
-        // do this before creating template engine
-        // TODO: move this to BaseController?
-        $this->checkRequirements();
-        parent::__construct();
-    }
 
     /**
      * {@inheritdoc}
@@ -75,19 +66,6 @@ class IndexController extends BaseController
 
         if (Auth::autoRedirectToExternalLogin()) {
             $this->redirect(Auth::getExternalLoginURL(), [], true);
-        }
-    }
-
-    private function checkRequirements(): void
-    {
-        $errors = [];
-
-        // check if templates_c is writable by the web server user
-        if (!Misc::isWritableDirectory($dir = APP_TPL_COMPILE_PATH)) {
-            $errors[] = ev_gettext('Directory "%1$s" is not writable.', $dir);
-
-            Misc::displayRequirementErrors($errors);
-            exit;
         }
     }
 

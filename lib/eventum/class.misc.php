@@ -496,52 +496,6 @@ class Misc
     }
 
     /**
-     * Method used to check whether the given directory is writable by the
-     * web server user or not.
-     *
-     * @param   string $file The full path to the directory
-     * @return  bool
-     */
-    public static function isWritableDirectory($file)
-    {
-        clearstatcache();
-        if (!file_exists($file)) {
-            if (!@mkdir($file)) {
-                return false;
-            }
-        }
-        clearstatcache();
-        if (!is_writable($file)) {
-            if (stripos(PHP_OS, 'win') === false) {
-                // let's try to change the permissions ourselves
-                @chmod($file, 0755);
-                clearstatcache();
-                if (!is_writable($file)) {
-                    return false;
-                }
-            } else {
-                return false;
-            }
-        }
-        if (stripos(PHP_OS, 'win') !== false) {
-            // need to check whether we can really create files in this directory or not
-            // since is_writable() is not trustworthy on windows platforms
-            if (is_dir($file)) {
-                $fp = @fopen($file . '/dummy.txt', 'w');
-                if (!$fp) {
-                    return false;
-                }
-                @fwrite($fp, 'test');
-                @fclose($fp);
-                // clean up after ourselves
-                @unlink($file . '/dummy.txt');
-            }
-        }
-
-        return true;
-    }
-
-    /**
      * Highlights quoted replies. Relies on a smarty plugin written by
      * Joscha Feth, joscha@feth.com, www.feth.com
      *
