@@ -98,9 +98,6 @@ codecept.phar:
 psalm.phar:
 	$(call fetch_tool,https://github.com/vimeo/psalm/releases/download/$(PSALM_VERSION)/psalm.phar)
 
-pear-fix: composer.lock
-	$(php-cs-fixer) fix vendor/pear-pear.php.net --rules=no_php4_constructor --allow-risky=yes  --using-cache=no --verbose --show-progress=estimating
-
 phpcs-fix: php-cs-fixer.phar
 	$(php-cs-fixer) fix --verbose
 

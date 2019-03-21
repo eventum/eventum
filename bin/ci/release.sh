@@ -176,14 +176,6 @@ clean_scripts() {
 	find -name '*.php' | xargs -r sed -i -e 's,\r$,,'
 }
 
-# strip require_once calls from pear code
-pear_require_strip() {
-	grep -rF require_once vendor/pear* -l | xargs sed -i -re '
-		# remove require_once calls
-		s#require_once[^;]+?;#//&#
-	'
-}
-
 # cleanup excess files from vendor
 # but not that much that composer won't work
 clean_vendor() {
@@ -196,14 +188,6 @@ clean_vendor() {
 	cd vendor
 	clean_scripts
 	cd ..
-
-	# auto-fix pear packages
-	# 1) pear-pear.php.net/Mail_mimeDecode/Mail/mimeDecode.php (no_php4_constructor)
-	# 2) pear-pear.php.net/Math_Stats/Math/Stats.php (no_php4_constructor)
-	# 3) pear-pear.php.net/Net_POP3/Net/POP3.php (no_php4_constructor)
-	# 4) pear-pear.php.net/Net_URL/Net/URL.php (no_php4_constructor)
-	$quick || make pear-fix php-cs-fixer=$phpcsfixer
-	$quick || pear_require_strip
 
 	# component related sources, not needed runtime
 	rm htdocs/components/*/*-built.js
