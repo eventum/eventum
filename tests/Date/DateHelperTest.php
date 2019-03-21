@@ -199,18 +199,6 @@ class DateHelperTest extends TestCase
         ];
     }
 
-    public function testGetTimezoneList(): void
-    {
-        $pear_timezones = require __DIR__ . '/../data/timezones.php';
-        $timezones = Date_Helper::getTimezoneList();
-
-        $diff = array_diff($pear_timezones, $timezones);
-        printf("%d PEAR timezones\n", count($pear_timezones));
-        printf("%d PHP timezones\n", count($timezones));
-        printf("%d Differences\n", count($diff));
-//        print_r($diff);
-    }
-
     public function testTzNamingDifferences(): void
     {
         $created_date = Date_Helper::convertDateGMT('2015-05-19 12:22:24 EET');
