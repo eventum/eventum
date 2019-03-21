@@ -10,6 +10,7 @@ Upgrading to 3.6.x versions requires that you upgrade to latest 3.5.x version fi
 - Add more events to handle Workflow calls (@glensc, #497)
 - Debugbar: Add Doctrine queries Tab (@glensc, #505)
 - Replace markdown implementation with `thephpleague/commonmark` (@glensc, #501)
+- Markdown: add `@user` lookup handle (@glensc, #507)
 
 [3.6.3]: https://github.com/eventum/eventum/compare/v3.6.2...master
 

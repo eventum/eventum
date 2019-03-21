@@ -13,6 +13,7 @@
 
 namespace Eventum;
 
+use Eventum\CommonMark\MentionExtension;
 use Eventum\EventDispatcher\EventManager;
 use League\CommonMark\CommonMarkConverter;
 use League\CommonMark\ConverterInterface;
@@ -90,6 +91,7 @@ class Markdown
     {
         $environment->addExtension(new CommonMarkExtrasExtension());
         $environment->addExtension(new TableExtension());
+        $environment->addExtension(new MentionExtension());
 
         $environment->addInlineRenderer(TaskListsCheckbox::class, new TaskListsCheckboxRenderer());
         $environment->addInlineParser(new TaskListsParser());

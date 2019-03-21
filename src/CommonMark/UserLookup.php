@@ -11,17 +11,20 @@
  * that were distributed with this source code.
  */
 
-namespace Eventum\Model\Repository;
+namespace Eventum\CommonMark;
 
-use Doctrine\ORM\EntityRepository;
-use Eventum\Model\Entity;
+use Eventum\Db\Doctrine;
+use Eventum\Model\Entity\User;
 
-/**
- * Class UserRepository
- *
- * @method Entity\User|null findOneByCustomerContactId(int $customerContactId)
- * @method Entity\User|null findOneByExternalId(string $externalId)
- */
-class UserRepository extends EntityRepository
+class UserLookup
 {
+    public function findUser(?string $handle): ?User
+    {
+        if (!$handle) {
+            return null;
+        }
+        $repo = Doctrine::getUserRepository();
+
+        return $repo->findOneByExternalId($handle);
+    }
 }

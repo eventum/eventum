@@ -184,8 +184,6 @@ class DoctrineTest extends TestCase
 
         $user = $repo->findOneByCustomerContactId(1);
         dump($user);
-        $user = $repo->findByContactId(1);
-        dump($user);
 
         // find by id
         $user = $repo->find(-1);
