@@ -4,6 +4,8 @@
 
 Upgrading to 3.6.x versions requires that you upgrade to latest 3.5.x version first.
 
+NOTE: This version enables markdown for all users. In future versions turning off markdown will be removed. see #501
+
 - Add jQuery chosen to quick filter (@glensc, #493)
 - Refactor Custom Fields to use Interfaces and Doctrine Models (@glensc, #466, #506)
 - Initialize `usr_id`, needed for preferences (@glensc, #498, #499, #500)
