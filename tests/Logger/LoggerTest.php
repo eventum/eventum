@@ -20,7 +20,6 @@ use Eventum\Test\TestCase;
 use Exception;
 use Monolog;
 use Monolog\Handler\StreamHandler;
-use PEAR_Error;
 
 /**
  * @group logger
@@ -72,17 +71,6 @@ class LoggerTest extends TestCase
 
         Logger::app()->error($e);
         Logger::app()->error($e->getMessage(), ['exception' => $e]);
-    }
-
-    public function testLogPearException(): void
-    {
-        $e = new PEAR_Error('It happened');
-
-        // toString pear error object is not useful:
-        // "app.ERROR: It happened []"
-        Logger::app()->error($e);
-
-        Logger::app()->error($e->getMessage(), ['debug' => $e->getDebugInfo()]);
     }
 
     public function testCliLog(): void
