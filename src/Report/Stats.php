@@ -13,17 +13,44 @@
 
 namespace Eventum\Report;
 
-use MathPHP\Statistics\Average;
+use DomainException;
 
 class Stats
 {
     public function getStats(array $numbers): array
     {
+        $sum = array_sum($numbers);
+
         return [
-            'total' => array_sum($numbers),
-            'avg' => Average::mean($numbers),
-            'median' => Average::median($numbers),
+            'total' => $sum,
+            'avg' => $sum / count($numbers),
+            'median' => $this->median($numbers),
             'max' => max($numbers),
         ];
+    }
+
+    /**
+     * @param int[] $numbers
+     * @return float|int|mixed
+     * @see https://codereview.stackexchange.com/a/223
+     */
+    private function median(array $numbers)
+    {
+        // perhaps all non numeric values should filtered out of $array here?
+        $count = count($numbers);
+        if ($count === 0) {
+            throw new DomainException('Median of an empty array is undefined');
+        }
+        // if we're down here it must mean $array
+        // has at least 1 item in the array.
+        $middle_index = (int)floor($count / 2);
+        sort($numbers, SORT_NUMERIC);
+        $median = $numbers[$middle_index]; // assume an odd # of items
+        // Handle the even case by averaging the middle 2 items
+        if ($count % 2 === 0) {
+            $median = ($median + $numbers[$middle_index - 1]) / 2;
+        }
+
+        return $median;
     }
 }
