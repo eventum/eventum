@@ -40,8 +40,8 @@ SIGN_KEY=$(git config --get user.signemail || git config --get user.email)
 TAG=v$VERSION
 
 cd $topdir
-git checkout master
-git pull --rebase
+git fetch origin
+git rebase origin/master
 
 cd $topdir/docs/wiki
 git checkout master
