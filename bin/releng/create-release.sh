@@ -16,10 +16,7 @@ get_version() {
 
 # git doesn't askpass, so warm it up
 cache_gpg_askpass() {
-	local sign_key
-	sign_key=$(git config --get user.email)
-
-	date | gpg --clearsign --default-key "$sign_key" --output=/dev/null
+	date | gpg --clearsign --default-key "$SIGN_KEY" --output=/dev/null
 }
 
 quote() {
@@ -39,6 +36,7 @@ patch_changelog() {
 topdir=$(git rev-parse --show-toplevel)
 VERSION=$(get_version "${1:-}")
 RELDATE=$(date -u +%Y-%m-%d)
+SIGN_KEY=$(git config --get user.signemail || git config --get user.email)
 TAG=v$VERSION
 
 cd $topdir
@@ -60,7 +58,7 @@ cd $topdir/docs/wiki
 git tag $TAG
 
 cd $topdir
-git tag -s $TAG -m "release $TAG"
+git tag -s -u "$SIGN_KEY" "$TAG" -m "release $TAG"
 
 echo "Press ENTER to push upstreams"
 read a
