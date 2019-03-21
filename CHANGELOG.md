@@ -1,6 +1,6 @@
 # Eventum Issue Tracking System
 
-## [3.6.3]
+## [3.6.3] - 2019-03-21
 
 Upgrading to 3.6.x versions requires that you upgrade to latest 3.5.x version first.
 
@@ -14,7 +14,7 @@ NOTE: This version enables markdown for all users. In future versions turning of
 - Replace markdown implementation with `thephpleague/commonmark` (@glensc, #501)
 - Markdown: add `@user` lookup handle (@glensc, #507)
 
-[3.6.3]: https://github.com/eventum/eventum/compare/v3.6.2...master
+[3.6.3]: https://github.com/eventum/eventum/compare/v3.6.2...v3.6.3
 
 ## [3.6.2] - 2019-03-08
 
