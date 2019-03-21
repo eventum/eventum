@@ -19,28 +19,29 @@ class Stats
 {
     public function getStats(array $numbers): array
     {
+        $count = count($numbers);
+        if ($count === 0) {
+            throw new DomainException('stats on an empty array is undefined');
+        }
+
         $sum = array_sum($numbers);
 
         return [
             'total' => $sum,
-            'avg' => $sum / count($numbers),
-            'median' => $this->median($numbers),
+            'avg' => $sum / $count,
+            'median' => $this->median($numbers, $count),
             'max' => max($numbers),
         ];
     }
 
     /**
      * @param int[] $numbers
+     * @param int $count
      * @return float|int|mixed
      * @see https://codereview.stackexchange.com/a/223
      */
-    private function median(array $numbers)
+    private function median(array $numbers, int $count)
     {
-        // perhaps all non numeric values should filtered out of $array here?
-        $count = count($numbers);
-        if ($count === 0) {
-            throw new DomainException('Median of an empty array is undefined');
-        }
         // if we're down here it must mean $array
         // has at least 1 item in the array.
         $middle_index = (int)floor($count / 2);
