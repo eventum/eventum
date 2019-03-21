@@ -20,8 +20,6 @@ namespace Eventum\Test;
  * Load PHPUnit_Framework_TestCase wrapper if using older PHPUnit.
  */
 
-use Doctrine\ORM\EntityManager;
-use Eventum\Db\Doctrine;
 use Eventum\Extension\ExtensionManager;
 
 class TestCase extends \PHPUnit\Framework\TestCase
@@ -79,10 +77,5 @@ class TestCase extends \PHPUnit\Framework\TestCase
         $this->assertNotEmpty($content);
 
         return $content;
-    }
-
-    protected function getEntityManager(): EntityManager
-    {
-        return Doctrine::getEntityManager();
     }
 }

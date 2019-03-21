@@ -14,10 +14,7 @@
 namespace Eventum\Test\CustomField;
 
 use Eventum\CustomField\Converter;
-use Eventum\Db\Doctrine;
 use Eventum\EventDispatcher\EventManager;
-use Eventum\Model\Entity\CustomField;
-use Eventum\Test\TestCase;
 use User;
 
 /**
@@ -27,9 +24,7 @@ class CustomFieldTest extends TestCase
 {
     public function testGetCustomField(): void
     {
-        $repo = Doctrine::getCustomFieldRepository();
-        /** @var CustomField $cf */
-        $cf = $repo->findById(2);
+        $cf = $this->repo->findById(2);
         dump($cf !== null);
     }
 
@@ -43,8 +38,7 @@ class CustomFieldTest extends TestCase
         $min_role = User::ROLE_VIEWER;
         $forEdit = false;
         $formType = 'edit_form';
-        $repo = Doctrine::getCustomFieldRepository();
-        $customFields = $repo->getListByIssue($prj_id, $iss_id, $min_role, $formType, $forEdit);
+        $customFields = $this->repo->getListByIssue($prj_id, $iss_id, $min_role, $formType, $forEdit);
 
         dump(count($customFields));
 
@@ -67,8 +61,7 @@ class CustomFieldTest extends TestCase
         $forEdit = false;
         $formType = 'edit_form';
         $fieldType = 'multiple';
-        $repo = Doctrine::getCustomFieldRepository();
-        $customFields = $repo->getListByProject($prj_id, $min_role, $formType, $fieldType, $forEdit);
+        $customFields = $this->repo->getListByProject($prj_id, $min_role, $formType, $fieldType, $forEdit);
 
         dump(count($customFields));
 
@@ -90,7 +83,6 @@ class CustomFieldTest extends TestCase
             2 => 'option2',
         ];
 
-        $repo = Doctrine::getCustomFieldRepository();
-        $repo->updateCustomFieldOptions($fld_id, $options, $new_options);
+        $this->repo->updateCustomFieldOptions($fld_id, $options, $new_options);
     }
 }

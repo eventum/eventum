@@ -22,9 +22,10 @@ use Doctrine\ORM\PersistentCollection;
 use Eventum\CustomField\Factory;
 use Eventum\CustomField\Fields\ListInterface;
 use Eventum\CustomField\Proxy;
+use Eventum\Model\Repository\Traits\GetOneTrait;
 use Eventum\Monolog\Logger;
 use InvalidArgumentException;
-use RuntimeException;
+use User;
 
 /**
  * @ORM\Table(name="custom_field")*
@@ -32,6 +33,8 @@ use RuntimeException;
  */
 class CustomField
 {
+    use GetOneTrait;
+
     public const LIST_DISPLAY = 'list_display';
 
     public const FORM_TYPES = [
@@ -44,6 +47,8 @@ class CustomField
         'edit_form' => null,
     ];
 
+    public const TYPE_TEXT = 'text';
+
     private const OPTION_TYPES = [
         'checkbox',
         'combo',
@@ -51,12 +56,12 @@ class CustomField
     ];
 
     private const TEXT_TYPES = [
-        'text',
+        self::TYPE_TEXT,
         'textarea',
     ];
 
     private const OTHER_TYPES = [
-        'text',
+        self::TYPE_TEXT,
         'textarea',
         'date',
         'integer',
@@ -92,61 +97,61 @@ class CustomField
      * @var bool
      * @ORM\Column(name="fld_report_form", type="boolean", nullable=false)
      */
-    private $showReportForm;
+    private $showReportForm = false;
 
     /**
      * @var bool
      * @ORM\Column(name="fld_report_form_required", type="boolean", nullable=false)
      */
-    private $isReportFormRequired;
+    private $isReportFormRequired = false;
 
     /**
      * @var bool
      * @ORM\Column(name="fld_anonymous_form", type="boolean", nullable=false)
      */
-    private $showAnonymousForm;
+    private $showAnonymousForm = false;
 
     /**
      * @var bool
      * @ORM\Column(name="fld_anonymous_form_required", type="boolean", nullable=false)
      */
-    private $isAnonymousFormRequired;
+    private $isAnonymousFormRequired = false;
 
     /**
      * @var bool
      * @ORM\Column(name="fld_close_form", type="boolean", nullable=false)
      */
-    private $showCloseForm;
+    private $showCloseForm = false;
 
     /**
      * @var bool
      * @ORM\Column(name="fld_close_form_required", type="boolean", nullable=false)
      */
-    private $isCloseFormRequired;
+    private $isCloseFormRequired = false;
 
     /**
      * @var bool
      * @ORM\Column(name="fld_edit_form_required", type="boolean", nullable=false)
      */
-    private $isEditFormRequired;
+    private $isEditFormRequired = false;
 
     /**
      * @var bool
      * @ORM\Column(name="fld_list_display", type="boolean", nullable=false)
      */
-    private $showListDisplay;
+    private $showListDisplay = false;
 
     /**
      * @var int
      * @ORM\Column(name="fld_min_role", type="integer", nullable=false)
      */
-    private $minRole;
+    private $minRole = User::ROLE_VIEWER;
 
     /**
      * @var bool
      * @ORM\Column(name="fld_min_role_edit", type="integer", nullable=false)
      */
-    private $minRoleEdit;
+    private $minRoleEdit = User::ROLE_VIEWER;
 
     /**
      * @var int
@@ -167,7 +172,7 @@ class CustomField
      * @var string
      * @ORM\Column(name="fld_order_by", type="string", length=20, nullable=false)
      */
-    private $orderBy;
+    private $orderBy = 'cfo_id ASC';
 
     /**
      * @var CustomFieldOption[]|PersistentCollection
@@ -528,16 +533,13 @@ class CustomField
 
     public function getOptionById(int $cfo_id): ?CustomFieldOption
     {
-        $expr = new Comparison('id', '=', $cfo_id);
-        $criteria = Criteria::create()->where($expr);
-
-        return $this->getOne($this->options, $criteria);
+        return $this->getOne($this->options, 'id', '=', $cfo_id);
     }
 
     /**
      * @return ProjectCustomField[]|Collection
      */
-    public function getProjectCustomFields(): Collection
+    public function getProjectCustomFields(): ?Collection
     {
         return $this->projects;
     }
@@ -552,18 +554,12 @@ class CustomField
 
     public function getProjectCustomFieldById(int $prj_id): ?ProjectCustomField
     {
-        $expr = new Comparison('projectId', '=', $prj_id);
-        $criteria = Criteria::create()->where($expr);
-
-        return $this->getOne($this->projects, $criteria);
+        return $this->getOne($this->projects, 'projectId', '=', $prj_id);
     }
 
     public function getIssueCustomField(int $issue_id): ?IssueCustomField
     {
-        $expr = new Comparison('issueId', '=', $issue_id);
-        $criteria = Criteria::create()->where($expr);
-
-        return $this->getOne($this->issues, $criteria) ?: null;
+        return $this->getOne($this->issues, 'issueId', '=', $issue_id);
     }
 
     /**
@@ -575,21 +571,6 @@ class CustomField
         $criteria = Criteria::create()->where($expr);
 
         return $this->issues->matching($criteria);
-    }
-
-    private function getOne(PersistentCollection $collection, Criteria $criteria)
-    {
-        $matches = $collection->matching($criteria);
-        if ($matches->isEmpty()) {
-            return null;
-        }
-
-        if ($matches->count() !== 1) {
-            $count = $matches->count();
-            throw new RuntimeException("Expected one element, got $count");
-        }
-
-        return $matches->first();
     }
 
     public function getDisplayValue(int $issue_id): string

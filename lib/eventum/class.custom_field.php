@@ -277,16 +277,22 @@ class Custom_Field
      */
     public static function getFieldsToBeListed(int $prj_id): array
     {
+        static $cache;
         $role_id = Auth::getCurrentRole();
-        $repo = Doctrine::getCustomFieldRepository();
-        $fields = $repo->getListByProject($prj_id, $role_id, CustomField::LIST_DISPLAY);
 
-        $res = [];
-        foreach ($fields as $field) {
-            $res[$field->getId()] = $field->getTitle();
-        }
+        $initialize = function (int $prj_id) use ($role_id) {
+            $repo = Doctrine::getCustomFieldRepository();
+            $fields = $repo->getListByProject($prj_id, $role_id, CustomField::LIST_DISPLAY);
 
-        return $res;
+            $res = [];
+            foreach ($fields as $field) {
+                $res[$field->getId()] = $field->getTitle();
+            }
+
+            return $res;
+        };
+
+        return $cache[$prj_id][$role_id] ?? $cache[$prj_id][$role_id] = $initialize($prj_id);
     }
 
     /**

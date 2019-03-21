@@ -396,7 +396,7 @@ class Search
         $column_headings = [];
         $columns_to_display = Display_Column::getColumnsToDisplay($prj_id, 'list_issues');
         foreach ($columns_to_display as $col_key => $column) {
-            if ($col_key === 'custom_fields' && count($custom_fields) > 0) {
+            if ($col_key === 'custom_fields' && $custom_fields) {
                 foreach ($custom_fields as $fld_id => $fld_title) {
                     $column_headings['cstm_' . $fld_id] = $fld_title;
                 }
@@ -432,17 +432,8 @@ class Search
                     case 'iss_customer_id':
                         $col_key = 'customer_title';break;
                 }
-                if ($col_key === 'custom_fields' && count($custom_fields) > 0) {
-                    $custom_field_values = Custom_Field::getListByIssue($prj_id, $row['iss_id']);
-                    foreach ($custom_field_values as $cf) {
-                        if (!empty($custom_fields[$cf['fld_id']])) {
-                            $formattedValue = Custom_Field::formatValue($cf['value'], $cf['fld_id'], $row['iss_id']);
-                            $cf['formatted_value'] = $formattedValue;
-
-                            $row['custom_field'][$cf['fld_id']] = $cf;
-                            $fields[] = $cf['value'];
-                        }
-                    }
+                if ($col_key === 'custom_fields' && $custom_fields) {
+                    self::applyCustomFields($custom_fields, $row, $fields, $prj_id, $issue_id);
                 } else {
                     $fields[] = $row[$col_key] ?? '';
                 }
@@ -483,6 +474,23 @@ class Search
             ],
             'csv' => @implode("\n", $csv),
         ];
+    }
+
+    private static function applyCustomFields(array $custom_fields, array &$row, array &$fields, int $prj_id, int $iss_id): void
+    {
+        $custom_field_values = Custom_Field::getListByIssue($prj_id, $iss_id);
+
+        foreach ($custom_field_values as $cf) {
+            if (empty($custom_fields[$cf['fld_id']])) {
+                continue;
+            }
+
+            $formattedValue = Custom_Field::formatValue($cf['value'], $cf['fld_id'], $iss_id);
+            $cf['formatted_value'] = $formattedValue;
+
+            $row['custom_field'][$cf['fld_id']] = $cf;
+            $fields[] = $cf['value'];
+        }
     }
 
     /**

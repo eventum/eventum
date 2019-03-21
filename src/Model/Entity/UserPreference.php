@@ -294,7 +294,7 @@ class UserPreference
 
     public function getProjectById(int $prj_id): ?UserProjectPreference
     {
-        return $this->getOne($this->projects, 'projectId', '=', $prj_id) ?: null;
+        return $this->getOne($this->projects, 'projectId', '=', $prj_id);
     }
 
     public function findOrCreateProjectById(int $prj_id): UserProjectPreference

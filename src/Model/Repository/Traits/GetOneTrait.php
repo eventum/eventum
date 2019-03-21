@@ -39,6 +39,6 @@ trait GetOneTrait
             throw new RuntimeException("Expected one element, got $count");
         }
 
-        return $matches->first();
+        return $matches->first() ?: null;
     }
 }
