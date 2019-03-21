@@ -25,7 +25,7 @@ class MathStatsTest extends TestCase
     {
         $stats = new Stats();
         $result = $stats->getStats($input);
-        $this->assertSame($expected, $result);
+        $this->assertEquals($expected, $result);
     }
 
     public function dataProvider(): Generator
