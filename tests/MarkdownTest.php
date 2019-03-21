@@ -16,6 +16,9 @@ namespace Eventum\Test;
 use Eventum\Markdown;
 use Generator;
 
+/**
+ * @group db
+ */
 class MarkdownTest extends TestCase
 {
     /** @var Markdown */
