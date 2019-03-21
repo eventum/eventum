@@ -13,20 +13,19 @@
 
 namespace Eventum\Report;
 
-use Math_Stats;
+use MathPHP\Statistics\Descriptive;
 
 class Stats
 {
     public function getStats(array $input): array
     {
-        $stats = new Math_Stats();
-        $stats->setData($input);
+        $stats = Descriptive::describe($input);
 
         return [
-            'total' => $stats->sum(),
-            'avg' => $stats->mean(),
-            'median' => $stats->median(),
-            'max' => $stats->max(),
+            'total' => array_sum($input),
+            'avg' => $stats['mean'],
+            'median' => $stats['median'],
+            'max' => $stats['max'],
         ];
     }
 }

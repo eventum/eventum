@@ -115,14 +115,6 @@
 				<include name="Transport/Null.php"/>
 			</fileset>
 
-			<fileset dir="${vendor}/pear/pear-core-minimal/src">
-				<include name="OS/Guess.php"/>
-			</fileset>
-
-			<!-- package not used -->
-			<fileset dir="${vendor}/pear/console_getopt">
-			</fileset>
-
 			<fileset dir="${vendor}/monolog/monolog/src">
 				<include name="Monolog/Handler/TestHandler.php"/>
 			</fileset>
