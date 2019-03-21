@@ -15,6 +15,9 @@ namespace Eventum\Test\CustomField;
 
 use Eventum\Model\Entity\CustomField;
 
+/**
+ * @group db
+ */
 class CustomFieldTypesTest extends TestCase
 {
     public function testTextField(): void
