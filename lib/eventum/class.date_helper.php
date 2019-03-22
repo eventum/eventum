@@ -182,7 +182,7 @@ class Date_Helper
      *
      * @return  array The list of timezones
      */
-    public static function getTimezoneList()
+    public static function getTimezoneList(): array
     {
         $time_zones = timezone_identifiers_list();
         asort($time_zones);

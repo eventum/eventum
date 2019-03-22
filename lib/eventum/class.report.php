@@ -12,6 +12,7 @@
  */
 
 use Eventum\Db\DatabaseException;
+use Eventum\Report\Stats;
 
 /**
  * Class to handle the business logic related to all aspects of the
@@ -1023,15 +1024,8 @@ class Report
         ];
 
         if ($res) {
-            $stats = new Math_Stats();
-            $stats->setData($res);
-
-            $data['issues']['stats'] = [
-                'total' => $stats->sum(),
-                'avg' => $stats->mean(),
-                'median' => $stats->median(),
-                'max' => $stats->max(),
-            ];
+            $stats = new Stats();
+            $data['issues']['stats'] = $stats->getStats($res);
         }
 
         // get email counts
