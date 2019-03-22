@@ -13,9 +13,17 @@
 
 namespace Eventum\Extension;
 
-use Abstract_Partner_Backend;
 use Composer\Autoload\ClassLoader;
+use Eventum\Extension\Provider\AutoloadProvider;
+use Eventum\Extension\Provider\CrmProvider;
+use Eventum\Extension\Provider\CustomFieldProvider;
+use Eventum\Extension\Provider\ExtensionProvider;
+use Eventum\Extension\Provider\FactoryProvider;
+use Eventum\Extension\Provider\PartnerProvider;
+use Eventum\Extension\Provider\SubscriberProvider;
+use Eventum\Extension\Provider\WorkflowProvider;
 use Eventum\Monolog\Logger;
+use Generator;
 use InvalidArgumentException;
 use Setup;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -24,7 +32,7 @@ use Zend\Config\Config;
 
 class ExtensionManager
 {
-    /** @var ExtensionInterface[] */
+    /** @var Provider\ExtensionProvider[] */
     protected $extensions;
 
     /**
@@ -49,81 +57,73 @@ class ExtensionManager
 
     /**
      * Return instances of Workflow implementations.
-     *
-     * @return array
      */
-    public function getWorkflowClasses(): array
+    public function getWorkflowClasses(): Generator
     {
-        return $this->createInstances('getAvailableWorkflows');
+        return $this->createInstances('getAvailableWorkflows', function (ExtensionProvider $extension) {
+            return $extension instanceof WorkflowProvider;
+        });
     }
 
     /**
      * Return instances of Custom Field implementations.
-     *
-     * @return array
      */
-    public function getCustomFieldClasses(): array
+    public function getCustomFieldClasses(): Generator
     {
-        return $this->createInstances('getAvailableCustomFields');
+        return $this->createInstances('getAvailableCustomFields', function (ExtensionProvider $extension) {
+            return $extension instanceof CustomFieldProvider;
+        });
     }
 
     /**
      * Return instances of CRM implementations.
-     *
-     * @return array
      */
-    public function getCustomerClasses(): array
+    public function getCustomerClasses(): Generator
     {
-        return $this->createInstances('getAvailableCRMs');
+        return $this->createInstances('getAvailableCRMs', function (ExtensionProvider $extension) {
+            return $extension instanceof CrmProvider;
+        });
     }
 
     /**
      * Return instances of Partner implementations.
-     *
-     * @return Abstract_Partner_Backend[]
      */
-    public function getPartnerClasses(): array
+    public function getPartnerClasses(): Generator
     {
-        /** @var Abstract_Partner_Backend[] $backends */
-        $backends = $this->createInstances('getAvailablePartners');
-
-        return $backends;
+        return $this->createInstances('getAvailablePartners', function (ExtensionProvider $extension) {
+            return $extension instanceof PartnerProvider;
+        });
     }
 
     /**
      * Get classes implementing EventSubscriberInterface.
      *
      * @see http://symfony.com/doc/current/components/event_dispatcher.html#using-event-subscribers
-     * @return EventSubscriberInterface[]
      */
-    public function getSubscribers(): array
+    public function getSubscribers(): Generator
     {
-        /** @var EventSubscriberInterface[] $subscribers */
-        $subscribers = $this->createInstances(__FUNCTION__);
-
-        return $subscribers;
+        return $this->createInstances(__FUNCTION__, function (ExtensionProvider $extension) {
+            return $extension instanceof SubscriberProvider;
+        });
     }
 
     /**
      * Create instances of classes returned from each extension $methodName.
-     *
-     * @param string $methodName
-     * @return object[]
      */
-    protected function createInstances(string $methodName): array
+    protected function createInstances(string $methodName, callable $filter): Generator
     {
-        $instances = [];
         foreach ($this->extensions as $extension) {
+            if (!$filter($extension)) {
+                continue;
+            }
             foreach ($extension->$methodName() as $className) {
                 try {
-                    $instances[$className] = $this->createInstance($extension, $className);
+                    yield $className => $this->createInstance($extension, $className);
                 } catch (Throwable $e) {
                     Logger::app()->error("Unable to create $className: {$e->getMessage()}", ['exception' => $e]);
                 }
             }
         }
-
-        return $instances;
     }
 
     /**
@@ -132,9 +132,10 @@ class ExtensionManager
      *
      * @return object
      */
-    protected function createInstance(ExtensionInterface $extension, string $classname)
+    protected function createInstance(Provider\ExtensionProvider $extension, string $classname)
     {
-        if ($extension instanceof ExtensionFactoryInterface) {
+        // TODO: let all extensions provide!
+        if ($extension instanceof FactoryProvider) {
             $object = $extension->factory($classname);
 
             // extension may not provide factory for the class
@@ -154,7 +155,7 @@ class ExtensionManager
     /**
      * Create all extensions, initialize autoloader on them.
      *
-     * @return ExtensionInterface[]
+     * @return Provider\ExtensionProvider[]
      */
     protected function loadExtensions(): array
     {
@@ -163,7 +164,9 @@ class ExtensionManager
 
         foreach ($this->getExtensionFiles() as $classname => $filename) {
             $extension = $this->loadExtension($classname, $filename);
-            $extension->registerAutoloader($loader);
+            if ($extension instanceof AutoloadProvider) {
+                $extension->registerAutoloader($loader);
+            }
             $extensions[$classname] = $extension;
         }
 
@@ -173,7 +176,7 @@ class ExtensionManager
     /**
      * Load $filename and create $classname instance
      */
-    protected function loadExtension(string $classname, string $filename): ExtensionInterface
+    protected function loadExtension(string $classname, string $filename): Provider\ExtensionProvider
     {
         // class may already be loaded
         // can ignore the filename requirement

@@ -11,17 +11,15 @@
  * that were distributed with this source code.
  */
 
-namespace Eventum\Extension;
+namespace Eventum\Extension\Provider;
 
-/**
- * @deprecated [since 3.6.5]: implement each interface by your own
- */
-interface ExtensionInterface extends
-    Provider\AutoloadProvider,
-    Provider\CustomFieldProvider,
-    Provider\PartnerProvider,
-    Provider\SubscriberProvider,
-    Provider\WorkflowProvider,
-    Provider\CrmProvider
+interface CrmProvider extends ExtensionProvider
 {
+    /**
+     * Return CRM Class names the extension provides.
+     *
+     * @return string[]
+     * @since 3.6.5
+     */
+    public function getAvailableCRMs(): array;
 }

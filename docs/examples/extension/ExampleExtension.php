@@ -13,6 +13,7 @@
 
 namespace Example\Extension;
 
+use Composer\Autoload\ClassLoader;
 use Eventum\Extension\AbstractExtension;
 use Example\Event\Subscriber;
 
@@ -32,7 +33,7 @@ class ExampleExtension extends AbstractExtension
     /**
      * Method invoked so the extension can setup class loader.
      *
-     * @param \Composer\Autoload\ClassLoader $loader
+     * @param ClassLoader $loader
      */
     public function registerAutoloader($loader): void
     {

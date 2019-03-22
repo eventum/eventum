@@ -11,17 +11,16 @@
  * that were distributed with this source code.
  */
 
-namespace Eventum\Extension;
+namespace Eventum\Extension\Provider;
 
-/**
- * @deprecated [since 3.6.5]: implement each interface by your own
- */
-interface ExtensionInterface extends
-    Provider\AutoloadProvider,
-    Provider\CustomFieldProvider,
-    Provider\PartnerProvider,
-    Provider\SubscriberProvider,
-    Provider\WorkflowProvider,
-    Provider\CrmProvider
+interface FactoryProvider extends ExtensionProvider
 {
+    /**
+     * Create instance of $className
+     *
+     * @param string $className
+     * @return object|null
+     * @since 3.6.5
+     */
+    public function factory($className);
 }

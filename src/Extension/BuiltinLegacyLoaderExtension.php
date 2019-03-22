@@ -19,7 +19,7 @@ use Partner;
 use Workflow;
 
 /**
- * Extension providing autoloader for legacy backends locations:
+ * Extension providing autoloader for legacy backend locations:
  * - workflow
  * - partner
  * - custom_field
@@ -80,7 +80,7 @@ class BuiltinLegacyLoaderExtension extends AbstractExtension
      * @param array $classnames array where to append found class names
      * @return array
      */
-    private function createAutoloadMap($loader, &$classnames): array
+    private function createAutoloadMap(ExtensionLoader $loader, array &$classnames): array
     {
         $map = [];
 
