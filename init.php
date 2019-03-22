@@ -11,6 +11,8 @@
  * that were distributed with this source code.
  */
 
+use Eventum\Event\SystemEvents;
+
 if (!file_exists(__DIR__ . '/config/config.php') || !filesize(__DIR__ . '/config/config.php')) {
     // redirect to setup
     if (PHP_SAPI === 'cli') {
@@ -112,3 +114,4 @@ if (APP_MAINTENANCE) {
 
 Eventum\DebugBarManager::getDebugBarManager();
 Eventum\Extension\ExtensionManager::getManager();
+Eventum\EventDispatcher\EventManager::getEventDispatcher()->dispatch(SystemEvents::BOOT);

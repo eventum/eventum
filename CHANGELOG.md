@@ -5,6 +5,7 @@
 Upgrading to 3.6.x versions requires that you upgrade to latest 3.5.x version first.
 
 - Remove last PEAR dependency: `Math_Stats` (@glensc, #509)
+- Add boot and shutdown events (@glensc, #511)
 
 [3.6.4]: https://github.com/eventum/eventum/compare/v3.6.3...master
 
