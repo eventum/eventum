@@ -1,0 +1,5 @@
+index:
+    path: /
+    controller: Eventum\Controller\IndexController::defaultAction
+
+# vim:ts=4:sw=4:et

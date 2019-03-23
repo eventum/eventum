@@ -13,7 +13,6 @@
 
 namespace Eventum;
 
-use Eventum\Controller\IndexController;
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
 use Symfony\Component\Config\Resource\FileResource;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -59,7 +58,7 @@ class Kernel extends BaseKernel
 
     protected function configureRoutes(RouteCollectionBuilder $routes): void
     {
-        $routes->add('/', IndexController::class . '::defaultAction', 'index');
+        $routes->import("{$this->configDir}/routes.yml");
     }
 
     public function getProjectDir(): string
