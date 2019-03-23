@@ -16,6 +16,7 @@ namespace Eventum\Db;
 use BadMethodCallException;
 use DB_Helper;
 use Doctrine\Common\Cache;
+use Doctrine\Common\Proxy\AbstractProxyFactory;
 use Doctrine\DBAL\Types\Type;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Tools\Setup;
@@ -63,8 +64,11 @@ class Doctrine
         ];
 
         $cacheDriver = new Cache\ArrayCache();
+        $proxyDir = APP_VAR_PATH . '/cache/doctrine/proxies';
 
-        $config = Setup::createAnnotationMetadataConfiguration($paths, $isDevMode, $proxyDir = null, $cache = null, $useSimpleAnnotationReader = false);
+        $config = Setup::createAnnotationMetadataConfiguration($paths, $isDevMode, $proxyDir, $cache = null, $useSimpleAnnotationReader = false);
+
+        $config->setAutoGenerateProxyClasses(AbstractProxyFactory::AUTOGENERATE_FILE_NOT_EXISTS);
 
         // https://www.doctrine-project.org/projects/doctrine-orm/en/2.6/reference/caching.html#query-cache
         $config->setQueryCacheImpl($cacheDriver);
