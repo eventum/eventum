@@ -210,6 +210,22 @@ final class SystemEvents
     public const MARKDOWN_ENVIRONMENT_CONFIGURE = 'markdown.environment.configure';
 
     /**
+     * Event emitted when eventum boots.
+     * You can listen to this event to add some initialization.
+     *
+     * @since 3.6.4
+     */
+    public const BOOT = 'eventum.boot';
+
+    /**
+     * Event emitted when eventum shuts down.
+     * You can listen to this event to do cleanup on request end.
+     *
+     * @since 3.6.4
+     */
+    public const SHUTDOWN = 'eventum.shutdown';
+
+    /**
      * Helper to feature test whether specific event is being emitted by Eventum.
      *
      * @param string $eventName
