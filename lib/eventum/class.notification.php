@@ -689,7 +689,8 @@ class Notification
                     continue;
                 }
                 $email = User::getFromHeader($user['sub_usr_id']);
-                $role_id = $user['pru_role'];
+                // NOTE: pru_role might be missing, if the user is not member of the project
+                $role_id = $user['pru_role'] ?: null;
             }
 
             // now add it to the list of emails
@@ -714,7 +715,7 @@ class Notification
                 continue;
             }
 
-            $data['custom_field_diffs'] = implode("\n", Custom_Field::formatUpdatesToDiffs($updated_custom_fields, $role_id));
+            $data['custom_field_diffs'] = implode("\n", Custom_Field::formatUpdatesToDiffs($updated_custom_fields, $role_id ?: null));
             if (!empty($data['custom_field_diffs']) || !empty($data['diffs'])) {
                 self::notifySubscribers($issue_id, $emails, 'updated', $data, ev_gettext('Updated'), false);
             }
