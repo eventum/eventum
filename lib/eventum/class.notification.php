@@ -534,10 +534,10 @@ class Notification
      * @param   string $type The notification type
      * @return  array The list of users / emails
      */
-    public static function getUsersByIssue($issue_id, $type)
+    public static function getUsersByIssue(int $issue_id, string $type): array
     {
         $prj_id = Issue::getProjectID($issue_id);
-        if ($type == 'notes') {
+        if ($type === 'notes') {
             $stmt = "SELECT
                         DISTINCT sub_usr_id,
                         sub_email
@@ -585,13 +585,8 @@ class Notification
                 Issue::getProjectID($issue_id), $issue_id, $type,
             ];
         }
-        try {
-            $res = DB_Helper::getInstance()->getAll($stmt, $params);
-        } catch (DatabaseException $e) {
-            return [];
-        }
 
-        return $res;
+        return DB_Helper::getInstance()->getAll($stmt, $params);
     }
 
     /**
