@@ -43,6 +43,7 @@ $config = DB_Helper::getConfig();
 return [
     'paths' => [
         'migrations' => 'db/migrations',
+        'seeds' => 'db/seeds',
     ],
 
     // http://docs.phinx.org/en/latest/configuration.html#custom-migration-base
