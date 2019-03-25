@@ -46,7 +46,7 @@ class ExampleExtension extends AbstractExtension
             'Pimple\\' => $phpDir,
         ];
         $psr4 = [
-            'Eventum\\Event\\' => [$baseDir . '/docs/examples/extension/Event'],
+            'Example\\Event\\' => [$baseDir . '/docs/examples/extension/Event'],
             'Example\\Extension\\' => [$baseDir . '/docs/examples/extension'],
         ];
 
