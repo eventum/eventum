@@ -11,6 +11,8 @@
  * that were distributed with this source code.
  */
 
+use Eventum\Db\AbstractMigration;
+
 /**
  * Configuration proxy for sphix
  *
@@ -44,7 +46,7 @@ return [
     ],
 
     // http://docs.phinx.org/en/latest/configuration.html#custom-migration-base
-    'migration_base_class' => 'Eventum\Db\AbstractMigration',
+    'migration_base_class' => AbstractMigration::class,
 
     'environments' => [
         'default_migration_table' => 'phinxlog',
