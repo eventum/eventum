@@ -236,7 +236,7 @@ class SetupController extends BaseController
         $config_contents = str_replace(array_keys($replace), array_values($replace), $config_contents);
 
         $fs = new Filesystem();
-        $fs->dumpFile($configFilePath, $config_contents, null);
+        $fs->dumpFile($configFilePath, $config_contents);
     }
 
     private function installAction(): string
