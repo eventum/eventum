@@ -61,7 +61,7 @@ class MailRouteCommand
          * TODO: Save other emails
         // save this message in a special directory
         $path = "/home/eventum/bounced_emails/";
-        list($usec,) = explode(" ", microtime());
+        $usec = explode(' ', microtime())[0];
         $filename = date('d-m-Y.H-i-s.') . $usec . '.email.txt';
         $fp = fopen($path . $filename, 'a+');
         fwrite($fp, $full_message);

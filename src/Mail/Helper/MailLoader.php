@@ -95,7 +95,7 @@ class MailLoader
             $parts = explode("\n\n", $raw, 2);
         }
 
-        list($headers, $content) = $parts;
+        [$headers, $content] = $parts;
 
         self::convertHeaders($headers);
     }
@@ -111,7 +111,7 @@ class MailLoader
 
         foreach ($headers as $index => &$line) {
             try {
-                list($name, $value) = Header\GenericHeader::splitHeaderLine($line);
+                [$name, $value] = Header\GenericHeader::splitHeaderLine($line);
             } catch (Header\Exception\InvalidArgumentException $e) {
                 if ($e->getMessage() === 'Invalid header value detected' && strpos($line, "\r") !== false) {
                     // it's very broken, at least attempt to strip \r
@@ -123,7 +123,7 @@ class MailLoader
                     $line = "X-Broken-Header-Mbox: $line";
                 }
 
-                list($name, $value) = Header\GenericHeader::splitHeaderLine($line);
+                [$name, $value] = Header\GenericHeader::splitHeaderLine($line);
             }
 
             try {

@@ -113,7 +113,7 @@ class AssociateController extends BaseController
                 $res = Note::insertFromPost($this->usr_id, $this->issue_id, false, true, false, true, true);
                 // remove the associated email
                 if ($res) {
-                    list($_POST['from']) = Support::getSender([$item]);
+                    [$_POST['from']] = Support::getSender([$item]);
                     $mail = MailMessage::createFromString($email['seb_full_email']);
                     Workflow::handleBlockedEmail($this->prj_id, $this->issue_id, $_POST, 'associated', $mail);
                     Support::removeEmail($item);

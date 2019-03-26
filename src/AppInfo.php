@@ -87,7 +87,7 @@ class AppInfo
         // or some tag:
         // "fc334abadfd480820071c1415723c7de0216eb6f"
         if (strpos($hash, 'ref:') === 0) {
-            list(, $refname) = explode(': ', $hash);
+            $refname = explode(': ', $hash)[1];
             if (!file_exists($file = $gitDir . '/' . trim($refname))) {
                 return null;
             }

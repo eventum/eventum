@@ -189,9 +189,9 @@ class SetupController extends BaseController
         $db_hostname = $post->get('db_hostname');
         $parts = explode(':', $db_hostname, 2);
         if (count($parts) > 1) {
-            list($hostname, $socket) = $parts;
+            [$hostname, $socket] = $parts;
         } else {
-            list($hostname) = $parts;
+            [$hostname] = $parts;
             $socket = null;
         }
 

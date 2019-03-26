@@ -146,7 +146,7 @@ class IssueAssociationRepository extends EntityRepository
         ];
 
         foreach ($pairs as $pair) {
-            list($issue_id, $associated_issue_id) = $pair;
+            [$issue_id, $associated_issue_id] = $pair;
             $params = [
                 'issue_id' => $associated_issue_id,
                 'user' => $full_name,
@@ -168,7 +168,7 @@ class IssueAssociationRepository extends EntityRepository
      */
     public function updateAssociations($usr_id, $issue_id, $issues)
     {
-        list($issues, $errors) = $this->filterExistingIssues($issues, $issue_id);
+        [$issues, $errors] = $this->filterExistingIssues($issues, $issue_id);
         $existing_associations = $this->getAssociatedIssues($issue_id);
 
         $add = array_diff($issues, $existing_associations);

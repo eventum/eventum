@@ -269,7 +269,7 @@ class XmlRpcServer
         try {
             $email = null;
             if (!$public) {
-                list($email, $password) = $this->getAuthParams($params);
+                [$email, $password] = $this->getAuthParams($params);
 
                 // FIXME: role is not checked here
                 if (!$this->isValidLogin($email, $password)) {

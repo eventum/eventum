@@ -69,7 +69,7 @@ class ImapMessage extends MailMessage
     public static function createFromImap($mbox, $num, $info)
     {
         // check if the current message was already seen
-        list($overview) = imap_fetch_overview($mbox, $num);
+        [$overview] = imap_fetch_overview($mbox, $num);
 
         $headers = imap_fetchheader($mbox, $num);
         $content = imap_body($mbox, $num);

@@ -126,7 +126,7 @@ class AuthorizedReplierController extends BaseController
      */
     protected function prepareTemplate(): void
     {
-        list(, $repliers) = Authorized_Replier::getAuthorizedRepliers($this->issue_id);
+        $repliers = Authorized_Replier::getAuthorizedRepliers($this->issue_id)[1];
 
         $users = Project::getAddressBook($this->prj_id, $this->issue_id);
         // add empty value which would be the default value in dropdown

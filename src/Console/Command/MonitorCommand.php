@@ -238,7 +238,7 @@ class MonitorCommand
                 continue;
             }
             // check the owner and group for these files
-            list($owner, $group) = self::getOwnerAndGroup($file_path);
+            [$owner, $group] = self::getOwnerAndGroup($file_path);
             if (!empty($options['check_owner']) && $options['owner'] != $owner) {
                 $message = ev_gettext(
                     'ERROR: File owner mismatch (path: %1$s; current owner: %2$s; correct owner: %3$s)', $file_path,
