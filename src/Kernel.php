@@ -33,7 +33,7 @@ class Kernel extends BaseKernel
         $this->debug = $debug;
         $this->rootDir = dirname(__DIR__);
         $this->configDir = "{$this->rootDir}/config";
-        $this->name = basename($this->rootDir);
+        $this->name = $this->getName(false);
     }
 
     public static function handleRequest(): void
