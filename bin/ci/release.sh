@@ -183,7 +183,7 @@ clean_vendor() {
 	$phing -f $topdir/build.xml clean-vendor
 
 	# clean empty dirs
-	find vendor -type d | sort -r | xargs rmdir --ignore-fail-on-non-empty
+	find vendor -type d -print0 | sort -zr | xargs -0 rmdir --ignore-fail-on-non-empty
 
 	cd vendor
 	clean_scripts
