@@ -1,5 +1,14 @@
 index:
-    path: /
+    path: /index
     controller: Eventum\Controller\IndexController::defaultAction
+
+confirm:
+    path: /confirm
+    methods: GET
+    controller: Eventum\Controller\ConfirmController::defaultAction
+
+front:
+    path: /
+    controller: Eventum\Controller\FrontController::indexAction
 
 # vim:ts=4:sw=4:et

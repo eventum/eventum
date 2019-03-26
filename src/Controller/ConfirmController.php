@@ -13,90 +13,73 @@
 
 namespace Eventum\Controller;
 
+use Eventum\Controller\Traits\NotFoundExceptionTrait;
+use Eventum\Controller\Traits\RedirectResponseTrait;
+use Eventum\Controller\Traits\SmartyResponseTrait;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use User;
 
-class ConfirmController extends BaseController
+class ConfirmController
 {
+    use NotFoundExceptionTrait;
+    use RedirectResponseTrait;
+    use SmartyResponseTrait;
+
     /** @var string */
     protected $tpl_name = 'confirm.tpl.html';
 
     /** @var string */
     private $cat;
 
-    /** @var string */
-    private $email;
-
-    /** @var string */
-    private $hash;
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function configure(): void
+    public function defaultAction(Request $request): Response
     {
-        $request = $this->getRequest();
-
         $this->cat = $request->query->get('cat');
-        $this->email = $request->query->get('email');
-        $this->hash = $request->query->get('hash');
-    }
+        $email = $request->query->get('email');
+        $hash = $request->query->get('hash');
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function canAccess(): bool
-    {
-        if (!in_array($this->cat, ['newuser', 'password'])) {
-            return false;
-        }
-
-        return true;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function defaultAction(): void
-    {
         if ($this->cat === 'newuser') {
-            $this->newUserAction();
-        } elseif ($this->cat === 'password') {
-            $this->passwordAction();
+            return $this->newUserAction($email, $hash);
         }
+
+        if ($this->cat === 'password') {
+            return $this->passwordAction($email, $hash);
+        }
+
+        throw $this->createNotFoundException('The route does not exist');
     }
 
-    private function newUserAction(): void
+    private function newUserAction(?string $email, ?string $hash): Response
     {
-        $res = User::checkHash($this->email, $this->hash);
+        $res = User::checkHash($email, $hash);
         if ($res == 1) {
-            User::confirmVisitorAccount($this->email);
+            User::confirmVisitorAccount($email);
             // redirect user to login form with pretty message
-            $this->redirect('index.php', ['err' => 8, 'email' => $this->email]);
+            $this->redirect('index.php', ['err' => 8, 'email' => $email]);
         }
 
-        $this->tpl->assign('confirm_result', $res);
+        $params = [
+            'cat' => $this->cat,
+            'confirm_result' => $res,
+        ];
+
+        return $this->render($this->tpl_name, $params);
     }
 
-    private function passwordAction(): void
+    private function passwordAction(?string $email, ?string $hash): Response
     {
-        $res = User::checkHash($this->email, $this->hash);
+        $params = [
+            'cat' => $this->cat,
+        ];
+
+        $res = User::checkHash($email, $hash);
         if ($res == 1) {
-            User::confirmNewPassword($this->email);
-            $this->tpl->assign('email', $this->email);
+            User::confirmNewPassword($email);
+            $params['email'] = $email;
         }
 
-        $this->tpl->assign('confirm_result', $res);
-    }
+        $params['confirm_result'] = $res;
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function prepareTemplate(): void
-    {
-        $this->tpl->assign(
-            [
-                'cat' => $this->cat,
-            ]
-        );
+        return $this->render($this->tpl_name, $params);
     }
 }
