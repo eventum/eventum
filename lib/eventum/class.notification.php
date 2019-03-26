@@ -534,10 +534,10 @@ class Notification
      * @param   string $type The notification type
      * @return  array The list of users / emails
      */
-    public static function getUsersByIssue($issue_id, $type)
+    public static function getUsersByIssue(int $issue_id, string $type): array
     {
         $prj_id = Issue::getProjectID($issue_id);
-        if ($type == 'notes') {
+        if ($type === 'notes') {
             $stmt = "SELECT
                         DISTINCT sub_usr_id,
                         sub_email
@@ -585,13 +585,8 @@ class Notification
                 Issue::getProjectID($issue_id), $issue_id, $type,
             ];
         }
-        try {
-            $res = DB_Helper::getInstance()->getAll($stmt, $params);
-        } catch (DatabaseException $e) {
-            return [];
-        }
 
-        return $res;
+        return DB_Helper::getInstance()->getAll($stmt, $params);
     }
 
     /**
@@ -607,7 +602,7 @@ class Notification
     {
         $prj_id = Issue::getProjectID($issue_id);
         $diffs = [];
-        if (@$new['keep_assignments'] == 'no') {
+        if (($new['keep_assignments'] ?? null) === 'no') {
             if (empty($new['assignments'])) {
                 $new['assignments'] = [];
             }
@@ -686,7 +681,7 @@ class Notification
             if (empty($user['sub_usr_id'])) {
                 $email = $user['sub_email'];
                 // non users are treated as "Viewers" for permission checks
-                $role = User::ROLE_VIEWER;
+                $role_id = User::ROLE_VIEWER;
             } else {
                 $prefs = Prefs::getProjectPreference($prj_id, $user['sub_usr_id']);
                 $sameUser = ($user['sub_usr_id'] ?? null) == $usr_id;
@@ -694,13 +689,14 @@ class Notification
                     continue;
                 }
                 $email = User::getFromHeader($user['sub_usr_id']);
-                $role = $user['pru_role'];
+                // NOTE: pru_role might be missing, if the user is not member of the project
+                $role_id = $user['pru_role'] ?: null;
             }
 
             // now add it to the list of emails
-            if (!empty($email) && !in_array($email, $all_emails)) {
+            if (!empty($email) && !in_array($email, $all_emails, true)) {
                 $all_emails[] = $email;
-                $role_emails[$role][] = $email;
+                $role_emails[$role_id][] = $email;
             }
         }
 
@@ -708,18 +704,20 @@ class Notification
         $additional_emails = Workflow::getAdditionalEmailAddresses($prj_id, $issue_id, 'issue_updated', ['old' => $old, 'new' => $new]);
         $data['custom_field_diffs'] = implode("\n", Custom_Field::formatUpdatesToDiffs($updated_custom_fields, User::ROLE_VIEWER));
         foreach ($additional_emails as $email) {
-            if (!in_array($email, $all_emails)) {
+            if (!in_array($email, $all_emails, true)) {
                 $role_emails[User::ROLE_VIEWER][] = $email;
             }
         }
 
         // send email to each role separately due to custom field restrictions
-        foreach ($role_emails as $role => $emails) {
-            if (count($emails) > 0) {
-                $data['custom_field_diffs'] = implode("\n", Custom_Field::formatUpdatesToDiffs($updated_custom_fields, $role));
-                if (!empty($data['custom_field_diffs']) || !empty($data['diffs'])) {
-                    self::notifySubscribers($issue_id, $emails, 'updated', $data, ev_gettext('Updated'), false);
-                }
+        foreach ($role_emails as $role_id => $emails) {
+            if (!$emails) {
+                continue;
+            }
+
+            $data['custom_field_diffs'] = implode("\n", Custom_Field::formatUpdatesToDiffs($updated_custom_fields, $role_id ?: null));
+            if (!empty($data['custom_field_diffs']) || !empty($data['diffs'])) {
+                self::notifySubscribers($issue_id, $emails, 'updated', $data, ev_gettext('Updated'), false);
             }
         }
     }
