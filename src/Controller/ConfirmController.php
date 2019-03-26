@@ -13,6 +13,7 @@
 
 namespace Eventum\Controller;
 
+use Eventum\Auth\AuthException;
 use Eventum\Controller\Traits\NotFoundExceptionTrait;
 use Eventum\Controller\Traits\RedirectResponseTrait;
 use Eventum\Controller\Traits\SmartyResponseTrait;
@@ -55,7 +56,7 @@ class ConfirmController
         if ($res == 1) {
             User::confirmVisitorAccount($email);
             // redirect user to login form with pretty message
-            $this->redirect('index.php', ['err' => 8, 'email' => $email]);
+            $this->redirect('index.php', ['err' => AuthException::ACCOUNT_ACTIVATED, 'email' => $email]);
         }
 
         $params = [
