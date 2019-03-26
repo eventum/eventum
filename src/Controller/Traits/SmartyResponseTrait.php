@@ -20,11 +20,12 @@ trait SmartyResponseTrait
 {
     public function render(string $template, array $params = []): Response
     {
+        $process = $params['_process'] ?? true;
         $tpl = new Template_Helper($template);
         if ($params) {
             $tpl->assign($params);
         }
 
-        return new Response($tpl->getTemplateContents());
+        return new Response($tpl->getTemplateContents($process));
     }
 }
