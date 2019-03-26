@@ -55,7 +55,7 @@ class DatabaseSetup
         }
 
         $table_list = $this->getTableList();
-        if (!in_array('eventum_test', $table_list)) {
+        if (!in_array('eventum_test', $table_list, true)) {
             try {
                 $this->conn->query('CREATE TABLE `eventum_test` (test CHAR(1))');
             } catch (DatabaseException $e) {
@@ -232,7 +232,7 @@ class DatabaseSetup
     {
         $user_list = $this->getUserList();
 
-        return in_array($user, $user_list);
+        return in_array($user, $user_list, true);
     }
 
     private function createUser($db_name, $user, $password): void

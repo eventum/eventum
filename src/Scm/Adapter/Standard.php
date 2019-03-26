@@ -34,7 +34,7 @@ class Standard extends AbstractAdapter
         }
 
         // require 'scm' GET parameter to be 'svn' or 'git'
-        return in_array($this->request->query->get('scm'), ['svn', 'git']);
+        return in_array($this->request->query->get('scm'), ['svn', 'git'], true);
     }
 
     /**

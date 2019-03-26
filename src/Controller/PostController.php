@@ -108,13 +108,13 @@ class PostController extends BaseController
             return false;
         }
 
-        if ($prj_id && !in_array($prj_id, array_keys($projects))) {
+        if ($prj_id && !array_key_exists($prj_id, $projects)) {
             $this->tpl->assign('no_projects', '1');
 
             return false;
         }
 
-        if ($prj_id == null && count($projects) == 1) {
+        if ($prj_id == null && count($projects) === 1) {
             $project_ids = array_keys($projects);
             $this->redirect('post.php', ['post_form' => 'yes', 'project' => $project_ids[0]]);
         }

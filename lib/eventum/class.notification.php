@@ -29,24 +29,24 @@ use Symfony\Component\EventDispatcher\GenericEvent;
 class Notification
 {
     /**
-     * Method used to check whether a given email address is subsbribed to
+     * Method used to check whether a given email address is subscribed to
      * email notifications for a given issue.
      *
      * @param   int $issue_id The issue ID
      * @param   string $email The email address
      * @return  bool
      */
-    public static function isSubscribedToEmails($issue_id, $email)
+    public static function isSubscribedToEmails($issue_id, $email): bool
     {
         $email = Mail_Helper::getEmailAddress($email);
-        if ($email == '@') {
+        if ($email === '@') {
             // XXX: never happens with ZF, try catch above call?
             // broken address, don't send the email...
             return true;
         }
         $subscribed_emails = self::getSubscribedEmails($issue_id, 'emails');
         $subscribed_emails = Misc::lowercase($subscribed_emails);
-        if (in_array($email, $subscribed_emails)) {
+        if (in_array($email, $subscribed_emails, true)) {
             return true;
         }
 
@@ -1067,7 +1067,7 @@ class Notification
                 $full_subject = ev_gettext('[#%1$s] %2$s: %3$s', $issue_id, $subject, $data['iss_summary']);
             }
 
-            if ($notify_type == 'notes' && $sender) {
+            if ($notify_type === 'notes' && $sender) {
                 $from = self::getFixedFromHeader($issue_id, $sender, 'note');
             } else {
                 $from = self::getFixedFromHeader($issue_id, '', 'issue');

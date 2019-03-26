@@ -86,7 +86,7 @@ class SelectCustomerController extends BaseController
         $customers = $contact->getCustomers();
 
         if ($this->customer_id) {
-            if (in_array($this->customer_id, array_keys($customers))) {
+            if (array_key_exists($this->customer_id, $customers)) {
                 Auth::setCurrentCustomerID($this->customer_id);
                 $this->redirect($this->url ?: 'main.php');
             }
