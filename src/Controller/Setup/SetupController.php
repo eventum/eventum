@@ -107,24 +107,9 @@ class SetupController extends BaseController
 
     private function getFirstWeekday(): int
     {
-        // this works on Linux
-        // http://stackoverflow.com/questions/727471/how-do-i-get-the-first-day-of-the-week-for-the-current-locale-php-l8n
-        $weekday = exec('locale first_weekday');
-        if ($weekday) {
-            // Returns Monday=2, but we need 1 for Monday
-            // see http://man7.org/linux/man-pages/man5/locale.5.html
-            return --$weekday;
-        }
+        $cal = IntlCalendar::createInstance();
 
-        // This would work in PHP 5.5
-        if (class_exists('IntlCalendar')) {
-            $cal = IntlCalendar::createInstance();
-
-            return $cal->getFirstDayOfWeek() === IntlCalendar::DOW_MONDAY ? 1 : 0;
-        }
-
-        // default to Monday as it's default for "World" in CLDR's supplemental data
-        return 1;
+        return $cal->getFirstDayOfWeek() === IntlCalendar::DOW_MONDAY ? 1 : 0;
     }
 
     private function e($s)
