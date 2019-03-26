@@ -13,21 +13,20 @@
 
 namespace Eventum\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 
 /**
  * @see https://stackoverflow.com/q/31230523/2314626
  */
-class FrontController extends Controller
+class FrontController extends AbstractController
 {
     /**
      * Forward the request to the appropriate controller
-     * @param Request $request
-     * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function indexAction(Request $request)
+    public function indexAction(Request $request): Response
     {
         $page = basename($request->getBaseUrl(), '.php');
         $path = "/{$page}";
