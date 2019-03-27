@@ -11,7 +11,6 @@
  * that were distributed with this source code.
  */
 
-use Ds\Set;
 use Eventum\Attachment\AttachmentGroup;
 use Eventum\Event\ResultableEvent;
 use Eventum\Event\SystemEvents;
@@ -22,7 +21,6 @@ use Eventum\Mail\Helper\AddressHeader;
 use Eventum\Mail\ImapMessage;
 use Eventum\Mail\MailMessage;
 use Symfony\Component\EventDispatcher\GenericEvent;
-use Zend\Mail\Address;
 
 class Workflow
 {
@@ -546,6 +544,7 @@ class Workflow
      * @param   array $actions the action types
      * @return  array|bool|null an array of information or true to continue unchanged or false to prevent the user from being added
      * @since 3.6.3 emits NOTIFICATION_HANDLE_SUBSCRIPTION event
+     * @since 3.6.4 add 'address' property of type Address
      * @deprecated
      */
     public static function handleSubscription($prj_id, $issue_id, &$subscriber_usr_id, &$email, &$actions)
@@ -555,9 +554,10 @@ class Workflow
             'issue_id' => (int)$issue_id,
             'subscriber_usr_id' => is_numeric($subscriber_usr_id) ? (int)$subscriber_usr_id : $subscriber_usr_id,
             'email' => $email, // @deprecated, use 'address' instead
-            'address' => AddressHeader::fromString($email)->getAddress(),
+            'address' => $email ? AddressHeader::fromString($email)->getAddress() : null,
             'actions' => $actions,
         ];
+
         $event = new ResultableEvent(null, $arguments);
         EventManager::dispatch(SystemEvents::NOTIFICATION_HANDLE_SUBSCRIPTION, $event);
 
