@@ -177,13 +177,8 @@ class Note
                     `note`
                  WHERE
                     not_id=?';
-        try {
-            $res = DB_Helper::getInstance()->getOne($stmt, [$note_id]);
-        } catch (DatabaseException $e) {
-            return '';
-        }
 
-        return $res;
+        return DB_Helper::getInstance()->getOne($stmt, [$note_id]);
     }
 
     /**
