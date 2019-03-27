@@ -5,6 +5,8 @@
 
 set -e
 
+repo_url=git@github.com:eventum/eventum.git
+
 have() {
 	type -p "$1" >/dev/null 2>&1
 }
@@ -26,6 +28,7 @@ get_commit_message() {
 create_snapshot_tag() {
 	local version branch commit date message
 	git tag -d snapshot || :
+	git fetch --no-tags "$repo_url" "+refs/tags/v*:refs/tags/v*"
 
 	version=$(git describe --tags --abbrev=9 HEAD)
 	branch=$(git rev-parse --abbrev-ref HEAD)
@@ -34,7 +37,7 @@ create_snapshot_tag() {
 	message=$(get_commit_message)
 
 	git tag -am "$message" snapshot HEAD
-	git push -f git@github.com:eventum/eventum.git snapshot
+	git push -f "$repo_url" snapshot
 	git tag -d snapshot
 }
 
