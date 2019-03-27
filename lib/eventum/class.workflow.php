@@ -554,7 +554,8 @@ class Workflow
             'prj_id' => (int)$prj_id,
             'issue_id' => (int)$issue_id,
             'subscriber_usr_id' => is_numeric($subscriber_usr_id) ? (int)$subscriber_usr_id : $subscriber_usr_id,
-            'email' => $email,
+            'email' => $email, // @deprecated, use 'address' instead
+            'address' => AddressHeader::fromString($email)->getAddress(),
             'actions' => $actions,
         ];
         $event = new ResultableEvent(null, $arguments);
