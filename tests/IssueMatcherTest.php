@@ -13,7 +13,7 @@
 
 namespace Eventum\Test;
 
-use Eventum\IssueMatcher;
+use Eventum\TextMatcher\IssueMatcher;
 
 class IssueMatcherTest extends TestCase
 {
