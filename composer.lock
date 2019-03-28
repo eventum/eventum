@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "1bd17bbb6975e9dac2255b9d72e04cdf",
+    "content-hash": "847bdcff4b1b0eb0b46846d9040378a8",
     "packages": [
         {
             "name": "cakephp/cache",
@@ -1588,16 +1588,16 @@
         },
         {
             "name": "league/commonmark",
-            "version": "0.18.4",
+            "version": "0.18.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/commonmark.git",
-                "reference": "93fa5e85c2e5e7f59ee2537449abc677096fb1c8"
+                "reference": "f94e18d68260f43a7d846279cad88405854b1306"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/commonmark/zipball/93fa5e85c2e5e7f59ee2537449abc677096fb1c8",
-                "reference": "93fa5e85c2e5e7f59ee2537449abc677096fb1c8",
+                "url": "https://api.github.com/repos/thephpleague/commonmark/zipball/f94e18d68260f43a7d846279cad88405854b1306",
+                "reference": "f94e18d68260f43a7d846279cad88405854b1306",
                 "shasum": ""
             },
             "require": {
@@ -1653,7 +1653,7 @@
                 "markdown",
                 "parser"
             ],
-            "time": "2019-03-24T02:45:32+00:00"
+            "time": "2019-03-28T13:52:31+00:00"
         },
         {
             "name": "league/commonmark-ext-autolink",
