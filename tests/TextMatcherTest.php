@@ -16,6 +16,7 @@ namespace Eventum\Test;
 use Eventum\TextMatcher\GroupMatcher;
 use Eventum\TextMatcher\IssueMatcher;
 use Eventum\TextMatcher\NoteMatcher;
+use Eventum\TextMatcher\TextMatchInterface;
 use Generator;
 
 /**
@@ -24,46 +25,38 @@ use Generator;
 class TextMatcherTest extends TestCase
 {
     /**
-     * @dataProvider issueDataProvider
+     * @dataProvider dataProvider
      */
-    public function testIssueMatch($message, $expected): void
+    public function testIssueMatch(TextMatchInterface $matcher, $text, $expected): void
     {
-        $matcher = new IssueMatcher('http://eventum.example.lan/');
-        $result = iterator_to_array($matcher->match($message), false);
+        $result = iterator_to_array($matcher->match($text), false);
         $this->assertEquals($expected, $result);
     }
 
-    /**
-     * @dataProvider noteDataProvider
-     */
-    public function testNoteMatch($message, $expected): void
-    {
-        $matcher = new NoteMatcher('http://eventum.example.lan/');
-        $result = iterator_to_array($matcher->match($message), false);
-        $this->assertEquals($expected, $result);
-    }
-
-    /**
-     * @dataProvider groupDataProvider
-     */
-    public function testGroupMatcher($message, $expected): void
+    public function dataProvider(): Generator
     {
         $issueMatcher = new IssueMatcher('http://eventum.example.lan/');
         $noteMatcher = new NoteMatcher('http://eventum.example.lan/');
-        $matcher = new GroupMatcher([$issueMatcher, $noteMatcher]);
+        $groupMatcher = new GroupMatcher([$issueMatcher, $noteMatcher]);
 
-        $result = iterator_to_array($matcher->match($message), false);
-        $this->assertEquals($expected, $result);
-    }
-
-    public function noteDataProvider(): Generator
-    {
-        yield 'no match' => [
+        yield 'issue no match' => [
+            $issueMatcher,
+            '',
+            [],
+        ];
+        yield 'note no match' => [
+            $noteMatcher,
+            '',
+            [],
+        ];
+        yield 'grup no match' => [
+            $groupMatcher,
             '',
             [],
         ];
 
         yield 'note from issue #4' => [
+            $noteMatcher,
             'http://eventum.example.lan/view_note.php?id=13',
             [
                 [
@@ -74,16 +67,9 @@ class TextMatcherTest extends TestCase
                 ],
             ],
         ];
-    }
-
-    public function groupDataProvider(): Generator
-    {
-        yield 'no match' => [
-            '',
-            [],
-        ];
 
         yield 'note and issue' => [
+            $groupMatcher,
             'http://eventum.example.lan/view_note.php?id=13 http://eventum.example.lan/view.php?id=64',
             [
                 [
@@ -99,16 +85,9 @@ class TextMatcherTest extends TestCase
                 ],
             ],
         ];
-    }
-
-    public function issueDataProvider(): Generator
-    {
-        yield 'no match' => [
-            '',
-            [],
-        ];
 
         yield 'match link and text' => [
+            $issueMatcher,
             '
 issue updated, issue 123
 link: http://eventum.example.lan/view.php?id=64
