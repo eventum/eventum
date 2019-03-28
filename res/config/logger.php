@@ -22,10 +22,12 @@ $formatters = [
     'default' => [
         'class' => 'Monolog\\Formatter\\LineFormatter',
         'format' => "[%datetime%] %channel%.%level_name%: %message% %context% %extra%\n",
+        'includeStacktraces' => true,
     ],
     'error_handler' => [
         'class' => 'Monolog\\Formatter\\LineFormatter',
         'format' => '%channel%.%level_name%: %message% %context% %extra%',
+        'includeStacktraces' => true,
     ],
     // https://docs.sentry.io/clients/php/integrations/monolog/
     'raven_formatter' => [
@@ -40,18 +42,21 @@ $handlers = [
         'level' => 'INFO',
         'stream' => APP_LOG_PATH . '/eventum.log',
         'filePermission' => 0640,
+        'formatter' => 'default',
     ],
     'auth_log' => [
         'class' => 'Eventum\\Monolog\\StreamHandler',
         'level' => 'INFO',
         'stream' => APP_LOG_PATH . '/auth.log',
         'filePermission' => 0640,
+        'formatter' => 'default',
     ],
     'cli_log' => [
         'class' => 'Eventum\\Monolog\\StreamHandler',
         'level' => 'INFO',
         'stream' => APP_LOG_PATH . '/cli.log',
         'filePermission' => 0640,
+        'formatter' => 'default',
     ],
     'error_handler' => [
         'class' => 'Monolog\\Handler\\ErrorLogHandler',
@@ -61,6 +66,7 @@ $handlers = [
     'error_mailer' => [
         'class' => 'Eventum\\Monolog\\MailHandler',
         'level' => 'ERROR',
+        'formatter' => 'default',
     ],
     /*
     'slack_reporter' => [
