@@ -36,6 +36,8 @@ class GroupMatcher implements TextMatchInterface
 
     public function match(string $text): Generator
     {
+        // this delegates generator,
+        // should instead sort by textOffset value?
         foreach ($this->matchers as $matcher) {
             yield from $matcher->match($text);
         }

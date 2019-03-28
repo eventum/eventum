@@ -13,6 +13,7 @@
 
 namespace Eventum\Test;
 
+use Eventum\TextMatcher\GroupMatcher;
 use Eventum\TextMatcher\IssueMatcher;
 use Eventum\TextMatcher\NoteMatcher;
 use Generator;
@@ -27,8 +28,8 @@ class TextMatcherTest extends TestCase
      */
     public function testIssueMatch($message, $expected): void
     {
-        $issueMatcher = new IssueMatcher('http://eventum.example.lan/');
-        $result = iterator_to_array($issueMatcher->match($message));
+        $matcher = new IssueMatcher('http://eventum.example.lan/');
+        $result = iterator_to_array($matcher->match($message), false);
         $this->assertEquals($expected, $result);
     }
 
@@ -37,8 +38,21 @@ class TextMatcherTest extends TestCase
      */
     public function testNoteMatch($message, $expected): void
     {
-        $issueMatcher = new NoteMatcher('http://eventum.example.lan/');
-        $result = iterator_to_array($issueMatcher->match($message));
+        $matcher = new NoteMatcher('http://eventum.example.lan/');
+        $result = iterator_to_array($matcher->match($message), false);
+        $this->assertEquals($expected, $result);
+    }
+
+    /**
+     * @dataProvider groupDataProvider
+     */
+    public function testGroupMatcher($message, $expected): void
+    {
+        $issueMatcher = new IssueMatcher('http://eventum.example.lan/');
+        $noteMatcher = new NoteMatcher('http://eventum.example.lan/');
+        $matcher = new GroupMatcher([$issueMatcher, $noteMatcher]);
+
+        $result = iterator_to_array($matcher->match($message), false);
         $this->assertEquals($expected, $result);
     }
 
@@ -52,6 +66,31 @@ class TextMatcherTest extends TestCase
         yield 'note from issue #4' => [
             'http://eventum.example.lan/view_note.php?id=13',
             [
+                [
+                    'text' => 'http://eventum.example.lan/view_note.php?id=13',
+                    'textOffset' => 0,
+                    'issueId' => 4,
+                    'noteId' => 13,
+                ],
+            ],
+        ];
+    }
+
+    public function groupDataProvider(): Generator
+    {
+        yield 'no match' => [
+            '',
+            [],
+        ];
+
+        yield 'note and issue' => [
+            'http://eventum.example.lan/view_note.php?id=13 http://eventum.example.lan/view.php?id=64',
+            [
+                [
+                    'text' => 'http://eventum.example.lan/view.php?id=64',
+                    'textOffset' => 47,
+                    'issueId' => 64,
+                ],
                 [
                     'text' => 'http://eventum.example.lan/view_note.php?id=13',
                     'textOffset' => 0,
