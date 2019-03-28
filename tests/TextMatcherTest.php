@@ -14,12 +14,13 @@
 namespace Eventum\Test;
 
 use Eventum\TextMatcher\IssueMatcher;
+use Eventum\TextMatcher\NoteMatcher;
 use Generator;
 
 class TextMatcherTest extends TestCase
 {
     /**
-     * @dataProvider dataProvider
+     * @dataProvider issueDataProvider
      */
     public function testIssueMatch($message, $expected): void
     {
@@ -28,7 +29,25 @@ class TextMatcherTest extends TestCase
         $this->assertEquals($expected, $result);
     }
 
-    public function dataProvider(): Generator
+    /**
+     * @dataProvider noteDataProvider
+     */
+    public function testNoteMatch($message, $expected): void
+    {
+        $issueMatcher = new NoteMatcher('http://eventum.example.lan/');
+        $result = iterator_to_array($issueMatcher->match($message));
+        $this->assertEquals($expected, $result);
+    }
+
+    public function noteDataProvider(): Generator
+    {
+        yield 'no match' => [
+            '',
+            [],
+        ];
+    }
+
+    public function issueDataProvider(): Generator
     {
         yield 'no match' => [
             '',
