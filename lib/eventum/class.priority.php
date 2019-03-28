@@ -266,7 +266,7 @@ class Priority
     {
         static $list;
 
-        if (count(@$list[$prj_id]) > 0) {
+        if (isset($list[$prj_id])) {
             return $list[$prj_id];
         }
 
@@ -279,15 +279,9 @@ class Priority
                     pri_prj_id=?
                  ORDER BY
                     pri_rank ASC';
-        try {
-            $res = DB_Helper::getInstance()->getPair($stmt, [$prj_id]);
-        } catch (DatabaseException $e) {
-            return '';
-        }
 
-        $list[$prj_id] = $res;
 
-        return $res;
+        return $list[$prj_id] = DB_Helper::getInstance()->getPair($stmt, [$prj_id]);
     }
 
     /**

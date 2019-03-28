@@ -1983,7 +1983,7 @@ class Issue
             $recipients = [];
         }
 
-        if (count($data['custom_fields']) > 0) {
+        if ($data['custom_fields']) {
             $role_id = Auth::getCurrentRole();
             Custom_Field::updateCustomFieldValues($issue_id, $role_id, $data['custom_fields']);
         }
