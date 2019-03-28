@@ -95,7 +95,7 @@ class Gitlab extends AbstractAdapter
     {
         $matcher = new IssueMatcher(APP_BASE_URL);
         $description = $payload->getDescription();
-        $matches = $matcher->match($description);
+        $matches = iterator_to_array($matcher->match($description));
         if (!$matches) {
             return;
         }
@@ -127,7 +127,7 @@ class Gitlab extends AbstractAdapter
         $issueMatcher = new IssueMatcher(APP_BASE_URL);
 
         foreach ($payload->getCommits() as $commit) {
-            $matches = $issueMatcher->match($commit['message']);
+            $matches = iterator_to_array($issueMatcher->match($commit['message']));
             if (!$matches) {
                 continue;
             }

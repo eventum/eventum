@@ -14,6 +14,7 @@
 namespace Eventum\Test;
 
 use Eventum\TextMatcher\IssueMatcher;
+use Generator;
 
 class IssueMatcherTest extends TestCase
 {
@@ -30,45 +31,44 @@ class IssueMatcherTest extends TestCase
      */
     public function testMatching($message, $expected): void
     {
-        $result = $this->matcher->match($message);
+        $result = iterator_to_array($this->matcher->match($message));
         $this->assertEquals($expected, $result);
     }
 
-    public function dataProvider(): array
+    public function dataProvider(): Generator
     {
-        return [
-            'no match' => [
-                '',
-                [],
-            ],
-            'match link and text' => [
-                '
+        yield 'no match' => [
+            '',
+            [],
+        ];
+
+        yield 'match link and text' => [
+            '
 issue updated, issue 123
 link: http://eventum.example.lan/view.php?id=64
 [issue 123]: http://eventum.example.lan/view.php?id=64
 fresh modify.
 ',
+            [
                 [
-                    [
-                        'text' => 'issue 123',
-                        'textOffset' => 16,
-                        'issueId' => 123,
-                    ],
-                    [
-                        'text' => 'http://eventum.example.lan/view.php?id=64',
-                        'textOffset' => 32,
-                        'issueId' => 64,
-                    ],
-                    [
-                        'text' => 'issue 123',
-                        'textOffset' => 75,
-                        'issueId' => 123,
-                    ],
-                    [
-                        'text' => 'http://eventum.example.lan/view.php?id=64',
-                        'textOffset' => 87,
-                        'issueId' => 64,
-                    ],
+                    'text' => 'issue 123',
+                    'textOffset' => 16,
+                    'issueId' => 123,
+                ],
+                [
+                    'text' => 'http://eventum.example.lan/view.php?id=64',
+                    'textOffset' => 32,
+                    'issueId' => 64,
+                ],
+                [
+                    'text' => 'issue 123',
+                    'textOffset' => 75,
+                    'issueId' => 123,
+                ],
+                [
+                    'text' => 'http://eventum.example.lan/view.php?id=64',
+                    'textOffset' => 87,
+                    'issueId' => 64,
                 ],
             ],
         ];

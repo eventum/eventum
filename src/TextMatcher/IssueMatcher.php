@@ -13,7 +13,9 @@
 
 namespace Eventum\TextMatcher;
 
-class IssueMatcher
+use Generator;
+
+class IssueMatcher implements TextMatchInterface
 {
     /** @var TextMatcher */
     private $matcher;
@@ -29,17 +31,14 @@ class IssueMatcher
         $this->matcher = new TextMatcher($regexp, 2);
     }
 
-    public function match(string $text): array
+    public function match(string $text): Generator
     {
-        $result = [];
         foreach ($this->matcher->match($text) as $match) {
-            $result[] = [
+            yield [
                 'text' => $match['text'][0],
                 'textOffset' => $match['text'][1],
                 'issueId' => (int)$match['issue_id'][0],
             ];
         }
-
-        return $result;
     }
 }

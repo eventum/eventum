@@ -13,9 +13,10 @@
 
 namespace Eventum\TextMatcher;
 
+use Generator;
 use Note;
 
-class NoteMatcher
+class NoteMatcher implements TextMatchInterface
 {
     /** @var TextMatcher */
     private $matcher;
@@ -30,19 +31,16 @@ class NoteMatcher
         $this->matcher = new TextMatcher($regexp);
     }
 
-    public function match(string $text): ?array
+    public function match(string $text): Generator
     {
-        $result = [];
         foreach ($this->matcher->match($text) as $match) {
             $noteId = (int)$match['note_id'][0];
-            $result[] = [
+            yield [
                 'text' => $match['text'][0],
                 'textOffset' => $match['text'][1],
                 'noteId' => $noteId,
                 'issueId' => Note::getIssueID($noteId),
             ];
         }
-
-        return $result;
     }
 }

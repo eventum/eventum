@@ -16,7 +16,7 @@ namespace Eventum\TextMatcher;
 use Generator;
 use RuntimeException;
 
-class TextMatcher
+class TextMatcher implements TextMatchInterface
 {
     /** @var string */
     private $pattern;
