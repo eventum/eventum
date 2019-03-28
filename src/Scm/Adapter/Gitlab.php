@@ -18,7 +18,7 @@ use Eventum\Event\SystemEvents;
 use Eventum\EventDispatcher\EventManager;
 use Eventum\Scm\Payload\GitlabPayload;
 use Eventum\Scm\ScmRepository;
-use Eventum\TextMatcher\IssueMatcher;
+use Eventum\TextMatcher\GroupMatcher;
 use InvalidArgumentException;
 use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\HttpFoundation\Request;
@@ -93,7 +93,7 @@ class Gitlab extends AbstractAdapter
 
     private function matchIssues(GitlabPayload $payload): void
     {
-        $matcher = new IssueMatcher(APP_BASE_URL);
+        $matcher = GroupMatcher::create();
         $description = $payload->getDescription();
         $matches = iterator_to_array($matcher->match($description));
         if (!$matches) {
@@ -124,14 +124,14 @@ class Gitlab extends AbstractAdapter
         $em = Doctrine::getEntityManager();
         $cr = Doctrine::getCommitRepository();
         $ir = Doctrine::getIssueRepository();
-        $issueMatcher = new IssueMatcher(APP_BASE_URL);
+        $matcher = GroupMatcher::create();
 
         foreach ($payload->getCommits() as $commit) {
-            $matches = iterator_to_array($issueMatcher->match($commit['message']));
+            $matches = iterator_to_array($matcher->match($commit['message']));
             if (!$matches) {
                 continue;
             }
-            $issues = array_column($matches, 'issueId');
+            $issues = array_unique(array_column($matches, 'issueId'));
             if (!$issues) {
                 continue;
             }
