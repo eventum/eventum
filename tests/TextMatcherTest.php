@@ -16,22 +16,15 @@ namespace Eventum\Test;
 use Eventum\TextMatcher\IssueMatcher;
 use Generator;
 
-class IssueMatcherTest extends TestCase
+class TextMatcherTest extends TestCase
 {
-    /** @var IssueMatcher */
-    private $matcher;
-
-    public function setUp(): void
-    {
-        $this->matcher = new IssueMatcher('http://eventum.example.lan/');
-    }
-
     /**
      * @dataProvider dataProvider
      */
-    public function testMatching($message, $expected): void
+    public function testIssueMatch($message, $expected): void
     {
-        $result = iterator_to_array($this->matcher->match($message));
+        $issueMatcher = new IssueMatcher('http://eventum.example.lan/');
+        $result = iterator_to_array($issueMatcher->match($message));
         $this->assertEquals($expected, $result);
     }
 
