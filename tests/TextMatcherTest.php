@@ -17,6 +17,9 @@ use Eventum\TextMatcher\IssueMatcher;
 use Eventum\TextMatcher\NoteMatcher;
 use Generator;
 
+/**
+ * @group db
+ */
 class TextMatcherTest extends TestCase
 {
     /**
@@ -44,6 +47,18 @@ class TextMatcherTest extends TestCase
         yield 'no match' => [
             '',
             [],
+        ];
+
+        yield 'note from issue #4' => [
+            'http://eventum.example.lan/view_note.php?id=13',
+            [
+                [
+                    'text' => 'http://eventum.example.lan/view_note.php?id=13',
+                    'textOffset' => 0,
+                    'issueId' => 4,
+                    'noteId' => 13,
+                ],
+            ],
         ];
     }
 

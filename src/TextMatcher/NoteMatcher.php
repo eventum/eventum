@@ -39,7 +39,7 @@ class NoteMatcher implements TextMatchInterface
                 'text' => $match['text'][0],
                 'textOffset' => $match['text'][1],
                 'noteId' => $noteId,
-                'issueId' => Note::getIssueID($noteId),
+                'issueId' => (int)Note::getIssueID($noteId),
             ];
         }
     }
