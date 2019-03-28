@@ -62,6 +62,7 @@ abstract class BaseController
     public function __construct()
     {
         $this->tpl = new Template_Helper($this->tpl_name);
+        $this->tpl->enableDebugBar(true);
 
         $this->configure();
     }

@@ -27,6 +27,8 @@ class Template_Helper
 
     /** @var string */
     private $tpl_name;
+    /** @var bool */
+    private $debugBarEnabled = false;
 
     /**
      * @param string $templateName
@@ -196,10 +198,15 @@ class Template_Helper
         $userFile = new Templating\UserFile($this->smarty, APP_LOCAL_PATH);
         $userFile();
 
-        if (isset($role_id) && $role_id >= User::ROLE_ADMINISTRATOR) {
+        if ($this->debugBarEnabled && isset($role_id) && $role_id >= User::ROLE_ADMINISTRATOR) {
             DebugBarManager::getDebugBarManager()->registerSmarty($this->smarty);
         }
 
         return $this;
+    }
+
+    public function enableDebugBar(bool $enable): void
+    {
+        $this->debugBarEnabled = $enable;
     }
 }
