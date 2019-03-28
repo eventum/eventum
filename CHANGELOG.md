@@ -1,5 +1,11 @@
 # Eventum Issue Tracking System
 
+## [3.6.5]
+
+Upgrading to 3.6.x versions requires that you upgrade to latest 3.5.x version first.
+
+[3.6.5]: https://github.com/eventum/eventum/compare/v3.6.4...master
+
 ## [3.6.4] - 2019-03-28
 
 Upgrading to 3.6.x versions requires that you upgrade to latest 3.5.x version first.
