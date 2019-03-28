@@ -1,6 +1,6 @@
 # Eventum Issue Tracking System
 
-## [3.6.4]
+## [3.6.4] - 2019-03-28
 
 Upgrading to 3.6.x versions requires that you upgrade to latest 3.5.x version first.
 
@@ -8,7 +8,7 @@ Upgrading to 3.6.x versions requires that you upgrade to latest 3.5.x version fi
 - Add boot and shutdown events (@glensc, #511)
 - Regression: Fix notification `role_id` type notice (@glensc, #513)
 
-[3.6.4]: https://github.com/eventum/eventum/compare/v3.6.3...master
+[3.6.4]: https://github.com/eventum/eventum/compare/v3.6.3...v3.6.4
 
 ## [3.6.3] - 2019-03-21
 
