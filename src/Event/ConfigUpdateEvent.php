@@ -15,17 +15,24 @@ namespace Eventum\Event;
 
 use Eventum\Crypto\CryptoException;
 use Eventum\Crypto\EncryptedValue;
-use Symfony\Component\EventDispatcher\GenericEvent;
+use Symfony\Component\EventDispatcher\Event;
 use Zend\Config\Config;
 
-class ConfigUpdateEvent extends GenericEvent
+final class ConfigUpdateEvent extends Event
 {
+    private $config;
+
+    public function __construct(Config $config)
+    {
+        $this->config = $config;
+    }
+
     /**
      * @return Config
      */
     public function getConfig(): Config
     {
-        return $this->getSubject();
+        return $this->config;
     }
 
     /**
