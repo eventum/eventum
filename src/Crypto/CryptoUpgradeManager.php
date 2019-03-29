@@ -14,6 +14,7 @@
 namespace Eventum\Crypto;
 
 use Email_Account;
+use Eventum\Event\ConfigUpdateEvent;
 use Eventum\Event\SystemEvents;
 use Eventum\EventDispatcher\EventManager;
 use Setup;
@@ -113,19 +114,17 @@ class CryptoUpgradeManager
      */
     private function upgradeConfig(): void
     {
+        $event = new ConfigUpdateEvent($this->config);
+
         if (!$this->config['database']['password'] instanceof EncryptedValue) {
-            $this->config['database']['password'] = new EncryptedValue(
-                CryptoManager::encrypt($this->config['database']['password'])
-            );
+            $this->config['database']['password'] = $event->encrypt($this->config['database']['password']);
         }
 
         if (count($this->config['ldap']) && !$this->config['ldap']['bindpw'] instanceof EncryptedValue) {
-            $this->config['ldap']['bindpw'] = new EncryptedValue(
-                CryptoManager::encrypt($this->config['ldap']['bindpw'])
-            );
+            $this->config['ldap']['bindpw'] = $event->encrypt($this->config['ldap']['bindpw']);
         }
 
-        EventManager::dispatch(SystemEvents::CONFIG_CRYPTO_UPGRADE);
+        EventManager::dispatch(SystemEvents::CONFIG_CRYPTO_UPGRADE, $event);
     }
 
     /**
@@ -133,19 +132,17 @@ class CryptoUpgradeManager
      */
     private function downgradeConfig(): void
     {
+        $event = new ConfigUpdateEvent($this->config);
+
         if ($this->config['database']['password'] instanceof EncryptedValue) {
-            /** @var EncryptedValue $value */
-            $value = $this->config['database']['password'];
-            $this->config['database']['password'] = $value->getValue();
+            $this->config['database']['password'] = $event->decrypt($this->config['database']['password']);
         }
 
         if (count($this->config['ldap']) && $this->config['ldap']['bindpw'] instanceof EncryptedValue) {
-            /** @var EncryptedValue $value */
-            $value = $this->config['ldap']['bindpw'];
-            $this->config['ldap']['bindpw'] = $value->getValue();
+            $this->config['ldap']['bindpw'] = $event->decrypt($this->config['ldap']['bindpw']);
         }
 
-        EventManager::dispatch(SystemEvents::CONFIG_CRYPTO_DOWNGRADE);
+        EventManager::dispatch(SystemEvents::CONFIG_CRYPTO_DOWNGRADE, $event);
     }
 
     private function upgradeEmailAccounts(): void

@@ -13,6 +13,8 @@
 
 namespace Eventum\Crypto;
 
+use Throwable;
+
 /**
  * Class Encrypted Value
  *
@@ -24,28 +26,31 @@ namespace Eventum\Crypto;
 final class EncryptedValue
 {
     /** @var string Encrypted value */
-    private $ciphertext;
+    private $cipherText;
 
     /**
      * Construct object using encrypted data.
      *
-     * @param string $ciphertext
+     * @param string $cipherText
      */
-    public function __construct($ciphertext = null)
+    public function __construct(?string $cipherText = null)
     {
-        $this->ciphertext = $ciphertext;
+        $this->cipherText = $cipherText;
     }
 
     /**
      * Set plain text value.
      * The encrypted value is stored in object property.
      *
-     * @param string $plaintext
+     * @param string $plainText
      * @throws CryptoException
+     * @return EncryptedValue
      */
-    public function setValue($plaintext): void
+    public function setValue($plainText): self
     {
-        $this->ciphertext = CryptoManager::encrypt($plaintext);
+        $this->cipherText = CryptoManager::encrypt($plainText);
+
+        return $this;
     }
 
     /**
@@ -54,13 +59,13 @@ final class EncryptedValue
      * @throws CryptoException
      * @return string
      */
-    public function getValue()
+    public function getValue(): string
     {
-        if ($this->ciphertext === null) {
+        if ($this->cipherText === null) {
             throw new CryptoException('Value not initialized yet');
         }
 
-        return CryptoManager::decrypt($this->ciphertext);
+        return CryptoManager::decrypt($this->cipherText);
     }
 
     /**
@@ -69,20 +74,24 @@ final class EncryptedValue
      * @throws CryptoException
      * @return string
      */
-    public function getEncrypted()
+    public function getEncrypted(): string
     {
-        if ($this->ciphertext === null) {
+        if ($this->cipherText === null) {
             throw new CryptoException('Value not initialized yet');
         }
 
-        return $this->ciphertext;
+        return $this->cipherText;
     }
 
-    public function __toString()
+    /**
+     * @throws Throwable
+     * @return string
+     */
+    public function __toString(): string
     {
         try {
             $value = $this->getValue();
-        } catch (\Exception $e) {
+        } catch (Throwable $e) {
             error_log($e->getMessage());
             throw $e;
         }
@@ -96,8 +105,8 @@ final class EncryptedValue
      * @param array $data
      * @return EncryptedValue
      */
-    public static function __set_state($data)
+    public static function __set_state(array $data): self
     {
-        return new self($data['ciphertext']);
+        return new self($data['cipherText'] ?? $data['ciphertext']);
     }
 }
