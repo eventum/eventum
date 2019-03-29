@@ -116,14 +116,6 @@ class CryptoUpgradeManager
     {
         $event = new ConfigUpdateEvent($this->config);
 
-        if (!$this->config['database']['password'] instanceof EncryptedValue) {
-            $this->config['database']['password'] = $event->encrypt($this->config['database']['password']);
-        }
-
-        if (count($this->config['ldap']) && !$this->config['ldap']['bindpw'] instanceof EncryptedValue) {
-            $this->config['ldap']['bindpw'] = $event->encrypt($this->config['ldap']['bindpw']);
-        }
-
         EventManager::dispatch(SystemEvents::CONFIG_CRYPTO_UPGRADE, $event);
     }
 
@@ -133,15 +125,6 @@ class CryptoUpgradeManager
     private function downgradeConfig(): void
     {
         $event = new ConfigUpdateEvent($this->config);
-
-        if ($this->config['database']['password'] instanceof EncryptedValue) {
-            $this->config['database']['password'] = $event->decrypt($this->config['database']['password']);
-        }
-
-        if (count($this->config['ldap']) && $this->config['ldap']['bindpw'] instanceof EncryptedValue) {
-            $this->config['ldap']['bindpw'] = $event->decrypt($this->config['ldap']['bindpw']);
-        }
-
         EventManager::dispatch(SystemEvents::CONFIG_CRYPTO_DOWNGRADE, $event);
     }
 
