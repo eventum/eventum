@@ -25,6 +25,7 @@ use Eventum\Extension\Provider\WorkflowProvider;
 use Eventum\Monolog\Logger;
 use Generator;
 use InvalidArgumentException;
+use RuntimeException;
 use Setup;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Throwable;
@@ -128,28 +129,42 @@ class ExtensionManager
 
     /**
      * Create new instance of named class,
-     * use factory method from extension if extension provides it.
+     * use factory from extensions that provide factory method.
      *
      * @return object
      */
-    protected function createInstance(Provider\ExtensionProvider $extension, string $classname)
+    protected function createInstance(Provider\ExtensionProvider $preferredExtension, string $className)
     {
-        // TODO: let all extensions provide!
-        if ($extension instanceof FactoryProvider) {
-            $object = $extension->factory($classname);
+        foreach ($this->getSortedExtensions($this->extensions, $preferredExtension) as $extension) {
+            /** @var FactoryProvider $extension */
+            $object = $extension->factory($className);
 
-            // extension may not provide factory for the class
-            // fall back to plain autoloading
+            // extension may not provide factory for this class
+            // try next extension
             if ($object) {
                 return $object;
             }
         }
 
-        if (!class_exists($classname)) {
-            throw new InvalidArgumentException("Class '$classname' does not exist");
+        // fall back to autoloading
+        if (!class_exists($className)) {
+            throw new InvalidArgumentException("Class '$className' does not exist");
         }
 
-        return new $classname();
+        return new $className();
+    }
+
+    private function getSortedExtensions(array $extensions, Provider\ExtensionProvider $preferredExtension): Generator
+    {
+        // prefer provided extension
+        yield $preferredExtension;
+        unset($extensions[get_class($preferredExtension)]);
+
+        foreach ($extensions as $extension) {
+            if ($extension instanceof FactoryProvider) {
+                yield $extension;
+            }
+        }
     }
 
     /**
@@ -213,10 +228,15 @@ class ExtensionManager
      */
     protected function getAutoloader(): ClassLoader
     {
-        foreach ([APP_PATH . '/vendor/autoload.php', APP_PATH . '/../../../vendor/autoload.php'] as $autoload) {
+        $baseDir = dirname(__DIR__, 2);
+        foreach ([$baseDir . '/vendor/autoload.php', $baseDir . '/../../../vendor/autoload.php'] as $autoload) {
             if (file_exists($autoload)) {
                 break;
             }
+        }
+
+        if (!isset($autoload)) {
+            throw new RuntimeException('Could not locate autoloader');
         }
 
         return require $autoload;
