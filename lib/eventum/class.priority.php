@@ -280,7 +280,6 @@ class Priority
                  ORDER BY
                     pri_rank ASC';
 
-
         return $list[$prj_id] = DB_Helper::getInstance()->getPair($stmt, [$prj_id]);
     }
 
