@@ -29,7 +29,7 @@ final class CryptoManager
     /**
      * @return bool return true if Encryption is enabled
      */
-    public static function encryptionEnabled()
+    public static function encryptionEnabled(): bool
     {
         return Setup::get()->encryption === 'enabled';
     }
@@ -44,7 +44,7 @@ final class CryptoManager
      * @throws CryptoException if it can't be enabled
      * @return bool
      */
-    public static function canEncrypt()
+    public static function canEncrypt(): bool
     {
         if (!function_exists('openssl_encrypt')) {
             throw new CryptoException('openssl extension not enabled');
@@ -68,7 +68,7 @@ final class CryptoManager
      * @throws CryptoException
      * @return string
      */
-    public static function encrypt($plaintext, $key = null)
+    public static function encrypt(string $plaintext, string $key = null): string
     {
         if ($plaintext === null || $plaintext === false) {
             throw new CryptoException('Refusing to encrypt empty value');
@@ -95,7 +95,7 @@ final class CryptoManager
      * @throws CryptoException
      * @return string
      */
-    public static function decrypt($ciphertext)
+    public static function decrypt(string $ciphertext)
     {
         if (!self::encryptionEnabled()) {
             return $ciphertext;
@@ -120,7 +120,7 @@ final class CryptoManager
         }
     }
 
-    private static function getKey()
+    private static function getKey(): Key
     {
         $km = new CryptoKeyManager();
 
