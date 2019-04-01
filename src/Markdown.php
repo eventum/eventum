@@ -15,6 +15,8 @@ namespace Eventum;
 
 use Eventum\CommonMark\MentionExtension;
 use Eventum\EventDispatcher\EventManager;
+use HTMLPurifier;
+use HTMLPurifier_Config;
 use League\CommonMark\CommonMarkConverter;
 use League\CommonMark\ConverterInterface;
 use League\CommonMark\Environment;
@@ -36,8 +38,15 @@ class Markdown
      */
     private const MAX_NESTING_LEVEL = 500;
 
+    /** @var HTMLPurifier */
+    private $purifier;
     /** @var ConverterInterface[] */
     private $converter = [];
+
+    public function __construct()
+    {
+        $this->purifier = $this->createPurifier();
+    }
 
     public function render(string $text): string
     {
@@ -45,7 +54,9 @@ class Markdown
             return $text;
         }
 
-        return $this->getConverter(false)->convertToHtml($text);
+        $html = $this->getConverter(false)->convertToHtml($text);
+
+        return $this->getPurifier()->purify($html);
     }
 
     public function renderInline(string $text): string
@@ -54,12 +65,19 @@ class Markdown
             return $text;
         }
 
-        return $this->getConverter(true)->convertToHtml($text);
+        $html = $this->getConverter(true)->convertToHtml($text);
+
+        return $this->getPurifier()->purify($html);
     }
 
     private function getConverter(bool $inline): ConverterInterface
     {
-        return $this->converter[(int)$inline] ?? $this->createConverter($inline);
+        return $this->converter[(int)$inline] ?? $this->converter[(int)$inline] = $this->createConverter($inline);
+    }
+
+    private function getPurifier(): HTMLPurifier
+    {
+        return $this->purifier ?? $this->purifier = $this->createPurifier();
     }
 
     private function createConverter(bool $inline): ConverterInterface
@@ -85,6 +103,30 @@ class Markdown
         $this->applyExtensions($environment);
 
         return new CommonMarkConverter([], $environment);
+    }
+
+    private function createPurifier(): HTMLPurifier
+    {
+        $cacheDir = APP_VAR_PATH . '/cache/purifier';
+        is_dir($cacheDir) || mkdir($cacheDir, 02775) || is_dir($cacheDir);
+
+        /// https://gist.github.com/ctrl-freak/1188139
+        $config = HTMLPurifier_Config::createDefault();
+
+        $config->set('AutoFormat.AutoParagraph', true);
+        // remove empty tag pairs
+        $config->set('AutoFormat.RemoveEmpty', true);
+        // remove empty, even if it contains an &nbsp;
+        $config->set('AutoFormat.RemoveEmpty.RemoveNbsp', true);
+
+        // Absolute path with no trailing slash to store serialized definitions in.
+        $config->set('Cache.SerializerPath', $cacheDir);
+        $def = $config->getHTMLDefinition(true);
+        $def->addBlankElement('details');
+        $def->addElement('details', 'Block', 'Flow', 'Common');
+        $def->addElement('summary', 'Block', 'Flow', 'Common');
+
+        return new HTMLPurifier($config);
     }
 
     private function applyExtensions(Environment $environment): void
