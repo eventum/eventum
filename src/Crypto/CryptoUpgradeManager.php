@@ -108,4 +108,16 @@ class CryptoUpgradeManager
         $km->generateKey();
         $this->enable();
     }
+
+    public function cacheClear(): void
+    {
+        // hack needed for macOS cli-server
+        // somehow "require" calls are cached,
+        // clearstatcache and opcache disable do not help. only time
+        if (PHP_SAPI !== 'cli-server') {
+            return;
+        }
+
+        sleep(3);
+    }
 }

@@ -50,6 +50,7 @@ class EncryptionController extends ManageBaseController
                 break;
             case 'activate':
                 $this->activateAction();
+
                 break;
         }
     }
@@ -66,6 +67,8 @@ class EncryptionController extends ManageBaseController
             $error = ev_gettext('Unable to generate new encryption key. Check server error logs.');
             $this->messages->addErrorMessage($error);
         }
+
+        $this->redirect('encryption.php');
     }
 
     private function activateAction(): void
@@ -83,17 +86,18 @@ class EncryptionController extends ManageBaseController
                 $error = ev_gettext('Encryption can not be disabled: %s', $e->getMessage());
                 $this->messages->addErrorMessage($error);
             }
-
-            return;
+        } else {
+            try {
+                $cm->enable();
+                $this->messages->addInfoMessage(ev_gettext('Encryption was enabled!'));
+            } catch (CryptoException $e) {
+                $error = ev_gettext('Encryption can not be enabled: %s', $e->getMessage());
+                $this->messages->addErrorMessage($error);
+            }
         }
 
-        try {
-            $cm->enable();
-            $this->messages->addInfoMessage(ev_gettext('Encryption was enabled!'));
-        } catch (CryptoException $e) {
-            $error = ev_gettext('Encryption can not be enabled: %s', $e->getMessage());
-            $this->messages->addErrorMessage($error);
-        }
+        $cm->cacheClear();
+        $this->redirect('encryption.php');
     }
 
     /**
