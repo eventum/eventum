@@ -26,7 +26,7 @@ use Throwable;
 final class EncryptedValue
 {
     /** @var string Encrypted value */
-    private $cipherText;
+    private $ciphertext;
 
     /**
      * Construct object using encrypted data.
@@ -35,7 +35,7 @@ final class EncryptedValue
      */
     public function __construct(?string $cipherText = null)
     {
-        $this->cipherText = $cipherText;
+        $this->ciphertext = $cipherText;
     }
 
     /**
@@ -48,7 +48,7 @@ final class EncryptedValue
      */
     public function setValue($plainText): self
     {
-        $this->cipherText = CryptoManager::encrypt($plainText);
+        $this->ciphertext = CryptoManager::encrypt($plainText);
 
         return $this;
     }
@@ -61,11 +61,11 @@ final class EncryptedValue
      */
     public function getValue(): string
     {
-        if ($this->cipherText === null) {
+        if ($this->ciphertext === null) {
             throw new CryptoException('Value not initialized yet');
         }
 
-        return CryptoManager::decrypt($this->cipherText);
+        return CryptoManager::decrypt($this->ciphertext);
     }
 
     /**
@@ -76,11 +76,11 @@ final class EncryptedValue
      */
     public function getEncrypted(): string
     {
-        if ($this->cipherText === null) {
+        if ($this->ciphertext === null) {
             throw new CryptoException('Value not initialized yet');
         }
 
-        return $this->cipherText;
+        return $this->ciphertext;
     }
 
     /**
@@ -107,6 +107,6 @@ final class EncryptedValue
      */
     public static function __set_state(array $data): self
     {
-        return new self($data['cipherText'] ?? $data['ciphertext']);
+        return new self($data['ciphertext']);
     }
 }
