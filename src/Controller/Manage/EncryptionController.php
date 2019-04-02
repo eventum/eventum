@@ -62,6 +62,7 @@ class EncryptionController extends ManageBaseController
             $cm->regenerateKey();
             $this->messages->addInfoMessage(ev_gettext('Thank you, new key for encryption was generated.'));
         } catch (CryptoException $e) {
+            $this->logger->error($e->getMessage(), ['exception' => $e]);
             $error = ev_gettext('Unable to generate new encryption key. Check server error logs.');
             $this->messages->addErrorMessage($error);
         }
@@ -78,6 +79,7 @@ class EncryptionController extends ManageBaseController
                 $cm->disable();
                 $this->messages->addInfoMessage(ev_gettext('Encryption was disabled!'));
             } catch (CryptoException $e) {
+                $this->logger->error($e->getMessage(), ['exception' => $e]);
                 $error = ev_gettext('Encryption can not be disabled: %s', $e->getMessage());
                 $this->messages->addErrorMessage($error);
             }
