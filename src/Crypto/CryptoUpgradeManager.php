@@ -108,20 +108,4 @@ class CryptoUpgradeManager
         $km->regen();
         $this->enable();
     }
-
-    /**
-     * Key rotation method -- decrypt with your old key then re-encrypt with your new key
-     *
-     * @param string $ciphertext
-     * @param string $key the new key
-     * @return string
-     */
-    public function rotate($ciphertext, $key)
-    {
-        if (!CryptoManager::encryptionEnabled()) {
-            return $ciphertext;
-        }
-
-        return CryptoManager::encrypt(CryptoManager::decrypt($ciphertext), $key);
-    }
 }
