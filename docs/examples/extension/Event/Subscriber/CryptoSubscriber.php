@@ -41,7 +41,7 @@ class CryptoSubscriber implements EventSubscriberInterface
     {
         $config = $this->getConfig();
 
-        if (count($config['ftp']) && !$config['ftp']['password'] instanceof EncryptedValue) {
+        if ($config['ftp']['password'] && !$config['ftp']['password'] instanceof EncryptedValue) {
             $config['ftp']['password'] = new EncryptedValue(
                 CryptoManager::encrypt($config['ftp']['password'])
             );
@@ -57,7 +57,7 @@ class CryptoSubscriber implements EventSubscriberInterface
     {
         $config = $this->getConfig();
 
-        if (count($config['ftp']) && $config['ftp']['password'] instanceof EncryptedValue) {
+        if ($config['ftp']['password'] instanceof EncryptedValue) {
             /** @var EncryptedValue $value */
             $value = $config['ftp']['password'];
             $config['ftp']['password'] = $value->getValue();

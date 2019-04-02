@@ -36,11 +36,11 @@ class CryptoSubscriber implements EventSubscriberInterface
     {
         $config = $event->getConfig();
 
-        if (!$config['database']['password'] instanceof EncryptedValue) {
+        if ($config['database']['password'] && !$config['database']['password'] instanceof EncryptedValue) {
             $config['database']['password'] = $event->encrypt($config['database']['password']);
         }
 
-        if (count($config['ldap']) && !$config['ldap']['bindpw'] instanceof EncryptedValue) {
+        if ($config['ldap']['bindpw'] && !$config['ldap']['bindpw'] instanceof EncryptedValue) {
             $config['ldap']['bindpw'] = $event->encrypt($config['ldap']['bindpw']);
         }
 
@@ -66,7 +66,7 @@ class CryptoSubscriber implements EventSubscriberInterface
             $config['database']['password'] = $event->decrypt($config['database']['password']);
         }
 
-        if (count($config['ldap']) && $config['ldap']['bindpw'] instanceof EncryptedValue) {
+        if ($config['ldap']['bindpw'] instanceof EncryptedValue) {
             $config['ldap']['bindpw'] = $event->decrypt($config['ldap']['bindpw']);
         }
 
