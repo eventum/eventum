@@ -56,7 +56,7 @@ final class CryptoKeyManager
      * @throws CryptoException
      * @return Key
      */
-    public function getKey()
+    public function getKey(): Key
     {
         if (!$this->key) {
             $this->loadPrivateKey() ?: $this->generateKey();
@@ -86,7 +86,7 @@ final class CryptoKeyManager
      * @throws CryptoException
      * @return bool|null
      */
-    private function loadPrivateKey()
+    private function loadPrivateKey(): ?bool
     {
         if (!file_exists($this->keyfile) || !filesize($this->keyfile)) {
             return null;
@@ -103,7 +103,7 @@ final class CryptoKeyManager
         }
 
         // support legacy key format
-        if (substr($key, 0, 5) !== '<?php') {
+        if (strpos($key, '<?php') !== 0) {
             $this->key = $key;
 
             return true;
