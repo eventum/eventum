@@ -37,22 +37,29 @@ final class ConfigUpdateEvent extends Event
     }
 
     /**
-     * @param string $plaintext
+     * @param string|null|EncryptedValue $value
      * @throws CryptoException
-     * @return EncryptedValue
      */
-    public function encrypt(string $plaintext): EncryptedValue
+    public function encrypt(&$value): void
     {
-        return (new EncryptedValue())->setValue($plaintext);
+        // value not present or already encrypted
+        if ($value === null || $value instanceof EncryptedValue) {
+            return;
+        }
+
+        $encrypted = (new EncryptedValue())->setValue($value);
+        $value = $encrypted;
     }
 
     /**
-     * @param EncryptedValue $encrypted
+     * @param EncryptedValue|string $value
      * @throws CryptoException
-     * @return string
      */
-    public function decrypt(EncryptedValue $encrypted): string
+    public function decrypt(&$value): void
     {
-        return $encrypted->getValue();
+        if ($value instanceof EncryptedValue) {
+            $plaintext = $value->getValue();
+            $value = $plaintext;
+        }
     }
 }
