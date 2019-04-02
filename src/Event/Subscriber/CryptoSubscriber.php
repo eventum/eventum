@@ -13,6 +13,7 @@
 
 namespace Eventum\Event\Subscriber;
 
+use Email_Account;
 use Eventum\Crypto\EncryptedValue;
 use Eventum\Event\ConfigUpdateEvent;
 use Eventum\Event\SystemEvents;
@@ -23,15 +24,15 @@ class CryptoSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents(): array
     {
         return [
-            SystemEvents::CONFIG_CRYPTO_UPGRADE => 'upgradeConfig',
-            SystemEvents::CONFIG_CRYPTO_DOWNGRADE => 'downgradeConfig',
+            SystemEvents::CONFIG_CRYPTO_UPGRADE => 'upgrade',
+            SystemEvents::CONFIG_CRYPTO_DOWNGRADE => 'downgrade',
         ];
     }
 
     /**
      * Upgrade config so that values contain EncryptedValue where some secrecy is wanted
      */
-    public function upgradeConfig(ConfigUpdateEvent $event): void
+    public function upgrade(ConfigUpdateEvent $event): void
     {
         $config = $event->getConfig();
 
@@ -42,12 +43,22 @@ class CryptoSubscriber implements EventSubscriberInterface
         if (count($config['ldap']) && !$config['ldap']['bindpw'] instanceof EncryptedValue) {
             $config['ldap']['bindpw'] = $event->encrypt($config['ldap']['bindpw']);
         }
+
+        // encrypt email account passwords
+        $accounts = Email_Account::getList();
+        foreach ($accounts as $account) {
+            $account = Email_Account::getDetails($account['ema_id'], true);
+            /** @var EncryptedValue $password */
+            $password = $account['ema_password'];
+            // the raw value contains the original plaintext
+            Email_Account::updatePassword($account['ema_id'], $password->getEncrypted());
+        }
     }
 
     /**
      * Downgrade config: remove all EncryptedValue elements
      */
-    public function downgradeConfig(ConfigUpdateEvent $event): void
+    public function downgrade(ConfigUpdateEvent $event): void
     {
         $config = $event->getConfig();
 
@@ -57,6 +68,24 @@ class CryptoSubscriber implements EventSubscriberInterface
 
         if (count($config['ldap']) && $config['ldap']['bindpw'] instanceof EncryptedValue) {
             $config['ldap']['bindpw'] = $event->decrypt($config['ldap']['bindpw']);
+        }
+
+        $accounts = Email_Account::getList();
+
+        // collect passwords when encryption enabled
+        $passwords = [];
+        $config['encryption'] = 'enabled';
+        foreach ($accounts as $account) {
+            $account = Email_Account::getDetails($account['ema_id'], true);
+            /** @var EncryptedValue $password */
+            $password = $account['ema_password'];
+            $passwords[$account['ema_id']] = $password->getValue();
+        }
+
+        // save passwords when encryption disabled
+        $config['encryption'] = 'disabled';
+        foreach ($passwords as $ema_id => $password) {
+            Email_Account::updatePassword($ema_id, $password);
         }
     }
 }
