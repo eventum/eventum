@@ -105,7 +105,7 @@ class CryptoUpgradeManager
 
         $this->disable();
         $km = new CryptoKeyManager();
-        $km->regen();
+        $km->generateKey();
         $this->enable();
     }
 }

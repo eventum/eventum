@@ -94,7 +94,7 @@ final class CryptoManager
      * @throws CryptoException
      * @return string
      */
-    public static function decrypt(string $ciphertext)
+    public static function decrypt(string $ciphertext): ?string
     {
         if (!self::encryptionEnabled()) {
             return $ciphertext;

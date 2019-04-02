@@ -20,6 +20,7 @@ use Zend\Config\Config;
 
 final class ConfigUpdateEvent extends Event
 {
+    /** @var Config */
     private $config;
 
     public function __construct(Config $config)

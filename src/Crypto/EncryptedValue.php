@@ -46,7 +46,7 @@ final class EncryptedValue
      * @throws CryptoException
      * @return EncryptedValue
      */
-    public function setValue($plainText): self
+    public function setValue(string $plainText): self
     {
         $this->ciphertext = CryptoManager::encrypt($plainText);
 

@@ -72,6 +72,8 @@ class CryptoSubscriber implements EventSubscriberInterface
 
         $accounts = Email_Account::getList();
 
+        $state = $config['encryption'];
+
         // collect passwords when encryption enabled
         $passwords = [];
         $config['encryption'] = 'enabled';
@@ -87,5 +89,8 @@ class CryptoSubscriber implements EventSubscriberInterface
         foreach ($passwords as $ema_id => $password) {
             Email_Account::updatePassword($ema_id, $password);
         }
+
+        // this needs to be restored, other events may rely on the value
+        $config['encryption'] = $state;
     }
 }
