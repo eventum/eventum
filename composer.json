@@ -47,9 +47,8 @@
 	},
 	"autoload-dev": {
 		"psr-4": {
-			"Eventum\\Test\\": [ "tests/", "tests/src/" ]
-		},
-		"classmap": [ "tests/src" ]
+			"Eventum\\Test\\": [ "tests/" ]
+		}
 	},
 	"minimum-stability": "dev",
 	"prefer-stable": true,

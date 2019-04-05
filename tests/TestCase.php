@@ -13,13 +13,6 @@
 
 namespace Eventum\Test;
 
-/*
- * PHPUnit_Framework_TestCase is dropped in phpunit 6.0.0
- * https://github.com/sebastianbergmann/phpunit/wiki/Release-Announcement-for-PHPUnit-6.0.0
- *
- * Load PHPUnit_Framework_TestCase wrapper if using older PHPUnit.
- */
-
 use Eventum\Extension\ExtensionManager;
 
 class TestCase extends \PHPUnit\Framework\TestCase
@@ -49,7 +42,7 @@ class TestCase extends \PHPUnit\Framework\TestCase
 
     protected function getDataFile($fileName): string
     {
-        $dataFile = dirname(__DIR__) . '/data/' . $fileName;
+        $dataFile = __DIR__ . '/data/' . $fileName;
         $this->assertFileExists($dataFile);
 
         return $dataFile;
