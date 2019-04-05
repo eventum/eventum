@@ -18,8 +18,8 @@ use Eventum\Db\Doctrine;
 use Eventum\Model\Entity;
 use Eventum\Model\Repository\ProjectRepository;
 use Eventum\Model\Repository\UserRepository;
-use Eventum\Test\DoctrineTraits;
 use Eventum\Test\TestCase;
+use Eventum\Test\Traits\DoctrineTrait;
 
 /**
  * TODO: datetime and timezone: http://docs.doctrine-project.org/projects/doctrine-orm/en/latest/cookbook/working-with-datetime.html
@@ -28,7 +28,7 @@ use Eventum\Test\TestCase;
  */
 class DoctrineTest extends TestCase
 {
-    use DoctrineTraits;
+    use DoctrineTrait;
 
     public function testFindAll(): void
     {

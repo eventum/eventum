@@ -16,13 +16,13 @@ namespace Eventum\Test\Scm;
 use Date_Helper;
 use Eventum\Extension\ExtensionManager;
 use Eventum\Model\Entity;
-use Eventum\Test\DoctrineTraits;
 use Eventum\Test\TestCase as BaseTestCase;
+use Eventum\Test\Traits\DoctrineTrait;
 use Setup;
 
 abstract class TestCase extends BaseTestCase
 {
-    use DoctrineTraits;
+    use DoctrineTrait;
 
     public static function setUpBeforeClass(): void
     {
