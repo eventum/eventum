@@ -15,13 +15,14 @@ use Phinx\Seed\AbstractSeed;
 
 class ProjectSeeder extends AbstractSeed
 {
-    private const PROJECT_ID = 10;
+    public const DEFAULT_PROJECT_ID = 1;
+    public const EXTRA_PROJECT_ID = 10;
 
     public function run(): void
     {
         $data = [
             [
-                'prj_id' => self::PROJECT_ID,
+                'prj_id' => self::EXTRA_PROJECT_ID,
                 'prj_created_date' => $this->currentDateTime(),
                 'prj_title' => 'Project Two',
                 'prj_status' => 'active',
