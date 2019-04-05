@@ -40,7 +40,7 @@ Eventum\Monolog\Logger::initialize();
 
 $config = DB_Helper::getConfig();
 
-return [
+$phinx = [
     'paths' => [
         'migrations' => 'db/migrations',
         'seeds' => 'db/seeds',
@@ -83,3 +83,9 @@ return [
         ],
     ],
 ];
+
+// create "test" environment
+$phinx['environments']['test'] = $phinx['environments']['production'];
+$phinx['environments']['test']['name'] = 'e_test';
+
+return $phinx;

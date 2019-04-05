@@ -27,7 +27,8 @@ jobs:
       script: |
         mysql -e 'CREATE DATABASE IF NOT EXISTS e_test'
         cp -p tests/travis/*.php config
-        php bin/upgrade.php
+        vendor/bin/phinx migrate -e test
+        vendor/bin/phinx seed:run -e test
 
     # TODO: would be nice to have two separate stages, one for build, and other for actually publishing
     - stage: GitHub Release
