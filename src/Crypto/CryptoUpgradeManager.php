@@ -13,7 +13,7 @@
 
 namespace Eventum\Crypto;
 
-use Email_Account;
+use Eventum\Event\ConfigUpdateEvent;
 use Eventum\Event\SystemEvents;
 use Eventum\EventDispatcher\EventManager;
 use Setup;
@@ -35,7 +35,7 @@ class CryptoUpgradeManager
      * @param bool $enable TRUE if action is to enable, FALSE if action is to disable
      * @throws CryptoException
      */
-    private function canPerform($enable): void
+    private function canPerform(bool $enable): void
     {
         $enabled = CryptoManager::encryptionEnabled();
         if (($enabled && $enable) || (!$enabled && !$enable)) {
@@ -70,8 +70,8 @@ class CryptoUpgradeManager
             throw new CryptoException('bug');
         }
 
-        $this->upgradeConfig();
-        $this->upgradeEmailAccounts();
+        $event = new ConfigUpdateEvent($this->config);
+        EventManager::dispatch(SystemEvents::CONFIG_CRYPTO_UPGRADE, $event);
 
         Setup::save();
     }
@@ -82,8 +82,9 @@ class CryptoUpgradeManager
     public function disable(): void
     {
         $this->canPerform(false);
-        $this->downgradeConfig();
-        $this->downgradeEmailAccounts();
+
+        $event = new ConfigUpdateEvent($this->config);
+        EventManager::dispatch(SystemEvents::CONFIG_CRYPTO_DOWNGRADE, $event);
 
         $this->config['encryption'] = 'disabled';
         if (CryptoManager::encryptionEnabled()) {
@@ -104,97 +105,19 @@ class CryptoUpgradeManager
 
         $this->disable();
         $km = new CryptoKeyManager();
-        $km->regen();
+        $km->generateKey();
         $this->enable();
     }
 
-    /**
-     * Upgrade config so that values contain EncryptedValue where some secrecy is wanted
-     */
-    private function upgradeConfig(): void
+    public function cacheClear(): void
     {
-        if (!$this->config['database']['password'] instanceof EncryptedValue) {
-            $this->config['database']['password'] = new EncryptedValue(
-                CryptoManager::encrypt($this->config['database']['password'])
-            );
+        // hack needed for macOS cli-server
+        // somehow "require" calls are cached,
+        // clearstatcache and opcache disable do not help. only time
+        if (PHP_SAPI !== 'cli-server') {
+            return;
         }
 
-        if (count($this->config['ldap']) && !$this->config['ldap']['bindpw'] instanceof EncryptedValue) {
-            $this->config['ldap']['bindpw'] = new EncryptedValue(
-                CryptoManager::encrypt($this->config['ldap']['bindpw'])
-            );
-        }
-
-        EventManager::dispatch(SystemEvents::CONFIG_CRYPTO_UPGRADE);
-    }
-
-    /**
-     * Downgrade config: remove all EncryptedValue elements
-     */
-    private function downgradeConfig(): void
-    {
-        if ($this->config['database']['password'] instanceof EncryptedValue) {
-            /** @var EncryptedValue $value */
-            $value = $this->config['database']['password'];
-            $this->config['database']['password'] = $value->getValue();
-        }
-
-        if (count($this->config['ldap']) && $this->config['ldap']['bindpw'] instanceof EncryptedValue) {
-            /** @var EncryptedValue $value */
-            $value = $this->config['ldap']['bindpw'];
-            $this->config['ldap']['bindpw'] = $value->getValue();
-        }
-
-        EventManager::dispatch(SystemEvents::CONFIG_CRYPTO_DOWNGRADE);
-    }
-
-    private function upgradeEmailAccounts(): void
-    {
-        // encrypt email account passwords
-        $accounts = Email_Account::getList();
-        foreach ($accounts as $account) {
-            $account = Email_Account::getDetails($account['ema_id'], true);
-            /** @var EncryptedValue $password */
-            $password = $account['ema_password'];
-            // the raw value contains the original plaintext
-            Email_Account::updatePassword($account['ema_id'], $password->getEncrypted());
-        }
-    }
-
-    private function downgradeEmailAccounts(): void
-    {
-        $accounts = Email_Account::getList();
-
-        // collect passwords when encryption enabled
-        $passwords = [];
-        $this->config['encryption'] = 'enabled';
-        foreach ($accounts as $account) {
-            $account = Email_Account::getDetails($account['ema_id'], true);
-            /** @var EncryptedValue $password */
-            $password = $account['ema_password'];
-            $passwords[$account['ema_id']] = $password->getValue();
-        }
-
-        // save passwords when encryption disabled
-        $this->config['encryption'] = 'disabled';
-        foreach ($passwords as $ema_id => $password) {
-            Email_Account::updatePassword($ema_id, $password);
-        }
-    }
-
-    /**
-     * Key rotation method -- decrypt with your old key then re-encrypt with your new key
-     *
-     * @param string $ciphertext
-     * @param string $key the new key
-     * @return string
-     */
-    public function rotate($ciphertext, $key)
-    {
-        if (!CryptoManager::encryptionEnabled()) {
-            return $ciphertext;
-        }
-
-        return CryptoManager::encrypt(CryptoManager::decrypt($ciphertext), $key);
+        sleep(3);
     }
 }

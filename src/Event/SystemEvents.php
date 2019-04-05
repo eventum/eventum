@@ -49,14 +49,14 @@ final class SystemEvents
      *
      * @since 3.5.0
      */
-    public const CONFIG_CRYPTO_UPGRADE = 'config.crypto_upgrade';
+    public const CONFIG_CRYPTO_UPGRADE = 'config.crypto.upgrade';
 
     /**
      * Downgrade config: remove all EncryptedValue elements.
      *
      * @since 3.5.0
      */
-    public const CONFIG_CRYPTO_DOWNGRADE = 'config.crypto_downgrade';
+    public const CONFIG_CRYPTO_DOWNGRADE = 'config.crypto.downgrade';
 
     /**
      * @since 3.4.0

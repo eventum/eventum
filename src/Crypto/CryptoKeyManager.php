@@ -34,9 +34,17 @@ final class CryptoKeyManager
         $this->keyfile = Setup::getConfigPath() . '/secret_key.php';
     }
 
-    public function regen(): void
+    /**
+     * @throws CryptoException
+     */
+    public function generateKey(): void
     {
-        $this->generateKey();
+        try {
+            $this->key = Key::createNewRandomKey();
+            $this->storePrivateKey();
+        } catch (CryptoException $e) {
+            throw new CryptoException('Cannot perform operation: ' . $e->getMessage());
+        }
     }
 
     /**
@@ -56,7 +64,7 @@ final class CryptoKeyManager
      * @throws CryptoException
      * @return Key
      */
-    public function getKey()
+    public function getKey(): Key
     {
         if (!$this->key) {
             $this->loadPrivateKey() ?: $this->generateKey();
@@ -71,22 +79,9 @@ final class CryptoKeyManager
 
     /**
      * @throws CryptoException
-     */
-    private function generateKey(): void
-    {
-        try {
-            $this->key = Key::createNewRandomKey();
-            $this->storePrivateKey();
-        } catch (CryptoException $e) {
-            throw new CryptoException('Cannot perform operation: ' . $e->getMessage());
-        }
-    }
-
-    /**
-     * @throws CryptoException
      * @return bool|null
      */
-    private function loadPrivateKey()
+    private function loadPrivateKey(): ?bool
     {
         if (!file_exists($this->keyfile) || !filesize($this->keyfile)) {
             return null;
@@ -97,21 +92,29 @@ final class CryptoKeyManager
 
         // load first to see that it's php script
         // this would avoid printing secret key to output if in old or invalid format
-        $key = file_get_contents($this->keyfile);
-        if (!$key) {
+        $rawKey = file_get_contents($this->keyfile);
+        if (!$rawKey) {
             throw new CryptoException("Unable to read secret file '{$this->keyfile}");
         }
 
         // support legacy key format
-        if (substr($key, 0, 5) !== '<?php') {
-            $this->key = $key;
+        if (strpos($rawKey, '<?php') !== 0) {
+            $this->key = $rawKey;
 
             return true;
         }
 
+        // avoid opcode cache giving previous version. yet it still fails in some cases
+        clearstatcache(true, $this->keyfile);
+
         $key = require $this->keyfile;
         if (!$key) {
             throw new CryptoException("Secret file corrupted: {$this->keyfile}");
+        }
+
+        if (strpos($rawKey, $key) === false) {
+            // on macOS, "require" loads previous version, even if clearstatcache is invoked
+            throw new CryptoException("Could not re-read secret key: {$this->keyfile}");
         }
 
         try {
@@ -134,6 +137,9 @@ final class CryptoKeyManager
             $fs = new Filesystem();
             $content = sprintf('<' . '?php return %s;', var_export($this->key->saveToAsciiSafeString(), 1));
             $fs->dumpFile($this->keyfile, $content);
+
+            // clear cache avoid opcode(?) cache giving previous version. yet it still fails in some cases
+            clearstatcache(true, $this->keyfile);
         } catch (IOException $e) {
             throw new CryptoException("Unable to store secret file '{$this->keyfile}': {$e->getMessage()}");
         }

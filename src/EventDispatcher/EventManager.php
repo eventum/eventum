@@ -13,7 +13,7 @@
 
 namespace Eventum\EventDispatcher;
 
-use Eventum\Event\Subscriber\MailQueueListener;
+use Eventum\Event\Subscriber;
 use Eventum\Extension\ExtensionManager;
 use Symfony\Component\EventDispatcher\Event;
 use Symfony\Component\EventDispatcher\EventDispatcher;
@@ -37,8 +37,9 @@ class EventManager
                 $dispatcher->addSubscriber($subscriber);
             }
 
-            // load builtin even subscribers
-            $dispatcher->addSubscriber(new MailQueueListener());
+            // load builtin event subscribers
+            $dispatcher->addSubscriber(new Subscriber\MailQueueListener());
+            $dispatcher->addSubscriber(new Subscriber\CryptoSubscriber());
         }
 
         return $dispatcher;
