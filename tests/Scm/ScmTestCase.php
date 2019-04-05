@@ -16,12 +16,15 @@ namespace Eventum\Test\Scm;
 use Date_Helper;
 use Eventum\Extension\ExtensionManager;
 use Eventum\Model\Entity;
+use Eventum\Test\DoctrineTraits;
 use Eventum\Test\TestCase;
 use Setup;
 use Workflow;
 
 class ScmTestCase extends TestCase
 {
+    use DoctrineTraits;
+
     public static function setUpBeforeClass(): void
     {
         self::setUpConfig();

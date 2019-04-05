@@ -15,6 +15,7 @@ namespace Eventum\Test;
 
 use Eventum\Db\Doctrine;
 use Eventum\Model\Repository\IssueAssociationRepository;
+use Eventum\Test\Traits\DoctrineTrait;
 use InvalidArgumentException;
 
 /**
@@ -22,7 +23,9 @@ use InvalidArgumentException;
  */
 class IssueAssociationTest extends TestCase
 {
-    /** @var \Doctrine\ORM\EntityRepository|IssueAssociationRepository */
+    use DoctrineTrait;
+
+    /** @var IssueAssociationRepository */
     private $repo;
 
     public function setUp(): void
