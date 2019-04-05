@@ -73,7 +73,7 @@ install:
 
 script:
   - PATH=$HOME/.composer/vendor/bin:$PATH
-  - phpunit --verbose --exclude-group ldap,imap,logger,mail,api,locale,date,db,crypto
+  - phpunit --verbose --exclude-group ldap,imap,logger,mail,api,locale,date,crypto
 
 notifications:
   irc:
