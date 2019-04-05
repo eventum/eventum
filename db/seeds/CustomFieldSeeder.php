@@ -17,6 +17,12 @@ use Phinx\Seed\AbstractSeed;
 class CustomFieldSeeder extends AbstractSeed
 {
     public const TEXT_INPUT = 1;
+    public const TEXTAREA = 2;
+    public const COMBO_BOX = 3;
+    public const MULTIPLE_COMBO_BOX = 4;
+    public const DATE = 5;
+    public const INTEGER = 6;
+    public const CHECKBOX = 7;
 
     public function run(): void
     {
@@ -24,6 +30,30 @@ class CustomFieldSeeder extends AbstractSeed
             self::TEXT_INPUT => [
                 CustomField::TYPE_TEXT,
                 'Text Input',
+            ],
+            self::TEXTAREA => [
+                CustomField::TYPE_TEXTAREA,
+                'Textarea',
+            ],
+            self::COMBO_BOX => [
+                CustomField::TYPE_COMBO,
+                'Combo box',
+            ],
+            self::MULTIPLE_COMBO_BOX => [
+                CustomField::TYPE_MULTIPLE_COMBO,
+                'Multiple combo box',
+            ],
+            self::DATE => [
+                CustomField::TYPE_MULTIPLE_COMBO,
+                'Date field',
+            ],
+            self::INTEGER => [
+                CustomField::TYPE_INTEGER,
+                'Integer field',
+            ],
+            self::CHECKBOX => [
+                CustomField::TYPE_INTEGER,
+                'Integer field',
             ],
         ];
 
