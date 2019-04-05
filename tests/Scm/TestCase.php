@@ -17,11 +17,10 @@ use Date_Helper;
 use Eventum\Extension\ExtensionManager;
 use Eventum\Model\Entity;
 use Eventum\Test\DoctrineTraits;
-use Eventum\Test\TestCase;
+use Eventum\Test\TestCase as BaseTestCase;
 use Setup;
-use Workflow;
 
-class ScmTestCase extends TestCase
+abstract class TestCase extends BaseTestCase
 {
     use DoctrineTraits;
 

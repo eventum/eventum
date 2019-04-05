@@ -26,7 +26,7 @@ use Symfony\Component\HttpFoundation\Request;
 /**
  * @group api
  */
-class ScmApiCommitTest extends ScmTestCase
+class ApiCommitTest extends TestCase
 {
     /**
      * Test commit push over Api
