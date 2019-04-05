@@ -13,8 +13,10 @@
 
 namespace Eventum\Test\CustomField;
 
+use CustomFieldSeeder;
 use Eventum\CustomField\Converter;
 use Eventum\EventDispatcher\EventManager;
+use Eventum\Model\Entity\CustomField;
 use User;
 
 /**
@@ -24,8 +26,8 @@ class CustomFieldTest extends TestCase
 {
     public function testGetCustomField(): void
     {
-        $cf = $this->repo->findById(2);
-        dump($cf !== null);
+        $cf = $this->repo->findById(CustomFieldSeeder::TEXT_INPUT);
+        $this->assertEquals(CustomField::TYPE_TEXT, $cf->getType());
     }
 
     /**

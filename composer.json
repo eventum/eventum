@@ -46,6 +46,7 @@
 		"files": [ "lib/eventum/gettext.php" ]
 	},
 	"autoload-dev": {
+		"classmap": [ "db/seeds" ],
 		"psr-4": {
 			"Eventum\\Test\\": [ "tests/" ]
 		}
