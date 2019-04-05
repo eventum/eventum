@@ -17,6 +17,7 @@ use CustomFieldSeeder;
 use Eventum\CustomField\Converter;
 use Eventum\EventDispatcher\EventManager;
 use Eventum\Model\Entity\CustomField;
+use ProjectSeeder;
 use User;
 
 /**
@@ -35,7 +36,7 @@ class CustomFieldTest extends TestCase
      */
     public function testGetListByIssue(): void
     {
-        $prj_id = 1;
+        $prj_id = ProjectSeeder::DEFAULT_PROJECT_ID;
         $iss_id = 24;
         $min_role = User::ROLE_VIEWER;
         $forEdit = false;
@@ -57,7 +58,7 @@ class CustomFieldTest extends TestCase
      */
     public function testGetListByProject(): void
     {
-        $prj_id = 1;
+        $prj_id = ProjectSeeder::DEFAULT_PROJECT_ID;
         $iss_id = 20;
         $min_role = User::ROLE_VIEWER;
         $forEdit = false;

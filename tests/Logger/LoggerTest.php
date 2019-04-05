@@ -14,7 +14,6 @@
 namespace Eventum\Test\Logger;
 
 use DB_Helper;
-use Eventum\Db\DatabaseException;
 use Eventum\Monolog\Logger;
 use Eventum\Test\TestCase;
 use Exception;
