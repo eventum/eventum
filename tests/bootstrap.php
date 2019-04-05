@@ -13,6 +13,8 @@
 
 // we init paths ourselves like init.php does, to be independent and not
 // needing actual config being present.
+use Eventum\Config\Config;
+use Eventum\Config\ConfigPersistence;
 use Eventum\Monolog\Logger;
 
 define('APP_PATH', dirname(__DIR__));
@@ -54,11 +56,17 @@ require_once APP_PATH . '/autoload.php';
 date_default_timezone_set(APP_DEFAULT_TIMEZONE);
 
 if (!getenv('TRAVIS')) {
-    // init these from setup file
-    $setup = Setup::get();
+    $config = Setup::get();
+
+    // override with test setup, if present
+    $testSetupConfig = __DIR__ . '/_setup.php';
+    if (file_exists($testSetupConfig)) {
+        $loader = new ConfigPersistence();
+        $config->merge(new Config($loader->load($testSetupConfig)));
+    }
 
     // used for tests
-    define('APP_ADMIN_USER_ID', $setup['admin_user']);
+    define('APP_ADMIN_USER_ID', $config['admin_user']);
 }
 
 // this setups ev_gettext wrappers
