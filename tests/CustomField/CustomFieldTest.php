@@ -75,17 +75,17 @@ class CustomFieldTest extends TestCase
 
     public function testUpdateCustomFieldOptions(): void
     {
-        $fld_id = 2;
-        $new_options = [
+        $fld_id = CustomFieldSeeder::MULTIPLE_COMBO_BOX;
+        $addOptions = [
             0 => '',
             1 => '',
             2 => 'option3',
         ];
-        $options = [
+        $updateOptions = [
             1 => 'option1',
             2 => 'option2',
         ];
 
-        $this->repo->updateCustomFieldOptions($fld_id, $options, $new_options);
+        $this->repo->updateCustomFieldOptions($fld_id, $updateOptions, $addOptions);
     }
 }
