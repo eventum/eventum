@@ -40,10 +40,30 @@ class ScmControllerTest extends TestCase
         $this->assertEquals(['bla'], $files);
     }
 
-    private function makeRequest(string $content = null, array $headers = []): array
+    public function testCvs(): void
+    {
+        $payload = $this->readDataFile('cvs-commit.json');
+
+        $files = [];
+        $this->addFilesListener($files);
+
+        $json = $this->makeRequest($payload, [], ['scm' => 'cvs']);
+        $this->assertEquals('0', $json['code']);
+        $this->assertEquals("#1 - Issue Summary #1 (discovery)\n", $json['message']);
+
+        $this->assertEquals(['test/a/test'], $files);
+    }
+
+    private function makeRequest(string $content = null, array $headers = [], $query = []): array
     {
         $client = static::createClient();
-        $client->request('POST', '/scm_ping', [], [], $headers, $content);
+
+        $url = '/scm_ping';
+        if ($query) {
+            $url .= '?' . http_build_query($query);
+        }
+
+        $client->request('POST', $url, [], [], $headers, $content);
         $response = $client->getResponse();
 
         $this->assertEquals(200, $response->getStatusCode());
