@@ -13,6 +13,7 @@
 
 namespace Eventum\Model\Entity;
 
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -34,13 +35,26 @@ class Issue
      * @var int
      * @ORM\Column(name="iss_prj_id", type="integer", nullable=false)
      */
-    private $project_id;
+    private $projectId;
+
+    /**
+     * @var DateTime
+     * @ORM\Column(name="iss_created_date", type="datetime", nullable=false)
+     */
+    private $createdDate;
 
     /**
      * @var string
      * @ORM\Column(name="iss_summary", type="string", length=128, nullable=false)
      */
     private $summary;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="iss_description", type="text", length=65535, nullable=false)
+     */
+    private $description;
 
     /**
      * @var Commit[]
@@ -51,6 +65,11 @@ class Issue
      * )
      */
     private $commits;
+
+    public function __construct()
+    {
+        $this->createdDate = new DateTime();
+    }
 
     public function setId(int $id): self
     {
@@ -64,6 +83,30 @@ class Issue
         return $this->id;
     }
 
+    public function setProjectId(int $projectId): self
+    {
+        $this->projectId = $projectId;
+
+        return $this;
+    }
+
+    public function getProjectId(): int
+    {
+        return $this->projectId;
+    }
+
+    public function setCreatedDate(DateTime $createdDate): self
+    {
+        $this->createdDate = $createdDate;
+
+        return $this;
+    }
+
+    public function getCreatedDate(): DateTime
+    {
+        return $this->createdDate;
+    }
+
     public function getSummary(): string
     {
         return $this->summary;
@@ -74,6 +117,18 @@ class Issue
         $this->summary = $summary;
 
         return $this;
+    }
+
+    public function setDescription(string $description): self
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    public function getDescription(): string
+    {
+        return $this->description;
     }
 
     /**
@@ -102,17 +157,5 @@ class Issue
     public function getCommits()
     {
         return $this->commits;
-    }
-
-    public function setProjectId(int $project_id): self
-    {
-        $this->project_id = $project_id;
-
-        return $this;
-    }
-
-    public function getProjectId(): int
-    {
-        return $this->project_id;
     }
 }

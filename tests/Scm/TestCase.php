@@ -53,6 +53,7 @@ abstract class TestCase extends BaseTestCase
 
         $issue = new Entity\Issue();
         $issue->setSummary('issue with commits');
+        $issue->setDescription('description');
         $issue->setProjectId(1);
         $issue->addCommit($ci);
 
