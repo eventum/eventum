@@ -7,6 +7,11 @@ confirm:
     methods: GET
     controller: Eventum\Controller\ConfirmController::defaultAction
 
+scm_ping:
+    path: /scm_ping
+    methods: POST
+    controller: Eventum\Controller\ScmPingController::defaultAction
+
 setup:
     path: /setup
     methods: GET|POST
