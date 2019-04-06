@@ -90,7 +90,7 @@ class ApiCommitTest extends TestCase
         return shell_exec("curl -Ss $headers -X POST --data @{$payload} {$url}");
     }
 
-    private function createApiRequest($filename): Request
+    private function createApiRequest(string $filename): Request
     {
         $api_url = $this->getCommitUrl();
         $payload = $this->readDataFile($filename);

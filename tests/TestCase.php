@@ -54,7 +54,7 @@ class TestCase extends \PHPUnit\Framework\TestCase
      * @param string $filename
      * @return string
      */
-    protected function readDataFile($filename): string
+    protected function readDataFile(string $filename): string
     {
         return $this->readFile($this->getDataFile($filename));
     }

@@ -51,7 +51,6 @@ class CommitSubscriber implements EventSubscriberInterface
 
         $issue = $commit->getIssue();
         $issue_id = $issue->getId();
-        $prj_id = $issue->getProjectId();
 
         // XXX: complex logic figuring out what to say to IRC
         $irc_message = sprintf('commits added to #%d', $issue_id);
@@ -67,7 +66,7 @@ class CommitSubscriber implements EventSubscriberInterface
     private function notifyIrc(EventDispatcherInterface $dispatcher, GenericEvent $sourceEvent, $notice): void
     {
         $arguments = [
-            'prj_id' => $sourceEvent['project_id'],
+            'prj_id' => $sourceEvent['prj_id'],
             'issue_id' => $sourceEvent['issue_id'],
             'notice' => $notice,
             'usr_id' => null,
