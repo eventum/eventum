@@ -218,6 +218,13 @@ final class SystemEvents
     public const BOOT = 'eventum.boot';
 
     /**
+     * Allow to hook into phinx configuration, to be able to specify extra migrations dirs.
+     *
+     * @since 3.6.5
+     */
+    public const PHINX_CONFIG = 'phinx.config';
+
+    /**
      * Event emitted when eventum shuts down.
      * You can listen to this event to do cleanup on request end.
      *

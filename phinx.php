@@ -12,6 +12,9 @@
  */
 
 use Eventum\Db\AbstractMigration;
+use Eventum\Event\SystemEvents;
+use Eventum\EventDispatcher\EventManager;
+use Symfony\Component\EventDispatcher\GenericEvent;
 
 /**
  * Configuration proxy for sphix
@@ -42,8 +45,12 @@ $config = DB_Helper::getConfig();
 
 $phinx = [
     'paths' => [
-        'migrations' => 'db/migrations',
-        'seeds' => 'db/seeds',
+        'migrations' => [
+            'db/migrations',
+        ],
+        'seeds' => [
+            'db/seeds',
+        ],
     ],
 
     // http://docs.phinx.org/en/latest/configuration.html#custom-migration-base
@@ -88,4 +95,7 @@ $phinx = [
 $phinx['environments']['test'] = $phinx['environments']['production'];
 $phinx['environments']['test']['name'] = 'e_test';
 
-return $phinx;
+$event = new GenericEvent(null, $phinx);
+EventManager::getEventDispatcher()->dispatch(SystemEvents::PHINX_CONFIG, $event);
+
+return $event->getArguments();

@@ -6,6 +6,7 @@ Upgrading to 3.6.x versions requires that you upgrade to latest 3.5.x version fi
 
 - Escape plain description HTML (@glensc, #515, #428)
 - Simplify Crypto enable/disable flow (@glensc, #514)
+- Add event to be able to configure Phinx config (@glensc, #516)
 
 [3.6.5]: https://github.com/eventum/eventum/compare/v3.6.4...master
 
