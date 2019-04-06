@@ -13,16 +13,35 @@
 
 namespace Eventum\Test\Scm;
 
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Eventum\Test\Traits\DataFileTrait;
 
-class ScmControllerTest extends WebTestCase
+class ScmControllerTest extends TestCase
 {
-    public function testShowPost(): void
+    use DataFileTrait;
+
+    public function testNothing(): void
+    {
+        $json = $this->makeRequest();
+        $this->assertEquals('0', $json['code']);
+        $this->assertEquals('', $json['message']);
+    }
+
+    public function testGitlab(): void
+    {
+        $payload = $this->readDataFile('gitlab/push/project-commit.json');
+        $json = $this->makeRequest($payload, ['HTTP_X-Gitlab-Event' => 'Push Hook']);
+        $this->assertEquals('0', $json['code']);
+        $this->assertEquals("#1 - Issue Summary #1 (discovery)\n", $json['message']);
+    }
+
+    private function makeRequest(string $content = null, array $headers = []): array
     {
         $client = static::createClient();
-        $client->request('POST', '/scm_ping');
+        $client->request('POST', '/scm_ping', [], [], $headers, $content);
         $response = $client->getResponse();
+
         $this->assertEquals(200, $response->getStatusCode());
-        $this->assertEquals('{"code":0,"message":""}', $response->getContent());
+
+        return json_decode($response->getContent(), 1);
     }
 }

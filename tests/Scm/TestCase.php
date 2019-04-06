@@ -16,11 +16,11 @@ namespace Eventum\Test\Scm;
 use Date_Helper;
 use Eventum\Extension\ExtensionManager;
 use Eventum\Model\Entity;
-use Eventum\Test\TestCase as BaseTestCase;
 use Eventum\Test\Traits\DoctrineTrait;
 use Setup;
+use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
-abstract class TestCase extends BaseTestCase
+abstract class TestCase extends WebTestCase
 {
     use DoctrineTrait;
 
