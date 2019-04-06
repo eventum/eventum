@@ -14,6 +14,7 @@
 namespace Eventum;
 
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
+use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\Config\Resource\FileResource;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpFoundation\Request;
@@ -60,7 +61,7 @@ class Kernel extends BaseKernel
         }
     }
 
-    protected function configureContainer(ContainerBuilder $container): void
+    protected function configureContainer(ContainerBuilder $container, LoaderInterface $loader): void
     {
         $configDir = $this->configDir;
 
@@ -68,6 +69,10 @@ class Kernel extends BaseKernel
 
         $container->addResource(new FileResource("{$configDir}/bundles.php"));
         $container->setParameter('container.dumper.inline_class_loader', true);
+
+        if ($this->environment === 'test') {
+            $loader->load('@FrameworkBundle/Resources/config/test.xml');
+        }
     }
 
     protected function configureRoutes(RouteCollectionBuilder $routes): void

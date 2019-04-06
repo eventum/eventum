@@ -21,6 +21,7 @@
 
 	<php>
 		<const name="PHPUNIT_EVENTUM_TESTSUITE" value="true"/>
+		<env name="KERNEL_CLASS" value="Eventum\Kernel"/>
 	<!--
 		<ini name="date.timezone" value="UTC" />
 		<server name="KERNEL_DIR" value="/path/to/your/app/" />
