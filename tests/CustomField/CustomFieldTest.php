@@ -17,6 +17,7 @@ use CustomFieldSeeder;
 use Eventum\CustomField\Converter;
 use Eventum\EventDispatcher\EventManager;
 use Eventum\Model\Entity\CustomField;
+use IssueSeeder;
 use ProjectSeeder;
 use User;
 
@@ -37,20 +38,20 @@ class CustomFieldTest extends TestCase
     public function testGetListByIssue(): void
     {
         $prj_id = ProjectSeeder::DEFAULT_PROJECT_ID;
-        $iss_id = 24;
+        $iss_id = IssueSeeder::ISSUE_1;
         $min_role = User::ROLE_VIEWER;
         $forEdit = false;
         $formType = 'edit_form';
         $customFields = $this->repo->getListByIssue($prj_id, $iss_id, $min_role, $formType, $forEdit);
 
-        dump(count($customFields));
+        $this->assertCount(0, $customFields);
 
         // trigger setup of extensions
         EventManager::getEventDispatcher();
 
         $converter = new Converter();
         $fields = $converter->convertIssueCustomFields($customFields, $iss_id, $formType);
-        dump(count($fields));
+        $this->assertCount(0, $fields);
     }
 
     /**
@@ -59,18 +60,18 @@ class CustomFieldTest extends TestCase
     public function testGetListByProject(): void
     {
         $prj_id = ProjectSeeder::DEFAULT_PROJECT_ID;
-        $iss_id = 20;
+        $iss_id = IssueSeeder::ISSUE_1;
         $min_role = User::ROLE_VIEWER;
         $forEdit = false;
         $formType = 'edit_form';
         $fieldType = 'multiple';
         $customFields = $this->repo->getListByProject($prj_id, $min_role, $formType, $fieldType, $forEdit);
 
-        dump(count($customFields));
+        $this->assertCount(0, $customFields);
 
         $converter = new Converter();
         $fields = $converter->convertCustomFields($customFields, $iss_id, $formType);
-        dump(count($fields));
+        $this->assertCount(0, $fields);
     }
 
     public function testUpdateCustomFieldOptions(): void
@@ -87,5 +88,6 @@ class CustomFieldTest extends TestCase
         ];
 
         $this->repo->updateCustomFieldOptions($fld_id, $updateOptions, $addOptions);
+        $this->assertTrue(true);
     }
 }
