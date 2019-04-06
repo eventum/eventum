@@ -34,32 +34,6 @@ class UserPreferenceTest extends TestCase
         $this->repo = Doctrine::getUserPreferenceRepository();
     }
 
-    public function testCompatibility(): void
-    {
-        $usr_id = APP_SYSTEM_USER_ID;
-
-        $userPrefs = $this->repo->findById($usr_id);
-        $prefs = Prefs::get($usr_id);
-
-        $this->assertEquals($prefs['timezone'], $userPrefs->getTimezone());
-        $this->assertEquals($prefs['week_firstday'], $userPrefs->getWeekFirstday());
-        $this->assertEquals($prefs['email_signature'], $userPrefs->getEmailSignature());
-        $this->assertEquals($prefs['close_popup_windows'], $userPrefs->autoClosePopupWindow());
-        $this->assertEquals($prefs['relative_date'], $userPrefs->useRelativeDate());
-
-        // booleans
-        $this->assertEquals($prefs['auto_append_email_sig'], (int)$userPrefs->autoAppendEmailSignature());
-        $this->assertEquals($prefs['auto_append_note_sig'], (int)$userPrefs->autoAppendNoteSignature());
-
-        foreach ($userPrefs->getProjects() as $projectPrefs) {
-            $prj_id = $projectPrefs->getProjectId();
-            // all fields are booleans
-            $this->assertEquals($prefs['receive_assigned_email'][$prj_id], (int)$projectPrefs->receiveAssignedEmail());
-            $this->assertEquals($prefs['receive_new_issue_email'][$prj_id], (int)$projectPrefs->receiveNewIssueEmail());
-            $this->assertEquals($prefs['receive_copy_of_own_action'][$prj_id], (int)$projectPrefs->receiveCopyOfOwnAction());
-        }
-    }
-
     public function testModifyCascade(): void
     {
         $usr_id = 771718;
