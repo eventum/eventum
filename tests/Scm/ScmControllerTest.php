@@ -29,9 +29,15 @@ class ScmControllerTest extends TestCase
     public function testGitlab(): void
     {
         $payload = $this->readDataFile('gitlab/push/project-commit.json');
+
+        $files = [];
+        $this->addFilesListener($files);
+
         $json = $this->makeRequest($payload, ['HTTP_X-Gitlab-Event' => 'Push Hook']);
         $this->assertEquals('0', $json['code']);
         $this->assertEquals("#1 - Issue Summary #1 (discovery)\n", $json['message']);
+
+        $this->assertEquals(['bla'], $files);
     }
 
     private function makeRequest(string $content = null, array $headers = []): array

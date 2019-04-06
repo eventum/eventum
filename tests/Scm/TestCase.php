@@ -14,11 +14,15 @@
 namespace Eventum\Test\Scm;
 
 use Date_Helper;
+use Eventum\Event\SystemEvents;
+use Eventum\EventDispatcher\EventManager;
 use Eventum\Extension\ExtensionManager;
 use Eventum\Model\Entity;
 use Eventum\Test\Traits\DoctrineTrait;
+
 use Setup;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Symfony\Component\EventDispatcher\GenericEvent;
 
 abstract class TestCase extends WebTestCase
 {
@@ -76,6 +80,20 @@ abstract class TestCase extends WebTestCase
         $em->detach($commit->getIssue());
 
         return $commit;
+    }
+
+    protected function addFilesListener(array &$files): void
+    {
+        $listener = static function (GenericEvent $event) use (&$files): void {
+            /** @var Entity\Commit $commit */
+            $commit = $event->getSubject();
+            foreach ($commit->getFiles() as $cf) {
+                $files[] = $cf->getFilename();
+            }
+        };
+
+        $dispatcher = EventManager::getEventDispatcher();
+        $dispatcher->addListener(SystemEvents::SCM_COMMIT_ASSOCIATED, $listener);
     }
 
     private static function setUpConfig(): void

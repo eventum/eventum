@@ -13,14 +13,10 @@
 
 namespace Eventum\Test\Scm;
 
-use Eventum\Event\SystemEvents;
-use Eventum\EventDispatcher\EventManager;
-use Eventum\Model\Entity;
 use Eventum\Monolog\Logger;
 use Eventum\Scm\Adapter\Cvs;
 use Eventum\Scm\Adapter\Gitlab;
 use Setup;
-use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -64,18 +60,6 @@ class ApiCommitTest extends TestCase
         $this->assertEquals(['test/a/test'], $files);
     }
 
-    /**
-     * Test commit push over http
-     */
-    public function testGitlabCommitUrl(): void
-    {
-        $api_url = $this->getCommitUrl();
-
-        $payload = $this->getDataFile('gitlab/push/project-commit.json');
-        $headers = "-H 'X-Gitlab-Event: Push Hook'";
-        $this->POST($api_url, $payload, $headers);
-    }
-
     private function getCommitUrl(): string
     {
         $setup = Setup::get();
@@ -85,30 +69,11 @@ class ApiCommitTest extends TestCase
         return $api_url;
     }
 
-    private function POST($url, $payload, $headers = ''): string
-    {
-        return shell_exec("curl -Ss $headers -X POST --data @{$payload} {$url}");
-    }
-
     private function createApiRequest(string $filename): Request
     {
         $api_url = $this->getCommitUrl();
         $payload = $this->readDataFile($filename);
 
         return Request::create($api_url, 'POST', [], [], [], [], $payload);
-    }
-
-    private function addFilesListener(&$files): void
-    {
-        $listener = function (GenericEvent $event) use (&$files): void {
-            /** @var Entity\Commit $commit */
-            $commit = $event->getSubject();
-            foreach ($commit->getFiles() as $cf) {
-                $files[] = $cf->getFilename();
-            }
-        };
-
-        $dispatcher = EventManager::getEventDispatcher();
-        $dispatcher->addListener(SystemEvents::SCM_COMMIT_ASSOCIATED, $listener);
     }
 }
