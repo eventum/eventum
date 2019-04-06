@@ -135,7 +135,21 @@ class ExtensionManager
      */
     protected function createInstance(Provider\ExtensionProvider $preferredExtension, string $className)
     {
-        foreach ($this->getSortedExtensions($this->extensions, $preferredExtension) as $extension) {
+        $getSortedExtensions = static function (array $extensions) use ($preferredExtension): Generator {
+            // prefer provided extension
+            if ($preferredExtension instanceof FactoryProvider) {
+                yield $preferredExtension;
+            }
+            unset($extensions[get_class($preferredExtension)]);
+
+            foreach ($extensions as $extension) {
+                if ($extension instanceof FactoryProvider) {
+                    yield $extension;
+                }
+            }
+        };
+
+        foreach ($getSortedExtensions($this->extensions) as $extension) {
             /** @var FactoryProvider $extension */
             $object = $extension->factory($className);
 
@@ -152,21 +166,6 @@ class ExtensionManager
         }
 
         return new $className();
-    }
-
-    private function getSortedExtensions(array $extensions, Provider\ExtensionProvider $preferredExtension): Generator
-    {
-        // prefer provided extension
-        if ($preferredExtension instanceof FactoryProvider) {
-            yield $preferredExtension;
-        }
-        unset($extensions[get_class($preferredExtension)]);
-
-        foreach ($extensions as $extension) {
-            if ($extension instanceof FactoryProvider) {
-                yield $extension;
-            }
-        }
     }
 
     /**
