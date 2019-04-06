@@ -16,7 +16,6 @@ namespace Eventum\Test;
 use Doctrine\ORM\EntityManager;
 use Eventum\Db\Doctrine;
 use Eventum\Model\Repository\UserPreferenceRepository;
-use Prefs;
 
 /**
  * @group db
