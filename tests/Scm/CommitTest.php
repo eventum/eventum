@@ -21,11 +21,11 @@ use Eventum\Model\Repository\IssueRepository;
 /**
  * @group db
  */
-class ScmCommitTest extends ScmTestCase
+class CommitTest extends TestCase
 {
-    /** @var \Doctrine\ORM\EntityRepository|IssueRepository */
+    /** @var IssueRepository */
     private $issueRepo;
-    /** @var \Doctrine\ORM\EntityRepository|CommitRepository */
+    /** @var CommitRepository */
     private $commitRepo;
     /** @var Commit */
     private $commit;

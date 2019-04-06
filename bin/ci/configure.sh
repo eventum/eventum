@@ -1,5 +1,5 @@
 #!/bin/sh
-set -xe
+set -xeu
 
 PHP_INI_DIR=~/.phpenv/versions/$(phpenv version-name)/etc
 install -d $PHP_INI_DIR
@@ -27,3 +27,9 @@ composer config secure-http false
 # $ vendor/bin/phpunit
 # PHP Fatal error:  Uncaught Error: Call to undefined function _setlocale() in /home/travis/build/glensc/eventum/lib/eventum/class.language.php:158
 composer global require "phpunit/phpunit" "^7.5"
+
+# setup database
+mysql -e 'CREATE DATABASE IF NOT EXISTS e_test'
+cp -p tests/travis/*.php config
+vendor/bin/phinx migrate -e test
+vendor/bin/phinx seed:run -e test

@@ -18,20 +18,8 @@ class EventumDbCharsetConfig extends AbstractMigration
     public function up(): void
     {
         $config = Setup::get();
-        $config['database']['charset'] = $this->getCharset();
+        $config['database']['charset'] = 'utf8';
 
         Setup::save();
-    }
-
-    /**
-     * Get charset suitable for PDO mysql driver
-     *
-     * @return string
-     */
-    protected function getCharset()
-    {
-        // no dash variant listed, blindly reap "UTF-8" to "UTF8"
-        // http://dev.mysql.com/doc/refman/5.0/en/charset-charsets.html
-        return strtolower(str_replace('-', '', APP_CHARSET));
     }
 }

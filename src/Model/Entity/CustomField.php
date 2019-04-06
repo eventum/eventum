@@ -35,6 +35,14 @@ class CustomField
 {
     use GetOneTrait;
 
+    public const TYPE_TEXT = 'text';
+    public const TYPE_TEXTAREA = 'textarea';
+    public const TYPE_COMBO = 'combo';
+    public const TYPE_MULTIPLE_COMBO = 'multiple';
+    public const TYPE_DATE = 'date';
+    public const TYPE_INTEGER = 'integer';
+    public const TYPE_CHECKBOX = 'checkbox';
+
     public const LIST_DISPLAY = 'list_display';
 
     public const FORM_TYPES = [
@@ -47,24 +55,22 @@ class CustomField
         'edit_form' => null,
     ];
 
-    public const TYPE_TEXT = 'text';
-
     private const OPTION_TYPES = [
-        'checkbox',
-        'combo',
-        'multiple',
+        self::TYPE_CHECKBOX,
+        self::TYPE_COMBO,
+        self::TYPE_MULTIPLE_COMBO,
     ];
 
     private const TEXT_TYPES = [
         self::TYPE_TEXT,
-        'textarea',
+        self::TYPE_TEXTAREA,
     ];
 
     private const OTHER_TYPES = [
         self::TYPE_TEXT,
-        'textarea',
-        'date',
-        'integer',
+        self::TYPE_TEXTAREA,
+        self::TYPE_DATE,
+        self::TYPE_INTEGER,
     ];
 
     /**

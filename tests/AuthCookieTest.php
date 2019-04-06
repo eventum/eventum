@@ -15,7 +15,9 @@ namespace Eventum\Test;
 
 use Auth;
 use AuthCookie;
+use ProjectSeeder;
 use Setup;
+use UserSeeder;
 
 /**
  * @group db
@@ -32,15 +34,15 @@ class AuthCookieTest extends TestCase
 
     public function testAuthCookie(): void
     {
-        $usr_id = APP_ADMIN_USER_ID;
+        $usr_id = UserSeeder::ACTIVE_ACCOUNT;
         AuthCookie::setAuthCookie($usr_id);
-        $this->assertNotEmpty(Auth::getUserID());
+        $this->assertEquals($usr_id, Auth::getUserID());
     }
 
     public function testProjectCookie(): void
     {
-        $prj_id = 1;
+        $prj_id = ProjectSeeder::DEFAULT_PROJECT_ID;
         AuthCookie::setProjectCookie($prj_id);
-        $this->assertNotNull(Auth::getCurrentProject());
+        $this->assertEquals($prj_id, Auth::getCurrentProject());
     }
 }

@@ -14,7 +14,6 @@
 namespace Eventum\Test\Logger;
 
 use DB_Helper;
-use Eventum\Db\DatabaseException;
 use Eventum\Monolog\Logger;
 use Eventum\Test\TestCase;
 use Exception;
@@ -53,13 +52,12 @@ class LoggerTest extends TestCase
 
     /**
      * @group db
+     * @expectedException \Eventum\Db\DatabaseException
+     * @expectedExceptionMessageRegExp /Syntax error or access violation/
      */
     public function testDbError(): void
     {
-        try {
-            DB_Helper::getInstance()->query('here -->?<-- be dragons?', ['param1', 'param2']);
-        } catch (DatabaseException $e) {
-        }
+        DB_Helper::getInstance()->query('here -->?<-- be dragons?', ['param1', 'param2']);
     }
 
     /**

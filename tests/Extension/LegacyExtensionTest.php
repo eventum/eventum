@@ -16,6 +16,7 @@ namespace Eventum\Test\Extension;
 use Eventum\Extension\ExtensionManager;
 use Eventum\Test\TestCase;
 use Group;
+use ProjectSeeder;
 use Workflow;
 
 /**
@@ -32,7 +33,8 @@ class LegacyExtensionTest extends TestCase
 
     public function testGetWorkflow(): void
     {
-        $prj_id = 1;
-        Workflow::_getBackend($prj_id);
+        $prj_id = ProjectSeeder::DEFAULT_PROJECT_ID;
+        $backend = Workflow::_getBackend($prj_id);
+        $this->assertNotNull($backend);
     }
 }

@@ -663,11 +663,8 @@ class User
                         usr_id IN ($itemlist)
                      GROUP BY usr_id
                      ";
-            try {
-                $res = DB_Helper::getInstance()->getAll($stmt, $usr_ids);
-            } catch (DatabaseException $e) {
-                return null;
-            }
+
+            $res = DB_Helper::getInstance()->getAll($stmt, $usr_ids);
 
             $load_groups = $options['groups'] ?? true;
 

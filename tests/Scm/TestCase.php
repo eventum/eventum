@@ -16,12 +16,14 @@ namespace Eventum\Test\Scm;
 use Date_Helper;
 use Eventum\Extension\ExtensionManager;
 use Eventum\Model\Entity;
-use Eventum\Test\TestCase;
+use Eventum\Test\TestCase as BaseTestCase;
+use Eventum\Test\Traits\DoctrineTrait;
 use Setup;
-use Workflow;
 
-class ScmTestCase extends TestCase
+abstract class TestCase extends BaseTestCase
 {
+    use DoctrineTrait;
+
     public static function setUpBeforeClass(): void
     {
         self::setUpConfig();
@@ -51,6 +53,7 @@ class ScmTestCase extends TestCase
 
         $issue = new Entity\Issue();
         $issue->setSummary('issue with commits');
+        $issue->setDescription('description');
         $issue->setProjectId(1);
         $issue->addCommit($ci);
 

@@ -26,7 +26,7 @@ use Symfony\Component\HttpFoundation\Request;
 /**
  * @group api
  */
-class ScmApiCommitTest extends ScmTestCase
+class ApiCommitTest extends TestCase
 {
     /**
      * Test commit push over Api
@@ -90,7 +90,7 @@ class ScmApiCommitTest extends ScmTestCase
         return shell_exec("curl -Ss $headers -X POST --data @{$payload} {$url}");
     }
 
-    private function createApiRequest($filename): Request
+    private function createApiRequest(string $filename): Request
     {
         $api_url = $this->getCommitUrl();
         $payload = $this->readDataFile($filename);
