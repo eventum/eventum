@@ -157,7 +157,9 @@ class ExtensionManager
     private function getSortedExtensions(array $extensions, Provider\ExtensionProvider $preferredExtension): Generator
     {
         // prefer provided extension
-        yield $preferredExtension;
+        if ($preferredExtension instanceof FactoryProvider) {
+            yield $preferredExtension;
+        }
         unset($extensions[get_class($preferredExtension)]);
 
         foreach ($extensions as $extension) {
