@@ -22,10 +22,6 @@ abstract class TestCase extends BaseTestCase
 {
     use DoctrineTrait;
 
-    protected const PROJECT_ID = 1;
-
-    protected const ID_TEXT = 0x6001;
-
     /** @var CustomFieldRepository */
     protected $repo;
 
