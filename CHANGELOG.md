@@ -1,6 +1,6 @@
 # Eventum Issue Tracking System
 
-## [3.6.5]
+## [3.6.5] - 2019-04-08
 
 Upgrading to 3.6.x versions requires that you upgrade to latest 3.5.x version first.
 
@@ -8,7 +8,7 @@ Upgrading to 3.6.x versions requires that you upgrade to latest 3.5.x version fi
 - Simplify Crypto enable/disable flow (@glensc, #514)
 - Add event to be able to configure Phinx config (@glensc, #516)
 
-[3.6.5]: https://github.com/eventum/eventum/compare/v3.6.4...master
+[3.6.5]: https://github.com/eventum/eventum/compare/v3.6.4...v3.6.5
 
 ## [3.6.4] - 2019-03-28
 
