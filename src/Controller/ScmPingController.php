@@ -14,7 +14,8 @@
 namespace Eventum\Controller;
 
 use Eventum\Scm;
-use Exception;
+use LogicException;
+use Throwable;
 
 class ScmPingController extends BaseController
 {
@@ -45,14 +46,20 @@ class ScmPingController extends BaseController
                 'code' => 0,
                 'message' => ob_get_clean(),
             ];
-        } catch (Exception $e) {
+        } catch (Throwable $e) {
             header('HTTP/1.0 500');
             $code = $e->getCode();
             $status = [
                 'code' => $code && is_numeric($code) ? $code : -1,
                 'message' => $e->getMessage(),
             ];
-            $this->logger->error($e);
+
+            if ($e instanceof LogicException) {
+                // LogicException subclasses are expected, not really errors
+                $this->logger->warning($e);
+            } else {
+                $this->logger->error($e);
+            }
         }
 
         echo json_encode($status);
