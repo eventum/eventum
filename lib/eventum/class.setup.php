@@ -410,6 +410,10 @@ class Setup
 
             'handle_clock_in' => 'enabled',
 
+            'debugbar' => [
+                'status' => 'enabled',
+            ],
+
             // default expiry: 5 minutes
             'issue_lock' => 300,
 

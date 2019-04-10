@@ -47,6 +47,5 @@ if (Setup::isMaintenance()) {
     }
 }
 
-Eventum\DebugBarManager::getDebugBarManager();
 ServiceContainer::getExtensionManager()->boot();
 ServiceContainer::dispatch(SystemEvents::BOOT);
