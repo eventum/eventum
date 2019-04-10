@@ -43,23 +43,17 @@ class DebugBarManager
     /** @var DebugBar */
     private $debugBar;
 
-    public static function getDebugBarManager(): self
+    public static function getDebugBarManager(bool $enable = false): self
     {
         /** @var DebugBar */
         static $debugBar;
 
-        return $debugBar ?: $debugBar = new self();
+        return $debugBar ?: $debugBar = new self($enable);
     }
 
-    public function __construct()
+    private function __construct(bool $enable = false)
     {
-        // disable debugBar in CLI
-        if (PHP_SAPI === 'cli') {
-            return;
-        }
-
-        // setup debugVar, if it can be autoloaded
-        if (!class_exists(StandardDebugBar::class)) {
+        if (!$enable) {
             return;
         }
 
