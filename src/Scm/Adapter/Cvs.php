@@ -63,7 +63,7 @@ class Cvs extends AbstractAdapter
 
             $repo = $ci->getCommitRepo();
             if (!$repo->branchAllowed($ci->getBranch())) {
-                throw new \InvalidArgumentException("Branch not allowed: {$ci->getBranch()}");
+                throw new InvalidArgumentException("Branch not allowed: {$ci->getBranch()}");
             }
 
             $ir = Doctrine::getIssueRepository();

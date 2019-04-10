@@ -61,6 +61,7 @@ before_install:
 
 install:
   - composer install --no-interaction --prefer-dist
+  - bin/ci/seed.sh
 
 script:
   - PATH=$HOME/.composer/vendor/bin:$PATH

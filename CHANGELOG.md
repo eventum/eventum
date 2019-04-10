@@ -4,7 +4,8 @@
 
 Upgrading to 3.6.x versions requires that you upgrade to latest 3.5.x version first.
 
-- Fix fatal errors when opening rss feeds (@glensc)
+- Fix fatal errors when opening rss feeds (@glensc, #518)
+- SCM commit: do not log wrong branch push as error (@glensc, #517)
 
 [3.6.6]: https://github.com/eventum/eventum/compare/v3.6.5...master
 
