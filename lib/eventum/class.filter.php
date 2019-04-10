@@ -572,14 +572,14 @@ class Filter
                     cst_id=?';
         $params[] = $cst_id;
 
-        try {
-            $res = DB_Helper::getInstance()->getRow($stmt, $params);
-        } catch (DatabaseException $e) {
-            return '';
-        }
+        $res = DB_Helper::getInstance()->getRow($stmt, $params);
 
+        // FIXME: in get rss feed context,
+        // getFiltersInfo() requires current project context,
+        // but that is not known as this method returns current project id
+        // this probably needs to be refactored to split logic to individual methods
         foreach (self::getFiltersInfo() as $field => $filter) {
-            if (@$filter['is_array'] == true) {
+            if (($filter['is_array'] ?? null) == true) {
                 $res['cst_' . $field] = explode(',', $res['cst_' . $field]);
             }
         }
@@ -937,6 +937,11 @@ class Filter
 
         // add custom fields
         $prj_id = Auth::getCurrentProject();
+        if (!$prj_id) {
+            // no project cookie, no fields to give
+            return [];
+        }
+
         $repo = Doctrine::getCustomFieldRepository();
         // XXX should the minRole be Auth::getCurrentRole()?
         // XXX should fromType be passed?

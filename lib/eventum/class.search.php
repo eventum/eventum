@@ -485,7 +485,10 @@ class Search
                 continue;
             }
 
-            $formattedValue = Custom_Field::formatValue($cf['value'], $cf['fld_id'], $iss_id);
+            $formattedValue = $cf['value'];
+            if ($formattedValue) {
+                $formattedValue = Custom_Field::formatValue($formattedValue, $cf['fld_id'], $iss_id);
+            }
             $cf['formatted_value'] = $formattedValue;
 
             $row['custom_field'][$cf['fld_id']] = $cf;
