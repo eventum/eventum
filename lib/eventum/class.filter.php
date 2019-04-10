@@ -937,6 +937,11 @@ class Filter
 
         // add custom fields
         $prj_id = Auth::getCurrentProject();
+        if (!$prj_id) {
+            // no project cookie, no fields to give
+            return [];
+        }
+
         $repo = Doctrine::getCustomFieldRepository();
         // XXX should the minRole be Auth::getCurrentRole()?
         // XXX should fromType be passed?
