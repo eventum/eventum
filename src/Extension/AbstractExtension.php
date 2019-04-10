@@ -14,64 +14,59 @@
 namespace Eventum\Extension;
 
 /**
- * Class AbstractExtension
- *
- * Class doc comment will be used to describe purpose or add documentation.
- *
- * $d = new \ReflectionClass('foo');
- * $d->getDocComment();
+ * @deprecated [since 3.6.5]: implement each interface by your own
  */
 abstract class AbstractExtension implements ExtensionInterface
 {
     /**
      * {@inheritdoc}
-     * @see ExtensionInterface::registerAutoloader()
+     * @see Provider\AutoloadProvider::registerAutoloader()
      */
-    public function registerAutoloader($loader)
+    public function registerAutoloader($loader): void
     {
     }
 
     /**
      * {@inheritdoc}
-     * @see ExtensionInterface::getSubscribers()
+     * @see Provider\SubscriberProvider::getSubscribers()
      */
-    public function getSubscribers()
-    {
-        return [];
-    }
-
-    /**
-     * {@inheritdoc}
-     * @see ExtensionInterface::getAvailableWorkflows()
-     */
-    public function getAvailableWorkflows()
+    public function getSubscribers(): array
     {
         return [];
     }
 
     /**
      * {@inheritdoc}
-     * @see ExtensionInterface::getAvailableCustomFields()
+     * @see Provider\WorkflowProvider::getAvailableWorkflows()
      */
-    public function getAvailableCustomFields()
+    public function getAvailableWorkflows(): array
     {
         return [];
     }
 
     /**
      * {@inheritdoc}
-     * @see ExtensionInterface::getAvailablePartners()
+     * @see Provider\CustomFieldProvider::getAvailableCustomFields()
      */
-    public function getAvailablePartners()
+    public function getAvailableCustomFields(): array
     {
         return [];
     }
 
     /**
      * {@inheritdoc}
-     * @see ExtensionInterface::getAvailableCRMs()
+     * @see Provider\PartnerProvider::getAvailablePartners()
      */
-    public function getAvailableCRMs()
+    public function getAvailablePartners(): array
+    {
+        return [];
+    }
+
+    /**
+     * {@inheritdoc}
+     * @see Provider\CrmProvider::getAvailableCRMs()
+     */
+    public function getAvailableCRMs(): array
     {
         return [];
     }

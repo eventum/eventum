@@ -11,17 +11,17 @@
  * that were distributed with this source code.
  */
 
-namespace Eventum\Extension;
+namespace Eventum\Extension\Provider;
 
-/**
- * @deprecated [since 3.6.5]: implement each interface by your own
- */
-interface ExtensionInterface extends
-    Provider\AutoloadProvider,
-    Provider\CustomFieldProvider,
-    Provider\PartnerProvider,
-    Provider\SubscriberProvider,
-    Provider\WorkflowProvider,
-    Provider\CrmProvider
+use Composer\Autoload\ClassLoader;
+
+interface AutoloadProvider extends ExtensionProvider
 {
+    /**
+     * Method invoked so the extension can setup class loader.
+     *
+     * @param ClassLoader $loader
+     * @since 3.6.5
+     */
+    public function registerAutoloader($loader): void;
 }

@@ -13,7 +13,8 @@
 
 namespace Example\Extension;
 
-use Eventum\Extension\AbstractExtension;
+use Composer\Autoload\ClassLoader;
+use Eventum\Extension\Provider;
 use Example\Event\Subscriber;
 
 /**
@@ -24,15 +25,19 @@ use Example\Event\Subscriber;
  * 'extensions' => [
  *   'Eventum\\Extension\\ExampleExtension' => '/path/to/this/file/ExampleExtension.php',
  * ],
- *
- * Class doc comment will be used to describe purpose or add documentation.
  */
-class ExampleExtension extends AbstractExtension
+class ExampleExtension implements
+    Provider\AutoloadProvider,
+    Provider\CrmProvider,
+    Provider\CustomFieldProvider,
+    Provider\PartnerProvider,
+    Provider\SubscriberProvider,
+    Provider\WorkflowProvider
 {
     /**
      * Method invoked so the extension can setup class loader.
      *
-     * @param \Composer\Autoload\ClassLoader $loader
+     * @param ClassLoader $loader
      */
     public function registerAutoloader($loader): void
     {

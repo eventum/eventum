@@ -13,7 +13,7 @@
 
 namespace Eventum\Console\Command;
 
-use Eventum\Extension\ExtensionInterface;
+use Eventum\Extension\Provider;
 use InvalidArgumentException;
 use ReflectionClass;
 use ReflectionException;
@@ -91,7 +91,7 @@ class ExtensionEnableCommand
 
         $reflectionClass = new ReflectionClass($extensionName);
 
-        $implements = $reflectionClass->implementsInterface(ExtensionInterface::class);
+        $implements = $reflectionClass->implementsInterface(Provider::class);
         if (!$implements) {
             throw new InvalidArgumentException("Class $extensionName does not implement ExtensionInterface");
         }

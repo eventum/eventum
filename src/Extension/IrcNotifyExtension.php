@@ -21,7 +21,7 @@ class IrcNotifyExtension extends AbstractExtension
     /**
      * {@inheritdoc}
      */
-    public function getSubscribers()
+    public function getSubscribers(): array
     {
         $subscribers = [];
 
