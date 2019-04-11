@@ -65,7 +65,10 @@ install:
 
 script:
   - PATH=$HOME/.composer/vendor/bin:$PATH
-  - phpunit --verbose --exclude-group ldap,imap,logger,mail,api,locale,date,crypto
+  - phpunit --coverage-clover=coverage.clover --verbose --exclude-group ldap,imap,logger,mail,api,locale,date,crypto
+
+after_script:
+  - php ocular.phar code-coverage:upload --format=php-clover coverage.clover
 
 notifications:
   irc:
