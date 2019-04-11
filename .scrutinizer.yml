@@ -4,6 +4,7 @@ filter:
         - 'bin/*'
         - 'docs/*'
         - 'contrib/*'
+
 checks:
     php: true
 
@@ -12,10 +13,15 @@ coding_style:
         spaces:
             around_operators:
                 concatenation: true
-
 # disable tests, they are horribly broken
 # https://github.com/scrutinizer-ci/scrutinizer/issues/395
 build:
     tests:
         override:
             command: "php -v"
+    nodes:
+        analysis:
+            tests:
+                override:
+                    - php-scrutinizer-run
+        tests: true
