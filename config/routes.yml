@@ -17,6 +17,11 @@ searchbar:
     methods: GET
     controller: Eventum\Controller\SearchbarController::defaultAction
 
+logout:
+    path: /logout
+    methods: GET
+    controller: Eventum\Controller\LogoutController::defaultAction
+
 setup:
     path: /setup
     methods: GET|POST

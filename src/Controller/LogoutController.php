@@ -14,37 +14,18 @@
 namespace Eventum\Controller;
 
 use Auth;
+use Eventum\Auth\AuthException;
+use Eventum\Controller\Traits\RedirectResponseTrait;
+use Symfony\Component\HttpFoundation\Response;
 
-class LogoutController extends BaseController
+class LogoutController
 {
-    /**
-     * {@inheritdoc}
-     */
-    protected function configure(): void
-    {
-    }
+    use RedirectResponseTrait;
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function canAccess(): bool
-    {
-        return true;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function defaultAction(): void
+    public function defaultAction(): Response
     {
         Auth::logout();
-        $this->redirect('index.php?err=6');
-    }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function prepareTemplate(): void
-    {
+        return $this->redirect('index.php', ['err' => AuthException::LOGGED_OUT]);
     }
 }
