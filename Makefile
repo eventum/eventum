@@ -98,6 +98,9 @@ codecept.phar:
 psalm.phar:
 	$(call fetch_tool,https://github.com/vimeo/psalm/releases/download/$(PSALM_VERSION)/psalm.phar)
 
+ocular.phar:
+	$(call fetch_tool,https://scrutinizer-ci.com/ocular.phar)
+
 phpcs-fix: php-cs-fixer.phar
 	$(php-cs-fixer) fix --verbose
 
