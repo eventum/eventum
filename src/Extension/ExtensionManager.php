@@ -179,7 +179,13 @@ class ExtensionManager
         $loader = $this->getAutoloader();
 
         foreach ($this->getExtensionFiles() as $classname => $filename) {
-            $extension = $this->loadExtension($classname, $filename);
+            try {
+                $extension = $this->loadExtension($classname, $filename);
+            } catch (Throwable $e) {
+                Logger::app()->error("Unable to load $classname: {$e->getMessage()}", ['exception' => $e]);
+                continue;
+            }
+
             if ($extension instanceof AutoloadProvider) {
                 $extension->registerAutoloader($loader);
             }

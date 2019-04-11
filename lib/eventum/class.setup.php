@@ -207,6 +207,11 @@ class Setup
 
             'extensions' => [],
 
+            'xhgui_profiler' => [
+                // https://github.com/eventum/eventum/pull/519
+                'status' => 'enabled',
+            ],
+
             'handle_clock_in' => 'enabled',
 
             // default expiry: 5 minutes

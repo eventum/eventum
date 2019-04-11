@@ -12,6 +12,13 @@ composer config platform.ext-ldap '0'
 # https://travis-ci.org/glensc/eventum/jobs/490544010
 composer config platform.ext-gd '0'
 
+# add mongodb extension
+# https://github.com/eventum/eventum/pull/519
+MONGODB_VERSION=1.5.0
+# don't really need it being present, so fake
+#pecl install -f mongodb-$MONGODB_VERSION
+#composer config platform.ext-mongodb $MONGODB_VERSION
+
 # disable xdebug
 phpenv config-rm xdebug.ini || :
 
