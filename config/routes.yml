@@ -12,6 +12,11 @@ scm_ping:
     methods: POST
     controller: Eventum\Controller\ScmPingController::defaultAction
 
+searchbar:
+    path: /searchbar
+    methods: GET
+    controller: Eventum\Controller\SearchbarController::defaultAction
+
 setup:
     path: /setup
     methods: GET|POST
