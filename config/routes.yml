@@ -17,6 +17,11 @@ searchbar:
     methods: GET
     controller: Eventum\Controller\SearchbarController::defaultAction
 
+forgot_password:
+    path: /forgot_password
+    methods: GET
+    controller: Eventum\Controller\ForgotPasswordController::defaultAction
+
 logout:
     path: /logout
     methods: GET
