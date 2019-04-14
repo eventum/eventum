@@ -67,13 +67,7 @@ class Cvs extends AbstractAdapter
                 throw new InvalidArgumentException("Branch not allowed: {$ci->getBranch()}");
             }
 
-            $ir = Doctrine::getIssueRepository();
-
-            // XXX: take prj_id from first issue_id
-            $issue = $ir->findById($issues[0]);
-            $prj_id = $issue->getProjectId();
-
-            $cr->preCommit($prj_id, $ci, $payload);
+            $cr->preCommit($ci, $payload);
             $em->persist($ci);
 
             // add commit files

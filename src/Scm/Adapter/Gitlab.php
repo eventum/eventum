@@ -142,15 +142,11 @@ class Gitlab extends AbstractAdapter
                 throw new InvalidArgumentException("Branch not allowed: {$branch}");
             }
 
-            // XXX: take prj_id from first issue_id
-            $issue = $ir->findById($issues[0]);
-            $prj_id = $issue->getProjectId();
-
             $ci = $payload->createCommit($commit);
             $ci->setScmName($repo->getName());
             $ci->setProjectName($payload->getProject());
             $ci->setBranch($branch);
-            $cr->preCommit($prj_id, $ci, $payload);
+            $cr->preCommit($ci, $payload);
             $em->persist($ci);
 
             // save commit files
