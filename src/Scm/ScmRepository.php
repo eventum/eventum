@@ -85,8 +85,13 @@ class ScmRepository
      * @param string $branch
      * @return bool
      */
-    public function branchAllowed(string $branch): bool
+    public function branchAllowed(?string $branch): bool
     {
+        if (!$branch) {
+            // no branch given, the SCM doesn't support branching?
+            return true;
+        }
+
         // 'only' present, check it
         if (isset($this->config['only'])) {
             return in_array($branch, $this->config['only']->toArray(), true);

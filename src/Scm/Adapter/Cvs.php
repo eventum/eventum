@@ -15,7 +15,6 @@ namespace Eventum\Scm\Adapter;
 
 use Eventum\Db\Doctrine;
 use Eventum\Model\Entity;
-use Eventum\Scm\Payload\PayloadInterface;
 use Eventum\Scm\Payload\StandardPayload;
 use InvalidArgumentException;
 use Symfony\Component\HttpFoundation\Request;
