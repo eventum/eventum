@@ -30,5 +30,9 @@
 *.pot diff=msgcat
 *.po diff=msgcat
 
+# https://github.com/balbuf/composer-git-merge-driver
+/composer.json merge=composer_json
+/composer.lock merge=composer_json
+
 # saved emails need usually to retain their newlines configuration
 /tests/data/*.eml -text
