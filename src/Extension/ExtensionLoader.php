@@ -89,7 +89,7 @@ class ExtensionLoader
             $basename = basename($filename);
             $classname = $this->getClassName($basename);
 
-            if (!$this->isExtension($filename, $classname)) {
+            if (!$classname || !$this->isExtension($filename, $classname)) {
                 continue;
             }
 
@@ -139,7 +139,7 @@ class ExtensionLoader
      *
      * @internal
      */
-    public function getClassName(string $filename): string
+    public function getClassName(string $filename): ?string
     {
         if (!preg_match('/^class\.(.*)\.php$/', $filename, $matches)) {
             return null;
