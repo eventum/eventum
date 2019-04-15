@@ -28,7 +28,7 @@ class MarkdownTest extends TestCase
     {
         static $renderer;
 
-        return $renderer ?: new Markdown();
+        return $renderer ?: $renderer = new Markdown();
     }
 
     public function setUp(): void

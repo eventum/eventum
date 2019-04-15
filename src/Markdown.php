@@ -55,8 +55,9 @@ class Markdown
         }
 
         $html = $this->getConverter(false)->convertToHtml($text);
+        $html = $this->getPurifier()->purify($html);
 
-        return $this->getPurifier()->purify($html);
+        return $html;
     }
 
     public function renderInline(string $text): string
@@ -66,8 +67,9 @@ class Markdown
         }
 
         $html = $this->getConverter(true)->convertToHtml($text);
+        $html = $this->getPurifier()->purify($html);
 
-        return $this->getPurifier()->purify($html);
+        return $html;
     }
 
     private function getConverter(bool $inline): ConverterInterface
@@ -117,6 +119,8 @@ class Markdown
         $config->set('AutoFormat.RemoveEmpty', true);
         // remove empty, even if it contains an &nbsp;
         $config->set('AutoFormat.RemoveEmpty.RemoveNbsp', true);
+        // preserve html comments
+        $config->set('HTML.AllowedCommentsRegexp', '/.+/');
 
         // Absolute path with no trailing slash to store serialized definitions in.
         $config->set('Cache.SerializerPath', $cacheDir);
