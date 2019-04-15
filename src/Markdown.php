@@ -16,7 +16,7 @@ namespace Eventum;
 use Eventum\CommonMark\MentionExtension;
 use Eventum\EventDispatcher\EventManager;
 use HTMLPurifier;
-use HTMLPurifier_Config;
+use HTMLPurifier_HTML5Config;
 use League\CommonMark\CommonMarkConverter;
 use League\CommonMark\ConverterInterface;
 use League\CommonMark\Environment;
@@ -110,8 +110,7 @@ class Markdown
         $cacheDir = APP_VAR_PATH . '/cache/purifier';
         is_dir($cacheDir) || mkdir($cacheDir, 02775) || is_dir($cacheDir);
 
-        /// https://gist.github.com/ctrl-freak/1188139
-        $config = HTMLPurifier_Config::createDefault();
+        $config = HTMLPurifier_HTML5Config::createDefault();
 
         $config->set('AutoFormat.AutoParagraph', true);
         // remove empty tag pairs
@@ -121,10 +120,6 @@ class Markdown
 
         // Absolute path with no trailing slash to store serialized definitions in.
         $config->set('Cache.SerializerPath', $cacheDir);
-        $def = $config->getHTMLDefinition(true);
-        $def->addBlankElement('details');
-        $def->addElement('details', 'Block', 'Flow', 'Common');
-        $def->addElement('summary', 'Block', 'Flow', 'Common');
 
         return new HTMLPurifier($config);
     }
