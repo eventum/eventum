@@ -118,6 +118,7 @@
 	},
 	"require-dev": {
 		"alcaeus/mongo-php-adapter": "^1.1",
+		"balbuf/composer-git-merge-driver": "^1.1",
 		"bgrins/filereader.js": "*",
 		"components/jquery": "~1.8.3",
 		"components/jquery-blockui": "*@dev",

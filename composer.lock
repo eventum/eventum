@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "26d55efd6e81925a91ec99832840114f",
+    "content-hash": "9cb8f031ca08f433a8571b105ff9b5d8",
     "packages": [
         {
             "name": "cakephp/cache",
@@ -4159,6 +4159,50 @@
                 "mongodb"
             ],
             "time": "2019-04-06T08:08:09+00:00"
+        },
+        {
+            "name": "balbuf/composer-git-merge-driver",
+            "version": "v1.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/balbuf/composer-git-merge-driver.git",
+                "reference": "c0ba60db9a39ae984ab300a9f7fd058f453f1299"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/balbuf/composer-git-merge-driver/zipball/c0ba60db9a39ae984ab300a9f7fd058f453f1299",
+                "reference": "c0ba60db9a39ae984ab300a9f7fd058f453f1299",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "php": ">=5.4"
+            },
+            "bin": [
+                "bin/composer-git-merge-driver"
+            ],
+            "type": "library",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Stephen Beemsterboer",
+                    "homepage": "https://github.com/balbuf"
+                }
+            ],
+            "description": "Custom git merge driver to minimize merge conflicts in composer.json and composer.lock files.",
+            "keywords": [
+                "composer",
+                "composer.json",
+                "composer.lock",
+                "conflict",
+                "driver",
+                "git",
+                "merge"
+            ],
+            "time": "2019-01-23T01:57:04+00:00"
         },
         {
             "name": "bgrins/filereader.js",
