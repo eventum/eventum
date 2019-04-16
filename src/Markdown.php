@@ -122,6 +122,9 @@ class Markdown
         // preserve html comments
         $config->set('HTML.AllowedCommentsRegexp', '/.+/');
 
+        // allow tasklist <input> checkboxes
+        $config->set('HTML.Trusted', true);
+
         // Absolute path with no trailing slash to store serialized definitions in.
         $config->set('Cache.SerializerPath', $cacheDir);
 
