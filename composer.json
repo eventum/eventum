@@ -40,16 +40,24 @@
 		"test": "phpunit"
 	},
 	"autoload": {
-		"classmap": [ "lib/eventum" ],
+		"classmap": [
+			"lib/eventum"
+		],
 		"psr-4": {
 			"Eventum\\": "src/"
 		},
-		"files": [ "lib/eventum/gettext.php" ]
+		"files": [
+			"lib/eventum/gettext.php"
+		]
 	},
 	"autoload-dev": {
-		"classmap": [ "db/seeds" ],
+		"classmap": [
+			"db/seeds"
+		],
 		"psr-4": {
-			"Eventum\\Test\\": [ "tests/" ]
+			"Eventum\\Test\\": [
+				"tests/"
+			]
 		}
 	},
 	"minimum-stability": "dev",
@@ -72,6 +80,7 @@
 		"doctrine/dbal": "^2.5",
 		"doctrine/orm": "^2.5",
 		"enrise/urihelper": "^1.0",
+		"ezyang/htmlpurifier": "^4.10",
 		"fonts/liberation": "*",
 		"glen/filename-normalizer": "^2.0",
 		"horde/text-flowed": "dev-patch-1 as 2.0.3",
@@ -105,6 +114,7 @@
 		"theorchard/monolog-cascade": "^0.5.0",
 		"webuni/commonmark-table-extension": "^0.9.0",
 		"willdurand/email-reply-parser": "^2.7.0",
+		"xemlock/htmlpurifier-html5": "^0.1.8",
 		"zendframework/zend-config": "2.4.*",
 		"zendframework/zend-mail": "dev-develop-2.4",
 		"zendframework/zend-servicemanager": "2.4.*"

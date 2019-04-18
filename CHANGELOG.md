@@ -9,6 +9,7 @@ Upgrading to 3.6.x versions requires that you upgrade to latest 3.5.x version fi
 - Split extension features to each interface (@glensc, #510)
 - Add support for enabling xhgui-profiler (@glensc, #519)
 - Fix ExtensionLoader exception on invalid class files (@glensc, #522)
+- Sanitize HTML with htmlpurifier (@glensc, #525)
 
 [3.6.6]: https://github.com/eventum/eventum/compare/v3.6.5...master
 
