@@ -125,6 +125,9 @@ class Markdown
         // disable tidy processing, even if extension present
         $config->set('Output.TidyFormat', false);
 
+        // disable useless normalizer we do not need
+        $config->set('Core.NormalizeNewlines', false);
+
         // allow tasklist <input> checkboxes
         $config->set('HTML.Trusted', true);
 
