@@ -122,6 +122,9 @@ class Markdown
         // preserve html comments
         $config->set('HTML.AllowedCommentsRegexp', '/.+/');
 
+        // disable tidy processing, even if extension present
+        $config->set('Output.TidyFormat', false);
+
         // allow tasklist <input> checkboxes
         $config->set('HTML.Trusted', true);
 
