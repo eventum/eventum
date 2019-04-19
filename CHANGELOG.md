@@ -1,6 +1,6 @@
 # Eventum Issue Tracking System
 
-## [3.6.6]
+## [3.6.6] - 2019-04-19
 
 Upgrading to 3.6.x versions requires that you upgrade to latest 3.5.x version first.
 
@@ -11,7 +11,7 @@ Upgrading to 3.6.x versions requires that you upgrade to latest 3.5.x version fi
 - Fix ExtensionLoader exception on invalid class files (@glensc, #522)
 - Sanitize HTML with htmlpurifier (@glensc, #525)
 
-[3.6.6]: https://github.com/eventum/eventum/compare/v3.6.5...master
+[3.6.6]: https://github.com/eventum/eventum/compare/v3.6.5...v3.6.6
 
 ## [3.6.5] - 2019-04-08
 
