@@ -31,7 +31,7 @@ class DecodePart
      * Decode transfer encoding of an MIME multipart.
      * We have to decode ourselves or use something like Mime\Message::createFromMessage
      */
-    public function decode()
+    public function decode(): string
     {
         $body = $this->part->getContent();
         /** @var ContentTransferEncoding $header */

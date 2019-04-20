@@ -13,6 +13,8 @@
 
 namespace Eventum\Diff;
 
+use Eventum\Model\Entity;
+
 class CustomField
 {
     public function diff(array $updated_fields, ?int $role_id = null): array
@@ -24,7 +26,7 @@ class CustomField
         $builder = new Builder();
         foreach ($updated_fields as $fld_id => $field) {
             if ($field['old_display'] !== $field['new_display']) {
-                if ($field['type'] === 'textarea') {
+                if ($field['type'] === Entity\CustomField::TYPE_TEXTAREA) {
                     $builder->addTextChange($field['title'], $field['old_display'], $field['new_display']);
                 } else {
                     $builder->addChange($field['title'], $field['old_display'], $field['new_display']);

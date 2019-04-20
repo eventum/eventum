@@ -144,12 +144,12 @@ class TextMessage
         }
     }
 
-    private function getText()
+    private function getText(): string
     {
         return trim(implode("\n\n", $this->text));
     }
 
-    private function getHtml()
+    private function getHtml(): string
     {
         $str = implode("\n\n", $this->html);
 
