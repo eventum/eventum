@@ -14,7 +14,7 @@
 namespace Eventum\Extension;
 
 /**
- * @deprecated [since 3.6.5]: implement each interface by your own
+ * @deprecated [since 3.6.6]: implement each interface by your own
  */
 interface ExtensionInterface extends
     Provider\AutoloadProvider,

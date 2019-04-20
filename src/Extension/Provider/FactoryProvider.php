@@ -20,7 +20,7 @@ interface FactoryProvider extends ExtensionProvider
      *
      * @param string $className
      * @return object|null
-     * @since 3.6.5
+     * @since 3.6.6
      */
     public function factory($className);
 }

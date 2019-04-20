@@ -19,7 +19,7 @@ interface CustomFieldProvider extends ExtensionProvider
      * Return Custom Field Class names the extension provides.
      *
      * @return string[]
-     * @since 3.6.5
+     * @since 3.6.6
      */
     public function getAvailableCustomFields(): array;
 }

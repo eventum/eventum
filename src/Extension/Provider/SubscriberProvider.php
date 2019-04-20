@@ -21,7 +21,7 @@ interface SubscriberProvider extends ExtensionProvider
      * @see http://symfony.com/doc/current/components/event_dispatcher.html#using-event-subscribers
      * @see \Symfony\Component\EventDispatcher\EventSubscriberInterface
      * @return string[]
-     * @since 3.6.5
+     * @since 3.6.6
      */
     public function getSubscribers(): array;
 }

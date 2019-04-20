@@ -21,7 +21,7 @@ interface AutoloadProvider extends ExtensionProvider
      * Method invoked so the extension can setup class loader.
      *
      * @param ClassLoader $loader
-     * @since 3.6.5
+     * @since 3.6.6
      */
     public function registerAutoloader($loader): void;
 }

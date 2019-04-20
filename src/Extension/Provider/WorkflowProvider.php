@@ -19,7 +19,7 @@ interface WorkflowProvider extends ExtensionProvider
      * Return Workflow Class names your extension provides.
      *
      * @return string[]
-     * @since 3.6.5
+     * @since 3.6.6
      */
     public function getAvailableWorkflows(): array;
 }

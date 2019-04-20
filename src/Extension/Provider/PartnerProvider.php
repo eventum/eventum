@@ -19,7 +19,7 @@ interface PartnerProvider extends ExtensionProvider
      * Return Partner Class names the extension provides.
      *
      * @return string[]
-     * @since 3.6.5
+     * @since 3.6.6
      */
     public function getAvailablePartners(): array;
 }

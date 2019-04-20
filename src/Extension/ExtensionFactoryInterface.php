@@ -16,7 +16,7 @@ namespace Eventum\Extension;
 use Eventum\Extension\Provider\FactoryProvider;
 
 /**
- * @deprecated [since 3.6.5]: implement FactoryProvider instead
+ * @deprecated [since 3.6.6]: implement FactoryProvider instead
  */
 interface ExtensionFactoryInterface extends FactoryProvider
 {
