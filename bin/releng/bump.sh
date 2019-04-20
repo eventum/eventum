@@ -23,9 +23,9 @@ cat <<EOF | patch -p1
 @@ -16,7 +16,7 @@ namespace Eventum;
  class AppInfo
  {
-     const URL = 'https://github.com/eventum/eventum';
--    const VERSION = '$old-dev';
-+    const VERSION = '$new-dev';
+     public const URL = 'https://github.com/eventum/eventum';
+-    public const VERSION = '$old-dev';
++    public const VERSION = '$new-dev';
  
      /** @var string */
      private \$version;
