@@ -41,7 +41,7 @@ class ExtensionManager
      *
      * @return ExtensionManager
      */
-    public static function getManager(): ExtensionManager
+    public static function getManager(): self
     {
         static $manager;
         if (!$manager) {
