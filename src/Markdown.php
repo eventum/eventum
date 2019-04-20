@@ -28,7 +28,6 @@ use Lossendae\CommonMark\TaskLists\TaskListsCheckboxRenderer;
 use Lossendae\CommonMark\TaskLists\TaskListsParser;
 use Misc;
 use Symfony\Component\EventDispatcher\GenericEvent;
-use Webuni\CommonMark\TableExtension\TableExtension;
 
 class Markdown
 {
@@ -141,7 +140,6 @@ class Markdown
     private function applyExtensions(Environment $environment): void
     {
         $environment->addExtension(new AutolinkExtension());
-        $environment->addExtension(new TableExtension());
         $environment->addExtension(new MentionExtension());
 
         $environment->addInlineRenderer(TaskListsCheckbox::class, new TaskListsCheckboxRenderer());

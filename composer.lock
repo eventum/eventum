@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "4f092970607a5894e9e3000f4fc8be1e",
+    "content-hash": "Auto-merged! Run `composer update --lock` to regenerate",
     "packages": [
         {
             "name": "cakephp/cache",
@@ -1908,34 +1908,35 @@
         },
         {
             "name": "league/commonmark",
-            "version": "0.18.5",
+            "version": "1.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/commonmark.git",
-                "reference": "f94e18d68260f43a7d846279cad88405854b1306"
+                "reference": "7a40f2b0931602c504c2a9692d9f1e33635fd5ef"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/commonmark/zipball/f94e18d68260f43a7d846279cad88405854b1306",
-                "reference": "f94e18d68260f43a7d846279cad88405854b1306",
+                "url": "https://api.github.com/repos/thephpleague/commonmark/zipball/7a40f2b0931602c504c2a9692d9f1e33635fd5ef",
+                "reference": "7a40f2b0931602c504c2a9692d9f1e33635fd5ef",
                 "shasum": ""
             },
             "require": {
                 "ext-mbstring": "*",
-                "php": ">=5.6.5"
+                "php": "^7.1"
             },
             "replace": {
                 "colinodell/commonmark-php": "*"
             },
             "require-dev": {
                 "cebe/markdown": "~1.0",
-                "commonmark/commonmark.js": "0.28",
+                "commonmark/commonmark.js": "0.29.0",
                 "erusev/parsedown": "~1.0",
                 "michelf/php-markdown": "~1.4",
-                "mikehaertl/php-shellcommand": "^1.2",
-                "phpunit/phpunit": "^5.7.27|^6.5.14",
-                "scrutinizer/ocular": "^1.1",
-                "symfony/finder": "^3.0|^4.0"
+                "mikehaertl/php-shellcommand": "^1.4",
+                "phpstan/phpstan-shim": "^0.11.5",
+                "phpunit/phpunit": "^7.5",
+                "scrutinizer/ocular": "^1.5",
+                "symfony/finder": "^4.2"
             },
             "suggest": {
                 "league/commonmark-extras": "Library of useful extensions including smart punctuation"
@@ -1946,12 +1947,12 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "0.19-dev"
+                    "dev-master": "1.1-dev"
                 }
             },
             "autoload": {
                 "psr-4": {
-                    "League\\CommonMark\\": "src/"
+                    "League\\CommonMark\\": "src"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -1967,39 +1968,39 @@
                 }
             ],
             "description": "PHP Markdown parser based on the CommonMark spec",
-            "homepage": "https://github.com/thephpleague/commonmark",
+            "homepage": "https://commonmark.thephpleague.com",
             "keywords": [
                 "commonmark",
                 "markdown",
                 "parser"
             ],
-            "time": "2019-03-28T13:52:31+00:00"
+            "time": "2019-06-29T11:19:01+00:00"
         },
         {
             "name": "league/commonmark-ext-autolink",
-            "version": "v0.2.1",
+            "version": "v1.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/commonmark-ext-autolink.git",
-                "reference": "66ba8a93a899627ac7c1f54c0d191b3dbe309970"
+                "reference": "9f6da88485412b1c37a982c9fee8f4fbc2fa5ade"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/commonmark-ext-autolink/zipball/66ba8a93a899627ac7c1f54c0d191b3dbe309970",
-                "reference": "66ba8a93a899627ac7c1f54c0d191b3dbe309970",
+                "url": "https://api.github.com/repos/thephpleague/commonmark-ext-autolink/zipball/9f6da88485412b1c37a982c9fee8f4fbc2fa5ade",
+                "reference": "9f6da88485412b1c37a982c9fee8f4fbc2fa5ade",
                 "shasum": ""
             },
             "require": {
-                "league/commonmark": "^0.18.5",
-                "php": "^5.6||^7.0"
+                "league/commonmark": "^1.0",
+                "php": "^7.1"
             },
             "require-dev": {
-                "phpunit/phpunit": "^5.7.27"
+                "phpunit/phpunit": "^7.5"
             },
             "type": "commonmark-extension",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "0.3-dev"
+                    "dev-master": "1.1-dev"
                 }
             },
             "autoload": {
@@ -2030,33 +2031,33 @@
                 "markdown",
                 "twitter"
             ],
-            "time": "2019-03-28T14:03:05+00:00"
+            "time": "2019-06-29T11:23:54+00:00"
         },
         {
             "name": "league/commonmark-ext-inlines-only",
-            "version": "v0.1.0",
+            "version": "v1.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/commonmark-ext-inlines-only.git",
-                "reference": "f910a117a4f6b12d87de2737cbe252a34ad37748"
+                "reference": "45927a788aec4918004304183d958bef86ddbe62"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/commonmark-ext-inlines-only/zipball/f910a117a4f6b12d87de2737cbe252a34ad37748",
-                "reference": "f910a117a4f6b12d87de2737cbe252a34ad37748",
+                "url": "https://api.github.com/repos/thephpleague/commonmark-ext-inlines-only/zipball/45927a788aec4918004304183d958bef86ddbe62",
+                "reference": "45927a788aec4918004304183d958bef86ddbe62",
                 "shasum": ""
             },
             "require": {
-                "league/commonmark": "^0.18.1",
-                "php": ">=5.6"
+                "league/commonmark": "^1.0",
+                "php": "^7.1"
             },
             "require-dev": {
-                "phpunit/phpunit": "^5.7"
+                "phpunit/phpunit": "^7.5"
             },
             "type": "commonmark-extension",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "0.2-dev"
+                    "dev-master": "1.1-dev"
                 }
             },
             "autoload": {
@@ -2084,7 +2085,7 @@
                 "inline",
                 "markdown"
             ],
-            "time": "2019-03-11T14:22:49+00:00"
+            "time": "2019-06-29T11:38:52+00:00"
         },
         {
             "name": "league/flysystem",
@@ -2169,61 +2170,6 @@
                 "storage"
             ],
             "time": "2019-06-18T20:09:29+00:00"
-        },
-        {
-            "name": "lossendae/commonmark-task-lists",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/sanpii/commonmark-task-lists.git",
-                "reference": "22f4f2e78eb2766ac1926f9da0dfc2943cbe299f"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/sanpii/commonmark-task-lists/zipball/22f4f2e78eb2766ac1926f9da0dfc2943cbe299f",
-                "reference": "22f4f2e78eb2766ac1926f9da0dfc2943cbe299f",
-                "shasum": ""
-            },
-            "require": {
-                "league/commonmark": ">=0.11,<0.19",
-                "php": ">=5.4"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "^7.1"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "0.2-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Lossendae\\CommonMark\\TaskLists\\": "src"
-                }
-            },
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Stephane Boulard",
-                    "email": "lossendae@gmail.com",
-                    "role": "Lead Developer"
-                }
-            ],
-            "description": "Github Task Lists for CommonMark PHP implementation",
-            "homepage": "https://github.com/lossendae/commonmark-task-lists.git",
-            "keywords": [
-                "checklists",
-                "commonmark",
-                "markdown",
-                "task-lists"
-            ],
-            "support": {
-                "source": "https://github.com/sanpii/commonmark-task-lists/tree/master"
-            },
-            "time": "2019-03-13T18:32:46+00:00"
         },
         {
             "name": "malkusch/lock",
@@ -5897,64 +5843,6 @@
             "time": "2016-11-16T10:37:54+00:00"
         },
         {
-            "name": "webuni/commonmark-table-extension",
-            "version": "0.9.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/webuni/commonmark-table-extension.git",
-                "reference": "94bc98d802d0b706e748716854e5fa0bd3644df3"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/webuni/commonmark-table-extension/zipball/94bc98d802d0b706e748716854e5fa0bd3644df3",
-                "reference": "94bc98d802d0b706e748716854e5fa0bd3644df3",
-                "shasum": ""
-            },
-            "require": {
-                "league/commonmark": "^0.16|^0.17|^0.18",
-                "php": "^5.6|^7.0"
-            },
-            "require-dev": {
-                "friendsofphp/php-cs-fixer": "^2.9",
-                "phpunit/phpunit": "^5.4|^6.0",
-                "symfony/var-dumper": "^3.0|^4.0",
-                "vimeo/psalm": "~0.3"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "0.9-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Webuni\\CommonMark\\TableExtension\\": "src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Martin Hasoň",
-                    "email": "martin.hason@gmail.com"
-                },
-                {
-                    "name": "Webuni s.r.o.",
-                    "homepage": "https://www.webuni.cz"
-                }
-            ],
-            "description": "The table extension for CommonMark PHP implementation",
-            "homepage": "https://github.com/webuni/commonmark-table-extension",
-            "keywords": [
-                "commonmark",
-                "markdown",
-                "table"
-            ],
-            "time": "2018-11-28T11:29:11+00:00"
-        },
-        {
             "name": "willdurand/email-reply-parser",
             "version": "2.8.0",
             "source": {
@@ -9281,19 +9169,12 @@
             "alias_normalized": "2.5.8.0",
             "version": "dev-patch-1",
             "package": "horde/util"
-        },
-        {
-            "alias": "0.2.0",
-            "alias_normalized": "0.2.0.0",
-            "version": "9999999-dev",
-            "package": "lossendae/commonmark-task-lists"
         }
     ],
     "minimum-stability": "dev",
     "stability-flags": {
         "horde/text-flowed": 20,
         "horde/util": 20,
-        "lossendae/commonmark-task-lists": 20,
         "zendframework/zend-mail": 20,
         "components/jquery-blockui": 20
     },
