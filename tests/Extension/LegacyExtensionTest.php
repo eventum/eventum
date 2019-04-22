@@ -34,7 +34,7 @@ class LegacyExtensionTest extends TestCase
     public function testGetWorkflow(): void
     {
         $prj_id = ProjectSeeder::DEFAULT_PROJECT_ID;
-        $backend = Workflow::_getBackend($prj_id);
+        $backend = Workflow::getBackend($prj_id);
         $this->assertNotNull($backend);
     }
 }
