@@ -4,6 +4,8 @@
 
 Upgrading to 3.6.x versions requires that you upgrade to latest 3.5.x version first.
 
+- Avoid fatal error if declared workflow class can not be loaded (@glensc, #529)
+
 [3.6.7]: https://github.com/eventum/eventum/compare/v3.6.6...master
 
 ## [3.6.6] - 2019-04-19
