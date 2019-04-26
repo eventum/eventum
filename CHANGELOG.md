@@ -6,6 +6,7 @@ Upgrading to 3.6.x versions requires that you upgrade to latest 3.5.x version fi
 
 - Avoid fatal error if declared workflow class can not be loaded (@glensc, #529)
 - Use array json decode for `cst_custom_field` (@glensc, #530)
+- build(deps): [security] bump symfony/http-foundation from 4.2.4 to 4.2.7 (@dependabot, #533)
 
 [3.6.7]: https://github.com/eventum/eventum/compare/v3.6.6...master
 
