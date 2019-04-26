@@ -1366,7 +1366,6 @@
             "dist": {
                 "type": "tar",
                 "url": "https://releases.pagure.org/liberation-fonts/liberation-fonts-ttf-2.00.1.tar.gz",
-                "reference": null,
                 "shasum": "84b40d7f8bb0cd085dd70b3abed197133d761557"
             },
             "type": "library",
@@ -2274,7 +2273,6 @@
             "dist": {
                 "type": "tar",
                 "url": "https://launchpad.net/php-gettext/trunk/1.0.11/+download/php-gettext-1.0.11.tar.gz",
-                "reference": null,
                 "shasum": "9e6f402b460ba5e691e6e21f95d23527ab965f71"
             },
             "provide": {
@@ -2299,7 +2297,6 @@
             "dist": {
                 "type": "tar",
                 "url": "https://downloads.sourceforge.net/phplot/phplot-6.1.0.tar.gz",
-                "reference": null,
                 "shasum": "252f0b5bdfd64817630f9b67771dcf086a94a867"
             },
             "require": {
@@ -2715,7 +2712,6 @@
             "dist": {
                 "type": "file",
                 "url": "https://raw.githubusercontent.com/sphinxsearch/sphinx/3b4cbb2b20e03e4d04db0695947441c62034aeec/api/sphinxapi.php",
-                "reference": null,
                 "shasum": "2b1274cbbc4b2be2aba2cb90dc5daf2036df0f49"
             },
             "type": "library",
@@ -3047,16 +3043,16 @@
         },
         {
             "name": "symfony/http-foundation",
-            "version": "v4.2.4",
+            "version": "v4.2.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/http-foundation.git",
-                "reference": "850a667d6254ccf6c61d853407b16f21c4579c77"
+                "reference": "6ebbe61f48069033225c9d3fa7eb5ed116d766d6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/http-foundation/zipball/850a667d6254ccf6c61d853407b16f21c4579c77",
-                "reference": "850a667d6254ccf6c61d853407b16f21c4579c77",
+                "url": "https://api.github.com/repos/symfony/http-foundation/zipball/6ebbe61f48069033225c9d3fa7eb5ed116d766d6",
+                "reference": "6ebbe61f48069033225c9d3fa7eb5ed116d766d6",
                 "shasum": ""
             },
             "require": {
@@ -3097,7 +3093,7 @@
             ],
             "description": "Symfony HttpFoundation Component",
             "homepage": "https://symfony.com",
-            "time": "2019-02-26T08:03:39+00:00"
+            "time": "2019-04-17T14:56:00+00:00"
         },
         {
             "name": "symfony/ldap",
@@ -4432,7 +4428,6 @@
             "dist": {
                 "type": "zip",
                 "url": "https://github.com/harvesthq/chosen/releases/download/v1.2.0/chosen_v1.2.0.zip",
-                "reference": null,
                 "shasum": "ee7c9fe5ff1461bad457e523ee26e87d7d175084"
             },
             "type": "component",
@@ -4506,7 +4501,6 @@
             "dist": {
                 "type": "zip",
                 "url": "https://github.com/DataTables/DataTables/archive/1.10.4.zip",
-                "reference": null,
                 "shasum": "f5fc67a8f660823f8cc24aeb178bfd607af8d7ec"
             },
             "type": "component",
@@ -4662,7 +4656,6 @@
             "dist": {
                 "type": "zip",
                 "url": "https://github.com/enyo/dropzone/archive/v4.3.0.zip",
-                "reference": null,
                 "shasum": "42357a4753636163f73b8ce3bde140366b8f8039"
             },
             "type": "component",
@@ -4723,7 +4716,6 @@
             "dist": {
                 "type": "tar",
                 "url": "https://github.com/FortAwesome/Font-Awesome/archive/v4.7.0.tar.gz",
-                "reference": null,
                 "shasum": "7a94b1800202e20c382d9847cdf51e8d1c106b7e"
             },
             "type": "library",
@@ -4771,7 +4763,6 @@
             "dist": {
                 "type": "zip",
                 "url": "https://github.com/jackmoore/autosize/archive/3.0.13.zip",
-                "reference": null,
                 "shasum": "f2c48fb4cd76d89bb4e6e8c34e9cd130a1633aec"
             },
             "type": "component",
@@ -5513,7 +5504,6 @@
             "dist": {
                 "type": "zip",
                 "url": "https://github.com/widernet/cmd-ctrl-enter/archive/8843088c/0.2.0.zip",
-                "reference": null,
                 "shasum": "5ed24097dc59b1d426a5ad3efb329b19939d7b44"
             },
             "type": "library",
