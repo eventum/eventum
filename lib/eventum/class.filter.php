@@ -585,7 +585,7 @@ class Filter
         }
 
         if (is_string($res['cst_custom_field'])) {
-            $res['cst_custom_field'] = json_decode($res['cst_custom_field']);
+            $res['cst_custom_field'] = json_decode($res['cst_custom_field'], true);
         }
 
         return $res;
