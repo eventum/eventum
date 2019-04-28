@@ -10,6 +10,7 @@ Upgrading to 3.6.x versions requires that you upgrade to latest 3.5.x version fi
 - build(deps): bump xemlock/htmlpurifier-html5 from 0.1.8 to 0.1.10 (@dependabot, #536)
 - Add open issues count next to assignee names (@vladsf, #532)
 - Markdown: disable scripting (@glensc, #543)
+- build(deps): bump symfony/console from 4.2.4 to 4.2.7 (@dependabot, #542)
 
 [3.6.7]: https://github.com/eventum/eventum/compare/v3.6.6...master
 
