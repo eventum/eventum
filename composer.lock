@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "7d0df6acf70126e30b95baaed89d5273",
+    "content-hash": "ff37ad236a649407e62f2647080f3a49",
     "packages": [
         {
             "name": "cakephp/cache",
@@ -1959,30 +1959,43 @@
         },
         {
             "name": "malkusch/lock",
-            "version": "0.4",
+            "version": "v2.1",
             "source": {
                 "type": "git",
-                "url": "https://github.com/malkusch/lock.git",
-                "reference": "d34daa7ef656cad56ce8c2f1e53c6c5fd2b8b771"
+                "url": "https://github.com/php-lock/lock.git",
+                "reference": "093f389ec2f38fc8686d2f70e23378182fce7714"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/malkusch/lock/zipball/d34daa7ef656cad56ce8c2f1e53c6c5fd2b8b771",
-                "reference": "d34daa7ef656cad56ce8c2f1e53c6c5fd2b8b771",
+                "url": "https://api.github.com/repos/php-lock/lock/zipball/093f389ec2f38fc8686d2f70e23378182fce7714",
+                "reference": "093f389ec2f38fc8686d2f70e23378182fce7714",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.5",
+                "php": ">=7.1",
                 "psr/log": "^1"
             },
             "require-dev": {
-                "ext-redis": "^2.2.4",
-                "kriswallsmith/spork": "0.3.*",
-                "mikey179/vfsstream": "^1.5.0",
-                "php-mock/php-mock-phpunit": "^0.3",
-                "phpunit/phpunit": "^4",
-                "predis/predis": "~1.0",
-                "zetacomponents/system-information": "~1.1"
+                "eloquent/liberator": "^2.0",
+                "ext-memcached": "*",
+                "ext-pcntl": "*",
+                "ext-pdo_mysql": "*",
+                "ext-pdo_sqlite": "*",
+                "ext-redis": "*",
+                "ext-sysvsem": "*",
+                "johnkary/phpunit-speedtrap": "^3.0",
+                "kriswallsmith/spork": "^0.3",
+                "mikey179/vfsstream": "^1.6",
+                "php-mock/php-mock-phpunit": "^2.1",
+                "phpunit/phpunit": "^7.4",
+                "predis/predis": "^1.1",
+                "squizlabs/php_codesniffer": "^3.3"
+            },
+            "suggest": {
+                "ext-pnctl": "Enables locking with flock without busy waiting in CLI scripts.",
+                "ext-redis": "To use this library with the PHP Redis extension.",
+                "ext-sysvsem": "Enables locking using semaphores.",
+                "predis/predis": "To use this library with predis."
             },
             "type": "library",
             "autoload": {
@@ -2000,21 +2013,30 @@
                     "email": "markus@malkusch.de",
                     "homepage": "http://markus.malkusch.de",
                     "role": "Developer"
+                },
+                {
+                    "name": "Willem Stuursma-Ruwen",
+                    "email": "willem@stuursma.name",
+                    "role": "Developer"
                 }
             ],
             "description": "Mutex library for exclusive code execution.",
             "homepage": "https://github.com/malkusch/lock",
             "keywords": [
+                "advisory-locks",
                 "cas",
                 "flock",
                 "lock",
+                "locking",
                 "memcache",
                 "mutex",
+                "mysql",
+                "postgresql",
                 "redis",
                 "redlock",
                 "semaphore"
             ],
-            "time": "2015-08-11T18:56:02+00:00"
+            "time": "2018-12-12T19:53:29+00:00"
         },
         {
             "name": "mnapoli/silly",
