@@ -45,8 +45,10 @@ class MarkdownTest extends TestCase
 
         // XXX: strip newlines, somewhy tests on travis produce different newline placements
         // https://travis-ci.org/glensc/eventum/jobs/521628232
-        $expected = str_replace("\n", '', $expected);
-        $rendered = str_replace("\n", '', $rendered);
+        if (getenv('TRAVIS')) {
+            $expected = str_replace("\n", '', $expected);
+            $rendered = str_replace("\n", '', $rendered);
+        }
 
         $this->assertEquals($expected, $rendered);
     }
@@ -59,6 +61,7 @@ class MarkdownTest extends TestCase
             'headers',
             'inline',
             'linkrefs',
+            'script',
             'table',
             'tasklist',
             'userhandle',

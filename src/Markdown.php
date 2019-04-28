@@ -129,7 +129,9 @@ class Markdown
         $config->set('Core.NormalizeNewlines', false);
 
         // allow tasklist <input> checkboxes
+        // https://github.com/ezyang/htmlpurifier/issues/213#issuecomment-487206892
         $config->set('HTML.Trusted', true);
+        $config->set('HTML.ForbiddenElements', ['script', 'noscript']);
 
         // Absolute path with no trailing slash to store serialized definitions in.
         $config->set('Cache.SerializerPath', $cacheDir);
