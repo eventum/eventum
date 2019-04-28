@@ -1703,20 +1703,20 @@
         },
         {
             "name": "league/commonmark-ext-autolink",
-            "version": "v0.2.0",
+            "version": "v0.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/commonmark-ext-autolink.git",
-                "reference": "585875f1531bbe6efd77ab480ee61ef2957137b3"
+                "reference": "66ba8a93a899627ac7c1f54c0d191b3dbe309970"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/commonmark-ext-autolink/zipball/585875f1531bbe6efd77ab480ee61ef2957137b3",
-                "reference": "585875f1531bbe6efd77ab480ee61ef2957137b3",
+                "url": "https://api.github.com/repos/thephpleague/commonmark-ext-autolink/zipball/66ba8a93a899627ac7c1f54c0d191b3dbe309970",
+                "reference": "66ba8a93a899627ac7c1f54c0d191b3dbe309970",
                 "shasum": ""
             },
             "require": {
-                "league/commonmark": "^0.18.2",
+                "league/commonmark": "^0.18.5",
                 "php": "^5.6||^7.0"
             },
             "require-dev": {
@@ -1756,7 +1756,7 @@
                 "markdown",
                 "twitter"
             ],
-            "time": "2019-03-17T03:06:54+00:00"
+            "time": "2019-03-28T14:03:05+00:00"
         },
         {
             "name": "league/commonmark-ext-inlines-only",
