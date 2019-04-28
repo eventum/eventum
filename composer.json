@@ -149,7 +149,7 @@
 		"robloach/component-installer": "*",
 		"sentry/sentry": "^1.7",
 		"symfony/thanks": "^1.0",
-		"symfony/var-dumper": "^2.7 || ^3.3",
+		"symfony/var-dumper": "^4.2.7",
 		"widernet/cmd-ctrl-enter": "~0.2.0"
 	},
 	"suggest": {
