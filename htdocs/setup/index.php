@@ -14,6 +14,8 @@
 // XXX: try reading $_ENV['HOSTNAME'] and then ask the user if nothing could be found
 // XXX: dynamically check the email blob and skips the email if it is bigger than 16MB on PHP4 versions
 
+use Eventum\Kernel;
+
 ini_set('memory_limit', '64M');
 ini_set('display_errors', 1);
 error_reporting(E_ALL & ~E_STRICT);
@@ -45,5 +47,4 @@ define('APP_RELATIVE_URL', '../');
 define('APP_SITE_NAME', 'Eventum');
 define('APP_COOKIE', 'eventum');
 
-$controller = new Eventum\Controller\Setup\SetupController();
-$controller->run();
+Kernel::handleRequest();

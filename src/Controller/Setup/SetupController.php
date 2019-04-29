@@ -17,7 +17,8 @@ use Auth;
 use Date_Helper;
 use DB_Helper;
 use Eventum\AppInfo;
-use Eventum\Controller\BaseController;
+use Eventum\Controller\Traits\RequestTrait;
+use Eventum\Controller\Traits\SmartyResponseTrait;
 use Eventum\Monolog\Logger;
 use Eventum\Setup\DatabaseSetup;
 use Eventum\Setup\RequirementNotSatisfiedException;
@@ -25,31 +26,34 @@ use Eventum\Setup\Requirements;
 use Eventum\Setup\SetupException;
 use IntlCalendar;
 use Misc;
-use RuntimeException;
 use Setup;
 use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
-class SetupController extends BaseController
+class SetupController
 {
+    use SmartyResponseTrait;
+    use RequestTrait;
+
     /** @var string */
     protected $tpl_name = 'setup.tpl.html';
 
     /** @var string */
     private $cat;
 
-    protected function configure(): void
+    /** @var string[] */
+    private $params = [];
+
+    public function defaultAction(Request $request): Response
     {
-        $request = $this->getRequest();
         $this->cat = $request->request->get('cat');
-    }
+        $this->request = $request;
+        $params = [
+            'is_imap_enabled' => function_exists('imap_open'),
+            '_process' => false,
+        ];
 
-    protected function canAccess(): bool
-    {
-        return true;
-    }
-
-    protected function defaultAction(): void
-    {
         try {
             Requirements::check();
         } catch (RequirementNotSatisfiedException $e) {
@@ -58,40 +62,40 @@ class SetupController extends BaseController
         }
 
         if ($this->cat === 'install') {
-            $res = $this->installAction();
-            $this->tpl->assign('result', $res);
-            // check for the optional IMAP extension
-            $this->tpl->assign('is_imap_enabled', function_exists('imap_open'));
+            try {
+                $this->installAction();
+                $params['result'] = 'success';
+            } catch (SetupException $e) {
+                $params['db_result'] = $e->getMessage();
+                $params['result'] = $e->getType();
+            }
         }
+
+        return $this->renderTemplate($params);
     }
 
-    protected function prepareTemplate(): void
+    protected function renderTemplate(array $params = []): Response
     {
         $appInfo = new AppInfo();
-        $request = $this->getRequest();
-        $relative_url = rtrim(dirname($request->getBaseUrl()), '/') . '/';
-        $this->tpl->assign(
-            [
-                'core' => [
-                    'rel_url' => $relative_url,
-                    'app_title' => APP_NAME,
-                    'app_version' => $appInfo->getVersion(),
-                    'php_version' => PHP_VERSION,
-                    'template_id' => 'setup',
-                ],
-                'userstyle' => '',
-                'userscript' => '',
-                'is_secure' => $request->isSecure(),
-                'zones' => Date_Helper::getTimezoneList(),
-                'default_timezone' => $this->getTimezone(),
-                'default_weekday' => $this->getFirstWeekday(),
-            ]
-        );
-    }
+        $relative_url = rtrim(dirname($this->request->getBaseUrl()), '/') . '/';
+        $params += $this->params;
+        $params += [
+            'core' => [
+                'rel_url' => $relative_url,
+                'app_title' => APP_NAME,
+                'app_version' => $appInfo->getVersion(),
+                'php_version' => PHP_VERSION,
+                'template_id' => 'setup',
+            ],
+            'userstyle' => '',
+            'userscript' => '',
+            'is_secure' => $this->request->isSecure(),
+            'zones' => Date_Helper::getTimezoneList(),
+            'default_timezone' => $this->getTimezone(),
+            'default_weekday' => $this->getFirstWeekday(),
+        ];
 
-    protected function displayTemplate($tpl_name = null): void
-    {
-        $this->tpl->displayTemplate(false);
+        return $this->render($this->tpl_name, $params);
     }
 
     private function getTimezone(): string
@@ -121,7 +125,7 @@ class SetupController extends BaseController
     {
         // init timezone, logger needs it
         if (!defined('APP_DEFAULT_TIMEZONE')) {
-            $tz = $this->getRequest()->request->get('default_timezone');
+            $tz = $this->getPost()->get('default_timezone');
             define('APP_DEFAULT_TIMEZONE', $tz ?: 'UTC');
         }
 
@@ -135,7 +139,7 @@ class SetupController extends BaseController
     private function setupDatabase(): void
     {
         $this->initLogger();
-        $post = $this->getRequest()->request;
+        $post = $this->getPost();
 
         $db_config = [
             'db_name' => $post->get('db_name'),
@@ -149,13 +153,8 @@ class SetupController extends BaseController
         ];
 
         $dbs = new DatabaseSetup();
-        try {
-            $db_result = $dbs->run($db_config);
-        } catch (SetupException $e) {
-            $this->tpl->assign('db_result', $e->getMessage());
-            throw new RuntimeException($e->getType());
-        }
-        $this->tpl->assign('db_result', $db_result);
+        $db_result = $dbs->run($db_config);
+        $this->params['db_result'] = $db_result;
     }
 
     /**
@@ -163,7 +162,7 @@ class SetupController extends BaseController
      */
     private function writeSetup(): void
     {
-        $post = $this->getRequest()->request;
+        $post = $this->getPost();
         $setup = $post->get('setup');
         $setup['update'] = 1;
         $setup['closed'] = 1;
@@ -196,7 +195,7 @@ class SetupController extends BaseController
 
     private function writeConfig(): void
     {
-        $post = $this->getRequest()->request;
+        $post = $this->getPost();
         $configPath = Setup::getConfigPath();
         $configFilePath = $configPath . '/config.php';
 
@@ -224,17 +223,11 @@ class SetupController extends BaseController
         $fs->dumpFile($configFilePath, $config_contents);
     }
 
-    private function installAction(): string
+    private function installAction(): void
     {
-        try {
-            Auth::generatePrivateKey();
-            $this->writeSetup();
-            $this->setupDatabase();
-            $this->writeConfig();
-        } catch (RuntimeException $e) {
-            return $e->getMessage();
-        }
-
-        return 'success';
+        Auth::generatePrivateKey();
+        $this->writeSetup();
+        $this->setupDatabase();
+        $this->writeConfig();
     }
 }

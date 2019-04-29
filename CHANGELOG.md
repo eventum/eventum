@@ -4,6 +4,8 @@
 
 Upgrading to 3.7.x versions requires that you upgrade to latest 3.5.x version first.
 
+- Add Router via Symfony http-kernel/routing (@glensc, #508)
+
 [3.7.0]: https://github.com/eventum/eventum/compare/v3.6.7...master
 
 ## [3.6.7] - 2019-04-29

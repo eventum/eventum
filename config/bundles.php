@@ -11,8 +11,6 @@
  * that were distributed with this source code.
  */
 
-use Eventum\Kernel;
-
-require __DIR__ . '/../init.php';
-
-Kernel::handleRequest();
+return [
+    Symfony\Bundle\FrameworkBundle\FrameworkBundle::class => ['all' => true],
+];

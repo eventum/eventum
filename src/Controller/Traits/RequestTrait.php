@@ -11,8 +11,18 @@
  * that were distributed with this source code.
  */
 
-use Eventum\Kernel;
+namespace Eventum\Controller\Traits;
 
-require __DIR__ . '/../init.php';
+use Symfony\Component\HttpFoundation\ParameterBag;
+use Symfony\Component\HttpFoundation\Request;
 
-Kernel::handleRequest();
+trait RequestTrait
+{
+    /** @var Request */
+    private $request;
+
+    protected function getPost(): ParameterBag
+    {
+        return $this->request->request;
+    }
+}

@@ -11,21 +11,21 @@
  * that were distributed with this source code.
  */
 
-namespace Eventum\Controller;
+namespace Eventum\Controller\Traits;
 
-use Auth;
-use Eventum\Auth\AuthException;
-use Eventum\Controller\Traits\RedirectResponseTrait;
 use Symfony\Component\HttpFoundation\Response;
+use Template_Helper;
 
-class LogoutController
+trait SmartyResponseTrait
 {
-    use RedirectResponseTrait;
-
-    public function defaultAction(): Response
+    public function render(string $template, array $params = []): Response
     {
-        Auth::logout();
+        $process = $params['_process'] ?? true;
+        $tpl = new Template_Helper($template);
+        if ($params) {
+            $tpl->assign($params);
+        }
 
-        return $this->redirect('index.php', ['err' => AuthException::LOGGED_OUT]);
+        return new Response($tpl->getTemplateContents($process));
     }
 }

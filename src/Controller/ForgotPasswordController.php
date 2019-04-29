@@ -13,50 +13,33 @@
 
 namespace Eventum\Controller;
 
+use Eventum\Controller\Traits\SmartyResponseTrait;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use User;
 
-class ForgotPasswordController extends BaseController
+class ForgotPasswordController
 {
+    use SmartyResponseTrait;
+
     /** @var string */
     protected $tpl_name = 'forgot_password.tpl.html';
 
-    /** @var string */
-    private $cat;
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function configure(): void
+    public function defaultAction(Request $request): ?Response
     {
-        $request = $this->getRequest();
+        $cat = $request->request->get('cat');
 
-        $this->cat = $request->request->get('cat');
-    }
+        if ($cat === 'reset_password') {
+            $res = $this->resetPasswordAction($request->request->get('email'));
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function canAccess(): bool
-    {
-        return true;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function defaultAction(): void
-    {
-        if ($this->cat === 'reset_password') {
-            $res = $this->resetPasswordAction();
-            $this->tpl->assign('result', $res);
+            return $this->render($this->tpl_name, ['result' => $res]);
         }
+
+        return null;
     }
 
-    private function resetPasswordAction()
+    private function resetPasswordAction(string $email): int
     {
-        $post = $this->getRequest()->request;
-        $email = $post->get('email');
-
         if (!$email) {
             return 4;
         }
@@ -74,12 +57,5 @@ class ForgotPasswordController extends BaseController
         User::sendPasswordConfirmationEmail($usr_id);
 
         return 1;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function prepareTemplate(): void
-    {
     }
 }

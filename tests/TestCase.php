@@ -14,9 +14,12 @@
 namespace Eventum\Test;
 
 use Eventum\Extension\ExtensionManager;
+use Eventum\Test\Traits\DataFileTrait;
 
 class TestCase extends \PHPUnit\Framework\TestCase
 {
+    use DataFileTrait;
+
     /**
      * Create ExtensionManager with given config
      *
@@ -38,37 +41,5 @@ class TestCase extends \PHPUnit\Framework\TestCase
         $stub->__construct();
 
         return $stub;
-    }
-
-    protected function getDataFile($fileName): string
-    {
-        $dataFile = __DIR__ . '/data/' . $fileName;
-        $this->assertFileExists($dataFile);
-
-        return $dataFile;
-    }
-
-    /**
-     * Read file from tests/data directory.
-     *
-     * @param string $filename
-     * @return string
-     */
-    protected function readDataFile(string $filename): string
-    {
-        return $this->readFile($this->getDataFile($filename));
-    }
-
-    /**
-     * @param string $filename
-     * @return string
-     */
-    protected function readFile($filename): string
-    {
-        $this->assertFileExists($filename);
-        $content = file_get_contents($filename);
-        $this->assertNotEmpty($content);
-
-        return $content;
     }
 }

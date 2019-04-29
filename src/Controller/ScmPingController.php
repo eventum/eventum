@@ -13,41 +13,30 @@
 
 namespace Eventum\Controller;
 
+use Eventum\Monolog\Logger;
 use Eventum\Scm;
 use LogicException;
+use Psr\Log\LoggerInterface;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Throwable;
 
-class ScmPingController extends BaseController
+class ScmPingController
 {
-    /**
-     * {@inheritdoc}
-     */
-    protected function configure(): void
+    public function defaultAction(Request $request): Response
     {
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function canAccess(): bool
-    {
-        return true;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function defaultAction(): void
-    {
+        $logger = Logger::app();
+        $httpCode = 200;
         try {
             ob_start();
-            $this->process();
+            $this->process($request, $logger);
             $status = [
                 'code' => 0,
                 'message' => ob_get_clean(),
             ];
         } catch (Throwable $e) {
-            header('HTTP/1.0 500');
+            $httpCode = 500;
             $code = $e->getCode();
             $status = [
                 'code' => $code && is_numeric($code) ? $code : -1,
@@ -56,46 +45,29 @@ class ScmPingController extends BaseController
 
             if ($e instanceof LogicException) {
                 // LogicException subclasses are expected, not really errors
-                $this->logger->warning($e);
+                $logger->warning($e);
             } else {
-                $this->logger->error($e);
+                $logger->error($e);
             }
         }
 
-        echo json_encode($status);
+        return new JsonResponse($status, $httpCode);
     }
 
-    private function process(): void
+    private function process(Request $request, LoggerInterface $logger): void
     {
+        $adapters = [
+            new Scm\Adapter\Gitlab($request, $logger),
+            new Scm\Adapter\Cvs($request, $logger),
+            new Scm\Adapter\Standard($request, $logger),
+        ];
+
         // NOTE: output is captured from all adapters
         // but if exception is thrown. not all adapters are processed
-        foreach ($this->getAdapters() as $adapter) {
+        foreach ($adapters as $adapter) {
             if ($adapter->can()) {
                 $adapter->process();
             }
         }
-    }
-
-    /**
-     * @return \Eventum\Scm\Adapter\AdapterInterface[]
-     */
-    private function getAdapters()
-    {
-        $request = $this->getRequest();
-
-        return [
-            new Scm\Adapter\Gitlab($request, $this->logger),
-            new Scm\Adapter\Cvs($request, $this->logger),
-            new Scm\Adapter\Standard($request, $this->logger),
-        ];
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function prepareTemplate(): void
-    {
-        // no template to render
-        exit;
     }
 }

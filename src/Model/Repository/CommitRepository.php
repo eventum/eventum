@@ -49,12 +49,11 @@ class CommitRepository extends EntityRepository
      * Method called on before storing Commit,
      * to allow workflow update project name/commit author or user id.
      *
-     * @param int $prj_id The project ID
      * @param Entity\Commit $ci
      * @param Payload\PayloadInterface $payload
      * @since 3.4.0 dispatches SystemEvents::SCM_COMMIT_BEFORE event
      */
-    public function preCommit($prj_id, Entity\Commit $ci, Payload\PayloadInterface $payload): void
+    public function preCommit(Entity\Commit $ci, Payload\PayloadInterface $payload): void
     {
         $event = new GenericEvent($ci, ['payload' => $payload]);
         EventManager::dispatch(SystemEvents::SCM_COMMIT_BEFORE, $event);

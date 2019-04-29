@@ -17,10 +17,11 @@ use Eventum\Model\Entity\Commit;
 use Eventum\Model\Entity\CommitFile;
 use Eventum\Monolog\Logger;
 use Setup;
+use Zend\Config\Config;
 
 class ScmRepository
 {
-    /** @var array */
+    /** @var array|Config */
     private $config = [];
 
     public function __construct(string $name)
@@ -42,9 +43,9 @@ class ScmRepository
     /**
      * @return \Zend\Config\Config
      */
-    public static function getAllRepos()
+    public static function getAllRepos(): Config
     {
-        return Setup::get()->scm;
+        return Setup::get()['scm'];
     }
 
     /**
@@ -54,12 +55,13 @@ class ScmRepository
      * @param string $repo_url
      * @return ScmRepository
      */
-    public static function getRepoByUrl($repo_url)
+    public static function getRepoByUrl(string $repo_url): ?self
     {
         foreach (static::getAllRepos() as $name => $scm) {
             if (!$scm->urls) {
                 continue;
             }
+
             foreach ($scm->urls as $url) {
                 if ($url === $repo_url) {
                     return new static($scm->name);
@@ -83,15 +85,20 @@ class ScmRepository
      * @param string $branch
      * @return bool
      */
-    public function branchAllowed($branch): bool
+    public function branchAllowed(?string $branch): bool
     {
+        if (!$branch) {
+            // no branch given, the SCM doesn't support branching?
+            return true;
+        }
+
         // 'only' present, check it
-        if (count($this->config['only'])) {
+        if (isset($this->config['only'])) {
             return in_array($branch, $this->config['only']->toArray(), true);
         }
 
         // if 'except' present
-        if (count($this->config['except'])) {
+        if (isset($this->config['except'])) {
             return !in_array($branch, $this->config['except']->toArray(), true);
         }
 

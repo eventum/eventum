@@ -1,0 +1,39 @@
+index:
+    path: /index
+    controller: Eventum\Controller\IndexController::defaultAction
+
+confirm:
+    path: /confirm
+    methods: GET
+    controller: Eventum\Controller\ConfirmController::defaultAction
+
+scm_ping:
+    path: /scm_ping
+    methods: POST
+    controller: Eventum\Controller\ScmPingController::defaultAction
+
+searchbar:
+    path: /searchbar
+    methods: GET
+    controller: Eventum\Controller\SearchbarController::defaultAction
+
+forgot_password:
+    path: /forgot_password
+    methods: GET
+    controller: Eventum\Controller\ForgotPasswordController::defaultAction
+
+logout:
+    path: /logout
+    methods: GET
+    controller: Eventum\Controller\LogoutController::defaultAction
+
+setup:
+    path: /setup
+    methods: GET|POST
+    controller: Eventum\Controller\Setup\SetupController::defaultAction
+
+front:
+    path: /
+    controller: Eventum\Controller\FrontController::indexAction
+
+# vim:ts=4:sw=4:et
