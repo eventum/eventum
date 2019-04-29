@@ -1,6 +1,6 @@
 # Eventum Issue Tracking System
 
-## [3.6.7]
+## [3.6.7] - 2019-04-29
 
 Upgrading to 3.6.x versions requires that you upgrade to latest 3.5.x version first.
 
@@ -16,7 +16,7 @@ Upgrading to 3.6.x versions requires that you upgrade to latest 3.5.x version fi
 - build(deps): bump malkusch/lock from 0.4 to 2.1 (@dependabot, #534)
 - build(deps): bump robmorgan/phinx from 0.10.6 to 0.10.7 (@dependabot, #540)
 
-[3.6.7]: https://github.com/eventum/eventum/compare/v3.6.6...master
+[3.6.7]: https://github.com/eventum/eventum/compare/v3.6.6...v3.6.7
 
 ## [3.6.6] - 2019-04-19
 
