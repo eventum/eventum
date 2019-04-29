@@ -602,7 +602,7 @@ class Misc
     public static function generateRandom($size = 32)
     {
         $factory = new RandomLib\Factory();
-        $generator = $factory->getMediumStrengthGenerator();
+        $generator = @$factory->getMediumStrengthGenerator();
 
         return $generator->generate($size);
     }
