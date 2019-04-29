@@ -5,7 +5,7 @@
 
 [merge "composer_json"]
     name = composer JSON file merge driver
-    driver = composer-git-merge-driver %O %A %B %L %P
+    driver = vendor/bin/composer-git-merge-driver %O %A %B %L %P
     recursive = binary
 
 # vim:ft=gitconfig
