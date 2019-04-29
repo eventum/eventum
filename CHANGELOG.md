@@ -5,6 +5,7 @@
 Upgrading to 3.7.x versions requires that you upgrade to latest 3.5.x version first.
 
 - Add Router via Symfony http-kernel/routing (@glensc, #508)
+- build(deps-dev): bump eventum/rpc from 4.0.0 to 4.3.0 (@dependabot, #546)
 
 [3.7.0]: https://github.com/eventum/eventum/compare/v3.6.7...master
 

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a23cf784a3f2f909065b8cc91fb79975",
+    "content-hash": "248063c9c709568b4d4cafb54f9090b3",
     "packages": [
         {
             "name": "cakephp/cache",
@@ -6647,26 +6647,29 @@
         },
         {
             "name": "eventum/rpc",
-            "version": "v4.0.0",
+            "version": "v4.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/eventum/rpc.git",
-                "reference": "cf33df2151469d9349522bea83564474548953e7"
+                "reference": "06cf0fa4bc16199c8b92d8e42ad9f8dfc2716952"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/eventum/rpc/zipball/cf33df2151469d9349522bea83564474548953e7",
-                "reference": "cf33df2151469d9349522bea83564474548953e7",
+                "url": "https://api.github.com/repos/eventum/rpc/zipball/06cf0fa4bc16199c8b92d8e42ad9f8dfc2716952",
+                "reference": "06cf0fa4bc16199c8b92d8e42ad9f8dfc2716952",
                 "shasum": ""
             },
             "require": {
                 "php": "^5.3.0 || ^7.0",
-                "phpxmlrpc/phpxmlrpc": "^4.1"
+                "phpxmlrpc/phpxmlrpc": "^4.2.2"
             },
             "type": "library",
             "autoload": {
+                "psr-4": {
+                    "Eventum\\RPC\\": "src/"
+                },
                 "classmap": [
-                    "src"
+                    "lib"
                 ]
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -6680,7 +6683,7 @@
                 }
             ],
             "description": "Eventum RPC Client Library",
-            "time": "2016-11-22T22:13:18+00:00"
+            "time": "2018-05-02T19:29:45+00:00"
         },
         {
             "name": "fortawesome/font-awesome",
