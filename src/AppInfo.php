@@ -27,7 +27,10 @@ final class AppInfo
     public function __construct()
     {
         $versionString = Versions::getVersion(self::NAME);
-        $this->version = new Version($versionString);
+        $version = new Version($versionString);
+        if ($version->reference) {
+            $this->version = $version;
+        }
     }
 
     public static function getInstance(): self
@@ -37,36 +40,44 @@ final class AppInfo
         return $appInfo ?: $appInfo = new static();
     }
 
-    public function getVersion(): string
+    public function getVersion(): ?string
     {
+        if (!$version = $this->version) {
+            return null;
+        }
+
         // a release
-        if ($this->version->version) {
-            return $this->version->version;
+        if ($version->version) {
+            return $version->version;
         }
 
         // detached head
-        if (!$this->version->branch) {
-            return $this->formatHash($this->version->hash);
+        if (!$version->branch) {
+            return $this->formatHash($version->hash);
         }
 
         // a branch
-        $hash = $this->formatHash($this->version->hash);
+        $hash = $this->formatHash($version->hash);
 
-        return "{$this->version->reference}-g{$hash}";
+        return "{$version->reference}-g{$hash}";
     }
 
-    public function getVersionLink(): string
+    public function getVersionLink(): ?string
     {
-        if ($this->version->version) {
-            $link = "releases/tag/{$this->version->version}";
+        if (!$version = $this->version) {
+            return null;
+        }
+
+        if ($version->version) {
+            $link = "releases/tag/{$version->version}";
         } else {
-            $link = "commit/{$this->version->hash}";
+            $link = "commit/{$version->hash}";
         }
 
         return self::URL . '/' . $link;
     }
 
-    private function formatHash(string $hash): ?string
+    private function formatHash(?string $hash): ?string
     {
         if (!$hash) {
             return null;

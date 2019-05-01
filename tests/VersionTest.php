@@ -61,8 +61,8 @@ class VersionTest extends TestCase
             // https://github.com/Ocramius/PackageVersions/issues/84
             'No version set (parsed as 1.0.0)@',
             [
-                'reference' => 'No version set (parsed as 1.0.0)',
-                'version' => 'No version set (parsed as 1.0.0)',
+                'reference' => null,
+                'version' => null,
                 'hash' => null,
                 'branch' => null,
             ],
