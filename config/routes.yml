@@ -22,10 +22,19 @@ forgot_password:
     methods: GET|POST
     controller: Eventum\Controller\ForgotPasswordController::defaultAction
 
+login:
+    path: /login
+    controller: Eventum\Controller\SecurityController::login
+
 logout:
     path: /logout
     methods: GET
     controller: Eventum\Controller\LogoutController::defaultAction
+
+select_project:
+    path: /select_project.php
+    methods: GET
+    controller: Eventum\Controller\SelectProjectController::defaultAction
 
 setup:
     path: /setup
