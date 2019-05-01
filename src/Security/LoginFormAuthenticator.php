@@ -23,9 +23,11 @@ use Eventum\Session;
 use Psr\Container\ContainerInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
+use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\Exception\CustomUserMessageAuthenticationException;
 use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
 use Symfony\Component\Security\Core\Security;
@@ -98,10 +100,13 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
         return $credentials;
     }
 
+    /**
+     * @see \Symfony\Component\Security\Guard\AuthenticatorInterface::getUser
+     */
     public function getUser($credentials, UserProviderInterface $userProvider): UserInterface
     {
         if (!$this->auth->userExists($credentials['email'])) {
-            throw new UsernameNotFoundException();
+            throw new UsernameNotFoundException(null, AuthException::UNKNOWN_USER);
         }
         $usr_id = $this->auth->getUserId($credentials['email']);
 
@@ -109,10 +114,12 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
         $user = Doctrine::getUserRepository()->find($usr_id);
 
         if ($user->isPending()) {
+            // TODO: use AccountStatusException
             throw new AuthException('pending user', AuthException::PENDING_USER);
         }
 
         if (!$user->isActive()) {
+            // TODO: use AccountStatusException
             throw new AuthException('inactive user', AuthException::INACTIVE_USER);
         }
 
@@ -124,6 +131,9 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
         return $user;
     }
 
+    /**
+     * @see \Symfony\Component\Security\Guard\AuthenticatorInterface::checkCredentials
+     */
     public function checkCredentials($credentials, UserInterface $user): bool
     {
         return $this->auth->verifyPassword($credentials['email'], $credentials['password']);
@@ -131,6 +141,7 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
 
     /**
      * @see \Eventum\Controller\LoginController::login
+     * @see \Symfony\Component\Security\Guard\AuthenticatorInterface::onAuthenticationSuccess
      */
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey)
     {
@@ -148,6 +159,22 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
         }
 
         $url = $this->urlGenerator->generate('select_project');
+
+        return new RedirectResponse($url);
+    }
+
+    /**
+     * @see \Eventum\Controller\LoginController::loginFailure
+     * @see \Symfony\Component\Security\Guard\AuthenticatorInterface::onAuthenticationFailure
+     */
+    public function onAuthenticationFailure(Request $request, AuthenticationException $exception): ?Response
+    {
+        $login = $request->getSession()->get(Security::LAST_USERNAME);
+        Auth::saveLoginAttempt($login, 'failure', $exception->getMessage());
+
+        $params['err'] = $exception->getCode();
+
+        $url = $this->urlGenerator->generate('login', $params);
 
         return new RedirectResponse($url);
     }
