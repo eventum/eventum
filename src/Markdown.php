@@ -31,6 +31,7 @@ use Webuni\CommonMark\TableExtension\TableExtension;
 
 class Markdown
 {
+    private const PURIFIER_CACHE_DIR = APP_VAR_PATH . '/cache/purifier';
     /**
      * Use moderately sane value
      *
@@ -109,7 +110,7 @@ class Markdown
 
     private function createPurifier(): HTMLPurifier
     {
-        $cacheDir = APP_VAR_PATH . '/cache/purifier';
+        $cacheDir = self::PURIFIER_CACHE_DIR;
         is_dir($cacheDir) || mkdir($cacheDir, 02775) || is_dir($cacheDir);
 
         $config = HTMLPurifier_HTML5Config::createDefault();
