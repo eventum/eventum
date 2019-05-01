@@ -1,9 +1,9 @@
 index:
-    path: /index
+    path: /index.php
     controller: Eventum\Controller\IndexController::defaultAction
 
 confirm:
-    path: /confirm
+    path: /confirm.php
     methods: GET
     controller: Eventum\Controller\ConfirmController::defaultAction
 
@@ -13,21 +13,21 @@ scm_ping:
     controller: Eventum\Controller\ScmPingController::defaultAction
 
 searchbar:
-    path: /searchbar
+    path: /searchbar.php
     methods: GET
     controller: Eventum\Controller\SearchbarController::defaultAction
 
 forgot_password:
-    path: /forgot_password
+    path: /forgot_password.php
     methods: GET|POST
     controller: Eventum\Controller\ForgotPasswordController::defaultAction
 
 login:
-    path: /login
+    path: /login.php
     controller: Eventum\Controller\SecurityController::login
 
 logout:
-    path: /logout
+    path: /logout.php
     methods: GET
     controller: Eventum\Controller\LogoutController::defaultAction
 
