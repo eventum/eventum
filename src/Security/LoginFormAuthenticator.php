@@ -14,9 +14,12 @@
 namespace Eventum\Security;
 
 use Auth;
+use AuthCookie;
 use Eventum\Auth\Adapter\AdapterInterface as AuthAdapterInterface;
+use Eventum\Auth\AuthException;
 use Eventum\Db\Doctrine;
 use Eventum\Model\Entity\User;
+use Eventum\Session;
 use Psr\Container\ContainerInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -106,6 +109,14 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
         /** @var User $user */
         $user = Doctrine::getUserRepository()->find($usr_id);
 
+        if ($user->isPending()) {
+            throw new AuthException('pending user', AuthException::PENDING_USER);
+        }
+
+        if (!$user->isActive()) {
+            throw new AuthException('inactive user', AuthException::INACTIVE_USER);
+        }
+
         if (!$user) {
             // fail authentication with a custom error
             throw new CustomUserMessageAuthenticationException('Email could not be found.');
@@ -119,8 +130,20 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
         return $this->auth->verifyPassword($credentials['email'], $credentials['password']);
     }
 
+    /**
+     * @see \Eventum\Controller\LoginController::login
+     */
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey)
     {
+        /** @var User $user */
+        $user = $token->getUser();
+        $login = $user->getEmail();
+
+        Auth::saveLoginAttempt($login, 'success');
+        $remember = (bool)$request->request->get('remember');
+        AuthCookie::setAuthCookie($login, $remember);
+        Session::init($user->getId());
+
         if ($targetPath = $this->getTargetPath($request->getSession(), $providerKey)) {
             return new RedirectResponse($targetPath);
         }

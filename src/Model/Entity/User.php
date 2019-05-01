@@ -23,6 +23,9 @@ use Symfony\Component\Security\Core\User\UserInterface;
  */
 class User implements UserInterface
 {
+    public const STATUS_ACTIVE = 'active';
+    public const STATUS_PENDING = 'pending';
+
     /**
      * @var int
      * @ORM\Column(name="usr_id", type="integer", nullable=false)
@@ -304,6 +307,23 @@ class User implements UserInterface
     public function getPartnerCode(): ?string
     {
         return $this->partnerCode;
+    }
+
+    /**
+     * Method to check whether an user is pending its confirmation
+     * or not.
+     */
+    public function isPending(): bool
+    {
+        return $this->status === self::STATUS_PENDING;
+    }
+
+    /**
+     * Method to check whether an user is active or not.
+     */
+    public function isActive(): bool
+    {
+        return $this->status === self::STATUS_ACTIVE;
     }
 
     public function getRoles(): array

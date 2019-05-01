@@ -95,6 +95,9 @@ class LoginController extends BaseController
         }
     }
 
+    /**
+     * @see \Eventum\Security\LoginFormAuthenticator::onAuthenticationSuccess
+     */
     private function login(string $login, bool $remember): void
     {
         // get user primary mail,

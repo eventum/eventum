@@ -13,6 +13,7 @@
 
 use Eventum\Auth\Adapter\AdapterInterface;
 use Eventum\Auth\AuthException;
+use Eventum\Model\Entity;
 use Eventum\Monolog\Logger;
 use Eventum\Session;
 use Symfony\Component\Filesystem\Exception\IOException;
@@ -202,12 +203,13 @@ class Auth
      *
      * @param   string $email The email address to be checked
      * @return  bool
+     * @deprecated
      */
     public static function isPendingUser($email): bool
     {
         $status = User::getStatusByEmail($email);
 
-        return $status === 'pending';
+        return $status === Entity\User::STATUS_PENDING;
     }
 
     /**
@@ -215,12 +217,13 @@ class Auth
      *
      * @param   string $email The email address to be checked
      * @return  bool
+     * @deprecated
      */
     public static function isActiveUser($email): bool
     {
         $status = User::getStatusByEmail($email);
 
-        return $status === 'active';
+        return $status === Entity\User::STATUS_ACTIVE;
     }
 
     /**
