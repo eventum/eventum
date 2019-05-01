@@ -39,10 +39,17 @@ final class AppInfo
 
     public function getVersion(): string
     {
+        // a release
         if ($this->version->version) {
             return $this->version->version;
         }
 
+        // detached head
+        if (!$this->version->branch) {
+            return $this->formatHash($this->version->hash);
+        }
+
+        // a branch
         $hash = $this->formatHash($this->version->hash);
 
         return "{$this->version->reference}-g{$hash}";
