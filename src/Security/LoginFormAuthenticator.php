@@ -17,8 +17,10 @@ use Auth;
 use Eventum\Auth\Adapter\AdapterInterface as AuthAdapterInterface;
 use Eventum\Db\Doctrine;
 use Eventum\Model\Entity\User;
+use Psr\Container\ContainerInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Exception\CustomUserMessageAuthenticationException;
@@ -36,14 +38,23 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
 {
     use TargetPathTrait;
 
+    /** @var ContainerInterface */
+    protected $container;
     /** @var UrlGeneratorInterface */
     private $urlGenerator;
     /** @var AuthAdapterInterface */
     private $auth;
 
     public function __construct(
+        ContainerInterface $container,
         UrlGeneratorInterface $urlGenerator
     ) {
+        // hack base url to generate proper routes
+        $context = $urlGenerator->getContext();
+        $context->setBaseUrl('');
+        $urlGenerator->setContext($context);
+
+        $this->container = $container;
         $this->urlGenerator = $urlGenerator;
         $this->auth = Auth::getAuthBackend();
     }
@@ -51,6 +62,21 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
     public function supports(Request $request): bool
     {
         $route = $request->attributes->get('_route');
+
+        if ($route === 'front') {
+            /**
+             * GuardAuthenticator checks only main requests,
+             * we need to identify the sub-request
+             * @see \Eventum\Controller\FrontController
+             */
+            $page = basename($request->getBaseUrl(), '.php');
+            $path = "/{$page}";
+            try {
+                $match = $this->container->get('router')->match($path);
+                $route = $match['_route'];
+            } catch (ResourceNotFoundException $e) {
+            }
+        }
 
         return $route === 'login' && $request->isMethod('POST');
     }
