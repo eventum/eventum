@@ -13,6 +13,7 @@
 
 namespace Eventum;
 
+use Auth;
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\Config\Resource\FileResource;
@@ -65,7 +66,7 @@ class Kernel extends BaseKernel
     {
         $configDir = $this->configDir;
 
-        $container->setParameter('kernel.secret', '');
+        $container->setParameter('kernel.secret', Auth::privateKey());
 
         $container->addResource(new FileResource("{$configDir}/bundles.php"));
         $container->setParameter('container.dumper.inline_class_loader', true);
