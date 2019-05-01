@@ -26,11 +26,29 @@ final class AppInfo
 
     public function __construct()
     {
+        $version = $this->createVersion();
+        if ($version) {
+            $this->version = $version;
+        }
+    }
+
+    private function createVersion(): ?Version
+    {
         $versionString = Versions::getVersion(self::NAME);
         $version = new Version($versionString);
         if ($version->reference) {
-            $this->version = $version;
+            return $version;
         }
+
+        if (!$versionString = $this->getGitVersion()) {
+            return null;
+        }
+        $version = new Version($versionString);
+        if ($version->reference) {
+            return $version;
+        }
+
+        return null;
     }
 
     public static function getInstance(): self
@@ -84,6 +102,17 @@ final class AppInfo
         }
 
         return substr($hash, 0, 9);
+    }
+
+    private function getGitVersion(): ?string
+    {
+        $versionString = shell_exec('git describe --tags --match=v* --abbrev=40');
+
+        if (preg_match('/(?P<version>.+)-g(?P<hash>[\da-f]+)$/', $versionString, $m)) {
+            return sprintf('dev-%s@%s', $m['version'], $m['hash']);
+        }
+
+        return null;
     }
 
     private function getGitHash($version)
