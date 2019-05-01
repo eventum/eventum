@@ -59,11 +59,18 @@ class Workflow
      *
      * @param   int $prj_id The project ID
      */
-    public static function getBackend(int $prj_id): ?Abstract_Workflow_Backend
+    public static function getBackend($prj_id): ?Abstract_Workflow_Backend
     {
         static $cache = [];
 
+        $prj_id = (int)$prj_id;
+
         $initialize = static function (int $prj_id): ?Abstract_Workflow_Backend {
+            // bunch of code calling without project id context
+            if (!$prj_id) {
+                return null;
+            }
+
             $backendName = static::_getBackendNameByProject($prj_id);
             if (!$backendName) {
                 return null;
