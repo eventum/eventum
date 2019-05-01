@@ -26,12 +26,13 @@ use League\CommonMark\Extension\CommonMarkCoreExtension;
 use Lossendae\CommonMark\TaskLists\TaskListsCheckbox;
 use Lossendae\CommonMark\TaskLists\TaskListsCheckboxRenderer;
 use Lossendae\CommonMark\TaskLists\TaskListsParser;
+use Misc;
 use Symfony\Component\EventDispatcher\GenericEvent;
 use Webuni\CommonMark\TableExtension\TableExtension;
 
 class Markdown
 {
-    private const PURIFIER_CACHE_DIR = APP_VAR_PATH . '/cache/purifier';
+    private const PURIFIER_CACHE_DIR = APP_CACHE_PATH . '/purifier';
     /**
      * Use moderately sane value
      *
@@ -110,9 +111,6 @@ class Markdown
 
     private function createPurifier(): HTMLPurifier
     {
-        $cacheDir = self::PURIFIER_CACHE_DIR;
-        is_dir($cacheDir) || mkdir($cacheDir, 02775) || is_dir($cacheDir);
-
         $config = HTMLPurifier_HTML5Config::createDefault();
 
         $config->set('AutoFormat.AutoParagraph', true);
@@ -135,7 +133,7 @@ class Markdown
         $config->set('HTML.ForbiddenElements', ['script', 'noscript']);
 
         // Absolute path with no trailing slash to store serialized definitions in.
-        $config->set('Cache.SerializerPath', $cacheDir);
+        $config->set('Cache.SerializerPath', Misc::ensureDir(self::PURIFIER_CACHE_DIR));
 
         return new HTMLPurifier($config);
     }

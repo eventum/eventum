@@ -13,7 +13,6 @@
 
 namespace Eventum\Test\Mail;
 
-use Date_Helper;
 use Eventum\Mail\MailMessage;
 use Eventum\Test\TestCase;
 use Mime_Helper;

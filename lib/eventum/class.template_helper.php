@@ -22,6 +22,7 @@ use Eventum\Templating;
  */
 class Template_Helper
 {
+    private const TEMPLATE_CACHE_DIR = APP_TPL_COMPILE_PATH;
     /** @var Smarty */
     private $smarty;
 
@@ -38,7 +39,7 @@ class Template_Helper
     {
         $smarty = new Smarty();
         $smarty->setTemplateDir([APP_LOCAL_PATH . '/templates', APP_TPL_PATH]);
-        $smarty->setCompileDir(APP_TPL_COMPILE_PATH);
+        $smarty->setCompileDir(Misc::ensureDir(self::TEMPLATE_CACHE_DIR));
 
         $smarty->addPluginsDir([APP_INC_PATH . '/smarty']);
 

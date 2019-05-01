@@ -24,6 +24,7 @@ use Eventum;
 use Eventum\Db\Types\UTCDateTimeType;
 use Eventum\DebugBarManager;
 use Eventum\Model\Repository;
+use Misc;
 
 /**
  * @method static Repository\CommitFileRepository getCommitFileRepository()
@@ -39,6 +40,8 @@ use Eventum\Model\Repository;
  */
 class Doctrine
 {
+    private const PROXY_CACHE_DIR = APP_CACHE_PATH . '/doctrine/proxies';
+
     public static function getEntityManager(): EntityManager
     {
         static $entityManager;
@@ -64,7 +67,7 @@ class Doctrine
         ];
 
         $cacheDriver = new Cache\ArrayCache();
-        $proxyDir = APP_VAR_PATH . '/cache/doctrine/proxies';
+        $proxyDir = Misc::ensureDir(self::PROXY_CACHE_DIR);
 
         $config = Setup::createAnnotationMetadataConfiguration($paths, $isDevMode, $proxyDir, $cache = null, $useSimpleAnnotationReader = false);
 

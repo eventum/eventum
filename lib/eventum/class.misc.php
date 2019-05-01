@@ -621,6 +621,17 @@ class Misc
     }
 
     /**
+     * @param string $path
+     * @return string return path for fluent access
+     */
+    public static function ensureDir(string $path): string
+    {
+        is_dir($path) || mkdir($path, 02775) || is_dir($path);
+
+        return $path;
+    }
+
+    /**
      * Processes a message according to PSR-3 rules
      *
      * It replaces {foo} with the value from $context['foo']
