@@ -70,9 +70,10 @@ class Kernel extends BaseKernel
         $container->addResource(new FileResource("{$configDir}/bundles.php"));
         $container->setParameter('container.dumper.inline_class_loader', true);
 
-        if ($this->environment === 'test') {
-            $loader->load('@FrameworkBundle/Resources/config/test.xml');
-        }
+        $loader->load($configDir . '/{packages}/*.yml', 'glob');
+        $loader->load($configDir . '/{packages}/' . $this->environment . '/**/*.yml', 'glob');
+        $loader->load($configDir . '/{services}.yml', 'glob');
+        $loader->load($configDir . '/{services}_' . $this->environment . '.yml', 'glob');
     }
 
     protected function configureRoutes(RouteCollectionBuilder $routes): void
