@@ -18,17 +18,6 @@ cat <<EOF | patch -p1
 +
 +[$new]: https://github.com/eventum/eventum/compare/v$old...master
 +
---- a/src/AppInfo.php
-+++ b/src/AppInfo.php
-@@ -16,7 +16,7 @@ namespace Eventum;
- class AppInfo
- {
-     public const URL = 'https://github.com/eventum/eventum';
--    public const VERSION = '$old-dev';
-+    public const VERSION = '$new-dev';
- 
-     /** @var string */
-     private \$version;
 EOF
 
 git commit -am "$new-dev"
