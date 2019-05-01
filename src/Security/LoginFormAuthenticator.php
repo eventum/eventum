@@ -17,7 +17,6 @@ use Auth;
 use AuthCookie;
 use Eventum\Auth\Adapter\AdapterInterface as AuthAdapterInterface;
 use Eventum\Auth\AuthException;
-use Eventum\Db\Doctrine;
 use Eventum\Model\Entity\User;
 use Eventum\Session;
 use Psr\Container\ContainerInterface;
@@ -108,10 +107,9 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
         if (!$this->auth->userExists($credentials['email'])) {
             throw new UsernameNotFoundException(null, AuthException::UNKNOWN_USER);
         }
-        $usr_id = $this->auth->getUserId($credentials['email']);
 
         /** @var User $user */
-        $user = Doctrine::getUserRepository()->find($usr_id);
+        $user = $userProvider->loadUserByUsername($credentials['email']);
 
         if ($user->isPending()) {
             // TODO: use AccountStatusException
@@ -172,7 +170,7 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
         $login = $request->getSession()->get(Security::LAST_USERNAME);
         Auth::saveLoginAttempt($login, 'failure', $exception->getMessage());
 
-        $params['err'] = $exception->getCode();
+        $params['err'] = $exception->getCode() ?: AuthException::UNKNOWN_USER;
 
         $url = $this->urlGenerator->generate('login', $params);
 

@@ -1,7 +1,13 @@
 security:
-    # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
+    # https://symfony.com/doc/4.2/security.html#where-do-users-come-from-user-providers
     providers:
-        in_memory: { memory: ~ }
+        users:
+            entity:
+                # the class of the entity that represents users
+                class: 'Eventum\Model\Entity\User'
+                # the property to query by - e.g. username, email, etc
+                property: 'email'
+
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
