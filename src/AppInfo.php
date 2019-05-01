@@ -21,23 +21,13 @@ final class AppInfo
     private const NAME = Versions::ROOT_PACKAGE_NAME;
     private const VERSION = '3.7.0-dev';
 
-    /** @var string */
+    /** @var Version */
     private $version;
-
-    /** @var string */
-    private $hash;
 
     public function __construct()
     {
-        [$version, $hash] = explode('@', Versions::getVersion(self::NAME), 2);
-
-        $this->version = $version;
-        $this->hash = $this->formatHash($hash);
-
-        // append VCS version if not yet there
-        if ($this->hash && !preg_match('/-g[0-9a-f]+$/', $this->version)) {
-            $this->version = "{$this->version}-g{$this->hash}";
-        }
+        $versionString = Versions::getVersion(self::NAME);
+        $this->version = new Version($versionString);
     }
 
     public static function getInstance(): self
@@ -49,16 +39,14 @@ final class AppInfo
 
     public function getVersion(): string
     {
-        return $this->version;
+        $hash = $this->formatHash($this->version->hash);
+
+        return "{$this->version->version}-g{$hash}";
     }
 
-    public function getVersionLink(): ?string
+    public function getVersionLink(): string
     {
-        if ($this->hash) {
-            return self::URL . "/commit/{$this->hash}";
-        }
-
-        return null;
+        return self::URL . "/commit/{$this->version->hash}";
     }
 
     private function formatHash(string $hash): ?string
