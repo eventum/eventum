@@ -59,9 +59,11 @@
 				<include name="**/couscous.yml"/>
 				<include name="**/example.php"/>
 				<include name="**/humbug.json*"/>
+				<include name="**/infection.json*"/>
 				<include name="**/package.xml"/>
 				<include name="**/pakefile.php"/>
 				<include name="**/phpbench.json"/>
+				<include name="**/phpcs.xml*"/>
 				<include name="**/phpmd.xml*"/>
 				<include name="**/phpstan.neon"/>
 				<include name="**/phpunit.xml*"/>
