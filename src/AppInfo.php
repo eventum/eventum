@@ -13,10 +13,13 @@
 
 namespace Eventum;
 
-class AppInfo
+use PackageVersions\Versions;
+
+final class AppInfo
 {
-    public const URL = 'https://github.com/eventum/eventum';
-    public const VERSION = '3.7.0-dev';
+    private const URL = 'https://github.com/' . self::NAME;
+    private const NAME = Versions::ROOT_PACKAGE_NAME;
+    private const VERSION = '3.7.0-dev';
 
     /** @var string */
     private $version;
@@ -26,33 +29,45 @@ class AppInfo
 
     public function __construct()
     {
-        $this->version = self::VERSION;
-        $this->hash = $this->getGitHash($this->version);
+        [$version, $hash] = explode('@', Versions::getVersion(self::NAME), 2);
+
+        $this->version = $version;
+        $this->hash = $this->formatHash($hash);
+
         // append VCS version if not yet there
         if ($this->hash && !preg_match('/-g[0-9a-f]+$/', $this->version)) {
             $this->version = "{$this->version}-g{$this->hash}";
         }
     }
 
-    public static function getInstance()
+    public static function getInstance(): self
     {
         static $appInfo;
 
-        return $appInfo ?: new static();
+        return $appInfo ?: $appInfo = new static();
     }
 
-    public function getVersion()
+    public function getVersion(): string
     {
         return $this->version;
     }
 
-    public function getVersionLink()
+    public function getVersionLink(): ?string
     {
         if ($this->hash) {
             return self::URL . "/commit/{$this->hash}";
         }
 
         return null;
+    }
+
+    private function formatHash(string $hash): ?string
+    {
+        if (!$hash) {
+            return null;
+        }
+
+        return substr($hash, 0, 9);
     }
 
     private function getGitHash($version)
@@ -94,6 +109,6 @@ class AppInfo
             $hash = file_get_contents($file);
         }
 
-        return substr($hash, 0, 7);
+        return $this->formatHash($hash);
     }
 }
