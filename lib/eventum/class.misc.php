@@ -12,6 +12,7 @@
  */
 
 use Monolog\Processor\PsrLogMessageProcessor;
+use Symfony\Component\Filesystem\Filesystem;
 
 /**
  * Class to hold methods and algorithms that woudln't fit in other classes, such
@@ -626,7 +627,8 @@ class Misc
      */
     public static function ensureDir(string $path): string
     {
-        is_dir($path) || mkdir($path, 02775) || is_dir($path);
+        $fs = new Filesystem();
+        $fs->mkdir($path, 02775);
 
         return $path;
     }
