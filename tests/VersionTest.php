@@ -31,9 +31,10 @@ class VersionTest extends TestCase
     public function dataProvider(): Generator
     {
         yield 'tag' => [
-            '3.7.0@859ccf532731b653c5af71f4151f173bc8fd1d42',
+            'v3.7.0@859ccf532731b653c5af71f4151f173bc8fd1d42',
             [
-                'version' => '3.7.0',
+                'reference' => 'v3.7.0',
+                'version' => 'v3.7.0',
                 'hash' => '859ccf532731b653c5af71f4151f173bc8fd1d42',
                 'branch' => null,
             ],
@@ -41,7 +42,8 @@ class VersionTest extends TestCase
         yield 'branch' => [
             'dev-package-versions@859ccf532731b653c5af71f4151f173bc8fd1d42',
             [
-                'version' => 'dev-package-versions',
+                'reference' => 'dev-package-versions',
+                'version' => null,
                 'hash' => '859ccf532731b653c5af71f4151f173bc8fd1d42',
                 'branch' => 'package-versions',
             ],
@@ -49,7 +51,8 @@ class VersionTest extends TestCase
         yield 'detached' => [
             'dev-bc9c1a16dd77aba02cf22b5ed95c0d7a9f06afa6@bc9c1a16dd77aba02cf22b5ed95c0d7a9f06afa6',
             [
-                'version' => 'dev-bc9c1a16dd77aba02cf22b5ed95c0d7a9f06afa6',
+                'reference' => 'dev-bc9c1a16dd77aba02cf22b5ed95c0d7a9f06afa6',
+                'version' => null,
                 'hash' => 'bc9c1a16dd77aba02cf22b5ed95c0d7a9f06afa6',
                 'branch' => null,
             ],

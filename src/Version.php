@@ -16,6 +16,8 @@ namespace Eventum;
 final class Version
 {
     /** @var string */
+    public $reference;
+    /** @var string */
     public $version;
     /** @var string */
     public $hash;
@@ -31,9 +33,9 @@ final class Version
      */
     public function __construct(string $versionString)
     {
-        [$this->version, $this->hash] = explode('@', $versionString, 2);
+        [$this->reference, $this->hash] = explode('@', $versionString, 2);
 
-        $parts = explode('-', $this->version, 2);
+        $parts = explode('-', $this->reference, 2);
 
         if ($parts[0] === 'dev') {
             $branch = implode('-', array_splice($parts, 1));
@@ -42,6 +44,8 @@ final class Version
             if ($branch !== $this->hash) {
                 $this->branch = $branch;
             }
+        } else {
+            $this->version = $parts[0];
         }
     }
 }

@@ -39,14 +39,24 @@ final class AppInfo
 
     public function getVersion(): string
     {
+        if ($this->version->version) {
+            return $this->version->version;
+        }
+
         $hash = $this->formatHash($this->version->hash);
 
-        return "{$this->version->version}-g{$hash}";
+        return "{$this->version->reference}-g{$hash}";
     }
 
     public function getVersionLink(): string
     {
-        return self::URL . "/commit/{$this->version->hash}";
+        if ($this->version->version) {
+            $link = "releases/tag/{$this->version->version}";
+        } else {
+            $link = "commit/{$this->version->hash}";
+        }
+
+        return self::URL . '/' . $link;
     }
 
     private function formatHash(string $hash): ?string
