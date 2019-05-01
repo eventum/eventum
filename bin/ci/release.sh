@@ -108,18 +108,6 @@ po_checkout() {
 	make -C $dir/localization touch-po
 }
 
-# setup $version and update VERSION in AppInfo class
-update_version() {
-	version=$(git describe --tags --abbrev=9 HEAD)
-	# trim 'v' prefix
-	version=${version#v}
-
-	sed -i -re "
-		/const VERSION/ {
-			s/'[^']+'/'$version'/
-		}" src/AppInfo.php
-}
-
 # clean trailing spaces/tabs
 clean_whitespace() {
 	sed -i -e 's/[\t ]\+$//' "$@"
@@ -264,7 +252,6 @@ prepare_source() {
 	# add dirs for customization
 	install -d config/{workflow,custom_field,templates,crm,partner,include}
 
-	update_version
 	composer_install
 	phpcompatinfo_report
 
