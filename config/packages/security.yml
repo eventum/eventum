@@ -17,6 +17,7 @@ security:
             guard:
                 authenticators:
                     - Eventum\Security\LoginFormAuthenticator
+                    - Eventum\Security\TokenAuthenticator
 
             # activate different ways to authenticate
 

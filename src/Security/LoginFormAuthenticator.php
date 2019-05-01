@@ -63,6 +63,9 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
         $this->auth = Auth::getAuthBackend();
     }
 
+    /**
+     * @see \Symfony\Component\Security\Guard\AuthenticatorInterface::supports
+     */
     public function supports(Request $request): bool
     {
         $route = $request->attributes->get('_route');
@@ -84,7 +87,10 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
         return $route === 'login' && $request->isMethod('POST');
     }
 
-    public function getCredentials(Request $request)
+    /**
+     * @see \Symfony\Component\Security\Guard\AuthenticatorInterface::getCredentials
+     */
+    public function getCredentials(Request $request): array
     {
         $credentials = [
             'email' => $request->request->get('email'),
@@ -141,7 +147,7 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
      * @see \Eventum\Controller\LoginController::login
      * @see \Symfony\Component\Security\Guard\AuthenticatorInterface::onAuthenticationSuccess
      */
-    public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey)
+    public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey): ?Response
     {
         /** @var User $user */
         $user = $token->getUser();
