@@ -19,6 +19,8 @@ security:
                     - Eventum\Security\LoginFormAuthenticator
                     - Eventum\Security\TokenAuthenticator
 
+                entry_point: Eventum\Security\LoginFormAuthenticator
+
             # activate different ways to authenticate
 
             # http_basic: true
