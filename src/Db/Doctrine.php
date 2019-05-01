@@ -90,6 +90,20 @@ class Doctrine
         return $entityManager;
     }
 
+    /**
+     * Helper to return db dsn for symfony bridge
+     */
+    public static function getUrl(): string
+    {
+        $config = DB_Helper::getConfig();
+
+        return sprintf('mysql://%s:%s@%s:%d/%s',
+            $config['username'], $config['password'],
+            $config['hostname'], $config['port'],
+            $config['database']
+        );
+    }
+
     public static function __callStatic($method, array $arguments = [])
     {
         static $repos;

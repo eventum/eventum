@@ -14,6 +14,7 @@
 namespace Eventum;
 
 use Auth;
+use Eventum\Db\Doctrine;
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\Config\Resource\FileResource;
@@ -75,6 +76,8 @@ class Kernel extends BaseKernel
         $loader->load($configDir . '/{packages}/' . $this->environment . '/**/*.yml', 'glob');
         $loader->load($configDir . '/{services}.yml', 'glob');
         $loader->load($configDir . '/{services}_' . $this->environment . '.yml', 'glob');
+
+        $container->setParameter('env(DATABASE_URL)', Doctrine::getUrl());
     }
 
     protected function configureRoutes(RouteCollectionBuilder $routes): void
