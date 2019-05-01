@@ -19,7 +19,7 @@ final class Version
     public $reference;
     /** @var string */
     public $version;
-    /** @var string */
+    /** @var null|string */
     public $hash;
     /** @var null|string */
     public $branch;
@@ -46,6 +46,10 @@ final class Version
             }
         } else {
             $this->version = $parts[0];
+        }
+
+        if ($this->hash === '') {
+            $this->hash = null;
         }
     }
 }

@@ -57,5 +57,15 @@ class VersionTest extends TestCase
                 'branch' => null,
             ],
         ];
+        yield 'rebasing' => [
+            // https://github.com/Ocramius/PackageVersions/issues/84
+            'No version set (parsed as 1.0.0)@',
+            [
+                'reference' => 'No version set (parsed as 1.0.0)',
+                'version' => 'No version set (parsed as 1.0.0)',
+                'hash' => null,
+                'branch' => null,
+            ],
+        ];
     }
 }
