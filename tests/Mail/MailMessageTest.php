@@ -232,6 +232,7 @@ class MailMessageTest extends TestCase
         $mail = MailMessage::createFromFile(__DIR__ . '/../data/multipart-text-html.txt');
         $mail->setInReplyTo('fu!');
         $mail->getRawContent();
+        $this->assertTrue(true);
     }
 
     public function testGetAddresses(): void
@@ -503,6 +504,7 @@ class MailMessageTest extends TestCase
         $mail->setTo($to);
         $mail->setContent($text_message);
         Mail_Queue::queue($mail, $to);
+        $this->assertTrue(true);
     }
 
     /**
@@ -513,7 +515,6 @@ class MailMessageTest extends TestCase
     public function testMailSendZF(): void
     {
         $text_message = 'tere';
-        $issue_id = 1;
         $from = 'Eventum <support@example.org>';
         $recipient = 'Eventum <support@example.org>';
         $subject = '[#1] Issue Created';
@@ -527,6 +528,7 @@ class MailMessageTest extends TestCase
 
         // add($recipient, $headers, $body, $save_email_copy = 0, $issue_id = false, $type = '', $sender_usr_id = false, $type_id = false)
         Mail_Queue::queue($mail, $recipient);
+        $this->assertTrue(true);
     }
 
     public function testMailFromHeaderBody(): void
@@ -553,6 +555,7 @@ class MailMessageTest extends TestCase
         $mail->setSubject('[#3] Note: new ää');
         $headers = $mail->getHeadersArray();
         MailMessage::createFromHeaderBody($headers, $body);
+        $this->assertTrue(true);
     }
 
     public function testSendPlainMail(): void
@@ -595,14 +598,18 @@ class MailMessageTest extends TestCase
             }
         );
         $transport->send($mail);
+        $this->assertTrue(true);
     }
 
     public function testReSetMessageId(): void
     {
         $mail = MailMessage::createNew();
         $headers = [];
-        $headers['Message-ID'] = Mail_Helper::generateMessageID();
+        $messageId = Mail_Helper::generateMessageID();
+        $headers['Message-ID'] = $messageId;
         $mail->addHeaders($headers);
+        $result = $mail->messageId;
+        $this->assertEquals($messageId, $result);
     }
 
     public function testZFPlainMail(): void
@@ -630,6 +637,7 @@ class MailMessageTest extends TestCase
             'type' => $type,
         ];
         Mail_Queue::queue($mail, $to, $options);
+        $this->assertTrue(true);
     }
 
     /**
