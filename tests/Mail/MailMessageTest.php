@@ -423,7 +423,7 @@ class MailMessageTest extends TestCase
                 'Subject: ',
                 'X-Eventum-Group-Issue: something 123 143',
                 'X-Eventum-Group-Replier: =?UTF-8?Q?m=C3=B5min?=',
-                'X-Eventum-Group-Assignee: =?UTF-8?Q?UUser1,=20juus=C3=B5r2?=',
+                'X-Eventum-Group-Assignee: =?UTF-8?Q?UUser1=2C=20juus=C3=B5r2?=',
                 'X-Eventum-Customer: cust om er',
                 'X-Eventum-Assignee: foo, bar',
                 'X-Eventum-Category: Title Cat',
@@ -648,11 +648,13 @@ class MailMessageTest extends TestCase
      */
     public function testParseHeaders(): void
     {
-        $header = "Subject: [#77675] New Issue:xxxxxxxxx xxxxxxx xxxxxxxx xxxxxxxxxxxxx xxxxxxxxxx xxxxxxxx, =?utf-8?b?dMOkaHRhZWc=?= xx.xx, xxxx\r\n";
+        $header = "Subject: [#77675] New Issue:xxxxxxxxx xxxxxxx xxxxxxxx xxxxxxxxxxxxx xxxxxxxxxx xxxxxxxx=2C =?utf-8?b?dMOkaHRhZWc=?= xx.xx, xxxx\r\n";
         /** @see \Zend\Mail\Header\HeaderWrap::canBeEncoded */
         $v0 = \Zend\Mail\Headers::fromString($header);
-        $folder = "\r\n ";
-        $this->assertEquals("Subject: =?UTF-8?Q?[#77675]=20New=20Issue:xxxxxxxxx=20xxxxxxx=20xxxxxxxx=20?={$folder}=?UTF-8?Q?xxxxxxxxxxxxx=20xxxxxxxxxx=20xxxxxxxx,=20t=C3=A4htaeg=20xx.xx,=20xxxx?=\r\n", $v0->toString());
+        $folding = Headers::FOLDING;
+        $eol = Headers::EOL;
+
+        $this->assertEquals("Subject: =?UTF-8?Q?[#77675]=20New=20Issue:xxxxxxxxx=20xxxxxxx=20xxxxxxxx=20?={$folding}=?UTF-8?Q?xxxxxxxxxxxxx=20xxxxxxxxxx=20xxxxxxxx=3D2C=20t=C3=A4htaeg=20?={$folding}=?UTF-8?Q?xx.xx=2C=20xxxx?={$eol}", $v0->toString());
 
         // the above fails with:
         // "iconv_mime_encode(): Unknown error (7)"
@@ -662,11 +664,11 @@ class MailMessageTest extends TestCase
         $v = iconv_mime_encode(
             'x-test', $value, ['scheme' => 'Q', 'line-length' => '76', 'line-break-chars' => ' ']
         );
-        $this->assertEquals('x-test: =?UTF-8?Q?[#77675]=20New=20Issue:xxxxxxxxx=20xxxxxxx=20xxxxxxxx=20?=  =?UTF-8?Q?xxxxxxxxxxxxx=20xxxxxxxxxx=20xxxxxxxx,=20t=C3=A4htaeg=20xx.xx,?=  =?UTF-8?Q?=20xxxx?=', $v);
+        $this->assertEqualsIgnoringCase('x-test: =?UTF-8?Q?[#77675]=20New=20Issue:xxxxxxxxx=20xxxxxxx=20xxxxxxxx=20?=  =?UTF-8?Q?xxxxxxxxxxxxx=20xxxxxxxxxx=20xxxxxxxx,=20t=C3=A4htaeg=20xx.xx,?=  =?UTF-8?Q?=20xxxx?=', $v);
 
         // this works too
         $v2 = \Zend\Mail\Header\HeaderWrap::mimeEncodeValue($value, 'UTF-8');
-        $this->assertEquals('=?UTF-8?Q?[#77675]=20New=20Issue:xxxxxxxxx=20xxxxxxx=20xxxxxxxx=20xxxxxxxxxxxxx=20xxxxxxxxxx=20xxxxxxxx,=20t=C3=A4htaeg=20xx.xx,=20xxxx?=', $v2);
+        $this->assertEquals('=?UTF-8?Q?[#77675]=20New=20Issue:xxxxxxxxx=20xxxxxxx=20xxxxxxxx=20xxxxxxxxxxxxx=20xxxxxxxxxx=20xxxxxxxx=2C=20t=C3=A4htaeg=20xx.xx=2C=20xxxx?=', $v2);
     }
 
     /**
