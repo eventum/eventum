@@ -251,7 +251,8 @@ class MailMessageTest extends TestCase
         $message = MailMessage::createFromString($raw);
 
         // test that getting back raw content works
-        // NOTE: the result is not always identical, however this is saved from this same method before manually verifying result is okay
+        // NOTE: the result is not always identical,
+        // however this is saved from this same method before manually verifying result is okay
         $content = $message->getRawContent();
 
         $raw = preg_split("/\r?\n/", $raw);
@@ -453,7 +454,8 @@ class MailMessageTest extends TestCase
 
         $mail->addHeaders($add_headers);
         $raw = $mail->getRawContent();
-        $this->assertContains("dede\r\n dede", $raw, 'value has been wrapped');
+        $folding = Headers::FOLDING;
+        $this->assertContains("<dede>{$folding}<dede>", $raw, 'value has been wrapped');
     }
 
     /**
