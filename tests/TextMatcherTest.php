@@ -57,31 +57,31 @@ class TextMatcherTest extends TestCase
 
         yield 'note from issue #4' => [
             $noteMatcher,
-            'http://eventum.example.lan/view_note.php?id=13',
+            'http://eventum.example.lan/view_note.php?id=1',
             [
                 [
-                    'text' => 'http://eventum.example.lan/view_note.php?id=13',
+                    'text' => 'http://eventum.example.lan/view_note.php?id=1',
                     'textOffset' => 0,
-                    'issueId' => 4,
-                    'noteId' => 13,
+                    'issueId' => 2,
+                    'noteId' => 1,
                 ],
             ],
         ];
 
         yield 'note and issue' => [
             $groupMatcher,
-            'http://eventum.example.lan/view_note.php?id=13 http://eventum.example.lan/view.php?id=64',
+            'http://eventum.example.lan/view_note.php?id=1 http://eventum.example.lan/view.php?id=64',
             [
                 [
                     'text' => 'http://eventum.example.lan/view.php?id=64',
-                    'textOffset' => 47,
+                    'textOffset' => 46,
                     'issueId' => 64,
                 ],
                 [
-                    'text' => 'http://eventum.example.lan/view_note.php?id=13',
+                    'text' => 'http://eventum.example.lan/view_note.php?id=1',
                     'textOffset' => 0,
-                    'issueId' => 4,
-                    'noteId' => 13,
+                    'issueId' => 2,
+                    'noteId' => 1,
                 ],
             ],
         ];
