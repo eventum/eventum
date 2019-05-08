@@ -28,7 +28,7 @@ class FrontController extends AbstractController
      */
     public function indexAction(Request $request): Response
     {
-        $path = $request->getBaseUrl();
+        $path = $request->getBaseUrl() ?: '/index.php';
 
         // if it is the route, then use the 'real' homepage controller, otherwise you end up in a routing loop!
         if ($path === '/') {

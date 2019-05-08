@@ -76,7 +76,7 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
              * we need to identify the sub-request
              * @see \Eventum\Controller\FrontController
              */
-            $path = $request->getBaseUrl();
+            $path = $request->getBaseUrl() ?: '/index.php';
             try {
                 $match = $this->container->get('router')->match($path);
                 $route = $match['_route'];
