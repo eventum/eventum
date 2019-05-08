@@ -27,13 +27,9 @@ class IssueRepository extends EntityRepository
      * @param int $issue_id
      * @return Entity\Commit[]
      */
-    public function getCommits($issue_id)
+    public function getCommits(int $issue_id): array
     {
-        $issue = $this->findOneBy(['id' => $issue_id]);
-        if (!$issue) {
-            return [];
-        }
-
+        $issue = $this->findById($issue_id);
         $commits = $issue->getCommits();
         if (!count($commits)) {
             return [];
