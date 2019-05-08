@@ -18,9 +18,9 @@ use Symfony\Component\Console\Output\OutputInterface;
 abstract class Command
 {
     // compact constants for writeln
-    const DEBUG = OutputInterface::VERBOSITY_DEBUG;
-    const VERBOSE = OutputInterface::VERBOSITY_VERBOSE;
-    const VERY_VERBOSE = OutputInterface::VERBOSITY_VERY_VERBOSE;
+    protected const DEBUG = OutputInterface::VERBOSITY_DEBUG;
+    protected const VERBOSE = OutputInterface::VERBOSITY_VERBOSE;
+    protected const VERY_VERBOSE = OutputInterface::VERBOSITY_VERY_VERBOSE;
 
     /** @var OutputInterface */
     protected $output;
