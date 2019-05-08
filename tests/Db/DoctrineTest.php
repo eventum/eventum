@@ -94,4 +94,12 @@ class DoctrineTest extends TestCase
 
         $this->assertEquals(IssueSeeder::STATUS_DISCOVERY, $issue->getStatus()->getId());
     }
+
+    public function testStatus(): void
+    {
+        $repo = Doctrine::getStatusRepository();
+
+        $status = $repo->findById(IssueSeeder::STATUS_DISCOVERY);
+        $this->assertEquals('discovery', $status->getTitle());
+    }
 }

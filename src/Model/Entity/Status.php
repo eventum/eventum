@@ -18,6 +18,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Table(name="status", uniqueConstraints={@ORM\UniqueConstraint(name="sta_abbreviation", columns={"sta_abbreviation"})}, indexes={@ORM\Index(name="sta_rank", columns={"sta_rank"}), @ORM\Index(name="sta_is_closed", columns={"sta_is_closed"})})
  * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Eventum\Model\Repository\StatusRepository")
  */
 class Status
 {
