@@ -117,16 +117,6 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
         /** @var User $user */
         $user = $userProvider->loadUserByUsername($credentials['email']);
 
-        if ($user->isPending()) {
-            // TODO: use AccountStatusException
-            throw new AuthException('pending user', AuthException::PENDING_USER);
-        }
-
-        if (!$user->isActive()) {
-            // TODO: use AccountStatusException
-            throw new AuthException('inactive user', AuthException::INACTIVE_USER);
-        }
-
         if (!$user) {
             // fail authentication with a custom error
             throw new CustomUserMessageAuthenticationException('Email could not be found.');

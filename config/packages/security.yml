@@ -21,6 +21,10 @@ security:
 
                 entry_point: Eventum\Security\LoginFormAuthenticator
 
+            # https://symfony.com/doc/4.2/security/user_checkers.html
+            pattern: ^/
+            user_checker: Eventum\Security\UserChecker
+
             # activate different ways to authenticate
 
             # http_basic: true
