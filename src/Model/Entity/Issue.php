@@ -38,10 +38,11 @@ class Issue
     private $projectId;
 
     /**
-     * @var int
-     * @ORM\Column(name="iss_sta_id", type="integer", nullable=false)
+     * @var Status
+     * @ORM\OneToOne(targetEntity="\Eventum\Model\Entity\Status")
+     * @ORM\JoinColumn(name="iss_sta_id", referencedColumnName="sta_id")
      */
-    private $statusId;
+    private $status;
 
     /**
      * @var DateTime
@@ -101,16 +102,21 @@ class Issue
         return $this->projectId;
     }
 
-    public function setStatusId(int $statusId): self
+    public function setStatus(Status $status): self
     {
-        $this->statusId = $statusId;
+        $this->status = $status;
 
         return $this;
     }
 
+    public function getStatus(): Status
+    {
+        return $this->status;
+    }
+
     public function getStatusId(): int
     {
-        return $this->statusId;
+        return $this->status->getId();
     }
 
     public function setCreatedDate(DateTime $createdDate): self

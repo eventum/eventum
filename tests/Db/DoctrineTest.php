@@ -16,6 +16,7 @@ namespace Eventum\Test\Db;
 use Date_Helper;
 use Eventum\Db\Doctrine;
 use Eventum\Model\Entity;
+use Eventum\Model\Entity\Issue;
 use Eventum\Test\TestCase;
 use Eventum\Test\Traits\DoctrineTrait;
 use IssueSeeder;
@@ -87,9 +88,10 @@ class DoctrineTest extends TestCase
         $em = $this->getEntityManager();
         $repo = $em->getRepository(Entity\Issue::class);
 
+        /** @var Issue $issue */
         $issue = $repo->findOneBy(['id' => IssueSeeder::ISSUE_1]);
         $this->assertNotNull($issue);
 
-        $this->assertEquals(IssueSeeder::STATUS_DISCOVERY, $issue->getStatusId());
+        $this->assertEquals(IssueSeeder::STATUS_DISCOVERY, $issue->getStatus()->getId());
     }
 }
