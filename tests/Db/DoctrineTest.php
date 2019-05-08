@@ -104,5 +104,6 @@ class DoctrineTest extends TestCase
 
         $status = $repo->findByTitle('discovery');
         $this->assertEquals(IssueSeeder::STATUS_DISCOVERY, $status->getId());
+        $this->assertEquals('DSC', $status->getAbbreviation());
     }
 }

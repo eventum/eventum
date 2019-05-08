@@ -408,11 +408,11 @@ class ViewController extends BaseController
             return [];
         }
 
-        $commit = Doctrine::getIssueRepository()->getCommits($issue_id);
+        $commits = Doctrine::getIssueRepository()->getCommits($issue_id);
 
         $checkins = [];
         $prj_id = Issue::getProjectID($issue_id);
-        foreach ($commit as $c) {
+        foreach ($commits as $c) {
             $scm = $c->getCommitRepo();
 
             $checkin = $c->toArray();
