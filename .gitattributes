@@ -3,6 +3,7 @@
 /.gitattributes export-ignore
 /.gitignore export-ignore
 /.gitmodules export-ignore
+/.github/ export-ignore
 
 # maintenance tools
 /.codeclimate.yml export-ignore
@@ -10,6 +11,7 @@
 /.php_cs export-ignore
 /.styleci.yml export-ignore
 /.travis.yml export-ignore
+/phpcompatinfo.json export-ignore
 /build.xml export-ignore
 /bin/releng/ export-ignore
 /bin/ci/ export-ignore
