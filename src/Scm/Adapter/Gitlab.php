@@ -123,7 +123,6 @@ class Gitlab extends AbstractAdapter
 
         $em = Doctrine::getEntityManager();
         $cr = Doctrine::getCommitRepository();
-        $ir = Doctrine::getIssueRepository();
         $matcher = GroupMatcher::create();
 
         foreach ($payload->getCommits() as $commit) {
