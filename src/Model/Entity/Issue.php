@@ -38,6 +38,12 @@ class Issue
     private $projectId;
 
     /**
+     * @var int
+     * @ORM\Column(name="iss_sta_id", type="integer", nullable=false)
+     */
+    private $statusId;
+
+    /**
      * @var DateTime
      * @ORM\Column(name="iss_created_date", type="datetime", nullable=false)
      */
@@ -93,6 +99,18 @@ class Issue
     public function getProjectId(): int
     {
         return $this->projectId;
+    }
+
+    public function setStatusId(int $statusId): self
+    {
+        $this->statusId = $statusId;
+
+        return $this;
+    }
+
+    public function getStatusId(): int
+    {
+        return $this->statusId;
     }
 
     public function setCreatedDate(DateTime $createdDate): self

@@ -29,10 +29,9 @@ class DoctrineTest extends TestCase
 {
     use DoctrineTrait;
 
-    public function testIssueRepository(): void
+    public function testIssueCommits(): void
     {
-        $em = Doctrine::getEntityManager();
-        $repo = $em->getRepository(Entity\Issue::class);
+        $repo = $this->getEntityManager()->getRepository(Entity\Issue::class);
 
         $issue = $repo->findOneBy(['id' => IssueSeeder::ISSUE_1]);
         $this->assertNotNull($issue);
@@ -56,7 +55,7 @@ class DoctrineTest extends TestCase
 
     public function testIssueAddCommit(): void
     {
-        $em = Doctrine::getEntityManager();
+        $em = $this->getEntityManager();
         $repo = $em->getRepository(Entity\Issue::class);
 
         /** @var Entity\Issue $issue */
@@ -81,5 +80,16 @@ class DoctrineTest extends TestCase
         $em->persist($commit);
         $em->persist($issue);
         $em->flush();
+    }
+
+    public function testIssueStatus(): void
+    {
+        $em = $this->getEntityManager();
+        $repo = $em->getRepository(Entity\Issue::class);
+
+        $issue = $repo->findOneBy(['id' => IssueSeeder::ISSUE_1]);
+        $this->assertNotNull($issue);
+
+        $this->assertEquals(IssueSeeder::STATUS_DISCOVERY, $issue->getStatusId());
     }
 }
