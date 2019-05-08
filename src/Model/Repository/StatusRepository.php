@@ -13,6 +13,7 @@
 
 namespace Eventum\Model\Repository;
 
+use Doctrine\ORM\EntityNotFoundException;
 use Doctrine\ORM\EntityRepository;
 use Eventum\Model\Entity;
 
@@ -22,4 +23,17 @@ use Eventum\Model\Entity;
 class StatusRepository extends EntityRepository
 {
     use Traits\FindByIdTrait;
+
+    public function findByTitle(string $title): Entity\Status
+    {
+        /** @var Entity\Status $status */
+        $status = $this->findOneBy(['title' => $title]);
+        if (!$status) {
+            $type = get_class($this);
+
+            throw new EntityNotFoundException("$type '$title not found");
+        }
+
+        return $status;
+    }
 }
