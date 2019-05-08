@@ -119,6 +119,14 @@ class Issue
         return $this->status->getId();
     }
 
+    /**
+     * Method used to check whether an issue was already closed or not.
+     */
+    public function isClosed(): bool
+    {
+        return $this->status->isClosed();
+    }
+
     public function setCreatedDate(DateTime $createdDate): self
     {
         $this->createdDate = $createdDate;
