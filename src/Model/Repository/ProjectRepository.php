@@ -14,7 +14,11 @@
 namespace Eventum\Model\Repository;
 
 use Doctrine\ORM\EntityRepository;
+use Eventum\Model\Entity;
 
+/**
+ * @method Entity\Project findById(int $prj_id)
+ */
 class ProjectRepository extends EntityRepository
 {
     use Traits\FindByIdTrait;
