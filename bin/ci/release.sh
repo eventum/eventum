@@ -152,7 +152,14 @@ composer_install() {
 # create phpcompatinfo report
 phpcompatinfo_report() {
 	$quick && return
+
+	cp $topdir/phpcompatinfo.json .
 	$phpcompatinfo analyser:run --alias current --output docs/PhpCompatInfo.txt
+	rm phpcompatinfo.json
+
+	# avoid empty result
+	grep 'None data source matching' docs/PhpCompatInfo.txt && exit 1
+
 	clean_whitespace docs/PhpCompatInfo.txt
 }
 
@@ -174,7 +181,6 @@ clean_scripts() {
 # cleanup excess files from vendor
 # but not that much that composer won't work
 clean_vendor() {
-
 	$phing -f $topdir/build.xml clean-vendor
 
 	# clean empty dirs
