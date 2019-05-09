@@ -1033,7 +1033,7 @@ class Notification
                 Language::set(APP_DEFAULT_LOCALE);
             }
 
-            if ($type == 'notes') {
+            if ($type === 'notes') {
                 // special handling of blocked messages
                 if ($data['note']['not_is_blocked'] == 1) {
                     $subject = ev_gettext('BLOCKED');
@@ -1059,7 +1059,7 @@ class Notification
                     // TRANSLATORS: %1 - issue_id, %2: subject, %3: note title
                     $full_subject = ev_gettext('[#%1$s] %2$s: %3$s', $issue_id, $subject, $extra_subject);
                 }
-            } elseif ($type == 'new_issue' && $is_assigned) {
+            } elseif ($type === 'new_issue' && $is_assigned) {
                 // TRANSLATORS: %1 - issue_id, %2: issue summary
                 $full_subject = ev_gettext('[#%1$s] New Issue Assigned: %2$s', $issue_id, $data['iss_summary']);
             } else {
