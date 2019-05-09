@@ -8,12 +8,13 @@ security:
                 # the property to query by - e.g. username, email, etc
                 property: 'email'
 
+    # https://symfony.com/doc/4.2/security/multiple_guard_authenticators.html
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
         main:
-            anonymous: true
+            anonymous: ~
             guard:
                 authenticators:
                     - Eventum\Security\LoginFormAuthenticator
@@ -38,10 +39,19 @@ security:
                 secret: '%kernel.secret%'
                 remember_me_parameter: remember
 
+            # https://symfony.com/doc/4.2/security.html#logging-out
+            logout:
+                path: logout
+                # where to redirect after logout
+                target: login
+                # https://artemzhuravlev.com/blog/symfony-logout-handler/
+                handlers:
+                  - Eventum\Security\LogoutListener
+
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-        # - { path: ^/admin, roles: ROLE_ADMIN }
-        # - { path: ^/profile, roles: ROLE_USER }
+        - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/, roles: ROLE_USER }
 
 # vim:ts=4:sw=4:et

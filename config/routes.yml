@@ -29,7 +29,7 @@ login:
 logout:
     path: /logout.php
     methods: GET
-    controller: Eventum\Controller\LogoutController::defaultAction
+    # NB: controller is not needed
 
 select_project:
     path: /select_project.php

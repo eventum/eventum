@@ -11,18 +11,21 @@
  * that were distributed with this source code.
  */
 
-namespace Eventum\Controller;
+namespace Eventum\Security;
 
 use Auth;
 use Eventum\Auth\AuthException;
 use Eventum\Controller\Traits\RedirectResponseTrait;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
+use Symfony\Component\Security\Http\Logout\LogoutHandlerInterface;
 
-class LogoutController
+class LogoutListener implements LogoutHandlerInterface
 {
     use RedirectResponseTrait;
 
-    public function defaultAction(): Response
+    public function logout(Request $request, Response $response, TokenInterface $token): Response
     {
         Auth::logout();
 
