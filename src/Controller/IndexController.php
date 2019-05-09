@@ -20,6 +20,8 @@ use Eventum\Controller\Traits\SmartyResponseTrait;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Component\Security\Core\Security;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 class IndexController
 {
@@ -29,9 +31,13 @@ class IndexController
     /** @var string */
     protected $tpl_name = 'index.tpl.html';
 
-    public function defaultAction(Request $request, UrlGeneratorInterface $urlGenerator): Response
+    public function defaultAction(Request $request, Security $security, UrlGeneratorInterface $urlGenerator): Response
     {
-        $has_valid_cookie = AuthCookie::hasAuthCookie();
+        // https://symfony.com/doc/current/security.html#a-configuring-how-your-users-will-authenticate
+        $user = $security->getUser();
+        $isUser = $user instanceof UserInterface;
+
+        $has_valid_cookie = $isUser && AuthCookie::hasAuthCookie();
         $is_anon_user = Auth::isAnonUser();
 
         // log anonymous users out so they can use the login form
