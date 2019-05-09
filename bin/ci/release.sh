@@ -108,6 +108,13 @@ po_checkout() {
 	make -C $dir/localization touch-po
 }
 
+# setup $version
+set_version() {
+	version=$(git describe --tags --abbrev=9 HEAD)
+	# trim 'v' prefix
+	version=${version#v}
+}
+
 # clean trailing spaces/tabs
 clean_whitespace() {
 	sed -i -e 's/[\t ]\+$//' "$@"
@@ -216,16 +223,16 @@ phplint() {
 make_tarball() {
 	rm -rf $app-$version
 	mv $dir $app-$version
-	tar --owner=root --group=root -cJf $app-$version$rc.tar.xz $app-$version
+	tar --owner=root --group=root -cJf $app-$version.tar.xz $app-$version
 	rm -rf $app-$version
-	md5sum -b $app-$version$rc.tar.xz > $app-$version$rc.tar.xz.md5
-	chmod a+r $app-$version$rc.tar.xz $app-$version$rc.tar.xz.md5
+	md5sum -b $app-$version.tar.xz > $app-$version.tar.xz.md5
+	chmod a+r $app-$version.tar.xz $app-$version.tar.xz.md5
 }
 
 sign_tarball() {
 	local manual=0
 	if [ -x /usr/bin/gpg ] && [ "$(gpg --list-keys | wc -l)" -gt 0 ]; then
-		gpg --armor --sign --detach-sig $app-$version$rc.tar.xz || manual=1
+		gpg --armor --sign --detach-sig $app-$version.tar.xz || manual=1
 	else
 		manual=1
 	fi
@@ -235,9 +242,9 @@ sign_tarball() {
 		cat <<-EOF
 
 		To create a digital signature, use the following command:
-		% gpg --armor --sign --detach-sig $app-$version$rc.tar.xz
+		% gpg --armor --sign --detach-sig $app-$version.tar.xz
 
-		This command will create $app-$version$rc.tar.xz.asc
+		This command will create $app-$version.tar.xz.asc
 		EOF
 	fi
 }
@@ -245,7 +252,7 @@ sign_tarball() {
 upload_tarball() {
 	[ -x dropin ] || return 0
 
-	./dropin $app-$version$rc.tar.xz $app-$version$rc.tar.xz.md5
+	./dropin $app-$version.tar.xz $app-$version.tar.xz.md5
 }
 
 prepare_source() {
@@ -292,6 +299,7 @@ cd $dir
 	prepare_source
 cd ..
 
+set_version
 make_tarball
 sign_tarball
 upload_tarball
