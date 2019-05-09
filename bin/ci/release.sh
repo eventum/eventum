@@ -51,13 +51,15 @@ update_timestamps() {
 # rename wiki pages to be compatible with windows filesystems
 # https://github.com/eventum/eventum/issues/180
 wiki_pages_rename() {
+	echo >&2 "Renaming wiki pages"
 	find $dir -name '*:*' | while read file; do
 		f=$(echo "$file" | sed -e 's/:/_/g')
-		mv "$file" "$f"
+		mv -v "$file" "$f"
 	done
 }
 
 vcs_checkout() {
+	set -x
 	local submodule dir=$dir absdir
 
 	rm -rf $dir
@@ -94,8 +96,8 @@ vcs_checkout() {
 	wiki_pages_rename
 }
 
-# checkout localizations from launchpad
 po_checkout() {
+	echo >&2 "Checkout localizations from launchpad"
 	if [ -d $podir ]; then
 	  cd $podir
 	  $quick || bzr pull
@@ -120,8 +122,8 @@ clean_whitespace() {
 	sed -i -e 's/[\t ]\+$//' "$@"
 }
 
-# setup composer deps
 composer_install() {
+	echo >&2 "Setup composer deps"
 	# this dir does not exist in git export, but referenced in composer.json
 	install -d tests/src
 
@@ -149,9 +151,9 @@ composer_install() {
 	cat deps >> docs/DEPENDENCIES.md && rm deps
 }
 
-# create phpcompatinfo report
 phpcompatinfo_report() {
 	$quick && return
+	echo >&2 "Create phpcompatinfo report"
 
 	cp $topdir/phpcompatinfo.json .
 	$phpcompatinfo analyser:run --alias current --output docs/PhpCompatInfo.txt
@@ -178,9 +180,8 @@ clean_scripts() {
 	find -name '*.php' | xargs -r sed -i -e 's,\r$,,'
 }
 
-# cleanup excess files from vendor
-# but not that much that composer won't work
 clean_vendor() {
+	echo >&2 "Cleanup excess files from vendor"
 	$phing -f $topdir/build.xml clean-vendor
 
 	# clean empty dirs
