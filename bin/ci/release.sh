@@ -195,7 +195,7 @@ clean_vendor() {
 }
 
 cleanup_postdist() {
-	rm composer.json phpcompatinfo.json
+	rm composer.json
 	rm htdocs/debugbar
 
 	# cleanup vendors
