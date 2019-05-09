@@ -1,5 +1,5 @@
 index:
-    path: /index.php
+    path: /
     controller: Eventum\Controller\IndexController::defaultAction
 
 confirm:
@@ -42,7 +42,7 @@ setup:
     controller: Eventum\Controller\Setup\SetupController::defaultAction
 
 front:
-    path: /
+    path: /front
     controller: Eventum\Controller\FrontController::indexAction
 
 # vim:ts=4:sw=4:et

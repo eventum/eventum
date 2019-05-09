@@ -41,6 +41,15 @@ class Kernel extends BaseKernel
 
     public static function handleRequest(): void
     {
+        // Fake PATH info, because GuardAuthentication handles only main request
+        if (!isset($_SERVER['PATH_INFO']) && $_SERVER['SCRIPT_NAME'] !== '/index.php') {
+            // use /index.php, /list.php, so could use matching route names
+            $_SERVER['SCRIPT_FILENAME'] = substr($_SERVER['SCRIPT_FILENAME'], strlen($_SERVER['SCRIPT_NAME'])) . '/index.php';
+            $_SERVER['REQUEST_URI'] = "/index.php{$_SERVER['REQUEST_URI']}";
+            $_SERVER['SCRIPT_NAME'] = '/index.php';
+            $_SERVER['PHP_SELF'] = "/index.php{$_SERVER['SCRIPT_NAME']}";
+        }
+
         $_SERVER['APP_ENV'] = $_ENV['APP_ENV'] = ($_SERVER['APP_ENV'] ?? $_ENV['APP_ENV'] ?? null) ?: 'dev';
         $_SERVER['APP_DEBUG'] = $_SERVER['APP_DEBUG'] ?? $_ENV['APP_DEBUG'] ?? 'prod' !== $_SERVER['APP_ENV'];
         $_SERVER['APP_DEBUG'] = $_ENV['APP_DEBUG'] = (int)$_SERVER['APP_DEBUG'] || filter_var($_SERVER['APP_DEBUG'], FILTER_VALIDATE_BOOLEAN) ? '1' : '0';

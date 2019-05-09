@@ -23,7 +23,6 @@ use Psr\Container\ContainerInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
@@ -69,20 +68,6 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
     public function supports(Request $request): bool
     {
         $route = $request->attributes->get('_route');
-
-        if ($route === 'front') {
-            /**
-             * GuardAuthenticator checks only main requests,
-             * we need to identify the sub-request
-             * @see \Eventum\Controller\FrontController
-             */
-            $path = $request->getBaseUrl() ?: '/index.php';
-            try {
-                $match = $this->container->get('router')->match($path);
-                $route = $match['_route'];
-            } catch (ResourceNotFoundException $e) {
-            }
-        }
 
         return $route === 'login' && $request->isMethod('POST');
     }
