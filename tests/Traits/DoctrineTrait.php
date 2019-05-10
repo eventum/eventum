@@ -11,7 +11,7 @@
  * that were distributed with this source code.
  */
 
-namespace Eventum\Test;
+namespace Eventum\Test\Traits;
 
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Id\AssignedGenerator;
@@ -21,7 +21,7 @@ use ReflectionClass;
 use ReflectionException;
 use ReflectionProperty;
 
-trait DoctrineTraits
+trait DoctrineTrait
 {
     protected function getEntityManager(): EntityManager
     {

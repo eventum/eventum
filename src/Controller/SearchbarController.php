@@ -13,49 +13,33 @@
 
 namespace Eventum\Controller;
 
+use Eventum\Controller\Traits\RedirectResponseTrait;
 use Filter;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
-class SearchbarController extends BaseController
+class SearchbarController
 {
-    /** @var int */
-    private $custom_id;
+    use RedirectResponseTrait;
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function configure(): void
+    public function defaultAction(Request $request): ?Response
     {
-        $request = $this->getRequest();
+        $custom_id = $request->query->getInt('custom_id');
 
-        $this->custom_id = $request->query->getInt('custom_id');
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function canAccess(): bool
-    {
-        return true;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function defaultAction(): void
-    {
-        if ($this->custom_id) {
-            $this->filterAction();
+        if ($custom_id) {
+            return $this->filterAction($request, $custom_id);
         }
+
+        return null;
     }
 
-    private function filterAction(): void
+    private function filterAction(Request $request, int $custom_id): ?Response
     {
-        $filter = $this->getFilterById($this->custom_id);
+        $filter = $this->getFilterById($custom_id);
         if (!$filter) {
-            return;
+            return null;
         }
 
-        $request = $this->getRequest();
         $params = [];
 
         // merge with GET and POST
@@ -66,13 +50,10 @@ class SearchbarController extends BaseController
         unset($params['custom_id']);
         $params['cat'] = 'search';
 
-        $this->redirect('list.php', $params);
+        return $this->redirect('list.php', $params);
     }
 
-    /**
-     * @param int $cst_id
-     */
-    private function getFilterById($cst_id)
+    private function getFilterById(int $cst_id): ?array
     {
         $filters = Filter::getListing(true);
         foreach ($filters as $filter) {
@@ -84,12 +65,5 @@ class SearchbarController extends BaseController
         }
 
         return null;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function prepareTemplate(): void
-    {
     }
 }

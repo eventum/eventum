@@ -14,6 +14,7 @@
 namespace Eventum\Controller\Manage;
 
 use Eventum\Crypto\CryptoException;
+use Eventum\Crypto\CryptoKeyManager;
 use Eventum\Crypto\CryptoUpgradeManager;
 use Setup;
 use User;
@@ -50,6 +51,7 @@ class EncryptionController extends ManageBaseController
                 break;
             case 'activate':
                 $this->activateAction();
+
                 break;
         }
     }
@@ -59,18 +61,27 @@ class EncryptionController extends ManageBaseController
         $cm = new CryptoUpgradeManager();
 
         try {
-            $cm->regenerateKey();
+            // disable key, regenerate key and redirect to activate
+            // can't do in same page request because macOS php server forever cache
+            $cm->disable();
+            $km = new CryptoKeyManager();
+            $km->generateKey();
+            $cm->cacheClear();
             $this->messages->addInfoMessage(ev_gettext('Thank you, new key for encryption was generated.'));
+            $this->redirect('encryption.php', ['cat' => 'activate', 'encryption' => '1']);
         } catch (CryptoException $e) {
+            $this->logger->error($e->getMessage(), ['exception' => $e]);
             $error = ev_gettext('Unable to generate new encryption key. Check server error logs.');
             $this->messages->addErrorMessage($error);
         }
+
+        $this->redirect('encryption.php');
     }
 
     private function activateAction(): void
     {
-        $post = $this->getRequest()->request;
-        $enable = $post->get('encryption');
+        $request = $this->getRequest();
+        $enable = $request->request->get('encryption') ?: $request->query->get('encryption');
         $cm = new CryptoUpgradeManager();
 
         if (!$enable) {
@@ -78,20 +89,22 @@ class EncryptionController extends ManageBaseController
                 $cm->disable();
                 $this->messages->addInfoMessage(ev_gettext('Encryption was disabled!'));
             } catch (CryptoException $e) {
+                $this->logger->error($e->getMessage(), ['exception' => $e]);
                 $error = ev_gettext('Encryption can not be disabled: %s', $e->getMessage());
                 $this->messages->addErrorMessage($error);
             }
-
-            return;
+        } else {
+            try {
+                $cm->enable();
+                $this->messages->addInfoMessage(ev_gettext('Encryption was enabled!'));
+            } catch (CryptoException $e) {
+                $error = ev_gettext('Encryption can not be enabled: %s', $e->getMessage());
+                $this->messages->addErrorMessage($error);
+            }
         }
 
-        try {
-            $cm->enable();
-            $this->messages->addInfoMessage(ev_gettext('Encryption was enabled!'));
-        } catch (CryptoException $e) {
-            $error = ev_gettext('Encryption can not be enabled: %s', $e->getMessage());
-            $this->messages->addErrorMessage($error);
-        }
+        $cm->cacheClear();
+        $this->redirect('encryption.php');
     }
 
     /**

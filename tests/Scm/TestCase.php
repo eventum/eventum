@@ -14,14 +14,20 @@
 namespace Eventum\Test\Scm;
 
 use Date_Helper;
+use Eventum\Event\SystemEvents;
+use Eventum\EventDispatcher\EventManager;
 use Eventum\Extension\ExtensionManager;
 use Eventum\Model\Entity;
-use Eventum\Test\TestCase;
-use Setup;
-use Workflow;
+use Eventum\Test\Traits\DoctrineTrait;
 
-class ScmTestCase extends TestCase
+use Setup;
+use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Symfony\Component\EventDispatcher\GenericEvent;
+
+abstract class TestCase extends WebTestCase
 {
+    use DoctrineTrait;
+
     public static function setUpBeforeClass(): void
     {
         self::setUpConfig();
@@ -51,6 +57,7 @@ class ScmTestCase extends TestCase
 
         $issue = new Entity\Issue();
         $issue->setSummary('issue with commits');
+        $issue->setDescription('description');
         $issue->setProjectId(1);
         $issue->addCommit($ci);
 
@@ -73,6 +80,20 @@ class ScmTestCase extends TestCase
         $em->detach($commit->getIssue());
 
         return $commit;
+    }
+
+    protected function addFilesListener(array &$files): void
+    {
+        $listener = static function (GenericEvent $event) use (&$files): void {
+            /** @var Entity\Commit $commit */
+            $commit = $event->getSubject();
+            foreach ($commit->getFiles() as $cf) {
+                $files[] = $cf->getFilename();
+            }
+        };
+
+        $dispatcher = EventManager::getEventDispatcher();
+        $dispatcher->addListener(SystemEvents::SCM_COMMIT_ASSOCIATED, $listener);
     }
 
     private static function setUpConfig(): void

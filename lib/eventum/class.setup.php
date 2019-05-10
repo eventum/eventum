@@ -11,10 +11,10 @@
  * that were distributed with this source code.
  */
 
+use Eventum\Config\Config;
 use Eventum\Config\ConfigPersistence;
 use Eventum\Monolog\Logger;
 use Symfony\Component\Filesystem\Exception\IOException;
-use Zend\Config\Config;
 
 /**
  * Class to handle the business logic related to setting and updating
@@ -206,6 +206,11 @@ class Setup
             'email_reminder' => [],
 
             'extensions' => [],
+
+            'xhgui_profiler' => [
+                // https://github.com/eventum/eventum/pull/519
+                'status' => 'enabled',
+            ],
 
             'handle_clock_in' => 'enabled',
 

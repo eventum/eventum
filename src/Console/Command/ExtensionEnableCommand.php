@@ -13,7 +13,7 @@
 
 namespace Eventum\Console\Command;
 
-use Eventum\Extension\ExtensionInterface;
+use Eventum\Extension\Provider\ExtensionProvider;
 use InvalidArgumentException;
 use ReflectionClass;
 use ReflectionException;
@@ -39,7 +39,7 @@ class ExtensionEnableCommand
      * Setup Extension being loaded by default
      *
      * @param string $extensionFile path to filename that loads extension
-     * @param string $extensionName class name of extension, must implement ExtensionInterface
+     * @param string $extensionName class name of extension, must implement ExtensionProvider
      * @throws ReflectionException
      */
     public function setupExtension($extensionFile, $extensionName): void
@@ -83,7 +83,7 @@ class ExtensionEnableCommand
      * @throws InvalidArgumentException
      * @return ReflectionClass
      */
-    private function getExtensionClass($extensionName)
+    private function getExtensionClass($extensionName): ReflectionClass
     {
         if (!$extensionName) {
             throw new InvalidArgumentException('Extension class name not specified');
@@ -91,9 +91,9 @@ class ExtensionEnableCommand
 
         $reflectionClass = new ReflectionClass($extensionName);
 
-        $implements = $reflectionClass->implementsInterface(ExtensionInterface::class);
+        $implements = $reflectionClass->implementsInterface(ExtensionProvider::class);
         if (!$implements) {
-            throw new InvalidArgumentException("Class $extensionName does not implement ExtensionInterface");
+            throw new InvalidArgumentException("Class $extensionName does not implement ExtensionProvider");
         }
 
         return $reflectionClass;

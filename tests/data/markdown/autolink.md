@@ -1,1 +1,1 @@
-I successfully instead the https://github.com/thephpleague/commonmark-ext-autolink extension!
+I successfully installed the https://github.com/thephpleague/commonmark-ext-autolink extension!

@@ -15,16 +15,12 @@ namespace Eventum\Test\CustomField;
 
 use Eventum\Db\Doctrine;
 use Eventum\Model\Repository\CustomFieldRepository;
-use Eventum\Test\DoctrineTraits;
 use Eventum\Test\TestCase as BaseTestCase;
+use Eventum\Test\Traits\DoctrineTrait;
 
 abstract class TestCase extends BaseTestCase
 {
-    use DoctrineTraits;
-
-    protected const PROJECT_ID = 1;
-
-    protected const ID_TEXT = 0x6001;
+    use DoctrineTrait;
 
     /** @var CustomFieldRepository */
     protected $repo;

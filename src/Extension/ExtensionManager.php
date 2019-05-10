@@ -13,10 +13,19 @@
 
 namespace Eventum\Extension;
 
-use Abstract_Partner_Backend;
 use Composer\Autoload\ClassLoader;
+use Eventum\Extension\Provider\AutoloadProvider;
+use Eventum\Extension\Provider\CrmProvider;
+use Eventum\Extension\Provider\CustomFieldProvider;
+use Eventum\Extension\Provider\ExtensionProvider;
+use Eventum\Extension\Provider\FactoryProvider;
+use Eventum\Extension\Provider\PartnerProvider;
+use Eventum\Extension\Provider\SubscriberProvider;
+use Eventum\Extension\Provider\WorkflowProvider;
 use Eventum\Monolog\Logger;
+use Generator;
 use InvalidArgumentException;
+use RuntimeException;
 use Setup;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Throwable;
@@ -24,7 +33,7 @@ use Zend\Config\Config;
 
 class ExtensionManager
 {
-    /** @var ExtensionInterface[] */
+    /** @var Provider\ExtensionProvider[] */
     protected $extensions;
 
     /**
@@ -32,7 +41,7 @@ class ExtensionManager
      *
      * @return ExtensionManager
      */
-    public static function getManager(): ExtensionManager
+    public static function getManager(): self
     {
         static $manager;
         if (!$manager) {
@@ -49,112 +58,120 @@ class ExtensionManager
 
     /**
      * Return instances of Workflow implementations.
-     *
-     * @return array
      */
-    public function getWorkflowClasses(): array
+    public function getWorkflowClasses(): Generator
     {
-        return $this->createInstances('getAvailableWorkflows');
+        return $this->createInstances('getAvailableWorkflows', function (ExtensionProvider $extension) {
+            return $extension instanceof WorkflowProvider;
+        });
     }
 
     /**
      * Return instances of Custom Field implementations.
-     *
-     * @return array
      */
-    public function getCustomFieldClasses(): array
+    public function getCustomFieldClasses(): Generator
     {
-        return $this->createInstances('getAvailableCustomFields');
+        return $this->createInstances('getAvailableCustomFields', function (ExtensionProvider $extension) {
+            return $extension instanceof CustomFieldProvider;
+        });
     }
 
     /**
      * Return instances of CRM implementations.
-     *
-     * @return array
      */
-    public function getCustomerClasses(): array
+    public function getCustomerClasses(): Generator
     {
-        return $this->createInstances('getAvailableCRMs');
+        return $this->createInstances('getAvailableCRMs', function (ExtensionProvider $extension) {
+            return $extension instanceof CrmProvider;
+        });
     }
 
     /**
      * Return instances of Partner implementations.
-     *
-     * @return Abstract_Partner_Backend[]
      */
-    public function getPartnerClasses(): array
+    public function getPartnerClasses(): Generator
     {
-        /** @var Abstract_Partner_Backend[] $backends */
-        $backends = $this->createInstances('getAvailablePartners');
-
-        return $backends;
+        return $this->createInstances('getAvailablePartners', function (ExtensionProvider $extension) {
+            return $extension instanceof PartnerProvider;
+        });
     }
 
     /**
      * Get classes implementing EventSubscriberInterface.
      *
      * @see http://symfony.com/doc/current/components/event_dispatcher.html#using-event-subscribers
-     * @return EventSubscriberInterface[]
      */
-    public function getSubscribers(): array
+    public function getSubscribers(): Generator
     {
-        /** @var EventSubscriberInterface[] $subscribers */
-        $subscribers = $this->createInstances(__FUNCTION__);
-
-        return $subscribers;
+        return $this->createInstances(__FUNCTION__, function (ExtensionProvider $extension) {
+            return $extension instanceof SubscriberProvider;
+        });
     }
 
     /**
      * Create instances of classes returned from each extension $methodName.
-     *
-     * @param string $methodName
-     * @return object[]
      */
-    protected function createInstances(string $methodName): array
+    protected function createInstances(string $methodName, callable $filter): Generator
     {
-        $instances = [];
         foreach ($this->extensions as $extension) {
+            if (!$filter($extension)) {
+                continue;
+            }
             foreach ($extension->$methodName() as $className) {
                 try {
-                    $instances[$className] = $this->createInstance($extension, $className);
+                    yield $className => $this->createInstance($extension, $className);
                 } catch (Throwable $e) {
                     Logger::app()->error("Unable to create $className: {$e->getMessage()}", ['exception' => $e]);
                 }
             }
         }
-
-        return $instances;
     }
 
     /**
      * Create new instance of named class,
-     * use factory method from extension if extension provides it.
+     * use factory from extensions that provide factory method.
      *
      * @return object
      */
-    protected function createInstance(ExtensionInterface $extension, string $classname)
+    protected function createInstance(Provider\ExtensionProvider $preferredExtension, string $className)
     {
-        if ($extension instanceof ExtensionFactoryInterface) {
-            $object = $extension->factory($classname);
+        $getSortedExtensions = static function (array $extensions) use ($preferredExtension): Generator {
+            // prefer provided extension
+            if ($preferredExtension instanceof FactoryProvider) {
+                yield $preferredExtension;
+            }
+            unset($extensions[get_class($preferredExtension)]);
 
-            // extension may not provide factory for the class
-            // fall back to plain autoloading
+            foreach ($extensions as $extension) {
+                if ($extension instanceof FactoryProvider) {
+                    yield $extension;
+                }
+            }
+        };
+
+        foreach ($getSortedExtensions($this->extensions) as $extension) {
+            /** @var FactoryProvider $extension */
+            $object = $extension->factory($className);
+
+            // extension may not provide factory for this class
+            // try next extension
             if ($object) {
                 return $object;
             }
         }
 
-        if (!class_exists($classname)) {
-            throw new InvalidArgumentException("Class '$classname' does not exist");
+        // fall back to autoloading
+        if (!class_exists($className)) {
+            throw new InvalidArgumentException("Class '$className' does not exist");
         }
 
-        return new $classname();
+        return new $className();
     }
 
     /**
      * Create all extensions, initialize autoloader on them.
      *
-     * @return ExtensionInterface[]
+     * @return Provider\ExtensionProvider[]
      */
     protected function loadExtensions(): array
     {
@@ -162,8 +179,16 @@ class ExtensionManager
         $loader = $this->getAutoloader();
 
         foreach ($this->getExtensionFiles() as $classname => $filename) {
-            $extension = $this->loadExtension($classname, $filename);
-            $extension->registerAutoloader($loader);
+            try {
+                $extension = $this->loadExtension($classname, $filename);
+            } catch (Throwable $e) {
+                Logger::app()->error("Unable to load $classname: {$e->getMessage()}", ['exception' => $e]);
+                continue;
+            }
+
+            if ($extension instanceof AutoloadProvider) {
+                $extension->registerAutoloader($loader);
+            }
             $extensions[$classname] = $extension;
         }
 
@@ -173,7 +198,7 @@ class ExtensionManager
     /**
      * Load $filename and create $classname instance
      */
-    protected function loadExtension(string $classname, string $filename): ExtensionInterface
+    protected function loadExtension(string $classname, string $filename): Provider\ExtensionProvider
     {
         // class may already be loaded
         // can ignore the filename requirement
@@ -210,10 +235,15 @@ class ExtensionManager
      */
     protected function getAutoloader(): ClassLoader
     {
-        foreach ([APP_PATH . '/vendor/autoload.php', APP_PATH . '/../../../vendor/autoload.php'] as $autoload) {
+        $baseDir = dirname(__DIR__, 2);
+        foreach ([$baseDir . '/vendor/autoload.php', $baseDir . '/../../../vendor/autoload.php'] as $autoload) {
             if (file_exists($autoload)) {
                 break;
             }
+        }
+
+        if (!isset($autoload)) {
+            throw new RuntimeException('Could not locate autoloader');
         }
 
         return require $autoload;

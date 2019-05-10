@@ -16,10 +16,9 @@ namespace Eventum\Test\Db;
 use Date_Helper;
 use Eventum\Db\Doctrine;
 use Eventum\Model\Entity;
-use Eventum\Model\Repository\ProjectRepository;
-use Eventum\Model\Repository\UserRepository;
-use Eventum\Test\DoctrineTraits;
 use Eventum\Test\TestCase;
+use Eventum\Test\Traits\DoctrineTrait;
+use IssueSeeder;
 
 /**
  * TODO: datetime and timezone: http://docs.doctrine-project.org/projects/doctrine-orm/en/latest/cookbook/working-with-datetime.html
@@ -28,104 +27,19 @@ use Eventum\Test\TestCase;
  */
 class DoctrineTest extends TestCase
 {
-    use DoctrineTraits;
-
-    public function testFindAll(): void
-    {
-        $repo = $this->getEntityManager()->getRepository(Entity\Project::class);
-        $projects = $repo->findAll();
-
-        /**
-         * @var Entity\Project $project
-         */
-        foreach ($projects as $project) {
-            printf("#%d: %s\n", $project->getId(), $project->getTitle());
-        }
-    }
-
-    public function test2(): void
-    {
-        $repo = Doctrine::getCommitRepository();
-        $items = $repo->findBy([], null, 10);
-
-        /**
-         * @var Entity\Commit $item
-         */
-        foreach ($items as $item) {
-            printf("* %s %s\n", $item->getId(), trim($item->getMessage()));
-        }
-    }
-
-    public function test3(): void
-    {
-        $repo = Doctrine::getCommitRepository();
-        $qb = $repo->createQueryBuilder('commit');
-
-        $qb->setMaxResults(10);
-
-        $query = $qb->getQuery();
-        $items = $query->getArrayResult();
-
-        print_r($items);
-    }
-
-    public function testDeleteByQuery(): void
-    {
-        $issue_id = 13;
-        $associated_issue_id = 12;
-        $em = $this->getEntityManager();
-        $qb = $em->createQueryBuilder();
-        $qb->delete(Entity\IssueAssociation::class, 'ia');
-
-        $expr = $qb->expr();
-        $left = $expr->andX('ia.isa_issue_id = :isa_issue_id', 'ia.isa_associated_id = :isa_associated_id');
-        $right = $expr->andX('ia.isa_issue_id = :isa_associated_id', 'ia.isa_associated_id = :isa_issue_id');
-        $qb->where(
-            $expr->orX()
-                ->add($left)
-                ->add($right)
-        );
-
-        $qb->setParameter('isa_issue_id', $issue_id);
-        $qb->setParameter('isa_associated_id', $associated_issue_id);
-        $query = $qb->getQuery();
-        $query->execute();
-    }
-
-    /**
-     * @throws \Doctrine\ORM\EntityNotFoundException
-     */
-    public function testProjectStatusId(): void
-    {
-        /** @var ProjectRepository $repo */
-        $repo = $this->getEntityManager()->getRepository(Entity\Project::class);
-        $prj_id = 1;
-        $status_id = $repo->findById($prj_id)->getInitialStatusId();
-        dump($status_id);
-
-        $status_id = Doctrine::getProjectRepository()->findById($prj_id)->getInitialStatusId();
-        dump($status_id);
-    }
-
-    public function testUserModel(): void
-    {
-        $repo = $this->getEntityManager()->getRepository(Entity\User::class);
-        $items = $repo->findBy([], null, 1);
-
-        dump($items);
-    }
+    use DoctrineTrait;
 
     public function testIssueRepository(): void
     {
         $em = Doctrine::getEntityManager();
         $repo = $em->getRepository(Entity\Issue::class);
 
-        $issue = $repo->findOneBy(['id' => 135]);
+        $issue = $repo->findOneBy(['id' => IssueSeeder::ISSUE_1]);
         $this->assertNotNull($issue);
 
         $commitCollection = $issue->getCommits();
         $commits = iterator_to_array($commitCollection);
-        $this->assertCount(12, $commits);
+        $this->assertCount(1, $commits);
 
         /** @var Entity\Commit $commit */
         $commit = $commits[0];
@@ -146,7 +60,7 @@ class DoctrineTest extends TestCase
         $repo = $em->getRepository(Entity\Issue::class);
 
         /** @var Entity\Issue $issue */
-        $issue = $repo->findOneBy(['id' => 64]);
+        $issue = $repo->findOneBy(['id' => IssueSeeder::ISSUE_2]);
         $this->assertNotNull($issue);
 
         $changeset = uniqid('z1', false);
@@ -167,37 +81,5 @@ class DoctrineTest extends TestCase
         $em->persist($commit);
         $em->persist($issue);
         $em->flush();
-    }
-
-    public function testAddCommit(): void
-    {
-        $issue_id = 1;
-
-        $issue = new Entity\Issue();
-        $issue->setId(1);
-    }
-
-    public function testUserRepository(): void
-    {
-        /** @var UserRepository $repo */
-        $repo = $this->getEntityManager()->getRepository(Entity\User::class);
-
-        $user = $repo->findOneByCustomerContactId(1);
-        dump($user);
-
-        // find by id
-        $user = $repo->find(-1);
-        dump($user);
-
-        // query for a single product matching the given name and price
-        $user = $repo->findOneBy(
-            ['status' => 'active', 'partnerCode' => 0]
-        );
-
-        // query for multiple products matching the given name, ordered by price
-        $users = $repo->findBy(
-            ['status' => 'inactive'],
-            ['id' => 'ASC']
-        );
     }
 }

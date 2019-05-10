@@ -20,8 +20,12 @@ use Eventum\LinkFilter\LinkFilter;
 use Eventum\Mail\Helper\AddressHeader;
 use Eventum\Mail\ImapMessage;
 use Eventum\Mail\MailMessage;
+use Eventum\Monolog\Logger;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
+/**
+ * @deprecated workflow backend concept is deprecated, use event subscribers
+ */
 class Workflow
 {
     /**
@@ -54,26 +58,42 @@ class Workflow
      * given project ID, instantiates it and returns the class.
      *
      * @param   int $prj_id The project ID
-     * @return bool|Abstract_Workflow_Backend
-     * @deprecated will be removed in 3.3.0
      */
-    public static function _getBackend($prj_id)
+    public static function getBackend($prj_id): ?Abstract_Workflow_Backend
     {
-        static $setup_backends;
+        static $cache = [];
 
-        if (empty($setup_backends[$prj_id])) {
-            $backendName = self::_getBackendNameByProject($prj_id);
-            if (!$backendName) {
-                return false;
+        $prj_id = (int)$prj_id;
+
+        $initialize = static function (int $prj_id): ?Abstract_Workflow_Backend {
+            // bunch of code calling without project id context
+            if (!$prj_id) {
+                return null;
             }
 
-            $backend = static::getExtensionLoader()->createInstance($backendName);
-            $backend->prj_id = $prj_id;
+            $backendName = static::_getBackendNameByProject($prj_id);
+            if (!$backendName) {
+                return null;
+            }
 
-            $setup_backends[$prj_id] = $backend;
+            try {
+                /** @var Abstract_Workflow_Backend $backend */
+                $backend = static::getExtensionLoader()->createInstance($backendName);
+                $backend->prj_id = $prj_id;
+            } catch (InvalidArgumentException $e) {
+                Logger::app()->error($e->getMessage(), ['exception' => $e]);
+
+                return null;
+            }
+
+            return $backend;
+        };
+
+        if (array_key_exists($prj_id, $cache)) {
+            return $cache[$prj_id];
         }
 
-        return $setup_backends[$prj_id];
+        return $cache[$prj_id] = $initialize($prj_id);
     }
 
     /**
@@ -82,6 +102,7 @@ class Workflow
      *
      * @param   int $prj_id The project ID
      * @return  bool
+     * @deprecated this method is not used by eventum
      */
     public static function hasWorkflowIntegration($prj_id)
     {
@@ -121,11 +142,11 @@ class Workflow
         ];
         EventManager::dispatch(SystemEvents::ISSUE_UPDATED, new GenericEvent(null, $arguments));
 
-        if (!self::hasWorkflowIntegration($prj_id)) {
+        $backend = self::getBackend($prj_id);
+        if (!$backend) {
             return;
         }
 
-        $backend = self::_getBackend($prj_id);
         $backend->handleIssueUpdated($prj_id, $issue_id, $usr_id, $old_details, $raw_post);
     }
 
@@ -158,10 +179,10 @@ class Workflow
             return $event['bubble'];
         }
 
-        if (!self::hasWorkflowIntegration($prj_id)) {
+        $backend = self::getBackend($prj_id);
+        if (!$backend) {
             return true;
         }
-        $backend = self::_getBackend($prj_id);
 
         return $backend->preIssueUpdated($prj_id, $issue_id, $usr_id, $changes);
     }
@@ -176,11 +197,11 @@ class Workflow
      */
     public static function handleAttachment($prj_id, $issue_id, $usr_id, AttachmentGroup $attachment_group): void
     {
-        if (!self::hasWorkflowIntegration($prj_id)) {
+        $backend = self::getBackend($prj_id);
+        if (!$backend) {
             return;
         }
 
-        $backend = self::_getBackend($prj_id);
         $backend->handleAttachment($prj_id, $issue_id, $usr_id, $attachment_group);
     }
 
@@ -208,10 +229,10 @@ class Workflow
             return $event->getResult();
         }
 
-        if (!self::hasWorkflowIntegration($prj_id)) {
+        $backend = self::getBackend($prj_id);
+        if (!$backend) {
             return true;
         }
-        $backend = self::_getBackend($prj_id);
 
         return $backend->shouldAttachFile($prj_id, $issue_id, $usr_id, $attachment);
     }
@@ -227,11 +248,10 @@ class Workflow
      */
     public static function handlePriorityChange($prj_id, $issue_id, $usr_id, $old_details, $changes): void
     {
-        if (!self::hasWorkflowIntegration($prj_id)) {
+        $backend = self::getBackend($prj_id);
+        if (!$backend) {
             return;
         }
-
-        $backend = self::_getBackend($prj_id);
         $backend->handlePriorityChange($prj_id, $issue_id, $usr_id, $old_details, $changes);
     }
 
@@ -246,11 +266,10 @@ class Workflow
      */
     public static function handleSeverityChange($prj_id, $issue_id, $usr_id, $old_details, $changes): void
     {
-        if (!self::hasWorkflowIntegration($prj_id)) {
+        $backend = self::getBackend($prj_id);
+        if (!$backend) {
             return;
         }
-
-        $backend = self::_getBackend($prj_id);
         $backend->handleSeverityChange($prj_id, $issue_id, $usr_id, $old_details, $changes);
     }
 
@@ -277,11 +296,10 @@ class Workflow
         $event = new GenericEvent(null, $arguments);
         EventManager::dispatch(SystemEvents::EMAIL_BLOCKED, $event);
 
-        if (!self::hasWorkflowIntegration($prj_id)) {
+        $backend = self::getBackend($prj_id);
+        if (!$backend) {
             return;
         }
-
-        $backend = self::_getBackend($prj_id);
         $backend->handleBlockedEmail($prj_id, $issue_id, $email_details, $type);
     }
 
@@ -311,11 +329,10 @@ class Workflow
         $event = new GenericEvent(null, $arguments);
         EventManager::dispatch(SystemEvents::ISSUE_ASSIGNMENT_CHANGE, $event);
 
-        if (!self::hasWorkflowIntegration($prj_id)) {
+        $backend = self::getBackend($prj_id);
+        if (!$backend) {
             return;
         }
-
-        $backend = self::_getBackend($prj_id);
         $backend->handleAssignmentChange($prj_id, $issue_id, $usr_id, $issue_details, $new_assignees, $remote_assignment);
     }
 
@@ -341,11 +358,10 @@ class Workflow
         ];
         EventManager::dispatch(SystemEvents::ISSUE_CREATED, new GenericEvent(null, $arguments));
 
-        if (!self::hasWorkflowIntegration($prj_id)) {
+        $backend = self::getBackend($prj_id);
+        if (!$backend) {
             return;
         }
-
-        $backend = self::_getBackend($prj_id);
         $backend->handleNewIssue($prj_id, $issue_id, $has_TAM, $has_RR);
     }
 
@@ -388,11 +404,10 @@ class Workflow
         $event = new GenericEvent($mail, $arguments);
         EventManager::dispatch(SystemEvents::MAIL_CREATED, $event);
 
-        if (!self::hasWorkflowIntegration($prj_id)) {
+        $backend = self::getBackend($prj_id);
+        if (!$backend) {
             return;
         }
-
-        $backend = self::_getBackend($prj_id);
         $backend->handleNewEmail($prj_id, $issue_id, $mail, $row, $closing);
     }
 
@@ -404,11 +419,10 @@ class Workflow
      */
     public static function handleManualEmailAssociation($prj_id, $issue_id): void
     {
-        if (!self::hasWorkflowIntegration($prj_id)) {
+        $backend = self::getBackend($prj_id);
+        if (!$backend) {
             return;
         }
-
-        $backend = self::_getBackend($prj_id);
         $backend->handleManualEmailAssociation($prj_id, $issue_id);
     }
 
@@ -436,11 +450,10 @@ class Workflow
         ];
         EventManager::dispatch(SystemEvents::NOTE_CREATED, new GenericEvent(null, $arguments));
 
-        if (!self::hasWorkflowIntegration($prj_id)) {
+        $backend = self::getBackend($prj_id);
+        if (!$backend) {
             return;
         }
-
-        $backend = self::_getBackend($prj_id);
         $backend->handleNewNote($prj_id, $issue_id, $usr_id, $closing, $note_id);
     }
 
@@ -468,8 +481,7 @@ class Workflow
             return $event->getResult();
         }
 
-        if (self::hasWorkflowIntegration($prj_id)) {
-            $backend = self::_getBackend($prj_id);
+        if ($backend = self::getBackend($prj_id)) {
             $statusList = $backend->getAllowedStatuses($prj_id, $issue_id);
         }
 
@@ -507,10 +519,9 @@ class Workflow
         $event = new GenericEvent(null, $arguments);
         EventManager::dispatch(SystemEvents::ISSUE_CLOSED, $event);
 
-        if (!self::hasWorkflowIntegration($prj_id)) {
+        if (!$backend = self::getBackend($prj_id)) {
             return;
         }
-        $backend = self::_getBackend($prj_id);
         $backend->handleIssueClosed($prj_id, $issue_id, $send_notification, $resolution_id, $status_id, $reason, $usr_id);
     }
 
@@ -525,11 +536,10 @@ class Workflow
      */
     public static function handleCustomFieldsUpdated($prj_id, $issue_id, $old, $new, $changed): void
     {
-        if (!self::hasWorkflowIntegration($prj_id)) {
+        if (!$backend = self::getBackend($prj_id)) {
             return;
         }
 
-        $backend = self::_getBackend($prj_id);
         $backend->handleCustomFieldsUpdated($prj_id, $issue_id, $old, $new, $changed);
     }
 
@@ -570,11 +580,9 @@ class Workflow
             return $event->getResult();
         }
 
-        if (!self::hasWorkflowIntegration($prj_id)) {
+        if (!$backend = self::getBackend($prj_id)) {
             return null;
         }
-
-        $backend = self::_getBackend($prj_id);
 
         return $backend->handleSubscription($prj_id, $issue_id, $subscriber_usr_id, $email, $actions);
     }
@@ -606,10 +614,9 @@ class Workflow
             return $event->getResult();
         }
 
-        if (!self::hasWorkflowIntegration($prj_id)) {
+        if (!$backend = self::getBackend($prj_id)) {
             return true;
         }
-        $backend = self::_getBackend($prj_id);
 
         return $backend->shouldEmailAddress($prj_id, $address, $issue_id, $type);
     }
@@ -625,10 +632,9 @@ class Workflow
      */
     public static function getAdditionalEmailAddresses($prj_id, $issue_id, $event, $extra = false)
     {
-        if (!self::hasWorkflowIntegration($prj_id)) {
+        if (!$backend = self::getBackend($prj_id)) {
             return [];
         }
-        $backend = self::_getBackend($prj_id);
 
         return $backend->getAdditionalEmailAddresses($prj_id, $issue_id, $event, $extra);
     }
@@ -645,10 +651,9 @@ class Workflow
      */
     public static function canEmailIssue($prj_id, $issue_id, $email)
     {
-        if (!self::hasWorkflowIntegration($prj_id)) {
+        if (!$backend = self::getBackend($prj_id)) {
             return null;
         }
-        $backend = self::_getBackend($prj_id);
 
         return $backend->canEmailIssue($prj_id, $issue_id, $email);
     }
@@ -664,10 +669,9 @@ class Workflow
      */
     public static function canSendNote($prj_id, $issue_id, $sender_email, MailMessage $mail)
     {
-        if (!self::hasWorkflowIntegration($prj_id)) {
+        if (!$backend = self::getBackend($prj_id)) {
             return null;
         }
-        $backend = self::_getBackend($prj_id);
 
         return $backend->canSendNote($prj_id, $issue_id, $sender_email, $mail);
     }
@@ -682,10 +686,9 @@ class Workflow
      */
     public static function canCloneIssue($prj_id, $issue_id, $usr_id)
     {
-        if (!self::hasWorkflowIntegration($prj_id)) {
-            return;
+        if (!$backend = self::getBackend($prj_id)) {
+            return null;
         }
-        $backend = self::_getBackend($prj_id);
 
         return $backend->canCloneIssue($prj_id, $issue_id, $usr_id);
     }
@@ -700,10 +703,9 @@ class Workflow
      */
     public static function canChangeAccessLevel($prj_id, $issue_id, $usr_id)
     {
-        if (!self::hasWorkflowIntegration($prj_id)) {
-            return;
+        if (!$backend = self::getBackend($prj_id)) {
+            return null;
         }
-        $backend = self::_getBackend($prj_id);
 
         return $backend->canChangeAccessLevel($prj_id, $issue_id, $usr_id);
     }
@@ -718,10 +720,9 @@ class Workflow
      */
     public static function handleAuthorizedReplierAdded($prj_id, $issue_id, &$email)
     {
-        if (!self::hasWorkflowIntegration($prj_id)) {
+        if (!$backend = self::getBackend($prj_id)) {
             return null;
         }
-        $backend = self::_getBackend($prj_id);
 
         return $backend->handleAuthorizedReplierAdded($prj_id, $issue_id, $email);
     }
@@ -736,11 +737,9 @@ class Workflow
      */
     public static function preEmailDownload($prj_id, ImapMessage $mail)
     {
-        if (!self::hasWorkflowIntegration($prj_id)) {
+        if (!$backend = self::getBackend($prj_id)) {
             return null;
         }
-
-        $backend = self::_getBackend($prj_id);
 
         return $backend->preEmailDownload($prj_id, $mail);
     }
@@ -756,10 +755,9 @@ class Workflow
      */
     public static function preNoteInsert($prj_id, $issue_id, &$data)
     {
-        if (!self::hasWorkflowIntegration($prj_id)) {
+        if (!$backend = self::getBackend($prj_id)) {
             return null;
         }
-        $backend = self::_getBackend($prj_id);
 
         return $backend->preNoteInsert($prj_id, $issue_id, $data);
     }
@@ -772,10 +770,9 @@ class Workflow
      */
     public static function shouldAutoAddToNotificationList($prj_id)
     {
-        if (!self::hasWorkflowIntegration($prj_id)) {
+        if (!$backend = self::getBackend($prj_id)) {
             return true;
         }
-        $backend = self::_getBackend($prj_id);
 
         return $backend->shouldAutoAddToNotificationList($prj_id);
     }
@@ -792,10 +789,9 @@ class Workflow
      */
     public static function getIssueIDForNewEmail($prj_id, $info, MailMessage $mail)
     {
-        if (!self::hasWorkflowIntegration($prj_id)) {
+        if (!$backend = self::getBackend($prj_id)) {
             return null;
         }
-        $backend = self::_getBackend($prj_id);
 
         return $backend->getIssueIDforNewEmail($prj_id, $info, $mail);
     }
@@ -811,11 +807,11 @@ class Workflow
      */
     public static function modifyMailQueue($prj_id, $recipient, MailMessage $mail, $options): void
     {
-        if (!self::hasWorkflowIntegration($prj_id)) {
+        if (!$backend = self::getBackend($prj_id)) {
             return;
         }
 
-        self::_getBackend($prj_id)->modifyMailQueue($prj_id, $recipient, $mail, $options);
+        $backend->modifyMailQueue($prj_id, $recipient, $mail, $options);
     }
 
     /**
@@ -829,10 +825,9 @@ class Workflow
      */
     public static function preStatusChange($prj_id, &$issue_id, &$status_id, &$notify)
     {
-        if (!self::hasWorkflowIntegration($prj_id)) {
+        if (!$backend = self::getBackend($prj_id)) {
             return true;
         }
-        $backend = self::_getBackend($prj_id);
 
         return $backend->preStatusChange($prj_id, $issue_id, $status_id, $notify);
     }
@@ -846,10 +841,9 @@ class Workflow
      */
     public static function prePage($prj_id, $page_name)
     {
-        if (!self::hasWorkflowIntegration($prj_id)) {
+        if (!$backend = self::getBackend($prj_id)) {
             return true;
         }
-        $backend = self::_getBackend($prj_id);
 
         return $backend->prePage($prj_id, $page_name);
     }
@@ -866,10 +860,9 @@ class Workflow
      */
     public static function getNotificationActions($prj_id, $issue_id, $email, $source)
     {
-        if (!self::hasWorkflowIntegration($prj_id)) {
+        if (!$backend = self::getBackend($prj_id)) {
             return null;
         }
-        $backend = self::_getBackend($prj_id);
 
         return $backend->getNotificationActions($prj_id, $issue_id, $email, $source);
     }
@@ -885,10 +878,9 @@ class Workflow
      */
     public static function getIssueFieldsToDisplay($prj_id, $issue_id, $location)
     {
-        if (!self::hasWorkflowIntegration($prj_id)) {
+        if (!$backend = self::getBackend($prj_id)) {
             return [];
         }
-        $backend = self::_getBackend($prj_id);
 
         return $backend->getIssueFieldsToDisplay($prj_id, $issue_id, $location);
     }
@@ -907,11 +899,10 @@ class Workflow
         $event = new GenericEvent($linkFilter, $arguments);
         EventManager::dispatch(SystemEvents::ISSUE_LINK_FILTERS, $event);
 
-        if (!self::hasWorkflowIntegration($prj_id)) {
+        if (!$backend = self::getBackend($prj_id)) {
             return;
         }
 
-        $backend = self::_getBackend($prj_id);
         $linkFilter->addRules($backend->getLinkFilters($prj_id));
     }
 
@@ -920,10 +911,9 @@ class Workflow
      */
     public static function canUpdateIssue($prj_id, $issue_id, $usr_id)
     {
-        if (!self::hasWorkflowIntegration($prj_id)) {
+        if (!$backend = self::getBackend($prj_id)) {
             return null;
         }
-        $backend = self::_getBackend($prj_id);
 
         return $backend->canUpdateIssue($prj_id, $issue_id, $usr_id);
     }
@@ -933,10 +923,9 @@ class Workflow
      */
     public static function canChangeAssignee($prj_id, $issue_id, $usr_id)
     {
-        if (!self::hasWorkflowIntegration($prj_id)) {
+        if (!$backend = self::getBackend($prj_id)) {
             return null;
         }
-        $backend = self::_getBackend($prj_id);
 
         return $backend->canChangeAssignee($prj_id, $issue_id, $usr_id);
     }
@@ -946,10 +935,9 @@ class Workflow
      */
     public static function getActiveGroup($prj_id)
     {
-        if (!self::hasWorkflowIntegration($prj_id)) {
+        if (!$backend = self::getBackend($prj_id)) {
             return null;
         }
-        $backend = self::_getBackend($prj_id);
 
         return $backend->getActiveGroup($prj_id);
     }
@@ -962,10 +950,9 @@ class Workflow
      */
     public static function getAccessLevels($prj_id)
     {
-        if (!self::hasWorkflowIntegration($prj_id)) {
+        if (!$backend = self::getBackend($prj_id)) {
             return [];
         }
-        $backend = self::_getBackend($prj_id);
 
         return $backend->getAccessLevels($prj_id);
     }
@@ -980,10 +967,9 @@ class Workflow
      */
     public static function canAccessIssue($prj_id, $issue_id, $usr_id)
     {
-        if (!self::hasWorkflowIntegration($prj_id)) {
+        if (!$backend = self::getBackend($prj_id)) {
             return null;
         }
-        $backend = self::_getBackend($prj_id);
 
         return $backend->canAccessIssue($prj_id, $issue_id, $usr_id);
     }
@@ -997,10 +983,9 @@ class Workflow
      */
     public static function getAdditionalAccessSQL($prj_id, $usr_id)
     {
-        if (!self::hasWorkflowIntegration($prj_id)) {
+        if (!$backend = self::getBackend($prj_id)) {
             return null;
         }
-        $backend = self::_getBackend($prj_id);
 
         return $backend->getAdditionalAccessSQL($prj_id, $usr_id);
     }
@@ -1015,10 +1000,11 @@ class Workflow
      */
     public static function handleIssueMovedFromProject($prj_id, $issue_id, $new_prj_id)
     {
-        if (!self::hasWorkflowIntegration($prj_id)) {
+        if (!$backend = self::getBackend($prj_id)) {
             return null;
         }
-        self::_getBackend($prj_id)->handleIssueMovedFromProject($prj_id, $issue_id, $new_prj_id);
+
+        $backend->handleIssueMovedFromProject($prj_id, $issue_id, $new_prj_id);
     }
 
     /**
@@ -1031,10 +1017,11 @@ class Workflow
      */
     public static function handleIssueMovedToProject($prj_id, $issue_id, $old_prj_id)
     {
-        if (!self::hasWorkflowIntegration($prj_id)) {
+        if (!$backend = self::getBackend($prj_id)) {
             return null;
         }
-        self::_getBackend($prj_id)->handleIssueMovedToProject($prj_id, $issue_id, $old_prj_id);
+
+        $backend->handleIssueMovedToProject($prj_id, $issue_id, $old_prj_id);
     }
 
     /**
@@ -1049,10 +1036,9 @@ class Workflow
      */
     public static function getMovedIssueMapping($prj_id, $issue_id, $mapping, $old_prj_id)
     {
-        if (!self::hasWorkflowIntegration($prj_id)) {
+        if (!$backend = self::getBackend($prj_id)) {
             return $mapping;
         }
-        $backend = self::_getBackend($prj_id);
 
         return $backend->getMovedIssueMapping($prj_id, $issue_id, $mapping, $old_prj_id);
     }

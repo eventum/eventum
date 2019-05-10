@@ -51,13 +51,15 @@ update_timestamps() {
 # rename wiki pages to be compatible with windows filesystems
 # https://github.com/eventum/eventum/issues/180
 wiki_pages_rename() {
+	echo >&2 "Renaming wiki pages"
 	find $dir -name '*:*' | while read file; do
 		f=$(echo "$file" | sed -e 's/:/_/g')
-		mv "$file" "$f"
+		mv -v "$file" "$f"
 	done
 }
 
 vcs_checkout() {
+	set -x
 	local submodule dir=$dir absdir
 
 	rm -rf $dir
@@ -94,8 +96,8 @@ vcs_checkout() {
 	wiki_pages_rename
 }
 
-# checkout localizations from launchpad
 po_checkout() {
+	echo >&2 "Checkout localizations from launchpad"
 	if [ -d $podir ]; then
 	  cd $podir
 	  $quick || bzr pull
@@ -108,16 +110,11 @@ po_checkout() {
 	make -C $dir/localization touch-po
 }
 
-# setup $version and update VERSION in AppInfo class
-update_version() {
+# setup $version
+set_version() {
 	version=$(git describe --tags --abbrev=9 HEAD)
 	# trim 'v' prefix
 	version=${version#v}
-
-	sed -i -re "
-		/const VERSION/ {
-			s/'[^']+'/'$version'/
-		}" src/AppInfo.php
 }
 
 # clean trailing spaces/tabs
@@ -125,8 +122,8 @@ clean_whitespace() {
 	sed -i -e 's/[\t ]\+$//' "$@"
 }
 
-# setup composer deps
 composer_install() {
+	echo >&2 "Setup composer deps"
 	# this dir does not exist in git export, but referenced in composer.json
 	install -d tests/src
 
@@ -154,10 +151,17 @@ composer_install() {
 	cat deps >> docs/DEPENDENCIES.md && rm deps
 }
 
-# create phpcompatinfo report
 phpcompatinfo_report() {
 	$quick && return
+	echo >&2 "Create phpcompatinfo report"
+
+	cp $topdir/phpcompatinfo.json .
 	$phpcompatinfo analyser:run --alias current --output docs/PhpCompatInfo.txt
+	rm phpcompatinfo.json
+
+	# avoid empty result
+	grep 'None data source matching' docs/PhpCompatInfo.txt && exit 1
+
 	clean_whitespace docs/PhpCompatInfo.txt
 }
 
@@ -176,10 +180,8 @@ clean_scripts() {
 	find -name '*.php' | xargs -r sed -i -e 's,\r$,,'
 }
 
-# cleanup excess files from vendor
-# but not that much that composer won't work
 clean_vendor() {
-
+	echo >&2 "Cleanup excess files from vendor"
 	$phing -f $topdir/build.xml clean-vendor
 
 	# clean empty dirs
@@ -207,7 +209,7 @@ clean_vendor() {
 }
 
 cleanup_postdist() {
-	rm composer.json phpcompatinfo.json
+	rm composer.json
 	rm htdocs/debugbar
 
 	# cleanup vendors
@@ -228,16 +230,16 @@ phplint() {
 make_tarball() {
 	rm -rf $app-$version
 	mv $dir $app-$version
-	tar --owner=root --group=root -cJf $app-$version$rc.tar.xz $app-$version
+	tar --owner=root --group=root -cJf $app-$version.tar.xz $app-$version
 	rm -rf $app-$version
-	md5sum -b $app-$version$rc.tar.xz > $app-$version$rc.tar.xz.md5
-	chmod a+r $app-$version$rc.tar.xz $app-$version$rc.tar.xz.md5
+	md5sum -b $app-$version.tar.xz > $app-$version.tar.xz.md5
+	chmod a+r $app-$version.tar.xz $app-$version.tar.xz.md5
 }
 
 sign_tarball() {
 	local manual=0
 	if [ -x /usr/bin/gpg ] && [ "$(gpg --list-keys | wc -l)" -gt 0 ]; then
-		gpg --armor --sign --detach-sig $app-$version$rc.tar.xz || manual=1
+		gpg --armor --sign --detach-sig $app-$version.tar.xz || manual=1
 	else
 		manual=1
 	fi
@@ -247,9 +249,9 @@ sign_tarball() {
 		cat <<-EOF
 
 		To create a digital signature, use the following command:
-		% gpg --armor --sign --detach-sig $app-$version$rc.tar.xz
+		% gpg --armor --sign --detach-sig $app-$version.tar.xz
 
-		This command will create $app-$version$rc.tar.xz.asc
+		This command will create $app-$version.tar.xz.asc
 		EOF
 	fi
 }
@@ -257,14 +259,13 @@ sign_tarball() {
 upload_tarball() {
 	[ -x dropin ] || return 0
 
-	./dropin $app-$version$rc.tar.xz $app-$version$rc.tar.xz.md5
+	./dropin $app-$version.tar.xz $app-$version.tar.xz.md5
 }
 
 prepare_source() {
 	# add dirs for customization
 	install -d config/{workflow,custom_field,templates,crm,partner,include}
 
-	update_version
 	composer_install
 	phpcompatinfo_report
 
@@ -305,6 +306,7 @@ cd $dir
 	prepare_source
 cd ..
 
+set_version
 make_tarball
 sign_tarball
 upload_tarball

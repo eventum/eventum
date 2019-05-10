@@ -1,0 +1,11 @@
+# https://github.com/balbuf/composer-git-merge-driver
+#
+# invoke from shell:
+# git config --add include.path $(git rev-parse --show-toplevel)/contrib/git/composer-git-merge-driver.gitconfig
+
+[merge "composer_json"]
+    name = composer JSON file merge driver
+    driver = vendor/bin/composer-git-merge-driver %O %A %B %L %P
+    recursive = binary
+
+# vim:ft=gitconfig

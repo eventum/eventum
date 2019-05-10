@@ -13,55 +13,15 @@
 
 namespace Eventum\Extension;
 
-interface ExtensionInterface
+/**
+ * @deprecated [since 3.6.6]: implement each interface by your own
+ */
+interface ExtensionInterface extends
+    Provider\AutoloadProvider,
+    Provider\CustomFieldProvider,
+    Provider\PartnerProvider,
+    Provider\SubscriberProvider,
+    Provider\WorkflowProvider,
+    Provider\CrmProvider
 {
-    /**
-     * Method invoked so the extension can setup class loader.
-     *
-     * @param \Composer\Autoload\ClassLoader $loader
-     * @since 3.2.0
-     */
-    public function registerAutoloader($loader);
-
-    /**
-     * Get classes implementing EventSubscriberInterface.
-     *
-     * @see http://symfony.com/doc/current/components/event_dispatcher.html#using-event-subscribers
-     * @see \Symfony\Component\EventDispatcher\EventSubscriberInterface
-     * @return string[]
-     * @since 3.2.1
-     */
-    public function getSubscribers();
-
-    /**
-     * Return Workflow Class names your extension provides.
-     *
-     * @return string[]
-     * @since 3.2.0
-     */
-    public function getAvailableWorkflows();
-
-    /**
-     * Return Custom Field Class names the extension provides.
-     *
-     * @return string[]
-     * @since 3.2.0
-     */
-    public function getAvailableCustomFields();
-
-    /**
-     * Return Partner Class names the extension provides.
-     *
-     * @return string[]
-     * @since 3.2.0
-     */
-    public function getAvailablePartners();
-
-    /**
-     * Return CRM Class names the extension provides.
-     *
-     * @return string[]
-     * @since 3.2.0
-     */
-    public function getAvailableCRMs();
 }

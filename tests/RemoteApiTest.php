@@ -13,8 +13,8 @@
 
 namespace Eventum\Test;
 
+use Eventum\RPC\EventumXmlRpcClient;
 use Eventum\RPC\RemoteApi;
-use Eventum_RPC;
 use Exception;
 use Setup;
 
@@ -23,7 +23,10 @@ use Setup;
  */
 class RemoteApiTest extends TestCase
 {
-    const DEBUG = 0;
+    /**
+     * @see \PhpXmlRpc\Client::setDebug
+     */
+    private const APICLIENT_DEBUG = 0;
 
     /** @var RemoteApi */
     private static $client;
@@ -41,9 +44,9 @@ class RemoteApiTest extends TestCase
          * 'tests.xmlrpc_token' => 'admin',
          */
 
-        $client = new Eventum_RPC($setup['tests.xmlrpc_url']);
+        $client = new EventumXmlRpcClient($setup['tests.xmlrpc_url']);
         $client->setCredentials($setup['tests.xmlrpc_login'], $setup['tests.xmlrpc_token']);
-        $client->setDebug(self::DEBUG);
+        $client->setDebug(self::APICLIENT_DEBUG);
 
         self::$client = $client;
     }

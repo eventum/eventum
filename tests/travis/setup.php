@@ -12,12 +12,13 @@
  */
 
 return [
-  'database' => [
-    'driver' => 'mysql',
-    'hostname' => 'localhost',
-    'database' => 'e_test',
-    'username' => 'root',
-    'password' => '',
-    'port' => 3306,
-  ],
+    'database' => [
+        'driver' => 'mysql',
+        'hostname' => 'localhost',
+        'database' => 'e_test',
+        'username' => 'root',
+        'password' => '',
+        'charset' => 'utf8',
+        'port' => 3306,
+    ],
 ];

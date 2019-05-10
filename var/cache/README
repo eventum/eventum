@@ -1,5 +1,6 @@
-This directory holds Smarty templates cache.
-Configured with APP_TPL_COMPILE_PATH constant.
+This directory contains various cached content.
+
+The files in this directory can be safely removed.
 
 This directory must be writable for webserver user and the user who runs
 Eventum crons.

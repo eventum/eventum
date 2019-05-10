@@ -11,6 +11,11 @@
  * that were distributed with this source code.
  */
 
+use Eventum\Db\AbstractMigration;
+use Eventum\Event\SystemEvents;
+use Eventum\EventDispatcher\EventManager;
+use Symfony\Component\EventDispatcher\GenericEvent;
+
 /**
  * Configuration proxy for sphix
  *
@@ -38,13 +43,18 @@ Eventum\Monolog\Logger::initialize();
 
 $config = DB_Helper::getConfig();
 
-return [
+$phinx = [
     'paths' => [
-        'migrations' => 'db/migrations',
+        'migrations' => [
+            'db/migrations',
+        ],
+        'seeds' => [
+            'db/seeds',
+        ],
     ],
 
     // http://docs.phinx.org/en/latest/configuration.html#custom-migration-base
-    'migration_base_class' => 'Eventum\Db\AbstractMigration',
+    'migration_base_class' => AbstractMigration::class,
 
     'environments' => [
         'default_migration_table' => 'phinxlog',
@@ -80,3 +90,12 @@ return [
         ],
     ],
 ];
+
+// create "test" environment
+$phinx['environments']['test'] = $phinx['environments']['production'];
+$phinx['environments']['test']['name'] = 'e_test';
+
+$event = new GenericEvent(null, $phinx);
+EventManager::getEventDispatcher()->dispatch(SystemEvents::PHINX_CONFIG, $event);
+
+return $event->getArguments();

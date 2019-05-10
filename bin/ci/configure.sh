@@ -1,5 +1,5 @@
 #!/bin/sh
-set -xe
+set -xeu
 
 PHP_INI_DIR=~/.phpenv/versions/$(phpenv version-name)/etc
 install -d $PHP_INI_DIR
@@ -12,6 +12,13 @@ composer config platform.ext-ldap '0'
 # https://travis-ci.org/glensc/eventum/jobs/490544010
 composer config platform.ext-gd '0'
 
+# add mongodb extension
+# https://github.com/eventum/eventum/pull/519
+MONGODB_VERSION=1.5.0
+# don't really need it being present, so fake
+#pecl install -f mongodb-$MONGODB_VERSION
+#composer config platform.ext-mongodb $MONGODB_VERSION
+
 # disable xdebug
 phpenv config-rm xdebug.ini || :
 
@@ -21,9 +28,3 @@ composer config platform.ext-mcrypt '0'
 
 # disable secure-http because sourceforge redirects to http:// urls
 composer config secure-http false
-
-# install as global, because via composer autoloading is broken
-# due the way _setlocal gets defined based on context
-# $ vendor/bin/phpunit
-# PHP Fatal error:  Uncaught Error: Call to undefined function _setlocale() in /home/travis/build/glensc/eventum/lib/eventum/class.language.php:158
-composer global require "phpunit/phpunit" "^7.5"

@@ -13,17 +13,13 @@
 
 namespace Eventum\Test;
 
-/*
- * PHPUnit_Framework_TestCase is dropped in phpunit 6.0.0
- * https://github.com/sebastianbergmann/phpunit/wiki/Release-Announcement-for-PHPUnit-6.0.0
- *
- * Load PHPUnit_Framework_TestCase wrapper if using older PHPUnit.
- */
-
 use Eventum\Extension\ExtensionManager;
+use Eventum\Test\Traits\DataFileTrait;
 
 class TestCase extends \PHPUnit\Framework\TestCase
 {
+    use DataFileTrait;
+
     /**
      * Create ExtensionManager with given config
      *
@@ -45,37 +41,5 @@ class TestCase extends \PHPUnit\Framework\TestCase
         $stub->__construct();
 
         return $stub;
-    }
-
-    protected function getDataFile($fileName): string
-    {
-        $dataFile = dirname(__DIR__) . '/data/' . $fileName;
-        $this->assertFileExists($dataFile);
-
-        return $dataFile;
-    }
-
-    /**
-     * Read file from tests/data directory.
-     *
-     * @param string $filename
-     * @return string
-     */
-    protected function readDataFile($filename): string
-    {
-        return $this->readFile($this->getDataFile($filename));
-    }
-
-    /**
-     * @param string $filename
-     * @return string
-     */
-    protected function readFile($filename): string
-    {
-        $this->assertFileExists($filename);
-        $content = file_get_contents($filename);
-        $this->assertNotEmpty($content);
-
-        return $content;
     }
 }

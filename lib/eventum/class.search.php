@@ -99,7 +99,7 @@ class Search
         }
         $custom_field = self::getParam('custom_field', $request_only);
         if (is_string($custom_field)) {
-            $custom_field = json_decode(urldecode($custom_field));
+            $custom_field = json_decode(urldecode($custom_field), true);
         }
         $cookie = [
             'rows' => Misc::escapeString($rows ? $rows : APP_DEFAULT_PAGER_SIZE),
@@ -485,7 +485,10 @@ class Search
                 continue;
             }
 
-            $formattedValue = Custom_Field::formatValue($cf['value'], $cf['fld_id'], $iss_id);
+            $formattedValue = $cf['value'];
+            if ($formattedValue) {
+                $formattedValue = Custom_Field::formatValue($formattedValue, $cf['fld_id'], $iss_id);
+            }
             $cf['formatted_value'] = $formattedValue;
 
             $row['custom_field'][$cf['fld_id']] = $cf;

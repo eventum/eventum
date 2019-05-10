@@ -11,7 +11,4 @@
  * that were distributed with this source code.
  */
 
-require_once __DIR__ . '/../init.php';
-
-$controller = new Eventum\Controller\ConfirmController();
-$controller->run();
+require __DIR__ . '/index.php';

@@ -26,7 +26,7 @@
 </form>
 
 {foreach key=user_full_name item=assigned_issues from=$users}
-<h4>{$user_full_name|escape:"html"}</h4>
+<h4>{$user_full_name|escape:"html"} ({$assigned_issues|@count})</h4>
       <table class="bordered">
         <tr>
           <th rowspan="2" align="center">{t}Issue ID{/t}</th>

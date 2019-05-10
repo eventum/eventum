@@ -11,13 +11,16 @@
  * that were distributed with this source code.
  */
 
-return [
-    'database' => [
-        'hostname' => 'localhost',
-        'database' => 'eventum',
-        'username' => 'mysql',
-        'password' => '',
-        'port' => 3306,
-    ],
-    'admin_user' => 2,
-];
+namespace Eventum\Extension\Provider;
+
+interface FactoryProvider extends ExtensionProvider
+{
+    /**
+     * Create instance of $className
+     *
+     * @param string $className
+     * @return object|null
+     * @since 3.6.6
+     */
+    public function factory($className);
+}

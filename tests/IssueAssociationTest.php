@@ -15,14 +15,18 @@ namespace Eventum\Test;
 
 use Eventum\Db\Doctrine;
 use Eventum\Model\Repository\IssueAssociationRepository;
+use Eventum\Test\Traits\DoctrineTrait;
 use InvalidArgumentException;
+use IssueSeeder;
 
 /**
  * @group db
  */
 class IssueAssociationTest extends TestCase
 {
-    /** @var \Doctrine\ORM\EntityRepository|IssueAssociationRepository */
+    use DoctrineTrait;
+
+    /** @var IssueAssociationRepository */
     private $repo;
 
     public function setUp(): void
@@ -30,15 +34,15 @@ class IssueAssociationTest extends TestCase
         $em = $this->getEntityManager();
         $this->repo = Doctrine::getIssueAssociationRepository();
 
-        $issues = [12, 13, 14, 15];
+        $issues = [IssueSeeder::ISSUE_1, IssueSeeder::ISSUE_2, 13, 14, 15];
         $this->repo->deleteAllRelations($issues);
     }
 
     public function testAssociateIssue(): void
     {
         $usr_id = APP_SYSTEM_USER_ID;
-        $iss1_id = 12;
-        $iss2_id = 13;
+        $iss1_id = IssueSeeder::ISSUE_1;
+        $iss2_id = IssueSeeder::ISSUE_1;
 
         $this->repo->addIssueAssociation($usr_id, $iss1_id, $iss2_id);
         $assoc1 = $this->repo->getAssociatedIssues($iss1_id);
@@ -82,7 +86,7 @@ class IssueAssociationTest extends TestCase
     public function testBulkUpdate(): void
     {
         $usr_id = APP_SYSTEM_USER_ID;
-        $issue_id = 12;
+        $issue_id = IssueSeeder::ISSUE_1;
 
         $associated_issues = [$issue_id, '13', '14', 15, $issue_id, 13, 'lol', -1, null, '', false];
         $res = $this->repo->updateAssociations($usr_id, $issue_id, $associated_issues);
@@ -111,8 +115,8 @@ class IssueAssociationTest extends TestCase
     public function testGetDetails(): void
     {
         $usr_id = APP_SYSTEM_USER_ID;
-        $iss1_id = 12;
-        $iss2_id = 13;
+        $iss1_id = IssueSeeder::ISSUE_1;
+        $iss2_id = IssueSeeder::ISSUE_2;
 
         $this->repo->addIssueAssociation($usr_id, $iss1_id, $iss2_id);
 

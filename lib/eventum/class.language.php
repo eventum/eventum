@@ -17,23 +17,16 @@
  */
 class Language
 {
-    /**
-     * Return true if our APP_CHARSET is UTF8
-     * @return bool
-     */
-    public static function isUTF8()
-    {
-        return strtolower(APP_CHARSET) == 'utf-8' || strtolower(APP_CHARSET) == 'utf8';
-    }
+    private const CHARSET = 'utf-8';
 
     /**
      * Init encodings: iconv, mbstring
      */
     private static function initEncoding(): void
     {
-        ini_set('input_encoding', APP_CHARSET);
-        ini_set('output_encoding', APP_CHARSET);
-        ini_set('default_charset', APP_CHARSET);
+        ini_set('input_encoding', self::CHARSET);
+        ini_set('output_encoding', self::CHARSET);
+        ini_set('default_charset', self::CHARSET);
     }
 
     /**
@@ -152,8 +145,8 @@ class Language
     public static function set($locale)
     {
         // XXX do not append charset to en_US locale
-        if ($locale != 'en_US') {
-            $locale = $locale . '.' . APP_CHARSET;
+        if ($locale !== 'en_US') {
+            $locale = $locale . '.' . self::CHARSET;
         }
         $res = _setlocale(LC_TIME, $locale);
         if ($res === false) {
@@ -166,7 +159,7 @@ class Language
         }
 
         // XXX do not require translations for en_US locale
-        if ($locale != 'en_US') {
+        if ($locale !== 'en_US') {
             // get translator info
             $res = _gettext('');
             // if empty gettext is returned then the mo catalog is not installed.

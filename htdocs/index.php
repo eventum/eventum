@@ -11,7 +11,8 @@
  * that were distributed with this source code.
  */
 
-require_once __DIR__ . '/../init.php';
+use Eventum\Kernel;
 
-$controller = new Eventum\Controller\IndexController();
-$controller->run();
+require __DIR__ . '/../init.php';
+
+Kernel::handleRequest();

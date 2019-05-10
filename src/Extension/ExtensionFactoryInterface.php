@@ -13,14 +13,11 @@
 
 namespace Eventum\Extension;
 
-interface ExtensionFactoryInterface
+use Eventum\Extension\Provider\FactoryProvider;
+
+/**
+ * @deprecated [since 3.6.6]: implement FactoryProvider instead
+ */
+interface ExtensionFactoryInterface extends FactoryProvider
 {
-    /**
-     * Create instance of $className
-     *
-     * @param string $className
-     * @return object|null
-     * @since 3.5.0
-     */
-    public function factory($className);
 }

@@ -66,5 +66,4 @@ $ git push launchpad
 - close old milestone
 - verify that you did not forget to update wiki submodule
 - update for next version using [bin/releng/bump.sh](bin/releng/bump.sh):
-  - update `VERSION` constant in `src/AppInfo.php` to indicate next dev version
   - start new version entry in CHANGELOG.md

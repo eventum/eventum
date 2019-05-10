@@ -275,5 +275,6 @@ class DbTest extends TestCase
         $stmt = "INSERT INTO $table SET " . DB_Helper::buildSet($params);
 
         DB_Helper::getInstance()->query($stmt, $params);
+        $this->assertTrue(true);
     }
 }

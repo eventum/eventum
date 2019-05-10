@@ -144,13 +144,8 @@ class Project
                     prj_anonymous_post='enabled'
                  ORDER BY
                     prj_title";
-        try {
-            $res = DB_Helper::getInstance()->getPair($stmt);
-        } catch (DatabaseException $e) {
-            return '';
-        }
 
-        return $res;
+        return DB_Helper::getInstance()->getPair($stmt);
     }
 
     /**

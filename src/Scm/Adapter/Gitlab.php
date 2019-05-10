@@ -16,9 +16,9 @@ namespace Eventum\Scm\Adapter;
 use Eventum\Db\Doctrine;
 use Eventum\Event\SystemEvents;
 use Eventum\EventDispatcher\EventManager;
-use Eventum\IssueMatcher;
 use Eventum\Scm\Payload\GitlabPayload;
 use Eventum\Scm\ScmRepository;
+use Eventum\TextMatcher\GroupMatcher;
 use InvalidArgumentException;
 use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\HttpFoundation\Request;
@@ -93,9 +93,9 @@ class Gitlab extends AbstractAdapter
 
     private function matchIssues(GitlabPayload $payload): void
     {
-        $matcher = new IssueMatcher(APP_BASE_URL);
+        $matcher = GroupMatcher::create();
         $description = $payload->getDescription();
-        $matches = $matcher->match($description);
+        $matches = iterator_to_array($matcher->match($description));
         if (!$matches) {
             return;
         }
@@ -123,15 +123,14 @@ class Gitlab extends AbstractAdapter
 
         $em = Doctrine::getEntityManager();
         $cr = Doctrine::getCommitRepository();
-        $ir = Doctrine::getIssueRepository();
-        $issueMatcher = new IssueMatcher(APP_BASE_URL);
+        $matcher = GroupMatcher::create();
 
         foreach ($payload->getCommits() as $commit) {
-            $matches = $issueMatcher->match($commit['message']);
+            $matches = iterator_to_array($matcher->match($commit['message']));
             if (!$matches) {
                 continue;
             }
-            $issues = array_column($matches, 'issueId');
+            $issues = array_unique(array_column($matches, 'issueId'));
             if (!$issues) {
                 continue;
             }
@@ -142,15 +141,11 @@ class Gitlab extends AbstractAdapter
                 throw new InvalidArgumentException("Branch not allowed: {$branch}");
             }
 
-            // XXX: take prj_id from first issue_id
-            $issue = $ir->findById($issues[0]);
-            $prj_id = $issue->getProjectId();
-
             $ci = $payload->createCommit($commit);
             $ci->setScmName($repo->getName());
             $ci->setProjectName($payload->getProject());
             $ci->setBranch($branch);
-            $cr->preCommit($prj_id, $ci, $payload);
+            $cr->preCommit($ci, $payload);
             $em->persist($ci);
 
             // save commit files

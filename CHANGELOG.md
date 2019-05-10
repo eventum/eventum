@@ -1,10 +1,56 @@
 # Eventum Issue Tracking System
 
-## [3.6.5]
+## [3.7.0]
+
+Upgrading to 3.7.x versions requires that you upgrade to latest 3.5.x version first.
+
+- Add Router via Symfony http-kernel/routing (@glensc, #508)
+- build(deps-dev): bump eventum/rpc from 4.0.0 to 4.3.0 (@dependabot, #546)
+- Use `ocramius/package-versions` for version info (@glensc, #549)
+- Add note links matcher (@glensc, #559)
+
+[3.7.0]: https://github.com/eventum/eventum/compare/v3.6.7...master
+
+## [3.6.7] - 2019-04-29
 
 Upgrading to 3.6.x versions requires that you upgrade to latest 3.5.x version first.
 
-[3.6.5]: https://github.com/eventum/eventum/compare/v3.6.4...master
+- Avoid fatal error if declared workflow class can not be loaded (@glensc, #529)
+- Use array json decode for `cst_custom_field` (@glensc, #530)
+- build(deps): [security] bump symfony/http-foundation from 4.2.4 to 4.2.7 (@dependabot, #533)
+- build(deps): bump xemlock/htmlpurifier-html5 from 0.1.8 to 0.1.10 (@dependabot, #536)
+- Add open issues count next to assignee names (@vladsf, #532)
+- Markdown: disable scripting (@glensc, #543)
+- build(deps): bump symfony/console from 4.2.4 to 4.2.7 (@dependabot, #542)
+- build(deps): bump symfony/event-dispatcher from 4.2.4 to 4.2.7 (@dependabot, #541)
+- build(deps): bump ircmaxell/random-lib from 1.1.0 to 1.2.0 (@dependabot, #538)
+- build(deps): bump malkusch/lock from 0.4 to 2.1 (@dependabot, #534)
+- build(deps): bump robmorgan/phinx from 0.10.6 to 0.10.7 (@dependabot, #540)
+
+[3.6.7]: https://github.com/eventum/eventum/compare/v3.6.6...v3.6.7
+
+## [3.6.6] - 2019-04-19
+
+Upgrading to 3.6.x versions requires that you upgrade to latest 3.5.x version first.
+
+- Fix fatal errors when opening rss feeds (@glensc, #518)
+- SCM commit: do not log wrong branch push as error (@glensc, #517)
+- Split extension features to each interface (@glensc, #510)
+- Add support for enabling xhgui-profiler (@glensc, #519)
+- Fix ExtensionLoader exception on invalid class files (@glensc, #522)
+- Sanitize HTML with htmlpurifier (@glensc, #525)
+
+[3.6.6]: https://github.com/eventum/eventum/compare/v3.6.5...v3.6.6
+
+## [3.6.5] - 2019-04-08
+
+Upgrading to 3.6.x versions requires that you upgrade to latest 3.5.x version first.
+
+- Escape plain description HTML (@glensc, #515, #428)
+- Simplify Crypto enable/disable flow (@glensc, #514)
+- Add event to be able to configure Phinx config (@glensc, #516)
+
+[3.6.5]: https://github.com/eventum/eventum/compare/v3.6.4...v3.6.5
 
 ## [3.6.4] - 2019-03-28
 

@@ -156,6 +156,8 @@ abstract class BaseController
      * Redirect to an url with optional GET parameters.
      * This method never returns.
      *
+     * @deprecated
+     * @see use \Eventum\Controller\Traits\RedirectTrait::redirect
      * @param string $url
      * @param array $params
      * @param bool $allow_external If external urls should be allowed

@@ -23,14 +23,14 @@ class ActivateLinksTest extends TestCase
 {
     public function setUp(): void
     {
-        Link_Filter::markdownEnabled(true);
+        Link_Filter::markdownEnabled(false);
     }
 
     /**
      * @dataProvider ActivateLinksData
      * @see Misc::activateLinks
      */
-    public function testActivateLinks($text, $exp): void
+    public function testActivateLinks(string $text, string $exp): void
     {
         $this->assertEquals($exp, Misc::activateLinks($text));
     }

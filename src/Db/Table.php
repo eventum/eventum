@@ -22,7 +22,7 @@ class Table
      *
      * @return array
      */
-    public static function getTableList()
+    public static function getTableList(): array
     {
         // keep this list sorted for better git diffs
         return [

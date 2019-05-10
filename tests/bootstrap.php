@@ -13,6 +13,8 @@
 
 // we init paths ourselves like init.php does, to be independent and not
 // needing actual config being present.
+use Eventum\Config\Config;
+use Eventum\Config\ConfigPersistence;
 use Eventum\Monolog\Logger;
 
 define('APP_PATH', dirname(__DIR__));
@@ -41,9 +43,10 @@ define('APP_COOKIE_URL', APP_RELATIVE_URL);
 define('APP_PROJECT_COOKIE', 'eventum_project');
 define('APP_PROJECT_COOKIE_EXPIRE', time() + (60 * 60 * 24));
 define('APP_BASE_URL', 'http://localhost/');
-define('APP_LOG_PATH', APP_CONFIG_PATH);
-define('APP_LOCAL_PATH', APP_CONFIG_PATH);
-define('APP_TPL_COMPILE_PATH', APP_CONFIG_PATH . '/tpl_c');
+define('APP_LOG_PATH', __DIR__);
+define('APP_LOCAL_PATH', __DIR__);
+define('APP_CACHE_PATH', APP_VAR_PATH . '/test');
+define('APP_TPL_COMPILE_PATH', APP_CACHE_PATH . '/tpl_c');
 define('APP_TPL_PATH', APP_PATH . '/templates');
 define('APP_NAME', 'Eventum Tests');
 define('APP_SITE_NAME', 'Eventum');
@@ -54,11 +57,17 @@ require_once APP_PATH . '/autoload.php';
 date_default_timezone_set(APP_DEFAULT_TIMEZONE);
 
 if (!getenv('TRAVIS')) {
-    // init these from setup file
-    $setup = Setup::get();
+    $config = Setup::get();
+
+    // override with test setup, if present
+    $testSetupConfig = __DIR__ . '/_setup.php';
+    if (file_exists($testSetupConfig)) {
+        $loader = new ConfigPersistence();
+        $config->merge(new Config($loader->load($testSetupConfig)));
+    }
 
     // used for tests
-    define('APP_ADMIN_USER_ID', $setup['admin_user']);
+    define('APP_ADMIN_USER_ID', $config['admin_user']);
 }
 
 // this setups ev_gettext wrappers

@@ -16,7 +16,7 @@ get_version() {
 
 # git doesn't askpass, so warm it up
 cache_gpg_askpass() {
-	date | gpg --clearsign --default-key "$SIGN_KEY" --output=/dev/null
+	gpg --clearsign --default-key "$SIGN_KEY" --output=/dev/null "$0" >/dev/null
 }
 
 quote() {

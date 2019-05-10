@@ -63,16 +63,10 @@ class Cvs extends AbstractAdapter
 
             $repo = $ci->getCommitRepo();
             if (!$repo->branchAllowed($ci->getBranch())) {
-                throw new \InvalidArgumentException("Branch not allowed: {$ci->getBranch()}");
+                throw new InvalidArgumentException("Branch not allowed: {$ci->getBranch()}");
             }
 
-            $ir = Doctrine::getIssueRepository();
-
-            // XXX: take prj_id from first issue_id
-            $issue = $ir->findById($issues[0]);
-            $prj_id = $issue->getProjectId();
-
-            $cr->preCommit($prj_id, $ci, $payload);
+            $cr->preCommit($ci, $payload);
             $em->persist($ci);
 
             // add commit files
@@ -92,7 +86,7 @@ class Cvs extends AbstractAdapter
     /**
      * Seconds to allow commit date to differ to consider them as same commit id
      */
-    const COMMIT_TIME_DRIFT = 10;
+    private const COMMIT_TIME_DRIFT = 10;
 
     /**
      * Generate commit id
@@ -100,7 +94,7 @@ class Cvs extends AbstractAdapter
      * @param Entity\Commit $ci
      * @return string
      */
-    private function generateCommitId(Entity\Commit $ci)
+    private function generateCommitId(Entity\Commit $ci): string
     {
         $seed = [
             $ci->getCommitDate()->getTimestamp() / self::COMMIT_TIME_DRIFT,
@@ -118,7 +112,7 @@ class Cvs extends AbstractAdapter
     /*
      * Get Hook Payload
      */
-    private function getPayload()
+    private function getPayload(): StandardPayload
     {
         $data = json_decode($this->request->getContent(), true);
 

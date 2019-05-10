@@ -102,7 +102,7 @@ function checkDelete()
             {t}Users{/t} *
         </th>
         <td width="80%">
-            <select id="users" name="users[]" multiple size="6">
+            <select id="users" name="users[]" multiple size="6" class="chosen-select">
                 {html_options options=$user_options selected=$info.users|default:''}
             </select>
             {include file="error_icon.tpl.html" field="users[]"}

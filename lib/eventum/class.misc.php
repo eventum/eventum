@@ -12,6 +12,7 @@
  */
 
 use Monolog\Processor\PsrLogMessageProcessor;
+use Symfony\Component\Filesystem\Filesystem;
 
 /**
  * Class to hold methods and algorithms that woudln't fit in other classes, such
@@ -602,7 +603,7 @@ class Misc
     public static function generateRandom($size = 32)
     {
         $factory = new RandomLib\Factory();
-        $generator = $factory->getMediumStrengthGenerator();
+        $generator = @$factory->getMediumStrengthGenerator();
 
         return $generator->generate($size);
     }
@@ -618,6 +619,18 @@ class Misc
     public static function unserialize($data, $allowedClasses = [])
     {
         return unserialize($data, ['allowed_classes' => $allowedClasses ?: false]);
+    }
+
+    /**
+     * @param string $path
+     * @return string return path for fluent access
+     */
+    public static function ensureDir(string $path): string
+    {
+        $fs = new Filesystem();
+        $fs->mkdir($path, 02775);
+
+        return $path;
     }
 
     /**

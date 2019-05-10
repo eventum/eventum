@@ -13,11 +13,11 @@
 
 namespace Example\Event\Subscriber;
 
-use Eventum\Crypto\CryptoManager;
 use Eventum\Crypto\EncryptedValue;
+use Eventum\Event\ConfigUpdateEvent;
 use Eventum\Event\SystemEvents;
-use Setup;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Zend\Config\Config;
 
 class CryptoSubscriber implements EventSubscriberInterface
 {
@@ -34,41 +34,21 @@ class CryptoSubscriber implements EventSubscriberInterface
 
     /**
      * Upgrade config so that values contain EncryptedValue where some secrecy is wanted
-     *
-     * @see \Eventum\Crypto\CryptoUpgradeManager::upgradeConfig
      */
-    public function upgradeConfig(): void
+    public function upgradeConfig(ConfigUpdateEvent $event): void
     {
-        $config = $this->getConfig();
+        $config = $event->getConfig();
 
-        if (count($config['ftp']) && !$config['ftp']['password'] instanceof EncryptedValue) {
-            $config['ftp']['password'] = new EncryptedValue(
-                CryptoManager::encrypt($config['ftp']['password'])
-            );
-        }
+        $event->encrypt($config['ftp']['password']);
     }
 
     /**
      * Downgrade config: remove all EncryptedValue elements
-     *
-     * @see \Eventum\Crypto\CryptoUpgradeManager::downgradeConfig
      */
-    public function downgradeConfig(): void
+    public function downgradeConfig(ConfigUpdateEvent $event): void
     {
-        $config = $this->getConfig();
+        $config = $event->getConfig();
 
-        if (count($config['ftp']) && $config['ftp']['password'] instanceof EncryptedValue) {
-            /** @var EncryptedValue $value */
-            $value = $config['ftp']['password'];
-            $config['ftp']['password'] = $value->getValue();
-        }
-    }
-
-    /**
-     * @return \Zend\Config\Config
-     */
-    private function getConfig()
-    {
-        return Setup::get();
+        $event->decrypt($config['ftp']['password']);
     }
 }

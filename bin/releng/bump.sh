@@ -14,21 +14,10 @@ cat <<EOF | patch -p1
  
 +## [$new]
 +
-+Upgrading to 3.6.x versions requires that you upgrade to latest 3.5.x version first.
++Upgrading to 3.7.x versions requires that you upgrade to latest 3.5.x version first.
 +
 +[$new]: https://github.com/eventum/eventum/compare/v$old...master
 +
---- a/src/AppInfo.php
-+++ b/src/AppInfo.php
-@@ -16,7 +16,7 @@ namespace Eventum;
- class AppInfo
- {
-     const URL = 'https://github.com/eventum/eventum';
--    const VERSION = '$old-dev';
-+    const VERSION = '$new-dev';
- 
-     /** @var string */
-     private \$version;
 EOF
 
 git commit -am "$new-dev"

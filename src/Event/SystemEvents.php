@@ -49,14 +49,14 @@ final class SystemEvents
      *
      * @since 3.5.0
      */
-    public const CONFIG_CRYPTO_UPGRADE = 'config.crypto_upgrade';
+    public const CONFIG_CRYPTO_UPGRADE = 'config.crypto.upgrade';
 
     /**
      * Downgrade config: remove all EncryptedValue elements.
      *
      * @since 3.5.0
      */
-    public const CONFIG_CRYPTO_DOWNGRADE = 'config.crypto_downgrade';
+    public const CONFIG_CRYPTO_DOWNGRADE = 'config.crypto.downgrade';
 
     /**
      * @since 3.4.0
@@ -216,6 +216,13 @@ final class SystemEvents
      * @since 3.6.4
      */
     public const BOOT = 'eventum.boot';
+
+    /**
+     * Allow to hook into phinx configuration, to be able to specify extra migrations dirs.
+     *
+     * @since 3.6.5
+     */
+    public const PHINX_CONFIG = 'phinx.config';
 
     /**
      * Event emitted when eventum shuts down.
