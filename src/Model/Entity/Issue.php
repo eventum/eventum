@@ -39,7 +39,7 @@ class Issue
 
     /**
      * @var Status
-     * @ORM\OneToOne(targetEntity="\Eventum\Model\Entity\Status")
+     * @ORM\OneToOne(targetEntity="\Eventum\Model\Entity\Status", cascade={"persist", "remove"})
      * @ORM\JoinColumn(name="iss_sta_id", referencedColumnName="sta_id")
      */
     private $status;
