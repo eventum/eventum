@@ -18,6 +18,7 @@ use Eventum\Event\SystemEvents;
 use Eventum\EventDispatcher\EventManager;
 use Eventum\Extension\ExtensionManager;
 use Eventum\Model\Entity;
+use Eventum\Model\Repository\StatusRepository;
 use Eventum\Test\Traits\DoctrineTrait;
 
 use Setup;
@@ -55,10 +56,14 @@ abstract class TestCase extends WebTestCase
                     ->setFilename('file')
             );
 
+        /** @var StatusRepository $sr */
+        $sr = $this->getEntityManager()->getRepository(Entity\Status::class);
+
         $issue = new Entity\Issue();
         $issue->setSummary('issue with commits');
         $issue->setDescription('description');
         $issue->setProjectId(1);
+        $issue->setStatus($sr->findByTitle('discovery'));
         $issue->addCommit($ci);
 
         return $ci;

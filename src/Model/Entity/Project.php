@@ -18,8 +18,6 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\PersistentCollection;
 
 /**
- * Project
- *
  * @ORM\Table(name="project", uniqueConstraints={@ORM\UniqueConstraint(name="prj_title", columns={"prj_title"})}, indexes={@ORM\Index(name="prj_lead_usr_id", columns={"prj_lead_usr_id"})})
  * @ORM\Entity(repositoryClass="Eventum\Model\Repository\ProjectRepository")
  */
