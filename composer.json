@@ -119,7 +119,7 @@
 		"xemlock/htmlpurifier-html5": "^0.1.10",
 		"zendframework/zend-config": "2.4.*",
 		"zendframework/zend-mail": "dev-develop-2.4",
-		"zendframework/zend-servicemanager": "2.4.*"
+		"zendframework/zend-servicemanager": "3.1.*"
 	},
 	"replace": {
 		"paragonie/random_compat": "9.99.99",
