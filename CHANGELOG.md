@@ -6,6 +6,7 @@ Upgrading to 3.7.x versions requires that you upgrade to latest 3.5.x version fi
 
 - GitLab: skip issue matching on empty text (@glensc, #562)
 - Add Status Entity (@glensc, #560)
+- Update zend-mail to 2.10 (@glensc, #432)
 
 [3.7.1]: https://github.com/eventum/eventum/compare/v3.7.0...master
 
