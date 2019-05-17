@@ -117,16 +117,15 @@
 		"webuni/commonmark-table-extension": "^0.9.0",
 		"willdurand/email-reply-parser": "^2.7.0",
 		"xemlock/htmlpurifier-html5": "^0.1.10",
-		"zendframework/zend-config": "2.4.*",
-		"zendframework/zend-mail": "dev-develop-2.4",
-		"zendframework/zend-servicemanager": "2.4.*"
+		"zendframework/zend-config": "^3.2",
+		"zendframework/zend-mail": "2.10.x-dev",
+		"zendframework/zend-servicemanager": "^3.4"
 	},
 	"replace": {
 		"paragonie/random_compat": "9.99.99",
 		"symfony/polyfill-ctype": "1.10.0",
 		"symfony/polyfill-intl-normalizer": "1.10.0",
-		"symfony/polyfill-mbstring": "1.10.0",
-		"zendframework/zend-crypt": "2.4.9"
+		"symfony/polyfill-mbstring": "1.10.0"
 	},
 	"require-dev": {
 		"alcaeus/mongo-php-adapter": "^1.1",
