@@ -1,6 +1,6 @@
 # Eventum Issue Tracking System
 
-## [3.7.1]
+## [3.7.1] - 2019-05-22
 
 Upgrading to 3.7.x versions requires that you upgrade to latest 3.5.x version first.
 
@@ -8,7 +8,7 @@ Upgrading to 3.7.x versions requires that you upgrade to latest 3.5.x version fi
 - Add Status Entity (@glensc, #560)
 - Update zend-mail to 2.10 (@glensc, #432)
 
-[3.7.1]: https://github.com/eventum/eventum/compare/v3.7.0...master
+[3.7.1]: https://github.com/eventum/eventum/compare/v3.7.0...v3.7.1
 
 ## [3.7.0] - 2019-05-16
 
