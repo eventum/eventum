@@ -37,6 +37,9 @@
 		"sort-packages": true
 	},
 	"scripts": {
+		"pre-commit": "php-cs-fixer fix",
+		"post-install-cmd": "vendor/bin/cghooks add --no-lock",
+		"post-update-cmd": "vendor/bin/cghooks update",
 		"test": "phpunit"
 	},
 	"autoload": {
