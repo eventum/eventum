@@ -52,11 +52,15 @@ class IssueExport
         $converterStep = new ConverterStep();
         $dateTimeConverter = new DateTimeToStringValueConverter();
         $converterStep->add(function (array $item) use ($dateTimeConverter) {
+            // The importer is very limited:
+            //  Issues can be imported to a project by uploading a CSV file with the columns title and description, in that order.
+            //  The user uploading the CSV file will be set as the author of the imported issues.
+            // https://docs.gitlab.com/ce/user/project/issues/csv_import.html
             return [
-                'Issue ID' => $item['id'],
                 'Title' => $item['summary'],
-                'Author' => $item['user_id'],
                 'Description' => $item['description'],
+                'Issue ID' => $item['id'],
+                'Author' => $item['user_id'],
                 'State' => $item['status_id'],
                 'Created At (UTC)' => $dateTimeConverter($item['createdDate']),
                 'Updated At (UTC)' => $dateTimeConverter($item['updatedDate']),
