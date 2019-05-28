@@ -2433,16 +2433,16 @@
         },
         {
             "name": "phpxmlrpc/phpxmlrpc",
-            "version": "4.3.1",
+            "version": "4.3.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/gggeek/phpxmlrpc.git",
-                "reference": "95f8828db62a6cb0e7a725136e75f12536892082"
+                "reference": "7fbd194478e080d624bab075d189bf3ba215325d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/gggeek/phpxmlrpc/zipball/95f8828db62a6cb0e7a725136e75f12536892082",
-                "reference": "95f8828db62a6cb0e7a725136e75f12536892082",
+                "url": "https://api.github.com/repos/gggeek/phpxmlrpc/zipball/7fbd194478e080d624bab075d189bf3ba215325d",
+                "reference": "7fbd194478e080d624bab075d189bf3ba215325d",
                 "shasum": ""
             },
             "require": {
@@ -2480,7 +2480,7 @@
                 "webservices",
                 "xmlrpc"
             ],
-            "time": "2018-01-20T15:17:09+00:00"
+            "time": "2019-05-27T08:04:00+00:00"
         },
         {
             "name": "psr/cache",
