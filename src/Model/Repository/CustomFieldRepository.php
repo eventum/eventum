@@ -18,7 +18,6 @@ use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\ORM\QueryBuilder;
 use Eventum\Model\Entity;
-use Eventum\Model\Repository\Traits\FindByIdTrait;
 use History;
 use RuntimeException;
 
@@ -27,7 +26,7 @@ use RuntimeException;
  */
 class CustomFieldRepository extends EntityRepository
 {
-    use FindByIdTrait;
+    use Traits\FindByIdTrait;
 
     public function persistAndFlush(Entity\CustomField $cf): void
     {

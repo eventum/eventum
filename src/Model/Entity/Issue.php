@@ -38,6 +38,13 @@ class Issue
     private $projectId;
 
     /**
+     * @var Status
+     * @ORM\OneToOne(targetEntity="\Eventum\Model\Entity\Status", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(name="iss_sta_id", referencedColumnName="sta_id")
+     */
+    private $status;
+
+    /**
      * @var DateTime
      * @ORM\Column(name="iss_created_date", type="datetime", nullable=false)
      */
@@ -93,6 +100,31 @@ class Issue
     public function getProjectId(): int
     {
         return $this->projectId;
+    }
+
+    public function setStatus(Status $status): self
+    {
+        $this->status = $status;
+
+        return $this;
+    }
+
+    public function getStatus(): Status
+    {
+        return $this->status;
+    }
+
+    public function getStatusId(): int
+    {
+        return $this->status->getId();
+    }
+
+    /**
+     * Method used to check whether an issue was already closed or not.
+     */
+    public function isClosed(): bool
+    {
+        return $this->status->isClosed();
     }
 
     public function setCreatedDate(DateTime $createdDate): self

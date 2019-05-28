@@ -16,6 +16,7 @@ namespace Eventum\Test\Db;
 use Date_Helper;
 use Eventum\Db\Doctrine;
 use Eventum\Model\Entity;
+use Eventum\Model\Entity\Issue;
 use Eventum\Test\TestCase;
 use Eventum\Test\Traits\DoctrineTrait;
 use IssueSeeder;
@@ -29,10 +30,9 @@ class DoctrineTest extends TestCase
 {
     use DoctrineTrait;
 
-    public function testIssueRepository(): void
+    public function testIssueCommits(): void
     {
-        $em = Doctrine::getEntityManager();
-        $repo = $em->getRepository(Entity\Issue::class);
+        $repo = $this->getEntityManager()->getRepository(Entity\Issue::class);
 
         $issue = $repo->findOneBy(['id' => IssueSeeder::ISSUE_1]);
         $this->assertNotNull($issue);
@@ -56,7 +56,7 @@ class DoctrineTest extends TestCase
 
     public function testIssueAddCommit(): void
     {
-        $em = Doctrine::getEntityManager();
+        $em = $this->getEntityManager();
         $repo = $em->getRepository(Entity\Issue::class);
 
         /** @var Entity\Issue $issue */
@@ -81,5 +81,29 @@ class DoctrineTest extends TestCase
         $em->persist($commit);
         $em->persist($issue);
         $em->flush();
+    }
+
+    public function testIssueStatus(): void
+    {
+        $em = $this->getEntityManager();
+        $repo = $em->getRepository(Entity\Issue::class);
+
+        /** @var Issue $issue */
+        $issue = $repo->findOneBy(['id' => IssueSeeder::ISSUE_1]);
+        $this->assertNotNull($issue);
+
+        $this->assertEquals(IssueSeeder::STATUS_DISCOVERY, $issue->getStatus()->getId());
+    }
+
+    public function testStatus(): void
+    {
+        $repo = Doctrine::getStatusRepository();
+
+        $status = $repo->findById(IssueSeeder::STATUS_DISCOVERY);
+        $this->assertEquals('discovery', $status->getTitle());
+
+        $status = $repo->findByTitle('discovery');
+        $this->assertEquals(IssueSeeder::STATUS_DISCOVERY, $status->getId());
+        $this->assertEquals('DSC', $status->getAbbreviation());
     }
 }

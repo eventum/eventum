@@ -105,7 +105,9 @@ final class AppInfo
 
     private function getGitVersion(): ?string
     {
+        putenv(sprintf('GIT_DIR=%s/.git', APP_PATH));
         $versionString = shell_exec('git describe --tags --match=v* --abbrev=40');
+        putenv('GIT_DIR=');
 
         if (preg_match('/(?P<version>.+)-g(?P<hash>[\da-f]+)$/', $versionString, $m)) {
             return sprintf('dev-%s@%s', $m['version'], $m['hash']);

@@ -95,6 +95,10 @@ class Gitlab extends AbstractAdapter
     {
         $matcher = GroupMatcher::create();
         $description = $payload->getDescription();
+        if (!$description) {
+            return;
+        }
+
         $matches = iterator_to_array($matcher->match($description));
         if (!$matches) {
             return;

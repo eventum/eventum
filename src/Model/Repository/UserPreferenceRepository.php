@@ -15,14 +15,13 @@ namespace Eventum\Model\Repository;
 
 use Doctrine\ORM\EntityRepository;
 use Eventum\Model\Entity\UserPreference;
-use Eventum\Model\Repository\Traits\FindByIdTrait;
 
 /**
  * @method UserPreference findById(int $usr_id)
  */
 class UserPreferenceRepository extends EntityRepository
 {
-    use FindByIdTrait;
+    use Traits\FindByIdTrait;
 
     public function persistAndFlush(UserPreference $entity): void
     {

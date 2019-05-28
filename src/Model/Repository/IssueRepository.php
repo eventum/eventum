@@ -16,6 +16,9 @@ namespace Eventum\Model\Repository;
 use Doctrine\ORM\EntityRepository;
 use Eventum\Model\Entity;
 
+/**
+ * @method Entity\Issue findById(int $iss_id)
+ */
 class IssueRepository extends EntityRepository
 {
     use Traits\FindByIdTrait;
@@ -24,13 +27,9 @@ class IssueRepository extends EntityRepository
      * @param int $issue_id
      * @return Entity\Commit[]
      */
-    public function getCommits($issue_id)
+    public function getCommits(int $issue_id): array
     {
-        $issue = $this->findOneBy(['id' => $issue_id]);
-        if (!$issue) {
-            return [];
-        }
-
+        $issue = $this->findById($issue_id);
         $commits = $issue->getCommits();
         if (!count($commits)) {
             return [];

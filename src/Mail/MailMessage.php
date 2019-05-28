@@ -16,6 +16,7 @@ namespace Eventum\Mail;
 use Date_Helper;
 use DateTime;
 use DomainException;
+use Ds\Set;
 use Eventum\Mail\Exception\InvalidMessageException;
 use Eventum\Mail\Helper\MailLoader;
 use Eventum\Mail\Helper\SanitizeHeaders;
@@ -30,8 +31,10 @@ use Zend\Mail\Header\Date;
 use Zend\Mail\Header\From;
 use Zend\Mail\Header\GenericHeader;
 use Zend\Mail\Header\HeaderInterface;
+use Zend\Mail\Header\InReplyTo;
 use Zend\Mail\Header\MessageId;
 use Zend\Mail\Header\MultipleHeadersInterface;
+use Zend\Mail\Header\References;
 use Zend\Mail\Header\Subject;
 use Zend\Mail\Header\To;
 use Zend\Mail\Headers;
@@ -47,6 +50,8 @@ use Zend\Mail\Storage\Message;
  * @property-read string $cc a Cc header value
  * @property-read string $date a Date header value
  * @property-read string $subject a Subject header value
+ * @property-read string $inReplyTo a In-Reply-To header value
+ * @property-read string $references a References header value
  */
 class MailMessage extends Message
 {
@@ -242,23 +247,26 @@ class MailMessage extends Message
 
     /**
      * Returns the referenced message-id for a given reply.
-     *
-     * @return string|null
      */
-    public function getReferenceMessageId()
+    public function getReferenceMessageId(): ?string
     {
         if ($this->headers->has('In-Reply-To')) {
-            return $this->headers->get('In-Reply-To')->getFieldValue();
+            /** @var InReplyTo $header */
+            $header = $this->headers->get('In-Reply-To');
+            $ids = new Set($header->getIds());
+
+            return sprintf('<%s>', $ids->first());
         }
 
         if (!$this->headers->has('References')) {
             return null;
         }
 
-        $references = explode(' ', $this->headers->get('References')->getFieldValue());
+        /** @var References $header */
+        $header = $this->headers->get('References');
+        $references = new Set($header->getIds());
 
-        // return the first message-id in the list of references
-        return trim($references[0]);
+        return sprintf('<%s>', $references->first());
     }
 
     /**
@@ -266,25 +274,35 @@ class MailMessage extends Message
      *
      * @return string[] An array of message-ids
      */
-    public function getAllReferences()
+    public function getAllReferences(): array
     {
-        $references = [];
-
-        // if X-Forwarded-Message-Id is present, assume this is forwarded email and this root email
+        // if X-Forwarded-Message-Id is present, assume this is forwarded email and this is root email
+        // thus all references must be cleared
         if ($this->headers->has('X-Forwarded-Message-Id')) {
-            return $references;
+            return [];
         }
 
+        $references = new Set();
+
         if ($this->headers->has('In-Reply-To')) {
-            $references[] = $this->headers->get('In-Reply-To')->getFieldValue();
+            /** @var InReplyTo $header */
+            $header = $this->headers->get('In-Reply-To');
+            $references->add(...$header->getIds());
         }
 
         if ($this->headers->has('References')) {
-            $values = explode(' ', $this->headers->get('References')->getFieldValue());
-            $references = array_merge($references, $values);
+            /** @var References $header */
+            $header = $this->headers->get('References');
+            $references->add(...$header->getIds());
         }
 
-        return array_unique($references);
+        // Eventum uses "<>" internally, but these got removed in zend 2.10
+        $result = new Set();
+        foreach ($references as $reference) {
+            $result->add(sprintf('<%s>', $reference));
+        }
+
+        return $result->toArray();
     }
 
     /**
@@ -293,11 +311,11 @@ class MailMessage extends Message
      *
      * @param string $value
      */
-    public function setInReplyTo($value): void
+    public function setInReplyTo(string $value): void
     {
-        /** @var GenericHeader $header */
-        $header = $this->getHeaderByName('In-Reply-To');
-        $header->setFieldValue($value);
+        /** @var InReplyTo $header */
+        $header = $this->getHeaderByName('In-Reply-To', InReplyTo::class);
+        $header->setIds([$value]);
     }
 
     /**
@@ -307,13 +325,13 @@ class MailMessage extends Message
      */
     public function setReferences($value): void
     {
-        if (is_array($value)) {
-            $value = implode(' ', $value);
+        if (!is_array($value)) {
+            $value = [$value];
         }
 
-        /** @var GenericHeader $header */
-        $header = $this->getHeaderByName('References');
-        $header->setFieldValue($value);
+        /** @var References $header */
+        $header = $this->getHeaderByName('References', References::class);
+        $header->setIds($value);
     }
 
     /**

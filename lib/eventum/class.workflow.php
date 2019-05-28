@@ -12,6 +12,7 @@
  */
 
 use Eventum\Attachment\AttachmentGroup;
+use Eventum\Db\Doctrine;
 use Eventum\Event\ResultableEvent;
 use Eventum\Event\SystemEvents;
 use Eventum\EventDispatcher\EventManager;
@@ -377,8 +378,9 @@ class Workflow
      * @deprecated since 3.4.2
      * @see Support::moveEmail
      * @see Support::insertEmail
+     * @since 3.7.0 adds 'issue' argument to event
      */
-    public static function handleNewEmail($prj_id, $issue_id, MailMessage $mail, $row, $closing = false): void
+    public static function handleNewEmail(int $prj_id, int $issue_id, MailMessage $mail, $row, $closing = false): void
     {
         Partner::handleNewEmail($issue_id, $row['sup_id']);
 
@@ -387,6 +389,7 @@ class Workflow
         $arguments = [
             'prj_id' => (int)$prj_id,
             'issue_id' => (int)$issue_id,
+            'issue' => Doctrine::getIssueRepository()->findById($issue_id),
             'closing' => (bool)$closing,
             'customer_id' => $row['customer_id'] ?? null,
             'contact_id' => $row['contact_id'] ?? null,
@@ -435,13 +438,15 @@ class Workflow
      * @param   bool $closing If the issue is being closed
      * @param   int $note_id The ID of the new note
      * @since 3.5.0 emits NOTE_CREATED event
+     * @since 3.7.0 adds 'issue' argument to event
      */
-    public static function handleNewNote($prj_id, $issue_id, $usr_id, $closing, $note_id): void
+    public static function handleNewNote(int $prj_id, int $issue_id, $usr_id, $closing, $note_id): void
     {
         Partner::handleNewNote($issue_id, $note_id);
 
         $arguments = [
             'issue_id' => (int)$issue_id,
+            'issue' => Doctrine::getIssueRepository()->findById($issue_id),
             'prj_id' => (int)$prj_id,
             'usr_id' => (int)$usr_id,
             'note_id' => (int)$note_id,

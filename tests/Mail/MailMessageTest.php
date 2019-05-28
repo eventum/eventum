@@ -24,6 +24,7 @@ use Routing;
 use Setup;
 use Zend;
 use Zend\Mail\AddressList;
+use Zend\Mail\Headers;
 
 /**
  * @group mail
@@ -210,16 +211,17 @@ class MailMessageTest extends TestCase
         $exp = '<CAG5u9y_0RRMmCf_o28KmfmyCn5UN9PVM1=avWp4wWqbHGgojsA@4.example.org>';
         $this->assertEquals($exp, $msg_id);
 
-        $this->assertEquals($exp, $mail->InReplyTo);
+        $this->assertEquals($exp, $mail->inReplyTo);
 
         $mail->setInReplyTo('foo-bar-123');
-        $value = 'foo-bar-123';
-        $this->assertEquals($value, $mail->InReplyTo);
+        $value = '<foo-bar-123>';
+        $this->assertEquals($value, $mail->inReplyTo);
 
         $references = [1, $msg_id];
         $mail->setReferences($references);
-        $exp = '1 <CAG5u9y_0RRMmCf_o28KmfmyCn5UN9PVM1=avWp4wWqbHGgojsA@4.example.org>';
-        $this->assertEquals($exp, $mail->References);
+        $folding = Headers::FOLDING;
+        $exp = "<1>$folding<CAG5u9y_0RRMmCf_o28KmfmyCn5UN9PVM1=avWp4wWqbHGgojsA@4.example.org>";
+        $this->assertEquals($exp, $mail->references);
     }
 
     /**
@@ -230,6 +232,7 @@ class MailMessageTest extends TestCase
         $mail = MailMessage::createFromFile(__DIR__ . '/../data/multipart-text-html.txt');
         $mail->setInReplyTo('fu!');
         $mail->getRawContent();
+        $this->assertTrue(true);
     }
 
     public function testGetAddresses(): void
@@ -248,7 +251,8 @@ class MailMessageTest extends TestCase
         $message = MailMessage::createFromString($raw);
 
         // test that getting back raw content works
-        // NOTE: the result is not always identical, however this is saved from this same method before manually verifying result is okay
+        // NOTE: the result is not always identical,
+        // however this is saved from this same method before manually verifying result is okay
         $content = $message->getRawContent();
 
         $raw = preg_split("/\r?\n/", $raw);
@@ -420,7 +424,7 @@ class MailMessageTest extends TestCase
                 'Subject: ',
                 'X-Eventum-Group-Issue: something 123 143',
                 'X-Eventum-Group-Replier: =?UTF-8?Q?m=C3=B5min?=',
-                'X-Eventum-Group-Assignee: =?UTF-8?Q?UUser1,=20juus=C3=B5r2?=',
+                'X-Eventum-Group-Assignee: =?UTF-8?Q?UUser1=2C=20juus=C3=B5r2?=',
                 'X-Eventum-Customer: cust om er',
                 'X-Eventum-Assignee: foo, bar',
                 'X-Eventum-Category: Title Cat',
@@ -450,7 +454,8 @@ class MailMessageTest extends TestCase
 
         $mail->addHeaders($add_headers);
         $raw = $mail->getRawContent();
-        $this->assertContains("dede\r\n dede", $raw, 'value has been wrapped');
+        $folding = Headers::FOLDING;
+        $this->assertContains("<dede>{$folding}<dede>", $raw, 'value has been wrapped');
     }
 
     /**
@@ -501,6 +506,7 @@ class MailMessageTest extends TestCase
         $mail->setTo($to);
         $mail->setContent($text_message);
         Mail_Queue::queue($mail, $to);
+        $this->assertTrue(true);
     }
 
     /**
@@ -511,7 +517,6 @@ class MailMessageTest extends TestCase
     public function testMailSendZF(): void
     {
         $text_message = 'tere';
-        $issue_id = 1;
         $from = 'Eventum <support@example.org>';
         $recipient = 'Eventum <support@example.org>';
         $subject = '[#1] Issue Created';
@@ -525,6 +530,7 @@ class MailMessageTest extends TestCase
 
         // add($recipient, $headers, $body, $save_email_copy = 0, $issue_id = false, $type = '', $sender_usr_id = false, $type_id = false)
         Mail_Queue::queue($mail, $recipient);
+        $this->assertTrue(true);
     }
 
     public function testMailFromHeaderBody(): void
@@ -551,6 +557,7 @@ class MailMessageTest extends TestCase
         $mail->setSubject('[#3] Note: new ää');
         $headers = $mail->getHeadersArray();
         MailMessage::createFromHeaderBody($headers, $body);
+        $this->assertTrue(true);
     }
 
     public function testSendPlainMail(): void
@@ -593,14 +600,18 @@ class MailMessageTest extends TestCase
             }
         );
         $transport->send($mail);
+        $this->assertTrue(true);
     }
 
     public function testReSetMessageId(): void
     {
         $mail = MailMessage::createNew();
         $headers = [];
-        $headers['Message-ID'] = Mail_Helper::generateMessageID();
+        $messageId = Mail_Helper::generateMessageID();
+        $headers['Message-ID'] = $messageId;
         $mail->addHeaders($headers);
+        $result = $mail->messageId;
+        $this->assertEquals($messageId, $result);
     }
 
     public function testZFPlainMail(): void
@@ -628,6 +639,7 @@ class MailMessageTest extends TestCase
             'type' => $type,
         ];
         Mail_Queue::queue($mail, $to, $options);
+        $this->assertTrue(true);
     }
 
     /**
@@ -638,11 +650,13 @@ class MailMessageTest extends TestCase
      */
     public function testParseHeaders(): void
     {
-        $header = "Subject: [#77675] New Issue:xxxxxxxxx xxxxxxx xxxxxxxx xxxxxxxxxxxxx xxxxxxxxxx xxxxxxxx, =?utf-8?b?dMOkaHRhZWc=?= xx.xx, xxxx\r\n";
+        $header = "Subject: [#77675] New Issue:xxxxxxxxx xxxxxxx xxxxxxxx xxxxxxxxxxxxx xxxxxxxxxx xxxxxxxx=2C =?utf-8?b?dMOkaHRhZWc=?= xx.xx, xxxx\r\n";
         /** @see \Zend\Mail\Header\HeaderWrap::canBeEncoded */
         $v0 = \Zend\Mail\Headers::fromString($header);
-        $folder = "\r\n ";
-        $this->assertEquals("Subject: =?UTF-8?Q?[#77675]=20New=20Issue:xxxxxxxxx=20xxxxxxx=20xxxxxxxx=20?={$folder}=?UTF-8?Q?xxxxxxxxxxxxx=20xxxxxxxxxx=20xxxxxxxx,=20t=C3=A4htaeg=20xx.xx,=20xxxx?=\r\n", $v0->toString());
+        $folding = Headers::FOLDING;
+        $eol = Headers::EOL;
+
+        $this->assertEquals("Subject: =?UTF-8?Q?[#77675]=20New=20Issue:xxxxxxxxx=20xxxxxxx=20xxxxxxxx=20?={$folding}=?UTF-8?Q?xxxxxxxxxxxxx=20xxxxxxxxxx=20xxxxxxxx=3D2C=20t=C3=A4htaeg=20?={$folding}=?UTF-8?Q?xx.xx=2C=20xxxx?={$eol}", $v0->toString());
 
         // the above fails with:
         // "iconv_mime_encode(): Unknown error (7)"
@@ -652,11 +666,11 @@ class MailMessageTest extends TestCase
         $v = iconv_mime_encode(
             'x-test', $value, ['scheme' => 'Q', 'line-length' => '76', 'line-break-chars' => ' ']
         );
-        $this->assertEquals('x-test: =?UTF-8?Q?[#77675]=20New=20Issue:xxxxxxxxx=20xxxxxxx=20xxxxxxxx=20?=  =?UTF-8?Q?xxxxxxxxxxxxx=20xxxxxxxxxx=20xxxxxxxx,=20t=C3=A4htaeg=20xx.xx,?=  =?UTF-8?Q?=20xxxx?=', $v);
+        $this->assertEqualsIgnoringCase('x-test: =?UTF-8?Q?[#77675]=20New=20Issue:xxxxxxxxx=20xxxxxxx=20xxxxxxxx=20?=  =?UTF-8?Q?xxxxxxxxxxxxx=20xxxxxxxxxx=20xxxxxxxx,=20t=C3=A4htaeg=20xx.xx,?=  =?UTF-8?Q?=20xxxx?=', $v);
 
         // this works too
         $v2 = \Zend\Mail\Header\HeaderWrap::mimeEncodeValue($value, 'UTF-8');
-        $this->assertEquals('=?UTF-8?Q?[#77675]=20New=20Issue:xxxxxxxxx=20xxxxxxx=20xxxxxxxx=20xxxxxxxxxxxxx=20xxxxxxxxxx=20xxxxxxxx,=20t=C3=A4htaeg=20xx.xx,=20xxxx?=', $v2);
+        $this->assertEquals('=?UTF-8?Q?[#77675]=20New=20Issue:xxxxxxxxx=20xxxxxxx=20xxxxxxxx=20xxxxxxxxxxxxx=20xxxxxxxxxx=20xxxxxxxx=2C=20t=C3=A4htaeg=20xx.xx=2C=20xxxx?=', $v2);
     }
 
     /**
