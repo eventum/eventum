@@ -97,8 +97,8 @@ class AuthController extends ManageBaseController
     {
         /** @var \Zend\Config\Config $config */
         $config = Setup::get()['auth'];
-	if ($config['options'] != null)
-		$configOptions = $config['options']->toArray();
+        if ($config['options'] != null)
+            $configOptions = $config['options']->toArray();
         $adapters = [];
         $options = [];
 
