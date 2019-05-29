@@ -3767,16 +3767,16 @@
         },
         {
             "name": "symfony/ldap",
-            "version": "v4.2.8",
+            "version": "v4.2.9",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/ldap.git",
-                "reference": "057f249499a5b08b7f16d3982d90e11e88337a99"
+                "reference": "44040cc79f7ada84a6af41b0db949b68dd741a24"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/ldap/zipball/057f249499a5b08b7f16d3982d90e11e88337a99",
-                "reference": "057f249499a5b08b7f16d3982d90e11e88337a99",
+                "url": "https://api.github.com/repos/symfony/ldap/zipball/44040cc79f7ada84a6af41b0db949b68dd741a24",
+                "reference": "44040cc79f7ada84a6af41b0db949b68dd741a24",
                 "shasum": ""
             },
             "require": {
@@ -3821,20 +3821,20 @@
                 "active directory",
                 "ldap"
             ],
-            "time": "2019-04-17T14:56:00+00:00"
+            "time": "2019-05-26T20:47:34+00:00"
         },
         {
             "name": "symfony/options-resolver",
-            "version": "v4.2.8",
+            "version": "v4.2.9",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/options-resolver.git",
-                "reference": "fd4a5f27b7cd085b489247b9890ebca9f3e10044"
+                "reference": "664929ad1eb17ca140662fa49e713ae1c93fe0e8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/options-resolver/zipball/fd4a5f27b7cd085b489247b9890ebca9f3e10044",
-                "reference": "fd4a5f27b7cd085b489247b9890ebca9f3e10044",
+                "url": "https://api.github.com/repos/symfony/options-resolver/zipball/664929ad1eb17ca140662fa49e713ae1c93fe0e8",
+                "reference": "664929ad1eb17ca140662fa49e713ae1c93fe0e8",
                 "shasum": ""
             },
             "require": {
@@ -3875,7 +3875,7 @@
                 "configuration",
                 "options"
             ],
-            "time": "2019-04-10T16:20:36+00:00"
+            "time": "2019-05-10T05:33:12+00:00"
         },
         {
             "name": "symfony/routing",
