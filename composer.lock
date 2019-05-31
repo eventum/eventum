@@ -4031,16 +4031,16 @@
         },
         {
             "name": "symfony/security-csrf",
-            "version": "v4.2.9",
+            "version": "v4.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/security-csrf.git",
-                "reference": "385dcfcd6cf02e0b8d10524bd072169be2d5494b"
+                "reference": "2ec1a4047302de6d0c4fb2cc377e578f530097c7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/security-csrf/zipball/385dcfcd6cf02e0b8d10524bd072169be2d5494b",
-                "reference": "385dcfcd6cf02e0b8d10524bd072169be2d5494b",
+                "url": "https://api.github.com/repos/symfony/security-csrf/zipball/2ec1a4047302de6d0c4fb2cc377e578f530097c7",
+                "reference": "2ec1a4047302de6d0c4fb2cc377e578f530097c7",
                 "shasum": ""
             },
             "require": {
@@ -4059,7 +4059,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "4.2-dev"
+                    "dev-master": "4.3-dev"
                 }
             },
             "autoload": {
@@ -4086,7 +4086,7 @@
             ],
             "description": "Symfony Security Component - CSRF Library",
             "homepage": "https://symfony.com",
-            "time": "2019-01-16T20:31:39+00:00"
+            "time": "2019-01-16T21:53:39+00:00"
         },
         {
             "name": "symfony/serializer",
