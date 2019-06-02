@@ -25,6 +25,7 @@ use ProjectSeeder;
 use Setup;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\EventDispatcher\GenericEvent;
+use UserSeeder;
 
 abstract class TestCase extends WebTestCase
 {
@@ -73,6 +74,7 @@ abstract class TestCase extends WebTestCase
         $issue->setSummary($title);
         $issue->setDescription($title);
         $issue->setProjectId(ProjectSeeder::DEFAULT_PROJECT_ID);
+        $issue->setUserId(UserSeeder::ACTIVE_ACCOUNT);
         $issue->setStatus($sr->findByTitle('discovery'));
 
         return $issue;
