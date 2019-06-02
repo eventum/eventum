@@ -44,7 +44,7 @@ class Kernel extends BaseKernel
         // Fake PATH info, because GuardAuthentication handles only main request
         if (!isset($_SERVER['PATH_INFO']) && $_SERVER['SCRIPT_NAME'] !== '/index.php') {
             // use /index.php, /list.php, so could use matching route names
-            $_SERVER['SCRIPT_FILENAME'] = substr($_SERVER['SCRIPT_FILENAME'], strlen($_SERVER['SCRIPT_NAME'])) . '/index.php';
+            $_SERVER['SCRIPT_FILENAME'] = substr($_SERVER['SCRIPT_FILENAME'], 0, -strlen($_SERVER['SCRIPT_NAME'])) . '/index.php';
             $_SERVER['REQUEST_URI'] = "/index.php{$_SERVER['REQUEST_URI']}";
             $_SERVER['SCRIPT_NAME'] = '/index.php';
             $_SERVER['PHP_SELF'] = "/index.php{$_SERVER['SCRIPT_NAME']}";
