@@ -41,13 +41,17 @@ class Kernel extends BaseKernel
 
     public static function handleRequest(): void
     {
-        // Fake PATH info, because GuardAuthentication handles only main request
-        if (!isset($_SERVER['PATH_INFO']) && $_SERVER['SCRIPT_NAME'] !== '/index.php') {
+        /**
+         * Fake pathinfo, because GuardAuthentication handles only main request
+         * and we want to use our router configuration
+         *
+         * @see \Symfony\Component\HttpFoundation\Request::prepareBaseUrl
+         */
+        if (!isset($_SERVER['PATH_INFO'])) {
             // use /index.php, /list.php, so could use matching route names
-            $_SERVER['SCRIPT_FILENAME'] = substr($_SERVER['SCRIPT_FILENAME'], 0, -strlen($_SERVER['SCRIPT_NAME'])) . '/index.php';
-            $_SERVER['REQUEST_URI'] = "/index.php{$_SERVER['REQUEST_URI']}";
-            $_SERVER['SCRIPT_NAME'] = '/index.php';
-            $_SERVER['PHP_SELF'] = "/index.php{$_SERVER['SCRIPT_NAME']}";
+            $index = basename($_SERVER['SCRIPT_NAME']);
+            $_SERVER['SCRIPT_FILENAME'] = substr($_SERVER['SCRIPT_FILENAME'], 0, -strlen($_SERVER['SCRIPT_NAME'])) . "/{$index}";
+            $_SERVER['REQUEST_URI'] = "/{$index}{$_SERVER['REQUEST_URI']}";
         }
 
         $_SERVER['APP_ENV'] = $_ENV['APP_ENV'] = ($_SERVER['APP_ENV'] ?? $_ENV['APP_ENV'] ?? null) ?: 'dev';

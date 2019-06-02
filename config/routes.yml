@@ -1,5 +1,9 @@
-index:
+root:
     path: /
+    controller: Eventum\Controller\IndexController::defaultAction
+
+index:
+    path: /index.php
     controller: Eventum\Controller\IndexController::defaultAction
 
 confirm:

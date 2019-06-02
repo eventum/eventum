@@ -52,7 +52,9 @@ class IndexController
                 $params['url'] = $url;
             }
 
-            return $this->redirect('select_project.php', $params);
+            $url = $urlGenerator->generate('select_project', $params);
+
+            return $this->redirect($url);
         }
 
         $externalLoginUrl = Auth::getExternalLoginURL();
