@@ -21,6 +21,7 @@ use Eventum\Model\Entity;
 use Eventum\Model\Repository\StatusRepository;
 use Eventum\Test\Traits\DoctrineTrait;
 
+use ProjectSeeder;
 use Setup;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\EventDispatcher\GenericEvent;
@@ -56,17 +57,25 @@ abstract class TestCase extends WebTestCase
                     ->setFilename('file')
             );
 
+        $issue = $this->createIssue('issue with commits');
+        $issue->addCommit($ci);
+
+        return $ci;
+    }
+
+    private function createIssue(string $title): Entity\Issue
+    {
+
         /** @var StatusRepository $sr */
         $sr = $this->getEntityManager()->getRepository(Entity\Status::class);
 
         $issue = new Entity\Issue();
-        $issue->setSummary('issue with commits');
-        $issue->setDescription('description');
-        $issue->setProjectId(1);
+        $issue->setSummary($title);
+        $issue->setDescription($title);
+        $issue->setProjectId(ProjectSeeder::DEFAULT_PROJECT_ID);
         $issue->setStatus($sr->findByTitle('discovery'));
-        $issue->addCommit($ci);
 
-        return $ci;
+        return $issue;
     }
 
     protected function flushCommit(Entity\Commit $commit): Entity\Commit
