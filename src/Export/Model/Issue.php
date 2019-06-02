@@ -11,6 +11,8 @@
  * that were distributed with this source code.
  */
 
+namespace Eventum\Export\Model;
+
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Id;
 
