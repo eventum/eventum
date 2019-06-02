@@ -4,6 +4,8 @@
 
 Upgrading to 3.7.x versions requires that you upgrade to latest 3.5.x version first.
 
+- Add export issues to CSV command (@glensc, #460)
+
 [3.7.2]: https://github.com/eventum/eventum/compare/v3.7.1...master
 
 ## [3.7.1] - 2019-05-22
