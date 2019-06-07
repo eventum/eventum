@@ -4145,16 +4145,16 @@
         },
         {
             "name": "symfony/ldap",
-            "version": "v4.3.0",
+            "version": "v4.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/ldap.git",
-                "reference": "a592e3d5a1cc8d28829d7bb9dd8f49bfea319197"
+                "reference": "c76fcad346a5102b8ace06ff2d6830debd490933"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/ldap/zipball/a592e3d5a1cc8d28829d7bb9dd8f49bfea319197",
-                "reference": "a592e3d5a1cc8d28829d7bb9dd8f49bfea319197",
+                "url": "https://api.github.com/repos/symfony/ldap/zipball/c76fcad346a5102b8ace06ff2d6830debd490933",
+                "reference": "c76fcad346a5102b8ace06ff2d6830debd490933",
                 "shasum": ""
             },
             "require": {
@@ -4199,7 +4199,7 @@
                 "active directory",
                 "ldap"
             ],
-            "time": "2019-05-26T20:47:49+00:00"
+            "time": "2019-05-30T16:10:05+00:00"
         },
         {
             "name": "symfony/mime",
@@ -4262,7 +4262,7 @@
         },
         {
             "name": "symfony/options-resolver",
-            "version": "v4.3.0",
+            "version": "v4.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/options-resolver.git",
