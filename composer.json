@@ -37,6 +37,9 @@
 		"sort-packages": true
 	},
 	"scripts": {
+		"pre-commit": "php-cs-fixer fix",
+		"post-install-cmd": "vendor/bin/cghooks add --no-lock",
+		"post-update-cmd": "vendor/bin/cghooks update",
 		"test": "phpunit"
 	},
 	"autoload": {
@@ -134,6 +137,7 @@
 		"alcaeus/mongo-php-adapter": "^1.1",
 		"balbuf/composer-git-merge-driver": "^1.1",
 		"bgrins/filereader.js": "*",
+		"brainmaestro/composer-git-hooks": "^2.7",
 		"components/jquery": "~1.8.3",
 		"components/jquery-blockui": "*@dev",
 		"components/jquery-chosen": "*",
