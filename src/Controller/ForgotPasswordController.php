@@ -25,17 +25,16 @@ class ForgotPasswordController
     /** @var string */
     protected $tpl_name = 'forgot_password.tpl.html';
 
-    public function defaultAction(Request $request): ?Response
+    public function defaultAction(Request $request): Response
     {
+        $params = [];
         $cat = $request->request->get('cat');
 
         if ($cat === 'reset_password') {
-            $res = $this->resetPasswordAction($request->request->get('email'));
-
-            return $this->render($this->tpl_name, ['result' => $res]);
+            $params['result'] = $this->resetPasswordAction($request->request->get('email'));
         }
 
-        return null;
+        return $this->render($this->tpl_name, $params);
     }
 
     private function resetPasswordAction(string $email): int
