@@ -5,6 +5,7 @@
 Upgrading to 3.7.x versions requires that you upgrade to latest 3.5.x version first.
 
 - Add export issues to CSV command (@glensc, #460)
+- Fix forgot password page (@glensc, #605, #606)
 
 [3.7.2]: https://github.com/eventum/eventum/compare/v3.7.1...master
 
