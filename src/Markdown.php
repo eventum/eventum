@@ -27,7 +27,7 @@ use League\CommonMark\Extension\CommonMarkCoreExtension;
 use Misc;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
-class Markdown
+final class Markdown
 {
     private const PURIFIER_CACHE_DIR = APP_CACHE_PATH . '/purifier';
     /**

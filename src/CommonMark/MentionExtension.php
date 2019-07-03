@@ -13,26 +13,16 @@
 
 namespace Eventum\CommonMark;
 
-use League\CommonMark\Extension\Extension;
-use League\CommonMark\Inline\Parser\InlineParserInterface;
+use League\CommonMark\ConfigurableEnvironmentInterface;
+use League\CommonMark\Extension\ExtensionInterface;
 
-class MentionExtension extends Extension
+class MentionExtension implements ExtensionInterface
 {
-    /**
-     * @return InlineParserInterface[]
-     */
-    public function getInlineParsers(): array
+    public function register(ConfigurableEnvironmentInterface $environment): void
     {
         $lookup = new UserLookup();
         $linkPattern = APP_BASE_URL . 'list.php?reporter=%s&hide_closed=1';
 
-        return [
-            new InlineMentionParser($linkPattern, $lookup),
-        ];
-    }
-
-    public function getName(): string
-    {
-        return 'mention';
+        $environment->addInlineParser(new InlineMentionParser($linkPattern, $lookup));
     }
 }
