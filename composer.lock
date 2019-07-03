@@ -2088,6 +2088,63 @@
             "time": "2019-06-29T11:38:52+00:00"
         },
         {
+            "name": "league/commonmark-ext-task-list",
+            "version": "v1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/thephpleague/commonmark-ext-task-list.git",
+                "reference": "1a9ed08eb0564e6277282488dda640cb1b31c74c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/thephpleague/commonmark-ext-task-list/zipball/1a9ed08eb0564e6277282488dda640cb1b31c74c",
+                "reference": "1a9ed08eb0564e6277282488dda640cb1b31c74c",
+                "shasum": ""
+            },
+            "require": {
+                "league/commonmark": "^0.19|^1.0",
+                "php": "^7.1"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^7.5"
+            },
+            "type": "commonmark-extension",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.1-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "League\\CommonMark\\Ext\\TaskList\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Colin O'Dell",
+                    "email": "colinodell@gmail.com",
+                    "homepage": "https://www.colinodell.com",
+                    "role": "Lead Developer"
+                }
+            ],
+            "description": "Extension for league/commonmark which supports GFM-style task lists",
+            "homepage": "https://github.com/thephpleague/commonmark-ext-task-list",
+            "keywords": [
+                "Lists",
+                "commonmark",
+                "extension",
+                "gfm",
+                "github",
+                "markdown",
+                "task"
+            ],
+            "time": "2019-06-29T11:36:34+00:00"
+        },
+        {
             "name": "league/flysystem",
             "version": "1.0.53",
             "source": {
