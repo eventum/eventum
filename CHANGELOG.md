@@ -5,6 +5,7 @@
 Upgrading to 3.7.x versions requires that you upgrade to latest 3.5.x version first.
 
 - Login using Symfony GuardAuthenticator (@glensc, #550)
+- Update to league/commonmark 1.0.0 (@glensc, #527)
 
 [3.7.3]: https://github.com/eventum/eventum/compare/v3.7.2...master
 
