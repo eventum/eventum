@@ -26,6 +26,7 @@ use League\CommonMark\Ext\TaskList\TaskListExtension;
 use League\CommonMark\Extension\CommonMarkCoreExtension;
 use Misc;
 use Symfony\Component\EventDispatcher\GenericEvent;
+use Webuni\CommonMark\TableExtension\TableExtension;
 
 final class Markdown
 {
@@ -140,6 +141,7 @@ final class Markdown
         $environment->addExtension(new AutolinkExtension());
         $environment->addExtension(new TaskListExtension());
         $environment->addExtension(new MentionExtension());
+        $environment->addExtension(new TableExtension());
 
         // allow extensions to apply behaviour
         $event = new GenericEvent($environment);

@@ -120,6 +120,7 @@
 		"symfony/security-csrf": "^3.4 || ^4.0",
 		"symfony/var-exporter": "^4.2",
 		"theorchard/monolog-cascade": "^0.5.0",
+		"webuni/commonmark-table-extension": "^1.0",
 		"willdurand/email-reply-parser": "^2.7.0",
 		"xemlock/htmlpurifier-html5": "^0.1.10",
 		"zendframework/zend-config": "^3.2",
