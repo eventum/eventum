@@ -20,10 +20,11 @@ use Zend\Mail;
 
 class InvalidMessageException extends RuntimeException
 {
-    public static function create(Exception $e, array $params)
+    public static function create(Exception $e, array $params): self
     {
-        if (isset($params['headers'])) {
-            if (!is_array($params['headers'])) {
+        // convert only array or string type of headers (exclude Headers object)
+        if (isset($params['headers']) && !is_object($params['headers'])) {
+            if (is_string($params['headers'])) {
                 MailLoader::convertHeaders($params['headers']);
             }
 
