@@ -55,7 +55,7 @@ use Zend\Mail\Storage\Message;
  */
 class MailMessage extends Message
 {
-    const ENCODING = APP_CHARSET;
+    private const ENCODING = APP_CHARSET;
 
     /** @var MailAttachment */
     private $attachment;
@@ -85,7 +85,7 @@ class MailMessage extends Message
      *
      * @return MailMessage
      */
-    public static function createNew()
+    public static function createNew(): self
     {
         $message = new self(['root' => true]);
 
@@ -101,7 +101,7 @@ class MailMessage extends Message
      * @param string $raw The full email message
      * @return MailMessage
      */
-    public static function createFromString($raw)
+    public static function createFromString(string $raw): self
     {
         MailLoader::splitMessage($raw, $headers, $content);
 
@@ -115,7 +115,7 @@ class MailMessage extends Message
      * @param string $content
      * @return MailMessage
      */
-    public static function createFromHeaderBody($headers, $content)
+    public static function createFromHeaderBody($headers, $content): self
     {
         if (is_string($headers)) {
             // create from string which is more relax for broken mails
@@ -135,7 +135,7 @@ class MailMessage extends Message
      * @param string $filename Path to the file to read in
      * @return MailMessage
      */
-    public static function createFromFile($filename)
+    public static function createFromFile($filename): self
     {
         return new self(['root' => true, 'file' => $filename]);
     }
@@ -146,7 +146,7 @@ class MailMessage extends Message
      * @param Mail\Message $message
      * @return MailMessage
      */
-    public static function createFromMessage(Mail\Message $message)
+    public static function createFromMessage(Mail\Message $message): self
     {
         return self::createFromString($message->toString());
     }
