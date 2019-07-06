@@ -17,6 +17,7 @@ use Auth;
 use AuthCookie;
 use Eventum\Auth\Adapter\AdapterInterface as AuthAdapterInterface;
 use Eventum\Auth\AuthException;
+use Eventum\Db\Doctrine;
 use Eventum\Model\Entity\User;
 use Eventum\Session;
 use Psr\Container\ContainerInterface;
@@ -99,8 +100,15 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
             throw new UsernameNotFoundException(null, AuthException::UNKNOWN_USER);
         }
 
+        // Fetch with AuthProvider, to support login and email
+        // as UserProviderInterface only supports one type (email)
+        // this is redundant and awkward, but don't have better solution at this point
+        $usr_id = $this->auth->getUserId($credentials['email']);
         /** @var User $user */
+        $user = Doctrine::getUserRepository()->find($usr_id);
+        /*
         $user = $userProvider->loadUserByUsername($credentials['email']);
+        */
 
         if (!$user) {
             // fail authentication with a custom error
