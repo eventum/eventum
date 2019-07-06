@@ -126,9 +126,9 @@
 	},
 	"replace": {
 		"paragonie/random_compat": "9.99.99",
-		"symfony/polyfill-ctype": "1.10.0",
-		"symfony/polyfill-intl-normalizer": "1.10.0",
-		"symfony/polyfill-mbstring": "1.10.0"
+		"symfony/polyfill-ctype": "^1.10.0",
+		"symfony/polyfill-intl-normalizer": "^1.10.0",
+		"symfony/polyfill-mbstring": "^1.10.0"
 	},
 	"require-dev": {
 		"alcaeus/mongo-php-adapter": "^1.1",
