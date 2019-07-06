@@ -1,6 +1,6 @@
 # Eventum Issue Tracking System
 
-## [3.7.2]
+## [3.7.2] - 2019-07-06
 
 Upgrading to 3.7.x versions requires that you upgrade to latest 3.5.x version first.
 
@@ -8,7 +8,7 @@ Upgrading to 3.7.x versions requires that you upgrade to latest 3.5.x version fi
 - Fix forgot password page (@glensc, #605, #606)
 - Fix loading emails with semicolon in name field (@glensc, #607)
 
-[3.7.2]: https://github.com/eventum/eventum/compare/v3.7.1...master
+[3.7.2]: https://github.com/eventum/eventum/compare/v3.7.1...v3.7.2
 
 ## [3.7.1] - 2019-05-22
 
