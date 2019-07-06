@@ -59,4 +59,16 @@ class LoadEmailTest extends TestCase
         $mail = MailMessage::createFromString($raw);
         $this->assertTrue($mail->getHeaders()->has('X-Broken-Header-Mbox'));
     }
+
+    /**
+     * From: "Famous bearings |;" <skf@example.com>
+     */
+    public function testLoadInvalidName(): void
+    {
+        $raw = $this->readDataFile('110616.txt');
+        $mail = MailMessage::createFromString($raw);
+        $headers = $mail->getHeaders();
+        $this->assertEquals('"Famous bearings |;" <skf@example.com>', $headers->get('From')->getFieldValue());
+        $this->assertEquals('Famous bearings | <skf@example.com>', $headers->get('Reply-To')->getFieldValue());
+    }
 }
