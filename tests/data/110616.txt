@@ -1,0 +1,32 @@
+Return-Path: <support-bounces@lists.example.org>
+Delivered-To: eventum-imap@example.org
+Received: from win2003 ([127.0.0.1]) by localhost via TCP with ESMTPA;
+	Tue, 02 Jul 2019 03:31:13 +0800
+MIME-Version: 1.0
+From: "Famous bearings |;" <skf@example.com>
+To: support@lists.example.org
+Date: 2 Jul 2019 03:31:13 +0800
+Subject: =?utf-8?B?cyBiZWFyaW5ncyAgICBFbmI=?=
+Content-Type: multipart/alternative;
+	boundary=--boundary_118276_94ad25ae-43fa-4eb6-968c-fc87bcdcbd75
+Message-Id: <20190701193130.27DB1103194A@minni.example.org>
+Reply-To: "Famous bearings |" <skf@example.com>
+Sender: support-bounces@lists.example.org
+Errors-To: support-bounces@lists.example.org
+
+
+----boundary_118276_94ad25ae-43fa-4eb6-968c-fc87bcdcbd75
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: base64
+
+UmljayBhbmQgbW9ydHkgcnVsZXMK
+
+----boundary_118276_94ad25ae-43fa-4eb6-968c-fc87bcdcbd75
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: base64
+
+UmljayBhbmQgbW9ydHkgcnVsZXMK
+
+----boundary_118276_94ad25ae-43fa-4eb6-968c-fc87bcdcbd75--
+
+
