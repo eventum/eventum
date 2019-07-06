@@ -5427,12 +5427,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/eventum/zend-mail.git",
-                "reference": "e92282e8ab30a161bf9b69e010e1002a893a6428"
+                "reference": "f8aa846157951793c226e0fe5ae32a0a82f5f1db"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/eventum/zend-mail/zipball/e92282e8ab30a161bf9b69e010e1002a893a6428",
-                "reference": "e92282e8ab30a161bf9b69e010e1002a893a6428",
+                "url": "https://api.github.com/repos/eventum/zend-mail/zipball/f8aa846157951793c226e0fe5ae32a0a82f5f1db",
+                "reference": "f8aa846157951793c226e0fe5ae32a0a82f5f1db",
                 "shasum": ""
             },
             "require": {
@@ -5512,7 +5512,7 @@
                 "chat": "https://zendframework-slack.herokuapp.com",
                 "forum": "https://discourse.zendframework.com/c/questions/components"
             },
-            "time": "2019-05-02T21:03:22+00:00"
+            "time": "2019-07-06T10:34:36+00:00"
         },
         {
             "name": "zendframework/zend-mime",
