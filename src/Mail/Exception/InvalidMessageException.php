@@ -17,24 +17,25 @@ use Eventum\Mail\Helper\MailLoader;
 use Exception;
 use RuntimeException;
 use Zend\Mail;
+use Zend\Mail\Header\HeaderInterface;
 
 class InvalidMessageException extends RuntimeException
 {
     public static function create(Exception $e, array $params): self
     {
-        // convert only array or string type of headers (exclude Headers object)
-        if (isset($params['headers']) && !is_object($params['headers'])) {
+        if (isset($params['headers'])) {
             if (is_string($params['headers'])) {
                 MailLoader::convertHeaders($params['headers']);
             }
 
             // test loading each header to identify which one fails with better error message
             $headers = new Mail\Headers();
-            foreach ($params['headers'] as $i => $header) {
+            foreach ($params['headers'] as $header) {
+                $headerLine = $header instanceof HeaderInterface ? $header->toString() : (string)$header;
                 try {
-                    $headers->addHeaderLine($header);
+                    $headers->addHeaderLine($headerLine);
                 } catch (Mail\Exception\InvalidArgumentException $e) {
-                    $message = $e->getMessage() . '; Header: ' . $header;
+                    $message = $e->getMessage() . '; Header: ' . $headerLine;
 
                     return new self($message, $e->getCode());
                 }
