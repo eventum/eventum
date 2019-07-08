@@ -15,13 +15,17 @@ namespace Eventum\Model\Entity;
 
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Table(name="user", uniqueConstraints={@ORM\UniqueConstraint(name="usr_email", columns={"usr_email"})})
  * @ORM\Entity(repositoryClass="Eventum\Model\Repository\UserRepository")
  */
-class User
+class User implements UserInterface
 {
+    public const STATUS_ACTIVE = 'active';
+    public const STATUS_PENDING = 'pending';
+
     /**
      * @var int
      * @ORM\Column(name="usr_id", type="integer", nullable=false)
@@ -303,5 +307,56 @@ class User
     public function getPartnerCode(): ?string
     {
         return $this->partnerCode;
+    }
+
+    /**
+     * Method to check whether an user is pending its confirmation
+     * or not.
+     */
+    public function isPending(): bool
+    {
+        return $this->status === self::STATUS_PENDING;
+    }
+
+    /**
+     * Method to check whether an user is active or not.
+     */
+    public function isActive(): bool
+    {
+        return $this->status === self::STATUS_ACTIVE;
+    }
+
+    public function getRoles(): array
+    {
+        // guarantee every user at least has ROLE_USER
+        return [
+            'ROLE_USER',
+        ];
+    }
+
+    /**
+     * Returns the salt that was originally used to encode the password.
+     *
+     * This can return null if the password was not encoded using a salt.
+     *
+     * @return string|null The salt
+     */
+    public function getSalt(): string
+    {
+        return $this->password;
+    }
+
+    /**
+     * Returns the username used to authenticate the user.
+     *
+     * @return string The username
+     */
+    public function getUsername(): string
+    {
+        return $this->email;
+    }
+
+    public function eraseCredentials(): void
+    {
     }
 }

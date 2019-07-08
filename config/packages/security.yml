@@ -1,0 +1,59 @@
+security:
+    # https://symfony.com/doc/4.2/security.html#where-do-users-come-from-user-providers
+    providers:
+        users:
+            entity:
+                # the class of the entity that represents users
+                class: 'Eventum\Model\Entity\User'
+                # the property to query by - e.g. username, email, etc
+                property: 'email'
+
+    # https://symfony.com/doc/4.2/security/multiple_guard_authenticators.html
+    firewalls:
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+        main:
+            anonymous: ~
+            guard:
+                authenticators:
+                    - Eventum\Security\LoginFormAuthenticator
+#                    - Eventum\Security\TokenAuthenticator
+
+                entry_point: Eventum\Security\LoginFormAuthenticator
+
+            # https://symfony.com/doc/4.2/security/user_checkers.html
+            pattern: ^/
+            user_checker: Eventum\Security\UserChecker
+
+            # activate different ways to authenticate
+
+            # http_basic: true
+            # https://symfony.com/doc/4.2/security.html#a-configuring-how-your-users-will-authenticate
+
+            # form_login: true
+            # https://symfony.com/doc/4.2/security/form_login_setup.html
+
+            # https://symfony.com/doc/4.2/security/remember_me.html
+            remember_me:
+                secret: '%kernel.secret%'
+                remember_me_parameter: remember
+
+            # https://symfony.com/doc/4.2/security.html#logging-out
+            logout:
+                path: logout
+                # where to redirect after logout
+                target: login
+                # https://artemzhuravlev.com/blog/symfony-logout-handler/
+                handlers:
+                  - Eventum\Security\LogoutListener
+
+    # Easy way to control access for large sections of your site
+    # Note: Only the *first* access control that matches will be used
+    access_control:
+        - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/scm_ping, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/$, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/, roles: ROLE_USER }
+
+# vim:ts=4:sw=4:et

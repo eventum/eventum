@@ -104,7 +104,7 @@ $().ready(function() {
 
     <tr align="center">
       <td colspan="2">
-        <a href="{$core.rel_url}forgot_password.php{if $smarty.get.email|default:'' != ""}?email={$smarty.get.email|escape:"html"}{/if}">{t}I Forgot My Password{/t}</a>
+        <a href="{$core.rel_url}forgot_password.php{if $smarty.get.login|default:'' != ""}?email={$smarty.get.login|escape:"html"}{/if}">{t}I Forgot My Password{/t}</a>
         {if $core.app_setup.open_signup|default:'' == 'enabled'}<a href="signup.php">{t}Signup for an Account{/t}</a>{/if}
       </td>
     </tr>

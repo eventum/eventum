@@ -17,9 +17,11 @@ use Auth;
 use AuthCookie;
 use Eventum\Controller\Traits\RedirectResponseTrait;
 use Eventum\Controller\Traits\SmartyResponseTrait;
-use Project;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Component\Security\Core\Security;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 class IndexController
 {
@@ -29,9 +31,13 @@ class IndexController
     /** @var string */
     protected $tpl_name = 'index.tpl.html';
 
-    public function defaultAction(Request $request): Response
+    public function defaultAction(Request $request, Security $security, UrlGeneratorInterface $urlGenerator): Response
     {
-        $has_valid_cookie = AuthCookie::hasAuthCookie();
+        // https://symfony.com/doc/current/security.html#a-configuring-how-your-users-will-authenticate
+        $user = $security->getUser();
+        $isUser = $user instanceof UserInterface;
+
+        $has_valid_cookie = $isUser && AuthCookie::hasAuthCookie();
         $is_anon_user = Auth::isAnonUser();
 
         // log anonymous users out so they can use the login form
@@ -46,7 +52,9 @@ class IndexController
                 $params['url'] = $url;
             }
 
-            return $this->redirect('select_project.php', $params);
+            $url = $urlGenerator->generate('select_project', $params);
+
+            return $this->redirect($url);
         }
 
         $externalLoginUrl = Auth::getExternalLoginURL();
@@ -54,11 +62,8 @@ class IndexController
             return $this->redirect($externalLoginUrl, [], true);
         }
 
-        $params = [
-            'anonymous_post' => count(Project::getAnonymousList()) > 0,
-            'login_url' => $externalLoginUrl,
-        ];
+        $url = $urlGenerator->generate('login');
 
-        return $this->render($this->tpl_name, $params);
+        return $this->redirect($url);
     }
 }

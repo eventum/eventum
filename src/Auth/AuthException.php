@@ -13,10 +13,10 @@
 
 namespace Eventum\Auth;
 
-use RuntimeException;
+use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Throwable;
 
-class AuthException extends RuntimeException
+class AuthException extends AuthenticationException
 {
     public const EMPTY_LOGIN = 1;
     public const EMPTY_PASSWORD = 2;
