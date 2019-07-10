@@ -22,15 +22,13 @@ use League\CommonMark\ConverterInterface;
 use League\CommonMark\Environment;
 use League\CommonMark\Ext\Autolink\AutolinkExtension;
 use League\CommonMark\Ext\InlinesOnly\InlinesOnlyExtension;
+use League\CommonMark\Ext\TaskList\TaskListExtension;
 use League\CommonMark\Extension\CommonMarkCoreExtension;
-use Lossendae\CommonMark\TaskLists\TaskListsCheckbox;
-use Lossendae\CommonMark\TaskLists\TaskListsCheckboxRenderer;
-use Lossendae\CommonMark\TaskLists\TaskListsParser;
 use Misc;
 use Symfony\Component\EventDispatcher\GenericEvent;
 use Webuni\CommonMark\TableExtension\TableExtension;
 
-class Markdown
+final class Markdown
 {
     private const PURIFIER_CACHE_DIR = APP_CACHE_PATH . '/purifier';
     /**
@@ -141,11 +139,9 @@ class Markdown
     private function applyExtensions(Environment $environment): void
     {
         $environment->addExtension(new AutolinkExtension());
-        $environment->addExtension(new TableExtension());
+        $environment->addExtension(new TaskListExtension());
         $environment->addExtension(new MentionExtension());
-
-        $environment->addInlineRenderer(TaskListsCheckbox::class, new TaskListsCheckboxRenderer());
-        $environment->addInlineParser(new TaskListsParser());
+        $environment->addExtension(new TableExtension());
 
         // allow extensions to apply behaviour
         $event = new GenericEvent($environment);

@@ -40,14 +40,6 @@ final class InlineMentionParser implements InlineParserInterface
     /**
      * {@inheritdoc}
      */
-    public function getName(): string
-    {
-        return 'mention';
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function getCharacters(): array
     {
         return ['@'];
