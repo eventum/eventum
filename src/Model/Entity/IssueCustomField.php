@@ -182,7 +182,7 @@ class IssueCustomField
         }
     }
 
-    public function getDisplayValue(): string
+    public function getDisplayValue(): ?string
     {
         if ($this->customField->isOptionType()) {
             return $this->getOptionValue();
