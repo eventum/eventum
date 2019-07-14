@@ -22,11 +22,11 @@ use League\CommonMark\ConverterInterface;
 use League\CommonMark\Environment;
 use League\CommonMark\Ext\Autolink\AutolinkExtension;
 use League\CommonMark\Ext\InlinesOnly\InlinesOnlyExtension;
+use League\CommonMark\Ext\Table\TableExtension;
 use League\CommonMark\Ext\TaskList\TaskListExtension;
 use League\CommonMark\Extension\CommonMarkCoreExtension;
 use Misc;
 use Symfony\Component\EventDispatcher\GenericEvent;
-use Webuni\CommonMark\TableExtension\TableExtension;
 
 final class Markdown
 {
