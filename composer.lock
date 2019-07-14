@@ -2154,16 +2154,16 @@
         },
         {
             "name": "league/commonmark-ext-task-list",
-            "version": "v1.0.0",
+            "version": "v1.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/commonmark-ext-task-list.git",
-                "reference": "1a9ed08eb0564e6277282488dda640cb1b31c74c"
+                "reference": "9fe28f3527ab913b60d44bdc8d66829733cad7c6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/commonmark-ext-task-list/zipball/1a9ed08eb0564e6277282488dda640cb1b31c74c",
-                "reference": "1a9ed08eb0564e6277282488dda640cb1b31c74c",
+                "url": "https://api.github.com/repos/thephpleague/commonmark-ext-task-list/zipball/9fe28f3527ab913b60d44bdc8d66829733cad7c6",
+                "reference": "9fe28f3527ab913b60d44bdc8d66829733cad7c6",
                 "shasum": ""
             },
             "require": {
@@ -2207,7 +2207,7 @@
                 "markdown",
                 "task"
             ],
-            "time": "2019-06-29T11:36:34+00:00"
+            "time": "2019-07-11T00:35:13+00:00"
         },
         {
             "name": "league/flysystem",
