@@ -388,7 +388,7 @@ class ViewController extends BaseController
         if ($this->role_id > User::ROLE_CUSTOMER && Group::getAssocList($this->prj_id)) {
             $columns[1][] = [
                 'title' => ev_gettext('Group'),
-                'data' => isset($details['group']) ? $details['group']['grp_name'] : '',
+                'data' => $details['group']['grp_name'] ?? '',
                 'title_bgcolor' => APP_INTERNAL_COLOR,
             ];
         }
