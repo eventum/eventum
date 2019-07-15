@@ -216,7 +216,7 @@ class Group
             $res['users'] = self::getUsers($grp_id);
             $res['projects'] = self::getProjects($grp_id);
             $res['project_ids'] = array_keys($res['projects']);
-            $res['manager'] = User::getFullName($res['grp_manager_usr_id']);
+            $res['manager'] = User::getFullName($res['grp_manager_usr_id'] ?? null);
         } else {
             $res = [];
         }
