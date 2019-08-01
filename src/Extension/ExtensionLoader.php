@@ -19,27 +19,27 @@ use ReflectionClass;
 
 class ExtensionLoader
 {
-    /** @var array */
+    /** @var string[] */
     private $paths;
 
     /** @var string */
     private $classFormat;
 
     /** @var string */
-    private $parent_class;
+    private $parentClass;
 
     /**
      * ExtensionLoader constructor.
      *
      * @param array|string $paths
      * @param string $classFormat format for creating class from filename
-     * @param string $parent_class Only include classes that are a subclass of this
+     * @param string $parentClass Only include classes that are a subclass of this
      */
-    public function __construct($paths, $classFormat = null, $parent_class = null)
+    public function __construct($paths, $classFormat = null, $parentClass = null)
     {
         $this->paths = is_string($paths) ? [$paths] : $paths;
         $this->classFormat = $classFormat;
-        $this->parent_class = $parent_class;
+        $this->parentClass = $parentClass;
     }
 
     /**
@@ -93,7 +93,7 @@ class ExtensionLoader
                 continue;
             }
 
-            if ($this->parent_class && !is_subclass_of($classname, $this->parent_class)) {
+            if ($this->parentClass && !is_subclass_of($classname, $this->parentClass)) {
                 continue;
             }
 
