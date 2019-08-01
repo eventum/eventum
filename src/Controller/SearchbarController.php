@@ -22,7 +22,7 @@ class SearchbarController
 {
     use RedirectResponseTrait;
 
-    public function defaultAction(Request $request): ?Response
+    public function defaultAction(Request $request): Response
     {
         $custom_id = $request->query->getInt('custom_id');
 
@@ -30,7 +30,7 @@ class SearchbarController
             return $this->filterAction($request, $custom_id);
         }
 
-        return null;
+        return $this->redirect('index.php');
     }
 
     private function filterAction(Request $request, int $custom_id): ?Response
