@@ -48,10 +48,19 @@ class Kernel extends BaseKernel
          * @see \Symfony\Component\HttpFoundation\Request::prepareBaseUrl
          */
         if (!isset($_SERVER['PATH_INFO'])) {
-            // use /index.php, /list.php, so could use matching route names
-            $index = basename($_SERVER['SCRIPT_NAME']);
-            $_SERVER['SCRIPT_FILENAME'] = substr($_SERVER['SCRIPT_FILENAME'], 0, -strlen($_SERVER['SCRIPT_NAME'])) . "/{$index}";
-            $_SERVER['REQUEST_URI'] = "/{$index}{$_SERVER['REQUEST_URI']}";
+            if (isset($_SERVER['REDIRECT_URI'])) {
+                /*
+                 * handle mod_rewrite, example:
+                 *
+                 *  url.rewrite-once = (
+                 *    "^/(.*)" => "/git/$1"
+                 *  )
+                 */
+                $_SERVER['REQUEST_URI'] = "/{$_SERVER['REDIRECT_URI']}{$_SERVER['REQUEST_URI']}";
+            } else {
+                $index = basename($_SERVER['SCRIPT_NAME']);
+                $_SERVER['REQUEST_URI'] = "/{$index}{$_SERVER['REQUEST_URI']}";
+            }
         }
 
         $_SERVER['APP_ENV'] = $_ENV['APP_ENV'] = ($_SERVER['APP_ENV'] ?? $_ENV['APP_ENV'] ?? null) ?: 'dev';
