@@ -747,6 +747,6 @@ abstract class CRM
             APP_LOCAL_PATH . '/crm',
         ];
 
-        return new ExtensionLoader($dirs, '%s', 'CRM');
+        return new ExtensionLoader($dirs, '%s', __CLASS__);
     }
 }
