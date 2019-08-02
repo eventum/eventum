@@ -1082,11 +1082,7 @@ class Issue
         $stmt = 'UPDATE `issue` SET ' . DB_Helper::buildSet($params) . ' WHERE iss_id=?';
         $params[] = $issue_id;
 
-        try {
-            DB_Helper::getInstance()->query($stmt, $params);
-        } catch (DatabaseException $e) {
-            return -1;
-        }
+        DB_Helper::getInstance()->query($stmt, $params);
 
         $prj_id = self::getProjectID($issue_id);
 

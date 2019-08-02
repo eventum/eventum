@@ -361,11 +361,7 @@ class Note
                     `note`
                  SET ' . DB_Helper::buildSet($params);
 
-        try {
-            DB_Helper::getInstance()->query($stmt, $params);
-        } catch (DatabaseException $e) {
-            return -1;
-        }
+        DB_Helper::getInstance()->query($stmt, $params);
 
         $note_id = DB_Helper::get_last_insert_id();
         Issue::markAsUpdated($issue_id, 'note');
