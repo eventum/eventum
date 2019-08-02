@@ -136,8 +136,8 @@ composer_install() {
 	mv htdocs/components.save/* htdocs/components
 	rmdir htdocs/components.save
 
-	# clean vendor and dump autoloader again
-	clean_vendor
+	# clean distribution and dump autoloader again
+	clean_dist
 	$composer dump-autoload
 
 	# cleanup again
@@ -180,9 +180,9 @@ clean_scripts() {
 	find -name '*.php' | xargs -r sed -i -e 's,\r$,,'
 }
 
-clean_vendor() {
-	echo >&2 "Cleanup excess files from vendor"
-	$phing -f $topdir/build.xml clean-vendor
+clean_dist() {
+	echo >&2 "Cleanup distribution of unwanted files"
+	$phing -f $topdir/build.xml clean-dist
 
 	# clean empty dirs
 	find vendor -type d -print0 | sort -zr | xargs -0 rmdir --ignore-fail-on-non-empty

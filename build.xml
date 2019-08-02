@@ -22,7 +22,7 @@
 		clean vendor/ dir from unwanted files that come with composer
 		but are not needed for running eventum
 	-->
-	<target name="clean-vendor" description="clean vendor/ of unwanted files">
+	<target name="clean-dist" description="clean distribution of unwanted files">
 		<delete verbose="true">
 			<!-- generic files -->
 			<fileset dir="${vendor}" defaultexcludes="false">
