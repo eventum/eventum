@@ -3,6 +3,7 @@
 	<property name="name" value="${phing.project.name}"/>
 	<property name="basedir" value="."/>
 	<property name="vendor" value="${basedir}/vendor"/>
+	<property name="config" value="${basedir}/config"/>
 
 	<!-- phplint -->
 	<target name="phplint" description="Run PHP Lint.">
@@ -24,6 +25,10 @@
 	-->
 	<target name="clean-dist" description="clean distribution of unwanted files">
 		<delete verbose="true">
+			<fileset dir="${config}" defaultexcludes="false">
+				<include name="packages/test/**"/>
+			</fileset>
+
 			<!-- generic files -->
 			<fileset dir="${vendor}" defaultexcludes="false">
 				<include name="**/*.md"/>
