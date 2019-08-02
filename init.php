@@ -63,9 +63,6 @@ $define('APP_ANON_USER', '');
 $define('APP_ENABLE_FULLTEXT', false);
 $define('APP_FULLTEXT_SEARCH_CLASS', 'MySQL_Fulltext_Search');
 
-$define('APP_DEFAULT_ASSIGNED_EMAILS', 1);
-$define('APP_DEFAULT_NEW_EMAILS', 0);
-$define('APP_DEFAULT_COPY_OF_OWN_ACTION', 0);
 $define('APP_RELATIVE_URL', '/');
 $define('APP_COOKIE_URL', APP_RELATIVE_URL);
 $define('APP_COOKIE_DOMAIN', null);

@@ -14,6 +14,7 @@
 namespace Eventum\Model\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Setup;
 
 /**
  * @ORM\Table(name="user_project_preference")
@@ -42,19 +43,19 @@ class UserProjectPreference
      * @var bool
      * @ORM\Column(name="upp_receive_assigned_email", type="boolean", nullable=false)
      */
-    private $receiveAssignedEmail = APP_DEFAULT_ASSIGNED_EMAILS;
+    private $receiveAssignedEmail;
 
     /**
      * @var bool
      * @ORM\Column(name="upp_receive_new_issue_email", type="boolean", nullable=false)
      */
-    private $receiveNewIssueEmail = APP_DEFAULT_NEW_EMAILS;
+    private $receiveNewIssueEmail;
 
     /**
      * @var bool
      * @ORM\Column(name="upp_receive_copy_of_own_action", type="boolean", nullable=false)
      */
-    private $receiveCopyOfOwnAction = APP_DEFAULT_COPY_OF_OWN_ACTION;
+    private $receiveCopyOfOwnAction;
 
     public function __construct(UserPreference $upr, int $projectId)
     {
@@ -83,6 +84,10 @@ class UserProjectPreference
 
     public function receiveAssignedEmail(): bool
     {
+        if ($this->receiveAssignedEmail === null) {
+            return Setup::get()['default_assigned_emails'];
+        }
+
         return $this->receiveAssignedEmail;
     }
 
@@ -95,6 +100,10 @@ class UserProjectPreference
 
     public function receiveNewIssueEmail(): bool
     {
+        if ($this->receiveNewIssueEmail === null) {
+            return Setup::get()['default_new_emails'];
+        }
+
         return $this->receiveNewIssueEmail;
     }
 
@@ -107,6 +116,10 @@ class UserProjectPreference
 
     public function receiveCopyOfOwnAction(): bool
     {
+        if ($this->receiveCopyOfOwnAction === null) {
+            return Setup::get()['default_copy_of_own_action'];
+        }
+
         return $this->receiveCopyOfOwnAction;
     }
 }
