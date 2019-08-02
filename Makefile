@@ -50,14 +50,14 @@ pot:
 install: install-eventum
 
 snapshot:
-	./bin/ci/snapshot.sh
+	bin/releng/snapshot.sh
 	test -x ./dropin && ./dropin
 
 dist:
-	./bin/ci/release.sh
+	bin/releng/release.sh
 
 quickdist:
-	QUICK=true ./bin/ci/release.sh
+	QUICK=true bin/releng/release.sh
 
 test:
 	phpunit

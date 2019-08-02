@@ -28,7 +28,7 @@ Release tarball built from [#$TRAVIS_JOB_NUMBER](https://travis-ci.org/$TRAVIS_R
 	TRAVIS_TAG=$TRAVIS_TAG \
 	RELEASE_TITLE="$title" \
 	RELEASE_NOTES="$notes" \
-	bin/ci/tag-update.rb
+	bin/releng/tag-update.rb
 }
 
 gem install chandler

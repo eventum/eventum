@@ -11,7 +11,7 @@ services:
 
 # https://docs.travis-ci.com/user/languages/php/#choosing-php-versions-to-test-against
 jobs:
-  # NOTE: when adding/removing jobs, update bin/ci/snapshot.sh travis_log job_id
+  # NOTE: when adding/removing jobs, update bin/releng/snapshot.sh travis_log job_id
   allow_failures:
     - php: "7.4snapshot"
     - php: "nightly"
@@ -26,12 +26,12 @@ jobs:
     - stage: GitHub Release
       php: "7.1"
       script:
-        - bin/ci/dist.sh
+        - bin/releng/dist.sh
 
       # https://docs.travis-ci.com/user/deployment/releases
       # https://docs.travis-ci.com/user/build-stages/deploy-github-releases/
       before_deploy:
-        - bin/ci/changelog.sh
+        - bin/releng/changelog.sh
 
       deploy:
         provider: releases
@@ -57,11 +57,11 @@ cache:
     - vendor
 
 before_install:
-  - bin/ci/configure.sh
+  - bin/releng/configure.sh
 
 install:
   - composer install --no-interaction --prefer-dist
-  - bin/ci/seed.sh
+  - bin/releng/seed.sh
 
 script:
   - PATH=vendor/bin:$HOME/.composer/vendor/bin:$PATH

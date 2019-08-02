@@ -14,7 +14,6 @@
 /phpcompatinfo.json export-ignore
 /build.xml export-ignore
 /bin/releng/ export-ignore
-/bin/ci/ export-ignore
 
 /config/phpxref.cfg export-ignore
 

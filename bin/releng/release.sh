@@ -270,7 +270,7 @@ prepare_source() {
 	phpcompatinfo_report
 
 	# update to include checksums of js/css files
-	$topdir/bin/ci/dyncontent-chksum.pl
+	$topdir/bin/releng/dyncontent-chksum.pl
 
 	# setup localization
 	make -C localization install clean
