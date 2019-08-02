@@ -5,6 +5,7 @@
 Upgrading to 3.7.x versions requires that you upgrade to latest 3.5.x version first.
 
 - Fix installer (@glensc, #630)
+- Restore close notification emails (@glensc, #631)
 
 [3.7.4]: https://github.com/eventum/eventum/compare/v3.7.3...master
 
