@@ -381,7 +381,7 @@ class Auth
      *
      * @return  int The current role ID
      */
-    public static function getCurrentRole()
+    public static function getCurrentRole(): int
     {
         $prj_id = self::getCurrentProject();
         $usr_id = self::getUserID();
@@ -389,7 +389,7 @@ class Auth
             return User::getRoleByUser($usr_id, $prj_id);
         }
 
-        return 1;
+        return User::ROLE_VIEWER;
     }
 
     /**
