@@ -1,6 +1,6 @@
 # Eventum Issue Tracking System
 
-## [3.7.3]
+## [3.7.3] - 2019-08-02
 
 Upgrading to 3.7.x versions requires that you upgrade to latest 3.5.x version first.
 
@@ -9,7 +9,7 @@ Upgrading to 3.7.x versions requires that you upgrade to latest 3.5.x version fi
 - Update to league/commonmark-ext-table 2.0.0 (@glensc, #611)
 - With this release, we reached [10000th] commit! 💯
 
-[3.7.3]: https://github.com/eventum/eventum/compare/v3.7.2...master
+[3.7.3]: https://github.com/eventum/eventum/compare/v3.7.2...v3.7.3
 [10000th]: https://github.com/eventum/eventum/tree/8fd920c3f4328a2592a07886d4dab9ce6da43e50
 
 ## [3.7.2] - 2019-07-06
