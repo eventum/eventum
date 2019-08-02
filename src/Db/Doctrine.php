@@ -93,9 +93,12 @@ class Doctrine
     /**
      * Helper to return db dsn for symfony bridge
      */
-    public static function getUrl(): string
+    public static function getUrl(): ?string
     {
         $config = DB_Helper::getConfig();
+        if (!$config) {
+            return null;
+        }
 
         return sprintf('mysql://%s:%s@%s:%d/%s',
             $config['username'], $config['password'],

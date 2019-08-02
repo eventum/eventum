@@ -100,7 +100,10 @@ class Kernel extends BaseKernel
         $loader->load($configDir . '/{services}.yml', 'glob');
         $loader->load($configDir . '/{services}_' . $this->environment . '.yml', 'glob');
 
-        $container->setParameter('env(DATABASE_URL)', Doctrine::getUrl());
+        $dsn = Doctrine::getUrl();
+        if ($dsn) {
+            $container->setParameter('env(DATABASE_URL)', $dsn);
+        }
     }
 
     protected function configureRoutes(RouteCollectionBuilder $routes): void
