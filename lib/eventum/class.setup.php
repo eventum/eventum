@@ -63,12 +63,14 @@ class Setup
     public static function setDefaults($section, array $defaults): Config
     {
         $config = self::get();
-        $existing = $config[$section]->toArray();
+        $existing = isset($config[$section]) ? $config[$section]->toArray() : null;
 
         // add defaults
         $config->merge(new Config([$section => $defaults]));
         // and then whatever was already there
-        $config->merge(new Config([$section => $existing]));
+        if ($existing) {
+            $config->merge(new Config([$section => $existing]));
+        }
 
         return $config[$section];
     }

@@ -77,9 +77,11 @@ class DB_Helper
      *
      * @return array
      */
-    public static function getConfig()
+    public static function getConfig(): ?array
     {
-        return Setup::get()->database->toArray();
+        $setup = Setup::get();
+
+        return isset($setup['database']) ? $setup['database']->toArray() : null;
     }
 
     /**

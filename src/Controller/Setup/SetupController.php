@@ -77,7 +77,8 @@ class SetupController
     protected function renderTemplate(array $params = []): Response
     {
         $appInfo = new AppInfo();
-        $relative_url = rtrim(dirname($this->request->getBaseUrl()), '/') . '/';
+        $baseUrl = $this->request->getBaseUrl();
+        $relative_url = rtrim(dirname($baseUrl, 2), '/') . '/';
         $params += $this->params;
         $params += [
             'core' => [

@@ -56,11 +56,12 @@ class Kernel extends BaseKernel
                  *    "^/(.*)" => "/git/$1"
                  *  )
                  */
-                $_SERVER['REQUEST_URI'] = "/{$_SERVER['REDIRECT_URI']}{$_SERVER['REQUEST_URI']}";
+                $requestUri = $_SERVER['REDIRECT_URI'];
             } else {
-                $index = basename($_SERVER['SCRIPT_NAME']);
-                $_SERVER['REQUEST_URI'] = "/{$index}{$_SERVER['REQUEST_URI']}";
+                $requestUri = $_SERVER['SCRIPT_NAME'];
             }
+
+            $_SERVER['REQUEST_URI'] = $requestUri . rtrim($_SERVER['REQUEST_URI'], '/');
         }
 
         $_SERVER['APP_ENV'] = $_ENV['APP_ENV'] = ($_SERVER['APP_ENV'] ?? $_ENV['APP_ENV'] ?? null) ?: 'dev';
@@ -99,7 +100,10 @@ class Kernel extends BaseKernel
         $loader->load($configDir . '/{services}.yml', 'glob');
         $loader->load($configDir . '/{services}_' . $this->environment . '.yml', 'glob');
 
-        $container->setParameter('env(DATABASE_URL)', Doctrine::getUrl());
+        $dsn = Doctrine::getUrl();
+        if ($dsn) {
+            $container->setParameter('env(DATABASE_URL)', $dsn);
+        }
     }
 
     protected function configureRoutes(RouteCollectionBuilder $routes): void
