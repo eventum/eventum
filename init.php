@@ -68,10 +68,6 @@ $define('APP_COOKIE_URL', APP_RELATIVE_URL);
 $define('APP_COOKIE_DOMAIN', null);
 $define('APP_DEFAULT_LOCALE', 'en_US');
 
-if (!defined('APP_EMAIL_ENCODING')) {
-    define('APP_EMAIL_ENCODING', '8bit');
-}
-
 $define('APP_HIDE_CLOSED_STATS_COOKIE', 'eventum_hide_closed_stats');
 
 // if set, normal calls to eventum are redirected to a maintenance page while
