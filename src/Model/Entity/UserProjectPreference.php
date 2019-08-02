@@ -61,6 +61,11 @@ class UserProjectPreference
     {
         $this->userPreference = $upr;
         $this->projectId = $projectId;
+
+        $config = Setup::get();
+        $this->receiveNewIssueEmail = $config['default_new_emails'];
+        $this->receiveAssignedEmail = $config['default_assigned_emails'];
+        $this->receiveCopyOfOwnAction = $config['default_copy_of_own_action'];
     }
 
     public function setProjectId(int $projectId): self
@@ -84,10 +89,6 @@ class UserProjectPreference
 
     public function receiveAssignedEmail(): bool
     {
-        if ($this->receiveAssignedEmail === null) {
-            return Setup::get()['default_assigned_emails'];
-        }
-
         return $this->receiveAssignedEmail;
     }
 
@@ -100,10 +101,6 @@ class UserProjectPreference
 
     public function receiveNewIssueEmail(): bool
     {
-        if ($this->receiveNewIssueEmail === null) {
-            return Setup::get()['default_new_emails'];
-        }
-
         return $this->receiveNewIssueEmail;
     }
 
@@ -116,10 +113,6 @@ class UserProjectPreference
 
     public function receiveCopyOfOwnAction(): bool
     {
-        if ($this->receiveCopyOfOwnAction === null) {
-            return Setup::get()['default_copy_of_own_action'];
-        }
-
         return $this->receiveCopyOfOwnAction;
     }
 }
