@@ -33,8 +33,6 @@ define('APP_PROJECT_COOKIE_EXPIRE', time() + (60 * 60 * 24 * 30)); // 30 days
 
 // locale used for localized messages
 define('APP_DEFAULT_LOCALE', 'en_US');
-// default day of week start: 0 = sunday; 1 = monday
-define('APP_DEFAULT_WEEKDAY', '%{APP_DEFAULT_WEEKDAY}%');
 
 // define colors used by eventum
 define('APP_INTERNAL_COLOR', '#9C494B');

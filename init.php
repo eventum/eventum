@@ -67,7 +67,6 @@ $define('APP_RELATIVE_URL', '/');
 $define('APP_COOKIE_URL', APP_RELATIVE_URL);
 $define('APP_COOKIE_DOMAIN', null);
 $define('APP_DEFAULT_LOCALE', 'en_US');
-$define('APP_DEFAULT_WEEKDAY', 0);
 
 if (!defined('APP_EMAIL_ENCODING')) {
     define('APP_EMAIL_ENCODING', '8bit');

@@ -190,6 +190,7 @@ class SetupController
         ];
 
         Date_Helper::setDefaultTimezone($post->get('default_timezone') ?: 'UTC');
+        Date_Helper::setDefaultWeekday((int)$post->getInt('default_weekday'));
 
         Setup::save($setup);
     }
@@ -210,7 +211,6 @@ class SetupController
         $replace = [
             "'%{APP_HOSTNAME}%'" => $this->e($post->get('hostname')),
             "'%{APP_RELATIVE_URL}%'" => $this->e($post->get('relative_url')),
-            "'%{APP_DEFAULT_WEEKDAY}%'" => (int)$post->getInt('default_weekday'),
             "'%{PROTOCOL_TYPE}%'" => $this->e($protocol_type),
             "'%{APP_ENABLE_FULLTEXT}%'" => $this->e($enable_fulltext),
         ];

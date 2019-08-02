@@ -294,7 +294,18 @@ class Date_Helper
      */
     public static function getDefaultWeekday(): int
     {
-        return APP_DEFAULT_WEEKDAY;
+        return Setup::get()['default_weekday'];
+    }
+
+    /**
+     * Set application default start of week day.
+     *
+     * @param int $weekday
+     * @since 3.8.0
+     */
+    public static function setDefaultWeekday(int $weekday): void
+    {
+        Setup::get()['default_weekday'] = $weekday;
     }
 
     /**

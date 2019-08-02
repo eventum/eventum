@@ -30,6 +30,8 @@ class EventumConvertConst extends AbstractMigration
             'APP_DEFAULT_REFRESH_RATE' => 5,
             // timezone for displayed times in web and emails
             'APP_DEFAULT_TIMEZONE' => 'UTC',
+            // default day of week start: 0 = sunday; 1 = monday
+            'APP_DEFAULT_WEEKDAY' => 1,
         ]);
 
         Setup::save();
