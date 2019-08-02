@@ -58,7 +58,7 @@ cd $topdir/docs/wiki
 git tag $TAG
 
 cd $topdir
-git tag -s -u "$SIGN_KEY" "$TAG" -m "release $TAG"
+GIT_COMMITTER_EMAIL=$SIGN_KEY git tag -s -u "$SIGN_KEY" "$TAG" -m "release $TAG"
 
 echo "Press ENTER to push upstreams"
 read a
