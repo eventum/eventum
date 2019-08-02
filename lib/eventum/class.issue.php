@@ -1113,7 +1113,7 @@ class Issue
         } else {
             // add note with the reason to close the issue
             $options = [
-                'send_notification' => false,
+                'send_notification' => $send_notification,
                 'closing' => true,
             ];
             Note::insertNote($usr_id, $issue_id, ev_gettext('Issue closed comments'), $reason, $options);
