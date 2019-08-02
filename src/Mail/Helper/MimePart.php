@@ -17,7 +17,7 @@ use Zend\Mime;
 
 class MimePart extends Mime\Part
 {
-    private const CHARSET = APP_CHARSET;
+    private const CHARSET = 'UTF-8';
 
     public static function create($content, $type, $charset = self::CHARSET): self
     {

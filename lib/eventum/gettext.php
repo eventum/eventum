@@ -83,6 +83,6 @@ if (!function_exists('gettext') || (defined('APP_GETTEXT_MODE') && APP_GETTEXT_M
 
 if (defined('APP_PATH')) {
     _bindtextdomain('eventum', APP_PATH . '/localization/');
-    _bind_textdomain_codeset('eventum', APP_CHARSET);
+    _bind_textdomain_codeset('eventum', 'UTF-8');
     _textdomain('eventum');
 }

@@ -162,7 +162,7 @@ class RssController extends BaseController
      */
     private function rssError($msg): void
     {
-        header('Content-Type: text/xml; charset=' . APP_CHARSET);
+        header('Content-Type: text/xml; charset=UTF-8');
 
         $this->tpl->assign('error', $msg);
         $this->displayTemplate('rss_error.tpl.xml');
@@ -195,7 +195,7 @@ class RssController extends BaseController
 
         $this->tpl->assign(
             [
-                'charset' => APP_CHARSET,
+                'charset' => 'UTF-8',
                 'project_title' => Project::getName($filter['cst_prj_id']),
                 'setup' => Setup::get(),
                 'filter' => $filter,
@@ -203,6 +203,6 @@ class RssController extends BaseController
             ]
         );
 
-        header('Content-Type: text/xml; charset=' . APP_CHARSET);
+        header('Content-Type: text/xml; charset=UTF-8');
     }
 }

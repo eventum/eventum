@@ -23,9 +23,7 @@ set_time_limit(0);
 
 require_once __DIR__ . '/../../globals.php';
 
-define('APP_CHARSET', 'UTF-8');
-
-header('Content-Type: text/html; charset=' . APP_CHARSET);
+header('Content-Type: text/html; charset=UTF-8');
 
 $configFile = dirname(__DIR__) . '/../config/config.php';
 $have_config = file_exists($configFile) && filesize($configFile);

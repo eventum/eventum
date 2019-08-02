@@ -70,16 +70,11 @@ $define('APP_RELATIVE_URL', '/');
 $define('APP_COOKIE_URL', APP_RELATIVE_URL);
 $define('APP_COOKIE_DOMAIN', null);
 $define('APP_DEFAULT_LOCALE', 'en_US');
-$define('APP_CHARSET', 'UTF-8');
 $define('APP_DEFAULT_TIMEZONE', 'UTC');
 $define('APP_DEFAULT_WEEKDAY', 0);
 
 if (!defined('APP_EMAIL_ENCODING')) {
-    if (APP_CHARSET === 'UTF-8') {
-        define('APP_EMAIL_ENCODING', '8bit');
-    } else {
-        define('APP_EMAIL_ENCODING', '7bit');
-    }
+    define('APP_EMAIL_ENCODING', '8bit');
 }
 
 $define('APP_HIDE_CLOSED_STATS_COOKIE', 'eventum_hide_closed_stats');
@@ -99,7 +94,7 @@ Eventum\Monolog\Logger::initialize();
 Language::setup();
 
 // set charset
-header('Content-Type: text/html; charset=' . APP_CHARSET);
+header('Content-Type: text/html; charset=UTF-8');
 
 // display maintenance message if requested.
 if (APP_MAINTENANCE) {

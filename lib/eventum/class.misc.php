@@ -132,7 +132,7 @@ class Misc
      * @param string $encoding The string encoding. Default UTF-8.
      * @return string|string[]
      */
-    public static function lowercase($mixed, $encoding = APP_CHARSET)
+    public static function lowercase($mixed, $encoding = 'UTF-8')
     {
         $converter = function ($str) use ($encoding) {
             return mb_convert_case($str, MB_CASE_LOWER, $encoding);
@@ -281,15 +281,8 @@ class Misc
         // strip control chars, backspace and delete (including \r)
         $value = preg_replace('/[\x00-\x08\x0b-\x1f\x7f]/', '', $value);
 
-        static $is_utf8;
-        if (!isset($is_utf8)) {
-            $is_utf8 = strtolower(APP_CHARSET) == 'utf-8' || strtolower(APP_CHARSET) == 'utf8';
-        }
-
-        if ($is_utf8) {
-            // strip unicode chars over 3 bytes
-            $value = preg_replace('/[\x{10000}-\x{10FFFF}]/u', '', $value);
-        }
+        // strip unicode chars over 3 bytes
+        $value = preg_replace('/[\x{10000}-\x{10FFFF}]/u', '', $value);
     }
 
     /**
@@ -553,9 +546,9 @@ class Misc
         return ev_gettext('No');
     }
 
-    public static function htmlentities($var)
+    public static function htmlentities($var): string
     {
-        return htmlentities($var, ENT_QUOTES, APP_CHARSET);
+        return htmlentities($var, ENT_QUOTES, 'UTF-8');
     }
 
     /**
@@ -663,7 +656,7 @@ class Misc
         $filename = rawurlencode($filename);
         $disposition = self::getAttachmentDisposition($filetype);
         header('Content-Type: ' . $filetype);
-        header("Content-Disposition: {$disposition}; filename=\"{$filename}\"; filename*=" . APP_CHARSET . "''{$filename}");
+        header("Content-Disposition: {$disposition}; filename=\"{$filename}\"; filename*=UTF-8''{$filename}");
         header("Content-Length: {$filesize}");
         echo $data;
         exit;

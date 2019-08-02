@@ -37,7 +37,7 @@ class MimeHelperTest extends TestCase
             // iconv test from php manual
             ['=?UTF-8?B?UHLDvGZ1bmcgUHLDvGZ1bmc=?=', 'Prüfung Prüfung'],
 
-            // test that result is returned to APP_CHARSET
+            // test that result is returned to UTF-8
             ['=?ISO-8859-1?B?SuTkZ2VybWVpc3Rlcg==?=', 'Jäägermeister'],
 
             // different charsets inside one string

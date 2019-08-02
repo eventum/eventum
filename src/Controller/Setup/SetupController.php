@@ -209,7 +209,6 @@ class SetupController
 
         $replace = [
             "'%{APP_HOSTNAME}%'" => $this->e($post->get('hostname')),
-            "'%{CHARSET}%'" => $this->e(APP_CHARSET),
             "'%{APP_RELATIVE_URL}%'" => $this->e($post->get('relative_url')),
             "'%{APP_DEFAULT_TIMEZONE}%'" => $this->e($post->get('default_timezone')),
             "'%{APP_DEFAULT_WEEKDAY}%'" => (int)$post->getInt('default_weekday'),
