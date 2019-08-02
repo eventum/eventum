@@ -50,7 +50,6 @@ if (!file_exists($privateKeyFile = Setup::getConfigPath() . '/private_key.php') 
 }
 
 // define to shut up Symfony cache
-define('APP_DEFAULT_PAGER_SIZE', 5);
 define('APP_DEFAULT_REFRESH_RATE', 5);
 
 Kernel::handleRequest();

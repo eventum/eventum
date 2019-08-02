@@ -1031,7 +1031,7 @@ class Support
         $sort_order = self::getParam('sort_order');
         $rows = self::getParam('rows');
         $cookie = [
-            'rows' => $rows ? $rows : APP_DEFAULT_PAGER_SIZE,
+            'rows' => $rows ? $rows : Setup::get()['default_pager_size'],
             'pagerRow' => self::getParam('pagerRow'),
             'hide_associated' => self::getParam('hide_associated'),
             'sort_by' => $sort_by ? $sort_by : 'sup_date',
@@ -1049,7 +1049,7 @@ class Support
         ];
         foreach ($date_fields as $field_name) {
             $field = self::getParam($field_name);
-            if ((empty($field)) || ($cookie['filter'][$field_name] != 'yes')) {
+            if ((empty($field)) || ($cookie['filter'][$field_name] !== 'yes')) {
                 continue;
             }
             $end_field_name = $field_name . '_end';

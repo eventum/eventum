@@ -26,6 +26,7 @@ class EventumConvertConst extends AbstractMigration
             // if the user will receive an email when ANY issue is created
             'APP_DEFAULT_NEW_EMAILS' => false,
             'APP_DEFAULT_COPY_OF_OWN_ACTION' => false,
+            'APP_DEFAULT_PAGER_SIZE' => 5,
         ]);
 
         Setup::save();

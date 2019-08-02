@@ -102,7 +102,7 @@ class Search
             $custom_field = json_decode(urldecode($custom_field), true);
         }
         $cookie = [
-            'rows' => Misc::escapeString($rows ? $rows : APP_DEFAULT_PAGER_SIZE),
+            'rows' => Misc::escapeString($rows ? $rows : Setup::get()['default_pager_size']),
             'pagerRow' => Misc::escapeInteger(self::getParam('pagerRow', $request_only)),
             'hide_closed' => $hide_closed,
             'sort_by' => Misc::stripHTML($sort_by ? $sort_by : 'pri_rank'),

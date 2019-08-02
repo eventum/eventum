@@ -21,6 +21,7 @@ use Priority;
 use Product;
 use Project;
 use Release;
+use Setup;
 use Severity;
 use Status;
 use User;
@@ -107,7 +108,7 @@ class AdvSearchController extends BaseController
             $options = Filter::getDetails($this->custom_id, $check_perm);
         } else {
             $options = [];
-            $options['cst_rows'] = APP_DEFAULT_PAGER_SIZE;
+            $options['cst_rows'] = Setup::get()['default_pager_size'];
         }
 
         $this->tpl->assign('options', $options);
