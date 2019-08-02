@@ -125,10 +125,8 @@ class SetupController
     private function initLogger(): void
     {
         // init timezone, logger needs it
-        if (!defined('APP_DEFAULT_TIMEZONE')) {
-            $tz = $this->getPost()->get('default_timezone');
-            define('APP_DEFAULT_TIMEZONE', $tz ?: 'UTC');
-        }
+        $tz = $this->getPost()->get('default_timezone');
+        Date_Helper::setDefaultTimezone($tz ?: 'UTC');
 
         Logger::initialize();
     }
@@ -191,6 +189,8 @@ class SetupController
             'socket' => $socket,
         ];
 
+        Date_Helper::setDefaultTimezone($post->get('default_timezone') ?: 'UTC');
+
         Setup::save($setup);
     }
 
@@ -210,7 +210,6 @@ class SetupController
         $replace = [
             "'%{APP_HOSTNAME}%'" => $this->e($post->get('hostname')),
             "'%{APP_RELATIVE_URL}%'" => $this->e($post->get('relative_url')),
-            "'%{APP_DEFAULT_TIMEZONE}%'" => $this->e($post->get('default_timezone')),
             "'%{APP_DEFAULT_WEEKDAY}%'" => (int)$post->getInt('default_weekday'),
             "'%{PROTOCOL_TYPE}%'" => $this->e($protocol_type),
             "'%{APP_ENABLE_FULLTEXT}%'" => $this->e($enable_fulltext),

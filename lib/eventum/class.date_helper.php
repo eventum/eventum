@@ -274,7 +274,17 @@ class Date_Helper
      */
     public static function getDefaultTimezone(): string
     {
-        return APP_DEFAULT_TIMEZONE;
+        return Setup::get()['default_timezone'] ?? 'UTC';
+    }
+
+    /**
+     * Set application default timezone.
+     *
+     * @since 3.8.0
+     */
+    public static function setDefaultTimezone(string $tz): void
+    {
+        Setup::get()['default_timezone'] = $tz;
     }
 
     /**

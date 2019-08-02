@@ -29,7 +29,6 @@ define('APP_DEFAULT_LOCALE', 'en_US');
 define('APP_HOSTNAME', 'eventum.example.org');
 define('APP_LOCKS_PATH', sys_get_temp_dir());
 define('APP_COOKIE', 'eventum');
-define('APP_DEFAULT_TIMEZONE', 'UTC');
 define('APP_DEFAULT_WEEKDAY', 1);
 define('APP_RELATIVE_URL', '/eventum/');
 define('APP_COOKIE_DOMAIN', null);
@@ -49,7 +48,7 @@ define('APP_SITE_NAME', 'Eventum');
 require_once APP_PATH . '/autoload.php';
 
 // set default timezone
-date_default_timezone_set(APP_DEFAULT_TIMEZONE);
+date_default_timezone_set(Date_Helper::getDefaultTimezone());
 
 if (!getenv('TRAVIS')) {
     $config = Setup::get();

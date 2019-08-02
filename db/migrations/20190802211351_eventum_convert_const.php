@@ -28,6 +28,8 @@ class EventumConvertConst extends AbstractMigration
             'APP_DEFAULT_COPY_OF_OWN_ACTION' => false,
             'APP_DEFAULT_PAGER_SIZE' => 5,
             'APP_DEFAULT_REFRESH_RATE' => 5,
+            // timezone for displayed times in web and emails
+            'APP_DEFAULT_TIMEZONE' => 'UTC',
         ]);
 
         Setup::save();

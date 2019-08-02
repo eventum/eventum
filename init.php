@@ -67,7 +67,6 @@ $define('APP_RELATIVE_URL', '/');
 $define('APP_COOKIE_URL', APP_RELATIVE_URL);
 $define('APP_COOKIE_DOMAIN', null);
 $define('APP_DEFAULT_LOCALE', 'en_US');
-$define('APP_DEFAULT_TIMEZONE', 'UTC');
 $define('APP_DEFAULT_WEEKDAY', 0);
 
 if (!defined('APP_EMAIL_ENCODING')) {
@@ -85,7 +84,7 @@ require_once APP_PATH . '/autoload.php';
 Misc::stripInput($_POST);
 
 // set default timezone
-date_default_timezone_set(APP_DEFAULT_TIMEZONE);
+date_default_timezone_set(Date_Helper::getDefaultTimezone());
 
 Eventum\Monolog\Logger::initialize();
 Language::setup();

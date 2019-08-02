@@ -11,5 +11,4 @@
  * that were distributed with this source code.
  */
 
-define('APP_DEFAULT_TIMEZONE', 'UTC');
 define('APP_SITE_NAME', 'Eventum');

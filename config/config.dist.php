@@ -33,8 +33,6 @@ define('APP_PROJECT_COOKIE_EXPIRE', time() + (60 * 60 * 24 * 30)); // 30 days
 
 // locale used for localized messages
 define('APP_DEFAULT_LOCALE', 'en_US');
-// timezone for displayed times in web and emails
-define('APP_DEFAULT_TIMEZONE', '%{APP_DEFAULT_TIMEZONE}%');
 // default day of week start: 0 = sunday; 1 = monday
 define('APP_DEFAULT_WEEKDAY', '%{APP_DEFAULT_WEEKDAY}%');
 
