@@ -53,7 +53,7 @@ class UserPreference
      * @var int
      * @ORM\Column(name="upr_list_refresh_rate", type="integer", nullable=false)
      */
-    private $listRefreshRate = APP_DEFAULT_REFRESH_RATE;
+    private $listRefreshRate;
 
     /**
      * Refresh rate, in minutes
@@ -61,7 +61,7 @@ class UserPreference
      * @var int
      * @ORM\Column(name="upr_email_refresh_rate", type="integer", nullable=false)
      */
-    private $emailRefreshRate = APP_DEFAULT_REFRESH_RATE;
+    private $emailRefreshRate;
 
     /**
      * @var string
@@ -114,12 +114,9 @@ class UserPreference
 
     public function __construct(int $usr_id)
     {
-        $setup = Setup::get();
-
         $this->userId = $usr_id;
         $this->timezone = Date_Helper::getDefaultTimezone();
         $this->weekFirstday = Date_Helper::getDefaultWeekday();
-        $this->relativeDate = $setup['relative_date'] === 'enabled';
     }
 
     public function setUserId(int $usr_id): self
@@ -167,6 +164,10 @@ class UserPreference
 
     public function getListRefreshRate(): int
     {
+        if ($this->listRefreshRate === null) {
+            return Setup::get()['default_refresh_rate'];
+        }
+
         return $this->listRefreshRate;
     }
 
@@ -179,6 +180,10 @@ class UserPreference
 
     public function getEmailRefreshRate(): int
     {
+        if ($this->emailRefreshRate === null) {
+            return Setup::get()['default_refresh_rate'];
+        }
+
         return $this->emailRefreshRate;
     }
 
@@ -239,6 +244,10 @@ class UserPreference
 
     public function useRelativeDate(): bool
     {
+        if ($this->relativeDate === null) {
+            return Setup::get()['relative_date'] === 'enabled';
+        }
+
         return $this->relativeDate;
     }
 
