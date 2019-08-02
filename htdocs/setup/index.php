@@ -42,7 +42,6 @@ define('APP_NAME', 'Eventum');
 define('APP_DEFAULT_LOCALE', 'en_US');
 define('APP_LOCAL_PATH', Setup::getConfigPath());
 define('APP_RELATIVE_URL', '../');
-define('APP_SITE_NAME', 'Eventum');
 define('APP_COOKIE', 'eventum');
 
 if (!file_exists($privateKeyFile = Setup::getConfigPath() . '/private_key.php') || !filesize($privateKeyFile)) {

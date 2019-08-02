@@ -161,7 +161,7 @@ class Misc
      *
      * @return  string The installation title
      */
-    public static function getToolCaption()
+    public static function getToolCaption(): string
     {
         $setup = Setup::get();
 

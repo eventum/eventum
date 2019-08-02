@@ -34,6 +34,9 @@ class EventumConvertConst extends AbstractMigration
             'APP_DEFAULT_WEEKDAY' => 1,
         ]);
 
+        $toolCaption = $setup['tool_caption'] ?: APP_NAME;
+        $setup['tool_caption'] = $toolCaption;
+
         Setup::save();
     }
 

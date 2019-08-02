@@ -36,7 +36,7 @@ class MailHandler extends NativeMailerHandler
             $to = [];
         }
 
-        $subject = APP_SITE_NAME . ' - Error found!';
+        $subject = Misc::getToolCaption() . ' - Error found!';
 
         parent::__construct($to, $subject, $setup['smtp']['from'], $level);
     }
