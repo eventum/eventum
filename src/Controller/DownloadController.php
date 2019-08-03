@@ -16,6 +16,7 @@ namespace Eventum\Controller;
 use Auth;
 use Eventum\Attachment\AttachmentManager;
 use Issue;
+use Setup;
 use User;
 
 class DownloadController extends BaseController
@@ -61,7 +62,7 @@ class DownloadController extends BaseController
      */
     protected function defaultAction(): void
     {
-        if (stripos(APP_BASE_URL, 'https:') !== false) {
+        if (stripos(Setup::getBaseUrl(), 'https:') !== false) {
             // fix for IE 5.5/6 with SSL sites
             header('Pragma: cache');
         }

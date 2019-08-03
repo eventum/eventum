@@ -22,4 +22,3 @@ define('APP_NAME', 'Eventum');
 define('APP_SHORT_NAME', APP_NAME); // used in the subject of notification emails
 define('APP_HOSTNAME', '%{APP_HOSTNAME}%');
 define('APP_RELATIVE_URL', '%{APP_RELATIVE_URL}%');
-define('APP_BASE_URL', '%{PROTOCOL_TYPE}%' . APP_HOSTNAME . APP_RELATIVE_URL);

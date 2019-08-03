@@ -57,7 +57,7 @@ class CasAdapter implements AdapterInterface
 
     public function logout(): void
     {
-        phpCAS::logoutWithRedirectService(APP_BASE_URL);
+        phpCAS::logoutWithRedirectService(Setup::getBaseUrl());
     }
 
     public function loginCallback(): void

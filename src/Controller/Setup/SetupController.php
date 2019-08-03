@@ -191,6 +191,9 @@ class SetupController
         Date_Helper::setDefaultTimezone($post->get('default_timezone') ?: 'UTC');
         Date_Helper::setDefaultWeekday((int)$post->getInt('default_weekday'));
 
+        $protocol_type = $post->get('is_ssl') === 'yes' ? 'https://' : 'http://';
+        $setup['base_url'] = "{$protocol_type}{$post->get('hostname')}{$post->get('relative_url')}";
+
         Setup::save($setup);
     }
 
@@ -200,12 +203,9 @@ class SetupController
         $configPath = Setup::getConfigPath();
         $configFilePath = $configPath . '/config.php';
 
-        $protocol_type = $post->get('is_ssl') === 'yes' ? 'https://' : 'http://';
-
         $replace = [
             "'%{APP_HOSTNAME}%'" => $this->e($post->get('hostname')),
             "'%{APP_RELATIVE_URL}%'" => $this->e($post->get('relative_url')),
-            "'%{PROTOCOL_TYPE}%'" => $this->e($protocol_type),
         ];
 
         $config_contents = file_get_contents($configPath . '/config.dist.php');

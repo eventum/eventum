@@ -11,6 +11,7 @@
  * that were distributed with this source code.
  */
 
+use Eventum\Config\Config;
 use Eventum\Db\AbstractMigration;
 
 class EventumConvertConst extends AbstractMigration
@@ -53,6 +54,7 @@ class EventumConvertConst extends AbstractMigration
             'APP_COOKIE_EXPIRE' => time() + (60 * 60 * 8),
             'APP_PROJECT_COOKIE' => 'eventum_project',
             'APP_PROJECT_COOKIE_EXPIRE' => time() + (60 * 60 * 24 * 30), // 30 days
+            'APP_BASE_URL' => 'http://localhost/',
         ]);
 
         // fixup: this should be relative time
@@ -73,13 +75,16 @@ class EventumConvertConst extends AbstractMigration
     {
     }
 
-    private function convertConstants($setup, $constants): void
+    private function convertConstants(Config $setup, $constants): void
     {
         foreach ($constants as $constName => $defaultValue) {
             $value = defined($constName) ? constant($constName) : $defaultValue;
             $key = strtolower(str_replace('APP_', '', $constName));
 
-            $setup[$key] = $value;
+            // avoid overwriting from previous migrate or value set by setup
+            if ($setup[$key] === null) {
+                $setup[$key] = $value;
+            }
         }
     }
 }
