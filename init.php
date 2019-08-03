@@ -40,17 +40,6 @@ $define = function ($name, $value): void {
 // include local site config. may override any default
 require_once APP_CONFIG_PATH . '/config.php';
 
-/**
- * Path for local overrides:
- * APP_LOCAL_PATH/crm
- * APP_LOCAL_PATH/custom_field
- * APP_LOCAL_PATH/include
- * APP_LOCAL_PATH/partner
- * APP_LOCAL_PATH/templates
- * APP_LOCAL_PATH/workflow
- */
-$define('APP_LOCAL_PATH', APP_CONFIG_PATH);
-
 // if set, normal calls to eventum are redirected to a maintenance page while
 // requests to /manage/ still work
 $define('APP_MAINTENANCE', false);

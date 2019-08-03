@@ -737,14 +737,14 @@ abstract class CRM
     }
 
     /**
-     * @return ExtensionLoader
      * @internal
      */
-    public static function getExtensionLoader()
+    public static function getExtensionLoader(): ExtensionLoader
     {
+        $localPath = Setup::get()['local_path'];
         $dirs = [
             APP_INC_PATH . '/crm',
-            APP_LOCAL_PATH . '/crm',
+            $localPath . '/crm',
         ];
 
         return new ExtensionLoader($dirs, '%s', __CLASS__);

@@ -64,6 +64,16 @@ class EventumConvertConst extends AbstractMigration
             // email address of anonymous user.
             // if you want anonymous users getting access to your Eventum.
             'APP_ANON_USER' => null,
+            /**
+             * Path for local overrides:
+             * APP_LOCAL_PATH/crm
+             * APP_LOCAL_PATH/custom_field
+             * APP_LOCAL_PATH/include
+             * APP_LOCAL_PATH/partner
+             * APP_LOCAL_PATH/templates
+             * APP_LOCAL_PATH/workflow
+             */
+            'APP_LOCAL_PATH' => APP_CONFIG_PATH,
         ]);
 
         // fixup: this should be relative time

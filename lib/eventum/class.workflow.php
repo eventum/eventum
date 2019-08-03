@@ -1049,14 +1049,15 @@ class Workflow
     }
 
     /**
-     * @return ExtensionLoader
      * @internal
      */
-    public static function getExtensionLoader()
+    public static function getExtensionLoader(): ExtensionLoader
     {
+        $localPath = Setup::get()['local_path'];
+
         $dirs = [
             APP_INC_PATH . '/workflow',
-            APP_LOCAL_PATH . '/workflow',
+            $localPath . '/workflow',
         ];
 
         return new ExtensionLoader($dirs, '%s_Workflow_Backend');

@@ -370,9 +370,11 @@ class Custom_Field
      */
     public static function getExtensionLoader(): ExtensionLoader
     {
+        $localPath = Setup::get()['local_path'];
+
         $dirs = [
             APP_INC_PATH . '/custom_field',
-            APP_LOCAL_PATH . '/custom_field',
+            $localPath . '/custom_field',
         ];
 
         return new ExtensionLoader($dirs, '%s_Custom_Field_Backend');

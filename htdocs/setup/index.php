@@ -38,8 +38,6 @@ require_once APP_PATH . '/autoload.php';
 // set default timezone to utc to avoid default timezone not set warnings
 date_default_timezone_set(@date_default_timezone_get());
 
-define('APP_LOCAL_PATH', Setup::getConfigPath());
-
 if (!file_exists($privateKeyFile = Setup::getConfigPath() . '/private_key.php') || !filesize($privateKeyFile)) {
     Auth::generatePrivateKey();
 }

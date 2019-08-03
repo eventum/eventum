@@ -30,7 +30,6 @@ $define = function ($name, $value): void {
     }
     define($name, $value);
 };
-$define('APP_LOCAL_PATH', APP_CONFIG_PATH);
 if (file_exists(APP_CONFIG_PATH . '/config.php')) {
     require_once APP_CONFIG_PATH . '/config.php';
 }

@@ -37,8 +37,10 @@ class Template_Helper
      */
     public function __construct(string $templateName = null)
     {
+        $localPath = Setup::get()['local_path'];
+
         $smarty = new Smarty();
-        $smarty->setTemplateDir([APP_LOCAL_PATH . '/templates', APP_TPL_PATH]);
+        $smarty->setTemplateDir([$localPath . '/templates', APP_TPL_PATH]);
         $smarty->setCompileDir(Misc::ensureDir(self::TEMPLATE_CACHE_DIR));
 
         $smarty->addPluginsDir([APP_INC_PATH . '/smarty']);
@@ -196,7 +198,7 @@ class Template_Helper
         }
         $this->assign('core', $core);
 
-        $userFile = new Templating\UserFile($this->smarty, APP_LOCAL_PATH);
+        $userFile = new Templating\UserFile($this->smarty, Setup::get()['local_path']);
         $userFile();
 
         if ($this->debugBarEnabled && isset($role_id) && $role_id >= User::ROLE_ADMINISTRATOR) {
