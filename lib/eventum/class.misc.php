@@ -160,12 +160,11 @@ class Misc
      * Method used to get the title given to the current installation of Eventum.
      *
      * @return  string The installation title
+     * @deprecated since 3.8.0; use Setup::getToolCaption()
      */
     public static function getToolCaption(): string
     {
-        $setup = Setup::get();
-
-        return $setup['tool_caption'] ?: APP_NAME;
+        return Setup::getToolCaption();
     }
 
     /**
@@ -178,7 +177,7 @@ class Misc
      * @param   int $in_index Internal parameter to specify which index of the array we are currently mapping
      * @return  array The mapped array
      */
-    public static function array_map_deep(&$in_array, $in_func, $in_args = [], $in_index = 1)
+    public static function array_map_deep(&$in_array, $in_func, $in_args = [], $in_index = 1): array
     {
         // fix people from messing up the index of the value
         if ($in_index < 1) {

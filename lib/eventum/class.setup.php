@@ -91,6 +91,33 @@ class Setup
     }
 
     /**
+     * @since 3.8.0
+     */
+    public static function getAppName(): string
+    {
+        return Setup::get()['name'];
+    }
+
+    /**
+     * @since 3.8.0
+     */
+    public static function getShortName(): string
+    {
+        return Setup::get()['short_name'];
+    }
+
+    /**
+     * Method used to get the title given to the current installation of Eventum.
+     *
+     * @return string The installation title
+     * @since 3.8.0
+     */
+    public static function getToolCaption(): string
+    {
+        return Setup::get()['tool_caption'];
+    }
+
+    /**
      * Set options to system config.
      * The changes are not stored to disk.
      *

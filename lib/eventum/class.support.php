@@ -419,8 +419,8 @@ class Support
             Language::set(User::getLang($usr_id));
         }
 
-        // TRANSLATORS: %s: APP_SHORT_NAME
-        $subject = ev_gettext('%s: Postmaster notify: see transcript for details', APP_SHORT_NAME);
+        // TRANSLATORS: %s: Setup::getShortName()
+        $subject = ev_gettext('%s: Postmaster notify: see transcript for details', Setup::getShortName());
 
         $builder = new MailBuilder();
         $builder->addTextPart($tpl->getTemplateContents())

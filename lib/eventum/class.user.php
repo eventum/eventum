@@ -340,14 +340,14 @@ class User
         $tpl = new Template_Helper();
         $tpl->setTemplate('notifications/visitor_account.tpl.text');
         $tpl->assign([
-            'app_title' => Misc::getToolCaption(),
+            'app_title' => Setup::getToolCaption(),
             'email' => $usr_email,
             'hash' => $hash,
         ]);
         $text_message = $tpl->getTemplateContents();
 
-        // TRANSLATORS: %1 - APP_SHORT_NAME
-        $subject = ev_gettext('%s: New Account - Confirmation Required', APP_SHORT_NAME);
+        // TRANSLATORS: %1 - Setup::getShortName()
+        $subject = ev_gettext('%s: New Account - Confirmation Required', Setup::getShortName());
 
         $builder = new MailBuilder();
         $builder->addTextPart($text_message)
@@ -376,14 +376,14 @@ class User
         $tpl = new Template_Helper();
         $tpl->setTemplate('notifications/password_confirmation.tpl.text');
         $tpl->assign([
-            'app_title' => Misc::getToolCaption(),
+            'app_title' => Setup::getToolCaption(),
             'user' => $info,
             'hash' => $hash,
         ]);
         $text_message = $tpl->getTemplateContents();
 
-        // TRANSLATORS: %s - APP_SHORT_NAME
-        $subject = ev_gettext('%s: New Password - Confirmation Required', APP_SHORT_NAME);
+        // TRANSLATORS: %s - Setup::getShortName()
+        $subject = ev_gettext('%s: New Password - Confirmation Required', Setup::getShortName());
 
         $builder = new MailBuilder();
         $builder->addTextPart($text_message)

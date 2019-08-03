@@ -11,12 +11,9 @@
  * that were distributed with this source code.
  */
 
-// This is an template config file for the eventum setup.
-// Setup will process this and save as config/config.php.
-// You can remove this comment :)
-
-// Contains constants defined for this specific eventum installation.
-// This file will not be overwritten when upgrading Eventum
-
-define('APP_NAME', 'Eventum');
-define('APP_SHORT_NAME', APP_NAME); // used in the subject of notification emails
+/*
+ * This file is not used since 3.8.0.
+ *
+ * @todo remove in 3.9.0 or later
+ * @see https://github.com/eventum/eventum/pull/629
+ */

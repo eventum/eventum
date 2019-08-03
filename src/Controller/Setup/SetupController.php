@@ -82,7 +82,7 @@ class SetupController
         $params += [
             'core' => [
                 'rel_url' => $relative_url,
-                'app_title' => APP_NAME,
+                'app_title' => Setup::getAppName(),
                 'app_version' => $appInfo->getVersion(),
                 'php_version' => PHP_VERSION,
                 'template_id' => 'setup',

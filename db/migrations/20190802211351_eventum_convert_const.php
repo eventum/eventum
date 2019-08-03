@@ -57,6 +57,9 @@ class EventumConvertConst extends AbstractMigration
             'APP_BASE_URL' => 'http://localhost/',
             'APP_RELATIVE_URL' => '/',
             'APP_HOSTNAME' => 'localhost',
+            'APP_NAME' => 'Eventum',
+            // used in the subject of notification emails
+            'APP_SHORT_NAME' => 'Eventum',
         ]);
 
         // fixup: this should be relative time
@@ -67,8 +70,8 @@ class EventumConvertConst extends AbstractMigration
         $setup['cookie_path'] = $setup['cookie_url'];
         unset($setup['cookie_url']);
 
-        $toolCaption = $setup['tool_caption'] ?: APP_NAME;
-        $setup['tool_caption'] = $toolCaption;
+        // fixup: init tool_caption from app_name
+        $setup['tool_caption'] = $setup['tool_caption'] ?: $setup['name'];
 
         Setup::save();
     }

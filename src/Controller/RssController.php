@@ -20,7 +20,6 @@ use Filter;
 use InvalidArgumentException;
 use Issue;
 use LogicException;
-use Misc;
 use Project;
 use Search;
 use Setup;
@@ -151,7 +150,7 @@ class RssController extends BaseController
     private function sendAuthenticateHeader(): void
     {
         // FIXME: escape tool_caption properly
-        header('WWW-Authenticate: Basic realm="' . Misc::getToolCaption() . '"');
+        header('WWW-Authenticate: Basic realm="' . Setup::getToolCaption() . '"');
         header('HTTP/1.0 401 Unauthorized');
     }
 

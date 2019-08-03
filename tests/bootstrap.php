@@ -29,7 +29,6 @@ define('APP_LOCAL_PATH', __DIR__);
 define('APP_CACHE_PATH', APP_VAR_PATH . '/test');
 define('APP_TPL_COMPILE_PATH', APP_CACHE_PATH . '/tpl_c');
 define('APP_TPL_PATH', APP_PATH . '/templates');
-define('APP_NAME', 'Eventum Tests');
 
 require_once APP_PATH . '/autoload.php';
 
