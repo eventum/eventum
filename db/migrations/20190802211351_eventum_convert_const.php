@@ -47,6 +47,7 @@ class EventumConvertConst extends AbstractMigration
             // define the user_id of system user
             'APP_SYSTEM_USER_ID' => 1,
             // cookie related constants
+            'APP_COOKIE_DOMAIN' => null,
             'APP_COOKIE' => 'eventum',
             'APP_COOKIE_EXPIRE' => time() + (60 * 60 * 8),
             'APP_PROJECT_COOKIE' => 'eventum_project',

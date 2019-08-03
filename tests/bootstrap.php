@@ -26,7 +26,6 @@ define('APP_INC_PATH', APP_PATH . '/lib/eventum');
 define('APP_HOSTNAME', 'eventum.example.org');
 define('APP_LOCKS_PATH', sys_get_temp_dir());
 define('APP_RELATIVE_URL', '/eventum/');
-define('APP_COOKIE_DOMAIN', null);
 define('APP_COOKIE_URL', APP_RELATIVE_URL);
 define('APP_BASE_URL', 'http://localhost/');
 define('APP_LOG_PATH', __DIR__);

@@ -437,10 +437,12 @@ class Auth
         if (PHP_SAPI === 'cli') {
             return;
         }
-        if (APP_COOKIE_DOMAIN === null) {
-            setcookie($name, $value, $expiration, APP_COOKIE_URL);
+
+        $cookieDomain = Setup::get()['cookie_domain'];
+        if ($cookieDomain) {
+            setcookie($name, $value, $expiration, APP_COOKIE_URL, $cookieDomain);
         } else {
-            setcookie($name, $value, $expiration, APP_COOKIE_URL, APP_COOKIE_DOMAIN);
+            setcookie($name, $value, $expiration, APP_COOKIE_URL);
         }
     }
 

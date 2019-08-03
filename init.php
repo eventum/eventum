@@ -57,7 +57,6 @@ $define('APP_ANON_USER', '');
 
 $define('APP_RELATIVE_URL', '/');
 $define('APP_COOKIE_URL', APP_RELATIVE_URL);
-$define('APP_COOKIE_DOMAIN', null);
 
 $define('APP_HIDE_CLOSED_STATS_COOKIE', 'eventum_hide_closed_stats');
 
