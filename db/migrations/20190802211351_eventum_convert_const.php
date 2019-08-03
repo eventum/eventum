@@ -60,15 +60,19 @@ class EventumConvertConst extends AbstractMigration
             'APP_NAME' => 'Eventum',
             // used in the subject of notification emails
             'APP_SHORT_NAME' => 'Eventum',
+            // email address of anonymous user.
+            // if you want anonymous users getting access to your Eventum.
+            'APP_ANON_USER' => null,
         ]);
 
         // fixup: this should be relative time
         $setup['cookie_expire'] -= time();
         $setup['project_cookie_expire'] -= time();
 
-        // fixup: use proper name
+        // fixup: use proper names
         $setup['cookie_path'] = $setup['cookie_url'];
-        unset($setup['cookie_url']);
+        $setup['anonymous_user'] = $setup['anon_user'];
+        unset($setup['cookie_url'], $setup['anon_user']);
 
         // fixup: init tool_caption from app_name
         $setup['tool_caption'] = $setup['tool_caption'] ?: $setup['name'];

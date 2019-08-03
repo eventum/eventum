@@ -118,6 +118,14 @@ class Setup
     }
 
     /**
+     * @since 3.8.0
+     */
+    public static function getAnonymousUser(): ?string
+    {
+        return Setup::get()['anonymous_user'];
+    }
+
+    /**
      * Set options to system config.
      * The changes are not stored to disk.
      *

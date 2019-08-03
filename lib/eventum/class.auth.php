@@ -97,10 +97,11 @@ class Auth
             }
             $failed_url .= '&url=' . urlencode($_SERVER['REQUEST_URI']);
             if (!AuthCookie::hasAuthCookie()) {
-                if (APP_ANON_USER) {
-                    $anon_usr_id = User::getUserIDByEmail(APP_ANON_USER);
+                $anonymousUser = Setup::getAnonymousUser();
+                if ($anonymousUser) {
+                    $anon_usr_id = User::getUserIDByEmail($anonymousUser);
                     $prj_id = reset(array_keys(Project::getAssocList($anon_usr_id)));
-                    AuthCookie::setAuthCookie(APP_ANON_USER, false);
+                    AuthCookie::setAuthCookie($anonymousUser, false);
                     AuthCookie::setProjectCookie($prj_id);
                     Session::init($anon_usr_id);
                 } else {
@@ -109,7 +110,7 @@ class Auth
                         if (self::isCorrectPassword($_SERVER['PHP_AUTH_USER'], $_SERVER['PHP_AUTH_PW'])) {
                             $usr_id = User::getUserIDByEmail($_SERVER['PHP_AUTH_USER'], true);
                             $prj_id = reset(array_keys(Project::getAssocList($usr_id)));
-                            AuthCookie::setAuthCookie(APP_ANON_USER);
+                            AuthCookie::setAuthCookie($anonymousUser);
                             AuthCookie::setProjectCookie($prj_id);
                         } else {
                             header('WWW-Authenticate: Basic realm="Eventum"');
@@ -231,9 +232,14 @@ class Auth
      *
      * @return  bool
      */
-    public static function isAnonUser()
+    public static function isAnonUser(): bool
     {
-        return self::getUserID() == User::getUserIDByEmail(APP_ANON_USER);
+        $anonymousUser = Setup::getAnonymousUser();
+        if (!$anonymousUser) {
+            return false;
+        }
+
+        return self::getUserID() == User::getUserIDByEmail($anonymousUser);
     }
 
     /**
