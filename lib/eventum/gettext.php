@@ -83,8 +83,6 @@ if (!function_exists('gettext') || Setup::get()['gettext_mode'] === 'php') {
     }
 }
 
-if (defined('APP_PATH')) {
-    _bindtextdomain('eventum', APP_PATH . '/localization/');
-    _bind_textdomain_codeset('eventum', 'UTF-8');
-    _textdomain('eventum');
-}
+_bindtextdomain('eventum', Paths::APP_PATH . '/localization/');
+_bind_textdomain_codeset('eventum', 'UTF-8');
+_textdomain('eventum');
