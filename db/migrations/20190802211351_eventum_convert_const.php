@@ -18,6 +18,7 @@ class EventumConvertConst extends AbstractMigration
 {
     public function up(): void
     {
+        $unixTimestamp = time();
         $setup = Setup::get();
 
         $this->convertConstants($setup, [
@@ -51,9 +52,9 @@ class EventumConvertConst extends AbstractMigration
             'APP_COOKIE_URL' => '/',
             'APP_COOKIE_DOMAIN' => null,
             'APP_COOKIE' => 'eventum',
-            'APP_COOKIE_EXPIRE' => time() + (60 * 60 * 8),
+            'APP_COOKIE_EXPIRE' => $unixTimestamp + (60 * 60 * 8),
             'APP_PROJECT_COOKIE' => 'eventum_project',
-            'APP_PROJECT_COOKIE_EXPIRE' => time() + (60 * 60 * 24 * 30), // 30 days
+            'APP_PROJECT_COOKIE_EXPIRE' => $unixTimestamp + (60 * 60 * 24 * 30), // 30 days
             'APP_HIDE_CLOSED_STATS_COOKIE' => 'eventum_hide_closed_stats',
             'APP_BASE_URL' => 'http://localhost/',
             'APP_RELATIVE_URL' => '/',
@@ -80,8 +81,8 @@ class EventumConvertConst extends AbstractMigration
         ]);
 
         // fixup: this should be relative time
-        $setup['cookie_expire'] -= time();
-        $setup['project_cookie_expire'] -= time();
+        $setup['cookie_expire'] -= $unixTimestamp;
+        $setup['project_cookie_expire'] -= $unixTimestamp;
 
         // fixup: use proper names
         $setup['cookie_path'] = $setup['cookie_url'];
