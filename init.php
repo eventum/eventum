@@ -51,8 +51,6 @@ require_once APP_CONFIG_PATH . '/config.php';
  */
 $define('APP_LOCAL_PATH', APP_CONFIG_PATH);
 
-$define('APP_HIDE_CLOSED_STATS_COOKIE', 'eventum_hide_closed_stats');
-
 // if set, normal calls to eventum are redirected to a maintenance page while
 // requests to /manage/ still work
 $define('APP_MAINTENANCE', false);

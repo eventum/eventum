@@ -54,6 +54,7 @@ class EventumConvertConst extends AbstractMigration
             'APP_COOKIE_EXPIRE' => time() + (60 * 60 * 8),
             'APP_PROJECT_COOKIE' => 'eventum_project',
             'APP_PROJECT_COOKIE_EXPIRE' => time() + (60 * 60 * 24 * 30), // 30 days
+            'APP_HIDE_CLOSED_STATS_COOKIE' => 'eventum_hide_closed_stats',
             'APP_BASE_URL' => 'http://localhost/',
             'APP_RELATIVE_URL' => '/',
             'APP_HOSTNAME' => 'localhost',

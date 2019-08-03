@@ -19,6 +19,7 @@ use Date_Helper;
 use News;
 use Project;
 use Search_Profile;
+use Setup;
 use Stats;
 use User;
 
@@ -71,12 +72,10 @@ class MainController extends BaseController
      * if it was set from GET/POST, update cookie and search profile
      *
      * FIXME: why both? drop cookie?
-     *
-     * @return int
      */
-    private function getHideClosedFlag()
+    private function getHideClosedFlag(): bool
     {
-        $cookie_name = APP_HIDE_CLOSED_STATS_COOKIE;
+        $cookie_name = Setup::get()['hide_closed_stats_cookie'];
         $request = $this->getRequest();
         $hide_closed = null;
 
@@ -105,7 +104,7 @@ class MainController extends BaseController
             }
         }
 
-        return (int) $hide_closed;
+        return (bool) $hide_closed;
     }
 
     /**
