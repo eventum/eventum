@@ -187,8 +187,8 @@ class SetupController
             'socket' => $socket,
         ];
 
-        Date_Helper::setDefaultTimezone($post->get('default_timezone') ?: 'UTC');
-        Date_Helper::setDefaultWeekday((int)$post->getInt('default_weekday'));
+        $setup['default_timezone'] = $post->get('default_timezone') ?: 'UTC';
+        $setup['default_weekday'] = (int)$post->getInt('default_weekday');
 
         $protocol_type = $post->get('is_ssl') === 'yes' ? 'https://' : 'http://';
         $relativeUrl = $post->get('relative_url');

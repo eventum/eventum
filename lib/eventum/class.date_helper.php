@@ -278,16 +278,6 @@ class Date_Helper
     }
 
     /**
-     * Set application default timezone.
-     *
-     * @since 3.8.0
-     */
-    public static function setDefaultTimezone(string $tz): void
-    {
-        Setup::get()['default_timezone'] = $tz;
-    }
-
-    /**
      * Method used to get the default start of week day.
      *
      * @return  int 0 - Sunday, 1 - Monday
@@ -295,17 +285,6 @@ class Date_Helper
     public static function getDefaultWeekday(): int
     {
         return Setup::get()['default_weekday'];
-    }
-
-    /**
-     * Set application default start of week day.
-     *
-     * @param int $weekday
-     * @since 3.8.0
-     */
-    public static function setDefaultWeekday(int $weekday): void
-    {
-        Setup::get()['default_weekday'] = $weekday;
     }
 
     /**
