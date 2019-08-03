@@ -43,9 +43,5 @@ define('APP_SYSTEM_USER_ID', 1);
 define('APP_ENABLE_FULLTEXT', '%{APP_ENABLE_FULLTEXT}%');
 define('APP_FULLTEXT_SEARCH_CLASS', 'mysql_fulltext_search');
 
-// 'native' or 'php'. Try native first, if you experience strange issues
-// such as language switching randomly, try php
-define('APP_GETTEXT_MODE', 'native');
-
 // directory where to save routed drafts/notes/emails. use NULL or '' to disable.
 define('APP_ROUTED_MAILS_SAVEDIR', APP_PATH . '/misc');

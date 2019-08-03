@@ -32,6 +32,9 @@ class EventumConvertConst extends AbstractMigration
             'APP_DEFAULT_TIMEZONE' => 'UTC',
             // default day of week start: 0 = sunday; 1 = monday
             'APP_DEFAULT_WEEKDAY' => 1,
+            // 'native' or 'php'. Try native first, if you experience strange issues
+            // such as language switching randomly, try php
+            'APP_GETTEXT_MODE' => 'native',
         ]);
 
         $toolCaption = $setup['tool_caption'] ?: APP_NAME;

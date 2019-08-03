@@ -12,7 +12,7 @@
  */
 
 // if there is no gettext support built into PHP, or we are running in language compatibility mode include PHP-gettext
-if (!function_exists('gettext') || (defined('APP_GETTEXT_MODE') && APP_GETTEXT_MODE === 'php')) {
+if (!function_exists('gettext') || Setup::get()['gettext_mode'] === 'php') {
     /** @noinspection PhpIncludeInspection */
     require_once APP_PHP_GETTEXT_PATH . '/gettext.inc';
 
