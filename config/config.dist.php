@@ -20,4 +20,3 @@
 
 define('APP_NAME', 'Eventum');
 define('APP_SHORT_NAME', APP_NAME); // used in the subject of notification emails
-define('APP_HOSTNAME', '%{APP_HOSTNAME}%');

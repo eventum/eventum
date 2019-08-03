@@ -83,6 +83,14 @@ class Setup
     }
 
     /**
+     * @since 3.8.0
+     */
+    public static function getHostname(): string
+    {
+        return Setup::get()['hostname'];
+    }
+
+    /**
      * Set options to system config.
      * The changes are not stored to disk.
      *

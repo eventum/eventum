@@ -23,7 +23,6 @@ define('APP_VAR_PATH', APP_PATH . '/var');
 // FIXME: HHVM: Warning: Constants may only evaluate to scalar values
 define('APP_ERROR_LOG', STDERR);
 define('APP_INC_PATH', APP_PATH . '/lib/eventum');
-define('APP_HOSTNAME', 'eventum.example.org');
 define('APP_LOCKS_PATH', sys_get_temp_dir());
 define('APP_LOG_PATH', __DIR__);
 define('APP_LOCAL_PATH', __DIR__);

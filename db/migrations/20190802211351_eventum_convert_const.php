@@ -56,6 +56,7 @@ class EventumConvertConst extends AbstractMigration
             'APP_PROJECT_COOKIE_EXPIRE' => time() + (60 * 60 * 24 * 30), // 30 days
             'APP_BASE_URL' => 'http://localhost/',
             'APP_RELATIVE_URL' => '/',
+            'APP_HOSTNAME' => 'localhost',
         ]);
 
         // fixup: this should be relative time
