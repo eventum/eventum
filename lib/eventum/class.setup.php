@@ -126,6 +126,28 @@ class Setup
     }
 
     /**
+     * Get the application default timezone.
+     *
+     * @return string The default timezone
+     * @since 3.8.0
+     */
+    public static function getDefaultTimezone(): string
+    {
+        return Setup::get()['default_timezone'] ?? 'UTC';
+    }
+
+    /**
+     * Method used to get the default start of week day.
+     *
+     * @return int 0 - Sunday, 1 - Monday
+     * @since 3.8.0
+     */
+    public static function getDefaultWeekday(): int
+    {
+        return Setup::get()['default_weekday'];
+    }
+
+    /**
      * Set options to system config.
      * The changes are not stored to disk.
      *

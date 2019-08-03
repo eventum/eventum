@@ -271,20 +271,22 @@ class Date_Helper
      * Method used to get the application default timezone.
      *
      * @return  string The default timezone
+     * @deprecated since 3.8.0, use Setup::getDefaultTimezone
      */
     public static function getDefaultTimezone(): string
     {
-        return Setup::get()['default_timezone'] ?? 'UTC';
+        return Setup::getDefaultTimezone();
     }
 
     /**
      * Method used to get the default start of week day.
      *
      * @return  int 0 - Sunday, 1 - Monday
+     * @deprecated since 3.8.0, use Setup::getDefaultTimezone
      */
     public static function getDefaultWeekday(): int
     {
-        return Setup::get()['default_weekday'];
+        return Setup::getDefaultWeekday();
     }
 
     /**
