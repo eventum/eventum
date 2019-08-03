@@ -17,11 +17,14 @@ get_commit_message() {
 	cat <<-EOF
 	snapshot from $branch branch
 
-	Created on $date from $commit on $branch branch.
-	Uploaded by Travis. Use at your own risk.
+	Created on $date from $commit on **$branch** branch.
+
+	$shortlog
+
+	Uploaded from Travis CI. Use at your own risk.
 
 	If the snapshot tarball (eventum-${version#v}.tar.xz) is not appearing here,
-	check Travis CI for errors: https://travis-ci.org/eventum/eventum
+	check Travis CI project for errors: https://travis-ci.org/eventum/eventum
 	EOF
 }
 
@@ -33,6 +36,7 @@ create_snapshot_tag() {
 	version=$(git describe --tags --abbrev=9 HEAD)
 	branch=$(git rev-parse --abbrev-ref HEAD)
 	commit=$(git rev-parse --short=9 HEAD)
+	shortlog=$(git show -s --format=%B HEAD | sed -e 's;^;    ;')
 	date=$(LC_ALL=C TZ=UTC date)
 	message=$(get_commit_message)
 
