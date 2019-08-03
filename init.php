@@ -29,15 +29,6 @@ ini_set('memory_limit', '512M');
 ini_set('session.cache_limiter', 'nocache');
 
 require_once __DIR__ . '/globals.php';
-
-$define = function ($name, $value): void {
-    if (defined($name)) {
-        return;
-    }
-    define($name, $value);
-};
-
-// include local site config. may override any default
 require_once APP_CONFIG_PATH . '/config.php';
 require_once APP_PATH . '/autoload.php';
 
