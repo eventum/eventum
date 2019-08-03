@@ -59,10 +59,6 @@ $define('APP_SYSTEM_USER_ID', 1);
 // if you want anonymous users getting access to your eventum.
 $define('APP_ANON_USER', '');
 
-// if full text searching is enabled
-$define('APP_ENABLE_FULLTEXT', false);
-$define('APP_FULLTEXT_SEARCH_CLASS', 'MySQL_Fulltext_Search');
-
 $define('APP_RELATIVE_URL', '/');
 $define('APP_COOKIE_URL', APP_RELATIVE_URL);
 $define('APP_COOKIE_DOMAIN', null);

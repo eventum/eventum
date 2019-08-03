@@ -41,6 +41,9 @@ class EventumConvertConst extends AbstractMigration
             'APP_INTERNAL_COLOR' => '#9C494B',
             // locale used for localized messages
             'APP_DEFAULT_LOCALE' => 'en_US',
+            // if full text searching is enabled
+            'APP_ENABLE_FULLTEXT' => false,
+            'APP_FULLTEXT_SEARCH_CLASS' => 'mysql_fulltext_search',
         ]);
 
         $toolCaption = $setup['tool_caption'] ?: APP_NAME;

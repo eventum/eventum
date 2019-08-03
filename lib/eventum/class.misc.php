@@ -328,8 +328,8 @@ class Misc
     /**
      * Method used to strip HTML from a string or array
      *
-     * @param   string $input The original string or array
-     * @return  string The escaped (or not) string
+     * @param   string|string[] $input The original string or array
+     * @return  string|string[] The escaped (or not) string
      */
     public static function stripHTML($input)
     {

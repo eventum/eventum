@@ -11,15 +11,17 @@ Eventum Configuration
 ---------------------------------------
 Open config/config.php with a text editor.
 
-Make sure APP_ENABLE_FULLTEXT is set to true.
-
-Remove the line:
-define('APP_FULLTEXT_SEARCH_CLASS', 'MySQL_Fulltext_Search');
-
 Add the following lines:
-define('APP_FULLTEXT_SEARCH_CLASS', 'Sphinx_Fulltext_Search');
 define('SPHINX_SEARCHD_HOST', 'localhost');
 define('SPHINX_SEARCHD_PORT', 3312);
+
+Open config/setup.php with a text editor.
+Make sure 'enable_fulltext' is set to true.
+
+Change the line:
+'fulltext_search_class' => 'MySQL_Fulltext_Search',
+To:
+'fulltext_search_class' => 'Sphinx_Fulltext_Search',
 
 Change the values to match your settings.
 

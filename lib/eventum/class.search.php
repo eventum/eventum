@@ -82,7 +82,7 @@ class Search
      * @param bool|string $save_db Whether to save search parameters also to database
      * @return  array The search parameters
      */
-    public static function saveSearchParams($save_db = true)
+    public static function saveSearchParams($save_db = true): array
     {
         $request_only = !$save_db; // if we should only look at get / post not the DB or cookies
 
@@ -184,7 +184,7 @@ class Search
      * @param   int $max The maximum number of rows per page. 'ALL' for unlimited.
      * @return  array The list of issues to be displayed
      */
-    public static function getListing($prj_id, $options, $current_row = 0, $max = 5)
+    public static function getListing($prj_id, array $options, $current_row = 0, $max = 5)
     {
         if (strtoupper($max) === 'ALL') {
             $max = 9999999;
@@ -577,7 +577,7 @@ class Search
         }
         if (!empty($options['keywords'])) {
             $stmt .= " AND (\n";
-            if (($options['search_type'] === 'all_text') && (APP_ENABLE_FULLTEXT)) {
+            if (($options['search_type'] === 'all_text') && Setup::get()['enable_fulltext']) {
                 $stmt .= 'iss_id IN(' . implode(', ', self::getFullTextIssues($options)) . ')';
             } elseif (($options['search_type'] === 'customer') && (CRM::hasCustomerIntegration($prj_id))) {
                 // check if the user is trying to search by customer name / email
@@ -722,7 +722,7 @@ class Search
         $stmt .= Access::getListingSQL($prj_id);
 
         // clear cached full-text values if we are not searching fulltext anymore
-        if ((APP_ENABLE_FULLTEXT) && (@$options['search_type'] !== 'all_text')) {
+        if (Setup::get()['enable_fulltext'] && (@$options['search_type'] !== 'all_text')) {
             Session::set('fulltext_string', '');
             Session::set('fulltext_issues', '');
             Session::set('fulltext_excerpts', '');
@@ -762,9 +762,9 @@ class Search
     /**
      * This needs to be called after getFullTextIssues
      */
-    private static function getFullTextExcerpts($options)
+    private static function getFullTextExcerpts(array $options)
     {
-        if (!APP_ENABLE_FULLTEXT || empty($options['keywords'])) {
+        if (empty($options['keywords']) || !Setup::get()['enable_fulltext']) {
             return [];
         }
 
@@ -783,10 +783,10 @@ class Search
      */
     private static function getFullTextSearchInstance()
     {
-        static $instance = false;
+        static $instance = null;
 
-        if ($instance == false) {
-            $class = APP_FULLTEXT_SEARCH_CLASS;
+        if ($instance === null) {
+            $class = Setup::get()['fulltext_search_class'];
 
             // XXX legacy: handle lowercased classname
             if ($class === 'mysql_fulltext_search') {

@@ -189,6 +189,12 @@ class SetupController
             'socket' => $socket,
         ];
 
+        // disable the full-text search feature for certain mysql server users
+        $mysql_version = DB_Helper::getInstance(false)->getOne('SELECT VERSION()');
+        preg_match('/(\d{1,2}\.\d{1,2}\.\d{1,2})/', $mysql_version, $matches);
+        $enable_fulltext = $matches[1] > '4.0.23';
+        $setup['enable_fulltext'] = $enable_fulltext;
+
         Date_Helper::setDefaultTimezone($post->get('default_timezone') ?: 'UTC');
         Date_Helper::setDefaultWeekday((int)$post->getInt('default_weekday'));
 
@@ -201,18 +207,12 @@ class SetupController
         $configPath = Setup::getConfigPath();
         $configFilePath = $configPath . '/config.php';
 
-        // disable the full-text search feature for certain mysql server users
-        $mysql_version = DB_Helper::getInstance(false)->getOne('SELECT VERSION()');
-        preg_match('/(\d{1,2}\.\d{1,2}\.\d{1,2})/', $mysql_version, $matches);
-        $enable_fulltext = $matches[1] > '4.0.23';
-
         $protocol_type = $post->get('is_ssl') === 'yes' ? 'https://' : 'http://';
 
         $replace = [
             "'%{APP_HOSTNAME}%'" => $this->e($post->get('hostname')),
             "'%{APP_RELATIVE_URL}%'" => $this->e($post->get('relative_url')),
             "'%{PROTOCOL_TYPE}%'" => $this->e($protocol_type),
-            "'%{APP_ENABLE_FULLTEXT}%'" => $this->e($enable_fulltext),
         ];
 
         $config_contents = file_get_contents($configPath . '/config.dist.php');

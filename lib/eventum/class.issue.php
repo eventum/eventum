@@ -2248,7 +2248,7 @@ class Issue
      * @param   array $options The search parameters
      * @return  array The list of issues
      */
-    public static function getSides($issue_id, $options)
+    public static function getSides($issue_id, array $options)
     {
         $res = Search::getListing(Auth::getCurrentProject(), $options);
         $res = array_column($res['list'], 'iss_id');

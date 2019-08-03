@@ -32,7 +32,3 @@ define('APP_PROJECT_COOKIE_EXPIRE', time() + (60 * 60 * 24 * 30)); // 30 days
 
 // define the user_id of system user
 define('APP_SYSTEM_USER_ID', 1);
-
-// if full text searching is enabled
-define('APP_ENABLE_FULLTEXT', '%{APP_ENABLE_FULLTEXT}%');
-define('APP_FULLTEXT_SEARCH_CLASS', 'mysql_fulltext_search');
