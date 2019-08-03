@@ -142,8 +142,18 @@ class DatabaseSetup
 
         // write db config now that database and access is configured
         $this->writeDatabaseConfig($db_config);
+        $this->setupFulltext();
 
         return $this->migrateDatabase();
+    }
+
+    private function setupFulltext(): void
+    {
+        // disable the full-text search feature for certain mysql server users
+        $mysql_version = DB_Helper::getInstance(false)->getOne('SELECT VERSION()');
+        preg_match('/(\d{1,2}\.\d{1,2}\.\d{1,2})/', $mysql_version, $matches);
+        $enable_fulltext = $matches[1] > '4.0.23';
+        Setup::save(['enable_fulltext' => $enable_fulltext]);
     }
 
     /**
