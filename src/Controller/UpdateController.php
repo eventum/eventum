@@ -138,7 +138,7 @@ class UpdateController extends BaseController
                 $this->messages->addInfoMessage(ev_gettext('Cancelled Issue #%1$s update.', $this->issue_id));
             }
 
-            $this->redirect(APP_RELATIVE_URL . 'view.php?id=' . $this->issue_id);
+            $this->redirect(Setup::getRelativeUrl() . 'view.php?id=' . $this->issue_id);
         }
 
         if ($this->cat === 'update') {
@@ -186,7 +186,7 @@ class UpdateController extends BaseController
             $this->messages->addHtmlBoxMessage($update_tpl->getTemplateContents(false));
         }
 
-        $this->redirect(APP_RELATIVE_URL . 'view.php?id=' . $this->issue_id);
+        $this->redirect(Setup::getRelativeUrl() . 'view.php?id=' . $this->issue_id);
     }
 
     /**

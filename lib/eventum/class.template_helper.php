@@ -134,7 +134,7 @@ class Template_Helper
         $setup = Setup::get();
         $appInfo = AppInfo::getInstance();
         $core = [
-            'rel_url' => APP_RELATIVE_URL,
+            'rel_url' => Setup::getRelativeUrl(),
             'base_url' => Setup::getBaseUrl(),
             'app_title' => APP_NAME,
             'app_version' => $appInfo->getVersion(),

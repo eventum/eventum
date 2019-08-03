@@ -196,6 +196,7 @@ class SetupController
 
         $setup['base_url'] = "{$protocol_type}{$post->get('hostname')}{$relativeUrl}";
         $setup['cookie_path'] = $setup['cookie_url'] = $relativeUrl;
+        $setup['relative_url'] = $relativeUrl;
 
         Setup::save($setup);
     }
@@ -208,7 +209,6 @@ class SetupController
 
         $replace = [
             "'%{APP_HOSTNAME}%'" => $this->e($post->get('hostname')),
-            "'%{APP_RELATIVE_URL}%'" => $this->e($post->get('relative_url')),
         ];
 
         $config_contents = file_get_contents($configPath . '/config.dist.php');

@@ -15,6 +15,7 @@ namespace Eventum\Controller\Report;
 
 use Access;
 use Auth;
+use Setup;
 
 class IndexController extends ReportBaseController
 {
@@ -35,7 +36,7 @@ class IndexController extends ReportBaseController
     {
         Auth::checkAuthentication();
         if (!Access::canAccessReports(Auth::getUserID())) {
-            $this->redirect(APP_RELATIVE_URL . 'main.php');
+            $this->redirect(Setup::getRelativeUrl() . 'main.php');
         }
 
         return true;

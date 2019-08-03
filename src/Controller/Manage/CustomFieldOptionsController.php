@@ -15,6 +15,7 @@ namespace Eventum\Controller\Manage;
 
 use Custom_Field;
 use Eventum\Db\Doctrine;
+use Setup;
 use Throwable;
 use User;
 
@@ -71,7 +72,7 @@ class CustomFieldOptionsController extends ManageBaseController
             $this->messages->addErrorMessage($message);
         }
 
-        $this->redirect(APP_RELATIVE_URL . 'manage/custom_field_options.php?fld_id=' . $this->fld_id);
+        $this->redirect(Setup::getRelativeUrl() . 'manage/custom_field_options.php?fld_id=' . $this->fld_id);
     }
 
     /**

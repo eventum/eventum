@@ -29,6 +29,7 @@ use Priority;
 use Product;
 use Project;
 use Release;
+use Setup;
 use Severity;
 use Support;
 use User;
@@ -104,9 +105,9 @@ class NewController extends BaseController
             }
         }
 
-        if ($this->cat == 'report') {
+        if ($this->cat === 'report') {
             $this->reportAction();
-        } elseif ($this->cat == 'associate') {
+        } elseif ($this->cat === 'associate') {
             $this->associateAction();
         }
     }
@@ -117,7 +118,7 @@ class NewController extends BaseController
         if ($res != -1) {
             // redirect to view issue page
             $this->messages->addInfoMessage(ev_gettext('Your issue was created successfully.'));
-            $this->redirect(APP_RELATIVE_URL . 'view.php?id=' . $res);
+            $this->redirect(Setup::getRelativeUrl() . 'view.php?id=' . $res);
         }
 
         // need to show everything again

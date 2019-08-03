@@ -17,6 +17,7 @@ use Access;
 use Auth;
 use Edit_Reporter;
 use Eventum\Controller\Helper\MessagesHelper;
+use Setup;
 
 class EditReporterController extends BaseController
 {
@@ -86,7 +87,7 @@ class EditReporterController extends BaseController
         ];
 
         $this->messages->mapMessages($res, $map);
-        $this->redirect(APP_RELATIVE_URL . 'view.php', ['id' => $this->issue_id]);
+        $this->redirect(Setup::getRelativeUrl() . 'view.php', ['id' => $this->issue_id]);
     }
 
     /**

@@ -25,7 +25,6 @@ define('APP_ERROR_LOG', STDERR);
 define('APP_INC_PATH', APP_PATH . '/lib/eventum');
 define('APP_HOSTNAME', 'eventum.example.org');
 define('APP_LOCKS_PATH', sys_get_temp_dir());
-define('APP_RELATIVE_URL', '/eventum/');
 define('APP_LOG_PATH', __DIR__);
 define('APP_LOCAL_PATH', __DIR__);
 define('APP_CACHE_PATH', APP_VAR_PATH . '/test');

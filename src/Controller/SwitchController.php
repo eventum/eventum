@@ -16,6 +16,7 @@ namespace Eventum\Controller;
 use Auth;
 use AuthCookie;
 use Project;
+use Setup;
 
 class SwitchController extends BaseController
 {
@@ -66,7 +67,7 @@ class SwitchController extends BaseController
         // if url is 'view.php', use 'list.php',
         // otherwise autoswitcher will switch back to the project where the issue was :)
         if (!$url || stripos($url, 'view.php') !== false) {
-            $url = APP_RELATIVE_URL . 'list.php';
+            $url = Setup::getRelativeUrl() . 'list.php';
         }
 
         return $url;

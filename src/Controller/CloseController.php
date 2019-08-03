@@ -20,6 +20,7 @@ use Custom_Field;
 use Issue;
 use Notification;
 use Resolution;
+use Setup;
 use Status;
 use Template_Helper;
 use Throwable;
@@ -151,7 +152,7 @@ class CloseController extends BaseController
         if ($res == 1) {
             $this->messages->addInfoMessage(ev_gettext('Thank you, the issue was closed successfully'));
             $this->displayNotifiedUsers(Notification::getLastNotifiedAddresses($this->issue_id));
-            $this->redirect(APP_RELATIVE_URL . 'view.php?id=' . $this->issue_id);
+            $this->redirect(Setup::getRelativeUrl() . 'view.php?id=' . $this->issue_id);
         }
     }
 

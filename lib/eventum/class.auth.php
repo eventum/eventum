@@ -93,7 +93,7 @@ class Auth
             self::getAuthBackend()->checkAuthentication();
 
             if ($failed_url === null) {
-                $failed_url = APP_RELATIVE_URL . 'index.php?err=5';
+                $failed_url = Setup::getRelativeUrl() . 'index.php?err=5';
             }
             $failed_url .= '&url=' . urlencode($_SERVER['REQUEST_URI']);
             if (!AuthCookie::hasAuthCookie()) {
@@ -147,7 +147,7 @@ class Auth
             $prj_id = self::getCurrentProject();
             if (empty($prj_id)) {
                 // redirect to select project page
-                self::redirect(APP_RELATIVE_URL . 'select_project.php?url=' . urlencode($_SERVER['REQUEST_URI']), $is_popup);
+                self::redirect(Setup::getRelativeUrl() . 'select_project.php?url=' . urlencode($_SERVER['REQUEST_URI']), $is_popup);
             }
             // check the expiration date for a 'Customer' type user
             $contact_id = User::getCustomerContactID($usr_id);
@@ -402,7 +402,7 @@ class Auth
     {
         $customer_id = Session::get('current_customer_id');
         if (empty($customer_id) && $redirect === true) {
-            self::redirect(APP_RELATIVE_URL . 'select_customer.php');
+            self::redirect(Setup::getRelativeUrl() . 'select_customer.php');
         } else {
             return $customer_id;
         }

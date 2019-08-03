@@ -75,6 +75,14 @@ class Setup
     }
 
     /**
+     * @since 3.8.0
+     */
+    public static function getRelativeUrl(): string
+    {
+        return Setup::get()['relative_url'];
+    }
+
+    /**
      * Set options to system config.
      * The changes are not stored to disk.
      *
