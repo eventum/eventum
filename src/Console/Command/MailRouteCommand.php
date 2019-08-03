@@ -20,8 +20,8 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class MailRouteCommand
 {
-    const DEFAULT_COMMAND = 'mail:route';
-    const USAGE = self::DEFAULT_COMMAND . '  [filename]';
+    public const DEFAULT_COMMAND = 'mail:route';
+    public const USAGE = self::DEFAULT_COMMAND . '  [filename]';
 
     /**
      * @param OutputInterface $output

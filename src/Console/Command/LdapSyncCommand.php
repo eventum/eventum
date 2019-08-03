@@ -23,8 +23,8 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class LdapSyncCommand extends Command
 {
-    const DEFAULT_COMMAND = 'ldap:sync';
-    const USAGE = self::DEFAULT_COMMAND . ' [--dry-run] [--create-users] [--no-update] [--no-disable]';
+    public const DEFAULT_COMMAND = 'ldap:sync';
+    public const USAGE = self::DEFAULT_COMMAND . ' [--dry-run] [--create-users] [--no-update] [--no-disable]';
 
     /** @var LdapAdapter */
     private $ldap;

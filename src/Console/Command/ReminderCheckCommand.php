@@ -21,8 +21,8 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class ReminderCheckCommand
 {
-    const DEFAULT_COMMAND = 'reminder:check';
-    const USAGE = self::DEFAULT_COMMAND . ' [--debug]';
+    public const DEFAULT_COMMAND = 'reminder:check';
+    public const USAGE = self::DEFAULT_COMMAND . ' [--debug]';
 
     /** @var OutputInterface */
     private $output;

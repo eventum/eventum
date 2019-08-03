@@ -23,15 +23,15 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class MonitorCommand
 {
-    const DEFAULT_COMMAND = 'system:monitor';
-    const USAGE = self::DEFAULT_COMMAND . ' [-q|--quiet]';
+    public const DEFAULT_COMMAND = 'system:monitor';
+    public const USAGE = self::DEFAULT_COMMAND . ' [-q|--quiet]';
 
     // Nagios compatible exit codes
-    const STATE_OK = 0;
-    const STATE_WARNING = 1;
-    const STATE_CRITICAL = 2;
-    const STATE_UNKNOWN = 3;
-    const STATE_DEPENDENT = 4;
+    public const STATE_OK = 0;
+    public const STATE_WARNING = 1;
+    public const STATE_CRITICAL = 2;
+    public const STATE_UNKNOWN = 3;
+    public const STATE_DEPENDENT = 4;
 
     /** @var OutputInterface */
     private $output;
