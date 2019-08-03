@@ -192,7 +192,10 @@ class SetupController
         Date_Helper::setDefaultWeekday((int)$post->getInt('default_weekday'));
 
         $protocol_type = $post->get('is_ssl') === 'yes' ? 'https://' : 'http://';
-        $setup['base_url'] = "{$protocol_type}{$post->get('hostname')}{$post->get('relative_url')}";
+        $relativeUrl = $post->get('relative_url');
+
+        $setup['base_url'] = "{$protocol_type}{$post->get('hostname')}{$relativeUrl}";
+        $setup['cookie_path'] = $setup['cookie_url'] = $relativeUrl;
 
         Setup::save($setup);
     }
