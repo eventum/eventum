@@ -44,9 +44,6 @@ if (!getenv('TRAVIS')) {
         $loader = new ConfigPersistence();
         $config->merge(new Config($loader->load($testSetupConfig)));
     }
-
-    // used for tests
-    define('APP_ADMIN_USER_ID', $config['admin_user']);
 }
 
 // this setups ev_gettext wrappers
