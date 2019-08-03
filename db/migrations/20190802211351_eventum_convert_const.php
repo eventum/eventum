@@ -81,8 +81,12 @@ class EventumConvertConst extends AbstractMigration
         ]);
 
         // fixup: this should be relative time
-        $setup['cookie_expire'] -= $unixTimestamp;
-        $setup['project_cookie_expire'] -= $unixTimestamp;
+        if ($setup['cookie_expire'] > $unixTimestamp) {
+            $setup['cookie_expire'] -= $unixTimestamp;
+        }
+        if ($setup['project_cookie_expire'] > $unixTimestamp) {
+            $setup['project_cookie_expire'] -= $unixTimestamp;
+        }
 
         // fixup: use proper names
         $setup['cookie_path'] = $setup['cookie_url'];
