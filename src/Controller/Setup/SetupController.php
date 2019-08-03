@@ -115,27 +115,13 @@ class SetupController
         return $cal->getFirstDayOfWeek() === IntlCalendar::DOW_MONDAY ? 1 : 0;
     }
 
-    private function e($s)
-    {
-        return var_export($s, 1);
-    }
-
-    private function initLogger(): void
-    {
-        // init timezone, logger needs it
-        $tz = $this->getPost()->get('default_timezone');
-        Date_Helper::setDefaultTimezone($tz ?: 'UTC');
-
-        Logger::initialize();
-    }
-
     /**
      * return error message as string, or true indicating success
      * requires setup to be written first.
      */
     private function setupDatabase(): void
     {
-        $this->initLogger();
+        Logger::initialize();
         $post = $this->getPost();
 
         $db_config = [
