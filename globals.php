@@ -11,9 +11,10 @@
  * that were distributed with this source code.
  */
 
-// base path
+/*
+ * Constants here are internal and can not be overriden by installation
+ */
 define('APP_PATH', __DIR__);
-// @deprecated since 3.5.0
 define('APP_CONFIG_PATH', APP_PATH . '/config');
 define('APP_INC_PATH', APP_PATH . '/lib/eventum');
 // @deprecated since 3.5.0

@@ -13,7 +13,9 @@
 
 use Eventum\Event\SystemEvents;
 
-if (!file_exists(__DIR__ . '/config/setup.php') || !filesize(__DIR__ . '/config/setup.php')) {
+require_once __DIR__ . '/globals.php';
+
+if (!file_exists(APP_CONFIG_PATH . '/setup.php') || !filesize(APP_CONFIG_PATH . '/setup.php')) {
     // redirect to setup
     if (PHP_SAPI === 'cli') {
         throw new RuntimeException('Eventum is not configured');
@@ -28,7 +30,6 @@ ini_set('memory_limit', '512M');
 // prevent session from messing up the browser cache
 ini_set('session.cache_limiter', 'nocache');
 
-require_once __DIR__ . '/globals.php';
 require_once APP_CONFIG_PATH . '/config.php';
 require_once APP_PATH . '/autoload.php';
 
