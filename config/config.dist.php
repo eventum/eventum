@@ -30,9 +30,6 @@ define('APP_COOKIE_EXPIRE', time() + (60 * 60 * 8));
 define('APP_PROJECT_COOKIE', 'eventum_project');
 define('APP_PROJECT_COOKIE_EXPIRE', time() + (60 * 60 * 24 * 30)); // 30 days
 
-// locale used for localized messages
-define('APP_DEFAULT_LOCALE', 'en_US');
-
 // define the user_id of system user
 define('APP_SYSTEM_USER_ID', 1);
 

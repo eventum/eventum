@@ -39,6 +39,8 @@ class EventumConvertConst extends AbstractMigration
             'APP_ROUTED_MAILS_SAVEDIR' => null,
             // define colors used by eventum
             'APP_INTERNAL_COLOR' => '#9C494B',
+            // locale used for localized messages
+            'APP_DEFAULT_LOCALE' => 'en_US',
         ]);
 
         $toolCaption = $setup['tool_caption'] ?: APP_NAME;

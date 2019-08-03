@@ -1429,16 +1429,9 @@ class User
                         `user`
                     WHERE
                         usr_id = ?';
-            try {
-                $res = DB_Helper::getInstance()->getOne($sql, [$usr_id]);
-            } catch (DatabaseException $e) {
-                return APP_DEFAULT_LOCALE;
-            }
+            $res = DB_Helper::getInstance()->getOne($sql, [$usr_id]);
 
-            if (empty($res)) {
-                $res = APP_DEFAULT_LOCALE;
-            }
-            $returns[$usr_id] = $res;
+            $returns[$usr_id] = $res ?: Setup::get()['default_locale'];
         }
 
         return $returns[$usr_id];

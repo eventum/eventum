@@ -66,7 +66,6 @@ $define('APP_FULLTEXT_SEARCH_CLASS', 'MySQL_Fulltext_Search');
 $define('APP_RELATIVE_URL', '/');
 $define('APP_COOKIE_URL', APP_RELATIVE_URL);
 $define('APP_COOKIE_DOMAIN', null);
-$define('APP_DEFAULT_LOCALE', 'en_US');
 
 $define('APP_HIDE_CLOSED_STATS_COOKIE', 'eventum_hide_closed_stats');
 

@@ -39,7 +39,6 @@ require_once APP_PATH . '/autoload.php';
 date_default_timezone_set(@date_default_timezone_get());
 
 define('APP_NAME', 'Eventum');
-define('APP_DEFAULT_LOCALE', 'en_US');
 define('APP_LOCAL_PATH', Setup::getConfigPath());
 define('APP_RELATIVE_URL', '../');
 define('APP_COOKIE', 'eventum');
