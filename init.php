@@ -13,7 +13,7 @@
 
 use Eventum\Event\SystemEvents;
 
-if (!file_exists(__DIR__ . '/config/config.php') || !filesize(__DIR__ . '/config/config.php')) {
+if (!file_exists(__DIR__ . '/config/setup.php') || !filesize(__DIR__ . '/config/setup.php')) {
     // redirect to setup
     if (PHP_SAPI === 'cli') {
         throw new RuntimeException('Eventum is not configured');

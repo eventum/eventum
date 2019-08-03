@@ -26,7 +26,6 @@ use Eventum\Setup\SetupException;
 use IntlCalendar;
 use Misc;
 use Setup;
-use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -202,27 +201,10 @@ class SetupController
         Setup::save($setup);
     }
 
-    private function writeConfig(): void
-    {
-        $post = $this->getPost();
-        $configPath = Setup::getConfigPath();
-        $configFilePath = $configPath . '/config.php';
-
-        $replace = [
-        ];
-
-        $config_contents = file_get_contents($configPath . '/config.dist.php');
-        $config_contents = str_replace(array_keys($replace), array_values($replace), $config_contents);
-
-        $fs = new Filesystem();
-        $fs->dumpFile($configFilePath, $config_contents);
-    }
-
     private function installAction(): void
     {
         Auth::generatePrivateKey();
         $this->writeSetup();
         $this->setupDatabase();
-        $this->writeConfig();
     }
 }
