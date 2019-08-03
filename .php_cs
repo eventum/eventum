@@ -26,21 +26,25 @@ EOF;
 
 $config = PhpCsFixer\Config::create();
 
-# use git for defining input files
-# https://github.com/FriendsOfPHP/PHP-CS-Fixer/issues/2214
+// use git for defining input files
+// https://github.com/FriendsOfPHP/PHP-CS-Fixer/issues/2214
 $files = explode("\n", shell_exec('git ls-files'));
+// this will disable accept/reject debugging when executed from git hook
+$quiet = getenv('GIT_AUTHOR_DATE');
 $finder = $config->getFinder()
     ->in(__DIR__)
     ->ignoreDotFiles(false)
     ->name('.php_cs')
     ->notPath('localization/LINGUAS.php')
     // this filter would accept only files that are present in Git
-    ->filter(function (SplFileInfo $file) use (&$files) {
+    ->filter(function (SplFileInfo $file) use (&$files, $quiet) {
         $key = array_search($file->getRelativePathname(), $files, true);
-        if ($key) {
-            error_log('ACCEPT: ' . $file->getRelativePathname());
-        } else {
-            error_log('REJECT: ' . $file->getRelativePathname());
+        if (!$quiet) {
+            if ($key) {
+                error_log('ACCEPT: ' . $file->getRelativePathname());
+            } else {
+                error_log('REJECT: ' . $file->getRelativePathname());
+            }
         }
 
         return $key;
