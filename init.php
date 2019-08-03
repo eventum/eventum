@@ -39,11 +39,6 @@ $define = function ($name, $value): void {
 
 // include local site config. may override any default
 require_once APP_CONFIG_PATH . '/config.php';
-
-// if set, normal calls to eventum are redirected to a maintenance page while
-// requests to /manage/ still work
-$define('APP_MAINTENANCE', false);
-
 require_once APP_PATH . '/autoload.php';
 
 Misc::stripInput($_POST);
@@ -58,7 +53,7 @@ Language::setup();
 header('Content-Type: text/html; charset=UTF-8');
 
 // display maintenance message if requested.
-if (APP_MAINTENANCE) {
+if (Setup::get()['maintenance']) {
     $is_manage = (strpos($_SERVER['PHP_SELF'], '/manage/') !== false);
     if (!$is_manage) {
         $tpl = new Template_Helper();
