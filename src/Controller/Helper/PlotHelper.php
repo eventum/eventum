@@ -16,6 +16,7 @@ namespace Eventum\Controller\Helper;
 use Auth;
 use Custom_Field;
 use Date_Helper;
+use Eventum\Config\Paths;
 use Eventum\Session;
 use PHPlot;
 use Prefs;
@@ -33,7 +34,7 @@ class PlotHelper
      * @see PHPlot::GetDefaultTTFont
      * @var string
      */
-    private $fonts_path = APP_FONTS_PATH;
+    private $fonts_path = Paths::APP_FONTS_PATH;
 
     /**
      * Create PHPlot instance initializing common options

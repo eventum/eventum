@@ -13,6 +13,7 @@
 
 namespace Eventum\Test;
 
+use Eventum\Config\Paths;
 use Language;
 use RuntimeException;
 
@@ -36,7 +37,7 @@ class LocaleTest extends TestCase
 
     private static function installLocales(): void
     {
-        $localeDir = APP_PATH . '/localization';
+        $localeDir = Paths::APP_PATH . '/localization';
 
         $rc = system("make -sC $localeDir install localedir=.");
         if ($rc !== 0) {

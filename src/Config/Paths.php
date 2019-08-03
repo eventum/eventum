@@ -32,4 +32,8 @@ final class Paths
     public const APP_LOG_PATH = self::APP_VAR_PATH . '/log';
     public const APP_ERROR_LOG = self::APP_LOG_PATH . '/errors.log';
     public const APP_LOCKS_PATH = self::APP_VAR_PATH . '/lock';
+
+    public const APP_PHP_GETTEXT_PATH = APP_PATH . '/vendor/php-gettext/php-gettext';
+    // fonts directory for phplot
+    public const APP_FONTS_PATH = APP_PATH . '/vendor/fonts/liberation';
 }

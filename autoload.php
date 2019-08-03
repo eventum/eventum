@@ -11,10 +11,8 @@
  * that were distributed with this source code.
  */
 
-// this needs to be setup before autoload itself
-define('APP_PHP_GETTEXT_PATH', APP_PATH . '/vendor/php-gettext/php-gettext');
-
-foreach ([APP_PATH . '/vendor/autoload.php', APP_PATH . '/../../../vendor/autoload.php'] as $autoload) {
+$autoload = null;
+foreach ([__DIR__ . '/vendor/autoload.php', __DIR__ . '/../../../vendor/autoload.php'] as $autoload) {
     if (file_exists($autoload)) {
         break;
     }
@@ -31,7 +29,5 @@ if (!file_exists($autoload)) {
 EOF;
     exit(1);
 }
-require $autoload;
 
-// fonts directory for phplot
-define('APP_FONTS_PATH', APP_PATH . '/vendor/fonts/liberation');
+require $autoload;
