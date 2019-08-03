@@ -33,9 +33,6 @@ define('APP_PROJECT_COOKIE_EXPIRE', time() + (60 * 60 * 24 * 30)); // 30 days
 // locale used for localized messages
 define('APP_DEFAULT_LOCALE', 'en_US');
 
-// define colors used by eventum
-define('APP_INTERNAL_COLOR', '#9C494B');
-
 // define the user_id of system user
 define('APP_SYSTEM_USER_ID', 1);
 

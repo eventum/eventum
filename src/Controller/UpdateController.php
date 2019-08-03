@@ -30,6 +30,7 @@ use Product;
 use Project;
 use Release;
 use Resolution;
+use Setup;
 use Severity;
 use Status;
 use Template_Helper;
@@ -235,14 +236,11 @@ class UpdateController extends BaseController
         );
     }
 
-    /**
-     * @param int $prj_id
-     * @param int $role_id
-     */
-    private function getColumnsForDisplay($details, $prj_id, $role_id, $categories, $priorities, $severities)
+    private function getColumnsForDisplay($details, int $prj_id, int $role_id, $categories, $priorities, $severities): array
     {
         $columns = [0 => [], 1 => []];
         $issue_fields_display = Issue_Field::getFieldsToDisplay($this->issue_id, 'view_issue');
+        $internalColor = Setup::get()['internal_color'];
 
         if (CRM::hasCustomerIntegration($prj_id) and !empty($details['iss_customer_id'])) {
             $columns[0][] = [
@@ -284,7 +282,7 @@ class UpdateController extends BaseController
             if ((isset($issue_fields_display['priority']['min_role']))
                 && ($issue_fields_display['priority']['min_role'] > User::ROLE_CUSTOMER)
             ) {
-                $bgcolor = APP_INTERNAL_COLOR;
+                $bgcolor = $internalColor;
             } else {
                 $bgcolor = '';
             }
@@ -296,10 +294,10 @@ class UpdateController extends BaseController
             ];
         }
 
-        if (Release::getAssocList($prj_id) && ($role_id != User::ROLE_CUSTOMER)) {
+        if (Release::getAssocList($prj_id) && ($role_id !== User::ROLE_CUSTOMER)) {
             $columns[0][] = [
                 'title' => ev_gettext('Scheduled Release'),
-                'title_bgcolor' => APP_INTERNAL_COLOR,
+                'title_bgcolor' => $internalColor,
                 'field' => 'scheduled_release',
             ];
         }
@@ -376,7 +374,7 @@ class UpdateController extends BaseController
         ) {
             $columns[1][] = [
                 'title' => ev_gettext('Estimated Dev. Time'),
-                'data' => $details['iss_dev_time'] . empty($details['iss_dev_time']) ? '' : ' hours',
+                'data' => $details['iss_dev_time'] . (empty($details['iss_dev_time']) ? '' : ' hours'),
                 'field' => 'estimated_dev_time',
             ];
         }
@@ -385,12 +383,12 @@ class UpdateController extends BaseController
             $columns[1][] = [
                 'title' => ev_gettext('Duplicates'),
                 'field' => 'duplicates',
-                'title_bgcolor' => APP_INTERNAL_COLOR,
+                'title_bgcolor' => $internalColor,
             ];
             $columns[1][] = [
                 'title' => ev_gettext('Authorized Repliers'),
                 'field' => 'authorized_repliers',
-                'title_bgcolor' => APP_INTERNAL_COLOR,
+                'title_bgcolor' => $internalColor,
             ];
         }
 
@@ -398,7 +396,7 @@ class UpdateController extends BaseController
             $columns[1][] = [
                 'title' => ev_gettext('Group'),
                 'data' => isset($details['group']) ? $details['group']['grp_name'] : '',
-                'title_bgcolor' => APP_INTERNAL_COLOR,
+                'title_bgcolor' => $internalColor,
                 'field' => 'group',
             ];
         }

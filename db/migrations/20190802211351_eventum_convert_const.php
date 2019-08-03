@@ -37,6 +37,8 @@ class EventumConvertConst extends AbstractMigration
             'APP_GETTEXT_MODE' => 'native',
             // directory where to save routed drafts/notes/emails. use NULL or '' to disable.
             'APP_ROUTED_MAILS_SAVEDIR' => null,
+            // define colors used by eventum
+            'APP_INTERNAL_COLOR' => '#9C494B',
         ]);
 
         $toolCaption = $setup['tool_caption'] ?: APP_NAME;
