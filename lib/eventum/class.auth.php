@@ -438,11 +438,13 @@ class Auth
             return;
         }
 
-        $cookieDomain = Setup::get()['cookie_domain'];
+        $config = Setup::get();
+        $cookieDomain = $config['cookie_domain'];
+        $cookiePath = $config['cookie_path'];
         if ($cookieDomain) {
-            setcookie($name, $value, $expiration, APP_COOKIE_URL, $cookieDomain);
+            setcookie($name, $value, $expiration, $cookiePath, $cookieDomain);
         } else {
-            setcookie($name, $value, $expiration, APP_COOKIE_URL);
+            setcookie($name, $value, $expiration, $cookiePath);
         }
     }
 

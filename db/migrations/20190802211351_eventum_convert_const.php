@@ -47,6 +47,7 @@ class EventumConvertConst extends AbstractMigration
             // define the user_id of system user
             'APP_SYSTEM_USER_ID' => 1,
             // cookie related constants
+            'APP_COOKIE_URL' => APP_RELATIVE_URL,
             'APP_COOKIE_DOMAIN' => null,
             'APP_COOKIE' => 'eventum',
             'APP_COOKIE_EXPIRE' => time() + (60 * 60 * 8),
@@ -57,6 +58,10 @@ class EventumConvertConst extends AbstractMigration
         // fixup: this should be relative time
         $setup['cookie_expire'] -= time();
         $setup['project_cookie_expire'] -= time();
+
+        // fixup: use proper name
+        $setup['cookie_path'] = $setup['cookie_url'];
+        unset($setup['cookie_url']);
 
         $toolCaption = $setup['tool_caption'] ?: APP_NAME;
         $setup['tool_caption'] = $toolCaption;
