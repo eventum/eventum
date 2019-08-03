@@ -18,7 +18,7 @@ class AuthCookie
      *
      * @return bool
      */
-    public static function hasCookieSupport()
+    public static function hasCookieSupport(): bool
     {
         // check for any cookie being present
         return !empty($_COOKIE);
@@ -44,8 +44,10 @@ class AuthCookie
         }
 
         $cookie = self::generateAuthCookie($email, $permanent);
-        Auth::setCookie(APP_COOKIE, $cookie, $permanent ? APP_COOKIE_EXPIRE : null);
-        $_COOKIE[APP_COOKIE] = $cookie;
+        $config = Setup::getAuthCookie();
+
+        Auth::setCookie($config['name'], $cookie, $permanent ? $config['expire'] : null);
+        $_COOKIE[$config['name']] = $cookie;
     }
 
     /**
@@ -60,7 +62,7 @@ class AuthCookie
             return null;
         }
 
-        $cookie = self::getDecodedCookie(APP_COOKIE);
+        $cookie = self::getDecodedCookie(Setup::getAuthCookie()['name']);
         if (!$cookie || empty($cookie['email'])) {
             return null;
         }
@@ -74,9 +76,9 @@ class AuthCookie
      *
      * @return bool
      */
-    public static function hasAuthCookie()
+    public static function hasAuthCookie(): bool
     {
-        $cookie = self::getDecodedCookie(APP_COOKIE);
+        $cookie = self::getDecodedCookie(Setup::getAuthCookie()['name']);
         if (!$cookie || empty($cookie['email']) || empty($cookie['hash'])) {
             return false;
         }
@@ -96,7 +98,7 @@ class AuthCookie
      */
     public static function removeAuthCookie(): void
     {
-        Auth::removeCookie(APP_COOKIE);
+        Auth::removeCookie(Setup::getAuthCookie()['name']);
     }
 
     /**
@@ -115,9 +117,10 @@ class AuthCookie
         }
 
         $cookie = self::generateProjectCookie($prj_id, $remember);
+        $config = Setup::getProjectCookie();
 
-        Auth::setCookie(APP_PROJECT_COOKIE, $cookie, APP_PROJECT_COOKIE_EXPIRE);
-        $_COOKIE[APP_PROJECT_COOKIE] = $cookie;
+        Auth::setCookie($config['name'], $cookie, $config['expire']);
+        $_COOKIE[$config['name']] = $cookie;
     }
 
     /**
@@ -126,9 +129,9 @@ class AuthCookie
      *
      * @return array|null
      */
-    public static function getProjectCookie()
+    public static function getProjectCookie(): ?array
     {
-        $cookie = self::getDecodedCookie(APP_PROJECT_COOKIE);
+        $cookie = self::getDecodedCookie(Setup::getProjectCookie()['name']);
         if (!$cookie || empty($cookie['prj_id'])) {
             return null;
         }
@@ -141,7 +144,7 @@ class AuthCookie
      */
     public static function removeProjectCookie(): void
     {
-        Auth::removeCookie(APP_PROJECT_COOKIE);
+        Auth::removeCookie(Setup::getProjectCookie()['name']);
     }
 
     /**
@@ -151,7 +154,7 @@ class AuthCookie
      * @param bool $permanent
      * @return string
      */
-    private static function generateAuthCookie($email, $permanent = true)
+    private static function generateAuthCookie($email, $permanent = true): string
     {
         $time = time();
         $cookie = [
@@ -171,7 +174,7 @@ class AuthCookie
      * @param bool $remember
      * @return string
      */
-    private static function generateProjectCookie($prj_id, $remember = false)
+    private static function generateProjectCookie($prj_id, $remember = false): string
     {
         $cookie = [
             'prj_id' => $prj_id,
@@ -189,7 +192,7 @@ class AuthCookie
      * @param   string $cookie_name The name of the cookie to check for
      * @return  array The unserialized contents of the cookie
      */
-    private static function getDecodedCookie($cookie_name)
+    private static function getDecodedCookie($cookie_name): ?array
     {
         if (empty($_COOKIE[$cookie_name])) {
             return null;
@@ -209,7 +212,7 @@ class AuthCookie
      * @param string $email
      * @return string
      */
-    private static function generateHash($time, $email)
+    private static function generateHash($time, $email): string
     {
         return md5(Auth::privateKey() . $time . $email);
     }

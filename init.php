@@ -50,7 +50,6 @@ require_once APP_CONFIG_PATH . '/config.php';
  * APP_LOCAL_PATH/workflow
  */
 $define('APP_LOCAL_PATH', APP_CONFIG_PATH);
-$define('APP_COOKIE', 'eventum');
 
 // email address of anonymous user.
 // if you want anonymous users getting access to your eventum.

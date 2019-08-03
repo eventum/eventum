@@ -46,7 +46,16 @@ class EventumConvertConst extends AbstractMigration
             'APP_FULLTEXT_SEARCH_CLASS' => 'mysql_fulltext_search',
             // define the user_id of system user
             'APP_SYSTEM_USER_ID' => 1,
+            // cookie related constants
+            'APP_COOKIE' => 'eventum',
+            'APP_COOKIE_EXPIRE' => time() + (60 * 60 * 8),
+            'APP_PROJECT_COOKIE' => 'eventum_project',
+            'APP_PROJECT_COOKIE_EXPIRE' => time() + (60 * 60 * 24 * 30), // 30 days
         ]);
+
+        // fixup: this should be relative time
+        $setup['cookie_expire'] -= time();
+        $setup['project_cookie_expire'] -= time();
 
         $toolCaption = $setup['tool_caption'] ?: APP_NAME;
         $setup['tool_caption'] = $toolCaption;

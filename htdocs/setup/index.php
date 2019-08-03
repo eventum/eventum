@@ -41,7 +41,6 @@ date_default_timezone_set(@date_default_timezone_get());
 define('APP_NAME', 'Eventum');
 define('APP_LOCAL_PATH', Setup::getConfigPath());
 define('APP_RELATIVE_URL', '../');
-define('APP_COOKIE', 'eventum');
 
 if (!file_exists($privateKeyFile = Setup::getConfigPath() . '/private_key.php') || !filesize($privateKeyFile)) {
     Auth::generatePrivateKey();

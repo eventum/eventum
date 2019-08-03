@@ -39,6 +39,34 @@ class Setup
     }
 
     /**
+     * @return array
+     * @since 3.8.0
+     */
+    public static function getAuthCookie(): array
+    {
+        $config = Setup::get();
+
+        return [
+            'name' => $config['cookie'],
+            'expire' => time() + $config['cookie_expire'],
+        ];
+    }
+
+    /**
+     * @return array
+     * @since 3.8.0
+     */
+    public static function getProjectCookie(): array
+    {
+        $config = Setup::get();
+
+        return [
+            'name' => $config['project_cookie'],
+            'expire' => time() + $config['project_cookie_expire'],
+        ];
+    }
+
+    /**
      * Set options to system config.
      * The changes are not stored to disk.
      *
