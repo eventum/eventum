@@ -15,6 +15,7 @@ namespace Example\Event\Subscriber;
 
 use Eventum\Event\SystemEvents;
 use Eventum\Model\Entity;
+use Setup;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
@@ -39,7 +40,7 @@ class CommitSubscriber implements EventSubscriberInterface
 
         if (!$commit->getUserId()) {
             // XXX: complex logic figuring out user id
-            $usr_id = APP_SYSTEM_USER_ID;
+            $usr_id = Setup::get()['system_user_id'];
             $commit->setUserId($usr_id);
         }
     }

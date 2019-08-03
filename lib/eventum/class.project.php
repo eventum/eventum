@@ -617,7 +617,7 @@ class Project
                     pru_prj_id=? AND
                     pru_usr_id=usr_id AND
                     usr_id != ?';
-        $params = [$prj_id, APP_SYSTEM_USER_ID];
+        $params = [$prj_id, Setup::get()['system_user_id']];
         if ($status != null) {
             $stmt .= " AND usr_status='active' ";
         }
@@ -628,13 +628,8 @@ class Project
         $stmt .= '
                  ORDER BY
                     usr_full_name ASC';
-        try {
-            $res = DB_Helper::getInstance()->getPair($stmt, $params);
-        } catch (DatabaseException $e) {
-            return '';
-        }
 
-        return $res;
+        return DB_Helper::getInstance()->getPair($stmt, $params);
     }
 
     /**
@@ -790,7 +785,7 @@ class Project
                     pru_usr_id=usr_id AND
                     usr_status='active' AND
                     usr_id <> ?";
-        $params = [$prj_id, APP_SYSTEM_USER_ID];
+        $params = [$prj_id, Setup::get()['system_user_id']];
         if (count($contact_ids) > 0) {
             $stmt .= ' AND (pru_role <> ? OR usr_customer_contact_id IN(' . DB_Helper::buildList($contact_ids) . ')) ';
             $params[] = User::ROLE_CUSTOMER;
@@ -807,13 +802,8 @@ class Project
                  ORDER BY
                     usr_customer_id DESC,
                     usr_full_name ASC';
-        try {
-            $res = DB_Helper::getInstance()->getPair($stmt, $params);
-        } catch (DatabaseException $e) {
-            return null;
-        }
 
-        return $res;
+        return DB_Helper::getInstance()->getPair($stmt, $params);
     }
 
     /**

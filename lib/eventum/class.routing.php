@@ -104,7 +104,8 @@ class Routing
         }
 
         // associate routed emails to the internal system account
-        $sys_account = User::getNameEmail(APP_SYSTEM_USER_ID);
+        $system_user_id = Setup::get()['system_user_id'];
+        $sys_account = User::getNameEmail($system_user_id);
         if (empty($sys_account['usr_email'])) {
             throw RoutingException::noAssociatedUserConfigured();
         }
@@ -143,7 +144,7 @@ class Routing
         $wm = new WarningMessage($mail);
         $wm->remove();
 
-        AuthCookie::setAuthCookie(APP_SYSTEM_USER_ID);
+        AuthCookie::setAuthCookie($system_user_id);
         AuthCookie::setProjectCookie($prj_id);
 
         // remove certain CC addresses
@@ -210,13 +211,13 @@ class Routing
         // try to get usr_id of sender, if not, use system account
         $usr_id = User::getUserIDByEmail($mail->getSender());
         if (!$usr_id) {
-            $usr_id = APP_SYSTEM_USER_ID;
+            $usr_id = $system_user_id;
         }
         // mark this issue as updated
         if ((!empty($email_options['customer_id'])) && ($email_options['customer_id'] != null)) {
             Issue::markAsUpdated($issue_id, 'customer action');
         } else {
-            if ((!empty($usr_id)) && ($usr_id != APP_SYSTEM_USER_ID) &&
+            if ((!empty($usr_id)) && ($usr_id != $system_user_id) &&
                     (User::getRoleByUser($usr_id, $prj_id) > User::ROLE_CUSTOMER)) {
                 Issue::markAsUpdated($issue_id, 'staff response');
             } else {
@@ -296,7 +297,7 @@ class Routing
         }
 
         if (!$sender_usr_id) {
-            $sender_usr_id = APP_SYSTEM_USER_ID;
+            $sender_usr_id = Setup::get()['system_user_id'];
             $unknown_user = $mail->from;
         } else {
             $unknown_user = false;

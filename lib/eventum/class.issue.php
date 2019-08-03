@@ -989,6 +989,7 @@ class Issue
      */
     public static function addAnonymousReport()
     {
+        $system_user_id = Setup::get()['system_user_id'];
         $prj_id = (int) $_POST['project'];
         $options = Project::getAnonymousPostOptions($prj_id);
         $initial_status = Project::getInitialStatus($prj_id);
@@ -1017,7 +1018,7 @@ class Issue
 
         $issue_id = DB_Helper::get_last_insert_id();
         // log the creation of the issue
-        History::add($issue_id, APP_SYSTEM_USER_ID, 'issue_opened_anon', 'Issue opened anonymously');
+        History::add($issue_id, $system_user_id, 'issue_opened_anon', 'Issue opened anonymously');
 
         // process any files being uploaded
         // TODO: handle ajax uploads
@@ -1039,8 +1040,8 @@ class Issue
         $users = @$options['users'];
         $actions = Notification::getDefaultActions($issue_id, false, 'anon_issue');
         foreach ($users as $user) {
-            Notification::subscribeUser(APP_SYSTEM_USER_ID, $issue_id, $user, $actions);
-            self::addUserAssociation(APP_SYSTEM_USER_ID, $issue_id, $user);
+            Notification::subscribeUser($system_user_id, $issue_id, $user, $actions);
+            self::addUserAssociation($system_user_id, $issue_id, $user);
             $assign[] = $user;
         }
 
@@ -1627,6 +1628,7 @@ class Issue
      */
     public static function createFromEmail(MailMessage $mail, $options)
     {
+        $system_user_id = Setup::get()['system_user_id'];
         $category = $options['category'] ?? null;
         $priority = $options['priority'] ?? null;
         $assignment = $options['users'] ?? null;
@@ -1714,7 +1716,7 @@ class Issue
         }
 
         if (empty($reporter)) {
-            $reporter = APP_SYSTEM_USER_ID;
+            $reporter = $system_user_id;
         }
 
         $data['reporter'] = $reporter;
@@ -1766,7 +1768,7 @@ class Issue
         if ($assignment) {
             foreach ($assignment as $ass_usr_id) {
                 Notification::subscribeUser($reporter, $issue_id, $ass_usr_id, $actions);
-                self::addUserAssociation(APP_SYSTEM_USER_ID, $issue_id, $ass_usr_id);
+                self::addUserAssociation($system_user_id, $issue_id, $ass_usr_id);
                 if ($ass_usr_id != $usr_id) {
                     $users[] = $ass_usr_id;
                 }
@@ -1778,8 +1780,8 @@ class Issue
                 $assignee = Round_Robin::getNextAssignee($prj_id);
                 // assign the issue to the round robin person
                 if (!empty($assignee)) {
-                    self::addUserAssociation(APP_SYSTEM_USER_ID, $issue_id, $assignee, false);
-                    History::add($issue_id, APP_SYSTEM_USER_ID, 'rr_issue_assigned', 'Issue auto-assigned to {assignee} (RR)', [
+                    self::addUserAssociation($system_user_id, $issue_id, $assignee, false);
+                    History::add($issue_id, $system_user_id, 'rr_issue_assigned', 'Issue auto-assigned to {assignee} (RR)', [
                         'assignee' => User::getFullName($assignee),
                     ]);
                     $users[] = $assignee;
@@ -1937,7 +1939,7 @@ class Issue
                 if (!empty($assignee)) {
                     $users[] = $assignee;
                     self::addUserAssociation($usr_id, $issue_id, $assignee, false);
-                    History::add($issue_id, APP_SYSTEM_USER_ID, 'rr_issue_assigned', 'Issue auto-assigned to {assignee} (RR)', [
+                    History::add($issue_id, Setup::get()['system_user_id'], 'rr_issue_assigned', 'Issue auto-assigned to {assignee} (RR)', [
                          'assignee' => User::getFullName($assignee),
                     ]);
                     $has_RR = true;
@@ -2030,7 +2032,7 @@ class Issue
     {
         // if there is no reporter set, use the system user
         if (empty($data['reporter'])) {
-            $data['reporter'] = APP_SYSTEM_USER_ID;
+            $data['reporter'] = Setup::get()['system_user_id'];
         }
 
         if ((!isset($data['estimated_dev_time'])) || ($data['estimated_dev_time'] == '')) {
@@ -2515,7 +2517,7 @@ class Issue
         $res['iss_resolution'] = Resolution::getTitle($res['iss_res_id']);
         $res['iss_created_date_ts'] = $created_date_ts;
         $res['assignments'] = @implode(', ', array_values(self::getAssignedUsers($res['iss_id'])));
-        list($res['authorized_names'], $res['authorized_repliers']) = Authorized_Replier::getAuthorizedRepliers($res['iss_id']);
+        [$res['authorized_names'], $res['authorized_repliers']] = Authorized_Replier::getAuthorizedRepliers($res['iss_id']);
         $temp = self::getAssignedUsersStatus($res['iss_id']);
         $res['has_inactive_users'] = 0;
         $res['assigned_users'] = [];

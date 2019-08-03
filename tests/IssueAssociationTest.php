@@ -18,6 +18,7 @@ use Eventum\Model\Repository\IssueAssociationRepository;
 use Eventum\Test\Traits\DoctrineTrait;
 use InvalidArgumentException;
 use IssueSeeder;
+use Setup;
 
 /**
  * @group db
@@ -26,12 +27,15 @@ class IssueAssociationTest extends TestCase
 {
     use DoctrineTrait;
 
+    /** @var int */
+    private $system_user_id;
+
     /** @var IssueAssociationRepository */
     private $repo;
 
     public function setUp(): void
     {
-        $em = $this->getEntityManager();
+        $this->system_user_id = Setup::get()['system_user_id'];
         $this->repo = Doctrine::getIssueAssociationRepository();
 
         $issues = [IssueSeeder::ISSUE_1, IssueSeeder::ISSUE_2, 13, 14, 15];
@@ -40,7 +44,7 @@ class IssueAssociationTest extends TestCase
 
     public function testAssociateIssue(): void
     {
-        $usr_id = APP_SYSTEM_USER_ID;
+        $usr_id = $this->system_user_id;
         $iss1_id = IssueSeeder::ISSUE_1;
         $iss2_id = IssueSeeder::ISSUE_1;
 
@@ -85,7 +89,7 @@ class IssueAssociationTest extends TestCase
 
     public function testBulkUpdate(): void
     {
-        $usr_id = APP_SYSTEM_USER_ID;
+        $usr_id = $this->system_user_id;
         $issue_id = IssueSeeder::ISSUE_1;
 
         $associated_issues = [$issue_id, '13', '14', 15, $issue_id, 13, 'lol', -1, null, '', false];
@@ -114,7 +118,7 @@ class IssueAssociationTest extends TestCase
      */
     public function testGetDetails(): void
     {
-        $usr_id = APP_SYSTEM_USER_ID;
+        $usr_id = $this->system_user_id;
         $iss1_id = IssueSeeder::ISSUE_1;
         $iss2_id = IssueSeeder::ISSUE_2;
 
@@ -131,6 +135,7 @@ class IssueAssociationTest extends TestCase
         //  'current_status' => 'discovery',
         // 'is_closed' => '0',
         // ),
+
         $this->assertEquals($iss2_id, $associated_issues_details[0]['associated_issue']);
 
         // reverse view

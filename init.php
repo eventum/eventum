@@ -52,9 +52,6 @@ require_once APP_CONFIG_PATH . '/config.php';
 $define('APP_LOCAL_PATH', APP_CONFIG_PATH);
 $define('APP_COOKIE', 'eventum');
 
-// define the user_id of system user
-$define('APP_SYSTEM_USER_ID', 1);
-
 // email address of anonymous user.
 // if you want anonymous users getting access to your eventum.
 $define('APP_ANON_USER', '');

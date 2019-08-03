@@ -348,7 +348,7 @@ class Workflow
      */
     public static function handleNewIssue($prj_id, $issue_id, $has_TAM, $has_RR): void
     {
-        $usr_id = Auth::getUserID() ?: APP_SYSTEM_USER_ID;
+        $usr_id = Auth::getUserID() ?: Setup::get()['system_user_id'];
         $arguments = [
             'issue_id' => (int)$issue_id,
             'prj_id' => (int)$prj_id,

@@ -44,6 +44,8 @@ class EventumConvertConst extends AbstractMigration
             // if full text searching is enabled
             'APP_ENABLE_FULLTEXT' => false,
             'APP_FULLTEXT_SEARCH_CLASS' => 'mysql_fulltext_search',
+            // define the user_id of system user
+            'APP_SYSTEM_USER_ID' => 1,
         ]);
 
         $toolCaption = $setup['tool_caption'] ?: APP_NAME;

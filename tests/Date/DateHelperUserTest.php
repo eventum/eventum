@@ -16,6 +16,7 @@ namespace Eventum\Test\Date;
 use Date_Helper;
 use Eventum\Db\Doctrine;
 use Eventum\Test\TestCase;
+use Setup;
 
 /**
  * DateHelper tests involving user (using database)
@@ -34,7 +35,7 @@ class DateHelperUserTest extends TestCase
     public static function setUpBeforeClass(): void
     {
         self::setTimezone(APP_ADMIN_USER_ID, self::USER_TIMEZONE);
-        self::setTimezone(APP_SYSTEM_USER_ID, self::ADMIN_TIMEZONE);
+        self::setTimezone(Setup::get()['system_user_id'], self::ADMIN_TIMEZONE);
     }
 
     private static function setTimezone(int $usr_id, string $timezone): void
@@ -52,7 +53,7 @@ class DateHelperUserTest extends TestCase
      */
     public function testGetTimezoneShortNameByUser(): void
     {
-        $res = Date_Helper::getTimezoneShortNameByUser(APP_SYSTEM_USER_ID);
+        $res = Date_Helper::getTimezoneShortNameByUser(Setup::get()['system_user_id']);
         $this->assertEquals('UTC', $res);
 
         $res = Date_Helper::getTimezoneShortNameByUser(APP_ADMIN_USER_ID);
@@ -67,7 +68,7 @@ class DateHelperUserTest extends TestCase
         $res = Date_Helper::getPreferredTimezone();
         $this->assertEquals('UTC', $res);
 
-        $res = Date_Helper::getPreferredTimezone(APP_SYSTEM_USER_ID);
+        $res = Date_Helper::getPreferredTimezone(Setup::get()['system_user_id']);
         $this->assertEquals('UTC', $res);
 
         $res = Date_Helper::getPreferredTimezone(APP_ADMIN_USER_ID);

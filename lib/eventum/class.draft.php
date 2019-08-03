@@ -36,7 +36,7 @@ class Draft
         }
         // if unknown_user is not empty, set the usr_id to be the system user.
         if (!empty($unknown_user)) {
-            $usr_id = APP_SYSTEM_USER_ID;
+            $usr_id = Setup::get()['system_user_id'];
         } else {
             $usr_id = Auth::getUserID();
         }
