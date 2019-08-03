@@ -35,6 +35,8 @@ class EventumConvertConst extends AbstractMigration
             // 'native' or 'php'. Try native first, if you experience strange issues
             // such as language switching randomly, try php
             'APP_GETTEXT_MODE' => 'native',
+            // directory where to save routed drafts/notes/emails. use NULL or '' to disable.
+            'APP_ROUTED_MAILS_SAVEDIR' => null,
         ]);
 
         $toolCaption = $setup['tool_caption'] ?: APP_NAME;

@@ -42,6 +42,3 @@ define('APP_SYSTEM_USER_ID', 1);
 // if full text searching is enabled
 define('APP_ENABLE_FULLTEXT', '%{APP_ENABLE_FULLTEXT}%');
 define('APP_FULLTEXT_SEARCH_CLASS', 'mysql_fulltext_search');
-
-// directory where to save routed drafts/notes/emails. use NULL or '' to disable.
-define('APP_ROUTED_MAILS_SAVEDIR', APP_PATH . '/misc');
