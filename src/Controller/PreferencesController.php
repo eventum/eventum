@@ -258,7 +258,6 @@ class PreferencesController extends BaseController
         $this->tpl->assign([
                 'timezone' => $upr->getTimezone(),
                 'relative_date' => $this->html->radioYesNoButtons($upr->useRelativeDate()),
-                'markdown' => $this->html->radioYesNoButtons($upr->isMarkdownEnabled()),
                 'collapsed_emails' => $this->html->radioYesNoButtons($upr->collapsedEmails()),
                 'close_popup_windows' => $this->html->radioYesNoButtons($upr->autoClosePopupWindow()),
                 'receive_new_issue_email' => $this->html->radioYesNoButtons($upr->autoClosePopupWindow()),
@@ -329,7 +328,6 @@ class PreferencesController extends BaseController
             ->setRelativeDate($post->getBoolean('relative_date'))
             ->setCollapsedEmails($post->getBoolean('collapsed_emails'))
             ->setAutoAppendEmailSignature($post->getBoolean('auto_append_email_sig'))
-            ->setAutoAppendNoteSignature($post->getBoolean('auto_append_note_sig'))
-            ->setEnableMarkdown($post->getBoolean('markdown'));
+            ->setAutoAppendNoteSignature($post->getBoolean('auto_append_note_sig'));
     }
 }
