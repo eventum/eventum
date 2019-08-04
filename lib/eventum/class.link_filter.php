@@ -272,25 +272,14 @@ class Link_Filter
      *
      * @param   int $prj_id The ID of the project
      * @param   string $text The text to process
-     * @param   string $class The CSS class to use on the actual links
      * @param bool $inline
      * @return  string the processed text
      */
-    public static function processText($prj_id, $text, $class = 'link', bool $inline = false): string
+    public static function processText($prj_id, $text, bool $inline = false): string
     {
-        // process issue link separatly since it has to do something special
-        if (!self::markdownEnabled()) {
-            // conflicts with markdown
-            $text = Misc::activateLinks($text, $class);
-        }
-
         $linkFilter = self::getLinkFilter($prj_id);
         $text = $linkFilter->replace($text);
-
-        // enable markdown
-        if (self::markdownEnabled()) {
-            $text = self::markdownFormat($text, $inline);
-        }
+        $text = self::markdownFormat($text, $inline);
 
         return $text;
     }
@@ -311,13 +300,8 @@ class Link_Filter
      * @param int $issue_id
      * @return string
      */
-    public static function textFormat($text, $issue_id)
+    public static function textFormat($text, $issue_id): string
     {
-        if (!self::markdownEnabled()) {
-            // this used to be in Issue::getDetails
-            $text = nl2br(htmlspecialchars($text));
-        }
-
         $text = self::activateLinks($text);
         $text = self::activateAttachmentLinks($text, $issue_id);
 

@@ -417,9 +417,8 @@ class ViewController extends BaseController
 
             $checkin = $c->toArray();
             $checkin['isc_commit_date'] = Date_Helper::convertDateGMT($checkin['com_commit_date']);
-            $checkin['isc_commit_msg'] = Link_Filter::processText(
-                $prj_id, nl2br(htmlspecialchars($checkin['com_message'])), 'link', true
-            );
+            $message = nl2br(htmlspecialchars($checkin['com_message']));
+            $checkin['isc_commit_msg'] = Link_Filter::processText($prj_id, $message, true);
             $checkin['author'] = $c->getAuthor();
             $checkin['project_name'] = $c->getProjectName();
             $checkin['branch'] = $c->getBranch();

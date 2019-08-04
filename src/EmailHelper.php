@@ -44,11 +44,6 @@ class EmailHelper
 
         $text = self::collapseReplies($text, $enabled);
 
-        if (!Link_Filter::markdownEnabled()) {
-            $text = nl2br($text);
-            $text = Link_Filter::activateLinks($text);
-        }
-
         return $text;
     }
 
@@ -61,12 +56,8 @@ class EmailHelper
             return Misc::highlightQuotedReply($text);
         }
 
-        $wrapText = function ($text) {
-            if (Link_Filter::markdownEnabled()) {
-                $text = Link_Filter::markdownFormat($text);
-            } else {
-                $text = Misc::highlightQuotedReply($text);
-            }
+        $wrapText = static function ($text) {
+            $text = Link_Filter::markdownFormat($text);
 
             return
                 '<div><span class="toggle-trimmed-email"><a href="#">…</a></span>'
@@ -84,16 +75,12 @@ class EmailHelper
 
         // wrap quoted and signature blocks with a div
         $blocks = array_map(
-            function (Fragment $fragment) use ($wrapText) {
+            static function (Fragment $fragment) use ($wrapText) {
                 if ($fragment->isQuoted() || $fragment->isSignature()) {
                     return $wrapText($fragment);
                 }
 
-                if (Link_Filter::markdownEnabled()) {
-                    return Link_Filter::markdownFormat((string)$fragment);
-                }
-
-                return htmlspecialchars($fragment);
+                return Link_Filter::markdownFormat((string)$fragment);
             }, $email->getFragments()
         );
         $text = rtrim(implode("\n", $blocks));
