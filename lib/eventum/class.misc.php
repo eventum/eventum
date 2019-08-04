@@ -430,24 +430,10 @@ class Misc
      * @param   string $text The text to search against
      * @param   string $class The CSS class to use on the actual links
      * @return  string The parsed string
+     * @deprecated since 3.8.0 this method does nothing
      */
     public static function activateLinks($text, $class = 'link')
     {
-        // process issue link separately since it has to do something special
-        if (Link_Filter::markdownEnabled()) {
-            // conflicts with markdown
-            return $text;
-        }
-
-        $range = '[-\w+@=?.%/:&;~|,#\[\]]+';
-        // FIXME: handle the base of email addresses surrounded by <>, i.e.
-        // Bryan Alsdorf <bryan@askmonty.org>
-        $text = preg_replace("'(\w+)://($range)(\.)?'", '<a title="open $1://$2 in a new window" class="' . $class . '" href="$1://$2" target="_$2">$1://$2</a>', $text);
-        $text = preg_replace("'(\s+)(www\.$range)(\.\s|\s)'", '$1<a title="open http://$2 in a new window" class="' . $class . '" href="http://$2" target="_$2">$2</a>$3', $text);
-
-        $mail_pat = '/(^|\s+)([-+a-z0-9_.]+@(?:[-a-z0-9_.]{2,63}\.)+[a-z]{2,6})/i';
-        $text = preg_replace($mail_pat, '$1<a title="open mailto:$2 in a new window" class="' . $class . '" href="mailto:$2" target="_$2">$2</a>', $text);
-
         return $text;
     }
 
