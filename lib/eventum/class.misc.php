@@ -497,24 +497,6 @@ class Misc
     }
 
     /**
-     * Highlights quoted replies. Relies on a smarty plugin written by
-     * Joscha Feth, joscha@feth.com, www.feth.com
-     *
-     * @param   string $text The text to highlight
-     * @return  string The highlighted text
-     */
-    public static function highlightQuotedReply($text)
-    {
-        if (Link_Filter::markdownEnabled()) {
-            return $text;
-        }
-
-        require_once APP_INC_PATH . '/smarty/modifier.highlight_quoted.php';
-
-        return smarty_modifier_highlight_quoted($text);
-    }
-
-    /**
      * Method used to display a nice error message when one (or more) of the
      * system requirements for Eventum is not found.
      *

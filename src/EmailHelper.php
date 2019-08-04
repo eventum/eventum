@@ -19,7 +19,6 @@ use EmailReplyParser\Fragment;
 use EmailReplyParser\Parser\EmailParser;
 use Eventum\Db\Doctrine;
 use Link_Filter;
-use Misc;
 
 class EmailHelper
 {
@@ -53,7 +52,7 @@ class EmailHelper
     private static function collapseReplies(string $text, bool $enabled): string
     {
         if (!$enabled) {
-            return Misc::highlightQuotedReply($text);
+            return $text;
         }
 
         $wrapText = static function ($text) {
