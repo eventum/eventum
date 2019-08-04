@@ -18,8 +18,8 @@ use Mail_Queue;
 
 class MailQueueProcessCommand
 {
-    const DEFAULT_COMMAND = 'mail-queue:process';
-    const USAGE = self::DEFAULT_COMMAND;
+    public const DEFAULT_COMMAND = 'mail-queue:process';
+    public const USAGE = self::DEFAULT_COMMAND;
 
     /** @var string */
     private $lock_name = 'process_mail_queue';

@@ -22,6 +22,7 @@ use Custom_Field;
 use Date_Helper;
 use Group;
 use Issue;
+use Issue_Field;
 use Issue_Lock;
 use Notification;
 use Priority;
@@ -241,6 +242,8 @@ class UpdateController extends BaseController
     private function getColumnsForDisplay($details, $prj_id, $role_id, $categories, $priorities, $severities)
     {
         $columns = [0 => [], 1 => []];
+        $issue_fields_display = Issue_Field::getFieldsToDisplay($this->issue_id, 'view_issue');
+
         if (CRM::hasCustomerIntegration($prj_id) and !empty($details['iss_customer_id'])) {
             $columns[0][] = [
                 'title' => 'Customer',

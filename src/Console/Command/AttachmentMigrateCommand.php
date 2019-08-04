@@ -31,8 +31,8 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class AttachmentMigrateCommand extends Command
 {
-    const DEFAULT_COMMAND = 'attachment:migrate';
-    const USAGE = self::DEFAULT_COMMAND . ' [source_adapter] [target_adapter] [--chunksize=] [--limit=] [--migrate] [--verify]';
+    public const DEFAULT_COMMAND = 'attachment:migrate';
+    public const USAGE = self::DEFAULT_COMMAND . ' [source_adapter] [target_adapter] [--chunksize=] [--limit=] [--migrate] [--verify]';
 
     /** @var AdapterInterface */
     private $db;

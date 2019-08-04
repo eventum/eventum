@@ -127,7 +127,6 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
     }
 
     /**
-     * @see \Eventum\Controller\LoginController::login
      * @see \Symfony\Component\Security\Guard\AuthenticatorInterface::onAuthenticationSuccess
      */
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey): ?Response
@@ -151,7 +150,6 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
     }
 
     /**
-     * @see \Eventum\Controller\LoginController::loginFailure
      * @see \Symfony\Component\Security\Guard\AuthenticatorInterface::onAuthenticationFailure
      */
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception): ?Response

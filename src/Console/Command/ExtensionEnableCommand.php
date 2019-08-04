@@ -22,8 +22,8 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class ExtensionEnableCommand
 {
-    const DEFAULT_COMMAND = 'extension:enable';
-    const USAGE = self::DEFAULT_COMMAND . ' [filename] [classname]';
+    public const DEFAULT_COMMAND = 'extension:enable';
+    public const USAGE = self::DEFAULT_COMMAND . ' [filename] [classname]';
 
     /** @var OutputInterface */
     private $output;

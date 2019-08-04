@@ -19,8 +19,8 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class ExportIssuesCommand extends Command
 {
-    const DEFAULT_COMMAND = 'export:issues';
-    const USAGE = self::DEFAULT_COMMAND . ' [issueId] [filename]';
+    public const DEFAULT_COMMAND = 'export:issues';
+    public const USAGE = self::DEFAULT_COMMAND . ' [issueId] [filename]';
 
     public function execute(OutputInterface $output, ?int $issueId, ?string $fileName): void
     {

@@ -25,8 +25,8 @@ use Support;
 
 class MailDownloadCommand
 {
-    const DEFAULT_COMMAND = 'mail:download';
-    const USAGE = self::DEFAULT_COMMAND . ' [username] [hostname] [mailbox] [--limit=] [--no-lock]';
+    public const DEFAULT_COMMAND = 'mail:download';
+    public const USAGE = self::DEFAULT_COMMAND . ' [username] [hostname] [mailbox] [--limit=] [--no-lock]';
 
     /** @var LoggerInterface */
     private $logger;

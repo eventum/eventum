@@ -6,7 +6,7 @@
     <a href="{$core.rel_url}">{t}Back to Login Form{/t}</a>
 </div>
 
-{if $no_projects|default:''}
+{if not $projects|@count}
 <div class="note_box">
     {t}Sorry, but there are no projects currently setup as allowing anonymous posting.{/t}
 </div>

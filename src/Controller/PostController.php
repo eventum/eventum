@@ -57,7 +57,11 @@ class PostController extends BaseController
         } elseif ($this->post_form) {
             $this->postFormAction();
         } else {
-            $this->setupProjects();
+            $projects = $this->getAnonymousProjects();
+            if (count($projects) === 1) {
+                $project_ids = array_keys($projects);
+                $this->redirect('post.php', ['post_form' => 'yes', 'project' => $project_ids[0]]);
+            }
         }
     }
 
@@ -79,15 +83,14 @@ class PostController extends BaseController
         $get = $this->getRequest()->query;
         $prj_id = $get->getInt('project');
 
-        // only list those projects that are allowing anonymous reporting of new issues
-        $projects = $this->setupProjects($prj_id);
+        $projects = $this->getAnonymousProjects($prj_id);
         if (!$projects) {
             return;
         }
 
         // get list of custom fields for the selected project
         $options = Project::getAnonymousPostOptions($prj_id);
-        $show_custom_fields = isset($options['show_custom_fields']) && $options['show_custom_fields'] == 'yes';
+        $show_custom_fields = isset($options['show_custom_fields']) && $options['show_custom_fields'] === 'yes';
 
         if ($show_custom_fields) {
             $custom_fields = Custom_Field::getListByProject($prj_id, 'anonymous_form', false, true);
@@ -99,29 +102,21 @@ class PostController extends BaseController
 
     /**
      * only list those projects that are allowing anonymous reporting of new issues
-     * @param int $prj_id
+     *
+     * @param array
      */
-    private function setupProjects($prj_id = null)
+    private function getAnonymousProjects(?int $prj_id = null): array
     {
         $projects = Project::getAnonymousList();
         if (!$projects) {
-            return false;
+            return [];
         }
 
         if ($prj_id && !array_key_exists($prj_id, $projects)) {
-            $this->tpl->assign('no_projects', '1');
-
-            return false;
+            return [];
         }
 
-        if ($prj_id == null && count($projects) === 1) {
-            $project_ids = array_keys($projects);
-            $this->redirect('post.php', ['post_form' => 'yes', 'project' => $project_ids[0]]);
-        }
-
-        $this->tpl->assign('projects', $projects);
-
-        return true;
+        return $projects;
     }
 
     /**
@@ -129,5 +124,8 @@ class PostController extends BaseController
      */
     protected function prepareTemplate(): void
     {
+        $projects = $this->getAnonymousProjects();
+
+        $this->tpl->assign(['projects' => $projects]);
     }
 }
