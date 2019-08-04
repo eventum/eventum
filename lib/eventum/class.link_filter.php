@@ -407,21 +407,10 @@ class Link_Filter
      *
      * @param bool $value force value. internal for testing
      * @return bool
+     * @deprecated since 3.8.0 this returns always true
      */
     public static function markdownEnabled($value = null): bool
     {
-        static $markdown;
-
-        $usr_id = Auth::getUserID() ?: APP_SYSTEM_USER_ID;
-
-        if (!isset($markdown[$usr_id])) {
-            if ($value === null) {
-                $value = Prefs::getUserPreference($usr_id)->isMarkdownEnabled();
-            }
-
-            $markdown[$usr_id]['markdown'] = $value;
-        }
-
-        return $markdown[$usr_id]['markdown'];
+        return true;
     }
 }
