@@ -1064,14 +1064,9 @@ class Issue
      * @param   string $send_notification_to Who this notification should be sent too
      * @return  int 1 if the update worked, -1 otherwise
      */
-    public static function close($usr_id, $issue_id, $send_notification, $resolution_id, $status_id, $reason,
+    public static function close(int $usr_id, int $issue_id, $send_notification, int $resolution_id, int $status_id, $reason,
                                  $send_notification_to = 'internal')
     {
-        $usr_id = (int) $usr_id;
-        $issue_id = (int) $issue_id;
-        $resolution_id = (int) $resolution_id;
-        $status_id = (int) $status_id;
-
         $params = [
             'iss_updated_date' => Date_Helper::getCurrentDateGMT(),
             'iss_last_public_action_date' => Date_Helper::getCurrentDateGMT(),
@@ -1087,11 +1082,7 @@ class Issue
         $stmt = 'UPDATE `issue` SET ' . DB_Helper::buildSet($params) . ' WHERE iss_id=?';
         $params[] = $issue_id;
 
-        try {
-            DB_Helper::getInstance()->query($stmt, $params);
-        } catch (DatabaseException $e) {
-            return -1;
-        }
+        DB_Helper::getInstance()->query($stmt, $params);
 
         $prj_id = self::getProjectID($issue_id);
 
@@ -1122,7 +1113,7 @@ class Issue
         } else {
             // add note with the reason to close the issue
             $options = [
-                'send_notification' => false,
+                'send_notification' => $send_notification,
                 'closing' => true,
             ];
             Note::insertNote($usr_id, $issue_id, ev_gettext('Issue closed comments'), $reason, $options);

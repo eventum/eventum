@@ -72,11 +72,7 @@ class CloseController extends BaseController
         $this->role_id = Auth::getCurrentRole();
 
         // FIXME: ROLE_CUSTOMER check superfluous regarding Issue::canAccess?
-        if ($this->role_id == User::ROLE_CUSTOMER || !Issue::canAccess($this->issue_id, $this->usr_id)) {
-            return false;
-        }
-
-        return true;
+        return !($this->role_id === User::ROLE_CUSTOMER || !Issue::canAccess($this->issue_id, $this->usr_id));
     }
 
     /**
@@ -132,8 +128,9 @@ class CloseController extends BaseController
         }
 
         Custom_Field::updateFromPost();
+        $usr_id = Auth::getUserID();
         $res = Issue::close(
-            Auth::getUserID(), $this->issue_id, $request->get('send_notification'), $request->get('resolution'),
+            $usr_id, $this->issue_id, $request->get('send_notification'), $request->get('resolution'),
             $request->get('status'), $request->get('reason'), $request->get('notification_list')
         );
 
