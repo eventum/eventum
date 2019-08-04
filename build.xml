@@ -27,12 +27,12 @@
 	<target name="clean-dist" description="clean distribution of unwanted files">
 		<delete verbose="true">
 			<fileset dir="${config}">
-				<include name="packages/test"/>
+				<include name="packages/test/**"/>
 			</fileset>
 
 			<fileset dir="${contrib}">
-				<include name="git"/>
-				<include name="shell-semver"/>
+				<include name="git/**"/>
+				<include name="shell-semver/**"/>
 			</fileset>
 
 			<!-- generic files -->
