@@ -13,11 +13,8 @@
 
 namespace Eventum;
 
-use Auth;
-use EmailReplyParser\EmailReplyParser;
 use EmailReplyParser\Fragment;
 use EmailReplyParser\Parser\EmailParser;
-use Eventum\Db\Doctrine;
 use Link_Filter;
 
 class EmailHelper
@@ -33,28 +30,6 @@ class EmailHelper
      */
     public static function formatEmail(string $text): string
     {
-        static $enabled;
-
-        if ($enabled === null) {
-            $usr_id = Auth::getUserID();
-            $prefs = Doctrine::getUserPreferenceRepository()->findOrCreate($usr_id);
-            $enabled = $prefs->isMarkdownEnabled();
-        }
-
-        $text = self::collapseReplies($text, $enabled);
-
-        return $text;
-    }
-
-    /**
-     * Collapse email replies and signatures into expandable block
-     */
-    private static function collapseReplies(string $text, bool $enabled): string
-    {
-        if (!$enabled) {
-            return $text;
-        }
-
         $wrapText = static function ($text) {
             $text = Link_Filter::markdownFormat($text);
 
