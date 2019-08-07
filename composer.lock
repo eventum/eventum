@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c3dca19aa79bc5234d1aebcf1483d068",
+    "content-hash": "0b7c1407901c1773ecd4579733bbc88a",
     "packages": [
         {
             "name": "cakephp/cache",
@@ -2680,30 +2680,6 @@
                 "polyfill"
             ],
             "time": "2017-08-03T02:03:34+00:00"
-        },
-        {
-            "name": "php-gettext/php-gettext",
-            "version": "1.0.11",
-            "dist": {
-                "type": "tar",
-                "url": "https://launchpad.net/php-gettext/trunk/1.0.11/+download/php-gettext-1.0.11.tar.gz",
-                "shasum": "9e6f402b460ba5e691e6e21f95d23527ab965f71"
-            },
-            "provide": {
-                "ext-gettext": "self.version"
-            },
-            "type": "library",
-            "autoload": {
-                "classmap": [
-                    "gettext.php",
-                    "streams.php"
-                ]
-            },
-            "license": [
-                "GPL-2.0",
-                "GPL-3.0"
-            ],
-            "description": "Pure PHP Implementation of gettext"
         },
         {
             "name": "phplot/phplot",
@@ -9305,6 +9281,7 @@
         "ext-ctype": "*",
         "ext-fileinfo": "*",
         "ext-filter": "*",
+        "ext-gettext": "*",
         "ext-iconv": "*",
         "ext-intl": "*",
         "ext-json": "*",
