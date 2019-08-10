@@ -61,7 +61,7 @@ class ExtensionManager
      */
     public function getWorkflowClasses(): Generator
     {
-        return $this->createInstances('getAvailableWorkflows', function (ExtensionProvider $extension) {
+        return $this->createInstances('getAvailableWorkflows', static function (ExtensionProvider $extension) {
             return $extension instanceof WorkflowProvider;
         });
     }
@@ -71,7 +71,7 @@ class ExtensionManager
      */
     public function getCustomFieldClasses(): Generator
     {
-        return $this->createInstances('getAvailableCustomFields', function (ExtensionProvider $extension) {
+        return $this->createInstances('getAvailableCustomFields', static function (ExtensionProvider $extension) {
             return $extension instanceof CustomFieldProvider;
         });
     }
@@ -81,7 +81,7 @@ class ExtensionManager
      */
     public function getCustomerClasses(): Generator
     {
-        return $this->createInstances('getAvailableCRMs', function (ExtensionProvider $extension) {
+        return $this->createInstances('getAvailableCRMs', static function (ExtensionProvider $extension) {
             return $extension instanceof CrmProvider;
         });
     }
@@ -91,7 +91,7 @@ class ExtensionManager
      */
     public function getPartnerClasses(): Generator
     {
-        return $this->createInstances('getAvailablePartners', function (ExtensionProvider $extension) {
+        return $this->createInstances('getAvailablePartners', static function (ExtensionProvider $extension) {
             return $extension instanceof PartnerProvider;
         });
     }
@@ -103,7 +103,7 @@ class ExtensionManager
      */
     public function getSubscribers(): Generator
     {
-        return $this->createInstances(__FUNCTION__, function (ExtensionProvider $extension) {
+        return $this->createInstances(__FUNCTION__, static function (ExtensionProvider $extension) {
             return $extension instanceof SubscriberProvider;
         });
     }
