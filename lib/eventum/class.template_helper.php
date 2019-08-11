@@ -184,16 +184,16 @@ class Template_Helper
                 $active_projects[$prj_id] = $prj_info['prj_title'];
             }
             $core += [
-                    'active_projects' => $active_projects,
-                    'current_full_name' => $info['usr_full_name'],
-                    'current_email' => $info['usr_email'],
-                    'current_user_id' => $usr_id,
-                    'current_user_datetime' => Date_Helper::getISO8601date('now', '', true),
-                    'is_current_user_clocked_in' => User::isClockedIn($usr_id),
-                    'is_anon_user' => Auth::isAnonUser(),
-                    'is_current_user_partner' => !empty($info['usr_par_code']),
-                    'current_user_prefs' => Prefs::get($usr_id),
-                ];
+                'active_projects' => $active_projects,
+                'current_full_name' => $info['usr_full_name'],
+                'current_email' => $info['usr_email'],
+                'current_user_id' => $usr_id,
+                'current_user_datetime' => Date_Helper::getISO8601date('now', '', true),
+                'is_current_user_clocked_in' => User::isClockedIn($usr_id),
+                'is_anon_user' => Auth::isAnonUser(),
+                'is_current_user_partner' => !empty($info['usr_par_code']),
+                'current_user_prefs' => Prefs::get($usr_id),
+            ];
         }
         $this->assign('core', $core);
 
