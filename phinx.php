@@ -22,7 +22,7 @@ use Symfony\Component\EventDispatcher\GenericEvent;
  * @see http://docs.phinx.org/en/latest/commands.html#configuration-file-parameter
  */
 
-require_once __DIR__ . '/vendor/autoload.php';
+require_once __DIR__ . '/autoload.php';
 require_once __DIR__ . '/globals.php';
 
 if (file_exists($configFile = Setup::getConfigPath() . '/config.php')) {
