@@ -11,13 +11,12 @@
  * that were distributed with this source code.
  */
 
-use Eventum\Config\Paths;
 use Eventum\Event\SystemEvents;
 
 require_once __DIR__ . '/vendor/autoload.php';
 require_once __DIR__ . '/globals.php';
 
-if (!file_exists(Paths::APP_SETUP_FILE) || !filesize(Paths::APP_SETUP_FILE)) {
+if (!file_exists(Setup::getSetupFile()) || !filesize(Setup::getSetupFile())) {
     // redirect to setup
     if (PHP_SAPI === 'cli') {
         throw new RuntimeException('Eventum is not configured');
@@ -32,7 +31,7 @@ ini_set('memory_limit', '512M');
 // prevent session from messing up the browser cache
 ini_set('session.cache_limiter', 'nocache');
 
-require_once Paths::APP_CONFIG_PATH . '/config.php';
+require_once Setup::getConfigPath() . '/config.php';
 
 Misc::stripInput($_POST);
 

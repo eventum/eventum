@@ -12,7 +12,6 @@
  */
 
 use Eventum\Config\Config;
-use Eventum\Config\Paths;
 use Eventum\Db\AbstractMigration;
 
 class EventumConvertConst extends AbstractMigration
@@ -75,7 +74,7 @@ class EventumConvertConst extends AbstractMigration
              * APP_LOCAL_PATH/templates
              * APP_LOCAL_PATH/workflow
              */
-            'APP_LOCAL_PATH' => Paths::APP_CONFIG_PATH,
+            'APP_LOCAL_PATH' => Setup::getConfigPath(),
             // if set, normal calls to eventum are redirected to a maintenance page while
             // requests to /manage/ still work
             'APP_MAINTENANCE' => false,
