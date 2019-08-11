@@ -246,6 +246,17 @@ class Setup
     }
 
     /**
+     * @since 3.8.0
+     * @return bool
+     */
+    public static function needsSetup(): bool
+    {
+        $setupFile = self::getSetupFile();
+
+        return !file_exists($setupFile) || !filesize($setupFile);
+    }
+
+    /**
      * Initialize config object, load it from setup files, merge defaults.
      */
     private static function initialize(): Config

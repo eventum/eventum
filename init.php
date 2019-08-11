@@ -16,7 +16,7 @@ use Eventum\Event\SystemEvents;
 require_once __DIR__ . '/vendor/autoload.php';
 require_once __DIR__ . '/globals.php';
 
-if (!file_exists(Setup::getSetupFile()) || !filesize(Setup::getSetupFile())) {
+if (Setup::needsSetup()) {
     // redirect to setup
     if (PHP_SAPI === 'cli') {
         throw new RuntimeException('Eventum is not configured');
@@ -31,6 +31,9 @@ ini_set('memory_limit', '512M');
 // prevent session from messing up the browser cache
 ini_set('session.cache_limiter', 'nocache');
 
+/**
+ * @deprecated this file won't be loaded in 3.9.0
+ */
 require_once Setup::getConfigPath() . '/config.php';
 
 Misc::stripInput($_POST);
