@@ -122,8 +122,8 @@ class Report
                 $row['iss_last_response_date'] = $row['iss_created_date'];
             }
 
-            $updated_date_ts = Date_Helper::getUnixTimestamp($row['iss_updated_date'], Date_Helper::getDefaultTimezone());
-            $last_response_ts = Date_Helper::getUnixTimestamp($row['iss_last_response_date'], Date_Helper::getDefaultTimezone());
+            $updated_date_ts = Date_Helper::getUnixTimestamp($row['iss_updated_date'], Setup::getDefaultTimezone());
+            $last_response_ts = Date_Helper::getUnixTimestamp($row['iss_last_response_date'], Setup::getDefaultTimezone());
             $issues[$row['usr_full_name']][$row['iss_id']] = [
                 'iss_summary' => $row['iss_summary'],
                 'sta_title' => $row['sta_title'],
@@ -209,13 +209,14 @@ class Report
             } else {
                 $name = $row['assignee_name'];
             }
+            $defaultTimezone = Setup::getDefaultTimezone();
             $update_date_ts = Date_Helper::getUnixTimestamp(
                 $row['iss_updated_date'],
-                Date_Helper::getDefaultTimezone()
+                $defaultTimezone
             );
             $last_response_ts = Date_Helper::getUnixTimestamp(
                 $row['iss_last_response_date'],
-                Date_Helper::getDefaultTimezone()
+                $defaultTimezone
             );
             $issues[$name][$row['iss_id']] = [
                 'iss_summary' => $row['iss_summary'],

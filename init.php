@@ -39,7 +39,7 @@ require_once Setup::getConfigPath() . '/config.php';
 Misc::stripInput($_POST);
 
 // set default timezone
-date_default_timezone_set(Date_Helper::getDefaultTimezone());
+date_default_timezone_set(Setup::getDefaultTimezone());
 
 Eventum\Monolog\Logger::initialize();
 Language::setup();

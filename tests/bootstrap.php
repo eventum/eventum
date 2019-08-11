@@ -18,7 +18,7 @@ use Eventum\Monolog\Logger;
 require_once __DIR__ . '/../vendor/autoload.php';
 
 // set default timezone
-date_default_timezone_set(Date_Helper::getDefaultTimezone());
+date_default_timezone_set(Setup::getDefaultTimezone());
 
 if (!getenv('TRAVIS')) {
     $config = Setup::get();

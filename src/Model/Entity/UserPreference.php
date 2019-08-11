@@ -13,7 +13,6 @@
 
 namespace Eventum\Model\Entity;
 
-use Date_Helper;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\PersistentCollection;
@@ -115,8 +114,8 @@ class UserPreference
     public function __construct(int $usr_id)
     {
         $this->userId = $usr_id;
-        $this->timezone = Date_Helper::getDefaultTimezone();
-        $this->weekFirstday = Date_Helper::getDefaultWeekday();
+        $this->timezone = Setup::getDefaultTimezone();
+        $this->weekFirstday = Setup::getDefaultWeekday();
 
         $config = Setup::get();
         $this->relativeDate = $config['relative_date'] === 'enabled';

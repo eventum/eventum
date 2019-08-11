@@ -2484,7 +2484,7 @@ class Issue
             return [];
         }
 
-        $created_date_ts = Date_Helper::getUnixTimestamp($res['iss_created_date'], Date_Helper::getDefaultTimezone());
+        $created_date_ts = Date_Helper::getUnixTimestamp($res['iss_created_date'], Setup::getDefaultTimezone());
         // get customer information, if any
         if ((!empty($res['iss_customer_id'])) && (CRM::hasCustomerIntegration($res['iss_prj_id']))) {
             $crm = CRM::getInstance($res['iss_prj_id']);
@@ -2865,14 +2865,10 @@ class Issue
                     iqu_iss_id = ? AND
                         (iqu_expiration > ? OR
                         iqu_expiration IS NULL)';
-        try {
-            $res = DB_Helper::getInstance()->getRow($stmt, [$issue_id, Date_Helper::getCurrentDateGMT()]);
-        } catch (DatabaseException $e) {
-            return [];
-        }
+        $res = DB_Helper::getInstance()->getRow($stmt, [$issue_id, Date_Helper::getCurrentDateGMT()]);
 
         if (!empty($res['iqu_expiration'])) {
-            $expiration_ts = Date_Helper::getUnixTimestamp($res['iqu_expiration'], Date_Helper::getDefaultTimezone());
+            $expiration_ts = Date_Helper::getUnixTimestamp($res['iqu_expiration'], Setup::getDefaultTimezone());
             $res['time_till_expiration'] = Date_Helper::getFormattedDateDiff($expiration_ts, time());
         }
 
