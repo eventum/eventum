@@ -4,6 +4,8 @@
 
 Upgrading to 3.8.x versions requires that you upgrade to latest 3.5.x version first.
 
+- Add index: `support_email`.`sup_message_id` (@glensc, #632)
+
 [3.8.0]: https://github.com/eventum/eventum/compare/v3.7.4...master
 
 ## [3.7.4] - 2019-08-04
