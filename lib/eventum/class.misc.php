@@ -362,27 +362,6 @@ class Misc
     }
 
     /**
-     * Method used to get the list of files contained in a specific
-     * directory with their absolute paths.
-     *
-     * @param   string $directory The path to list the files from
-     * @return  array The list of files
-     */
-    public static function getFileList($directory)
-    {
-        $files = [];
-        $dir = @opendir($directory);
-        while ($item = @readdir($dir)) {
-            if (($item == '.') || ($item == '..') || ($item == 'CVS') || ($item == 'SCCS')) {
-                continue;
-            }
-            $files[] = "$directory/$item";
-        }
-
-        return $files;
-    }
-
-    /**
      * Method used to format the given number of minutes in a string showing
      * the number of hours and minutes (02:30)
      *

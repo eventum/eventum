@@ -14,8 +14,10 @@
 namespace Eventum\Extension;
 
 use InvalidArgumentException;
-use Misc;
 use ReflectionClass;
+use Symfony\Component\Finder\Exception\DirectoryNotFoundException;
+use Symfony\Component\Finder\Finder;
+use Symfony\Component\Finder\SplFileInfo;
 
 class ExtensionLoader
 {
@@ -80,14 +82,17 @@ class ExtensionLoader
      */
     public function getClassList(): array
     {
-        $list = $files = [];
-        foreach ($this->paths as $path) {
-            $files = array_merge($files, Misc::getFileList($path));
+        $list = [];
+        try {
+            $finder = Finder::create()->files()->in($this->paths);
+        } catch (DirectoryNotFoundException $e) {
+            return [];
         }
 
-        foreach ($files as $filename) {
-            $basename = basename($filename);
-            $classname = $this->getClassName($basename);
+        /** @var SplFileInfo $fi */
+        foreach ($finder as $fi) {
+            $filename = $fi->getPathname();
+            $classname = $this->getClassName($fi->getBaseName());
 
             if (!$classname || !$this->isExtension($filename, $classname)) {
                 continue;
