@@ -101,12 +101,6 @@ class UserPreference
 
     /**
      * @var bool
-     * @ORM\Column(name="upr_markdown", type="boolean", nullable=false)
-     */
-    private $enableMarkdown = true;
-
-    /**
-     * @var bool
      * @ORM\Column(name="upr_issue_navigation", type="boolean", nullable=false)
      */
     private $issueNavigation = false;
@@ -258,18 +252,6 @@ class UserPreference
     public function collapsedEmails(): bool
     {
         return $this->collapsedEmails;
-    }
-
-    public function setEnableMarkdown(bool $enable): self
-    {
-        $this->enableMarkdown = $enable;
-
-        return $this;
-    }
-
-    public function isMarkdownEnabled(): bool
-    {
-        return $this->enableMarkdown;
     }
 
     public function setIssueNavigation(bool $enable): self

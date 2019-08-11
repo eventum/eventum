@@ -5,6 +5,7 @@
 Upgrading to 3.8.x versions requires that you upgrade to latest 3.5.x version first.
 
 - Add index: `support_email`.`sup_message_id` (@glensc, #632)
+- Always enable Markdown rendering (@glensc, #633)
 
 [3.8.0]: https://github.com/eventum/eventum/compare/v3.7.4...master
 
