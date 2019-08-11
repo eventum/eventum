@@ -38,10 +38,8 @@ class Template_Helper
      */
     public function __construct(string $templateName = null)
     {
-        $localPath = Setup::get()['local_path'];
-
         $smarty = new Smarty();
-        $smarty->setTemplateDir([$localPath . '/templates', Paths::APP_TPL_PATH]);
+        $smarty->setTemplateDir(Setup::getTemplatePaths());
         $smarty->setCompileDir(Misc::ensureDir(self::TEMPLATE_CACHE_DIR));
 
         $smarty->addPluginsDir([Paths::APP_INC_PATH . '/smarty']);

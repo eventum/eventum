@@ -13,6 +13,7 @@
 
 use Eventum\Config\Config;
 use Eventum\Config\ConfigPersistence;
+use Eventum\Config\Paths;
 use Eventum\Monolog\Logger;
 use Symfony\Component\Filesystem\Exception\IOException;
 
@@ -144,7 +145,21 @@ class Setup
      */
     public static function getDefaultWeekday(): int
     {
-        return Setup::get()['default_weekday'];
+        return self::get()['default_weekday'];
+    }
+
+    /**
+     * @return array
+     * @since 3.8.0
+     */
+    public static function getTemplatePaths(): array
+    {
+        $localPath = self::get()['local_path'];
+
+        return [
+            $localPath . '/templates',
+            Paths::APP_TPL_PATH,
+        ];
     }
 
     /**
