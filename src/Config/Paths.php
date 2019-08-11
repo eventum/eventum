@@ -20,9 +20,10 @@ final class Paths
 {
     public const APP_PATH = APP_PATH;
     public const APP_CONFIG_PATH = APP_PATH . '/config';
+    public const APP_SETUP_FILE = self::APP_CONFIG_PATH . '/setup.php';
     public const APP_INC_PATH = APP_PATH . '/lib/eventum';
 
-    // /var path for writable data
+    // "/var" path for writable data
     public const APP_VAR_PATH = APP_PATH . '/var';
     public const APP_CACHE_PATH = self::APP_VAR_PATH . '/cache';
 

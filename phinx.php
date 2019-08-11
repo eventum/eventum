@@ -11,6 +11,7 @@
  * that were distributed with this source code.
  */
 
+use Eventum\Config\Paths;
 use Eventum\Db\AbstractMigration;
 use Eventum\Event\SystemEvents;
 use Eventum\EventDispatcher\EventManager;
@@ -22,10 +23,11 @@ use Symfony\Component\EventDispatcher\GenericEvent;
  * @see http://docs.phinx.org/en/latest/commands.html#configuration-file-parameter
  */
 
-// init minimal constants needed for some classes to work
+require_once __DIR__ . '/vendor/autoload.php';
 require_once __DIR__ . '/globals.php';
-if (file_exists(APP_CONFIG_PATH . '/config.php')) {
-    require_once APP_CONFIG_PATH . '/config.php';
+
+if (file_exists(Paths::APP_CONFIG_PATH . '/config.php')) {
+    require_once Paths::APP_CONFIG_PATH . '/config.php';
 }
 
 // workflow may use this in constructor

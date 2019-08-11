@@ -12,6 +12,7 @@
  */
 
 use Eventum\Attachment\AttachmentGroup;
+use Eventum\Config\Paths;
 use Eventum\Db\Doctrine;
 use Eventum\Event\ResultableEvent;
 use Eventum\Event\SystemEvents;
@@ -1056,7 +1057,7 @@ class Workflow
         $localPath = Setup::get()['local_path'];
 
         $dirs = [
-            APP_INC_PATH . '/workflow',
+            Paths::APP_INC_PATH . '/workflow',
             $localPath . '/workflow',
         ];
 

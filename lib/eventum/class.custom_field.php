@@ -11,6 +11,7 @@
  * that were distributed with this source code.
  */
 
+use Eventum\Config\Paths;
 use Eventum\CustomField\Converter;
 use Eventum\CustomField\Fields\FormatValueInterface;
 use Eventum\Db\Doctrine;
@@ -373,7 +374,7 @@ class Custom_Field
         $localPath = Setup::get()['local_path'];
 
         $dirs = [
-            APP_INC_PATH . '/custom_field',
+            Paths::APP_INC_PATH . '/custom_field',
             $localPath . '/custom_field',
         ];
 

@@ -11,23 +11,11 @@
  * that were distributed with this source code.
  */
 
-// we init paths ourselves like init.php does, to be independent and not
-// needing actual config being present.
 use Eventum\Config\Config;
 use Eventum\Config\ConfigPersistence;
 use Eventum\Monolog\Logger;
 
-define('APP_PATH', dirname(__DIR__));
-define('APP_CONFIG_PATH', __DIR__);
-define('APP_VAR_PATH', APP_PATH . '/var');
-define('APP_INC_PATH', APP_PATH . '/lib/eventum');
-define('APP_LOCKS_PATH', sys_get_temp_dir());
-define('APP_LOG_PATH', __DIR__);
-define('APP_CACHE_PATH', APP_VAR_PATH . '/test');
-define('APP_TPL_COMPILE_PATH', APP_CACHE_PATH . '/tpl_c');
-define('APP_TPL_PATH', APP_PATH . '/templates');
-
-require_once APP_PATH . '/autoload.php';
+require_once __DIR__ . '/../vendor/autoload.php';
 
 // set default timezone
 date_default_timezone_set(Date_Helper::getDefaultTimezone());

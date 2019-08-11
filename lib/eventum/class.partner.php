@@ -11,6 +11,7 @@
  * that were distributed with this source code.
  */
 
+use Eventum\Config\Paths;
 use Eventum\Db\DatabaseException;
 use Eventum\Extension\ExtensionLoader;
 
@@ -377,7 +378,7 @@ class Partner
         $localPath = Setup::get()['local_path'];
 
         $dirs = [
-            APP_INC_PATH . '/partner',
+            Paths::APP_INC_PATH . '/partner',
             $localPath . '/partner',
         ];
 

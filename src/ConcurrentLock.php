@@ -13,6 +13,7 @@
 
 namespace Eventum;
 
+use Eventum\Config\Paths;
 use malkusch\lock\mutex\FlockMutex;
 use RuntimeException;
 
@@ -22,7 +23,7 @@ class ConcurrentLock
 
     public function __construct($lockname)
     {
-        $lockfile = APP_LOCKS_PATH . '/' . $lockname . '.lck';
+        $lockfile = Paths::APP_LOCKS_PATH . '/' . $lockname . '.lck';
 
         $fh = fopen($lockfile, 'cb');
         if (!$fh) {

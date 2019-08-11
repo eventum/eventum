@@ -14,6 +14,7 @@
 namespace Eventum\Test\Logger;
 
 use DB_Helper;
+use Eventum\Config\Paths;
 use Eventum\Monolog\Logger;
 use Eventum\Test\TestCase;
 use Exception;
@@ -29,7 +30,7 @@ class LoggerTest extends TestCase
     {
         // create a log channel
         $log = new Monolog\Logger('eventum');
-        $logfile = APP_LOG_PATH . '/test.log';
+        $logfile = Paths::APP_LOG_PATH . '/test.log';
         $log->pushHandler(new StreamHandler($logfile, Monolog\Logger::WARNING));
 
         // add records to the log

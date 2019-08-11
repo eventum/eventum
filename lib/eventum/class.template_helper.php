@@ -12,6 +12,7 @@
  */
 
 use Eventum\AppInfo;
+use Eventum\Config\Paths;
 use Eventum\DebugBarManager;
 use Eventum\Templating;
 
@@ -22,7 +23,7 @@ use Eventum\Templating;
  */
 class Template_Helper
 {
-    private const TEMPLATE_CACHE_DIR = APP_TPL_COMPILE_PATH;
+    private const TEMPLATE_CACHE_DIR = Paths::APP_TPL_COMPILE_PATH;
     /** @var Smarty */
     private $smarty;
 
@@ -40,10 +41,10 @@ class Template_Helper
         $localPath = Setup::get()['local_path'];
 
         $smarty = new Smarty();
-        $smarty->setTemplateDir([$localPath . '/templates', APP_TPL_PATH]);
+        $smarty->setTemplateDir([$localPath . '/templates', Paths::APP_TPL_PATH]);
         $smarty->setCompileDir(Misc::ensureDir(self::TEMPLATE_CACHE_DIR));
 
-        $smarty->addPluginsDir([APP_INC_PATH . '/smarty']);
+        $smarty->addPluginsDir([Paths::APP_INC_PATH . '/smarty']);
 
         $smarty->registerPlugin('modifier', 'activateLinks', [Link_Filter::class, 'activateLinks']);
         $smarty->registerPlugin('modifier', 'activateAttachmentLinks', [Link_Filter::class, 'activateAttachmentLinks']);

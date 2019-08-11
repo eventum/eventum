@@ -13,6 +13,7 @@
 
 namespace Eventum\Setup;
 
+use Eventum\Config\Paths;
 use Setup;
 
 class Requirements
@@ -85,15 +86,15 @@ class Requirements
             $errors[] = $error;
         }
 
-        $error = $this->checkPermissions(APP_LOCKS_PATH, "Directory '" . APP_LOCKS_PATH . "'", true);
+        $error = $this->checkPermissions(Paths::APP_LOCKS_PATH, "Directory '" . Paths::APP_LOCKS_PATH . "'", true);
         if (!empty($error)) {
             $errors[] = $error;
         }
-        $error = $this->checkPermissions(APP_LOG_PATH, "Directory '" . APP_LOG_PATH . "'", true);
+        $error = $this->checkPermissions(Paths::APP_LOG_PATH, "Directory '" . Paths::APP_LOG_PATH . "'", true);
         if (!empty($error)) {
             $errors[] = $error;
         }
-        $error = $this->checkPermissions(APP_TPL_COMPILE_PATH, "Directory '" . APP_TPL_COMPILE_PATH . "'", true);
+        $error = $this->checkPermissions(Paths::APP_TPL_COMPILE_PATH, "Directory '" . Paths::APP_TPL_COMPILE_PATH . "'", true);
         if (!empty($error)) {
             $errors[] = $error;
         }

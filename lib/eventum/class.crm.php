@@ -11,6 +11,7 @@
  * that were distributed with this source code.
  */
 
+use Eventum\Config\Paths;
 use Eventum\Db\Adapter\AdapterInterface;
 use Eventum\Db\DatabaseException;
 use Eventum\Extension\ExtensionLoader;
@@ -743,7 +744,7 @@ abstract class CRM
     {
         $localPath = Setup::get()['local_path'];
         $dirs = [
-            APP_INC_PATH . '/crm',
+            Paths::APP_INC_PATH . '/crm',
             $localPath . '/crm',
         ];
 
