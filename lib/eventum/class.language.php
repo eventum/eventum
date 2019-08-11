@@ -151,12 +151,12 @@ class Language
         if ($locale !== 'en_US') {
             $locale = $locale . '.' . self::CHARSET;
         }
-        $res = _setlocale(LC_TIME, $locale);
+        $res = setlocale(LC_TIME, $locale);
         if ($res === false) {
             return false;
         }
 
-        $res = _setlocale(LC_MESSAGES, $locale);
+        $res = setlocale(LC_MESSAGES, $locale);
         if ($res === false) {
             return false;
         }
@@ -164,7 +164,7 @@ class Language
         // XXX do not require translations for en_US locale
         if ($locale !== 'en_US') {
             // get translator info
-            $res = _gettext('');
+            $res = gettext('');
             // if empty gettext is returned then the mo catalog is not installed.
             if (empty($res)) {
                 return false;
