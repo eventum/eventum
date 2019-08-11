@@ -15,13 +15,14 @@ namespace Eventum\CommonMark;
 
 use League\CommonMark\ConfigurableEnvironmentInterface;
 use League\CommonMark\Extension\ExtensionInterface;
+use Setup;
 
 class MentionExtension implements ExtensionInterface
 {
     public function register(ConfigurableEnvironmentInterface $environment): void
     {
         $lookup = new UserLookup();
-        $linkPattern = APP_BASE_URL . 'list.php?reporter=%s&hide_closed=1';
+        $linkPattern = Setup::getBaseUrl() . 'list.php?reporter=%s&hide_closed=1';
 
         $environment->addInlineParser(new InlineMentionParser($linkPattern, $lookup));
     }

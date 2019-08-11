@@ -22,6 +22,7 @@ use Eventum\Scm\Payload;
 use History;
 use InvalidArgumentException;
 use Issue;
+use Setup;
 use Symfony\Component\EventDispatcher\GenericEvent;
 use Workflow;
 
@@ -67,7 +68,7 @@ class CommitRepository extends EntityRepository
     {
         Issue::markAsUpdated($issue_id, 'scm checkin');
 
-        $usr_id = $commit->getUserId() ?: APP_SYSTEM_USER_ID;
+        $usr_id = $commit->getUserId() ?: Setup::get()['system_user_id'];
 
         // need to save a history entry for this
         // TRANSLATORS: %1: scm username

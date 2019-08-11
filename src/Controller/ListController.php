@@ -27,6 +27,7 @@ use Product;
 use Project;
 use Release;
 use Search;
+use Setup;
 use Severity;
 use Status;
 use Symfony\Component\HttpFoundation\Request;
@@ -35,8 +36,6 @@ use Workflow;
 
 class ListController extends BaseController
 {
-    private const DEFAULT_PAGER_SIZE = APP_DEFAULT_PAGER_SIZE;
-
     /** @var string */
     protected $tpl_name = 'list.tpl.html';
 
@@ -99,9 +98,9 @@ class ListController extends BaseController
 
         $rows = $this->search->get('rows');
         if ($rows === 'ALL') {
-            $this->rows = $rows ?: self::DEFAULT_PAGER_SIZE;
+            $this->rows = $rows ?: Setup::get()['default_pager_size'];
         } else {
-            $this->rows = ((int)$rows) ?: self::DEFAULT_PAGER_SIZE;
+            $this->rows = ((int)$rows) ?: Setup::get()['default_pager_size'];
         }
 
         $this->options_override = [];

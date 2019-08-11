@@ -57,7 +57,7 @@ class OpenSearchController extends BaseController
      */
     protected function prepareTemplate(): void
     {
-        header('Content-Type: text/xml; charset=' . APP_CHARSET);
-        $this->tpl->assign('app_charset', APP_CHARSET);
+        header('Content-Type: text/xml; charset=UTF-8');
+        $this->tpl->assign('app_charset', 'UTF-8');
     }
 }

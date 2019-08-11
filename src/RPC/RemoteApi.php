@@ -884,7 +884,7 @@ class RemoteApi
         $list = Issue::getQuarantinedIssueList();
 
         foreach ($list as &$row) {
-            $row['issue_url'] = APP_BASE_URL . 'view.php?id=' . $row['iss_id'];
+            $row['issue_url'] = Setup::getBaseUrl() . 'view.php?id=' . $row['iss_id'];
         }
 
         return $list;
@@ -963,9 +963,9 @@ class RemoteApi
             }
 
             if ($row['ino_iss_id'] > 0) {
-                $row['issue_url'] = APP_BASE_URL . 'view.php?id=' . $row['ino_iss_id'];
+                $row['issue_url'] = Setup::getBaseUrl() . 'view.php?id=' . $row['ino_iss_id'];
             } elseif (strpos($row['ino_message'], 'New Pending Email') === 0) {
-                $row['emails_url'] = APP_BASE_URL . 'emails.php';
+                $row['emails_url'] = Setup::getBaseUrl() . 'emails.php';
             }
             $row['project_name'] = Project::getName($row['ino_prj_id']);
         }

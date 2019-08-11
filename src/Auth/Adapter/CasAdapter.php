@@ -57,7 +57,7 @@ class CasAdapter implements AdapterInterface
 
     public function logout(): void
     {
-        phpCAS::logoutWithRedirectService(APP_BASE_URL);
+        phpCAS::logoutWithRedirectService(Setup::getBaseUrl());
     }
 
     public function loginCallback(): void
@@ -245,7 +245,7 @@ class CasAdapter implements AdapterInterface
      */
     public function getExternalLoginURL(): ?string
     {
-        return APP_RELATIVE_URL . 'main.php';
+        return Setup::getRelativeUrl() . 'main.php';
     }
 
     public static function loadSetup($force = false): array

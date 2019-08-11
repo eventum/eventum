@@ -39,6 +39,115 @@ class Setup
     }
 
     /**
+     * @return array
+     * @since 3.8.0
+     */
+    public static function getAuthCookie(): array
+    {
+        $config = Setup::get();
+
+        return [
+            'name' => $config['cookie'],
+            'expire' => time() + $config['cookie_expire'],
+        ];
+    }
+
+    /**
+     * @return array
+     * @since 3.8.0
+     */
+    public static function getProjectCookie(): array
+    {
+        $config = Setup::get();
+
+        return [
+            'name' => $config['project_cookie'],
+            'expire' => time() + $config['project_cookie_expire'],
+        ];
+    }
+
+    /**
+     * @since 3.8.0
+     */
+    public static function getBaseUrl(): string
+    {
+        return Setup::get()['base_url'];
+    }
+
+    /**
+     * @since 3.8.0
+     */
+    public static function getRelativeUrl(): string
+    {
+        return Setup::get()['relative_url'];
+    }
+
+    /**
+     * @since 3.8.0
+     */
+    public static function getHostname(): string
+    {
+        return Setup::get()['hostname'];
+    }
+
+    /**
+     * @since 3.8.0
+     */
+    public static function getAppName(): string
+    {
+        return Setup::get()['name'];
+    }
+
+    /**
+     * @since 3.8.0
+     */
+    public static function getShortName(): string
+    {
+        return Setup::get()['short_name'];
+    }
+
+    /**
+     * Method used to get the title given to the current installation of Eventum.
+     *
+     * @return string The installation title
+     * @since 3.8.0
+     */
+    public static function getToolCaption(): string
+    {
+        return Setup::get()['tool_caption'];
+    }
+
+    /**
+     * @since 3.8.0
+     */
+    public static function getAnonymousUser(): ?string
+    {
+        return Setup::get()['anonymous_user'];
+    }
+
+    /**
+     * Get the application default timezone.
+     *
+     * @return string The default timezone
+     * @since 3.8.0
+     */
+    public static function getDefaultTimezone(): string
+    {
+        return Setup::get()['default_timezone'] ?? 'UTC';
+    }
+
+    /**
+     * Method used to get the default start of week day.
+     *
+     * @return int 0 - Sunday, 1 - Monday
+     * @since 3.8.0
+     */
+    public static function getDefaultWeekday(): int
+    {
+        return Setup::get()['default_weekday'];
+    }
+
+    /**
      * Set options to system config.
      * The changes are not stored to disk.
      *

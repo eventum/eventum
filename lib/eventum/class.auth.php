@@ -93,14 +93,15 @@ class Auth
             self::getAuthBackend()->checkAuthentication();
 
             if ($failed_url === null) {
-                $failed_url = APP_RELATIVE_URL . 'index.php?err=5';
+                $failed_url = Setup::getRelativeUrl() . 'index.php?err=5';
             }
             $failed_url .= '&url=' . urlencode($_SERVER['REQUEST_URI']);
             if (!AuthCookie::hasAuthCookie()) {
-                if (APP_ANON_USER) {
-                    $anon_usr_id = User::getUserIDByEmail(APP_ANON_USER);
+                $anonymousUser = Setup::getAnonymousUser();
+                if ($anonymousUser) {
+                    $anon_usr_id = User::getUserIDByEmail($anonymousUser);
                     $prj_id = reset(array_keys(Project::getAssocList($anon_usr_id)));
-                    AuthCookie::setAuthCookie(APP_ANON_USER, false);
+                    AuthCookie::setAuthCookie($anonymousUser, false);
                     AuthCookie::setProjectCookie($prj_id);
                     Session::init($anon_usr_id);
                 } else {
@@ -109,7 +110,7 @@ class Auth
                         if (self::isCorrectPassword($_SERVER['PHP_AUTH_USER'], $_SERVER['PHP_AUTH_PW'])) {
                             $usr_id = User::getUserIDByEmail($_SERVER['PHP_AUTH_USER'], true);
                             $prj_id = reset(array_keys(Project::getAssocList($usr_id)));
-                            AuthCookie::setAuthCookie(APP_ANON_USER);
+                            AuthCookie::setAuthCookie($anonymousUser);
                             AuthCookie::setProjectCookie($prj_id);
                         } else {
                             header('WWW-Authenticate: Basic realm="Eventum"');
@@ -147,7 +148,7 @@ class Auth
             $prj_id = self::getCurrentProject();
             if (empty($prj_id)) {
                 // redirect to select project page
-                self::redirect(APP_RELATIVE_URL . 'select_project.php?url=' . urlencode($_SERVER['REQUEST_URI']), $is_popup);
+                self::redirect(Setup::getRelativeUrl() . 'select_project.php?url=' . urlencode($_SERVER['REQUEST_URI']), $is_popup);
             }
             // check the expiration date for a 'Customer' type user
             $contact_id = User::getCustomerContactID($usr_id);
@@ -231,9 +232,14 @@ class Auth
      *
      * @return  bool
      */
-    public static function isAnonUser()
+    public static function isAnonUser(): bool
     {
-        return self::getUserID() == User::getUserIDByEmail(APP_ANON_USER);
+        $anonymousUser = Setup::getAnonymousUser();
+        if (!$anonymousUser) {
+            return false;
+        }
+
+        return self::getUserID() == User::getUserIDByEmail($anonymousUser);
     }
 
     /**
@@ -350,7 +356,7 @@ class Auth
         }
         $usr_id = self::getUserID();
         $projects = Project::getAssocList($usr_id);
-        if ($usr_id == APP_SYSTEM_USER_ID) {
+        if ($usr_id == Setup::get()['system_user_id']) {
             return isset($cookie['prj_id']) ? (int)$cookie['prj_id'] : null;
         }
 
@@ -402,7 +408,7 @@ class Auth
     {
         $customer_id = Session::get('current_customer_id');
         if (empty($customer_id) && $redirect === true) {
-            self::redirect(APP_RELATIVE_URL . 'select_customer.php');
+            self::redirect(Setup::getRelativeUrl() . 'select_customer.php');
         } else {
             return $customer_id;
         }
@@ -437,10 +443,14 @@ class Auth
         if (PHP_SAPI === 'cli') {
             return;
         }
-        if (APP_COOKIE_DOMAIN === null) {
-            setcookie($name, $value, $expiration, APP_COOKIE_URL);
+
+        $config = Setup::get();
+        $cookieDomain = $config['cookie_domain'];
+        $cookiePath = $config['cookie_path'];
+        if ($cookieDomain) {
+            setcookie($name, $value, $expiration, $cookiePath, $cookieDomain);
         } else {
-            setcookie($name, $value, $expiration, APP_COOKIE_URL, APP_COOKIE_DOMAIN);
+            setcookie($name, $value, $expiration, $cookiePath);
         }
     }
 

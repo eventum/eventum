@@ -22,6 +22,7 @@ use Eventum\Model\Entity\CustomField;
 use Eventum\Model\Entity\ProjectCustomField;
 use Eventum\Model\Repository\CustomFieldRepository;
 use Project;
+use Setup;
 use Symfony\Component\HttpFoundation\ParameterBag;
 use Throwable;
 use User;
@@ -96,7 +97,7 @@ class CustomFieldsController extends ManageBaseController
 
             $message = ev_gettext('Thank you, the custom field was added successfully.');
             $this->messages->addInfoMessage($message);
-            $this->redirect(APP_RELATIVE_URL . 'manage/custom_fields.php?cat=edit&id=' . $cf->getId());
+            $this->redirect(Setup::getRelativeUrl() . 'manage/custom_fields.php?cat=edit&id=' . $cf->getId());
         } catch (Throwable $e) {
             $this->logger->error($e);
             $message = ev_gettext('An error occurred while trying to add the new custom field.');
@@ -126,7 +127,7 @@ class CustomFieldsController extends ManageBaseController
             $this->messages->addErrorMessage($message);
         }
 
-        $this->redirect(APP_RELATIVE_URL . 'manage/custom_fields.php?cat=edit&id=' . $fld_id);
+        $this->redirect(Setup::getRelativeUrl() . 'manage/custom_fields.php?cat=edit&id=' . $fld_id);
     }
 
     private function deleteAction(): void
@@ -148,7 +149,7 @@ class CustomFieldsController extends ManageBaseController
             $this->messages->addErrorMessage($message);
         }
 
-        $this->redirect(APP_RELATIVE_URL . 'manage/custom_fields.php');
+        $this->redirect(Setup::getRelativeUrl() . 'manage/custom_fields.php');
     }
 
     private function changeRankAction(): void
@@ -158,8 +159,7 @@ class CustomFieldsController extends ManageBaseController
         $direction = $get->getInt('direction');
 
         $this->repo->updateRank($fld_id, $direction);
-
-        $this->redirect(APP_RELATIVE_URL . 'manage/custom_fields.php');
+        $this->redirect(Setup::getRelativeUrl() . 'manage/custom_fields.php');
     }
 
     /**

@@ -419,8 +419,8 @@ class Support
             Language::set(User::getLang($usr_id));
         }
 
-        // TRANSLATORS: %s: APP_SHORT_NAME
-        $subject = ev_gettext('%s: Postmaster notify: see transcript for details', APP_SHORT_NAME);
+        // TRANSLATORS: %s: Setup::getShortName()
+        $subject = ev_gettext('%s: Postmaster notify: see transcript for details', Setup::getShortName());
 
         $builder = new MailBuilder();
         $builder->addTextPart($tpl->getTemplateContents())
@@ -447,8 +447,9 @@ class Support
     public static function processMailMessage(ImapMessage $mail, $info): void
     {
         $logger = Logger::app();
+        $system_user_id = Setup::get()['system_user_id'];
 
-        AuthCookie::setAuthCookie(APP_SYSTEM_USER_ID);
+        AuthCookie::setAuthCookie($system_user_id);
 
         $message_id = $mail->messageId;
 
@@ -554,7 +555,7 @@ class Support
             $t['issue_id'] = 0;
         } else {
             $prj_id = Issue::getProjectID($t['issue_id']);
-            AuthCookie::setAuthCookie(APP_SYSTEM_USER_ID);
+            AuthCookie::setAuthCookie($system_user_id);
             AuthCookie::setProjectCookie($prj_id);
         }
         if ($should_create_array['type'] === 'note') {
@@ -656,11 +657,11 @@ class Support
 
                     // try to get usr_id of sender, if not, use system account
                     $addr = $mail->getSender();
-                    $usr_id = User::getUserIDByEmail($addr) ?: APP_SYSTEM_USER_ID;
+                    $usr_id = User::getUserIDByEmail($addr) ?: $system_user_id;
 
                     // mark this issue as updated if only if this email wasn't used to open it
                     if (!$should_create_issue) {
-                        if ((!empty($t['customer_id'])) && ($t['customer_id'] != 'NULL') && ((empty($usr_id)) || (User::getRoleByUser($usr_id, $prj_id) == User::ROLE_CUSTOMER))) {
+                        if ((!empty($t['customer_id'])) && ($t['customer_id'] !== 'NULL') && ((empty($usr_id)) || (User::getRoleByUser($usr_id, $prj_id) == User::ROLE_CUSTOMER))) {
                             Issue::markAsUpdated($t['issue_id'], 'customer action');
                         } else {
                             if ((!empty($usr_id)) && (User::getRoleByUser($usr_id, $prj_id) > User::ROLE_CUSTOMER)) {
@@ -730,13 +731,13 @@ class Support
             } else {
                 $should_create_issue = true;
             }
-        } elseif ($workflow == 'new') {
+        } elseif ($workflow === 'new') {
             $should_create_issue = true;
         } elseif (is_numeric($workflow)) {
             $issue_id = $workflow;
         } else {
             $setup = Setup::get();
-            if ($setup['subject_based_routing']['status'] == 'enabled'
+            if ($setup['subject_based_routing']['status'] === 'enabled'
                 and (preg_match("/\[#(\d+)\]( Note| BLOCKED)*/", $mail->subject, $matches))) {
                 // look for [#XXXX] in the subject line
                 $should_create_issue = false;
@@ -759,7 +760,9 @@ class Support
                             $type = 'note';
                             $parent_id = Note::getIDByMessageID($reference_msg_id);
                             break;
-                        } elseif (self::exists($reference_msg_id) || Issue::getIssueByRootMessageID($reference_msg_id) != false) {
+                        }
+
+                        if (self::exists($reference_msg_id) || Issue::getIssueByRootMessageID($reference_msg_id) != false) {
                             // email or issue exists
                             $issue_id = self::getIssueByMessageID($reference_msg_id);
                             if (empty($issue_id)) {
@@ -794,7 +797,7 @@ class Support
         // only create a new issue if this email is coming from a known customer
         $prj_id = $info['ema_prj_id'];
         if ($should_create_issue
-            && $info['ema_issue_auto_creation_options']['only_known_customers'] == 'yes'
+            && $info['ema_issue_auto_creation_options']['only_known_customers'] === 'yes'
             && CRM::hasCustomerIntegration($prj_id)
             && !$customer_id) {
             try {
@@ -806,15 +809,16 @@ class Support
         }
 
         // check whether we need to create a new issue or not
-        if ($info['ema_issue_auto_creation'] == 'enabled'
+        if ($info['ema_issue_auto_creation'] === 'enabled'
             && $should_create_issue && !$mail->isBounceMessage()) {
             $options = Email_Account::getIssueAutoCreationOptions($info['ema_id']);
-            AuthCookie::setAuthCookie(APP_SYSTEM_USER_ID);
+            $system_user_id = Setup::get()['system_user_id'];
+            AuthCookie::setAuthCookie($system_user_id);
             AuthCookie::setProjectCookie($prj_id);
 
             $options += [
                 'prj_id' => $prj_id,
-                'usr_id' => APP_SYSTEM_USER_ID,
+                'usr_id' => $system_user_id,
                 'severity' => $severity,
                 'customer_id' => $customer_id,
                 'contact_id' => $contact_id,
@@ -833,7 +837,7 @@ class Support
             // associate any existing replied-to email with this new issue
             if ((!empty($associate_email)) && (!empty($reference_issue_id))) { // $reference_issue_id never defined
                 $reference_sup_id = self::getIDByMessageID($associate_email);
-                self::associate(APP_SYSTEM_USER_ID, $issue_id, [$reference_sup_id]);
+                self::associate($system_user_id, $issue_id, [$reference_sup_id]);
             }
         }
 
@@ -875,7 +879,7 @@ class Support
      * @param   string $message_id The Message-ID header
      * @return  bool
      */
-    public static function exists($message_id)
+    public static function exists($message_id): bool
     {
         $sql = 'SELECT
                     count(*)
@@ -883,17 +887,9 @@ class Support
                     `support_email`
                 WHERE
                     sup_message_id = ?';
-        try {
-            $res = DB_Helper::getInstance()->getOne($sql, [$message_id]);
-        } catch (DatabaseException $e) {
-            return false;
-        }
+        $res = DB_Helper::getInstance()->getOne($sql, [$message_id]);
 
-        if ($res > 0) {
-            return true;
-        }
-
-        return false;
+        return $res > 0;
     }
 
     /**
@@ -1031,7 +1027,7 @@ class Support
         $sort_order = self::getParam('sort_order');
         $rows = self::getParam('rows');
         $cookie = [
-            'rows' => $rows ? $rows : APP_DEFAULT_PAGER_SIZE,
+            'rows' => $rows ? $rows : Setup::get()['default_pager_size'],
             'pagerRow' => self::getParam('pagerRow'),
             'hide_associated' => self::getParam('hide_associated'),
             'sort_by' => $sort_by ? $sort_by : 'sup_date',
@@ -1049,7 +1045,7 @@ class Support
         ];
         foreach ($date_fields as $field_name) {
             $field = self::getParam($field_name);
-            if ((empty($field)) || ($cookie['filter'][$field_name] != 'yes')) {
+            if ((empty($field)) || ($cookie['filter'][$field_name] !== 'yes')) {
                 continue;
             }
             $end_field_name = $field_name . '_end';
@@ -1258,7 +1254,7 @@ class Support
             if (!$usr_id) {
                 // if we couldn't find a real customer by that email, set the usr_id to be the system user id,
                 // and store the actual email address in the unknown_user field.
-                $usr_id = APP_SYSTEM_USER_ID;
+                $usr_id = Setup::get()['system_user_id'];
                 $unknown_user = $sender_email;
             }
         }
@@ -2451,7 +2447,7 @@ class Support
             Workflow::handleBlockedEmail($prj_id, $issue_id, $email_details, $email_type, $mail);
 
             // try to get usr_id of sender, if not, use system account
-            $usr_id = User::getUserIDByEmail($sender_email, true) ?: APP_SYSTEM_USER_ID;
+            $usr_id = User::getUserIDByEmail($sender_email, true) ?: Setup::get()['system_user_id'];
             History::add($issue_id, $usr_id, 'email_blocked', "Email from '{from}' blocked", [
                 'from' => $sender_email,
             ]);

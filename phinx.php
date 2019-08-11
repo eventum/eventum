@@ -24,13 +24,6 @@ use Symfony\Component\EventDispatcher\GenericEvent;
 
 // init minimal constants needed for some classes to work
 require_once __DIR__ . '/globals.php';
-$define = function ($name, $value): void {
-    if (defined($name)) {
-        return;
-    }
-    define($name, $value);
-};
-$define('APP_LOCAL_PATH', APP_CONFIG_PATH);
 if (file_exists(APP_CONFIG_PATH . '/config.php')) {
     require_once APP_CONFIG_PATH . '/config.php';
 }

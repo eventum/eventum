@@ -17,6 +17,7 @@ use Eventum\Mail\Helper\AddressHeader;
 use Eventum\Mail\MailMessage;
 use Eventum\Test\TestCase;
 use Mail_Helper;
+use Setup;
 use Zend\Mail\Header\HeaderInterface;
 
 /**
@@ -29,7 +30,7 @@ class MailHelperTest extends TestCase
         $headers = 'x-foo: 1';
         $body = 'body';
         $msgid = MailMessage::createFromHeaderBody($headers, $body)->messageId;
-        $exp = '<eventum\.md5\.[0-9a-z]+\.[0-9a-z]+@' . APP_HOSTNAME . '>';
+        $exp = '<eventum\.md5\.[0-9a-z]+\.[0-9a-z]+@' . Setup::getHostname() . '>';
         $this->assertRegExp($exp, $msgid, 'Missing msg-id header');
 
         $exp = '<msgid>';
@@ -67,7 +68,7 @@ class MailHelperTest extends TestCase
         // <eventum.md5.54hebbwge.myyt4c@eventum.example.org>
         // <eventum.md5.741zcol.2ib1drbh4bqcc@eventum.example.org>
         // 741zcol = 1548267006.9 = Wed Jan 23 20:10:06 2019 +0200
-        $exp = '<eventum\.md5\.[0-9a-z]{7,64}\.[0-9a-z]{8,64}@' . APP_HOSTNAME . '>';
+        $exp = '<eventum\.md5\.[0-9a-z]{7,64}\.[0-9a-z]{8,64}@' . Setup::getHostname() . '>';
         $this->assertRegExp($exp, $msgid, 'Missing msg-id header');
     }
 

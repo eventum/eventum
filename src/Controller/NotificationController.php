@@ -17,6 +17,7 @@ use Access;
 use Auth;
 use Notification;
 use Project;
+use Setup;
 
 class NotificationController extends BaseController
 {
@@ -107,7 +108,7 @@ class NotificationController extends BaseController
             $this->messages->addErrorMessage(ev_gettext('Error: the given email address is not allowed to be added to the notification list.'));
         }
 
-        $this->redirect(APP_RELATIVE_URL . 'notification.php', ['iss_id' => $this->issue_id]);
+        $this->redirect(Setup::getRelativeUrl() . 'notification.php', ['iss_id' => $this->issue_id]);
     }
 
     private function deleteAction(): void

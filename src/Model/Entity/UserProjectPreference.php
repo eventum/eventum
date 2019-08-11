@@ -14,6 +14,7 @@
 namespace Eventum\Model\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Setup;
 
 /**
  * @ORM\Table(name="user_project_preference")
@@ -42,24 +43,29 @@ class UserProjectPreference
      * @var bool
      * @ORM\Column(name="upp_receive_assigned_email", type="boolean", nullable=false)
      */
-    private $receiveAssignedEmail = APP_DEFAULT_ASSIGNED_EMAILS;
+    private $receiveAssignedEmail;
 
     /**
      * @var bool
      * @ORM\Column(name="upp_receive_new_issue_email", type="boolean", nullable=false)
      */
-    private $receiveNewIssueEmail = APP_DEFAULT_NEW_EMAILS;
+    private $receiveNewIssueEmail;
 
     /**
      * @var bool
      * @ORM\Column(name="upp_receive_copy_of_own_action", type="boolean", nullable=false)
      */
-    private $receiveCopyOfOwnAction = APP_DEFAULT_COPY_OF_OWN_ACTION;
+    private $receiveCopyOfOwnAction;
 
     public function __construct(UserPreference $upr, int $projectId)
     {
         $this->userPreference = $upr;
         $this->projectId = $projectId;
+
+        $config = Setup::get();
+        $this->receiveNewIssueEmail = $config['default_new_emails'];
+        $this->receiveAssignedEmail = $config['default_assigned_emails'];
+        $this->receiveCopyOfOwnAction = $config['default_copy_of_own_action'];
     }
 
     public function setProjectId(int $projectId): self

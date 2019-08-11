@@ -53,7 +53,7 @@ class UserPreference
      * @var int
      * @ORM\Column(name="upr_list_refresh_rate", type="integer", nullable=false)
      */
-    private $listRefreshRate = APP_DEFAULT_REFRESH_RATE;
+    private $listRefreshRate;
 
     /**
      * Refresh rate, in minutes
@@ -61,7 +61,7 @@ class UserPreference
      * @var int
      * @ORM\Column(name="upr_email_refresh_rate", type="integer", nullable=false)
      */
-    private $emailRefreshRate = APP_DEFAULT_REFRESH_RATE;
+    private $emailRefreshRate;
 
     /**
      * @var string
@@ -114,12 +114,14 @@ class UserPreference
 
     public function __construct(int $usr_id)
     {
-        $setup = Setup::get();
-
         $this->userId = $usr_id;
         $this->timezone = Date_Helper::getDefaultTimezone();
         $this->weekFirstday = Date_Helper::getDefaultWeekday();
-        $this->relativeDate = $setup['relative_date'] === 'enabled';
+
+        $config = Setup::get();
+        $this->relativeDate = $config['relative_date'] === 'enabled';
+        $this->listRefreshRate = $config['default_refresh_rate'];
+        $this->emailRefreshRate = $config['default_refresh_rate'];
     }
 
     public function setUserId(int $usr_id): self

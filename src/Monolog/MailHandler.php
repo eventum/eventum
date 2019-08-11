@@ -28,15 +28,16 @@ class MailHandler extends NativeMailerHandler
     public function __construct($level = Monolog\Logger::ERROR)
     {
         $setup = Setup::get();
+
         if ($setup['email_error']['status'] === 'enabled') {
             $notify_list = trim($setup['email_error']['addresses']);
             // recipient list can be comma separated
             $to = Misc::trim(explode(',', $notify_list));
+            $subject = Setup::getToolCaption() . ' - Error found!';
         } else {
             $to = [];
+            $subject = null;
         }
-
-        $subject = APP_SITE_NAME . ' - Error found!';
 
         parent::__construct($to, $subject, $setup['smtp']['from'], $level);
     }

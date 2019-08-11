@@ -159,7 +159,7 @@ class TextMessage
         $str = strip_tags($str);
 
         // convert html entities. this should be done after strip tags
-        $str = html_entity_decode($str, ENT_QUOTES, APP_CHARSET);
+        $str = html_entity_decode($str, ENT_QUOTES, 'UTF-8');
 
         return trim($str);
     }

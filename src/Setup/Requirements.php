@@ -97,10 +97,6 @@ class Requirements
         if (!empty($error)) {
             $errors[] = $error;
         }
-        $error = $this->checkPermissions(APP_ERROR_LOG, "File '" . APP_ERROR_LOG . "'");
-        if (!empty($error)) {
-            $errors[] = $error;
-        }
 
         return $errors;
     }

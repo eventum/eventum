@@ -80,7 +80,7 @@ class ScmController extends ManageBaseController
     {
         $this->tpl->assign(
             [
-                'scm_ping_url' => APP_BASE_URL . 'scm_ping.php',
+                'scm_ping_url' => Setup::getBaseUrl() . 'scm_ping.php',
                 'setup' => Setup::get(),
             ]
         );

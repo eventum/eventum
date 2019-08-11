@@ -13,6 +13,8 @@
 
 namespace Eventum\Controller\Report;
 
+use Setup;
+
 /**
  * Class GraphController
  */
@@ -51,7 +53,7 @@ class GraphController extends ReportBaseController
         }
 
         if (!$res) {
-            header('Location: ' . APP_RELATIVE_URL . '/images/no_data.gif');
+            header('Location: ' . Setup::getRelativeUrl() . '/images/no_data.gif');
         }
         exit;
     }

@@ -141,7 +141,7 @@ class ViewController extends BaseController
             // TRANSLATORS: %1 - customer name
             $message = ev_gettext("Active customer changed to '%s'", $details['customer']->getName());
             $this->messages->addInfoMessage($message);
-            $this->redirect(APP_RELATIVE_URL . 'view.php', ['id' => $this->issue_id]);
+            $this->redirect(Setup::getRelativeUrl() . 'view.php', ['id' => $this->issue_id]);
         }
 
         if ($details['iss_prj_id'] != $this->prj_id) {
@@ -247,6 +247,7 @@ class ViewController extends BaseController
 
         // figure out what data to show in each column
         $columns = [0 => [], 1 => []];
+        $internalColor = Setup::get()['internal_color'];
 
         if (CRM::hasCustomerIntegration($this->prj_id) and !empty($details['iss_customer_id'])) {
             $columns[0][] = [
@@ -284,7 +285,7 @@ class ViewController extends BaseController
 
         if (!isset($display['priority']) || $display['priority'] != false) {
             if (isset($display['priority']['min_role']) && $display['priority']['min_role'] > User::ROLE_CUSTOMER) {
-                $bgcolor = APP_INTERNAL_COLOR;
+                $bgcolor = $internalColor;
             } else {
                 $bgcolor = '';
             }
@@ -301,7 +302,7 @@ class ViewController extends BaseController
             $columns[0][] = [
                 'title' => ev_gettext('Scheduled Release'),
                 'data' => $details['pre_title'],
-                'title_bgcolor' => APP_INTERNAL_COLOR,
+                'title_bgcolor' => $internalColor,
             ];
         }
 
@@ -376,12 +377,12 @@ class ViewController extends BaseController
             $columns[1][] = [
                 'title' => ev_gettext('Duplicates'),
                 'field' => 'duplicates',
-                'title_bgcolor' => APP_INTERNAL_COLOR,
+                'title_bgcolor' => $internalColor,
             ];
             $columns[1][] = [
                 'title' => ev_gettext('Authorized Repliers'),
                 'field' => 'authorized_repliers',
-                'title_bgcolor' => APP_INTERNAL_COLOR,
+                'title_bgcolor' => $internalColor,
             ];
         }
 
@@ -389,7 +390,7 @@ class ViewController extends BaseController
             $columns[1][] = [
                 'title' => ev_gettext('Group'),
                 'data' => $details['group']['grp_name'] ?? '',
-                'title_bgcolor' => APP_INTERNAL_COLOR,
+                'title_bgcolor' => $internalColor,
             ];
         }
 

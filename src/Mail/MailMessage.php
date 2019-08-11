@@ -55,7 +55,7 @@ use Zend\Mail\Storage\Message;
  */
 class MailMessage extends Message
 {
-    private const ENCODING = APP_CHARSET;
+    private const ENCODING = 'UTF-8';
 
     /** @var MailAttachment */
     private $attachment;

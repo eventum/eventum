@@ -25,8 +25,10 @@ class Authorized_Replier
      * @param   int $issue_id The issue ID
      * @return  array The list of users
      */
-    public static function getAuthorizedRepliers($issue_id)
+    public static function getAuthorizedRepliers(int $issue_id): array
     {
+        $system_user_id = Setup::get()['system_user_id'];
+
         // split into users and others (those with email address but no real user accounts)
         $repliers = [
             'users' => [],
@@ -46,21 +48,14 @@ class Authorized_Replier
                     iur_iss_id=? AND
                     iur_usr_id=usr_id";
 
-        $params = [APP_SYSTEM_USER_ID, APP_SYSTEM_USER_ID, $issue_id];
-        try {
-            $res = DB_Helper::getInstance()->getAll($stmt, $params);
-        } catch (DatabaseException $e) {
-            return [
-                [],
-                $repliers,
-            ];
-        }
+        $params = [$system_user_id, $system_user_id, $issue_id];
+        $res = DB_Helper::getInstance()->getAll($stmt, $params);
 
         // split into users and others (those with email address but no real user accounts)
         $names = [];
         if (count($res) > 0) {
             foreach ($res as $row) {
-                if ($row['iur_usr_id'] == APP_SYSTEM_USER_ID) {
+                if ($row['iur_usr_id'] == $system_user_id) {
                     $repliers['other'][] = $row;
                 } else {
                     $repliers['users'][] = $row;
@@ -145,7 +140,7 @@ class Authorized_Replier
                     ?, ?, ?
                  )';
         try {
-            DB_Helper::getInstance()->query($stmt, [$issue_id, APP_SYSTEM_USER_ID, $email]);
+            DB_Helper::getInstance()->query($stmt, [$issue_id, Setup::get()['system_user_id'], $email]);
         } catch (DatabaseException $e) {
             return -1;
         }
@@ -276,7 +271,7 @@ class Authorized_Replier
     public static function getReplier($iur_id)
     {
         $stmt = "SELECT
-                    if (iur_usr_id = '" . APP_SYSTEM_USER_ID . "', iur_email, usr_full_name) replier
+                    if (iur_usr_id = '" . Setup::get()['system_user_id'] . "', iur_email, usr_full_name) replier
                  FROM
                     `issue_user_replier`,
                     `user`

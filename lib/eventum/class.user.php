@@ -340,14 +340,14 @@ class User
         $tpl = new Template_Helper();
         $tpl->setTemplate('notifications/visitor_account.tpl.text');
         $tpl->assign([
-            'app_title' => Misc::getToolCaption(),
+            'app_title' => Setup::getToolCaption(),
             'email' => $usr_email,
             'hash' => $hash,
         ]);
         $text_message = $tpl->getTemplateContents();
 
-        // TRANSLATORS: %1 - APP_SHORT_NAME
-        $subject = ev_gettext('%s: New Account - Confirmation Required', APP_SHORT_NAME);
+        // TRANSLATORS: %1 - Setup::getShortName()
+        $subject = ev_gettext('%s: New Account - Confirmation Required', Setup::getShortName());
 
         $builder = new MailBuilder();
         $builder->addTextPart($text_message)
@@ -376,14 +376,14 @@ class User
         $tpl = new Template_Helper();
         $tpl->setTemplate('notifications/password_confirmation.tpl.text');
         $tpl->assign([
-            'app_title' => Misc::getToolCaption(),
+            'app_title' => Setup::getToolCaption(),
             'user' => $info,
             'hash' => $hash,
         ]);
         $text_message = $tpl->getTemplateContents();
 
-        // TRANSLATORS: %s - APP_SHORT_NAME
-        $subject = ev_gettext('%s: New Password - Confirmation Required', APP_SHORT_NAME);
+        // TRANSLATORS: %s - Setup::getShortName()
+        $subject = ev_gettext('%s: New Password - Confirmation Required', Setup::getShortName());
 
         $builder = new MailBuilder();
         $builder->addTextPart($text_message)
@@ -514,7 +514,8 @@ class User
                  WHERE
                     usr_status='active' AND
                     usr_id != ?";
-        $params[] = APP_SYSTEM_USER_ID;
+        $system_user_id = Setup::get()['system_user_id'];
+        $params[] = $system_user_id;
 
         if ($prj_id) {
             $stmt .= ' AND pru_prj_id = ? AND
@@ -528,13 +529,8 @@ class User
         $stmt .= '
                  ORDER BY
                     usr_full_name ASC';
-        try {
-            $res = DB_Helper::getInstance()->getPair($stmt, $params);
-        } catch (DatabaseException $e) {
-            return '';
-        }
 
-        return $res;
+        return DB_Helper::getInstance()->getPair($stmt, $params);
     }
 
     /**
@@ -602,7 +598,7 @@ class User
     {
         static $returns;
 
-        if ($usr_id == APP_SYSTEM_USER_ID) {
+        if ($usr_id == Setup::get()['system_user_id']) {
             return self::ROLE_ADMINISTRATOR;
         }
 
@@ -995,7 +991,7 @@ class User
     public static function update($usr_id, array $user, $notify = true)
     {
         // system account should not be updateable
-        if ($usr_id == APP_SYSTEM_USER_ID) {
+        if ($usr_id == Setup::get()['system_user_id']) {
             return false;
         }
 
@@ -1163,6 +1159,7 @@ class User
      */
     public static function getList($options = [])
     {
+        $system_user_id = Setup::get()['system_user_id'];
         // FIXME: what about other statuses like "pending"?
         $stmt = 'SELECT
                     usr_id
@@ -1170,7 +1167,7 @@ class User
                     `user`
                  WHERE
                     usr_id != ?';
-        $params = [APP_SYSTEM_USER_ID];
+        $params = [$system_user_id];
 
         $show_inactive = $options['inactive'] ?? false;
         $show_customers = $options['customers'] ?? true;
@@ -1429,16 +1426,9 @@ class User
                         `user`
                     WHERE
                         usr_id = ?';
-            try {
-                $res = DB_Helper::getInstance()->getOne($sql, [$usr_id]);
-            } catch (DatabaseException $e) {
-                return APP_DEFAULT_LOCALE;
-            }
+            $res = DB_Helper::getInstance()->getOne($sql, [$usr_id]);
 
-            if (empty($res)) {
-                $res = APP_DEFAULT_LOCALE;
-            }
-            $returns[$usr_id] = $res;
+            $returns[$usr_id] = $res ?: Setup::get()['default_locale'];
         }
 
         return $returns[$usr_id];

@@ -92,7 +92,7 @@ class Search_Profile
      * @param   int $usr_id The user ID
      * @param   int $prj_id The project ID
      * @param   string $type The type of the search profile ('issue' or 'email')
-     * @param   string $profile The search profile to be saved
+     * @param   array $profile The search profile to be saved
      * @return  bool
      */
     public static function save($usr_id, $prj_id, $type, $profile)
@@ -111,7 +111,7 @@ class Search_Profile
      * @param   int $usr_id The user ID
      * @param   int $prj_id The project ID
      * @param   string $type The type of the search profile ('issue' or 'email')
-     * @param   string $profile The search profile to be saved
+     * @param   array $profile The search profile to be saved
      * @return  bool
      */
     private static function _insert($usr_id, $prj_id, $type, $profile)
@@ -142,7 +142,7 @@ class Search_Profile
      * @param   int $usr_id The user ID
      * @param   int $prj_id The project ID
      * @param   string $type The type of the search profile ('issue' or 'email')
-     * @param   string $profile The search profile to be saved
+     * @param   array $profile The search profile to be saved
      * @return  bool
      */
     private static function _update($usr_id, $prj_id, $type, $profile)

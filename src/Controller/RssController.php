@@ -20,7 +20,6 @@ use Filter;
 use InvalidArgumentException;
 use Issue;
 use LogicException;
-use Misc;
 use Project;
 use Search;
 use Setup;
@@ -151,7 +150,7 @@ class RssController extends BaseController
     private function sendAuthenticateHeader(): void
     {
         // FIXME: escape tool_caption properly
-        header('WWW-Authenticate: Basic realm="' . Misc::getToolCaption() . '"');
+        header('WWW-Authenticate: Basic realm="' . Setup::getToolCaption() . '"');
         header('HTTP/1.0 401 Unauthorized');
     }
 
@@ -162,7 +161,7 @@ class RssController extends BaseController
      */
     private function rssError($msg): void
     {
-        header('Content-Type: text/xml; charset=' . APP_CHARSET);
+        header('Content-Type: text/xml; charset=UTF-8');
 
         $this->tpl->assign('error', $msg);
         $this->displayTemplate('rss_error.tpl.xml');
@@ -195,7 +194,7 @@ class RssController extends BaseController
 
         $this->tpl->assign(
             [
-                'charset' => APP_CHARSET,
+                'charset' => 'UTF-8',
                 'project_title' => Project::getName($filter['cst_prj_id']),
                 'setup' => Setup::get(),
                 'filter' => $filter,
@@ -203,6 +202,6 @@ class RssController extends BaseController
             ]
         );
 
-        header('Content-Type: text/xml; charset=' . APP_CHARSET);
+        header('Content-Type: text/xml; charset=UTF-8');
     }
 }

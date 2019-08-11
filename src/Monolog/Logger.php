@@ -14,6 +14,7 @@
 namespace Eventum\Monolog;
 
 use Cascade\Cascade;
+use Date_Helper;
 use DateTimeZone;
 use Eventum\DebugBarManager;
 use Monolog;
@@ -39,7 +40,7 @@ class Logger extends Registry
     public static function initialize(): void
     {
         // Configure it use Eventum timezone
-        Monolog\Logger::setTimezone(new DateTimeZone(APP_DEFAULT_TIMEZONE));
+        Monolog\Logger::setTimezone(new DateTimeZone(Date_Helper::getDefaultTimezone()));
 
         // configure your loggers
         Cascade::fileConfig(self::getConfig());

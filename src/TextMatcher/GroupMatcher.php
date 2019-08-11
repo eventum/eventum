@@ -14,6 +14,7 @@
 namespace Eventum\TextMatcher;
 
 use Generator;
+use Setup;
 
 class GroupMatcher implements TextMatchInterface
 {
@@ -27,11 +28,12 @@ class GroupMatcher implements TextMatchInterface
 
     public static function create(): self
     {
+        $appUrl = Setup::getBaseUrl();
+
         return new self([
-                new IssueMatcher(APP_BASE_URL),
-                new NoteMatcher(APP_BASE_URL),
-            ]
-        );
+            new IssueMatcher($appUrl),
+            new NoteMatcher($appUrl),
+        ]);
     }
 
     public function match(string $text): Generator

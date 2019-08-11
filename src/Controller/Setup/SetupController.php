@@ -15,7 +15,6 @@ namespace Eventum\Controller\Setup;
 
 use Auth;
 use Date_Helper;
-use DB_Helper;
 use Eventum\AppInfo;
 use Eventum\Controller\Traits\RequestTrait;
 use Eventum\Controller\Traits\SmartyResponseTrait;
@@ -27,7 +26,6 @@ use Eventum\Setup\SetupException;
 use IntlCalendar;
 use Misc;
 use Setup;
-use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -83,7 +81,7 @@ class SetupController
         $params += [
             'core' => [
                 'rel_url' => $relative_url,
-                'app_title' => APP_NAME,
+                'app_title' => 'Eventum',
                 'app_version' => $appInfo->getVersion(),
                 'php_version' => PHP_VERSION,
                 'template_id' => 'setup',
@@ -117,29 +115,13 @@ class SetupController
         return $cal->getFirstDayOfWeek() === IntlCalendar::DOW_MONDAY ? 1 : 0;
     }
 
-    private function e($s)
-    {
-        return var_export($s, 1);
-    }
-
-    private function initLogger(): void
-    {
-        // init timezone, logger needs it
-        if (!defined('APP_DEFAULT_TIMEZONE')) {
-            $tz = $this->getPost()->get('default_timezone');
-            define('APP_DEFAULT_TIMEZONE', $tz ?: 'UTC');
-        }
-
-        Logger::initialize();
-    }
-
     /**
      * return error message as string, or true indicating success
      * requires setup to be written first.
      */
     private function setupDatabase(): void
     {
-        $this->initLogger();
+        Logger::initialize();
         $post = $this->getPost();
 
         $db_config = [
@@ -191,37 +173,18 @@ class SetupController
             'socket' => $socket,
         ];
 
-        Setup::save($setup);
-    }
-
-    private function writeConfig(): void
-    {
-        $post = $this->getPost();
-        $configPath = Setup::getConfigPath();
-        $configFilePath = $configPath . '/config.php';
-
-        // disable the full-text search feature for certain mysql server users
-        $mysql_version = DB_Helper::getInstance(false)->getOne('SELECT VERSION()');
-        preg_match('/(\d{1,2}\.\d{1,2}\.\d{1,2})/', $mysql_version, $matches);
-        $enable_fulltext = $matches[1] > '4.0.23';
+        $setup['default_timezone'] = $post->get('default_timezone') ?: 'UTC';
+        $setup['default_weekday'] = (int)$post->getInt('default_weekday');
 
         $protocol_type = $post->get('is_ssl') === 'yes' ? 'https://' : 'http://';
+        $relativeUrl = $post->get('relative_url');
 
-        $replace = [
-            "'%{APP_HOSTNAME}%'" => $this->e($post->get('hostname')),
-            "'%{CHARSET}%'" => $this->e(APP_CHARSET),
-            "'%{APP_RELATIVE_URL}%'" => $this->e($post->get('relative_url')),
-            "'%{APP_DEFAULT_TIMEZONE}%'" => $this->e($post->get('default_timezone')),
-            "'%{APP_DEFAULT_WEEKDAY}%'" => (int)$post->getInt('default_weekday'),
-            "'%{PROTOCOL_TYPE}%'" => $this->e($protocol_type),
-            "'%{APP_ENABLE_FULLTEXT}%'" => $this->e($enable_fulltext),
-        ];
+        $setup['base_url'] = "{$protocol_type}{$post->get('hostname')}{$relativeUrl}";
+        $setup['cookie_path'] = $setup['cookie_url'] = $relativeUrl;
+        $setup['relative_url'] = $relativeUrl;
+        $setup['hostname'] = $post->get('hostname');
 
-        $config_contents = file_get_contents($configPath . '/config.dist.php');
-        $config_contents = str_replace(array_keys($replace), array_values($replace), $config_contents);
-
-        $fs = new Filesystem();
-        $fs->dumpFile($configFilePath, $config_contents);
+        Setup::save($setup);
     }
 
     private function installAction(): void
@@ -229,6 +192,5 @@ class SetupController
         Auth::generatePrivateKey();
         $this->writeSetup();
         $this->setupDatabase();
-        $this->writeConfig();
     }
 }

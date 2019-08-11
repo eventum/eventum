@@ -349,7 +349,7 @@ class Link_Filter
 
         $initialize = function (?int $prj_id) {
             $linkFilter = new LinkFilter();
-            $linkFilter->addFilter(new IssueLinkFilter(APP_BASE_URL));
+            $linkFilter->addFilter(new IssueLinkFilter(Setup::getBaseUrl()));
 
             if ($prj_id) {
                 $linkFilter->addRules(self::getFiltersByProject($prj_id));

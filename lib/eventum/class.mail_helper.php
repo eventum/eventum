@@ -284,7 +284,7 @@ class Mail_Helper
             $second = base_convert(bin2hex(Misc::generateRandom(8)), 16, 36);
         }
 
-        return '<eventum.md5.' . $first . '.' . $second . '@' . APP_HOSTNAME . '>';
+        return '<eventum.md5.' . $first . '.' . $second . '@' . Setup::getHostname() . '>';
     }
 
     /**
@@ -306,7 +306,7 @@ class Mail_Helper
         $reference_issue_id = null;
         if ($reference_msg_id) {
             // check if referenced msg id is associated with this issue
-            if ($type == 'note') {
+            if ($type === 'note') {
                 $reference_issue_id = Note::getIssueByMessageID($reference_msg_id);
             } else {
                 $reference_issue_id = Support::getIssueByMessageID($reference_msg_id);

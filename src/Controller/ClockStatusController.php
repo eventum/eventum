@@ -14,6 +14,7 @@
 namespace Eventum\Controller;
 
 use Auth;
+use Setup;
 use User;
 
 class ClockStatusController extends BaseController
@@ -61,7 +62,7 @@ class ClockStatusController extends BaseController
 
         $this->messages->addInfoMessage($message);
 
-        $url = $this->url ?: APP_RELATIVE_URL . 'list.php';
+        $url = $this->url ?: Setup::getRelativeUrl() . 'list.php';
         $this->redirect($url);
     }
 

@@ -68,7 +68,7 @@ class DebugBarManager
         $this->logger = Logger::app();
         $this->debugBar = new StandardDebugBar();
 
-        $rel_url = APP_RELATIVE_URL;
+        $rel_url = Setup::getRelativeUrl();
         $this->debugBar->getJavascriptRenderer("{$rel_url}debugbar");
     }
 

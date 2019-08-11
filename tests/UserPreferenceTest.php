@@ -16,6 +16,7 @@ namespace Eventum\Test;
 use Doctrine\ORM\EntityManager;
 use Eventum\Db\Doctrine;
 use Eventum\Model\Repository\UserPreferenceRepository;
+use ProjectSeeder;
 
 /**
  * @group db
@@ -39,7 +40,7 @@ class UserPreferenceTest extends TestCase
         $this->deletePreferences($usr_id);
 
         $projects = [
-            1 => [
+            ProjectSeeder::DEFAULT_PROJECT_ID => [
                 'receive_new_issue_email' => true,
                 'receive_assigned_email' => false,
                 'receive_copy_of_own_action' => false,

@@ -23,9 +23,7 @@ set_time_limit(0);
 
 require_once __DIR__ . '/../../globals.php';
 
-define('APP_CHARSET', 'UTF-8');
-
-header('Content-Type: text/html; charset=' . APP_CHARSET);
+header('Content-Type: text/html; charset=UTF-8');
 
 $configFile = dirname(__DIR__) . '/../config/config.php';
 $have_config = file_exists($configFile) && filesize($configFile);
@@ -40,22 +38,8 @@ require_once APP_PATH . '/autoload.php';
 // set default timezone to utc to avoid default timezone not set warnings
 date_default_timezone_set(@date_default_timezone_get());
 
-define('APP_NAME', 'Eventum');
-define('APP_DEFAULT_LOCALE', 'en_US');
-define('APP_LOCAL_PATH', Setup::getConfigPath());
-define('APP_RELATIVE_URL', '../');
-define('APP_SITE_NAME', 'Eventum');
-define('APP_COOKIE', 'eventum');
-
 if (!file_exists($privateKeyFile = Setup::getConfigPath() . '/private_key.php') || !filesize($privateKeyFile)) {
     Auth::generatePrivateKey();
 }
-
-// define to shut up Symfony cache
-define('APP_DEFAULT_PAGER_SIZE', 5);
-define('APP_DEFAULT_REFRESH_RATE', 5);
-define('APP_DEFAULT_ASSIGNED_EMAILS', true);
-define('APP_DEFAULT_NEW_EMAILS', false);
-define('APP_DEFAULT_COPY_OF_OWN_ACTION', 0);
 
 Kernel::handleRequest();

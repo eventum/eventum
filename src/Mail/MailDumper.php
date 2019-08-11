@@ -13,22 +13,22 @@
 
 namespace Eventum\Mail;
 
+use Setup;
 use Symfony\Component\Filesystem\Exception\IOException;
 use Symfony\Component\Filesystem\Filesystem;
 
 class MailDumper
 {
-    const TYPE_EMAIL = 'email';
-    const TYPE_DRAFT = 'draft';
-    const TYPE_NOTE = 'note';
+    public const TYPE_EMAIL = 'email';
+    public const TYPE_DRAFT = 'draft';
+    public const TYPE_NOTE = 'note';
 
     /**
      * Method used to save the routed mail into a backup directory.
      *
-     * @param MailMessage $mail
      * @throws IOException
      */
-    public static function dump(MailMessage $mail, $type): void
+    public static function dump(MailMessage $mail, string $type): void
     {
         $filename = static::getFilename($type);
         if (!$filename) {
@@ -40,9 +40,10 @@ class MailDumper
         $fs->chmod($filename, 0644);
     }
 
-    private static function getFilename($type)
+    private static function getFilename(string $type)
     {
-        if (!defined('APP_ROUTED_MAILS_SAVEDIR') || !APP_ROUTED_MAILS_SAVEDIR) {
+        $path = Setup::get()['routed_mails_savedir'];
+        if (!$path) {
             return null;
         }
 
@@ -63,7 +64,7 @@ class MailDumper
 
         return sprintf(
             "%s/{$dirMap[$type]}/%s{$usec}.{$nameMap[$type]}.txt",
-            APP_ROUTED_MAILS_SAVEDIR,
+            $path,
             date('Y-m-d_H-i-s_', $timestamp)
         );
     }

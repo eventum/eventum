@@ -976,7 +976,7 @@ class Notification
         $tpl = new Template_Helper();
         $tpl->setTemplate('notifications/' . $type . '.tpl.text');
         $tpl->assign([
-            'app_title' => Misc::getToolCaption(),
+            'app_title' => Setup::getToolCaption(),
             'data' => $data,
             'current_user' => User::getFullName(Auth::getUserID()),
         ]);
@@ -1030,7 +1030,7 @@ class Notification
             if (!empty($recipient_usr_id)) {
                 Language::set(User::getLang($recipient_usr_id));
             } else {
-                Language::set(APP_DEFAULT_LOCALE);
+                Language::set(Setup::get()['default_locale']);
             }
 
             if ($type === 'notes') {
@@ -1260,7 +1260,7 @@ class Notification
             $tpl = new Template_Helper();
             $tpl->setTemplate('notifications/new_auto_created_issue.tpl.text');
             $tpl->assign([
-                'app_title' => Misc::getToolCaption(),
+                'app_title' => Setup::getToolCaption(),
                 'data' => $data,
                 'sender_name' => Mail_Helper::getName($sender),
                 'recipient_name' => Mail_Helper::getName($recipient),
@@ -1288,7 +1288,7 @@ class Notification
             if (!empty($recipient_usr_id)) {
                 Language::set(User::getLang($recipient_usr_id));
             } else {
-                Language::set(APP_DEFAULT_LOCALE);
+                Language::set(Setup::get()['default_locale']);
             }
 
             $text_message = $tpl->getTemplateContents();
@@ -1352,7 +1352,7 @@ class Notification
             $tpl->assign([
                 'data' => $data,
                 'sender_name' => Mail_Helper::getName($recipient),
-                'app_title' => Misc::getToolCaption(),
+                'app_title' => Setup::getToolCaption(),
                 'recipient_name' => Mail_Helper::getName($recipient),
             ]);
             $email_details = Support::getEmailDetails($sup_id);
@@ -1368,7 +1368,7 @@ class Notification
             if (!empty($recipient_usr_id)) {
                 Language::set(User::getLang($recipient_usr_id));
             } else {
-                Language::set(APP_DEFAULT_LOCALE);
+                Language::set(Setup::get()['default_locale']);
             }
 
             // TRANSLATORS: %1 - issue_id, %2 - iss_summary
@@ -1402,12 +1402,12 @@ class Notification
         $tpl = new Template_Helper();
         $tpl->setTemplate('notifications/updated_account.tpl.text');
         $tpl->assign([
-            'app_title' => Misc::getToolCaption(),
+            'app_title' => Setup::getToolCaption(),
             'user' => $info,
         ]);
 
-        // TRANSLATORS: %s - APP_SHORT_NAME
-        $subject = ev_gettext('%s: User account information updated', APP_SHORT_NAME);
+        // TRANSLATORS: %s - Setup::getShortName()
+        $subject = ev_gettext('%s: User account information updated', Setup::getShortName());
         $text_message = $tpl->getTemplateContents();
         self::notifyUserByMail($usr_id, $subject, $text_message);
     }
@@ -1428,12 +1428,12 @@ class Notification
         $tpl = new Template_Helper();
         $tpl->setTemplate('notifications/updated_password.tpl.text');
         $tpl->assign([
-            'app_title' => Misc::getToolCaption(),
+            'app_title' => Setup::getToolCaption(),
             'user' => $info,
         ]);
 
-        // TRANSLATORS: %s - APP_SHORT_NAME
-        $subject = ev_gettext('%s: User account password changed', APP_SHORT_NAME);
+        // TRANSLATORS: %s - Setup::getShortName()
+        $subject = ev_gettext('%s: User account password changed', Setup::getShortName());
         $text_message = $tpl->getTemplateContents();
         self::notifyUserByMail($usr_id, $subject, $text_message);
     }
@@ -1454,12 +1454,12 @@ class Notification
         $tpl = new Template_Helper();
         $tpl->setTemplate('notifications/new_user.tpl.text');
         $tpl->assign([
-            'app_title' => Misc::getToolCaption(),
+            'app_title' => Setup::getToolCaption(),
             'user' => $info,
         ]);
 
-        // TRANSLATORS: %s - APP_SHORT_NAME
-        $subject = ev_gettext('%s: New User information', APP_SHORT_NAME);
+        // TRANSLATORS: %s - Setup::getShortName()
+        $subject = ev_gettext('%s: New User information', Setup::getShortName());
         $text_message = $tpl->getTemplateContents();
         self::notifyUserByMail($usr_id, $subject, $text_message);
     }
@@ -1495,7 +1495,7 @@ class Notification
         $tpl = new Template_Helper();
         $tpl->setTemplate('notifications/assigned.tpl.text');
         $tpl->assign([
-            'app_title' => Misc::getToolCaption(),
+            'app_title' => Setup::getToolCaption(),
             'issue' => $issue,
             'current_user' => User::getFullName(Auth::getUserID()),
         ]);
@@ -1984,7 +1984,7 @@ class Notification
             // cancel subscribing the user
             return -2;
         }
-        if ($subscriber_usr_id == APP_SYSTEM_USER_ID) {
+        if ($subscriber_usr_id == Setup::get()['system_user_id']) {
             return -2;
         }
 

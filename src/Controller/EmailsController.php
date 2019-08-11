@@ -20,6 +20,7 @@ use DB_Helper;
 use Email_Account;
 use Issue;
 use Prefs;
+use Setup;
 use Support;
 
 class EmailsController extends BaseController
@@ -80,7 +81,7 @@ class EmailsController extends BaseController
     protected function prepareTemplate(): void
     {
         $pagerRow = Support::getParam('pagerRow') ?: 0;
-        $rows = Support::getParam('rows') ?: APP_DEFAULT_PAGER_SIZE;
+        $rows = Support::getParam('rows') ?: Setup::get()['default_pager_size'];
 
         $options = Support::saveSearchParams();
         $list = Support::getEmailListing($options, $pagerRow, $rows);

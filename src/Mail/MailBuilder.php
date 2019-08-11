@@ -23,7 +23,7 @@ use Zend\Mime;
  */
 class MailBuilder
 {
-    const ENCODING = APP_CHARSET;
+    private const ENCODING = 'UTF-8';
 
     /** @var Mail\Message */
     private $message;

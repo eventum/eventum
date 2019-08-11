@@ -82,7 +82,7 @@ class Mime_Helper
                 },
                 $matches[1]
             );
-            $address = '=?' . APP_CHARSET . '?Q?' .
+            $address = '=?UTF-8?Q?' .
                 str_replace(' ', '_', trim(
                     $qq
                 )) . '?= <' . $matches[2] . '>';
@@ -119,9 +119,9 @@ class Mime_Helper
      * @author Elan Ruusamäe <glen@delfi.ee>
      * @see    Zend_Mime_Decode::decodeQuotedPrintable
      * @param  string $string encoded string
-     * @return string The decoded string in APP_CHARSET encoding
+     * @return string The decoded string in UTF-8 encoding
      */
-    public static function decodeQuotedPrintable($string)
+    public static function decodeQuotedPrintable($string): string
     {
         // skip if not encoded, iconv_mime_decode otherwise removes unknown chars.
         // ideally this should not be needed, but we have places where we call this function twice.
@@ -131,7 +131,7 @@ class Mime_Helper
             return $string;
         }
 
-        return iconv_mime_decode($string, ICONV_MIME_DECODE_CONTINUE_ON_ERROR, APP_CHARSET);
+        return iconv_mime_decode($string, ICONV_MIME_DECODE_CONTINUE_ON_ERROR, 'UTF-8');
     }
 
     /**
@@ -157,7 +157,7 @@ class Mime_Helper
      * @return string  the text, encoded only if it contains non-ASCII
      *                 characters. Example: =?utf-8?b?WmXDpMOkbmQ=?=
      */
-    public static function encode($text, $charset = APP_CHARSET)
+    public static function encode($text, $charset = 'UTF-8')
     {
         /* Return if nothing needs to be encoded. */
         if (!self::is8bit($text)) {
@@ -217,10 +217,10 @@ class Mime_Helper
      * @param   string $charset The charset of the string
      * @return  string The encoded string
      */
-    public static function encodeValue($hdr_value, $charset = APP_CHARSET)
+    public static function encodeValue($hdr_value, $charset = 'UTF-8'): string
     {
         preg_match_all('/(\w*[\x80-\xFF]+\w*)/', $hdr_value, $matches);
-        $cb = function ($m) {
+        $cb = static function ($m) {
             return '=' . strtoupper(dechex(ord($m[1])));
         };
         foreach ($matches[1] as $value) {
@@ -238,12 +238,12 @@ class Mime_Helper
      * @param   string $source_charset
      * @return  string The converted string
      */
-    public static function convertString($string, $source_charset)
+    public static function convertString($string, $source_charset): string
     {
-        if ($source_charset == false || $source_charset == APP_CHARSET) {
+        if (!$source_charset || $source_charset === 'UTF-8') {
             return $string;
         }
-        $res = iconv($source_charset, APP_CHARSET, $string);
+        $res = iconv($source_charset, 'UTF-8', $string);
 
         return $res === false ? $string : $res;
     }

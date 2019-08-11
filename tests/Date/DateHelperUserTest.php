@@ -16,6 +16,7 @@ namespace Eventum\Test\Date;
 use Date_Helper;
 use Eventum\Db\Doctrine;
 use Eventum\Test\TestCase;
+use Setup;
 
 /**
  * DateHelper tests involving user (using database)
@@ -31,10 +32,16 @@ class DateHelperUserTest extends TestCase
     private const USER_TIMEZONE = 'Europe/Tallinn';
     private const ADMIN_TIMEZONE = 'UTC';
 
-    public static function setUpBeforeClass(): void
+    /** @var int */
+    private $admin_user_id;
+    /** @var int */
+    private $system_user_id;
+
+    public function setUp(): void
     {
-        self::setTimezone(APP_ADMIN_USER_ID, self::USER_TIMEZONE);
-        self::setTimezone(APP_SYSTEM_USER_ID, self::ADMIN_TIMEZONE);
+        $config = Setup::get();
+        self::setTimezone($this->admin_user_id = $config['admin_user'], self::USER_TIMEZONE);
+        self::setTimezone($this->system_user_id = $config['system_user_id'], self::ADMIN_TIMEZONE);
     }
 
     private static function setTimezone(int $usr_id, string $timezone): void
@@ -52,10 +59,10 @@ class DateHelperUserTest extends TestCase
      */
     public function testGetTimezoneShortNameByUser(): void
     {
-        $res = Date_Helper::getTimezoneShortNameByUser(APP_SYSTEM_USER_ID);
+        $res = Date_Helper::getTimezoneShortNameByUser($this->system_user_id);
         $this->assertEquals('UTC', $res);
 
-        $res = Date_Helper::getTimezoneShortNameByUser(APP_ADMIN_USER_ID);
+        $res = Date_Helper::getTimezoneShortNameByUser($this->admin_user_id);
         $this->assertRegExp('/EET|EEST/', $res);
     }
 
@@ -67,10 +74,10 @@ class DateHelperUserTest extends TestCase
         $res = Date_Helper::getPreferredTimezone();
         $this->assertEquals('UTC', $res);
 
-        $res = Date_Helper::getPreferredTimezone(APP_SYSTEM_USER_ID);
+        $res = Date_Helper::getPreferredTimezone($this->system_user_id);
         $this->assertEquals('UTC', $res);
 
-        $res = Date_Helper::getPreferredTimezone(APP_ADMIN_USER_ID);
+        $res = Date_Helper::getPreferredTimezone($this->admin_user_id);
         $this->assertEquals(self::USER_TIMEZONE, $res);
     }
 }
