@@ -83,10 +83,12 @@ class ExtensionLoader
     public function getClassList(): array
     {
         $list = [];
-        try {
-            $finder = Finder::create()->files()->in($this->paths);
-        } catch (DirectoryNotFoundException $e) {
-            return [];
+        $finder = Finder::create()->files();
+        foreach ($this->paths as $dir) {
+            try {
+                $finder->in($dir);
+            } catch (DirectoryNotFoundException $e) {
+            }
         }
 
         /** @var SplFileInfo $fi */
