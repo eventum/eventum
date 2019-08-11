@@ -16,6 +16,7 @@ namespace Eventum\Monolog;
 use Cascade\Cascade;
 use Date_Helper;
 use DateTimeZone;
+use Eventum\Config\Paths;
 use Eventum\DebugBarManager;
 use Monolog;
 use Monolog\Registry;
@@ -67,7 +68,7 @@ class Logger extends Registry
 
         $configPath = Setup::getConfigPath();
         $files = [
-            APP_PATH . '/res/config/logger.php',
+            Paths::APP_PATH . '/res/config/logger.php',
             $configPath . '/logger.php',
         ];
         $config = [];

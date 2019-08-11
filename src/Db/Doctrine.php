@@ -53,7 +53,7 @@ class Doctrine
 
         $isDevMode = false;
         $paths = [
-            APP_PATH . '/src/Model/Entity',
+            Paths::APP_PATH . '/src/Model/Entity',
         ];
 
         $config = DB_Helper::getConfig();

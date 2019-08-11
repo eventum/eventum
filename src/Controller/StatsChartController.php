@@ -14,6 +14,7 @@
 namespace Eventum\Controller;
 
 use Auth;
+use Eventum\Config\Paths;
 
 /**
  * Class StatsChartController
@@ -50,7 +51,7 @@ class StatsChartController extends BaseController
         $res = $this->plot->StatsChart($type, $hide_closed);
         if (!$res) {
             header('Content-type: image/gif');
-            readfile(APP_PATH . '/htdocs/images/no_data.gif');
+            readfile(Paths::APP_PATH . '/htdocs/images/no_data.gif');
         }
         exit;
     }

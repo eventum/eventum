@@ -21,7 +21,7 @@ ini_set('display_errors', 1);
 error_reporting(E_ALL & ~E_STRICT);
 set_time_limit(0);
 
-require_once __DIR__ . '/../../globals.php';
+require_once __DIR__ . '/../../autoload.php';
 
 header('Content-Type: text/html; charset=UTF-8');
 
@@ -32,8 +32,6 @@ if ($have_config) {
     header('Location: ../');
     exit(0);
 }
-
-require_once APP_PATH . '/autoload.php';
 
 // set default timezone to utc to avoid default timezone not set warnings
 date_default_timezone_set(@date_default_timezone_get());
