@@ -3,9 +3,11 @@
 ## [3.8.0]
 
 Upgrading to 3.8.x versions requires that you upgrade to latest 3.5.x version first.
+Eventum 3.8.x requires MySQL server 5.5.3, see #433
 
 - Add index: `support_email`.`sup_message_id` (@glensc, #632)
 - Always enable Markdown rendering (@glensc, #633)
+- Change charset to utf8mb4 of `support_email` and `issue` tables (@glensc, #433)
 
 [3.8.0]: https://github.com/eventum/eventum/compare/v3.7.4...master
 
