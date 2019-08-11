@@ -45,7 +45,7 @@ class Setup
      */
     public static function getAuthCookie(): array
     {
-        $config = Setup::get();
+        $config = self::get();
 
         return [
             'name' => $config['cookie'],
@@ -59,7 +59,7 @@ class Setup
      */
     public static function getProjectCookie(): array
     {
-        $config = Setup::get();
+        $config = self::get();
 
         return [
             'name' => $config['project_cookie'],
@@ -72,7 +72,7 @@ class Setup
      */
     public static function getBaseUrl(): string
     {
-        return Setup::get()['base_url'];
+        return self::get()['base_url'];
     }
 
     /**
@@ -80,7 +80,7 @@ class Setup
      */
     public static function getRelativeUrl(): string
     {
-        return Setup::get()['relative_url'];
+        return self::get()['relative_url'];
     }
 
     /**
@@ -88,7 +88,7 @@ class Setup
      */
     public static function getHostname(): string
     {
-        return Setup::get()['hostname'];
+        return self::get()['hostname'];
     }
 
     /**
@@ -96,7 +96,7 @@ class Setup
      */
     public static function getAppName(): string
     {
-        return Setup::get()['name'];
+        return self::get()['name'];
     }
 
     /**
@@ -104,7 +104,7 @@ class Setup
      */
     public static function getShortName(): string
     {
-        return Setup::get()['short_name'];
+        return self::get()['short_name'];
     }
 
     /**
@@ -115,7 +115,7 @@ class Setup
      */
     public static function getToolCaption(): string
     {
-        return Setup::get()['tool_caption'];
+        return self::get()['tool_caption'];
     }
 
     /**
@@ -123,7 +123,7 @@ class Setup
      */
     public static function getAnonymousUser(): ?string
     {
-        return Setup::get()['anonymous_user'];
+        return self::get()['anonymous_user'];
     }
 
     /**
@@ -134,7 +134,7 @@ class Setup
      */
     public static function getDefaultTimezone(): string
     {
-        return Setup::get()['default_timezone'] ?? 'UTC';
+        return self::get()['default_timezone'] ?? 'UTC';
     }
 
     /**
