@@ -11,6 +11,7 @@
  * that were distributed with this source code.
  */
 
+use Eventum\Config\Paths;
 use Eventum\Db\Adapter\AdapterInterface;
 use Eventum\Db\Adapter\NullAdapter;
 use Eventum\Db\DatabaseException;
@@ -61,7 +62,7 @@ class DB_Helper
         /** @global $error_type */
         /** @noinspection PhpUnusedLocalVariableInspection */
         $error_type = 'db';
-        require APP_PATH . '/htdocs/offline.php';
+        require Paths::APP_PATH . '/htdocs/offline.php';
         exit(2);
     }
 

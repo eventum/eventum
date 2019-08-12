@@ -12,6 +12,7 @@
  */
 
 use Eventum\AppInfo;
+use Eventum\Config\Paths;
 use Eventum\DebugBarManager;
 use Eventum\Templating;
 
@@ -22,7 +23,7 @@ use Eventum\Templating;
  */
 class Template_Helper
 {
-    private const TEMPLATE_CACHE_DIR = APP_TPL_COMPILE_PATH;
+    private const TEMPLATE_CACHE_DIR = Paths::APP_TPL_COMPILE_PATH;
     /** @var Smarty */
     private $smarty;
 
@@ -37,13 +38,11 @@ class Template_Helper
      */
     public function __construct(string $templateName = null)
     {
-        $localPath = Setup::get()['local_path'];
-
         $smarty = new Smarty();
-        $smarty->setTemplateDir([$localPath . '/templates', APP_TPL_PATH]);
+        $smarty->setTemplateDir(Setup::getTemplatePaths());
         $smarty->setCompileDir(Misc::ensureDir(self::TEMPLATE_CACHE_DIR));
 
-        $smarty->addPluginsDir([APP_INC_PATH . '/smarty']);
+        $smarty->addPluginsDir([Paths::APP_INC_PATH . '/smarty']);
 
         $smarty->registerPlugin('modifier', 'activateLinks', [Link_Filter::class, 'activateLinks']);
         $smarty->registerPlugin('modifier', 'activateAttachmentLinks', [Link_Filter::class, 'activateAttachmentLinks']);
@@ -185,16 +184,16 @@ class Template_Helper
                 $active_projects[$prj_id] = $prj_info['prj_title'];
             }
             $core += [
-                    'active_projects' => $active_projects,
-                    'current_full_name' => $info['usr_full_name'],
-                    'current_email' => $info['usr_email'],
-                    'current_user_id' => $usr_id,
-                    'current_user_datetime' => Date_Helper::getISO8601date('now', '', true),
-                    'is_current_user_clocked_in' => User::isClockedIn($usr_id),
-                    'is_anon_user' => Auth::isAnonUser(),
-                    'is_current_user_partner' => !empty($info['usr_par_code']),
-                    'current_user_prefs' => Prefs::get($usr_id),
-                ];
+                'active_projects' => $active_projects,
+                'current_full_name' => $info['usr_full_name'],
+                'current_email' => $info['usr_email'],
+                'current_user_id' => $usr_id,
+                'current_user_datetime' => Date_Helper::getISO8601date('now', '', true),
+                'is_current_user_clocked_in' => User::isClockedIn($usr_id),
+                'is_anon_user' => Auth::isAnonUser(),
+                'is_current_user_partner' => !empty($info['usr_par_code']),
+                'current_user_prefs' => Prefs::get($usr_id),
+            ];
         }
         $this->assign('core', $core);
 

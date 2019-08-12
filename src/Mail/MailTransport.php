@@ -13,6 +13,7 @@
 
 namespace Eventum\Mail;
 
+use Eventum\Config\Paths;
 use Eventum\Monolog\Logger;
 use Exception;
 use Mail_Helper;
@@ -78,15 +79,12 @@ class MailTransport
     /**
      * Get path where to dump trace of errors.
      * Can be made configurable in the future.
-     *
-     * @return string
      */
-    private function getTraceFile()
+    private function getTraceFile(): string
     {
         $id = uniqid('zf-mail-', true);
-        $traceFile = APP_LOG_PATH . "/$id.json";
 
-        return $traceFile;
+        return Paths::APP_LOG_PATH . "/$id.json";
     }
 
     /**

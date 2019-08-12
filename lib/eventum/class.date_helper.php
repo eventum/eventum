@@ -261,7 +261,7 @@ class Date_Helper
             $usr_id = Auth::getUserID();
         }
         if (!$usr_id) {
-            return self::getDefaultTimezone();
+            return Setup::getDefaultTimezone();
         }
 
         return Prefs::getTimezone($usr_id);

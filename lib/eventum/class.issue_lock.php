@@ -11,6 +11,8 @@
  * that were distributed with this source code.
  */
 
+use Eventum\Config\Paths;
+
 /**
  * Manages issue specific locks
  */
@@ -122,8 +124,8 @@ class Issue_Lock
      * @param   int $issue_id Issue id
      * @return  string The full path of the process file
      */
-    private static function getLockFilename($issue_id)
+    private static function getLockFilename($issue_id): string
     {
-        return APP_LOCKS_PATH . '/issue_' . $issue_id . '.lock';
+        return Paths::APP_LOCKS_PATH . '/issue_' . $issue_id . '.lock';
     }
 }

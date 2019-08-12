@@ -13,6 +13,7 @@
 
 namespace Eventum;
 
+use Eventum\Config\Paths;
 use PackageVersions\Versions;
 
 final class AppInfo
@@ -105,7 +106,7 @@ final class AppInfo
 
     private function getGitVersion(): ?string
     {
-        putenv(sprintf('GIT_DIR=%s/.git', APP_PATH));
+        putenv(sprintf('GIT_DIR=%s/.git', Paths::APP_PATH));
         $versionString = shell_exec('git describe --tags --match=v* --abbrev=40');
         putenv('GIT_DIR=');
 

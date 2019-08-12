@@ -22,10 +22,11 @@ use Symfony\Component\EventDispatcher\GenericEvent;
  * @see http://docs.phinx.org/en/latest/commands.html#configuration-file-parameter
  */
 
-// init minimal constants needed for some classes to work
+require_once __DIR__ . '/autoload.php';
 require_once __DIR__ . '/globals.php';
-if (file_exists(APP_CONFIG_PATH . '/config.php')) {
-    require_once APP_CONFIG_PATH . '/config.php';
+
+if (file_exists($configFile = Setup::getConfigPath() . '/config.php')) {
+    require_once $configFile;
 }
 
 // workflow may use this in constructor

@@ -14,16 +14,11 @@
 /*
  * Constants here are internal and can not be overriden by installation
  */
-define('APP_PATH', __DIR__);
-define('APP_CONFIG_PATH', APP_PATH . '/config');
-define('APP_INC_PATH', APP_PATH . '/lib/eventum');
 
-// /var path for writable data
-define('APP_VAR_PATH', APP_PATH . '/var');
-define('APP_CACHE_PATH', APP_VAR_PATH . '/cache');
+use Eventum\Config\Paths;
 
-// define other paths
-define('APP_TPL_PATH', APP_PATH . '/templates');
-define('APP_TPL_COMPILE_PATH', APP_CACHE_PATH . '/smarty');
-define('APP_LOG_PATH', APP_VAR_PATH . '/log');
-define('APP_LOCKS_PATH', APP_VAR_PATH . '/lock');
+/**
+ * @deprecated constants to be dropped in 3.9.0
+ */
+// "APP_LOG_PATH" - may be present in config/logger.php
+define('APP_LOG_PATH', Paths::APP_LOG_PATH);

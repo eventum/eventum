@@ -14,6 +14,7 @@
 namespace Eventum\Console\Command;
 
 use DB_Helper;
+use Eventum\Config\Paths;
 use Eventum\Db;
 use Eventum\Db\DatabaseException;
 use Exception;
@@ -67,11 +68,11 @@ class MonitorCommand
         ];
 
         $required_directories = [
-            APP_PATH . '/misc/routed_emails' => [
+            Paths::APP_PATH . '/misc/routed_emails' => [
                 'check_permission' => true,
                 'permission' => 770,
             ],
-            APP_PATH . '/misc/routed_notes' => [
+            Paths::APP_PATH . '/misc/routed_notes' => [
                 'check_permission' => true,
                 'permission' => 770,
             ],

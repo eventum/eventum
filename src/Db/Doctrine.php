@@ -21,6 +21,7 @@ use Doctrine\DBAL\Types\Type;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Tools\Setup;
 use Eventum;
+use Eventum\Config\Paths;
 use Eventum\Db\Types\UTCDateTimeType;
 use Eventum\DebugBarManager;
 use Eventum\Model\Repository;
@@ -41,7 +42,7 @@ use Misc;
  */
 class Doctrine
 {
-    private const PROXY_CACHE_DIR = APP_CACHE_PATH . '/doctrine/proxies';
+    private const PROXY_CACHE_DIR = Paths::APP_CACHE_PATH . '/doctrine/proxies';
 
     public static function getEntityManager(): EntityManager
     {
@@ -52,7 +53,7 @@ class Doctrine
 
         $isDevMode = false;
         $paths = [
-            APP_PATH . '/src/Model/Entity',
+            Paths::APP_PATH . '/src/Model/Entity',
         ];
 
         $config = DB_Helper::getConfig();

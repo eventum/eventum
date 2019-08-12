@@ -14,6 +14,7 @@
 namespace Eventum;
 
 use Eventum\CommonMark\MentionExtension;
+use Eventum\Config\Paths;
 use Eventum\EventDispatcher\EventManager;
 use HTMLPurifier;
 use HTMLPurifier_HTML5Config;
@@ -30,7 +31,7 @@ use Symfony\Component\EventDispatcher\GenericEvent;
 
 final class Markdown
 {
-    private const PURIFIER_CACHE_DIR = APP_CACHE_PATH . '/purifier';
+    private const PURIFIER_CACHE_DIR = Paths::APP_CACHE_PATH . '/purifier';
     /**
      * Use moderately sane value
      *

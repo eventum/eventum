@@ -74,7 +74,7 @@ class EventumConvertConst extends AbstractMigration
              * APP_LOCAL_PATH/templates
              * APP_LOCAL_PATH/workflow
              */
-            'APP_LOCAL_PATH' => APP_CONFIG_PATH,
+            'APP_LOCAL_PATH' => Setup::getConfigPath(),
             // if set, normal calls to eventum are redirected to a maintenance page while
             // requests to /manage/ still work
             'APP_MAINTENANCE' => false,

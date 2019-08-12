@@ -15,6 +15,7 @@ namespace Eventum\Attachment;
 
 use DB_Helper;
 use Eventum\Attachment\Exceptions\AttachmentException;
+use Eventum\Config\Paths;
 use League\Flysystem\Adapter\Local;
 use League\Flysystem\Config;
 use League\Flysystem\Filesystem;
@@ -32,7 +33,7 @@ class StorageManager
      *
      * @var string
      */
-    const STORAGE_PATH = APP_PATH . '/var/storage/';
+    private const STORAGE_PATH = Paths::APP_PATH . '/var/storage/';
 
     /**
      * @var MountManager

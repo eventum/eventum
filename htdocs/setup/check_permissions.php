@@ -11,6 +11,8 @@
  * that were distributed with this source code.
  */
 
+use Eventum\Config\Paths;
+
 require_once __DIR__ . '/../../init.php';
 
 clearstatcache();
@@ -25,7 +27,7 @@ $setupFile = Setup::getSetupFile();
 echo "<p class=\"default\">This script checks your eventum directory for permission problems. Since different hosts will have
 permissions setup differently this script cannot automatically fix permission problems.</p>
 <p class=\"default\">As a general rule, your webserver should be running as 'nobody' (a user with few permissions)
-and your files should not be writable from the web. Only your logs (" . APP_LOG_PATH . ') and setup (' .
+and your files should not be writable from the web. Only your logs (" . Paths::APP_LOG_PATH . ') and setup (' .
     $setupFile . ') files need to be writable by the web server.</p>
 
 <p>The commands listed in the comments are only examples and may not work for every installation.';
@@ -40,12 +42,12 @@ echo '<table cellpadding="3">
         </tr>';
 
 // check if base directory is writeable
-check_file('Base Directory', APP_PATH, 'Base directory and sub directories should be read only by your web server.
-                <em>chmod -R a-w ' . APP_PATH . '</em>', 'r');
+check_file('Base Directory', Paths::APP_PATH, 'Base directory and sub directories should be read only by your web server.
+                <em>chmod -R a-w ' . Paths::APP_PATH . '</em>', 'r');
 
-check_file('Log Directory', APP_LOG_PATH, 'Log directory should be writable by your webserver. However, your web
+check_file('Log Directory', Paths::APP_LOG_PATH, 'Log directory should be writable by your webserver. However, your web
     server should <b>NOT</b> be able to read this directory to prevent outsiders from viewing your logs.
-                <em>chmod -R a-r ' . APP_LOG_PATH . '</em>', 'w');
+                <em>chmod -R a-r ' . Paths::APP_LOG_PATH . '</em>', 'w');
 
 check_file('Setup File', $setupFile, "The setup file should be both readable and writable from your web server.
     The setup file is used to store general settings.<br /><b>Note:</b> Once you have eventum configured, you can
