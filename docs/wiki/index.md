@@ -1,6 +1,3 @@
-_This wiki is being updated and restructured._  
-_Original content was moved from an older wiki site._
-
 ![](https://launchpadlibrarian.net/41243495/64.png)
 
 # What is Eventum
@@ -13,49 +10,54 @@ _Under Construction_
   * [x] _Indicates Links and Content Have Been Updated_
 
 * Basic User Information
- * [x] [[Creating Issues|Basic-User:-Creating-Issues]]
- * [x] [[Editing Personal Preferences|Basic-User:-Editing-Preferences]]
- * [x] [[FAQ|Basic-User:-FAQ]]
- * [X] [[Attachments]]
- * [[How Issues are Handled|Basic-User:-How-issues-are-handled-in-Eventum]]
- * [[Listing Issues|Basic-User:-Listing-Issues]]
- * [[Projects|Basic-User:-Projects]]
- * [[RSS Feeds|Basic-User:-RSS-feeds]]
- * [[Reports|Basic-User:-Reporting-System]]
- * [[Working with Issues|Basic-User:-Working-with-Issues]]
+ * [x] [Creating Issues](Basic-User/Creating-Issues.md)
+ * [x] [Editing Personal Preferences](Basic-User/Editing-Preferences.md)
+ * [x] [FAQ](Basic-User/FAQ.md)
+ * [X] [Attachments](Attachments.md)
+ * [How Issues are Handled](Basic-User/How-issues-are-handled-in-Eventum.md)
+ * [Listing Issues](Basic-User/Listing-Issues.md)
+ * [Projects](Basic-User/Projects.md)
+ * [RSS Feeds](Basic-User/RSS-feeds.md)
+ * [Reports](Basic-User/Reporting-System.md)
+ * [Working with Issues](Basic-User/Working-with-Issues.md)
 * System Administration
  * Installation
-    * [[System Requirements|Prerequisites]]
-    * [x] Download the latest release ___[[here|https://github.com/eventum/eventum/releases/latest]]___.
-    * [x] [[Doing a Fresh Install|System-Admin:-Doing-a-fresh-install]]
-      * [[Troubleshooting: Displaying PHP Errors|System-Admin:-Displaying-PHP-errors]]
-      * [[Installation Notes|System-Admin:-Installation-Notes]]
-    * [[Email Integration|System-Admin:-Email-integration]]
-    * [[Email Routing Interface|System-Admin:-Email-Routing-Interface]]
- * [x] [[General Setup|System-Admin:-General-Setup]]
- * [[Adding Users|System-Admin:-Users]]
- * [[Adding cron entries|System-Admin:-Adding-a-cron-entry]]
- * [[SCM Integration|System-Admin:-SCM-integration]]
- * [[Add Timeout - Outgoing SMTP (171)|System-Admin:-Add-a-timeout-for-outgoing-smtp-connections-171]]
- * [[Add Timeout - Outgoing SMTP|System-Admin:-Add-a-timeout-for-outgoing-smtp-connections]]
- * [[Become Super Administrator|System-Admin:-Become-Super-Administrator]]
- * [[Custom Fields|System-Admin:-Custom-Fields]]
- * [[Extending and Integrating|System-Admin:-Extending-and-Integrating-Eventum]]
- * [[Full Text Search|System-Admin:-Fulltext-Search]]
- * [[Full Text Search|System-Admin:-Setting-up-fulltext-searching]]
- * [[Subversion Integrations|System-Admin:-Subversion-integration]]
- * [[Workflow API|System-Admin:-Workflow-API]]
+    * [System Requirements](Prerequisites.md)
+    * [x] Download the latest release ___[here](https://github.com/eventum/eventum/releases/latest)___.
+    * [x] [Doing a Fresh Install](System-Admin/Doing-a-fresh-install.md)
+      * [Troubleshooting: Displaying PHP Errors](System-Admin/Displaying-PHP-errors.md)
+      * Installation Notes
+        * [FreeBSD 4.x](System-Admin/Installation-notes-for-FreeBSD-4.x.md)
+        * [Linux](System-Admin/Installation-notes-for-Linux-based-Systems.md)
+        * [NetWare](System-Admin/Installation-notes-for-NetWare.md)
+        * [PLD Linux](System-Admin/Installation-notes-for-PLD-Linux.md)
+        * [Windows](System-Admin/Installation-notes-for-Windows.md)
+    * [Email Integration](System-Admin/Email-integration.md)
+    * [Email Routing Interface](System-Admin/Email-Routing-Interface.md)
+ * [x] [General Setup](System-Admin/General-Setup.md)
+ * [Adding Users](System-Admin/Users.md)
+ * [Adding cron entries](System-Admin/Adding-a-cron-entry.md)
+ * [SCM Integration](System-Admin/SCM-integration.md)
+ * [Add Timeout - Outgoing SMTP (171)](System-Admin/Add-a-timeout-for-outgoing-smtp-connections-171.md)
+ * [Add Timeout - Outgoing SMTP](System-Admin/Add-a-timeout-for-outgoing-smtp-connections.md)
+ * [Become Super Administrator](System-Admin/Become-Super-Administrator.md)
+ * [Custom Fields](System-Admin/Custom-Fields.md)
+ * [Extending and Integrating](System-Admin/Extending-and-Integrating-Eventum.md)
+ * [Full Text Search](System-Admin/Fulltext-Search.md)
+ * [Full Text Search](System-Admin/Setting-up-fulltext-searching.md)
+ * [Subversion Integrations](System-Admin/Subversion-integration.md)
+ * [Workflow API](System-Admin/Workflow-API.md)
 * Advanced System Documentation
- * [[Custom Field API|System-Advanced:-CustomFieldAPI]]
- * [[Customer API|System-Advanced:-Customer-API]]
- * [[Dynamic Custom Fields|System-Advanced:-DynamicCustomFieldExample]]
- * [x] [[Importing Users|System-Advanced:-Import-Users]]
- * [x] [[IRC Bot|System-Advanced:-Using-the-IRC-bot]]
- * [[Link Filters|System-Advanced:-Manage-Link-Filters]]
- * [x] [[Localization|System-Advanced:-Localization]]
- * [[Workflow: Docs|System-Advanced:-WorkflowDocumentation]]
- * [[Workflow: Examples|System-Advanced:-WorkflowExamples]]
- * [x] [[Patches and Modifications|System Advanced:-Patches]]
+ * [Custom Field API](System-Advanced/CustomFieldAPI.md)
+ * [Customer API](System-Advanced/Customer-API.md)
+ * [Dynamic Custom Fields](System-Advanced/DynamicCustomFieldExample.md)
+ * [x] [Importing Users](System-Advanced/Import-Users.md)
+ * [x] [IRC Bot](System-Advanced/Using-the-IRC-bot.md)
+ * [Link Filters](System-Advanced/Manage-Link-Filters.md)
+ * [x] [Localization](System-Advanced/Localization.md)
+ * [Workflow: Docs](System-Advanced/WorkflowDocumentation.md)
+ * [Workflow: Examples](System-Advanced/WorkflowExamples.md)
+ * [x] [Patches and Modifications](System-Advanced/Patches.md)
    
 
 * * * * *
