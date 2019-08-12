@@ -19,6 +19,9 @@ use Eventum\Config\Paths;
 
 /**
  * @deprecated constants to be dropped in 3.9.0
+ *
+ * These may be present in workflow methods or in config/logger.php
  */
-// "APP_LOG_PATH" - may be present in config/logger.php
 define('APP_LOG_PATH', Paths::APP_LOG_PATH);
+define('APP_TPL_COMPILE_PATH', Paths::APP_TPL_COMPILE_PATH);
+define('APP_SYSTEM_USER_ID', Setup::getSystemUserId());

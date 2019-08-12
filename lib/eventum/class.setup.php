@@ -127,6 +127,14 @@ class Setup
     }
 
     /**
+     * @since 3.8.0
+     */
+    public static function getSystemUserId(): int
+    {
+        return self::get()['system_user_id'];
+    }
+
+    /**
      * Get the application default timezone.
      *
      * @return string The default timezone
