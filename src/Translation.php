@@ -24,7 +24,7 @@ final class Translation
         textdomain($domain);
     }
 
-    public static function gettext(string $string, array ...$args): string
+    public static function gettext(string $string, array $args): string
     {
         $translated = gettext($string);
 

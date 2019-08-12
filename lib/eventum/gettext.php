@@ -14,9 +14,9 @@
 use Eventum\Config\Paths;
 use Eventum\Translation as t;
 
-function ev_gettext($string): string
+function ev_gettext(string $string, array ...$args): string
 {
-    return t::gettext($string);
+    return t::gettext($string, $args);
 }
 
 function ev_ngettext($string, $plural, $number): string
