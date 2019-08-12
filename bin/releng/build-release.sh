@@ -48,16 +48,6 @@ update_timestamps() {
 	done
 }
 
-# rename wiki pages to be compatible with windows filesystems
-# https://github.com/eventum/eventum/issues/180
-wiki_pages_rename() {
-	echo >&2 "Renaming wiki pages"
-	find $dir -name '*:*' | while read file; do
-		f=$(echo "$file" | sed -e 's/:/_/g')
-		mv -v "$file" "$f"
-	done
-}
-
 vcs_checkout() {
 	set -x
 	local submodule dir=$dir absdir
@@ -92,8 +82,6 @@ vcs_checkout() {
 
 	# reset submodules to previous state
 	git submodule update
-
-	wiki_pages_rename
 }
 
 po_checkout() {
