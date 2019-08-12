@@ -131,7 +131,7 @@ class Setup
      */
     public static function getSystemUserId(): int
     {
-        return self::get()['system_user_id'] ?? APP_SYSTEM_USER_ID;
+        return self::get()['system_user_id'] ?? (defined('APP_SYSTEM_USER_ID') ? APP_SYSTEM_USER_ID : 1);
     }
 
     /**
