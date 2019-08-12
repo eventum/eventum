@@ -43,19 +43,11 @@ cd $topdir
 git fetch origin
 git rebase origin/master
 
-cd $topdir/docs/wiki
-git checkout master
-git pull --rebase
-cd ../..
-
 cache_gpg_askpass
 
 patch_changelog "s/^## \[$(quote "$VERSION")\] *-* *$/& - $RELDATE/"
 patch_changelog "/^\[$(quote "$VERSION")\]/ s/\.\.\.master/...$TAG/"
 git commit -am "prepare for $VERSION release"
-
-cd $topdir/docs/wiki
-git tag $TAG
 
 cd $topdir
 GIT_COMMITTER_EMAIL=$SIGN_KEY git tag -s -u "$SIGN_KEY" "$TAG" -m "release $TAG"
@@ -67,5 +59,3 @@ cd $topdir
 git push origin master
 git push origin $TAG
 git push launchpad
-cd $topdir/docs/wiki
-git push origin $TAG
