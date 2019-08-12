@@ -13,6 +13,7 @@ Eventum 3.8.x requires MySQL server 5.5.3, see #433
 - Get rid of global constants (moved to `setup.php`) (@glensc, #629, #642)
 - Import docs/wiki submodule (@glensc, #644)
 - Fix `scm_ping` route (@glensc, #646)
+- Drop native PHP gettext wrapper (@glensc, #637)
 
 [3.8.0]: https://github.com/eventum/eventum/compare/v3.7.4...master
 
