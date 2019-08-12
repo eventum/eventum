@@ -49,12 +49,12 @@ class EventManager
      * Helper to dispatch events
      *
      * @param string $eventName
-     * @param Event $event
-     * @return Event
+     * @param Event|\Symfony\Contracts\EventDispatcher\Event $event
+     * @return Event|object
      * @see EventDispatcherInterface::dispatch()
      */
-    public static function dispatch($eventName, Event $event = null): Event
+    public static function dispatch($eventName, $event = null)
     {
-        return self::getEventDispatcher()->dispatch($eventName, $event);
+        return self::getEventDispatcher()->dispatch($event ?? new Event(), $eventName);
     }
 }
