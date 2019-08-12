@@ -1,0 +1,12 @@
+* Advanced System Documentation
+ * [[Custom Field API|System-Advanced:-CustomFieldAPI]]
+ * [[Customer API|System-Advanced:-Customer-API]]
+ * [[Database|System-Advanced:-Database]] 
+ * [[Dynamic Custom Fields|System-Advanced:-DynamicCustomFieldExample]]
+ * [x] [[Importing Users|System-Advanced:-Import-Users]]
+ * [x] [[IRC Bot|System-Advanced:-Using-the-IRC-bot]]
+ * [[Link Filters|System-Advanced:-Manage-Link-Filters]]
+ * [x] [[Localization|System-Advanced:-Localization]]
+ * [[Workflow: Docs|System-Advanced:-WorkflowDocumentation]]
+ * [[Workflow: Examples|System-Advanced:-WorkflowExamples]]
+ * [x] [[Patches and Modifications|System Advanced:-Patches]]
