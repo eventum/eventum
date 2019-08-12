@@ -17,11 +17,18 @@
 
 use Eventum\Config\Paths;
 
+$define = static function ($name, $value): void {
+    if (defined($name)) {
+        return;
+    }
+    define($name, $value);
+};
+
 /**
  * @deprecated constants to be dropped in 3.9.0
  *
  * These may be present in workflow methods or in config/logger.php
  */
-define('APP_LOG_PATH', Paths::APP_LOG_PATH);
-define('APP_TPL_COMPILE_PATH', Paths::APP_TPL_COMPILE_PATH);
-define('APP_SYSTEM_USER_ID', Setup::getSystemUserId());
+$define('APP_LOG_PATH', Paths::APP_LOG_PATH);
+$define('APP_TPL_COMPILE_PATH', Paths::APP_TPL_COMPILE_PATH);
+$define('APP_SYSTEM_USER_ID', Setup::getSystemUserId());
