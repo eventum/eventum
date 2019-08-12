@@ -25,10 +25,6 @@ use Symfony\Component\EventDispatcher\GenericEvent;
 require_once __DIR__ . '/autoload.php';
 require_once __DIR__ . '/globals.php';
 
-if (file_exists($configFile = Setup::getConfigPath() . '/config.php')) {
-    require_once $configFile;
-}
-
 // workflow may use this in constructor
 Eventum\Monolog\Logger::initialize();
 

@@ -25,6 +25,13 @@ $define = static function ($name, $value): void {
 };
 
 /**
+ * @deprecated this file won't be loaded in 3.9.0
+ */
+if (file_exists($configFile = Setup::getConfigPath() . '/config.php')) {
+    require_once $configFile;
+}
+
+/**
  * @deprecated constants to be dropped in 3.9.0
  *
  * These may be present in workflow methods or in config/logger.php

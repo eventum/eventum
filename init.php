@@ -31,11 +31,6 @@ ini_set('memory_limit', '512M');
 // prevent session from messing up the browser cache
 ini_set('session.cache_limiter', 'nocache');
 
-/**
- * @deprecated this file won't be loaded in 3.9.0
- */
-require_once Setup::getConfigPath() . '/config.php';
-
 Misc::stripInput($_POST);
 
 // set default timezone
