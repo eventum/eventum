@@ -12,7 +12,7 @@ confirm:
     controller: Eventum\Controller\ConfirmController::defaultAction
 
 scm_ping:
-    path: /scm_ping
+    path: /scm_ping.php
     methods: POST
     controller: Eventum\Controller\ScmPingController::defaultAction
 
