@@ -58,7 +58,7 @@ class ScmControllerTest extends TestCase
     {
         $client = static::createClient();
 
-        $url = '/scm_ping';
+        $url = '/scm_ping.php';
         if ($query) {
             $url .= '?' . http_build_query($query);
         }
