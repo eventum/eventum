@@ -27,6 +27,44 @@ use Exception;
 class DateHelperTest extends TestCase
 {
     /**
+     * @dataProvider dataTestParse
+     */
+    public function testParse($input, array $exp): void
+    {
+        $date = Date_Helper::getDateTime($input);
+        $this->assertEquals($exp, [
+            $date->getTimestamp(),
+            $date->getOffset(),
+            $date->getTimezone()->getName(),
+            $date->format('Y-m-d H:i:s.u'),
+        ]);
+    }
+
+    public function dataTestParse(): array
+    {
+        return [
+            [
+                1565687097,
+                [
+                    0 => 1565687097,
+                    1 => 10800,
+                    2 => 'Europe/Tallinn',
+                    3 => '2019-08-13 12:04:57.000000',
+                ],
+            ],
+            [
+                '1565687097',
+                [
+                    0 => 1565687097,
+                    1 => 10800,
+                    2 => 'Europe/Tallinn',
+                    3 => '2019-08-13 12:04:57.000000',
+                ],
+            ],
+        ];
+    }
+
+    /**
      * @covers       Date_Helper::isAM
      * @dataProvider dataTestIsAM
      */
