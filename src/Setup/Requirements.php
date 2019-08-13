@@ -40,6 +40,7 @@ class Requirements
             'fileinfo',
             'filter',
             'gd',
+            'gettext',
             'iconv',
             'intl',
             'json',
