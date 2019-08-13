@@ -14,7 +14,7 @@
 use Eventum\Config\Paths;
 use Eventum\Translation as t;
 
-function ev_gettext(string $string, array ...$args): string
+function ev_gettext(string $string, ...$args): string
 {
     return t::gettext($string, $args);
 }
