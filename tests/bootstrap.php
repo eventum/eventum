@@ -16,6 +16,7 @@ use Eventum\Config\ConfigPersistence;
 use Eventum\Monolog\Logger;
 
 require_once __DIR__ . '/../autoload.php';
+require_once __DIR__ . '/../globals.php';
 
 // set default timezone
 date_default_timezone_set(Setup::getDefaultTimezone());
