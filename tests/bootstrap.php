@@ -19,11 +19,11 @@ require_once __DIR__ . '/../autoload.php';
 require_once __DIR__ . '/../globals.php';
 
 // set default timezone
+$config = Setup::get();
+$config['default_timezone'] = 'Europe/Tallinn';
 date_default_timezone_set(Setup::getDefaultTimezone());
 
 if (!getenv('TRAVIS')) {
-    $config = Setup::get();
-
     // override with test setup, if present
     $testSetupConfig = __DIR__ . '/_setup.php';
     if (file_exists($testSetupConfig)) {

@@ -44,13 +44,18 @@ class Date_Helper
         if ($ts instanceof DateTime) {
             $dateTime = clone $ts;
         } else {
+            $utc = new DateTimeZone('GMT');
             if ($ts === false || $ts === null) {
-                $ts = 'now';
+                $dateTime = new DateTime('now', $utc);
             } elseif (is_numeric($ts)) {
-                $ts = "@$ts";
+                if (preg_match('/^\d+\.\d+$/', $ts)) {
+                    $dateTime = DateTime::createFromFormat('U.u', $ts);
+                } else {
+                    $dateTime = new DateTime("@$ts", $utc);
+                }
+            } else {
+                $dateTime = new DateTime($ts, $utc);
             }
-
-            $dateTime = new DateTime($ts, new DateTimeZone('GMT'));
         }
 
         if (!$timezone) {
