@@ -14,12 +14,12 @@ Somebody says: hmm I see this way:
 
 * * * * *
 
---[Eliotbq](User:Eliotbq "wikilink") 02:01, 27 Jul 2005 (CEST) Disclaimer: this is how I see it as a fairly new user:
+--**Eliotbq** 02:01, 27 Jul 2005 (CEST) Disclaimer: this is how I see it as a fairly new user:
 
 Issue creation
 --------------
 
-See [Creating Issues](Creating Issues "wikilink") for more details. Either Click "Create issue" and fill in all the details
+See [Creating Issues](../Basic-User/Creating-Issues.md) for more details. Either Click "Create issue" and fill in all the details
 
 or from the "Associate emails" screen, select one or more unassociated emails, and click [Associate]-\>(New issue), then add the remaining details as for the first case.
 
@@ -28,11 +28,11 @@ or (if enabled) issues are created automatically from incoming email, or anonymo
 Issue followup
 --------------
 
-While viewing an issue, use the [Reply] button at the bottom of the first section.
+While viewing an issue, use the `[Reply]` button at the bottom of the first section.
 
 OR click the reply icon next to an email in the notes or associated emails list.
 
-OR click [Send Email] or [Post Internal Note] at the foot of the relevant section.
+OR click `[Send Email]` or `[Post Internal Note]` at the foot of the relevant section.
 
 OR reply to an email that has originated from eventum
 
@@ -102,4 +102,4 @@ Notifications are sent to users in the Notification List when some of the follow
 -   The eventum-user has configured his preferences to receive notifications for the proper event (issue creation or issue assigned).
 -   The user reported the issue by sendind email, with auto-creation of issues enabled or issue created from manually associated email (no setup option for disabling).
 -   The user is CC in the email that creates an issue (no setup option for disabling).
--   The issue has been set for some user to receive notification on specific issue Action (Issues are Updated, Issues are Closed, Emails are Associated, Files are Attached), default Action values set at [General Setup](General Setup "wikilink"), specific issue Action values set at [Edit Notification List](Edit Notification List "wikilink").
+-   The issue has been set for some user to receive notification on specific issue Action (Issues are Updated, Issues are Closed, Emails are Associated, Files are Attached), default Action values set at [General Setup](../System-Admin/General-Setup.md), specific issue Action values set at [Edit Notification List](Edit Notification List "wikilink").

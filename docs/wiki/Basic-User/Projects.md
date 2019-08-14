@@ -23,7 +23,7 @@ Enter the information required for a new project.
 
 **Status**: Active if you need to project to be visible by users.
 
-**Customer Integration Backend**: If you already built a customer backend, you may point to it here. Otherwise, learn more about [Customer Backend Integration](Extending and Integrating Eventum "wikilink") before using.
+**Customer Integration Backend**: If you already built a customer backend, you may point to it here. Otherwise, learn more about [Customer Backend Integration](../System-Admin/Extending-and-Integrating-Eventum.md) before using.
 
 **Workflow Backend**: If you already built a workflow backend, you may point to it here. Otherwise, learn more about Workflow Backend Integration before using.
 

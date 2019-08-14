@@ -91,7 +91,7 @@ Standalone
 
 Web-based
 
--   [Pootle](http://translate.sourceforge.net/) (Python), e.g <del>[WordForge](http://pootle.wordforge.org/)</dev>
+-   [Pootle](http://translate.sourceforge.net/) (Python), e.g <del>[WordForge](http://pootle.wordforge.org/)</del>
 -   <del>[Webabel](http://kazit.berlios.de/webabel/)</del> (PHP) - **A Challenge to Get Working & No Documentation**
 -   <del>[Kartouche](http://www.dotmon.com/kartouche/)</del> (PHP), e.g <del>[<http://www.kyfieithu.co.uk/index.php?lg=en>& Kyfieithu]</del> - **A Challenge to Get Working - Strange Includes**
 -   [Rosetta](https://translations.launchpad.net/)(?)
