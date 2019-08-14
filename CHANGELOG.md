@@ -428,7 +428,7 @@ See [Attachments] wiki page for details.
 - RPC: log actions server side, not by client (@glensc, #303)
 
 [3.3.0]: https://github.com/eventum/eventum/compare/v3.2.3...v3.3.0
-[Attachments]: https://github.com/eventum/eventum/wiki/Attachments
+[Attachments]: docs/wiki/Attachments.md
 
 ## [3.2.3] - 2017-08-31
 
