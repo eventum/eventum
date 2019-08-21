@@ -14,6 +14,7 @@
 namespace Eventum;
 
 use Auth;
+use Eventum\Config\Paths;
 use Eventum\Db\Doctrine;
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
 use Symfony\Component\Config\Loader\LoaderInterface;
@@ -118,11 +119,11 @@ class Kernel extends BaseKernel
 
     public function getCacheDir(): string
     {
-        return "{$this->rootDir}/var/cache/{$this->environment}";
+        return Paths::APP_CACHE_PATH . '/' . $this->environment;
     }
 
     public function getLogDir(): string
     {
-        return "{$this->rootDir}/var/log";
+        return Paths::APP_LOG_PATH;
     }
 }
