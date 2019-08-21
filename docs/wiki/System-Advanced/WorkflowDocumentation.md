@@ -78,4 +78,4 @@ As Eventum is developed more methods will be added to the workflow class. If you
 
 ### Examples
 
-Please see [the examples page](WorkflowExamples "wikilink") for example workflow methods.
+Please see [the examples page](WorkflowExamples.md) for example workflow methods.

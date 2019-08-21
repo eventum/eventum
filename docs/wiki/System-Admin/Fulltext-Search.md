@@ -43,7 +43,7 @@ And for the 4.1 manual see <http://dev.mysql.com/doc/refman/4.1/en/fulltext-sear
 
 ### Eventum
 
-[Setting_up_fulltext_searching](Setting up fulltext searching "wikilink") explains that there is a configuration switch to enable fulltext searching in the Eventum system.
+[Setting_up_fulltext_searching](Setting-up-fulltext-searching.md) explains that there is a configuration switch to enable fulltext searching in the Eventum system.
 
 Code and Configuration
 ----------------------

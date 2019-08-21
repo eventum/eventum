@@ -2,7 +2,7 @@
 
 This is a work in progress...
 
-The most useful information for now is located [here](Extending and Integrating Eventum "wikilink").
+The most useful information for now is located [here](../System-Admin/Extending-and-Integrating-Eventum.md).
 
 <hr>
 Out-of-the-box, Eventum will meet many of your business needs.

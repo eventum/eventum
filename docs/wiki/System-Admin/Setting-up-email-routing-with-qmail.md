@@ -2,7 +2,7 @@
 
 ## Quick Notes ##
 
-When you're setting up Eventum's [Email Routing Interface](Email Routing Interface "wikilink") for qmail, use these options in the Administration -\> General Setup area:
+When you're setting up Eventum's [Email Routing Interface](Email-Routing-Interface.md) for qmail, use these options in the Administration -\> General Setup area:
 
 `Email Routing Interface: Enabled`
 `Recipient Type Flag: [doesn't matter, choose any]`
@@ -35,4 +35,6 @@ the files contents should in general invoke route_TYPE.php file from Eventum ins
 
 `cd /usr/share/eventum && /usr/bin/php route_issues.php`
 
-You may use [<http://cvs.pld-linux.org/cgi-bin/cvsweb.cgi/SOURCES/eventum-router-qmail.sh> this](http://cvs.pld-linux.org/cgi-bin/cvsweb.cgi/SOURCES/eventum-router-qmail.sh this "wikilink") script from [<http://www.pld-linux.org/> PLD Linux](http://www.pld-linux.org/ PLD Linux "wikilink") to do so. Additionally to invoking the PHP scripts that script maps the postfix style exit codes to qmail exit codes.
+You may use [eventum-router-qmail.sh] script from [PLD Linux](https://www.pld-linux.org/) to do so. Additionally to invoking the PHP scripts that script maps the postfix style exit codes to qmail exit codes.
+
+[eventum-router-qmail.sh]: https://github.com/pld-linux/eventum/blob/auto/ac/eventum-2_2-1/eventum-router-qmail.sh

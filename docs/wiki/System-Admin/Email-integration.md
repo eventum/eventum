@@ -29,7 +29,7 @@ Once inside Eventum, incoming email messages can be associated with issues:
 -   By auto-creating a new issue if the email cannot be automatically associated with an existing issue using the above methods (optional feature)
 -   By manually associating the email with an issue from the queue of unassociated emails (assuming the auto-create feature is not active)
 
-Note that the email integration features expect that one email address will be set up for each project. A single email address can be used for multiple projects using the [multiple project email workaround](../System-Admin/System-Admin_-Setting-up-email-routing-with-1-email-account-for-multiple-projects.md).
+Note that the email integration features expect that one email address will be set up for each project. A single email address can be used for multiple projects using the [multiple project email workaround](../System-Admin/setting-up-email-routing-with-1-email-account-for-multiple-projects.md).
 
 Who is automatically assigned an issue? How do I change which user gets a new issue?
 ------------------------------------------------------------------------------------
@@ -51,14 +51,14 @@ A common mistake for the email integration is forgetting to set the mail scripts
 1.  `bin/download_emails.php` (Downloads e-mail to Eventum)
 2.  `bin/process_mail_queue.php` (Sends e-mail from Eventum)
 
-For user on a Unix/Linux system, the timing is generally set [using cron](Adding a cron entry "wikilink"). For Windows, use either the Task Scheduler, or find a "cron equivalent" program.
+For user on a Unix/Linux system, the timing is generally set [using cron](Adding-a-cron-entry.md). For Windows, use either the Task Scheduler, or find a "cron equivalent" program.
 
 Look in the INSTALL file for information on how to set up the mail scripts.
 
 If you are running under PHP on Unix/Linux, you may have a problem getting the process_mail_queue.php script to work.
 Edit your local configuration file (php.ini) and increase the amount of memory a script may have (memory_limit).
 
-The `download_emails.php` script requires [some parameters](Doing a fresh install#Email_Download_(bin/download_emails.php) "wikilink"). Look in the source of that file or run from commandline to see what they are (username, hostname). You must provide these parameters when setting up your cron.
+The `download_emails.php` script requires [some parameters](Doing-a-fresh-install.md#email-download-download_emailsphp). Look in the source of that file or run from commandline to see what they are (username, hostname). You must provide these parameters when setting up your cron.
 
 1.  Notes about [Japanese character sets](Localization:Japanese "wikilink") and E-mail integration.
 

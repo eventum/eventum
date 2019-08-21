@@ -1,6 +1,6 @@
 ### Setting up email routing with exim
 
-This describes how to set up the [Email Routing Interface](Email Routing Interface "wikilink") with the Exim MTA.
+This describes how to set up the [Email Routing Interface](Email-Routing-Interface.md) with the Exim MTA.
 
 Address Extensions
 ------------------

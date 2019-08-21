@@ -12,9 +12,9 @@ Setup
 
 These pages contain information on setting up the email routing interface:
 
--   [Doing a fresh install](Doing a fresh install "wikilink")
--   [Setting up email routing with Sendmail](Setting up email routing with Sendmail "wikilink")
--   [Setting up email routing with qmail](Setting up email routing with qmail "wikilink")
--   [Setting up email routing with postfix](Setting up email routing with postfix "wikilink")
--   [Setting up email routing with exim](Setting up email routing with exim "wikilink")
--   [Setting up email routing with 1 email account for multiple projects](Setting up email routing with 1 email account for multiple projects "wikilink")
+-   [Doing a fresh install](Doing-a-fresh-install.md)
+-   [Setting up email routing with Sendmail](Setting-up-email-routing-with-Sendmail.md)
+-   [Setting up email routing with qmail](Setting-up-email-routing-with-qmail.md)
+-   [Setting up email routing with postfix](Setting-up-email-routing-with-postfix.md)
+-   [Setting up email routing with exim](Setting-up-email-routing-with-exim.md)
+-   [Setting up email routing with 1 email account for multiple projects](setting-up-email-routing-with-1-email-account-for-multiple-projects.md)

@@ -8,7 +8,7 @@
 Main package
 ------------
 
-Before you continue, please read the generic installation instructions: [Doing a fresh install](Doing a fresh install "wikilink").
+Before you continue, please read the generic installation instructions: [Doing a fresh install](Doing-a-fresh-install.md).
 
 ```
 # poldek -u eventum-setup
@@ -67,7 +67,7 @@ $ vi ~/.eventumrc
 SCM Integration
 ---------------
 
-`SCM` Integration is currently possible only with `CVS`. For SVN integration have look at [Subversion integration](Subversion integration "wikilink") page.
+`SCM` Integration is currently possible only with `CVS`. For SVN integration have look at [Subversion integration](Subversion-integration.md) page.
 
 ```
 # poldek -u eventum-scm
@@ -83,9 +83,9 @@ ALL  /usr/lib/eventum/scm $USER %{sVv}
 IRC Bot
 -------
 
-By default IRC Bot notifies to configured channel only new issues. If you need more you should use [Workflow API](Workflow API "wikilink").
+By default IRC Bot notifies to configured channel only new issues. If you need more you should use [Workflow API](Workflow-API.md).
 
-You might want to read [Using the IRC bot](Using the IRC bot "wikilink") before configuring your IRC bot.
+You might want to read [Using the IRC bot](../System-Advanced/Using-the-IRC-bot.md) before configuring your IRC bot.
 
 ```
 # poldek -u eventum-irc

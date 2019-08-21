@@ -1,6 +1,6 @@
 ### Workflow Examples
 
-The following are examples of individual workflow methods to perform special functionality. Note that these must all appear within an extended Abstract_Workflow_Backend class. Please refer to [Eventum:WorkflowDocumentation](WorkflowDocumentation "wikilink") documentation for instructions on creating a file that extends the Abstract_Workflow_Backend class.
+The following are examples of individual workflow methods to perform special functionality. Note that these must all appear within an extended Abstract_Workflow_Backend class. Please refer to [Eventum:WorkflowDocumentation](WorkflowDocumentation.md) documentation for instructions on creating a file that extends the Abstract_Workflow_Backend class.
 
 ### Update Percentage Complete when Closing an Issue
 
