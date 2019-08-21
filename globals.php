@@ -36,6 +36,7 @@ if (file_exists($configFile = Setup::getConfigPath() . '/config.php')) {
  *
  * These may be present in workflow methods or in config/logger.php
  */
+$define('APP_CACHE_PATH', Paths::APP_CACHE_PATH);
 $define('APP_LOG_PATH', Paths::APP_LOG_PATH);
-$define('APP_TPL_COMPILE_PATH', Paths::APP_TPL_COMPILE_PATH);
 $define('APP_SYSTEM_USER_ID', Setup::getSystemUserId());
+$define('APP_TPL_COMPILE_PATH', Paths::APP_TPL_COMPILE_PATH);
