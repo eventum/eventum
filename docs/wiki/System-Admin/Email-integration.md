@@ -11,7 +11,7 @@ Incoming emails are input to the system in one of two ways:
 
 Outgoing emails are put into a queue, and sent out by a cron job (scheduled task). If the mail server is not available, the emails remain in the queue.
 
-See the [installation guide](Doing a fresh install "wikilink") for information on setting up the cron jobs, and [Email Routing Interface](Email Routing Interface "wikilink") for information on setting up that feature.
+See the [installation guide](Doing-a-fresh-install.md) for information on setting up the cron jobs, and [Email Routing Interface](Email-Routing-Interface.md) for information on setting up that feature.
 
 ### Outgoing Mail
 
@@ -25,11 +25,11 @@ Once inside Eventum, incoming email messages can be associated with issues:
 
 -   By inspecting the email's headers (for example, if the email is a reply to another email already associated with an issue)
 -   By inspecting the email's subject line for reference to an issue id in the format [\#1234] (optional feature, inactive by default)
--   When processed by the [Email Routing Interface](Email Routing Interface "wikilink"), by extracting the issue id from the address (ex: issue-234@example.com)
+-   When processed by the [Email Routing Interface](Email-Routing-Interface.md), by extracting the issue id from the address (ex: issue-234@example.com)
 -   By auto-creating a new issue if the email cannot be automatically associated with an existing issue using the above methods (optional feature)
 -   By manually associating the email with an issue from the queue of unassociated emails (assuming the auto-create feature is not active)
 
-Note that the email integration features expect that one email address will be set up for each project. A single email address can be used for multiple projects using the [multiple project email workaround](multiple project email workaround "wikilink").
+Note that the email integration features expect that one email address will be set up for each project. A single email address can be used for multiple projects using the [multiple project email workaround](../System-Admin/System-Admin_-Setting-up-email-routing-with-1-email-account-for-multiple-projects.md).
 
 Who is automatically assigned an issue? How do I change which user gets a new issue?
 ------------------------------------------------------------------------------------

@@ -2,7 +2,7 @@
 
 ## Overview ##
 
-This describes how to set up [Eventum:SCM integration](SCM integration "wikilink") for Subversion.
+This describes how to set up [SCM integration](SCM-integration.md) for Subversion.
 
 Setup
 -----

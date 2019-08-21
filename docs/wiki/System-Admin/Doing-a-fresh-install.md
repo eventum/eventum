@@ -19,7 +19,7 @@
 
 ## Installation Process ##
 
-Before starting, check [System Requirements](Prerequisites) first.
+Before starting, check [System Requirements](../Prerequisites.md) first.
 
 Installation is pretty simple and quick.
 Download the [latest release](https://github.com/eventum/eventum/releases/latest) tarball, and unpack it.
@@ -41,9 +41,9 @@ After the installation is done, you should go and take all of the available
 privileges from the `htdocs/setup` directory, so other people are not allowed
 to go in there and mess with your configuration.
 
-**IMPORTANT:** If you already have an installation of Eventum, please read the [UPGRADE](Upgrading) file.
+**IMPORTANT:** If you already have an installation of Eventum, please read the [UPGRADE](../Upgrading.md) file.
 
-**IMPORTANT:** If you are having trouble getting Eventum to work, please read the trouble shooting section of the [FAQ](Basic-User%3A-FAQ) file.
+**IMPORTANT:** If you are having trouble getting Eventum to work, please read the trouble shooting section of the [FAQ](../Basic-User/FAQ.md) file.
 
 **IMPORTANT:** By default, the admin user login is set to to admin@example.com during installation. **Be sure to change this to a valid email address with a new password immediately**. Note that eventum will attempt to send the new password to the specified address, which should be valid to prevent the password from being exposed if the email is bounced.
 
@@ -169,7 +169,7 @@ different exit codes.
 
 The IRC notification bot is a nice feature for remote teams that want to handle issues and want to have a quick and easy way to get simple notifications.
 
-See [IRC Bot page](System-Advanced%3A-Using-the-IRC-bot) for details.
+See [IRC Bot page](../System-Advanced/Using-the-IRC-bot.md) for details.
 
 ### Command Line Interface (cli/eventum)
 

@@ -1,4 +1,6 @@
-== Allowing file uploads == Make sure the IIS username can write to the directory specified in your upload_tmp_dir directive in PHP.INI. If you haven't specified this, it's probably %WINDIR%\\TEMP (C:\\WINNT\\TEMP in my case).
+## Allowing file uploads
+
+Make sure the IIS username can write to the directory specified in your upload_tmp_dir directive in PHP.INI. If you haven't specified this, it's probably %WINDIR%\\TEMP (C:\\WINNT\\TEMP in my case).
 
 If this permission is not set, file uploads will fail. If uploading anonymously through anonymous issue reporting, there will be no signs of problems in the eventum/logs folder nor in Event Viewer. If uploading through the administrative interface, there will be a simple error message in the browser file upload popup window that doesn't really help figuring out what's wrong.
 

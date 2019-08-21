@@ -4,7 +4,7 @@ Eventum has a feature to provide RSS feeds of custom filters, which is basically
 
 If you click on the advanced Search link and save a search, this named search will appear on the bottom of the web page with an RSS button. If you copy the link that you get from the button, you may use that link to set up your rss reader or use a browser such as firefox which has an rss reader built in.
 
-RSS links look like this: <http://(eventum-domain)/rss.php?custom_id=12345>
+RSS links look like this: `https://eventum.example.org/rss.php?custom_id=12345`
 
 To create a RSS feed:
 
@@ -28,7 +28,7 @@ Why is additional authentication required?
 
 Since we can't simply have an open window into a potential confidential database of issues/bugs/tickets, the RSS feed script authenticates the user with HTTP Auth. This kind of authentication is necessary instead of a session in the browser, so any [RSS client](http://en.wikipedia.org/wiki/RSS_Reader) (not necessarily web-based) can use it without logging into Eventum as a web application.
 
-Another way is bookmarking with credential in url, so eg. with our example will be: [http://username:password](http://username:password)@(eventum-domain)/rss.php?custom_id=12345
+Another way is bookmarking with credential in url, so eg. with our example will be: `https://username:password@eventum.example.org/rss.php?custom_id=12345`
 
 After entering correct login and password in the window, it pops again
 ----------------------------------------------------------------------
