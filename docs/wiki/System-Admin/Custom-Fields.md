@@ -2,8 +2,7 @@
 
 Eventum can create custom fields to use in assigned projects. Custom fields can hold data to require in forms and display in listings.
 
-Creating Custom Fields
-======================
+# Creating Custom Fields
 
 Follow these steps to create a custom field:
 

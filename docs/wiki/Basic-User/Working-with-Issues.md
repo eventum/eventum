@@ -2,8 +2,7 @@
 
 Add stuff to this page to explain what can be done with an open issue.
 
-Issue Overview
---------------
+## Issue Overview
 
 The Issue Overview gives a bird's eye view of the issue, including its Status, Priority, Assignment and Summary.
 
@@ -26,32 +25,27 @@ When you or a supportagent finds that the content of an issue is in any form rel
 
 For relating issues there is a lookup function available which gives you the opportunity to select an issue by its title or ID. This lookup is also available when the button "mark as duplicate" is used.
 
-`Associated issues or duplicates are presented as hyperlinks on the issue detail page. `
-`Hovering over the hyperlink will show you the status of the associated or duplicate issue as well as the title of the associated issue.`
-`When the duplicated or associated issue is already closed, these hyperlinks will appear with strikethrough.`
+`Associated issues or duplicates are presented as hyperlinks on the issue detail page.`
+`Hovering over the hyperlink will show you the status of the associated or duplicate issue as well as the title of the associated issue.`
+`When the duplicated or associated issue is already closed, these hyperlinks will appear with strikethrough.`
 
-Attached Files
---------------
+## Attached Files
 
 Files may be uploaded to this section.
 
-Time Tracking
--------------
+## Time Tracking
 
 A tool is provided to keep track of time spent working on an issue. This is self-reported, not automatic.
 
-Internal Notes
---------------
+## Internal Notes
 
 Internal notes allow staff to comment on an issue, and updates are sent via email to users in the notification list for that issue.
 
-Phone Calls
------------
+## Phone Calls
 
 The Phone Calls section allows telephone conversations to be logged, including the date, time, parties involved, phone number (and type), and other information. While this feature may require a lot of discipline, it is an important way to keep staff aware of all action taken on an issue.
 
-Drafts
-------
+## Drafts
 
 Drafts of emails may be saved until they are ready to be sent. They are either original emails (as opposed to replies) that may be composed for and automatically associated with an issue, or they are replies to existing associated emails. It is often desirable to begin a draft, but not send it until more information is collected or other staff are allowed to review and/or collaborate.
 
@@ -63,7 +57,6 @@ Note that once a Draft is saved, it cannot be deleted (as of v. 2.1), but it can
 
 **NOTE:** You must ensure that the recipient(s) are in the Authorized Repliers list, or responses will be blocked by the system.
 
-Associated Emails
------------------
+## Associated Emails
 
 Email integration allows messages to be associated to an issue, and they will be listed here. Association may be done manually from the "Associate Emails" page or automatically associated with an issue based on routing configuration. When draft emails are sent, they are also moved to this section.

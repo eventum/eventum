@@ -1,6 +1,6 @@
 ### Email integration
 
-## Overview ##
+## Overview
 
 Eventum's email integration features allow emails to be sent from and received by Eventum.
 
@@ -15,9 +15,9 @@ See the [installation guide](Doing-a-fresh-install.md) for information on settin
 
 ### Outgoing Mail
 
-Eventum supports a single SMTP account for sending mail, but each project can have it's own mail address.  The mail settings found under ```General Setup``` define the system wide SMTP account.  The ```Sender Email``` setting is used for ```Email Reminder System Status Information``` and ```Email Error Logging System``` messages.  
+Eventum supports a single SMTP account for sending mail, but each project can have it's own mail address. The mail settings found under `General Setup` define the system wide SMTP account. The `Sender Email` setting is used for `Email Reminder System Status Information` and `Email Error Logging System` messages.
 
-Each project uses it's own dedicated mail address, but relies on the system wide SMTP settings.  The project mail address setting can be found on the ```Manage Projects``` screen.
+Each project uses it's own dedicated mail address, but relies on the system wide SMTP settings. The project mail address setting can be found on the `Manage Projects` screen.
 
 ### Incoming mail
 
@@ -31,20 +31,17 @@ Once inside Eventum, incoming email messages can be associated with issues:
 
 Note that the email integration features expect that one email address will be set up for each project. A single email address can be used for multiple projects using the [multiple project email workaround](../System-Admin/setting-up-email-routing-with-1-email-account-for-multiple-projects.md).
 
-Who is automatically assigned an issue? How do I change which user gets a new issue?
-------------------------------------------------------------------------------------
+## Who is automatically assigned an issue? How do I change which user gets a new issue?
 
 Go to Administration -\> Manage Email Accounts. Under "Existing Accounts", go to "Auto-Creation of Issues" and click on the "Enabled" link to see options for this e-mail account. Change the user who is auto-assigned new tickets.
 
-How To Receive Email For Issues That Are Assigned To You
---------------------------------------------------------
+## How To Receive Email For Issues That Are Assigned To You
 
 It is simple to receive email for issues which are assigned to you. Go to Preferences for your user account and indicate if you wish to "Receive emails when all issues are created", or "Receive emails when new issues are assigned to you". Each of these options has a radio button for yes or no for each project you have been assigned to, so it is easy to specify the exact kind of email notifications you receive.
 
 In order for the email function to work, the "SMTP (Outgoing Email) Settings" in Administration-\>General Preference needs to be configured properly. You also need to use a valid email address as your login ID for Eventum.
 
-Troubleshooting
----------------
+## Troubleshooting
 
 A common mistake for the email integration is forgetting to set the mail scripts to run. The scripts are:
 
@@ -64,13 +61,11 @@ The `download_emails.php` script requires [some parameters](Doing-a-fresh-instal
 
 1.  Some [additional troubleshooting resources.](Mail Additional Troubleshooting "wikilink")
 
-Email Blocking
---------------
+## Email Blocking
 
 To prevent inappropriate emails reaching the notification list, only users that are assigned to the issue are allowed to email through Eventum. If an un-authorized user sends an email to <i>issue-XXXX@example.com</i> it is converted into a note and stored for later use. This note can be converted into an email at a later date.
 
-Customizing the System Generated Mail Messages
-----------------------------------------------
+## Customizing the System Generated Mail Messages
 
 Eventum uses the [Smarty](http://www.smarty.net/) Template Engine. See the [Online Documentation](http://www.smarty.net/docs.php) for Smarty templating syntax.
 

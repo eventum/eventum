@@ -1,6 +1,6 @@
 ### Setting up email routing with postfix
 
-## Quick Notes ##
+## Quick Notes
 
 When you're setting up Eventum's [Email Routing Interface](https://github.com/eventum/eventum/wiki/System-Admin:-Email-Routing-Interface) for postfix, use these options in the `Administration` -> `General Setup` area:
 
@@ -20,8 +20,7 @@ Note Address Prefix: draft-
 Address Hostname: [the domain name of the email address issues should be sent to]
 ```
 
-Postfix configuration
----------------------
+## Postfix configuration
 
 There are different ways to implement the goal.
 
@@ -40,7 +39,7 @@ Be sure to include your domain in mydestination
 mydestination = $transport_maps, $myhostname, eventum.example.com
 ```
 
-In ``/etc/mail/master.cf`` define eventum transport:
+In `/etc/mail/master.cf` define eventum transport:
 
 ```
 eventum   unix  -       n       n       -       10       pipe

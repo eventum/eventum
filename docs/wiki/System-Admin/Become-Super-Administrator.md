@@ -20,7 +20,7 @@ First step get the user's ID (will have the Administrator access)
 SELECT usr_id FROM user WHERE usr_email='your_email_here@example.com';
 ```
 
-Second step : update the user level in table *project_user*
+Second step : update the user level in table _project_user_
 
 ```sql
 UPDATE project_user SET pru_role = 7 WHERE pru_usr_id = 2 LIMIT 1;

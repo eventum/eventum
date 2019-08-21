@@ -2,8 +2,7 @@
 
 Fulltext search allows you to search issues by using [MySQL FULLTEXT support](http://dev.mysql.com/doc/refman/5.0/en/fulltext-search.html)
 
-User Hints
-----------
+## User Hints
 
 Fulltext indexing in Support:
 
@@ -32,8 +31,7 @@ By default, there is a built-in list of words that MySQL does not include in it'
 
 Learn more about doing Full Text searches at <http://dev.mysql.com/tech-resources/articles/full-text-revealed.html>
 
-Reference Docs
---------------
+## Reference Docs
 
 ### MySQL
 
@@ -45,15 +43,14 @@ And for the 4.1 manual see <http://dev.mysql.com/doc/refman/4.1/en/fulltext-sear
 
 [Setting_up_fulltext_searching](Setting-up-fulltext-searching.md) explains that there is a configuration switch to enable fulltext searching in the Eventum system.
 
-Code and Configuration
-----------------------
+## Code and Configuration
 
 ### Eventum
 
 Set the APP_ENABLE_FULLTEXT flag in config.inc.php:
 
-`// if full text searching is enabled`
-`@define("APP_ENABLE_FULLTEXT", true);`
+`// if full text searching is enabled`
+`@define("APP_ENABLE_FULLTEXT", true);`
 
 Also, the fulltext searching within Eventum is coded in includes/class.issue.php
 
@@ -65,10 +62,7 @@ see the section about MySQL configuration for how to rebuild the indexes
 
 Configure MySQL to include two-letter or three-letter words in search indexing:
 
-(from <http://www.mysql.com/doc/en/Fulltext_Fine-tuning.html>) The minimum length of words to be indexed is defined by the MySQL variable ft_min_word_len . See section 4.6.8.4 SHOW VARIABLES. (This variable is only available from MySQL version 4.0.) The default value is four characters. Change it to the value you prefer, and rebuild your FULLTEXT indexes. For example, if you want three-character words to be searchable, you can set this variable by putting the following lines in an option file: `
-[mysqld]
-ft_min_word_len=3
-` Then restart the server and rebuild your FULLTEXT indexes.
+(from <http://www.mysql.com/doc/en/Fulltext_Fine-tuning.html>) The minimum length of words to be indexed is defined by the MySQL variable ft_min_word_len . See section 4.6.8.4 SHOW VARIABLES. (This variable is only available from MySQL version 4.0.) The default value is four characters. Change it to the value you prefer, and rebuild your FULLTEXT indexes. For example, if you want three-character words to be searchable, you can set this variable by putting the following lines in an option file: `[mysqld] ft_min_word_len=3` Then restart the server and rebuild your FULLTEXT indexes.
 
 ### Rebuilding MySQL Fulltext Indexes
 
@@ -76,12 +70,12 @@ ft_min_word_len=3
 
 The fastest way to rebuild the indexes is to issue the following SQL statements
 
-`REPAIR TABLE issue QUICK;`
-`REPAIR TABLE note QUICK;`
-`REPAIR TABLE time_tracking QUICK;`
-`REPAIR TABLE phone_support QUICK;`
-`REPAIR TABLE support_email_body QUICK;`
-`REPAIR TABLE issue_custom_field QUICK;`
+`REPAIR TABLE issue QUICK;`
+`REPAIR TABLE note QUICK;`
+`REPAIR TABLE time_tracking QUICK;`
+`REPAIR TABLE phone_support QUICK;`
+`REPAIR TABLE support_email_body QUICK;`
+`REPAIR TABLE issue_custom_field QUICK;`
 
 Note that the DROP/ADD procedure described below should be used if you have LARGE datasets, as it is much more efficient to drop the index and recreate it. With large (million+) datasets, it may take much longer to repair an index v. drop and add it.
 
@@ -102,7 +96,7 @@ from <http://dev.mysql.com/doc/refman/4.1/en/fulltext-fine-tuning.html>:
 >
 > The problem occurs because these parameters are known only by the server. They are not stored in MyISAM index files. To avoid the problem if you have modified the minimum or maximum word length or stopword file values used by the server, specify the same ft_min_word_len, ft_max_word_len, and ft_stopword_file values to myisamchk that you use for mysqld. For example, if you have set the minimum word length to 3, you can repair a table with myisamchk like this:
 
-`shell> myisamchk --recover --ft_min_word_len=3 tbl_name.MYI`
+`shell> myisamchk --recover --ft_min_word_len=3 tbl_name.MYI`
 
 > To ensure that myisamchk and the server use the same values for full-text parameters, place each one in both the [mysqld] and [myisamchk] sections of an option file:
 
@@ -116,8 +110,7 @@ ft_min_word_len=3
 
 > An alternative to using myisamchk is to use the REPAIR TABLE, ANALYZE TABLE, OPTIMIZE TABLE, or ALTER TABLE statements. These statements are performed by the server, which knows the proper full-text parameter values to use.
 
-Other Resources on Fulltext Searching
--------------------------------------
+## Other Resources on Fulltext Searching
 
 Tim Bray on search:
 
@@ -127,4 +120,3 @@ Tim Bray has released a series of essays all about full-text searching… looks 
 
 schema.sql
 You may look at schema.sql to see which tables have FULLTEXT indexes.
-

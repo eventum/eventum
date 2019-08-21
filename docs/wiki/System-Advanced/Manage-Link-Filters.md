@@ -2,14 +2,13 @@ Link filters are used to replace text with an automatic link to some external re
 
 Specify the search pattern in the pattern field without delimiters. Specify the entire string you would like to use as a replacement to the matched text.
 
-Useful link filters
--------------------
+## Useful link filters
 
 ### linking to eventum attachment
 
 pattern:
 
-`attachment(?:_id)? #?(\d+)`
+`attachment(?:_id)? #?(\d+)`
 
 replacement:
 
@@ -17,7 +16,7 @@ replacement:
 
 description:
 
-`eventum attachment`
+`eventum attachment`
 
 note id you can grab by copying link url.
 
@@ -25,7 +24,7 @@ note id you can grab by copying link url.
 
 pattern:
 
-`note[_ ]id[= ]#?(\d+)`
+`note[_ ]id[= ]#?(\d+)`
 
 replacement:
 
@@ -33,6 +32,6 @@ replacement:
 
 description:
 
-`eventum note`
+`eventum note`
 
 note id is little complicated, you have to copy the id from link of the popup window.

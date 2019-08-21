@@ -1,4 +1,4 @@
-## Adding Users ##
+## Adding Users
 
 Only Administrators are allowed to add users. The initial Administrator is created when Eventum is installed.
 
@@ -11,8 +11,7 @@ To add a new user:
 
 **NOTE:** The Email Address is also the user's login, and must be valid.
 
-Editing Users
--------------
+## Editing Users
 
 Only Administrators are allowed to edit user information:
 
@@ -22,8 +21,7 @@ Only Administrators are allowed to edit user information:
 -   Edit the user's information
 -   Click the "Update User" button
 
-Assigning Projects and Roles
-----------------------------
+## Assigning Projects and Roles
 
 When creating or editing a user, use "Assigned Projects and Roles" to set the desired level of access for each project (or "No Access" to exclude the user from a project).
 

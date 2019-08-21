@@ -1,12 +1,11 @@
-## Requirements ##
+## Requirements
 
 -   [PLD Linux](http://www.pld-linux.org/)
 -   Running `mysql` server
 -   Domain - a DNS name that you will use for eventum (optional)
 -   qmail or postfix for mail routing (optional)
 
-Main package
-------------
+## Main package
 
 Before you continue, please read the generic installation instructions: [Doing a fresh install](Doing-a-fresh-install.md).
 
@@ -28,8 +27,7 @@ and if you need then `eventum` configs reside in `/etc/webapps/eventum` includin
 allow_call_time_pass_reference = On
 ```
 
-Mail Routing
-------------
+## Mail Routing
 
 Mail routing is only done for `qmail` (only because i can't test it elsewhere). Therefore if the `poldek` asks you for `eventum-router` be aware that only `eventum-router-qmail` is functional.
 
@@ -47,8 +45,7 @@ for these exist subpackages:
 
 and again, follow the on-screen information.
 
-CLI Interface
--------------
+## CLI Interface
 
 CLI allows you access Eventum via your favourite shell
 
@@ -64,8 +61,7 @@ $ chmod 600 ~/.eventumrc
 $ vi ~/.eventumrc
 ```
 
-SCM Integration
----------------
+## SCM Integration
 
 `SCM` Integration is currently possible only with `CVS`. For SVN integration have look at [Subversion integration](Subversion-integration.md) page.
 
@@ -80,8 +76,7 @@ You should add to your `CVSROOT/loginfo` catchall entry:
 ALL  /usr/lib/eventum/scm $USER %{sVv}
 ```
 
-IRC Bot
--------
+## IRC Bot
 
 By default IRC Bot notifies to configured channel only new issues. If you need more you should use [Workflow API](Workflow-API.md).
 
@@ -93,8 +88,7 @@ You might want to read [Using the IRC bot](../System-Advanced/Using-the-IRC-bot.
 # /sbin/service eventum-irc start
 ```
 
-Upgrading
----------
+## Upgrading
 
 Upgrading is handled by rpm `%trigger`-s.
 
@@ -102,8 +96,7 @@ Before you upgrade, make sure that in `/etc/webapps/eventum/config.php` `APP_SQL
 
 If you've done that then database migration should be automatic, if not, further instructions are displayed on screen.
 
-Uninstalling Eventum
---------------------
+## Uninstalling Eventum
 
 That's simple
 

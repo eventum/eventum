@@ -2,12 +2,11 @@
 
 This is a description of the options you will find in General Setup as an Administrator User in the Administration, Configuration options.
 
-* Administration
- * Configuration
-   * General Setup
+-   Administration
+-   Configuration
+    -   General Setup
 
-General Setup
--------------
+## General Setup
 
 ### Tool Caption
 
@@ -55,9 +54,9 @@ Same as [Email Routing Interface](System-Admin:-Email-Routing-Interface) for Dra
 
 Enable or disable the [Email Integration Feature](System-Admin:-Email-integration). If enabled it will allow to download the emails from configured accounts available in Manage Email Accounts.
 
-### Display Description as Email #0 
+### Display Description as Email #0
 
-The feature converts the 'Initial Description' into an Associated Email.  _The Associated Email created is assigned #0._  Allowing the engineer to see the 'Initial Description' as part of the mail conversation, instead of having to scroll to the top of the page page.
+The feature converts the 'Initial Description' into an Associated Email. _The Associated Email created is assigned #0._ Allowing the engineer to see the 'Initial Description' as part of the mail conversation, instead of having to scroll to the top of the page page.
 
 ### Daily Tips (Removed in v3.0.0-pre1)
 
@@ -108,10 +107,9 @@ Notice that you can add multiple simultaneous Conditions for a single Action.
 
 When an error is detected in Eventum, it is recorded in the log file [path-to-eventum]/log/errors.log; additionally if this option is enabled, the error will be sent by email to the addresses defined here.
 
-Requires the [crontab](System-Admin%3A-Adding-a-cron-entry#adding-a-cron-entry) settings to be in place. 
+Requires the [crontab](System-Admin%3A-Adding-a-cron-entry#adding-a-cron-entry) settings to be in place.
 
-
-***
+---
 
 ### Allow Un-Assigned Issues?
 

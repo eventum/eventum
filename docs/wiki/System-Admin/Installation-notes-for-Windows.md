@@ -4,17 +4,18 @@ Make sure the IIS username can write to the directory specified in your upload_t
 
 If this permission is not set, file uploads will fail. If uploading anonymously through anonymous issue reporting, there will be no signs of problems in the eventum/logs folder nor in Event Viewer. If uploading through the administrative interface, there will be a simple error message in the browser file upload popup window that doesn't really help figuring out what's wrong.
 
-Setting up Windows Task Scheduler (for sending email queue or downloading new emails)
--------------------------------------------------------------------------------------
+## Setting up Windows Task Scheduler (for sending email queue or downloading new emails)
 
 This is how I setup jobs to run under Windows XP to process the mail queue or download mail.
 
 -   Create a new scheduled task (process_mail_queue).
 -   Under the "Task" tab, set the following values (adjust to match your PHP and Eventum paths).
+
     -   Run: C:\\php4\\cli\\php.exe -f c:/eventum/misc/process_mail_queue.php
     -   Start in: c:\\eventum\\misc\\
 
 -   Under the "Schedule" tab, set the task to run daily (any time will do) and click "Advanced".
+
     -   Check the box next to "Repeat Task" and set it to run every 5 minutes(or an interval of your choosing).
     -   Set the duration to be 24 hours.
     -   Click OK
@@ -23,8 +24,7 @@ This is how I setup jobs to run under Windows XP to process the mail queue or do
 
 Your task should now be scheduled run. Repeat to setup the cron to download mail if needed.
 
-Solving 'CGI Timeout'
----------------------
+## Solving 'CGI Timeout'
 
 I had a problem on the eventum setup it displayed the error "CGI Timeout". The problem was on Windows 2003 using IIS6 with PHP4
 
@@ -38,7 +38,6 @@ To solve the problem:
 
 This should work to solve this problem.
 
-Solving 'pages do not refresh'
-------------------------------
+## Solving 'pages do not refresh'
 
 If you are having trouble that Eventum doesn't respond to changes you make in template source files (\*.tpl.html) files. Make sure that the template_c directory has read/write to IIS_WPG.

@@ -1,4 +1,4 @@
-## Slackware 12.0 ##
+## Slackware 12.0
 
 Slackware 12.0 includes all necessary modules with the default installation of PHP.
 
@@ -20,13 +20,11 @@ mysql_secure_installation
 
 Now that MySQL is running, complete the installation of Eventum.
 
-Ubuntu 5.10
------------
+## Ubuntu 5.10
 
 If the installer complains that a file is not writable even though it clearly is, the problem is that the file is not owned by the webserver user. It is not enough to have the webserver group be able to write to the file or even to have it world writable, installation will not continue until the webserver user owns the file.
 
-Fedora Core 4
--------------
+## Fedora Core 4
 
 ```
 # yum install php-gd
@@ -48,10 +46,9 @@ display_startup_errors = On
 log_errors = On
 error_reporting = E_ALL
 ; error_log = filename
-``````
+```
 
-Debian Linux
-------------
+## Debian Linux
 
 -   ensure these packages are installed: apache2 libapache2-mod-php5 php5-gd
 -   [download](http://dev.mysql.com/downloads/other/eventum/)
@@ -86,8 +83,7 @@ Debian Linux
 -   click next
 -   login using admin@example.com (no matter what you used earlier) with password of "admin"
 
-gettext and Translation
------------------------
+## gettext and Translation
 
 In order to have translation working on some systems, ensure you have the correct locale enabled, otherwise the gettext function does not get the translation.
 

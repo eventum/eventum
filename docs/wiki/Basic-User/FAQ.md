@@ -4,8 +4,7 @@ NOTE: this FAQ is a work in progress and will be updated as needed. If you canno
 
 You may also reach the Eventum developers by joining irc.freenode.net on channel \#eventum. Help on simple problems can be obtained directly through IRC, but for more complex problems, please send an email to the mailing list above.
 
-Troubleshooting
----------------
+## Troubleshooting
 
 ### Problem: I get the message "Client does not support authentication protocol"
 
@@ -21,11 +20,11 @@ Solution: There are many things that could cause this problem.
 -   Check if your hostname is correct. Try to use an ip address as APP_HOSTNAME in config.inc.php and browse to that ip.
 -   PHP has difficulties setting cookies to 'localhost' when you explicitly set the domain name, for this reason, if you define APP_COOKIE_DOMAIN as NULL it solves the problem:
 
-` define("APP_COOKIE_DOMAIN", NULL);`
+`define("APP_COOKIE_DOMAIN", NULL);`
 
 -   Also set APP_COOKIE_URL as NULL:
 
-` define("APP_COOKIE_URL", NULL);`
+`define("APP_COOKIE_URL", NULL);`
 
 ### Problem: The filters on /list.php aren't working.
 
@@ -35,12 +34,12 @@ Solution: Are you using suPHP? There is a known bug in suPHP (see <http://lists.
 
 Solution: In the file /path-to-eventum/config/config.php change the following lines
 
-`ini_set("display_errors", 0);`
+`ini_set("display_errors", 0);`
 `error_reporting(0);`
 
 to:
 
-`ini_set("display_errors", 1);`
+`ini_set("display_errors", 1);`
 `error_reporting(E_ALL);`
 
 This enables PHP error reporting so any problems you have will be displayed to the screen when you try to access a page.
@@ -78,7 +77,7 @@ The value should be one of the items you see in `Preferences` dropdown.
 
 ### Problem: Graph and diagram images not working
 
-Try to increase the *memory_limit* option in your php.ini file from 8MB (default) to 16MB or maybe 32MB.
+Try to increase the _memory_limit_ option in your php.ini file from 8MB (default) to 16MB or maybe 32MB.
 
 ### Problem: download_emails script not working
 
@@ -107,8 +106,7 @@ Creation: you do not receive the notifications when you create an issue from Cre
 
 Closing: you do not receive notifications when you close an issue, but you have checked the "Issues are Closed" in "Default Options for Notifications" (General Setup) and you are in the notification list of the issue and have the "Issue is Closed" action associated. This is correct, you will not receive notification of Closing Issue for an issue that you closed.
 
-Setup
------
+## Setup
 
 ### Problem: I want an incoming email to create an issue and email a pool of people to warn them of the new issue, but I can't see whether the system supports this or not
 
@@ -137,12 +135,11 @@ i.e, by taking out the line that says "return false", both non subject based rou
 
 ### Problem: I just installed eventum and I cannot log in
 
-You just installed Eventum or renamed your database and cannot log in, even using the admin account. If your database name has a dash "-", you should remove it or replace it with underscore "_".
+You just installed Eventum or renamed your database and cannot log in, even using the admin account. If your database name has a dash "-", you should remove it or replace it with underscore "\_".
 
 Invalid database name examples: "eventum-01", "db-05", "my-eventum".
 
-General Usage
--------------
+## General Usage
 
 ### I want to delete one or more wrongly created issues
 
@@ -234,8 +231,8 @@ In order to close multiple issues, you can use a workaround, but you will need t
 
 You will need to change two template files:
 
-`/path-to-eventum/templates/preferences.tpl.html: line 27`
-`/path-to-eventum/templates/manage/users.tpl.html: line 22`
+`/path-to-eventum/templates/preferences.tpl.html: line 27`
+`/path-to-eventum/templates/manage/users.tpl.html: line 22`
 
 Change the default value of 6 characters to whatever value you deem adequate.
 
@@ -301,16 +298,17 @@ Projects have their own priorities. These might be completely redundant, and mus
  UPDATE issue SET iss_pri_id = 1 WHERE iss_pri_id = 6;
  UPDATE issue SET iss_pri_id = 2 WHERE iss_pri_id = 7;
 ```
- and so on...
+
+and so on...
 
 Statuses, resolutions and custom fields are defined globally, and should transfer with the issue when reassigned to another project.
 
 Depending on your version of Eventum, associated email may not transfer with the issue. Unassociated emails may also need to be transferred. One way to do this is to carefully check the email_account to see which accounts are associated with which project:
 
-` SELECT * FROM email_account;`
+`SELECT * FROM email_account;`
 
 You might be able to reassign the received emails to the other email account (which is the same as using the "Move Message To" form when viewing an individual unassociated email in the "Associate Emails" interface):
 
-` UPDATE support_email SET sup_ema_id = 1 WHERE sup_ema_id = 2;`
+`UPDATE support_email SET sup_ema_id = 1 WHERE sup_ema_id = 2;`
 
 Keep in mind that this is a very simplistic approach that might not be suitable for all environments, especially more complex ones with multiple projects and email accounts. Back up your data first, then verify the results afterwards.

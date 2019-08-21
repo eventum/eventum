@@ -2,7 +2,7 @@
 
 This Chapter is intended to be a basic guidline for new users. One of my problems when starting with Eventum was, to understand the 'Big Picture'. Maybe it's useful to place an example here. Maybe someone can write a short issue-story here. How it's handled from the beginning, and how it goes through different statuses until it is finally closed. ----
 
-* * * * *
+---
 
 Somebody says: hmm I see this way:
 
@@ -12,12 +12,11 @@ Somebody says: hmm I see this way:
 4.  when bug is confirmed set status to confirmed/working on it and estimates time and release in which bug will be solved
 5.  when bug is terminated, issue is closed, reporter and all in notification list gets email about it (anyone can subscribe/unsubscribe from notification list in any time, except reporter/developer)
 
-* * * * *
+---
 
 --**Eliotbq** 02:01, 27 Jul 2005 (CEST) Disclaimer: this is how I see it as a fairly new user:
 
-Issue creation
---------------
+## Issue creation
 
 See [Creating Issues](../Basic-User/Creating-Issues.md) for more details. Either Click "Create issue" and fill in all the details
 
@@ -25,8 +24,7 @@ or from the "Associate emails" screen, select one or more unassociated emails, a
 
 or (if enabled) issues are created automatically from incoming email, or anonymously from the login screen.
 
-Issue followup
---------------
+## Issue followup
 
 While viewing an issue, use the `[Reply]` button at the bottom of the first section.
 
@@ -38,8 +36,7 @@ OR reply to an email that has originated from eventum
 
 It is NOT recommended to carry on an email conversation and CC: support@mydomain. You want to ensure that all emails are handled through eventum, this means that replies more often get associated with the correct issue automatically.
 
-Issue closing
--------------
+## Issue closing
 
 When an issue is closed its status can be set to a status that has "Closed context" (see Administration/Manage Statuses).
 
@@ -51,12 +48,11 @@ Default install has three:
 
 "Issue Resolutions" are finer grained reasons that can be applied when closing an issue. The defaults apply to bugs, but I added "question answered" to that list for use with tech support.
 
-Issue Lifecycles
-----------------
+## Issue Lifecycles
 
 Here are some rudimentary state diagrams for issues: (Where the state is a closed state, the possible resolutions are listed in parentheses.)
 
-*Feature Request:*
+_Feature Request:_
 
     discovery -> killed(won't fix,suspended,not fixable,duplicate)
     |
@@ -68,7 +64,7 @@ Here are some rudimentary state diagrams for issues: (Where the state is a close
     |
     release(fixed)
 
-*Bug report:*
+_Bug report:_
 
     discovery - killed(not a bug, wont fix, cant fix, duplicate, can't reproduce)
     |
@@ -80,8 +76,7 @@ Here are some rudimentary state diagrams for issues: (Where the state is a close
     |
     release(fixed)
 
-*Techsupport:*
-
+_Techsupport:_
 
     discovery
     |
@@ -89,8 +84,7 @@ Here are some rudimentary state diagrams for issues: (Where the state is a close
     |
     resolved(question answered,fixed)
 
-Receiving Notifications
------------------------
+## Receiving Notifications
 
 Emails are sent (when process_mail_queue is properly set in CRON) by Eventum on issue events.
 

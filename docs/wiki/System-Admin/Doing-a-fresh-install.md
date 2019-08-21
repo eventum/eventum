@@ -4,20 +4,20 @@
 
 1. [Installation Process](#installation-process)
 1. [Scheduled Tasks](#scheduled-tasks)
-   1. [Mail Queue Process (process_mail_queue.php)](#mail-queue-process-process_mail_queuephp)
-   1. [Email Download (download_emails.php)](#email-download-download_emailsphp)
-   1. [Reminder System (check_reminders.php)](#reminder-system-check_remindersphp)
-   1. [Heartbeat Monitor (monitor.php)](#heartbeat-monitor-monitorphp)
+    1. [Mail Queue Process (process_mail_queue.php)](#mail-queue-process-process_mail_queuephp)
+    1. [Email Download (download_emails.php)](#email-download-download_emailsphp)
+    1. [Reminder System (check_reminders.php)](#reminder-system-check_remindersphp)
+    1. [Heartbeat Monitor (monitor.php)](#heartbeat-monitor-monitorphp)
 1. [Other Features Requiring System Setup](#other-features-requiring-system-setup)
-  1. [Email Routing Script (route_emails.php)](#email-routing-script-route_emailsphp)
-  1. [Note Routing Script (route_notes.php)](#note-routing-script-route_notesphp)
-  1. [Draft Routing Script (route_drafts.php)](#draft-routing-script-route_draftsphp)
-  1. [IRC Notification Bot (irc/eventum-irc-bot)](#irc-notification-bot-irceventum-irc-bot)
-  1. [Command Line Interface (cli/eventum)](#command-line-interface-clieventum)
+1. [Email Routing Script (route_emails.php)](#email-routing-script-route_emailsphp)
+1. [Note Routing Script (route_notes.php)](#note-routing-script-route_notesphp)
+1. [Draft Routing Script (route_drafts.php)](#draft-routing-script-route_draftsphp)
+1. [IRC Notification Bot (irc/eventum-irc-bot)](#irc-notification-bot-irceventum-irc-bot)
+1. [Command Line Interface (cli/eventum)](#command-line-interface-clieventum)
 1. [Installing on SSL (https)](#installing-on-ssl-https)
 1. [Installing with PHP on FastCGI](#installing-with-php-on-fastcgi)
 
-## Installation Process ##
+## Installation Process
 
 Before starting, check [System Requirements](../Prerequisites.md) first.
 
@@ -30,9 +30,9 @@ Point your webserver to that `/path-to-eventum/htdocs/`. Open it up with your
 browser and Eventum should redirect you to the installation screen, and it will
 try to guess some of required parameters, like path in the server and etc.
 
-  http://yourserver.com/eventum/
+http://yourserver.com/eventum/
 
-**PLEASE NOTE**: The whole eventum directory should *NOT* be accessible under the
+**PLEASE NOTE**: The whole eventum directory should _NOT_ be accessible under the
 webserver, only `/path-to-eventum/htdocs/`
 
 If Eventum's installation script finds that it needs a few directories or permissions changed, it will print the warnings before actually displaying the installation screen. Just fix what it says is wrong/missing and everything should go well.
@@ -47,8 +47,7 @@ to go in there and mess with your configuration.
 
 **IMPORTANT:** By default, the admin user login is set to to admin@example.com during installation. **Be sure to change this to a valid email address with a new password immediately**. Note that eventum will attempt to send the new password to the specified address, which should be valid to prevent the password from being exposed if the email is bounced.
 
-Scheduled Tasks
----------------
+## Scheduled Tasks
 
 Regular maintenance in Eventum is accomplished by running scheduled tasks or cron jobs. Alternatively, some of these tasks may be performed with a GET request to a URL, if administrative access is not available on the host machine to run the scripts directly from the filesystem. It may be desirable to limit access to these URLs, in such a case.
 
@@ -60,7 +59,7 @@ In Eventum, emails are not sent immediately after clicking on the send button. I
 
 The SMTP server that Eventum uses to send these queued emails must be specified in:
 
-`Administration` >>> `General Setup` > `SMTP (Outgoing Email) Settings`
+`Administration` >>> `General Setup` > `SMTP (Outgoing Email) Settings`
 
 This cron example will run the script every minute:
 
@@ -76,11 +75,11 @@ the `bin/truncate_mail_queue.php` script.
 
 To use email integration, you must check the Enabled button for:
 
-`Administration` >>> `General Setup` > `Email Integration Feature`
+`Administration` >>> `General Setup` > `Email Integration Feature`
 
 To configure the accounts used with the email integration feature, go to:
 
-`Administration` >>> `Manage Email Accounts`
+`Administration` >>> `Manage Email Accounts`
 
 In order for Eventum's email integration feature to work, you need to set up a cron job to run the `download_emails.php` script every so often. The following is an example of the required crontab line (using an IMAP account):
 
@@ -88,7 +87,7 @@ In order for Eventum's email integration feature to work, you need to set up a c
 
 The above will run the command every hour, and will download emails associated with the given email account and `IMAP` mailbox. If you have more than one email account, you may add another crontab entry for the other accounts (or poll different `IMAP` mailboxes of the same account).
 
-**NOTE:** The mailbox parameter shown in the examples as `INBOX` is __ONLY__ required for `IMAP` accounts. Using that parameter on `POP` accounts causes "Error: Could not find a email account with the parameter provided. Please verify your email account settings and try again."
+**NOTE:** The mailbox parameter shown in the examples as `INBOX` is **ONLY** required for `IMAP` accounts. Using that parameter on `POP` accounts causes "Error: Could not find a email account with the parameter provided. Please verify your email account settings and try again."
 
 You can also call the `download_emails.php` script via the web using the following URL: `http://eventum_server/path-to-eventum/rpc/download_emails.php?username=username&hostname=mail.example.com&mailbox=INBOX`
 
@@ -108,15 +107,13 @@ The heartbeat monitor alerts the administrator whenever a common problem in Even
 
     */10 * * * * <PATH-TO-EVENTUM>/bin/monitor.php
 
-Other Features Requiring System Setup
--------------------------------------
+## Other Features Requiring System Setup
 
 Note: Starting with Eventum 1.5.2 there is a new (optional) way of routing emails, notes and drafts. You will need to setup up a wildcard address to route all messages that should be in Eventum (usually `issue-<number>@<domain>`, `note-<number>@<domain>` and `draft-<number>@<domain>`) to an email account. Then add that email account to Eventum by going to the email account administration page:
 
-`Administration` >>> `Manage Email Accounts`
+`Administration` >>> `Manage Email Accounts`
 
 When setting up the account, check `Use account for email/note/draft routing`. Once the account is added, set the account to be downloaded as described above (in [Email Download](#email-download-download_emailsphp)).
-
 
 ### Email Routing Script (route_emails.php)
 
@@ -177,16 +174,15 @@ The Eventum command line interface allows you to access most of the features of 
 
 Assuming you have the requirements properly set up:
 
- - Copy the `cli` directory to another location (i.e. copy to `~/bin`)
- - Add that location to your `PATH` environment variable
- - Set the required permission in the script (`chmod +x ~/bin/cli/eventum`)
- - Copy the new `.eventumrc` example file to your home directory (`cp cli/eventumrc ~/.eventumrc`)
- - Edit `~/.eventumrc` and set the appropriate values, be sure to secure the file permissions (`chmod 600 ~/.evenumrc`)
- - Run it (`eventum --help`)
- - Test it with `eventum 1` (display issue #1 details)
+-   Copy the `cli` directory to another location (i.e. copy to `~/bin`)
+-   Add that location to your `PATH` environment variable
+-   Set the required permission in the script (`chmod +x ~/bin/cli/eventum`)
+-   Copy the new `.eventumrc` example file to your home directory (`cp cli/eventumrc ~/.eventumrc`)
+-   Edit `~/.eventumrc` and set the appropriate values, be sure to secure the file permissions (`chmod 600 ~/.evenumrc`)
+-   Run it (`eventum --help`)
+-   Test it with `eventum 1` (display issue #1 details)
 
-Installing on SSL (https)
--------------------------
+## Installing on SSL (https)
 
 When you install for the first time, you have a checkbox to define if you will be using Eventum on a SSL Server. This sets the APP_BASE_URL parameter in config/config.php file.
 
@@ -202,12 +198,11 @@ to
 define('APP_BASE_URL', 'https://' . APP_HOSTNAME . APP_RELATIVE_URL);
 ```
 
-Installing with PHP on FastCGI
-------------------------------
+## Installing with PHP on FastCGI
 
 Using FastCGI you must consider the following:
 
 -   Since Basic Authentication might not work, you might not be able to access the Custom Search RSS
 -   Running php scripts from command line will probably use different php.ini for WEB and CLI. You should pass the php.ini file path in the command for CRON and manual executions:
 
-`php -c /path-to-php-ini/php.ini -f /path-to-eventum/misc/process_mail_queue.php`
+`php -c /path-to-php-ini/php.ini -f /path-to-eventum/misc/process_mail_queue.php`

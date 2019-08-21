@@ -6,7 +6,7 @@ All email is sent using a cron script on Unix systems (including OS X) and needs
 
 **Please check your crontab entries!!**
 
-`   * * * * * cd /path-to-eventum/misc; /usr/bin/php -f process_mail_queue.php`
+`* * * * * cd /path-to-eventum/misc; /usr/bin/php -f process_mail_queue.php`
 
 If you already have cron scripts running you don't need this - just add another entry. If you do not, then do the following:
 
@@ -22,6 +22,7 @@ If you already have cron scripts running you don't need this - just add another 
 you should see your crontab entry listed (and only that one). Email should now be sent.
 
 In f.ex. Debian GNU/Linux when runing PHP5, /usr/bin/php is a (soft) link to /etc/alternatives/php which in turn is a link to /usr/bin/php5.
+
 ```
  $ l /usr/bin/|grep php
 lrwxrwxrwx 1 root root 21 2006-02-19 13:01 php -> /etc/alternatives/php*
@@ -29,4 +30,5 @@ lrwxrwxrwx 1 root root 21 2006-02-19 13:01 php -> /etc/alternatives/php*
  $ file /etc/alternatives/php
 /etc/alternatives/php: symbolic link to `/usr/bin/php5'
 ```
- CLI (Command Line Interface) PHP have it's own php.ini
+
+CLI (Command Line Interface) PHP have it's own php.ini

@@ -4,11 +4,11 @@ As of version 1.5.4 Eventum supports full-text searching of issue summary, descr
 
 To enable this, edit /path-to-eventum/config/config.php and change the line:
 
-`@define("APP_ENABLE_FULLTEXT", false);`
+`@define("APP_ENABLE_FULLTEXT", false);`
 
 to:
 
-`@define("APP_ENABLE_FULLTEXT", true);`
+`@define("APP_ENABLE_FULLTEXT", true);`
 
 For information on full-text search syntax, or other full text information, please visit the following link.
 

@@ -4,7 +4,7 @@ ALTER TABLE faq add faq_published tinyint(1) NOT NULL DEFAULT 0;
 
 ALTER TABLE faq add faq_deleted tinyint(1) NOT NULL DEFAULT 0;
 
-* * * * *
+---
 
     Index: faq.php
     ===================================================================

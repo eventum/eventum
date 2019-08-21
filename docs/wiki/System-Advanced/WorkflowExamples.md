@@ -174,7 +174,6 @@ Notice: Remember to replace NameOfYourBackend with your Class backend name which
 
 Original code from [mailing list](http://lists.mysql.com/eventum-users/4693).
 
-
         function handleNewEmail($prj_id, $issue_id, $message, $row = false, $closing = false)
         {
             $current_status_id = Issue::getStatusID($issue_id);
@@ -189,10 +188,10 @@ WARNING: This code will change the status of an issue when an email is associate
 
 ### Change issue status on incoming customer email
 
-    function handleNewEmail($prj_id, $issue_id, $message, $row = false, $closing = false)
+function handleNewEmail($prj_id, $issue_id, $message, $row = false, $closing = false)
     {
       if (!empty($row) && $row['customer_id']) {
         $waiting_on_support_id = Status::getStatusID('Waiting on Support');
-        Issue::setStatus($issue_id, $waiting_on_support_id);
-      }
-    }
+       Issue::setStatus($issue_id, $waiting_on_support_id);
+     }
+   }

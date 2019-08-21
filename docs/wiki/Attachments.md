@@ -3,9 +3,10 @@ Since Eventum 3.3.0 attachments are abstracted using [Flysystem](https://flysyst
 # Advanced Use
 
 Three adapters are included:
-* legacy: Read only adapter for accessing pre 3.3.0 attachments
-* pdo: flysystem-pdo adapter used by default for new attachments
-* local: local filesystem adapter if you wish to store attachments on disk instead of the database
+
+-   legacy: Read only adapter for accessing pre 3.3.0 attachments
+-   pdo: flysystem-pdo adapter used by default for new attachments
+-   local: local filesystem adapter if you wish to store attachments on disk instead of the database
 
 Advanced users can change to a different adapter by editing setup.php in your configuration file and adding/changing the default adapter.
 
@@ -16,6 +17,7 @@ Advanced users can change to a different adapter by editing setup.php in your co
 ```
 
 You can define additional adapters and pass options to adapters as well.
+
 ```php
     'attachments' => [
         'default_adapter' => 'local',

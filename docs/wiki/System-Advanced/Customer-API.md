@@ -7,8 +7,7 @@ The most useful information for now is located [here](../System-Admin/Extending-
 <hr>
 Out-of-the-box, Eventum will meet many of your business needs.
 
-Overview
---------
+## Overview
 
 I found the example customer API is a bit intimidating. Hopefully this will help clear up how customer integration can be set up to meet your need.
 
@@ -16,8 +15,7 @@ I found the example customer API is a bit intimidating. Hopefully this will help
 -   The parser class..
 -   The Templates
 
-Database Connection
--------------------
+## Database Connection
 
 Eventum uses the Pear Database Abstraction Layer [Pear::DB] for its database connections. I will use Pear::DB in my examples to keep the code consistent with the rest of the code base.
 
@@ -58,8 +56,7 @@ Pear::DB Package [Documentation](http://pear.php.net/package/DB/docs)
  }
 ```
 
-Running a Query
----------------
+## Running a Query
 
 ```php
  function getAssocList()
@@ -84,15 +81,13 @@ Running a Query
  }
 ```
 
-Customer Data
-=============
+# Customer Data
 
-Eventum provides a mechanism to use customer records from a different source. This is accomplished by *creating* a customized 'Customer Integration Backend' to use.
+Eventum provides a mechanism to use customer records from a different source. This is accomplished by _creating_ a customized 'Customer Integration Backend' to use.
 
 Oddly, the example provided uses a statically defined array. This leaves it up to you to design a database and connection method.
 
-The Backend
------------
+## The Backend
 
 ### Getting Started
 
@@ -100,17 +95,17 @@ The Backend
 
 First, review the example customer implementation:
 
-` include/customer/class.example.php`
+`include/customer/class.example.php`
 
 This example extends the Abstract_Customer_Backend class defined in:
 
-` include/customer/class.abstract_customer_backend.php`
+`include/customer/class.abstract_customer_backend.php`
 
 All methods of the Abstract_Customer_Backend class available for customization are defined in this file. For example,
 
-*if you want to customize Eventum's behaviour when closing an issue, you will be adding your own code to the handleIssueClosed() function when you extend the class.* You will do this in a new file, so do not edit class.abstract_customer_backend.php.
+_if you want to customize Eventum's behaviour when closing an issue, you will be adding your own code to the handleIssueClosed() function when you extend the class._ You will do this in a new file, so do not edit class.abstract_customer_backend.php.
 
-*Note that while a copy of class.example.php can be used as a basis for your own customizations, it does contain functions that affect the behaviour of Eventum, so you should remove any functions you are not using, to prevent unexpected results.*
+_Note that while a copy of class.example.php can be used as a basis for your own customizations, it does contain functions that affect the behaviour of Eventum, so you should remove any functions you are not using, to prevent unexpected results._
 
 ### class.example.php
 
@@ -122,8 +117,7 @@ All methods of the Abstract_Customer_Backend class available for customization a
 
 Use ../include/customer/class.example.php as a template for creating your own.
 
-Paths
-=====
+# Paths
 
 Files that are used reside in the following directories:
 
@@ -131,8 +125,7 @@ Files that are used reside in the following directories:
 -   path_to_eventum/include/customer
 -   path_to_eventum/templates/customer
 
-Files
-=====
+# Files
 
 path_to_eventum/templates/customer/example/report_form_fields.tpl.html
 
@@ -144,8 +137,7 @@ path_to_eventum/templates/customer/example/report_form_fields.tpl.html
 -   Called when viewing an issue
 -   Displays associated customer information related to the issue.
 
-Notes
-=====
+# Notes
 
 With **any** type of software, customization will be needed to meet the **specific** needs of your business.
 

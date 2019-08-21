@@ -8,8 +8,7 @@ Currently, only version 2.0.1 of Eventum is supported by this patch, but it may 
 
 If you haven't installed Eventum yet, do so now following the official instructions, then come back here.
 
-Setup Instructions
-------------------
+## Setup Instructions
 
 Please backup your Eventum installation before continuing.
 
@@ -23,7 +22,7 @@ If you are working on a Windows-based server, or you are not familiar with using
 
 -   Download [eventum-2.0.1-osmod.patch](http://ibaku.net/eventum/eventum-2.0.1-osmod.patch) to your root Eventum directory.
 -   Run the following command from the root installation directory:
-        $ patch -p0 < eventum-2.0.1-osmod.patch
+    \$ patch -p0 < eventum-2.0.1-osmod.patch
 
 -   If there were any errors, try the second method, otherwise you're done and can move down to step \#2.
 
@@ -35,7 +34,7 @@ If you are working on a Windows-based server, or you are not familiar with using
 -   Linux / Unix / Mac Users
     -   Download [eventum-2.0.1-osmod.tar.gz](http://ibaku.net/eventum/eventum-2.0.1-osmod.tar.gz) to your root Eventum directory.
     -   Run the following command from the root installation directory:
-            $ tar xzvf eventum-2.0.1-osmod.tar.gz
+        \$ tar xzvf eventum-2.0.1-osmod.tar.gz
 
 ### Step \#2: Add an Anonymous User
 
@@ -64,8 +63,7 @@ You will also notice that any links to "Preferences" have disappeared. Anonymous
 
 If you find any other aspects of Eventum that show up to Anonymous users, but probably shouldn't, please let me know on the Eventum mailing list.
 
-Full Source of the Patch
-------------------------
+## Full Source of the Patch
 
 This is saved here for posterity (and in case my server isn't available). Without needing to copy and & paste this all to a file, you can download the patch here: <http://ibaku.net/eventum/eventum-2.0.1-osmod.patch>
 

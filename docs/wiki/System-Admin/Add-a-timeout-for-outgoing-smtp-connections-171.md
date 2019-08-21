@@ -8,7 +8,6 @@ A cleaner solution involves properly using a timeout for smtp connections. This 
 
 To enable this all that needs to be done is change the template of the general settings page:
 
-
           <table width="100%" bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
             <tr>
               <td>

@@ -1,9 +1,8 @@
 Please send feature requests to [Issue Tracker](https://github.com/eventum/eventum/issues/new?labels=feature+request)
 
-Feature Requests
-----------------
+## Feature Requests
 
--   [Issues marked as Feature Request](https://github.com/eventum/eventum/labels/feature%20request) 
+-   [Issues marked as Feature Request](https://github.com/eventum/eventum/labels/feature%20request)
 -   Profile system
     -   visually setup the table cells of view.tpl.html
 -   Restrict list of projects a manager user is allowed to tweak on the administration section

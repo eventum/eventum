@@ -2,25 +2,25 @@
 
 You will need:
 
-- A Webserver that is capable of handling PHP scripts (i.e [Apache HTTPD Server](https://httpd.apache.org/))
-- [PHP](https://php.net) 7.1.x with the following extensions
-    - ctype
-    - date (builtin)
-    - pcre (builtin)
-    - filter
-    - intl
-    - fileinfo
-    - gd - GD Extension
-    - gettext - gettext support if you want to use localization
-    - iconv
-    - imap - IMAP Extension (c-client imap library)
-    - json
-    - mbstring
-    - pdo
-    - pdo_mysql - MySQL Extension
-    - pcre - PCRE Extension
-    - session (builtin) - Session handling enabled
-    - spl (builtin)
+-   A Webserver that is capable of handling PHP scripts (i.e [Apache HTTPD Server](https://httpd.apache.org/))
+-   [PHP](https://php.net) 7.1.x with the following extensions
+    -   ctype
+    -   date (builtin)
+    -   pcre (builtin)
+    -   filter
+    -   intl
+    -   fileinfo
+    -   gd - GD Extension
+    -   gettext - gettext support if you want to use localization
+    -   iconv
+    -   imap - IMAP Extension (c-client imap library)
+    -   json
+    -   mbstring
+    -   pdo
+    -   pdo_mysql - MySQL Extension
+    -   pcre - PCRE Extension
+    -   session (builtin) - Session handling enabled
+    -   spl (builtin)
 -   An SMTP and POP Server for email support
 -   MySQL Database Server (you can get it from the [MySQL Download page](https://dev.mysql.com/downloads/mysql/))
 

@@ -23,14 +23,12 @@ Notice you have to provide an Eventum login for the RSS feed to work. Authentica
 
 Notice the the provided custom filter ID must be associated with the given email address (basic authentication data).
 
-Why is additional authentication required?
-------------------------------------------
+## Why is additional authentication required?
 
 Since we can't simply have an open window into a potential confidential database of issues/bugs/tickets, the RSS feed script authenticates the user with HTTP Auth. This kind of authentication is necessary instead of a session in the browser, so any [RSS client](http://en.wikipedia.org/wiki/RSS_Reader) (not necessarily web-based) can use it without logging into Eventum as a web application.
 
 Another way is bookmarking with credential in url, so eg. with our example will be: `https://username:password@eventum.example.org/rss.php?custom_id=12345`
 
-After entering correct login and password in the window, it pops again
-----------------------------------------------------------------------
+## After entering correct login and password in the window, it pops again
 
 When you enter user and password as required, the windows keeps appearing empty once and again, and if you cancel, the message "Error: You are required to authenticate in order to access the requested RSS feed." is displayed. This type of authentication might not work if you are using PHP with [FastCGI](http://www.fastcgi.com).

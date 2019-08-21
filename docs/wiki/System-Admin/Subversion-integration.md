@@ -1,11 +1,10 @@
 ### Subversion integration
 
-## Overview ##
+## Overview
 
 This describes how to set up [SCM integration](SCM-integration.md) for Subversion.
 
-Setup
------
+## Setup
 
 The integration consists of a script that is run on the subversion (svn) server after each commit. Thus, command-line PHP must be available on the subversion server.
 

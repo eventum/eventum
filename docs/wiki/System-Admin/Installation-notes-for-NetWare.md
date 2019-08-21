@@ -40,11 +40,11 @@ NOTE: I also could have changed the : to a ; in the else statement instead of ad
 6. Changed the following code in the setup/index.php....
 
     if (stristr(PHP_OS, 'darwin')) {
-        ini_set("include_path", ".:./../include/pear/");
+    ini_set("include_path", ".:./../include/pear/");
     } elseif (stristr(PHP_OS, 'win')) {
-        ini_set("include_path", ".;./../include/pear/");
+    ini_set("include_path", ".;./../include/pear/");
     } else {
-        ini_set("include_path", ".:./../include/pear/");
+    ini_set("include_path", ".:./../include/pear/");
     }
 
 ...to include a check for the NetWare OS.

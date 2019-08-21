@@ -4,9 +4,9 @@ Projects are development projects that are initiated within your organisation re
 
 A project covers the entire life cycle of development, including versioning (releases).
 
-`It is advised not to create different projects for different releases in order to keep a roadmap through time on how development evolves. `
-`Using the versioning/releases within a project also gives you the abillity to promote unsolved issues to the next release, `
-`next patch version and so on.`
+`It is advised not to create different projects for different releases in order to keep a roadmap through time on how development evolves.`
+`Using the versioning/releases within a project also gives you the abillity to promote unsolved issues to the next release,`
+`next patch version and so on.`
 
 In order to create a new project, you must log in with Administrative privileges. That is, you must have Administrative privileges on another project.
 
@@ -14,8 +14,7 @@ Choose the "Administration Tab" at the top of the page.
 
 This you bring you to the page used to Add or Update Projects. This is the same page as "Manage Projects" located on the far left.
 
-Creating a New Project
-----------------------
+## Creating a New Project
 
 Enter the information required for a new project.
 
@@ -49,19 +48,18 @@ At this point, you may believe you are done. However, if you actually go to add 
 
 From the existing projects list, individually go through the links on the right to set up the following:
 
-**Edit Releases** *OPTIONAL*
+**Edit Releases** _OPTIONAL_
 
-**Edit Categories** *REQUIRED*
+**Edit Categories** _REQUIRED_
 
-**Edit Priorities** *REQUIRED*
+**Edit Priorities** _REQUIRED_
 
-**Edit Phone Support Categories** *OPTIONAL*
+**Edit Phone Support Categories** _OPTIONAL_
 
-**Anonymous Reporting** *OPTIONAL*
+**Anonymous Reporting** _OPTIONAL_
 
-**Edit Fields to display** *OPTIONAL*
+**Edit Fields to display** _OPTIONAL_
 
-**Edit Columns to display** *OPTIONAL*
+**Edit Columns to display** _OPTIONAL_
 
-Updating a Project
-------------------
+## Updating a Project
