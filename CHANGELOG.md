@@ -11,7 +11,7 @@ Eventum 3.8.x requires MySQL server 5.5.3, see #433
 - Replace Misc::getFileList with Symfony Finder (@glensc, #643)
 - Update for new EventDispatcherInterface::dispatch() signature (@glensc, #640)
 - Get rid of global constants (moved to `setup.php`) (@glensc, #629, #642)
-- Import docs/wiki submodule (@glensc, #644)
+- Import docs/wiki submodule (@glensc, #644, #645)
 - Fix `scm_ping` route (@glensc, #646)
 - Drop native PHP gettext wrapper (@glensc, #637)
 - Date Helper: Fix date creation from timestamp with microseconds (@glensc, #647)
@@ -428,7 +428,7 @@ See [Attachments] wiki page for details.
 - RPC: log actions server side, not by client (@glensc, #303)
 
 [3.3.0]: https://github.com/eventum/eventum/compare/v3.2.3...v3.3.0
-[Attachments]: https://github.com/eventum/eventum/wiki/Attachments
+[Attachments]: docs/wiki/Attachments.md
 
 ## [3.2.3] - 2017-08-31
 
