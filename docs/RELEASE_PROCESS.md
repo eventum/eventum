@@ -44,7 +44,6 @@ if it fails the error is something like `DB Error: already exists`
 
 - use [bin/releng/create-release.sh](bin/releng/create-release.sh) script to make release
   - update changelog
-  - update wiki submodule
   - create appropriate tags
 - wait for Travis-CI to build release tarball
 - go to github releases page, edit the new tag (fill missing date)
@@ -64,6 +63,5 @@ $ git push launchpad
 - add new milestone in github. just fill version number in Title field https://github.com/eventum/eventum/milestones
 - move open tickets/pull requests to new milestone
 - close old milestone
-- verify that you did not forget to update wiki submodule
 - update for next version using [bin/releng/bump.sh](bin/releng/bump.sh):
   - start new version entry in CHANGELOG.md
