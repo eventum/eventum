@@ -367,17 +367,20 @@ class MailMessage extends Message
      *
      * @return string
      */
-    public function getSender()
+    public function getSender(): string
     {
-        return strtolower($this->getFrom()->getEmail());
+        $from = $this->getFrom();
+        if (!$from) {
+            throw new InvalidArgumentException('From header is required');
+        }
+
+        return strtolower($from->getEmail());
     }
 
     /**
      * Get Address object for From header
-     *
-     * @return Address
      */
-    public function getFrom()
+    public function getFrom(): ?Address
     {
         /** @var From $from */
         $from = $this->getHeader('from');
