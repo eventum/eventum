@@ -16,22 +16,22 @@
 
 use Eventum\Kernel;
 
+require_once __DIR__ . '/../../autoload.php';
+
+// get out if already configured
+if (!Setup::needsSetup()) {
+    header('Location: ../');
+    exit(0);
+}
+
+header('Content-Type: text/html; charset=UTF-8');
+
 ini_set('memory_limit', '64M');
 ini_set('display_errors', 1);
 error_reporting(E_ALL & ~E_STRICT);
 set_time_limit(0);
 
-require_once __DIR__ . '/../../autoload.php';
-
-header('Content-Type: text/html; charset=UTF-8');
-
-$configFile = dirname(__DIR__) . '/../config/config.php';
-$have_config = file_exists($configFile) && filesize($configFile);
-// get out if already configured
-if ($have_config) {
-    header('Location: ../');
-    exit(0);
-}
+require_once __DIR__ . '/../../globals.php';
 
 // set default timezone to utc to avoid default timezone not set warnings
 date_default_timezone_set(@date_default_timezone_get());
