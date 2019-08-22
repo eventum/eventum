@@ -22,6 +22,7 @@ use InvalidArgumentException;
 use Psr\Log\LoggerInterface;
 use RuntimeException;
 use Support;
+use Throwable;
 
 class MailDownloadCommand
 {
@@ -99,7 +100,14 @@ class MailDownloadCommand
                         $this->logger->error($e->getMessage(), ['num' => $i]);
                         continue;
                     }
-                    Support::processMailMessage($mail, $account);
+
+                    try {
+                        Support::processMailMessage($mail, $account);
+                    } catch (Throwable $e) {
+                        $this->logger->error($e->getMessage(), ['num' => $i]);
+                        continue;
+                    }
+
                     if ($this->limit && ++$limit >= $this->limit) {
                         break;
                     }
