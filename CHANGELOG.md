@@ -1,6 +1,6 @@
 # Eventum Issue Tracking System
 
-## [3.8.0]
+## [3.8.0] - 2019-08-22
 
 Upgrading to 3.8.x versions requires that you upgrade to latest 3.5.x version first.
 Eventum 3.8.x requires MySQL server 5.5.3, see #433
@@ -16,7 +16,7 @@ Eventum 3.8.x requires MySQL server 5.5.3, see #433
 - Drop native PHP gettext wrapper (@glensc, #637)
 - Date Helper: Fix date creation from timestamp with microseconds (@glensc, #647)
 
-[3.8.0]: https://github.com/eventum/eventum/compare/v3.7.4...master
+[3.8.0]: https://github.com/eventum/eventum/compare/v3.7.4...v3.8.0
 
 ## [3.7.4] - 2019-08-04
 
