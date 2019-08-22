@@ -528,8 +528,6 @@ class Support
             'subject' => $mail->subject,
             'body' => $mail->getMessageBody(),
             'full_email' => $mail->getRawContent(),
-            // the following items are not inserted, but useful in some methods
-//            'headers' => $mail->getHeadersArray(),
         ];
 
         $info['date'] = $t['date'];
