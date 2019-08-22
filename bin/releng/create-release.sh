@@ -59,3 +59,10 @@ cd $topdir
 git push origin master
 git push origin $TAG
 git push launchpad
+
+cat <<EOF
+
+Manage milestones:
+- https://github.com/eventum/eventum/milestones
+
+EOF
