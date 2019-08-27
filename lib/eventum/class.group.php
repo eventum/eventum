@@ -212,7 +212,7 @@ class Group
             return -1;
         }
 
-        if (count($res) > 0) {
+        if ($res) {
             $res['users'] = self::getUsers($grp_id);
             $res['projects'] = self::getProjects($grp_id);
             $res['project_ids'] = array_keys($res['projects']);
