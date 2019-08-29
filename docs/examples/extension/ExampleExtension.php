@@ -32,6 +32,7 @@ class ExampleExtension implements
     Provider\CustomFieldProvider,
     Provider\PartnerProvider,
     Provider\SubscriberProvider,
+    Provider\ViewIssueButtonsProvider,
     Provider\WorkflowProvider
 {
     /**
@@ -139,6 +140,16 @@ class ExampleExtension implements
             Subscriber\HistorySubscriber::class,
             Subscriber\UserSubscriber::class,
             Subscriber\CommitSubscriber::class,
+        ];
+    }
+
+    public function getViewIssueButtons(): array
+    {
+        $callable = static function () {
+        };
+
+        return [
+            'Move to GitLab' => $callable,
         ];
     }
 }
