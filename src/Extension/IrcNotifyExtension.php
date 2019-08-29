@@ -14,9 +14,10 @@
 namespace Eventum\Extension;
 
 use Eventum\Event\Subscriber\IrcSubscriber;
+use Eventum\Extension\Provider\SubscriberProvider;
 use Setup;
 
-class IrcNotifyExtension extends AbstractExtension
+class IrcNotifyExtension implements SubscriberProvider
 {
     /**
      * {@inheritdoc}
