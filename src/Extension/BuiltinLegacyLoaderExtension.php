@@ -25,7 +25,12 @@ use Workflow;
  * - custom_field
  * - customer
  */
-class BuiltinLegacyLoaderExtension extends AbstractExtension
+class BuiltinLegacyLoaderExtension implements
+    Provider\AutoloadProvider,
+    Provider\CustomFieldProvider,
+    Provider\PartnerProvider,
+    Provider\WorkflowProvider,
+    Provider\CrmProvider
 {
     /** @var array */
     private $partners = [];
