@@ -13,7 +13,7 @@
 
 namespace Eventum\Test\Extension;
 
-use Eventum\Extension\AbstractExtension;
+use Eventum\Extension\Provider;
 use Eventum\Test\TestCase;
 
 /**
@@ -36,7 +36,8 @@ class ExtensionManagerTest extends TestCase
     }
 }
 
-class TestExtension1 extends AbstractExtension
+class TestExtension1 implements
+    Provider\WorkflowProvider
 {
     public function getAvailableWorkflows(): array
     {
@@ -46,7 +47,9 @@ class TestExtension1 extends AbstractExtension
     }
 }
 
-class TestExtension2 extends AbstractExtension
+class TestExtension2 implements
+    Provider\AutoloadProvider,
+    Provider\WorkflowProvider
 {
     public function registerAutoloader($loader): void
     {

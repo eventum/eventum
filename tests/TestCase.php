@@ -25,7 +25,7 @@ class TestCase extends \PHPUnit\Framework\TestCase
      *
      * @return ExtensionManager
      */
-    protected function getExtensionManager($config): ExtensionManager
+    protected function getExtensionManager(array $config): ExtensionManager
     {
         /** @var ExtensionManager $stub */
         $stub = $this->getMockBuilder(ExtensionManager::class)
