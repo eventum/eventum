@@ -17,6 +17,13 @@
   <title>{if $title != '' or isset($extra_title)}{$extra_title|default:$title} - {/if}{$core.app_setup.tool_caption|default:$core.app_title}</title>
   <script type="text/javascript">
   <!--
+  var project = {
+{if isset($core.project_id)}
+    id: {$core.project_id},
+    name: {$core.project_name|json_encode},
+{/if}
+    _: 0
+  };
   var user_prefs = {
 {if isset($core.user)}
     relative_date: {$core.current_user_prefs.relative_date},
