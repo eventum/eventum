@@ -4,6 +4,8 @@
 
 Upgrading to 3.8.x versions requires that you upgrade to latest 3.5.x version first.
 
+- Add support for Extensions to add Symfony routes (@glensc, #655)
+
 [3.8.1]: https://github.com/eventum/eventum/compare/v3.8.0...master
 
 ## [3.8.0] - 2019-08-22
