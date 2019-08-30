@@ -58,7 +58,7 @@ class Kernel extends BaseKernel
                  *    "^/(.*)" => "/git/$1"
                  *  )
                  */
-                $requestUri = $_SERVER['REDIRECT_URI'];
+                $requestUri = parse_url($_SERVER['REDIRECT_URI'], PHP_URL_PATH);
             } else {
                 $requestUri = $_SERVER['SCRIPT_NAME'];
             }
