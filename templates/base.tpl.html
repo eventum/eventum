@@ -17,6 +17,12 @@
   <title>{if $title != '' or isset($extra_title)}{$extra_title|default:$title} - {/if}{$core.app_setup.tool_caption|default:$core.app_title}</title>
   <script type="text/javascript">
   <!--
+  var issue = {
+{if isset($issue.iss_id)}
+    id: {$issue.iss_id},
+{/if}
+    _: 0
+  };
   var project = {
 {if isset($core.project_id)}
     id: {$core.project_id},
