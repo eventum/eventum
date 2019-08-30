@@ -75,9 +75,27 @@ class GitlabPayload implements PayloadInterface
         return $this->payload['user'];
     }
 
+    /**
+     * @since 3.8.1
+     */
+    public function getAuthor(): array
+    {
+        return $this->payload['author'];
+    }
+
     public function getUsername(): string
     {
         $user = $this->getUser();
+
+        return "{$user['name']} (@{$user['username']})";
+    }
+
+    /**
+     * @since 3.8.1
+     */
+    public function getAuthorName(): string
+    {
+        $user = $this->getAuthor();
 
         return "{$user['name']} (@{$user['username']})";
     }
