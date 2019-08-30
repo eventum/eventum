@@ -1,4 +1,4 @@
-#!/usr/bin/php
+#!/usr/bin/env php
 <?php
 /*
  * This file is part of the Eventum (Issue Tracking System) package.
