@@ -13,7 +13,7 @@
 
 namespace Eventum\Test\Dispatcher;
 
-use Eventum\Extension\AbstractExtension;
+use Eventum\Extension\Provider;
 use Eventum\Test\TestCase;
 use Symfony\Component\EventDispatcher\Event;
 use Symfony\Component\EventDispatcher\EventDispatcher;
@@ -54,11 +54,15 @@ class ExtensionSubscribeTest extends TestCase
     }
 }
 
-class Extension1 extends AbstractExtension
+class Extension1 implements Provider\SubscriberProvider
 {
+    public function getSubscribers(): array
+    {
+        return [];
+    }
 }
 
-class Extension2 extends AbstractExtension
+class Extension2 implements Provider\SubscriberProvider
 {
     public function getSubscribers(): array
     {
