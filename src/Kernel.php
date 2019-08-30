@@ -16,6 +16,7 @@ namespace Eventum;
 use Auth;
 use Eventum\Config\Paths;
 use Eventum\Db\Doctrine;
+use Eventum\Extension\ExtensionManager;
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\Config\Resource\FileResource;
@@ -110,6 +111,9 @@ class Kernel extends BaseKernel
     protected function configureRoutes(RouteCollectionBuilder $routes): void
     {
         $routes->import("{$this->configDir}/routes.yml");
+
+        $em = ExtensionManager::getManager();
+        $em->configureRoutes($routes);
     }
 
     public function getProjectDir(): string

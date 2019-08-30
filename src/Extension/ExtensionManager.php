@@ -20,6 +20,7 @@ use Eventum\Extension\Provider\CustomFieldProvider;
 use Eventum\Extension\Provider\ExtensionProvider;
 use Eventum\Extension\Provider\FactoryProvider;
 use Eventum\Extension\Provider\PartnerProvider;
+use Eventum\Extension\Provider\RouteProvider;
 use Eventum\Extension\Provider\SubscriberProvider;
 use Eventum\Extension\Provider\WorkflowProvider;
 use Eventum\Monolog\Logger;
@@ -27,11 +28,11 @@ use Generator;
 use InvalidArgumentException;
 use RuntimeException;
 use Setup;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\Routing\RouteCollectionBuilder;
 use Throwable;
 use Zend\Config\Config;
 
-class ExtensionManager
+class ExtensionManager implements RouteProvider
 {
     /** @var Provider\ExtensionProvider[] */
     protected $extensions;
@@ -108,10 +109,32 @@ class ExtensionManager
         });
     }
 
+    public function configureRoutes(RouteCollectionBuilder $routes): void
+    {
+        /** @var RouteProvider[] $extensions */
+        $extensions = $this->filterExtensions(static function (ExtensionProvider $extension) {
+            return $extension instanceof RouteProvider;
+        });
+
+        foreach ($extensions as $extension) {
+            $extension->configureRoutes($routes);
+        }
+    }
+
+    private function filterExtensions(callable $filter): Generator
+    {
+        foreach ($this->extensions as $extension) {
+            if (!$filter($extension)) {
+                continue;
+            }
+            yield $extension;
+        }
+    }
+
     /**
      * Create instances of classes returned from each extension $methodName.
      */
-    protected function createInstances(string $methodName, callable $filter): Generator
+    private function createInstances(string $methodName, callable $filter): Generator
     {
         foreach ($this->extensions as $extension) {
             if (!$filter($extension)) {
