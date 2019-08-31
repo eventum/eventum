@@ -65,7 +65,7 @@ install:
 
 script:
   - PATH=vendor/bin:$HOME/.composer/vendor/bin:$PATH
-  - phpunit --verbose --exclude-group ldap,imap,logger,mail,api,locale,date,crypto
+  - simple-phpunit --verbose --exclude-group ldap,imap,logger,mail,api,locale,date,crypto
 
 notifications:
   irc:
