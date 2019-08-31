@@ -7,6 +7,7 @@ Upgrading to 3.8.x versions requires that you upgrade to latest 3.5.x version fi
 - Add support for Extensions to add Symfony routes (@glensc, #655)
 - Drop AbstractExtension, use Providers (@glensc, #654)
 - Extensions: Add Proxy to Composer Autoloader (@glensc, #657)
+- Move Symfony project provided configs to res (@glensc, #658)
 
 [3.8.1]: https://github.com/eventum/eventum/compare/v3.8.0...master
 

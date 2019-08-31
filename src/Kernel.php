@@ -32,12 +32,16 @@ class Kernel extends BaseKernel
     /** @var string */
     private $configDir;
 
+    /** @var string */
+    private $resourceDir;
+
     public function __construct(string $environment, bool $debug)
     {
         $this->environment = $environment;
         $this->debug = $debug;
         $this->rootDir = dirname(__DIR__);
         $this->configDir = "{$this->rootDir}/config";
+        $this->resourceDir = "{$this->rootDir}/res";
         $this->name = $this->getName(false);
     }
 
@@ -79,7 +83,7 @@ class Kernel extends BaseKernel
 
     public function registerBundles()
     {
-        $contents = require "{$this->configDir}/bundles.php";
+        $contents = require "{$this->resourceDir}/bundles.php";
 
         foreach ($contents as $class => $envs) {
             if ($envs[$this->environment] ?? $envs['all'] ?? false) {
@@ -90,17 +94,17 @@ class Kernel extends BaseKernel
 
     protected function configureContainer(ContainerBuilder $container, LoaderInterface $loader): void
     {
-        $configDir = $this->configDir;
+        $resourceDir = $this->resourceDir;
 
         $container->setParameter('kernel.secret', Auth::privateKey());
 
-        $container->addResource(new FileResource("{$configDir}/bundles.php"));
+        $container->addResource(new FileResource("{$resourceDir}/bundles.php"));
         $container->setParameter('container.dumper.inline_class_loader', true);
 
-        $loader->load($configDir . '/{packages}/*.yml', 'glob');
-        $loader->load($configDir . '/{packages}/' . $this->environment . '/**/*.yml', 'glob');
-        $loader->load($configDir . '/{services}.yml', 'glob');
-        $loader->load($configDir . '/{services}_' . $this->environment . '.yml', 'glob');
+        $loader->load($resourceDir . '/{packages}/*.yml', 'glob');
+        $loader->load($resourceDir . '/{packages}/' . $this->environment . '/**/*.yml', 'glob');
+        $loader->load($resourceDir . '/{services}.yml', 'glob');
+        $loader->load($resourceDir . '/{services}_' . $this->environment . '.yml', 'glob');
 
         $dsn = Doctrine::getUrl();
         if ($dsn) {
@@ -110,7 +114,7 @@ class Kernel extends BaseKernel
 
     protected function configureRoutes(RouteCollectionBuilder $routes): void
     {
-        $routes->import("{$this->configDir}/routes.yml");
+        $routes->import("{$this->resourceDir}/routes.yml");
 
         $em = ExtensionManager::getManager();
         $em->configureRoutes($routes);

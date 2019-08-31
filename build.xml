@@ -3,7 +3,6 @@
 	<property name="name" value="${phing.project.name}"/>
 	<property name="basedir" value="."/>
 	<property name="vendor" value="${basedir}/vendor"/>
-	<property name="config" value="${basedir}/config"/>
 	<property name="contrib" value="${basedir}/contrib"/>
 
 	<!-- phplint -->
@@ -26,7 +25,7 @@
 	-->
 	<target name="clean-dist" description="clean distribution of unwanted files">
 		<delete verbose="true">
-			<fileset dir="${config}">
+			<fileset dir="${basedir}/res">
 				<include name="packages/test/**"/>
 			</fileset>
 
