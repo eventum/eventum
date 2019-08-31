@@ -13,7 +13,7 @@
 
 namespace Example\Extension;
 
-use Composer\Autoload\ClassLoader;
+use Eventum\Extension\ClassLoader;
 use Eventum\Extension\Provider;
 use Example\Event\Subscriber;
 
@@ -55,14 +55,26 @@ class ExampleExtension implements
             'Example\\Extension\\' => [$baseDir . '/docs/examples/extension'],
         ];
 
+        $files = [
+            '37a3dc5111fe8f707ab4c132ef1dbc62' => $baseDir . '/docs/examples/workflow/class.example.php',
+        ];
+
+        // add classmap
         $loader->addClassMap($classmap);
 
+        // add namespaces (psr-0)
         foreach ($psr0 as $namespace => $path) {
             $loader->add($namespace, $path);
         }
 
+        // add namespaces (psr-4)
         foreach ($psr4 as $namespace => $path) {
-            $loader->setPsr4($namespace, $path);
+            $loader->addPsr4($namespace, $path);
+        }
+
+        // add files
+        foreach ($files as $fileIdentifier => $file) {
+            $loader->autoloadFile($fileIdentifier, $file);
         }
     }
 

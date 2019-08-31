@@ -13,7 +13,6 @@
 
 namespace Eventum\Extension;
 
-use Composer\Autoload\ClassLoader;
 use Eventum\Extension\Provider\AutoloadProvider;
 use Eventum\Extension\Provider\CrmProvider;
 use Eventum\Extension\Provider\CustomFieldProvider;
@@ -252,14 +251,18 @@ class ExtensionManager implements RouteProvider
     }
 
     /**
-     * Return composer autoloader
+     * Return Composer autoloader decorated with Eventum ClassLoader
      *
      * @return ClassLoader
      */
     protected function getAutoloader(): ClassLoader
     {
         $baseDir = dirname(__DIR__, 2);
-        foreach ([$baseDir . '/vendor/autoload.php', $baseDir . '/../../../vendor/autoload.php'] as $autoload) {
+        $searchPaths = [
+            $baseDir . '/vendor/autoload.php',
+            $baseDir . '/../../../vendor/autoload.php',
+        ];
+        foreach ($searchPaths as $autoload) {
             if (file_exists($autoload)) {
                 break;
             }
@@ -269,6 +272,9 @@ class ExtensionManager implements RouteProvider
             throw new RuntimeException('Could not locate autoloader');
         }
 
-        return require $autoload;
+        /** @noinspection PhpIncludeInspection */
+        $loader = require $autoload;
+
+        return new ClassLoader($loader);
     }
 }
