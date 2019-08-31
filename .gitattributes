@@ -19,7 +19,7 @@
 
 # tests
 /codeception.dist.yml export-ignore
-/phpunit.xml.dist export-ignore
+/phpunit.xml export-ignore
 /config/setup.phpunit.php export-ignore
 /tests/ export-ignore
 
