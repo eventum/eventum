@@ -106,7 +106,6 @@
 		"jquery-form/form": "^4.2",
 		"maximebf/debugbar": "1.*",
 		"perftools/php-profiler": "^0.1.1",
-		"phpunit/phpunit": "^7.5",
 		"rmm5t/jquery-timeago": "*",
 		"robloach/component-installer": "*",
 		"sentry/sentry": "^1.7",
