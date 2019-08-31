@@ -22,6 +22,9 @@
 	<php>
 		<const name="PHPUNIT_EVENTUM_TESTSUITE" value="true"/>
 		<env name="KERNEL_CLASS" value="Eventum\Kernel"/>
+		<server name="SYMFONY_PHPUNIT_VERSION" value="7.5" />
+		<!-- https://symfony.com/doc/4.3/components/phpunit_bridge.html#configuration -->
+		<server name="SYMFONY_DEPRECATIONS_HELPER" value="max[total]=0&amp;max[self]=0&amp;max[direct]=0" />
 	<!--
 		<ini name="date.timezone" value="UTC" />
 		<server name="KERNEL_DIR" value="/path/to/your/app/" />
@@ -38,4 +41,8 @@
 			</exclude>
 		</whitelist>
 	</filter>
+
+	<listeners>
+		<listener class="Symfony\Bridge\PhpUnit\SymfonyTestsListener" />
+	</listeners>
 </phpunit>

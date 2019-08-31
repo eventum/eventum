@@ -35,12 +35,19 @@ class ConfigTest extends TestCase
         //$config->smtp->host = 'localhost';
         //$config['smtp']['host'] = 'localhost';
 
-        $this->assertNull($config['noentry']['host'], 'Can access inaccessible parent as array');
+        if (PHP_VERSION_ID < 70400) {
+            // PHP 7.4: Trying to access array offset on value of type null
+            // https://bugs.php.net/bug.php?id=37676
+            // https://github.com/php/php-src/pull/2031
+            $this->assertNull($config['noentry']['host'], 'Can access inaccessible parent as array');
+        }
         //$this->assertNull($config->noentry->host, 'Can not access inaccessible parent as object');
 
         $this->assertTrue(empty($config->noentry->host), 'can do empty checks on inaccessible parents');
-        $this->assertFalse(isset($config->noentry->host), 'can do isset checks on inaccessible parents');
-        $this->assertNull($config['noentry']['host'], 'can do empty checks on inaccessible parents');
+        if (PHP_VERSION_ID < 70400) {
+            $this->assertFalse(isset($config->noentry->host), 'can do isset checks on inaccessible parents');
+            $this->assertNull($config['noentry']['host'], 'can do empty checks on inaccessible parents');
+        }
         $this->assertFalse(isset($config['noentry']['host']), 'can do isset checks on inaccessible parents');
 
         // this avoids the "indirect" error

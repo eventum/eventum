@@ -265,7 +265,7 @@ class Mail_Helper
      * @param string $body
      * @return  string The Message-ID header
      */
-    public static function generateMessageID($headers = null, $body = null)
+    public static function generateMessageID($headers = null, $body = null): string
     {
         if ($headers) {
             // calculate hash to make fake message ID
@@ -273,8 +273,8 @@ class Mail_Helper
             // but can't fix this because need to generate same message-id for same headers+body.
             // TODO: this can be fixed once we store the generated message-id in database,
             // TODO: i.e work on ZF-MAIL devel branch gets merged
-            $first = base_convert(md5($headers), 10, 36);
-            $second = base_convert(md5($body), 10, 36);
+            $first = base_convert(preg_replace('/[^0-9]+/', '', md5($headers)), 10, 36);
+            $second = base_convert(preg_replace('/[^0-9]+/', '', md5($body)), 10, 36);
         } else {
             // generate random one
             // first part is time based

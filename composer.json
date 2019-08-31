@@ -106,11 +106,11 @@
 		"jquery-form/form": "^4.2",
 		"maximebf/debugbar": "1.*",
 		"perftools/php-profiler": "^0.1.1",
-		"phpunit/phpunit": "^7.5",
 		"rmm5t/jquery-timeago": "*",
 		"robloach/component-installer": "*",
 		"sentry/sentry": "^1.7",
 		"symfony/browser-kit": "^4.2",
+		"symfony/phpunit-bridge": "^4.3",
 		"symfony/thanks": "^1.0",
 		"symfony/var-dumper": "^2.7 || ^3.3 || ^4.1.2",
 		"widernet/cmd-ctrl-enter": "~0.2.0"
@@ -158,7 +158,7 @@
 	"minimum-stability": "dev",
 	"prefer-stable": true,
 	"scripts": {
-		"test": "phpunit"
+		"test": "simple-phpunit"
 	},
 	"support": {
 		"issues": "https://github.com/eventum/eventum/issues",
