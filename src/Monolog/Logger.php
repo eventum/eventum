@@ -67,7 +67,7 @@ class Logger extends Registry
 
         $configPath = Setup::getConfigPath();
         $files = [
-            Paths::APP_PATH . '/res/config/logger.php',
+            Paths::APP_PATH . '/res/logger.php',
             $configPath . '/logger.php',
         ];
         $config = [];
