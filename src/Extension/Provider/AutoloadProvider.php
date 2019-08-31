@@ -13,7 +13,7 @@
 
 namespace Eventum\Extension\Provider;
 
-use Composer\Autoload\ClassLoader;
+use Eventum\Extension\ClassLoader;
 
 interface AutoloadProvider extends ExtensionProvider
 {
@@ -22,6 +22,7 @@ interface AutoloadProvider extends ExtensionProvider
      *
      * @param ClassLoader $loader
      * @since 3.6.6
+     * @since 3.8.1 $loader is decorator over composer ClassLoader
      */
     public function registerAutoloader($loader): void;
 }
