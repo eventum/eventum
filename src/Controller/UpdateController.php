@@ -174,7 +174,7 @@ class UpdateController extends BaseController
          * @see Issue::updateAssociatedIssuesRelations()
          */
         global $errors;
-        if ($has_duplicates || count($errors) > 0 || count($notify_list) > 0) {
+        if ($has_duplicates || $errors || $notify_list) {
             $update_tpl = new Template_Helper();
             $update_tpl->setTemplate('include/update_msg.tpl.html');
             $update_tpl->assign('update_result', $res);

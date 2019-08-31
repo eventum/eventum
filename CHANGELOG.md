@@ -10,6 +10,7 @@ Upgrading to 3.8.x versions requires that you upgrade to latest 3.5.x version fi
 - Move Symfony project provided configs to res, #658
 - Load optional `config/routes.yml` if present, #659
 - Expose project/issue id to window globals, #656
+- Fix PHP 7.2 `count()` warnings, #651
 
 [3.8.1]: https://github.com/eventum/eventum/compare/v3.8.0...master
 
