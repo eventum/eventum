@@ -439,7 +439,7 @@ class Support
      * Method used to get the information about a specific message
      * from a given mailbox.
      *
-     * XXX this function does more than that.
+     * FIXME this function does too many things
      *
      * @param   ImapMessage $mail The Mail object
      * @param   array $info The support email account information
@@ -528,8 +528,6 @@ class Support
             'subject' => $mail->subject,
             'body' => $mail->getMessageBody(),
             'full_email' => $mail->getRawContent(),
-            // the following items are not inserted, but useful in some methods
-//            'headers' => $mail->getHeadersArray(),
         ];
 
         $info['date'] = $t['date'];
