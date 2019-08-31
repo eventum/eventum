@@ -23,7 +23,8 @@ jobs:
     - php: "nightly"
 
     # TODO: would be nice to have two separate stages, one for build, and other for actually publishing
-    - stage: GitHub Release
+    - stage: release
+      name: GitHub Release
       php: "7.1"
       script:
         - bin/releng/dist.sh
