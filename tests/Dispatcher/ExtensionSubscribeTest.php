@@ -39,8 +39,8 @@ class ExtensionSubscribeTest extends TestCase
         }
 
         $event = new Event();
-        $dispatcher->dispatch(self::RESPONSE, $event);
-        $dispatcher->dispatch(self::NAME, $event);
+        $dispatcher->dispatch($event, self::RESPONSE);
+        $dispatcher->dispatch($event, self::NAME);
 
         $id = StoreSubscriber::class;
         $res = $event->{$id};
