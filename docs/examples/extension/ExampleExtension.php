@@ -145,10 +145,11 @@ class ExampleExtension implements
     public function getSubscribers(): array
     {
         return [
+            Subscriber\CommitSubscriber::class,
             Subscriber\CryptoSubscriber::class,
+            Subscriber\GitlabLinkSubscriber::class,
             Subscriber\HistorySubscriber::class,
             Subscriber\UserSubscriber::class,
-            Subscriber\CommitSubscriber::class,
         ];
     }
 }
