@@ -4,6 +4,8 @@
 
 Upgrading to 3.8.x versions requires that you upgrade to latest 3.5.x version first.
 
+- Add example Gitlab remote links Subscriber, #661
+
 [3.8.2]: https://github.com/eventum/eventum/compare/v3.8.1...master
 
 ## [3.8.1] - 2019-09-01

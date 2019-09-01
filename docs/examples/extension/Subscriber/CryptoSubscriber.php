@@ -11,7 +11,7 @@
  * that were distributed with this source code.
  */
 
-namespace Example\Event\Subscriber;
+namespace Example\Subscriber;
 
 use Eventum\Crypto\EncryptedValue;
 use Eventum\Event\ConfigUpdateEvent;
