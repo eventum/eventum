@@ -1,6 +1,6 @@
 # Eventum Issue Tracking System
 
-## [3.8.1]
+## [3.8.1] - 2019-09-01
 
 Upgrading to 3.8.x versions requires that you upgrade to latest 3.5.x version first.
 
@@ -13,7 +13,7 @@ Upgrading to 3.8.x versions requires that you upgrade to latest 3.5.x version fi
 - Fix PHP 7.2 `count()` warnings, #651
 - Catch Uncaught exception on IMAP download errors, #649
 
-[3.8.1]: https://github.com/eventum/eventum/compare/v3.8.0...master
+[3.8.1]: https://github.com/eventum/eventum/compare/v3.8.0...v3.8.1
 
 ## [3.8.0] - 2019-08-22
 
