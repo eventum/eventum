@@ -11,7 +11,7 @@
  * that were distributed with this source code.
  */
 
-namespace Example\Extension\CustomField;
+namespace Example\CustomField;
 
 use Custom_Field;
 use Dynamic_Custom_Field_Backend;

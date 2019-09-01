@@ -11,11 +11,10 @@
  * that were distributed with this source code.
  */
 
-namespace Example\Extension;
+namespace Example;
 
 use Eventum\Extension\ClassLoader;
 use Eventum\Extension\Provider;
-use Example\Event\Subscriber;
 
 /**
  * Example Eventum Extension.
@@ -51,8 +50,7 @@ class ExampleExtension implements
             'Pimple\\' => $phpDir,
         ];
         $psr4 = [
-            'Example\\Event\\' => [$baseDir . '/docs/examples/extension/Event'],
-            'Example\\Extension\\' => [$baseDir . '/docs/examples/extension'],
+            'Example\\' => [$baseDir . '/docs/examples/extension'],
         ];
 
         $files = [
