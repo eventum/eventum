@@ -118,7 +118,7 @@
             {assign var='selected_users' value=$defaults.users|default:''}
         {/if}
         <select id="assignment" name="users[]" multiple size="3" tabindex="{$tabindex++}"
-                data-placeholder="{t}Choose Assignees...{/t}" class="chosen-select"
+                data-placeholder="{t}Choose Assignees…{/t}" class="chosen-select"
                 {if $field_display_settings.assignment.required}data-required="true"{/if}>
         {html_options options=$users selected=$selected_users}
         </select>
