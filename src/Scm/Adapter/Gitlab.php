@@ -100,6 +100,7 @@ class Gitlab extends AbstractAdapter
                 'description' => $payload->getDescription(),
             ];
 
+            $result = $issues = [];
             foreach ($groups as $name => $text) {
                 if (!$text) {
                     continue;
@@ -111,7 +112,16 @@ class Gitlab extends AbstractAdapter
 
                 yield $name => $text;
                 yield "{$name}_matches" => $matches;
+                $result[$name] = $matches;
+
+                foreach ($matches as $match) {
+                    $issues[$match['issueId']] = true;
+                }
             }
+
+            // add simple structure
+            yield 'matches' => $result;
+            yield 'issues' => array_keys($issues);
         };
 
         $matcher = GroupMatcher::create();
