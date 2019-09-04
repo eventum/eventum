@@ -2015,9 +2015,9 @@
             "authors": [
                 {
                     "name": "Colin O'Dell",
-                    "role": "Lead Developer",
                     "email": "colinodell@gmail.com",
-                    "homepage": "https://www.colinodell.com"
+                    "homepage": "https://www.colinodell.com",
+                    "role": "Lead Developer"
                 }
             ],
             "description": "Extension for league/commonmark which autolinks URLs, emails, and @-mentions",
@@ -2072,9 +2072,9 @@
             "authors": [
                 {
                     "name": "Colin O'Dell",
-                    "role": "Lead Developer",
                     "email": "colinodell@gmail.com",
-                    "homepage": "https://www.colinodell.com"
+                    "homepage": "https://www.colinodell.com",
+                    "role": "Lead Developer"
                 }
             ],
             "description": "Extension for league/commonmark which only renders inline text",
@@ -3241,20 +3241,20 @@
             "authors": [
                 {
                     "name": "Woody Gilk",
-                    "role": "Developer",
                     "email": "woody.gilk@gmail.com",
-                    "homepage": "http://shadowhand.me"
+                    "homepage": "http://shadowhand.me",
+                    "role": "Developer"
                 },
                 {
                     "name": "Rob Morgan",
-                    "role": "Lead Developer",
                     "email": "robbym@gmail.com",
-                    "homepage": "https://robmorgan.id.au"
+                    "homepage": "https://robmorgan.id.au",
+                    "role": "Lead Developer"
                 },
                 {
                     "name": "Richard Quadling",
-                    "role": "Developer",
-                    "email": "rquadling@gmail.com"
+                    "email": "rquadling@gmail.com",
+                    "role": "Developer"
                 },
                 {
                     "name": "CakePHP Community",
@@ -4604,16 +4604,16 @@
         },
         {
             "name": "symfony/ldap",
-            "version": "v4.3.3",
+            "version": "v4.3.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/ldap.git",
-                "reference": "c76fcad346a5102b8ace06ff2d6830debd490933"
+                "reference": "ba0a1f675ab863cd321f1cf4d501f9b0657d190f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/ldap/zipball/c76fcad346a5102b8ace06ff2d6830debd490933",
-                "reference": "c76fcad346a5102b8ace06ff2d6830debd490933",
+                "url": "https://api.github.com/repos/symfony/ldap/zipball/ba0a1f675ab863cd321f1cf4d501f9b0657d190f",
+                "reference": "ba0a1f675ab863cd321f1cf4d501f9b0657d190f",
                 "shasum": ""
             },
             "require": {
@@ -4658,7 +4658,7 @@
                 "active directory",
                 "ldap"
             ],
-            "time": "2019-05-30T16:10:05+00:00"
+            "time": "2019-08-14T12:26:46+00:00"
         },
         {
             "name": "symfony/mime",
@@ -4721,16 +4721,16 @@
         },
         {
             "name": "symfony/options-resolver",
-            "version": "v4.3.3",
+            "version": "v4.3.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/options-resolver.git",
-                "reference": "40762ead607c8f792ee4516881369ffa553fee6f"
+                "reference": "81c2e120522a42f623233968244baebd6b36cb6a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/options-resolver/zipball/40762ead607c8f792ee4516881369ffa553fee6f",
-                "reference": "40762ead607c8f792ee4516881369ffa553fee6f",
+                "url": "https://api.github.com/repos/symfony/options-resolver/zipball/81c2e120522a42f623233968244baebd6b36cb6a",
+                "reference": "81c2e120522a42f623233968244baebd6b36cb6a",
                 "shasum": ""
             },
             "require": {
@@ -4771,7 +4771,7 @@
                 "configuration",
                 "options"
             ],
-            "time": "2019-06-13T11:01:17+00:00"
+            "time": "2019-08-08T09:29:19+00:00"
         },
         {
             "name": "symfony/polyfill-intl-idn",
