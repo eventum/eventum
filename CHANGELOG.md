@@ -1,13 +1,13 @@
 # Eventum Issue Tracking System
 
-## [3.8.2]
+## [3.8.2] - 2019-09-04
 
 Upgrading to 3.8.x versions requires that you upgrade to latest 3.5.x version first.
 
 - Add example Gitlab remote links Subscriber, #661
 - Match also title from GitLab SCM pings, #673
 
-[3.8.2]: https://github.com/eventum/eventum/compare/v3.8.1...master
+[3.8.2]: https://github.com/eventum/eventum/compare/v3.8.1...v3.8.2
 
 ## [3.8.1] - 2019-09-01
 
