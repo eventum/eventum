@@ -59,7 +59,7 @@
 		"portphp/csv": "^1.1",
 		"portphp/doctrine": "^1.1",
 		"portphp/steps": "^1.2",
-		"robmorgan/phinx": "^0.10.6",
+		"robmorgan/phinx": "^0.11.1",
 		"sebastian/diff": "^3.0",
 		"smarty-gettext/smarty-gettext": "~1.0",
 		"smarty/smarty": "~3.1.12",
@@ -83,9 +83,10 @@
 	},
 	"replace": {
 		"paragonie/random_compat": "9.99.99",
-		"symfony/polyfill-ctype": "^1.10.0",
-		"symfony/polyfill-intl-normalizer": "^1.10.0",
-		"symfony/polyfill-mbstring": "^1.10.0"
+		"symfony/polyfill-ctype": "1.99",
+		"symfony/polyfill-intl-idn": "1.99",
+		"symfony/polyfill-intl-normalizer": "1.99",
+		"symfony/polyfill-mbstring": "1.99"
 	},
 	"require-dev": {
 		"alcaeus/mongo-php-adapter": "^1.1",
