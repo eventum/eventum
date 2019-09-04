@@ -19,6 +19,7 @@ use Eventum\EventDispatcher\EventManager;
 use Eventum\Scm\Payload\GitlabPayload;
 use Eventum\Scm\ScmRepository;
 use Eventum\TextMatcher\GroupMatcher;
+use Eventum\TextMatcher\TextMatchInterface;
 use InvalidArgumentException;
 use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\HttpFoundation\Request;
@@ -93,24 +94,46 @@ class Gitlab extends AbstractAdapter
 
     private function matchIssues(GitlabPayload $payload): void
     {
-        $matcher = GroupMatcher::create();
-        $description = $payload->getDescription();
-        if (!$description) {
-            return;
-        }
+        $fn = static function (TextMatchInterface $matcher, GitlabPayload $payload) {
+            $groups = [
+                'title' => $payload->getTitle(),
+                'description' => $payload->getDescription(),
+            ];
 
-        $matches = iterator_to_array($matcher->match($description));
-        if (!$matches) {
+            $result = $issues = [];
+            foreach ($groups as $name => $text) {
+                if (!$text) {
+                    continue;
+                }
+                $matches = iterator_to_array($matcher->match($text));
+                if (!$matches) {
+                    continue;
+                }
+
+                yield $name => $text;
+                yield "{$name}_matches" => $matches;
+                $result[$name] = $matches;
+
+                foreach ($matches as $match) {
+                    $issues[$match['issueId']] = true;
+                }
+            }
+
+            // add simple structure
+            yield 'matches' => $result;
+            yield 'issues' => array_keys($issues);
+        };
+
+        $matcher = GroupMatcher::create();
+        $data = iterator_to_array($fn($matcher, $payload));
+        if (!$data) {
             return;
         }
+        $data['url'] = $payload->getUrl();
 
         // dispatch matches as event
         $dispatcher = EventManager::getEventDispatcher();
-        $event = new GenericEvent($payload, [
-            'url' => $payload->getUrl(),
-            'description' => $description,
-            'description_matches' => $matches,
-        ]);
+        $event = new GenericEvent($payload, $data);
         $dispatcher->dispatch(SystemEvents::RPC_GITLAB_MATCH_ISSUE, $event);
     }
 
