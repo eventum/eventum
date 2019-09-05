@@ -13,6 +13,7 @@
 
 namespace Eventum\Config;
 
+use Eventum\Opcache;
 use InvalidArgumentException;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\VarExporter\VarExporter;
@@ -57,6 +58,7 @@ class ConfigPersistence
     {
         $fs = new Filesystem();
         $fs->dumpFile($path, $this->serialize($config));
+        Opcache::invalidate($path);
     }
 
     /**
