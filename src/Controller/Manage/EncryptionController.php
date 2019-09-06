@@ -66,7 +66,6 @@ class EncryptionController extends ManageBaseController
             $cm->disable();
             $km = new CryptoKeyManager();
             $km->generateKey();
-            $cm->cacheClear();
             $this->messages->addInfoMessage(ev_gettext('Thank you, new key for encryption was generated.'));
             $this->redirect('encryption.php', ['cat' => 'activate', 'encryption' => '1']);
         } catch (CryptoException $e) {
@@ -103,7 +102,6 @@ class EncryptionController extends ManageBaseController
             }
         }
 
-        $cm->cacheClear();
         $this->redirect('encryption.php');
     }
 

@@ -14,6 +14,7 @@
 namespace Eventum\Crypto;
 
 use Defuse\Crypto\Key;
+use Eventum\Opcache;
 use Setup;
 use Symfony\Component\Filesystem\Exception\IOException;
 use Symfony\Component\Filesystem\Filesystem;
@@ -138,8 +139,7 @@ final class CryptoKeyManager
             $content = sprintf('<' . '?php return %s;', var_export($this->key->saveToAsciiSafeString(), 1));
             $fs->dumpFile($this->keyfile, $content);
 
-            // clear cache avoid opcode(?) cache giving previous version. yet it still fails in some cases
-            clearstatcache(true, $this->keyfile);
+            Opcache::invalidate($this->keyfile);
         } catch (IOException $e) {
             throw new CryptoException("Unable to store secret file '{$this->keyfile}': {$e->getMessage()}");
         }
