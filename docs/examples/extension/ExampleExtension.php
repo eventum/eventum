@@ -54,7 +54,10 @@ class ExampleExtension implements
         ];
 
         $files = [
-            '37a3dc5111fe8f707ab4c132ef1dbc62' => $baseDir . '/docs/examples/workflow/class.example.php',
+            // the fileIdentifier is md5(package.name:file.path):
+            // https://github.com/composer/composer/blob/1.9.0/src/Composer/Autoload/AutoloadGenerator.php#L914-L917
+            // $ echo -n eventum/eventum:docs/examples/workflow/class.example.php | md5sum
+            'fc4afcb3e485b08772a0e9bddd861b01' => $baseDir . '/docs/examples/workflow/class.example.php',
         ];
 
         // add classmap
