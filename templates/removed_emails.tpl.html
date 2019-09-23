@@ -45,20 +45,20 @@
         if (!confirm('{t escape=js}WARNING: This action will permanently remove the selected emails from your email account.{/t}')) {
             return false;
         } else {
-            var f = $('#removed_emails')[0];
+            var f = $('#remove_emails')[0];
             f.cat.value = 'remove';
             f.submit();
         }
     }
     $().ready(function() {
         $('.select_all').click(function() { Eventum.toggleCheckAll('item[]'); });
-        $('#removed_emails').submit(validateForm);
+        $('#remove_emails').submit(validateForm);
         $('#remove').click(removeEmails);
     });
     //-->
 </script>
 
-<form method="post" id="removed_emails">
+<form method="post" id="remove_emails">
     <input type="hidden" name="cat" value="restore">
     <table class="bordered grid">
         <tr class="title">
