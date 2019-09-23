@@ -623,6 +623,11 @@ span.toggle-trimmed-email a:active {
 }
 
 /* markdown related */
+.markdown-body img
+{
+    max-width: 700px;
+}
+
 .markdown-body table {
     border-spacing: 0;
 }
