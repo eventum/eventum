@@ -132,9 +132,8 @@ class Gitlab extends AbstractAdapter
         $data['url'] = $payload->getUrl();
 
         // dispatch matches as event
-        $dispatcher = EventManager::getEventDispatcher();
         $event = new GenericEvent($payload, $data);
-        $dispatcher->dispatch(SystemEvents::RPC_GITLAB_MATCH_ISSUE, $event);
+        EventManager::dispatch(SystemEvents::RPC_GITLAB_MATCH_ISSUE, $event);
     }
 
     /**

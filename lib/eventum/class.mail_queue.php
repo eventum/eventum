@@ -144,22 +144,21 @@ class Mail_Queue
             throw new RuntimeException('Merged list no longer supported');
         }
 
-        $dispatcher = EventManager::getEventDispatcher();
         foreach (self::getEntries($status, $limit) as $entry) {
             try {
                 $mail = MailMessage::createFromHeaderBody($entry['headers'], $entry['body']);
 
                 unset($entry['headers'], $entry['body']);
                 $event = new GenericEvent($mail, $entry);
-                $dispatcher->dispatch(SystemEvents::MAIL_QUEUE_SEND, $event);
+                EventManager::dispatch(SystemEvents::MAIL_QUEUE_SEND, $event);
 
                 $transport = new MailTransport();
                 $transport->send($entry['recipient'], $mail);
 
-                $dispatcher->dispatch(SystemEvents::MAIL_QUEUE_SENT, $event);
+                EventManager::dispatch(SystemEvents::MAIL_QUEUE_SENT, $event);
             } catch (Exception $e) {
                 $event = new GenericEvent($e, $entry);
-                $dispatcher->dispatch(SystemEvents::MAIL_QUEUE_ERROR, $event);
+                EventManager::dispatch(SystemEvents::MAIL_QUEUE_ERROR, $event);
             }
         }
     }
