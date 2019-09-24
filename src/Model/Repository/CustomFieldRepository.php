@@ -351,7 +351,7 @@ class CustomFieldRepository extends EntityRepository
     {
         $em = $this->getEntityManager();
         $projectRepo = $em->getRepository(Entity\Project::class);
-        $collection = $cf->getProjectCustomFields();
+        $collection = clone $cf->getProjectCustomFields();
 
         foreach ($projects as $prj_id) {
             $pcf = $cf->getProjectCustomFieldById($prj_id);
