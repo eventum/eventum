@@ -220,7 +220,7 @@
                   {t}Title{/t}
                 </th>
                 <td>
-                  <input type="text" name="title" size="40" value="{$info.fld_title|default:''}">
+                  <input type="text" name="title" maxlength="255" size="40" value="{$info.fld_title|default:''}">
                   {include file="error_icon.tpl.html" field="title"}
                 </td>
               </tr>
@@ -229,7 +229,7 @@
                   {t}Short Description{/t}
                 </th>
                 <td>
-                  <input type="text" name="description" size="30" value="{$info.fld_description|default:''}">
+                  <input type="text" name="description" maxlength="255" size="40" value="{$info.fld_description|default:''}">
                   <span>({t}it will show up by the side of the field{/t})</span>
                 </td>
               </tr>

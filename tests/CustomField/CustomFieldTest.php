@@ -90,4 +90,22 @@ class CustomFieldTest extends TestCase
         $this->repo->updateCustomFieldOptions($fld_id, $updateOptions, $addOptions);
         $this->assertTrue(true);
     }
+
+    /**
+     * @see https://github.com/eventum/eventum/issues/682
+     */
+    public function testCustomFieldWithMultipleProjects(): void
+    {
+        $cf = new CustomField();
+        $cf->setTitle('custom field with multiple projects');
+        $cf->setType(CustomField::TYPE_TEXT);
+        $cf->setRank($this->repo->getNextRank());
+        $this->repo->persistAndFlush($cf);
+        $projects = [
+            ProjectSeeder::DEFAULT_PROJECT_ID,
+            ProjectSeeder::EXTRA_PROJECT_ID,
+        ];
+        $this->repo->setProjectAssociation($cf, $projects);
+        $this->assertEquals($projects, $cf->getProjectIds());
+    }
 }
