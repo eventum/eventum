@@ -356,7 +356,11 @@ class Search
 
         if ($options['show_all_projects'] == 0) {
             $stmt .= ' AND iss_prj_id= ' . Misc::escapeInteger($prj_id);
+        } else {
+            // get allowed project ids
+            $stmt .= ' AND iss_prj_id in(' . implode(',', array_keys(Project::getAssocList($usr_id))) . ')';
         }
+
         $stmt .= self::buildWhereClause($options);
 
         if (strpos($options['sort_by'], 'custom_field') !== false) {
