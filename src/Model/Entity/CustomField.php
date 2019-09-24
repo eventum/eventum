@@ -28,7 +28,7 @@ use InvalidArgumentException;
 use User;
 
 /**
- * @ORM\Table(name="custom_field")*
+ * @ORM\Table(name="custom_field")
  * @ORM\Entity(repositoryClass="Eventum\Model\Repository\CustomFieldRepository")
  */
 class CustomField

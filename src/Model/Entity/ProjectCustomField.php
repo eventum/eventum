@@ -74,6 +74,11 @@ class ProjectCustomField
         return $this->project;
     }
 
+    public function getProjectId(): int
+    {
+        return $this->project->getId();
+    }
+
     public function setCustomField(CustomField $cf): self
     {
         $this->customField = $cf;
