@@ -481,7 +481,7 @@ class CustomField
 
     public function getIssueOptionValues(int $issue_id): Collection
     {
-        return $this->getIssueCustomFields($issue_id)->map(function (IssueCustomField $icf) {
+        return $this->getIssueCustomFields($issue_id)->map(static function (IssueCustomField $icf) {
             return $icf->getValue();
         });
     }
@@ -550,6 +550,34 @@ class CustomField
         return $this->projects;
     }
 
+    /**
+     * @return int[]
+     */
+    public function getProjectIds(): array
+    {
+        if (!$this->projects) {
+            return [];
+        }
+
+        return $this->projects->map(static function (ProjectCustomField $pcf) {
+            return $pcf->getProject()->getId();
+        })->toArray();
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getProjectTitles(): array
+    {
+        if (!$this->projects) {
+            return [];
+        }
+
+        return $this->projects->map(static function (ProjectCustomField $pcf) {
+            return $pcf->getProject()->getTitle();
+        })->toArray();
+    }
+
     public function addProjectCustomField(ProjectCustomField $pcf): self
     {
         $pcf->setCustomField($this);
@@ -582,7 +610,7 @@ class CustomField
     public function getDisplayValue(int $issue_id): string
     {
         $values = $this->getIssueCustomFields($issue_id)
-            ->map(function (IssueCustomField $icf) {
+            ->map(static function (IssueCustomField $icf) {
                 return $icf->getDisplayValue();
             });
 

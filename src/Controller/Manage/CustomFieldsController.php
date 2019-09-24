@@ -19,7 +19,6 @@ use Custom_Field;
 use Eventum\Db\Doctrine;
 use Eventum\Extension\ExtensionManager;
 use Eventum\Model\Entity\CustomField;
-use Eventum\Model\Entity\ProjectCustomField;
 use Eventum\Model\Repository\CustomFieldRepository;
 use Project;
 use Setup;
@@ -194,10 +193,7 @@ class CustomFieldsController extends ManageBaseController
         $res = [];
         foreach ($this->repo->getList() as $cf) {
             $row = $cf->toArray();
-            $projects = $cf->getProjectCustomFields()->map(function (ProjectCustomField $pcf) {
-                return $pcf->getProject()->getTitle();
-            })->toArray();
-            $row['projects'] = implode(', ', $projects);
+            $row['projects'] = implode(', ', $cf->getProjectTitles());
             $row['min_role_name'] = User::getRole($cf->getMinRole());
             $row['min_role_edit_name'] = User::getRole($cf->getMinRoleEdit());
             $row['has_options'] = $cf->isOptionType();

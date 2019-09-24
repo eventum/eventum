@@ -18,7 +18,6 @@ use Eventum\Db\Doctrine;
 use Eventum\Diff;
 use Eventum\Extension\ExtensionLoader;
 use Eventum\Model\Entity\CustomField;
-use Eventum\Model\Entity\ProjectCustomField;
 use Eventum\Monolog\Logger;
 
 /**
@@ -232,13 +231,9 @@ class Custom_Field
     {
         $repo = Doctrine::getCustomFieldRepository();
         $cf = $repo->findById($fld_id);
+
         $res = $cf->toArray();
-
-        $projects = $cf->getProjectCustomFields()->map(function (ProjectCustomField $pcf) {
-            return $pcf->getProject()->getId();
-        })->toArray();
-
-        $res['projects'] = $projects;
+        $res['projects'] = $cf->getProjectIds();
         $res['field_options'] = $cf->getOptionValues();
 
         return $res;
