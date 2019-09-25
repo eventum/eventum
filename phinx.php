@@ -80,6 +80,6 @@ $phinx['environments']['test'] = $phinx['environments']['production'];
 $phinx['environments']['test']['name'] = 'e_test';
 
 $event = new GenericEvent(null, $phinx);
-EventManager::getEventDispatcher()->dispatch(SystemEvents::PHINX_CONFIG, $event);
+EventManager::dispatch(SystemEvents::PHINX_CONFIG, $event);
 
 return $event->getArguments();
