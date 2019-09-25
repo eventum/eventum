@@ -10,6 +10,7 @@ Upgrading to 3.8.x versions requires that you upgrade to latest 3.5.x version fi
 - Fix saving custom field attached to multiple projects, #683, #682
 - Use `EventManager::dispatch()` to get consistent API from Eventum itself, #678
 - Drop support for storing ldap config in separate config, #686
+- SMTP: Allow TLS/SSL even if authentication is not enabled #684, #403
 
 [3.8.3]: https://github.com/eventum/eventum/compare/v3.8.2...master
 
