@@ -76,7 +76,7 @@ class MiscTest extends TestCase
             // some emoji
             [
                 ['a' => $this->unichr(0x1F6B2) . $this->unichr(0x1F4A8)],
-                ['a' => ''],
+                ['a' => $this->unichr(0x1F6B2) . $this->unichr(0x1F4A8)],
             ],
         ];
     }
