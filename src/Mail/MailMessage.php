@@ -190,20 +190,16 @@ class MailMessage extends Message
 
     /**
      * Assemble email into raw format including headers.
-     *
-     * @return string
      */
-    public function getRawContent()
+    public function getRawContent(): string
     {
         return $this->headers->toString() . Headers::EOL . $this->getContent();
     }
 
     /**
      * Return Attachment object related to current Mail Message
-     *
-     * @return MailAttachment
      */
-    public function getAttachment()
+    public function getAttachment(): MailAttachment
     {
         if (!$this->attachment) {
             $this->attachment = new MailAttachment($this);
@@ -216,10 +212,9 @@ class MailMessage extends Message
      * Return true if mail has attachments,
      * inline text messages are not accounted as attachments.
      *
-     * @return  bool
      * @deprecated
      */
-    public function hasAttachments()
+    public function hasAttachments(): bool
     {
         return $this->getAttachment()->hasAttachments();
     }
@@ -227,10 +222,9 @@ class MailMessage extends Message
     /**
      * Get attachments with 'filename', 'cid', 'filetype', 'blob' array elements
      *
-     * @return array
      * @deprecated
      */
-    public function getAttachments()
+    public function getAttachments(): array
     {
         return $this->getAttachment()->getAttachments();
     }
@@ -332,6 +326,16 @@ class MailMessage extends Message
         /** @var References $header */
         $header = $this->getHeaderByName('References', References::class);
         $header->setIds($value);
+    }
+
+    /**
+     * Set Message-Id header
+     */
+    public function setMessageId(string $value): void
+    {
+        /** @var MessageId $header */
+        $header = $this->getHeaderByName('Message-Id', MessageId::class);
+        $header->setId($value);
     }
 
     /**
