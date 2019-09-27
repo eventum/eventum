@@ -89,10 +89,8 @@ class MailTransport
 
     /**
      * Get Specification for Mail Transport Factory
-     *
-     * @return array
      */
-    private function getSpec()
+    private function getSpec(): array
     {
         $setup = Setup::get()['smtp'];
 
@@ -108,16 +106,20 @@ class MailTransport
             $options['name'] = trim(file_get_contents('/etc/mailname'));
         }
 
-        if ($setup['auth']) {
+        if ($setup['ssl']) {
             $ssl = $options['port'] === 587 ? 'tls' : 'ssl';
-            $options['connection_class'] = 'login';
+
             $options['connection_config'] = [
-                'username' => $setup['username'],
-                'password' => $setup['password'],
                 /** @see \Zend\Mail\Protocol\Smtp */
                 // possible values: tls, ssl
                 'ssl' => $setup['ssl'] ?: $ssl,
             ];
+        }
+
+        if ($setup['auth']) {
+            $options['connection_class'] = 'login';
+            $options['connection_config']['username'] = $setup['username'];
+            $options['connection_config']['password' ] = $setup['password'];
         }
 
         $spec = [
