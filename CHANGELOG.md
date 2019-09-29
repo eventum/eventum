@@ -1,6 +1,6 @@
 # Eventum Issue Tracking System
 
-## [3.8.3]
+## [3.8.3] - 2019-09-29
 
 Upgrading to 3.8.x versions requires that you upgrade to latest 3.5.x version first.
 
@@ -14,7 +14,7 @@ Upgrading to 3.8.x versions requires that you upgrade to latest 3.5.x version fi
 - MailMessage: add setMessageId method, #685, #415
 - Fix DatabaseSetup when using separate user, #688, #690
 
-[3.8.3]: https://github.com/eventum/eventum/compare/v3.8.2...master
+[3.8.3]: https://github.com/eventum/eventum/compare/v3.8.2...v3.8.3
 
 ## [3.8.2] - 2019-09-04
 
