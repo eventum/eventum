@@ -45,7 +45,7 @@ class DatabaseSetup
      * @param string $db_name
      * @throws RuntimeException
      */
-    private function checkDatabaseAccess($db_name): void
+    private function checkDatabaseAccess(string $db_name): void
     {
         // check if we can use the database
         try {
@@ -111,7 +111,7 @@ class DatabaseSetup
      * @throws RuntimeException
      * @return string
      */
-    public function run($db_config): string
+    public function run(array $db_config): string
     {
         $db_exists = $this->checkDatabaseExists($db_config['db_name']);
         if (!$db_exists) {
@@ -162,7 +162,7 @@ class DatabaseSetup
      *
      * @param array $db_config
      */
-    private function writeDatabaseConfig($db_config): void
+    private function writeDatabaseConfig(array $db_config): void
     {
         $setup = [];
         $setup['database'] = $db_config['db_name'];
@@ -200,7 +200,7 @@ class DatabaseSetup
         return $this->conn->getOne('SHOW DATABASES LIKE ?', [$database]) !== null;
     }
 
-    private function createDatabase($db_name): void
+    private function createDatabase(string $db_name): void
     {
         try {
             $this->conn->query("CREATE DATABASE `{$db_name}`");
@@ -238,14 +238,14 @@ class DatabaseSetup
         return $users;
     }
 
-    private function userExists($user): bool
+    private function userExists(string $user): bool
     {
         $user_list = $this->getUserList();
 
         return in_array($user, $user_list, true);
     }
 
-    private function createUser($db_name, $user, $password): void
+    private function createUser(string $db_name, string $user, string $password): void
     {
         if ($this->userExists($user)) {
             return;

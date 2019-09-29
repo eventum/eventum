@@ -19,18 +19,18 @@ use Eventum\Monolog\Logger;
 
 class DB_Helper
 {
-    const DEFAULT_ADAPTER = 'PdoAdapter';
+    private const DEFAULT_ADAPTER = 'PdoAdapter';
 
     /**
      * @param bool $fallback
      * @throws DatabaseException
      * @return AdapterInterface
      */
-    public static function getInstance($fallback = true)
+    public static function getInstance($fallback = true): ?AdapterInterface
     {
         static $instance;
         if ($instance !== null) {
-            return $instance;
+            return $instance ?: null;
         }
 
         // initialize value to avoid recursion
@@ -66,7 +66,7 @@ class DB_Helper
         exit(2);
     }
 
-    private static function getAdapterClass($config)
+    private static function getAdapterClass($config): string
     {
         $classname = $config['adapter'] ?? self::DEFAULT_ADAPTER;
 
@@ -90,12 +90,11 @@ class DB_Helper
      *
      * @return  int The last inserted ID
      */
-    public static function get_last_insert_id()
+    public static function get_last_insert_id(): int
     {
         $stmt = 'SELECT last_insert_id()';
-        $res = (integer) self::getInstance()->getOne($stmt);
 
-        return $res;
+        return (integer) self::getInstance()->getOne($stmt);
     }
 
     /**
@@ -105,7 +104,7 @@ class DB_Helper
      * @param   bool $add_quotes Whether to add quotes around result as well
      * @return  string The escaped string
      */
-    public static function escapeString($str, $add_quotes = false)
+    public static function escapeString($str, $add_quotes = false): string
     {
         $db = self::getInstance();
         if ($db) {
@@ -129,7 +128,7 @@ class DB_Helper
      * @param array $params
      * @return string A SQL statement partial with placeholders: field1=?, field2=?, field3=? ...
      */
-    public static function buildSet($params)
+    public static function buildSet($params): string
     {
         $partial = [];
         foreach (array_keys($params) as $key) {
@@ -145,7 +144,7 @@ class DB_Helper
      * @param array $params
      * @return string A SQL statement partial with placeholders: ?, ?, ? ...
      */
-    public static function buildList($params)
+    public static function buildList($params): string
     {
         return implode(', ', array_fill(0, count($params), '?'));
     }
@@ -157,9 +156,9 @@ class DB_Helper
      * @param string $default
      * @return string
      */
-    public static function orderBy($order, $default = 'DESC')
+    public static function orderBy($order, $default = 'DESC'): string
     {
-        if (!in_array(strtoupper($order), ['ASC', 'DESC'])) {
+        if (!in_array(strtoupper($order), ['ASC', 'DESC'], true)) {
             return $default;
         }
 
@@ -175,7 +174,7 @@ class DB_Helper
      * @param   string $end_date_field the name of the field where the second date is
      * @return  string the SQL used to compare the 2 dates
      */
-    public static function getNoWeekendDateDiffSQL($start_date_field, $end_date_field = null)
+    public static function getNoWeekendDateDiffSQL($start_date_field, $end_date_field = null): string
     {
         if (!$end_date_field) {
             $end_date_field = "'" . Date_Helper::getCurrentDateGMT() . "'";
