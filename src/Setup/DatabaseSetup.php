@@ -125,10 +125,10 @@ class DatabaseSetup
         // create the new user, if needed
         if ($db_config['alternate_user']) {
             if ($db_config['create_user']) {
-                $this->createUser($db_config['db_name'], $db_config['user'], $db_config['password']);
+                $this->createUser($db_config['db_name'], $db_config['username'], $db_config['password']);
             }
 
-            if (!$this->userExists($db_config['user'])) {
+            if (!$this->userExists($db_config['username'])) {
                 throw new RuntimeException(self::ERR_DB_USER_NOT_FOUND);
             }
         }

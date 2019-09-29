@@ -126,7 +126,7 @@ class SetupController
 
         $db_config = [
             'db_name' => $post->get('db_name'),
-            'user' => $post->get('eventum_user'),
+            'username' => $post->get('eventum_user'),
             'password' => $post->get('eventum_password'),
 
             'drop_tables' => $post->get('drop_tables') === 'yes',
