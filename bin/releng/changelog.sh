@@ -32,6 +32,7 @@ Release tarball built from [#$TRAVIS_JOB_NUMBER](https://travis-ci.org/$TRAVIS_R
 }
 
 gem install chandler
+gem install 'faraday:<0.16'
 
 if [ "$TRAVIS_TAG" = "snapshot" ]; then
 	upload_snapshot_changelog
