@@ -124,7 +124,27 @@ class SetupController
         Logger::initialize();
         $post = $this->getPost();
 
-        $db_config = [
+        $db_hostname = $post->get('db_hostname');
+        $parts = explode(':', $db_hostname, 2);
+        if (count($parts) > 1) {
+            [$hostname, $socket] = $parts;
+        } else {
+            [$hostname] = $parts;
+            $socket = null;
+        }
+
+        $dsn = [
+            // connection info
+            'hostname' => $hostname,
+            'database' => '', // NOTE: db name has to be written after the table has been created
+            'username' => $post->get('db_username'),
+            'password' => $post->get('db_password'),
+            'port' => 3306,
+            'charset' => 'utf8',
+            'socket' => $socket,
+        ];
+
+        $config = [
             'db_name' => $post->get('db_name'),
             'username' => $post->get('eventum_user'),
             'password' => $post->get('eventum_password'),
@@ -135,8 +155,8 @@ class SetupController
             'create_user' => $post->get('create_user') === 'yes',
         ];
 
-        $dbs = new DatabaseSetup();
-        $db_result = $dbs->run($db_config);
+        $dbs = new DatabaseSetup($dsn);
+        $db_result = $dbs->run($config);
         $this->params['db_result'] = $db_result;
     }
 
@@ -152,26 +172,6 @@ class SetupController
         $setup['emails'] = 1;
         $setup['files'] = 1;
         $setup['support_email'] = 'enabled';
-
-        $db_hostname = $post->get('db_hostname');
-        $parts = explode(':', $db_hostname, 2);
-        if (count($parts) > 1) {
-            [$hostname, $socket] = $parts;
-        } else {
-            [$hostname] = $parts;
-            $socket = null;
-        }
-
-        $setup['database'] = [
-            // connection info
-            'hostname' => $hostname,
-            'database' => '', // NOTE: db name has to be written after the table has been created
-            'username' => $post->get('db_username'),
-            'password' => $post->get('db_password'),
-            'port' => 3306,
-            'charset' => 'utf8',
-            'socket' => $socket,
-        ];
 
         $setup['default_timezone'] = $post->get('default_timezone') ?: 'UTC';
         $setup['default_weekday'] = (int)$post->getInt('default_weekday');
