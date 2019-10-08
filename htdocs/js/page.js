@@ -25,7 +25,7 @@ select_project.ready = function()
     $('#project_select_form .project_label').on('click', function() {
 	        $(this).closest("form").submit();
     });
-}
+};
 
 
 /*
@@ -720,7 +720,7 @@ close_issue.validateForm = function()
     Validation.checkCustomFields(form);
 
     // TODO: this needs to be double checked with a customer backend
-    var has_per_incident_contract = ($('tr.per_incident').length > 0)
+    var has_per_incident_contract = $('tr.per_incident').length > 0;
     if ((Validation.errors.length < 1) && (has_per_incident_contract)) {
         if ($('input[type=checkbox][name^=redeem]:checked').length > 0) {
             return confirm('This customer has a per incident contract. You have chosen not to redeem any incidents. Press \'OK\' to confirm or \'Cancel\' to revise.');
@@ -788,7 +788,7 @@ adv_search.ready = function()
 
 adv_search.checkDateFilterType = function(field_name)
 {
-    var filter_type = Eventum.getField(field_name + '[filter_type]').val()
+    var filter_type = Eventum.getField(field_name + '[filter_type]').val();
 
     if (filter_type == 'between') {
         Eventum.changeVisibility(field_name + '1', true);
@@ -1191,10 +1191,10 @@ custom_field_options.bind_actions = function()
             return false;
         }
     })
-}
+};
 
 custom_field_options.add_option = function() {
     var template = $('#new_option_template').first();
     template.clone().prop('id', '').insertAfter('.new_options li:last').show()
     custom_field_options.bind_actions();
-}
+};

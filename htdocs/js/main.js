@@ -25,7 +25,7 @@ $(document).ready(function() {
     classes.push(page_id);
     $.each(classes, function(indexInArray, className) {
         if (className == '') {
-            return
+            return;
         }
         className = className.replace(/-/g, '_');
         if (className != 'new' && eval("typeof " + className) !== "undefined" &&
@@ -113,7 +113,7 @@ $(document).ready(function() {
                 .timeago()
                 .unbind('click')
                 .click(timeago_toggle);
-        })
+        });
     }
 
     Eventum.setupTrimmedEmailToggle();
