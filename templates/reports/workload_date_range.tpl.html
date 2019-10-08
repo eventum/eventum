@@ -87,6 +87,7 @@
 
     function setIntervals(selectedValue)
     {
+        var i;
         f.interval.length = options[f.type.selectedIndex].length;
         for (i = 0; i < options[f.type.selectedIndex].length; i++) {
             f.interval.options[i] = options[f.type.selectedIndex][i];
