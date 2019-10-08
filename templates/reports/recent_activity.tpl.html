@@ -210,7 +210,7 @@
     </tr>
     {foreach from=$data.email item=row}
     <tr class="{cycle values='odd,even'}">
-        <td align="center" NOWRAP align="center">
+        <td align="center" nowrap>
             {include file="expandable_cell/buttons.tpl.html" ec_id="email" list_id=$row.composite_id}
         </td>
         <td bgcolor="{$row.sta_color}" align="right">
