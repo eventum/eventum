@@ -175,7 +175,6 @@ Eventum.displayFixedWidth = function(element)
 
 Eventum.selectOnlyValidOption = function(select)
 {
-    var val = select.val();
     if (select[0].selectedIndex == 0) {
         if (select[0].length == 1) {
             select[0].selectedIndex = 0;

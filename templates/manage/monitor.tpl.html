@@ -5,7 +5,7 @@
 <script type="text/javascript">
 <!--
 function validateForm() {
-  var field, field1, field2;
+  var field1;
 
   field1 = Eventum.getField('diskcheck[status]').filter(":checked").val();
   if (field1 == 'enabled' && Validation.isFieldWhitespace("diskcheck[partition]")) {

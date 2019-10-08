@@ -34,12 +34,13 @@
             function toggleDisableFields()
             {
                 var bool = !Eventum.getField('anonymous_post').first().is(':checked');
+                var bgcolor;
                 if (bool) {
-                    var bgcolor = '#CCCCCC';
+                    bgcolor = '#CCCCCC';
                 } else {
-                    var bgcolor = '#FFFFFF';
+                    bgcolor = '#FFFFFF';
                 }
-                var fields = $('#anon_form select').
+                $('#anon_form select').
                         add(Eventum.getField('options[show_custom_fields]')).
                         attr('disabled', bool).
                         css('backgroundColor', bgcolor);
