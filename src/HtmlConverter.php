@@ -23,7 +23,12 @@ final class HtmlConverter
 
     public function __construct()
     {
-        $this->converter = new LeagueHtmlConverter();
+        $options = [
+            'remove_nodes' => 'head style meta',
+            'strip_tags' => true,
+        ];
+
+        $this->converter = new LeagueHtmlConverter($options);
     }
 
     public function convert(string $html): string
