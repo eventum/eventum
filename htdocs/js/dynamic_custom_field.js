@@ -103,7 +103,7 @@
             // get the target/targets
             var targets = [];
             var target;
-            targets[0] = target = $('#custom_field_' + details[i].target_field_id);
+            targets[0] = $('#custom_field_' + details[i].target_field_id);
 
             for (var targ_num = 0; targ_num < targets.length; targ_num++) {
                 var wrapped_target = targets[targ_num];
