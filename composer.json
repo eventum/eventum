@@ -3,7 +3,7 @@
 	"type": "project",
 	"description": "Eventum Issue / Bug tracking system",
 	"homepage": "https://github.com/eventum/eventum",
-	"license": "GPL-2.0",
+	"license": "GPL-2.0-or-later",
 	"authors": [
 		{
 			"name": "Elan Ruusamäe",
