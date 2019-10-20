@@ -19,7 +19,7 @@ class Mime_Helper
      * @param   string $address The full email address
      * @return  string The properly quoted email address
      */
-    public static function quoteSender($address)
+    public static function quoteSender($address): string
     {
         if (strpos($address, '<') !== false) {
             if (strpos($address, '<') === 0) {
@@ -41,7 +41,7 @@ class Mime_Helper
      * @param   string $address The full email address
      * @return  string The email address without quotes
      */
-    public static function removeQuotes($address)
+    public static function removeQuotes($address): string
     {
         if (strpos($address, '<') !== false) {
             if (strpos($address, '<') === 0) {
@@ -68,7 +68,7 @@ class Mime_Helper
      * @param   string $address The full email address
      * @return  string The properly encoded email address: =?UTF-8?Q?Elan_Ruusam=C3=A4e?= <glen@example.com>
      */
-    public static function encodeAddress($address)
+    public static function encodeAddress($address): string
     {
         $address = self::removeQuotes($address);
         if (self::is8bit($address)) {
@@ -77,7 +77,7 @@ class Mime_Helper
 
             $qq = preg_replace_callback(
                 '/([\x80-\xFF]|[\x21-\x2F]|[\xFC]|\[|\])/',
-                function ($m) {
+                static function ($m) {
                     return '=' . strtoupper(dechex(ord(stripslashes($m[1]))));
                 },
                 $matches[1]
@@ -102,7 +102,7 @@ class Mime_Helper
      * @param   string $address The address to decode
      * @return  string The decoded address
      */
-    public static function decodeAddress($address)
+    public static function decodeAddress($address): string
     {
         if (preg_match("/=\?.+\?Q\?(.+)\?= <(.+)>/i", $address, $matches)) {
             return str_replace('_', ' ', quoted_printable_decode($matches[1])) . ' <' . $matches[2] . '>';
@@ -140,13 +140,9 @@ class Mime_Helper
      * @param string $string  the string to check
      * @return bool  true if it does, false if it doesn't
      */
-    public static function is8bit($string)
+    public static function is8bit($string): bool
     {
-        if (is_string($string) && preg_match('/[\x80-\xff]+/', $string)) {
-            return true;
-        }
-
-        return false;
+        return is_string($string) && preg_match('/[\x80-\xff]+/', $string);
     }
 
     /**
@@ -157,7 +153,7 @@ class Mime_Helper
      * @return string  the text, encoded only if it contains non-ASCII
      *                 characters. Example: =?utf-8?b?WmXDpMOkbmQ=?=
      */
-    public static function encode($text, $charset = 'UTF-8')
+    public static function encode($text, $charset = 'UTF-8'): string
     {
         /* Return if nothing needs to be encoded. */
         if (!self::is8bit($text)) {
@@ -168,7 +164,7 @@ class Mime_Helper
         $line = '';
 
         /* Get the list of elements in the string. */
-        $size = preg_match_all("/([^\s]+)([\s]*)/", $text, $matches, PREG_SET_ORDER);
+        $size = preg_match_all("/([\S]+)([\s]*)/", $text, $matches, PREG_SET_ORDER);
 
         foreach ($matches as $key => $val) {
             if (self::is8bit($val[1])) {
@@ -202,7 +198,7 @@ class Mime_Helper
         /* RFC 2047 [2] states that no encoded word can be more than 75
            characters long. If longer, you must split the word. */
         if (($txt_len + $char_len + 7) > 75) {
-            $pos = intval((68 - $char_len) / 2);
+            $pos = (int)((68 - $char_len) / 2);
 
             return self::_encode(substr($text, 0, $pos), $charset) . ' ' . self::_encode(substr($text, $pos), $charset);
         }
