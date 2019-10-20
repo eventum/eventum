@@ -435,6 +435,7 @@ class CustomField
     public function addOption(CustomFieldOption $cfo): self
     {
         $this->options->add($cfo);
+        $cfo->setCustomField($this);
 
         return $this;
     }
@@ -499,6 +500,7 @@ class CustomField
         if (!$cfo) {
             $cfo = new CustomFieldOption();
             $cfo->setCustomField($this);
+            $this->addOption($cfo);
         }
 
         $cfo->setValue($value);
@@ -532,6 +534,8 @@ class CustomField
         $cfo->setCustomField($this);
         $cfo->setValue($value);
         $cfo->setRank($rank);
+
+        $this->addOption($cfo);
 
         return $cfo;
     }
