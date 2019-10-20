@@ -295,7 +295,7 @@ class CustomFieldRepository extends EntityRepository
     {
         $fields = $this->getList();
 
-        $cf = $fields->filter(function (Entity\CustomField $cf) use ($fld_id) {
+        $cf = $fields->filter(static function (Entity\CustomField $cf) use ($fld_id) {
             return $cf->getId() === $fld_id;
         })->first();
 
