@@ -204,6 +204,7 @@ class CustomField
     public function __construct()
     {
         $this->projects = new ArrayCollection();
+        $this->options = new ArrayCollection();
     }
 
     public function getId(): int
