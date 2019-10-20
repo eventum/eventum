@@ -462,7 +462,7 @@ class Routing
             } else {
                 $host_aliases = explode(' ', $settings['host_alias']);
             }
-            $host_aliases = implode('|', array_map(function ($s) {
+            $host_aliases = implode('|', array_map(static function ($s) {
                 return quotemeta($s);
             }, $host_aliases));
 

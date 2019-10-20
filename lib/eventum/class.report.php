@@ -390,7 +390,7 @@ class Report
                 }
             }
 
-            $sort_function = function ($a, $b) {
+            $sort_function = static function ($a, $b) {
                 return strcasecmp($a['customer_name'], $b['customer_name']);
             };
             usort($issues['closed'], $sort_function);
@@ -744,12 +744,14 @@ class Report
             if (CRM::hasCustomerIntegration($prj_id)) {
                 $crm = CRM::getInstance($prj_id);
                 $crm->processListIssuesResult($res);
-                if ($group_by == 'issue') {
+                if ($group_by === 'issue') {
                     usort($res,
-                        function ($a, $b) {
+                        static function ($a, $b) {
                             if ($a['customer_title'] < $b['customer_title']) {
                                 return -1;
-                            } elseif ($a['customer_title'] > $b['customer_title']) {
+                            }
+
+                            if ($a['customer_title'] > $b['customer_title']) {
                                 return 1;
                             }
 

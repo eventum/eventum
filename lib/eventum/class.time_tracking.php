@@ -350,7 +350,7 @@ class Time_Tracking
         }
 
         usort($total_time_by_user,
-            function ($a, $b) {
+            static function ($a, $b) {
                 return $a['time_spent'] < $b['time_spent'];
             }
         );

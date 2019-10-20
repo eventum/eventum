@@ -276,7 +276,7 @@ class Custom_Field
         static $cache;
         $role_id = Auth::getCurrentRole();
 
-        $initialize = function (int $prj_id) use ($role_id) {
+        $initialize = static function (int $prj_id) use ($role_id) {
             $repo = Doctrine::getCustomFieldRepository();
             $fields = $repo->getListByProject($prj_id, $role_id, CustomField::LIST_DISPLAY);
 

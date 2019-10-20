@@ -134,7 +134,7 @@ class Misc
      */
     public static function lowercase($mixed, $encoding = 'UTF-8')
     {
-        $converter = function ($str) use ($encoding) {
+        $converter = static function ($str) use ($encoding) {
             return mb_convert_case($str, MB_CASE_LOWER, $encoding);
         };
 
@@ -149,7 +149,7 @@ class Misc
      */
     public static function trim($mixed)
     {
-        $converter = function ($str) {
+        $converter = static function ($str) {
             return trim($str);
         };
 
@@ -426,10 +426,10 @@ class Misc
      * @param   string $str The string to be formatted
      * @return  string the formatted string
      */
-    public static function formatReply($str)
+    public static function formatReply($str): string
     {
         $lines = explode("\n", str_replace("\r", '', $str));
-        $lines = array_map(function ($s) {
+        $lines = array_map(static function ($s) {
             return self::indent($s);
         }, $lines);
 
