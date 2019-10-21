@@ -252,7 +252,7 @@ prepare_source() {
 	# install dirs and fix permissions
 	install -d var/{log,cache,lock}
 	touch var/log/{eventum.log,auth.log,cli.log,errors.log,login_attempts.log}
-	touch config/{config.php,private_key.php,secret_key.php,setup.php}
+	touch config/{private_key.php,secret_key.php,setup.php}
 	chmod -R a+rX .
 	chmod -R a+rwX config var
 
