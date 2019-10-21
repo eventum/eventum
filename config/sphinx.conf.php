@@ -1,34 +1,12 @@
 #!/usr/bin/env php
 <?php
 
+use Eventum\Config\SphinxConfig;
+
 require_once __DIR__ . '/../init.php';
 
-if (!defined('SPHINX_LOG_PATH')) {
-    define('SPHINX_LOG_PATH', '/var/log/sphinx/');
-}
-if (!defined('SPHINX_RUN_PATH')) {
-    define('SPHINX_RUN_PATH', '/var/run/sphinx/');
-}
-if (!defined('SPHINX_DATA_PATH')) {
-    define('SPHINX_DATA_PATH', '/var/lib/sphinx/eventum/');
-}
-if (!defined('SPHINX_SEARCHD_PORT')) {
-    define('SPHINX_SEARCHD_PORT', 3312);
-}
+$config = new SphinxConfig();
 
-$dbconfig = DB_Helper::getConfig();
-
-// support localhost:/path/to/socket.sock syntax in db host
-$sql_sock_enabled = '# ';
-$sql_host = $dbconfig['hostname'];
-$sql_sock = '';
-
-$parts = explode(':', $sql_host, 2);
-if (count($parts) >= 2 && list($host, $socket) = $parts) {
-    $sql_sock_enabled = '';
-    $sql_host = $host;
-    $sql_sock = $socket;
-}
 ?>
 
 #############################################################################
@@ -44,27 +22,27 @@ indexer
 #############################################################################
 searchd
 {
-    listen       = <?php echo SPHINX_SEARCHD_PORT . "\n"; ?>
-    log          = <?php echo SPHINX_LOG_PATH; ?>searchd-eventum.log
-    query_log    = <?php echo SPHINX_LOG_PATH; ?>query-eventum.log
+    listen       = <?php echo $config->port . "\n"; ?>
+    log          = <?php echo $config->log_path; ?>/searchd-eventum.log
+    query_log    = <?php echo $config->log_path; ?>/query-eventum.log
     read_timeout = 5
     max_children = 30
-    pid_file     = <?php echo SPHINX_RUN_PATH; ?>searchd-eventum.pid
+    pid_file     = <?php echo $config->run_path; ?>/searchd-eventum.pid
 }
 
 source eventum
 {
     type                = mysql
     # connect over unix socket
-    <?php echo $sql_sock_enabled; ?>sql_sock            = <?php echo $sql_sock . "\n"; ?>
+    <?php echo $config->sql_sock_enabled; ?>sql_sock            = <?php echo $config->sql_sock . "\n"; ?>
 
     # connect over tcp
-    sql_host            = <?php echo $sql_host . "\n"; ?>
-    sql_port            = <?php echo $dbconfig['port'] . "\n"; ?>
+    sql_host            = <?php echo $config->sql_host . "\n"; ?>
+    sql_port            = <?php echo $config->sql_port . "\n"; ?>
 
-    sql_user            = <?php echo $dbconfig['username'] . "\n"; ?>
-    sql_pass            = <?php echo $dbconfig['password'] . "\n"; ?>
-    sql_db              = <?php echo $dbconfig['database'] . "\n"; ?>
+    sql_user            = <?php echo $config->sql_username . "\n"; ?>
+    sql_pass            = <?php echo $config->sql_password . "\n"; ?>
+    sql_db              = <?php echo $config->sql_database . "\n"; ?>
 }
 
 
@@ -102,14 +80,14 @@ source src_issue : eventum
 index issue
 {
     source              = src_issue
-    path                = <?php echo SPHINX_DATA_PATH; ?>issue
+    path                = <?php echo $config->data_path; ?>//issue
     morphology          = none
     min_word_len        = 1
 }
 
 index issue_stemmed : issue
 {
-    path                = <?php echo SPHINX_DATA_PATH; ?>issue_stemmed
+    path                = <?php echo $config->data_path; ?>//issue_stemmed
     morphology          = stem_en
 }
 
@@ -133,14 +111,14 @@ source src_issue_recent : src_issue
 index issue_recent
 {
     source              = src_issue_recent
-    path                = <?php echo SPHINX_DATA_PATH; ?>issue_recent
+    path                = <?php echo $config->data_path; ?>//issue_recent
     morphology          = none
     min_word_len        = 1
 }
 
 index issue_recent_stemmed : issue_recent
 {
-    path                = <?php echo SPHINX_DATA_PATH; ?>issue_recent_stemmed
+    path                = <?php echo $config->data_path; ?>//issue_recent_stemmed
     morphology          = stem_en
 }
 
@@ -194,14 +172,14 @@ source src_email : eventum
 index email
 {
     source          = src_email
-    path            = <?php echo SPHINX_DATA_PATH; ?>email
+    path            = <?php echo $config->data_path; ?>//email
     morphology      = none
     min_word_len    = 1
 }
 
 index email_stemmed : email
 {
-    path            = <?php echo SPHINX_DATA_PATH; ?>email_stemmed
+    path            = <?php echo $config->data_path; ?>//email_stemmed
     morphology      = stem_en
 }
 
@@ -227,7 +205,7 @@ source src_email_recent : src_email
 index email_recent
 {
     source          = src_email_recent
-    path            = <?php echo SPHINX_DATA_PATH; ?>email_recent
+    path            = <?php echo $config->data_path; ?>//email_recent
     morphology      = none
     stopwords       =
     min_word_len    = 1
@@ -235,7 +213,7 @@ index email_recent
 
 index email_recent_stemmed : email_recent
 {
-    path            = <?php echo SPHINX_DATA_PATH; ?>email_recent_stemmed
+    path            = <?php echo $config->data_path; ?>//email_recent_stemmed
     morphology      = stem_en
 }
 
@@ -286,14 +264,14 @@ source src_phonesupport : eventum
 index phonesupport
 {
     source              = src_phonesupport
-    path                = <?php echo SPHINX_DATA_PATH; ?>phonesupport
+    path                = <?php echo $config->data_path; ?>//phonesupport
     morphology          = none
     min_word_len        = 1
 }
 
 index phonesupport_stemmed : phonesupport
 {
-    path                = <?php echo SPHINX_DATA_PATH; ?>phonesupport_stemmed
+    path                = <?php echo $config->data_path; ?>//phonesupport_stemmed
     morphology          = stem_en
 }
 
@@ -320,14 +298,14 @@ source src_phonesupport_recent : src_phonesupport
 index phonesupport_recent
 {
     source              = src_phonesupport_recent
-    path                = <?php echo SPHINX_DATA_PATH; ?>phonesupport_recent
+    path                = <?php echo $config->data_path; ?>//phonesupport_recent
     morphology          = none
     min_word_len        = 1
 }
 
 index phonesupport_recent_stemmed : phonesupport_recent
 {
-    path                = <?php echo SPHINX_DATA_PATH; ?>phonesupport_recent_stemmed
+    path                = <?php echo $config->data_path; ?>//phonesupport_recent_stemmed
     morphology          = stem_en
 }
 
@@ -377,14 +355,14 @@ source src_note : eventum
 index note
 {
     source              = src_note
-    path                = <?php echo SPHINX_DATA_PATH; ?>note
+    path                = <?php echo $config->data_path; ?>//note
     morphology          = none
     min_word_len        = 1
 }
 
 index note_stemmed : note
 {
-    path                = <?php echo SPHINX_DATA_PATH; ?>note_stemmed
+    path                = <?php echo $config->data_path; ?>//note_stemmed
     morphology          = stem_en
 }
 
@@ -410,14 +388,14 @@ source src_note_recent : src_note
 index note_recent
 {
     source              = src_note_recent
-    path                = <?php echo SPHINX_DATA_PATH; ?>note_recent
+    path                = <?php echo $config->data_path; ?>//note_recent
     morphology          = none
     min_word_len        = 1
 }
 
 index note_recent_stemmed : note_recent
 {
-    path                = <?php echo SPHINX_DATA_PATH; ?>note_recent_stemmed
+    path                = <?php echo $config->data_path; ?>/note_recent_stemmed
     morphology          = stem_en
 }
 
