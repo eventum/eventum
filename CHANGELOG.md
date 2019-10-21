@@ -5,6 +5,7 @@
 Upgrading to 3.8.x versions requires that you upgrade to latest 3.5.x version first.
 
 - Fix Custom Field Options order not being respected, #702, #703
+- Add option to show all projects checkbox in issues list, #681
 
 [3.8.4]: https://github.com/eventum/eventum/compare/v3.8.3...master
 

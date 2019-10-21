@@ -93,6 +93,10 @@ class Search
         if ($hide_closed === '') {
             $hide_closed = 1;
         }
+        $show_all_projects = self::getParam('show_all_projects', $request_only);
+        if ($show_all_projects === '') {
+            $show_all_projects = 0;
+        }
         $search_type = self::getParam('search_type', $request_only);
         if (empty($search_type)) {
             $search_type = 'all_text';
@@ -105,6 +109,7 @@ class Search
             'rows' => Misc::escapeString($rows ? $rows : Setup::get()['default_pager_size']),
             'pagerRow' => Misc::escapeInteger(self::getParam('pagerRow', $request_only)),
             'hide_closed' => $hide_closed,
+            'show_all_projects' => $show_all_projects,
             'sort_by' => Misc::stripHTML($sort_by ? $sort_by : 'pri_rank'),
             'sort_order' => Misc::stripHTML($sort_order ? $sort_order : 'ASC'),
             'customer_id' => Misc::escapeString(self::getParam('customer_id')),
@@ -347,7 +352,15 @@ class Search
                  ON
                     ugr_usr_id = ' . $usr_id . '
                  WHERE
-                    iss_prj_id= ' . Misc::escapeInteger($prj_id);
+                    1=1';
+
+        if ($options['show_all_projects'] == 0) {
+            $stmt .= ' AND iss_prj_id= ' . Misc::escapeInteger($prj_id);
+        } else {
+            // get allowed project ids
+            $stmt .= ' AND iss_prj_id in(' . implode(',', array_keys(Project::getAssocList($usr_id))) . ')';
+        }
+
         $stmt .= self::buildWhereClause($options);
 
         if (strpos($options['sort_by'], 'custom_field') !== false) {

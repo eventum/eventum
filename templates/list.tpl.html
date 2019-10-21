@@ -208,6 +208,10 @@
                 </td>
                 <td width="30%" align="right">
                   <input type="checkbox" id="hide_closed" name="hide_closed" {if $options.hide_closed}checked{/if}> <label for="hide_closed">{t}Hide Closed Issues{/t}</label>&nbsp;
+                  {if $core.current_role >= $core.roles.developer}
+                    <input type="checkbox" id="show_all_projects" name="show_all_projects"
+                        {if $options.show_all_projects}checked{/if}><label for="show_all_projects">{t}Show all projects{/t}</label>&nbsp;
+                  {/if}
                 </td>
               </tr>
             </table>

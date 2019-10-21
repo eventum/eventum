@@ -54,6 +54,7 @@ list_issues.ready = function(page_id)
     $('#bulk_update_button').click(list_issues.bulk_update);
     $('#clear_filters').click(list_issues.clearFilters);
     $('#hide_closed').click(list_issues.hideClosed);
+    $('#show_all_projects').click(list_issues.showAllProjects);
     $('#page_size').change(list_issues.resizePager);
     $('#resize_page').click(list_issues.resizePager);
     $('#custom_filter').change(list_issues.runCustomFilter);
@@ -178,6 +179,15 @@ list_issues.hideClosed = function()
         window.location.href = list_issues.page_url + "?" + Eventum.replaceParam(window.location.href, 'hide_closed', '0');
     }
 };
+
+list_issues.showAllProjects = function()
+{
+    if ($('#show_all_projects').is(':checked')) {
+        window.location.href = list_issues.page_url + "?" + Eventum.replaceParam(window.location.href, 'show_all_projects', '1');
+    } else {
+        window.location.href = list_issues.page_url + "?" + Eventum.replaceParam(window.location.href, 'show_all_projects', '0');
+    }
+}
 
 list_issues.resizePager = function()
 {
