@@ -347,7 +347,7 @@ class Link_Filter
     {
         static $cache;
 
-        $initialize = function (?int $prj_id) {
+        $initialize = static function (?int $prj_id) {
             $linkFilter = new LinkFilter();
             $linkFilter->addFilter(new IssueLinkFilter(Setup::getBaseUrl()));
 

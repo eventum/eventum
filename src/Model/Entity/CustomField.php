@@ -184,7 +184,6 @@ class CustomField
      * @var CustomFieldOption[]|PersistentCollection
      * @ORM\OneToMany(targetEntity="CustomFieldOption", mappedBy="customField")
      * @ORM\JoinColumn(name="id", referencedColumnName="cfo_fld_id")
-     * @ORM\OrderBy({"id" = "ASC"})
      */
     private $options;
 
@@ -205,6 +204,7 @@ class CustomField
     public function __construct()
     {
         $this->projects = new ArrayCollection();
+        $this->options = new ArrayCollection();
     }
 
     public function getId(): int
@@ -436,6 +436,7 @@ class CustomField
     public function addOption(CustomFieldOption $cfo): self
     {
         $this->options->add($cfo);
+        $cfo->setCustomField($this);
 
         return $this;
     }
@@ -500,6 +501,7 @@ class CustomField
         if (!$cfo) {
             $cfo = new CustomFieldOption();
             $cfo->setCustomField($this);
+            $this->addOption($cfo);
         }
 
         $cfo->setValue($value);
@@ -533,6 +535,8 @@ class CustomField
         $cfo->setCustomField($this);
         $cfo->setValue($value);
         $cfo->setRank($rank);
+
+        $this->addOption($cfo);
 
         return $cfo;
     }

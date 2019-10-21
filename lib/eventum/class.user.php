@@ -1189,7 +1189,7 @@ class User
         $prj_id = Auth::getCurrentProject();
         $data = [];
 
-        $get_partner_name = function ($name) {
+        $get_partner_name = static function ($name) {
             static $cache;
             if (!isset($cache[$name])) {
                 $cache[$name] = Partner::getName($name);

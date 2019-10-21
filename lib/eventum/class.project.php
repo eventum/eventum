@@ -759,7 +759,7 @@ class Project
                 if (!empty($contract_id)) {
                     try {
                         $contract = $crm->getContract($contract_id);
-                        $contact_ids = array_map(function ($element) {
+                        $contact_ids = array_map(static function ($element) {
                             return $element->getContactID();
                         }, $contract->getContacts());
                     } catch (CRMException $e) {

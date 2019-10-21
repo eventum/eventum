@@ -63,7 +63,6 @@ class CustomFieldOption
     {
         $this->customField = $cf;
         $this->fieldId = $cf->getId();
-        $cf->addOption($this);
 
         return $this;
     }

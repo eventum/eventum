@@ -92,6 +92,24 @@ class CustomFieldTest extends TestCase
     }
 
     /**
+     * @see https://github.com/eventum/eventum/issues/702
+     */
+    public function testCustomFieldOptionsSortOrder(): void
+    {
+        $cf = new CustomField();
+        $cf->setTitle('custom field with sort order');
+        $cf->setType(CustomField::TYPE_COMBO);
+        $cf->setRank($this->repo->getNextRank());
+        $cf->setOrderBy('cfo_value ASC');
+        $this->repo->persistAndFlush($cf);
+
+        $this->repo->updateCustomFieldOptions($cf->getId(), [], ['option1', 'option3', 'option2']);
+
+        $values = $cf->getOptionValues();
+        $this->assertEquals(['option1', 'option2', 'option3'], array_values($values));
+    }
+
+    /**
      * @see https://github.com/eventum/eventum/issues/682
      */
     public function testCustomFieldWithMultipleProjects(): void
