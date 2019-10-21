@@ -28,6 +28,8 @@ class EventumConvertSphinxConst extends AbstractMigration
             'SPHINX_SEARCHD_PORT' => 3312,
         ]);
 
+        $setup['sphinx_searchd_port'] = (int)$setup['sphinx_searchd_port'];
+
         Setup::save();
     }
 
