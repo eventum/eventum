@@ -37,6 +37,7 @@ class Requirements
         // sync with composer.json
         $requiredExtensions = [
             'ctype',
+            'dom',
             'fileinfo',
             'filter',
             'gd',
@@ -50,6 +51,7 @@ class Requirements
             'pdo_mysql',
             'session',
             'spl',
+            'xml',
         ];
 
         foreach ($requiredExtensions as $extension) {

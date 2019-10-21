@@ -27,7 +27,7 @@ class RequirementNotSatisfiedException extends RuntimeException
         $this->errors = $errors;
     }
 
-    public function getErrors()
+    public function getErrors(): array
     {
         return $this->errors;
     }

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "8204bbae0a0d7dfe0be130564d2be3bc",
+    "content-hash": "e760c9b214781e6bd715d568a5a261a9",
     "packages": [
         {
             "name": "cakephp/cache",
@@ -2293,6 +2293,70 @@
                 "storage"
             ],
             "time": "2019-10-16T21:01:05+00:00"
+        },
+        {
+            "name": "league/html-to-markdown",
+            "version": "4.8.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/thephpleague/html-to-markdown.git",
+                "reference": "e747489191f8e9144a7270eb61f8b9516e99e413"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/thephpleague/html-to-markdown/zipball/e747489191f8e9144a7270eb61f8b9516e99e413",
+                "reference": "e747489191f8e9144a7270eb61f8b9516e99e413",
+                "shasum": ""
+            },
+            "require": {
+                "ext-dom": "*",
+                "ext-xml": "*",
+                "php": ">=5.3.3"
+            },
+            "require-dev": {
+                "mikehaertl/php-shellcommand": "~1.1.0",
+                "phpunit/phpunit": "4.*",
+                "scrutinizer/ocular": "~1.1"
+            },
+            "bin": [
+                "bin/html-to-markdown"
+            ],
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "4.9-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "League\\HTMLToMarkdown\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Colin O'Dell",
+                    "email": "colinodell@gmail.com",
+                    "homepage": "https://www.colinodell.com",
+                    "role": "Lead Developer"
+                },
+                {
+                    "name": "Nick Cernis",
+                    "email": "nick@cern.is",
+                    "homepage": "http://modernnerd.net",
+                    "role": "Original Author"
+                }
+            ],
+            "description": "An HTML-to-markdown conversion helper for PHP",
+            "homepage": "https://github.com/thephpleague/html-to-markdown",
+            "keywords": [
+                "html",
+                "markdown"
+            ],
+            "time": "2019-08-02T11:57:39+00:00"
         },
         {
             "name": "malkusch/lock",
@@ -7984,6 +8048,7 @@
     "platform": {
         "php": "^7.1.3 || ^8.0",
         "ext-ctype": "*",
+        "ext-dom": "*",
         "ext-fileinfo": "*",
         "ext-filter": "*",
         "ext-gettext": "*",
@@ -7995,7 +8060,8 @@
         "ext-pdo": "*",
         "ext-pdo_mysql": "*",
         "ext-session": "*",
-        "ext-spl": "*"
+        "ext-spl": "*",
+        "ext-xml": "*"
     },
     "platform-dev": [],
     "platform-overrides": {
