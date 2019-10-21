@@ -45,6 +45,9 @@ class EventumConvertSphinxConst extends AbstractMigration
             if ($setup[$key] === null) {
                 $setup[$key] = $value;
             }
+
+            // fixup: remove the trailing slash
+            $setup[$key] = rtrim($setup[$key], '/');
         }
     }
 }
