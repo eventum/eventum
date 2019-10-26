@@ -1,8 +1,14 @@
 # Eventum Issue Tracking System
 
-## [3.8.5] - 2019-10-26
+## [3.9.0]
 
 Upgrading to 3.9.x versions requires that you upgrade to latest 3.5.x version first.
+
+[3.9.0]: https://github.com/eventum/eventum/compare/v3.8.5...master
+
+## [3.8.5] - 2019-10-26
+
+Upgrading to 3.8.x versions requires that you upgrade to latest 3.5.x version first.
 
 - Add support for converting html to markdown, #701
 - Migrate `SPHINX_` constants to setup.php, #705
