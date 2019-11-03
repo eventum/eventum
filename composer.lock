@@ -2297,16 +2297,16 @@
         },
         {
             "name": "league/html-to-markdown",
-            "version": "4.8.2",
+            "version": "4.8.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/html-to-markdown.git",
-                "reference": "e747489191f8e9144a7270eb61f8b9516e99e413"
+                "reference": "63adb92233b5400d63f7ea5c72e58479d9bcc456"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/html-to-markdown/zipball/e747489191f8e9144a7270eb61f8b9516e99e413",
-                "reference": "e747489191f8e9144a7270eb61f8b9516e99e413",
+                "url": "https://api.github.com/repos/thephpleague/html-to-markdown/zipball/63adb92233b5400d63f7ea5c72e58479d9bcc456",
+                "reference": "63adb92233b5400d63f7ea5c72e58479d9bcc456",
                 "shasum": ""
             },
             "require": {
@@ -2357,7 +2357,7 @@
                 "html",
                 "markdown"
             ],
-            "time": "2019-08-02T11:57:39+00:00"
+            "time": "2019-10-31T12:59:55+00:00"
         },
         {
             "name": "malkusch/lock",
