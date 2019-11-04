@@ -2297,16 +2297,16 @@
         },
         {
             "name": "league/html-to-markdown",
-            "version": "4.8.3",
+            "version": "4.9.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/html-to-markdown.git",
-                "reference": "63adb92233b5400d63f7ea5c72e58479d9bcc456"
+                "reference": "71319108e3db506250b8987721b13568fd9fa446"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/html-to-markdown/zipball/63adb92233b5400d63f7ea5c72e58479d9bcc456",
-                "reference": "63adb92233b5400d63f7ea5c72e58479d9bcc456",
+                "url": "https://api.github.com/repos/thephpleague/html-to-markdown/zipball/71319108e3db506250b8987721b13568fd9fa446",
+                "reference": "71319108e3db506250b8987721b13568fd9fa446",
                 "shasum": ""
             },
             "require": {
@@ -2316,7 +2316,7 @@
             },
             "require-dev": {
                 "mikehaertl/php-shellcommand": "~1.1.0",
-                "phpunit/phpunit": "4.*",
+                "phpunit/phpunit": "^4.8|^5.7",
                 "scrutinizer/ocular": "~1.1"
             },
             "bin": [
@@ -2325,7 +2325,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "4.9-dev"
+                    "dev-master": "4.10-dev"
                 }
             },
             "autoload": {
@@ -2357,7 +2357,7 @@
                 "html",
                 "markdown"
             ],
-            "time": "2019-10-31T12:59:55+00:00"
+            "time": "2019-11-02T14:54:14+00:00"
         },
         {
             "name": "malkusch/lock",
