@@ -6435,16 +6435,16 @@
     "packages-dev": [
         {
             "name": "alcaeus/mongo-php-adapter",
-            "version": "1.1.10",
+            "version": "1.1.11",
             "source": {
                 "type": "git",
                 "url": "https://github.com/alcaeus/mongo-php-adapter.git",
-                "reference": "d949a7b2048af3e32518cc0fde43321524d657d2"
+                "reference": "43b6add94c8b4cb9890d662cba4c0defde733dcf"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/alcaeus/mongo-php-adapter/zipball/d949a7b2048af3e32518cc0fde43321524d657d2",
-                "reference": "d949a7b2048af3e32518cc0fde43321524d657d2",
+                "url": "https://api.github.com/repos/alcaeus/mongo-php-adapter/zipball/43b6add94c8b4cb9890d662cba4c0defde733dcf",
+                "reference": "43b6add94c8b4cb9890d662cba4c0defde733dcf",
                 "shasum": ""
             },
             "require": {
@@ -6497,7 +6497,7 @@
                 "database",
                 "mongodb"
             ],
-            "time": "2019-11-06T19:47:30+00:00"
+            "time": "2019-11-11T20:47:32+00:00"
         },
         {
             "name": "balbuf/composer-git-merge-driver",
