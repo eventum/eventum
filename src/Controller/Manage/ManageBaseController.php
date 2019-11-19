@@ -16,6 +16,7 @@ namespace Eventum\Controller\Manage;
 use Eventum\Auth\Adapter\LdapAdapter;
 use Eventum\Auth\AuthException;
 use Eventum\Controller\BaseController;
+use Symfony\Component\Ldap\Exception\LdapException;
 use User;
 
 abstract class ManageBaseController extends BaseController
@@ -48,6 +49,8 @@ abstract class ManageBaseController extends BaseController
             new LdapAdapter();
 
             return true;
+        } catch (LdapException $e) {
+            return false;
         } catch (AuthException $e) {
             return false;
         }

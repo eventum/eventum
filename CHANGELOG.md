@@ -4,6 +4,8 @@
 
 Upgrading to 3.9.x versions requires that you upgrade to latest 3.5.x version first.
 
+- Catch LdapException in Manage interface, #765
+
 [3.9.0]: https://github.com/eventum/eventum/compare/v3.8.5...master
 
 ## [3.8.5] - 2019-10-26
