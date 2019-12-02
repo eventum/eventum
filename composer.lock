@@ -4598,30 +4598,33 @@
         },
         {
             "name": "symfony/ldap",
-            "version": "v4.3.8",
+            "version": "v4.4.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/ldap.git",
-                "reference": "19e46af96ed999f28ff526d743f3515517b3dc67"
+                "reference": "f2235b3d7750ef6872a6b2f98c6abc5e2c244228"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/ldap/zipball/19e46af96ed999f28ff526d743f3515517b3dc67",
-                "reference": "19e46af96ed999f28ff526d743f3515517b3dc67",
+                "url": "https://api.github.com/repos/symfony/ldap/zipball/f2235b3d7750ef6872a6b2f98c6abc5e2c244228",
+                "reference": "f2235b3d7750ef6872a6b2f98c6abc5e2c244228",
                 "shasum": ""
             },
             "require": {
                 "ext-ldap": "*",
                 "php": "^7.1.3",
-                "symfony/options-resolver": "~4.2"
+                "symfony/options-resolver": "^4.2|^5.0"
             },
             "conflict": {
                 "symfony/options-resolver": "<4.2"
             },
+            "require-dev": {
+                "symfony/security-core": "^4.4"
+            },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "4.3-dev"
+                    "dev-master": "4.4-dev"
                 }
             },
             "autoload": {
@@ -4652,7 +4655,7 @@
                 "active directory",
                 "ldap"
             ],
-            "time": "2019-09-24T15:54:14+00:00"
+            "time": "2019-12-01T08:39:58+00:00"
         },
         {
             "name": "symfony/mime",
@@ -4715,16 +4718,16 @@
         },
         {
             "name": "symfony/options-resolver",
-            "version": "v4.3.8",
+            "version": "v4.4.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/options-resolver.git",
-                "reference": "f46c7fc8e207bd8a2188f54f8738f232533765a4"
+                "reference": "2be23e63f33de16b49294ea6581f462932a77e2f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/options-resolver/zipball/f46c7fc8e207bd8a2188f54f8738f232533765a4",
-                "reference": "f46c7fc8e207bd8a2188f54f8738f232533765a4",
+                "url": "https://api.github.com/repos/symfony/options-resolver/zipball/2be23e63f33de16b49294ea6581f462932a77e2f",
+                "reference": "2be23e63f33de16b49294ea6581f462932a77e2f",
                 "shasum": ""
             },
             "require": {
@@ -4733,7 +4736,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "4.3-dev"
+                    "dev-master": "4.4-dev"
                 }
             },
             "autoload": {
@@ -4765,7 +4768,7 @@
                 "configuration",
                 "options"
             ],
-            "time": "2019-10-28T20:59:01+00:00"
+            "time": "2019-10-28T21:57:16+00:00"
         },
         {
             "name": "symfony/polyfill-php73",
