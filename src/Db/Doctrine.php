@@ -20,7 +20,6 @@ use Doctrine\Common\Proxy\AbstractProxyFactory;
 use Doctrine\DBAL\Types\Type;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Tools\Setup;
-use Eventum;
 use Eventum\Config\Paths;
 use Eventum\Db\Types\UTCDateTimeType;
 use Eventum\DebugBarManager;
