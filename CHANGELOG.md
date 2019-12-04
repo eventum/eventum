@@ -1,10 +1,12 @@
 # Eventum Issue Tracking System
 
-## [3.8.7]
+## [3.8.7] - 2019-12-04
 
 Upgrading to 3.8.x versions requires that you upgrade to latest 3.5.x version first.
 
-[3.8.7]: https://github.com/eventum/eventum/compare/v3.8.6...master
+- Update bundled composer dependencies for Symfony security fixes
+
+[3.8.7]: https://github.com/eventum/eventum/compare/v3.8.6...v3.8.7
 
 ## [3.8.6] - 2019-11-22
 
