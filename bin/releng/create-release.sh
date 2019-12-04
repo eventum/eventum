@@ -33,6 +33,13 @@ patch_changelog() {
 	test "$c1" != "$c2"
 }
 
+if [ "${1:-}" = "--amend" ]; then
+	AMEND=true
+	shift
+else
+	AMEND=false
+fi
+
 topdir=$(git rev-parse --show-toplevel)
 VERSION=$(get_version "${1:-}")
 RELDATE=$(date -u +%Y-%m-%d)
@@ -47,10 +54,16 @@ cache_gpg_askpass
 
 patch_changelog "s/^## \[$(quote "$VERSION")\] *-* *$/& - $RELDATE/"
 patch_changelog "/^\[$(quote "$VERSION")\]/ s/\.\.\.master/...$TAG/"
-git commit -am "prepare for $VERSION release"
+
+git commit -am "Prepare for $VERSION release"
+
+if $AMEND; then
+	echo "Entering shell to make changes before release"
+	bash
+fi
 
 cd $topdir
-GIT_COMMITTER_EMAIL=$SIGN_KEY git tag -s -u "$SIGN_KEY" "$TAG" -m "release $TAG"
+GIT_COMMITTER_EMAIL=$SIGN_KEY git tag -s -u "$SIGN_KEY" "$TAG" -m "Release $TAG"
 
 echo "Press ENTER to push upstreams"
 read a
