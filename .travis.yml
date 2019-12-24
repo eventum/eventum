@@ -13,13 +13,13 @@ services:
 jobs:
   # NOTE: when adding/removing jobs, update bin/releng/snapshot.sh travis_log job_id
   allow_failures:
-    - php: "7.4snapshot"
+    - php: "7.4"
     - php: "nightly"
   include:
     - php: "7.1"
     - php: "7.2"
     - php: "7.3"
-    - php: "7.4snapshot"
+    - php: "7.4"
       env:
       # The deprecations are third party, can't solve them here
       - SYMFONY_DEPRECATIONS_HELPER="max[total]=42&max[self]=0&max[direct]=0"
