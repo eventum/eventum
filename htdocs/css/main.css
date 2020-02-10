@@ -361,6 +361,8 @@ table.grid.internal th, table.grid th.internal {
 
 table.grid td {
     padding: .3em;
+    max-width: 95vw;
+    overflow-y: auto;
 }
 
 table.grid tr.odd {
