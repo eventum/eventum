@@ -21,11 +21,11 @@ use HTMLPurifier_HTML5Config;
 use League\CommonMark\CommonMarkConverter;
 use League\CommonMark\ConverterInterface;
 use League\CommonMark\Environment;
-use League\CommonMark\Ext\Autolink\AutolinkExtension;
-use League\CommonMark\Ext\InlinesOnly\InlinesOnlyExtension;
-use League\CommonMark\Ext\Table\TableExtension;
-use League\CommonMark\Ext\TaskList\TaskListExtension;
+use League\CommonMark\Extension\Autolink\AutolinkExtension;
 use League\CommonMark\Extension\CommonMarkCoreExtension;
+use League\CommonMark\Extension\InlinesOnly\InlinesOnlyExtension;
+use League\CommonMark\Extension\Table\TableExtension;
+use League\CommonMark\Extension\TaskList\TaskListExtension;
 use Misc;
 use Symfony\Component\EventDispatcher\GenericEvent;
 

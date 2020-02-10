@@ -5,6 +5,7 @@
 Upgrading to 3.8.x versions requires that you upgrade to latest 3.5.x version first.
 
 - Fix URL normalization not handling non-UTF-8 sequences properly in Markdown render, #789
+- Update thephpleague/commonmark to 1.3.0, #795
 
 [3.8.8]: https://github.com/eventum/eventum/compare/v3.8.7...master
 
