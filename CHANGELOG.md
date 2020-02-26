@@ -6,6 +6,7 @@ Upgrading to 3.8.x versions requires that you upgrade to latest 3.5.x version fi
 
 - Fix URL normalization not handling non-UTF-8 sequences properly in Markdown render, #789
 - Update thephpleague/commonmark to 1.3.0, #795
+- Add CSS overflow to notes view, #794
 
 [3.8.8]: https://github.com/eventum/eventum/compare/v3.8.7...master
 
