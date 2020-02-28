@@ -15,6 +15,7 @@ namespace Eventum;
 
 use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
 use Symfony\Component\HttpFoundation\Session\Session as SymfonySession;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\HttpFoundation\Session\Storage\PhpBridgeSessionStorage;
 
 /**
@@ -47,6 +48,18 @@ class Session
     }
 
     /**
+     * Force the session to be saved and closed.
+     *
+     * This method is generally not required for real sessions as
+     * the session will be automatically saved at the end of
+     * code execution.
+     */
+    public static function save()
+    {
+        return static::getInstance()->save();
+    }
+
+    /**
      * Initialize the session with $usr_id
      *
      * @param   int $usr_id The ID of the user
@@ -64,12 +77,12 @@ class Session
      *
      * @return FlashBagInterface
      */
-    public static function getFlashBag()
+    public static function getFlashBag(): FlashBagInterface
     {
         return static::getInstance()->getFlashBag();
     }
 
-    private static function getInstance()
+    private static function getInstance(): SessionInterface
     {
         static $session;
 
