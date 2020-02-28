@@ -735,7 +735,7 @@ class Search
         $stmt .= Access::getListingSQL($prj_id);
 
         // clear cached full-text values if we are not searching fulltext anymore
-        if (Setup::get()['enable_fulltext'] && (@$options['search_type'] !== 'all_text')) {
+        if (@$options['search_type'] !== 'all_text' && Setup::get()['enable_fulltext']) {
             Session::set('fulltext_string', '');
             Session::set('fulltext_issues', '');
             Session::set('fulltext_excerpts', '');
