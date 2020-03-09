@@ -64,7 +64,20 @@
             </th>
         </tr>
         {table_row field="host" title="{t}Host{/t}"}
-        {table_row field="port" title="{t}Port{/t}" size="5" help="{t}(default: 389){/t}"}
+        {table_row field="port" title="{t}Port{/t}" size="5" help="{t}(default: 389 for LDAP/StartTLS, 636 for LDAPS){/t}"}
+        <tr>
+          <th width="120">
+            {t}Encryption{/t}:
+          </th>
+          <td>
+            <select name="encryption">
+              <option value="none" {if $setup.encryption == "none"}selected{/if}>None</option>
+              <option value="ssl" {if $setup.encryption == "ssl"}selected{/if}>LDAPS</option>
+              <option value="tls" {if $setup.encryption == "tls"}selected{/if}>StartTLS</option>
+            </select>
+            {include file="error_icon.tpl.html" field="encryption"}
+          </td>
+        </tr>
         {table_row field="binddn" title="{t}Bind DN{/t}" help="{t}Leave empty to clear saved Bind PW{/t}"}
         {table_row field="bindpw" title="{t}Bind PW{/t}" type="password" help="{t}Leave empty to keep current password{/t}"}
         {table_row field="basedn" title="{t}Base DN{/t}"}

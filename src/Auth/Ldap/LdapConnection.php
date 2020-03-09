@@ -204,6 +204,7 @@ class LdapConnection
         return [
             'host' => $this->config['host'],
             'port' => $this->config['port'],
+            'encryption' => $this->config['encryption'] ?: 'none',
         ];
     }
 }
