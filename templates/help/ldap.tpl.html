@@ -12,7 +12,9 @@
   <dt><b>{t}Host{/t}</b></dt>
   <dd>{t}The host name or IP address of the LDAP server{/t}</dd>
   <dt><b>{t}Port{/t}</b></dt>
-  <dd>{t}The TCP port of the LDAP directory service. The default LDAP port is 389.{/t}</dd>
+  <dd>{t}The TCP port of the LDAP directory service. The default port is 389 for LDAP with or without StartTLS, or 636 for LDAPS.{/t}</dd>
+  <dt><b>{t}Encryption{/t}</b></dt>
+  <dd>{t}The security protocol to use. Options are: None (no encryption), LDAPS (LDAP over SSL) and StartTLS (LDAP with TLS).{/t}</dd>
   <dt><b>{t}Bind DN{/t}</b></dt>
   <dd>{t}The DN of the LDAP principal used for directory lookups{/t}</dd>
   <dt><b>{t}Bind PW{/t}</b></dt>

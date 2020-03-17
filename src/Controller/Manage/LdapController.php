@@ -70,6 +70,7 @@ class LdapController extends ManageBaseController
 
         $setup['host'] = $post->get('host');
         $setup['port'] = $post->get('port');
+        $setup['encryption'] = $post->get('encryption');
         $setup['basedn'] = $post->get('basedn');
         $setup['user_id_attribute'] = $post->get('user_id_attribute');
         $setup['userdn'] = $post->get('userdn');
@@ -132,6 +133,7 @@ class LdapController extends ManageBaseController
         return [
             'host' => 'localhost',
             'port' => '389',
+            'encryption' => 'none',
             'binddn' => '',
             'bindpw' => '',
             'basedn' => 'dc=example,dc=org',
