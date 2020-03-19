@@ -1,6 +1,6 @@
 # Eventum Issue Tracking System
 
-## [3.8.8]
+## [3.8.8] - 2020-03-19
 
 Upgrading to 3.8.x versions requires that you upgrade to latest 3.5.x version first.
 
@@ -9,7 +9,7 @@ Upgrading to 3.8.x versions requires that you upgrade to latest 3.5.x version fi
 - Add CSS overflow to notes view, #794
 - Support LDAP encryption, #797
 
-[3.8.8]: https://github.com/eventum/eventum/compare/v3.8.7...master
+[3.8.8]: https://github.com/eventum/eventum/compare/v3.8.7...v3.8.8
 
 ## [3.8.7] - 2019-12-04
 
