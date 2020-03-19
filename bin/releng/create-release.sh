@@ -9,7 +9,7 @@ get_version() {
 		return
 	fi
 
-	oldver=$(git describe --tags --abbrev=0)
+	oldver=$(git describe --tags --abbrev=0 --exclude=snapshot)
 	oldver=${oldver#v}
 	$topdir/contrib/shell-semver/increment_version.sh -p $oldver
 }
