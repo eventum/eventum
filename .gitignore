@@ -29,6 +29,7 @@ Session.vim
 /phpmd.phar
 /phpunit.phar
 
+/node_modules
 /vendor
 
 /config/cas.php
