@@ -31,6 +31,8 @@ Session.vim
 
 /node_modules
 /vendor
+/mix-manifest.json
+/package-lock.json
 
 /config/cas.php
 /config/config.php
