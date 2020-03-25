@@ -139,7 +139,7 @@ class SendController extends BaseController
                 [
                     'issue_id' => $this->issue_id,
 
-                    'statuses' => Status::getAssocStatusList($this->prj_id, false),
+                    'statuses' => Workflow::getAllowedStatuses($this->prj_id, $this->issue_id),
                     'current_issue_status' => Issue::getStatusID($this->issue_id),
                     // set if the current user is allowed to send emails on this issue or not
                     'can_send_email' => Support::isAllowedToEmail($this->issue_id, $sender_details['usr_email']),
