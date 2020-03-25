@@ -1,15 +1,25 @@
-Eventum Code Contributions
-==========================
+# Eventum Code Contributions
 
 The Eventum project welcomes all contributions under a GPL license.
 
-Submission of a patch implies that the submmitter acknowledges that they are the author of the code (or have permission from the author to release the code) and agree that the code can be released under the GPL. The copyright for the changes will then revert to the Eventum Development Team - this is required so that any copyright infringements can be investigated quickly without contacting a huge list of copyright holders. Credit will always be given for any patches through a [AUTHORS](AUTHORS) file in the distribution.
+Submission of a patch implies that the submmitter acknowledges that they are
+the author of the code (or have permission from the author to release the code)
+and agree that the code can be released under the GPL. The copyright for the
+changes will then revert to the Eventum Development Team - this is required so
+that any copyright infringements can be investigated quickly without contacting
+a huge list of copyright holders. Credit will always be given for any patches
+through a [AUTHORS](AUTHORS) file in the distribution.
 
 ## Reporting issues
 
-Bugs should be reported to [issue tracker](https://github.com/eventum/eventum/issues).
+Bugs should be reported to [issue tracker].
 
-Before opening [new issue](https://github.com/eventum/eventum/issues/new), first check that the bug is not already fixed by testing with master branch, then check that your problem is not already reported, by looking at [open issues](https://github.com/eventum/eventum/issues?state=open) in github and [open issues](https://bugs.launchpad.net/eventum/+bugs?orderby=-id&field.status:list=NEW&field.status:list=CONFIRMED&field.status:list=TRIAGED&field.status:list=INPROGRESS&assignee_option=any&field.tags_combinator=ANY&field.omit_dupes=on) in [legacy issue tracker](https://bugs.launchpad.net/eventum).
+Before opening [new issue], first check that the bug is not already fixed by
+testing with `master` branch, then check that your problem is not already
+reported, by looking at [open issues].
+
+[issue tracker]: https://github.com/eventum/eventum/issues
+[new issue]: https://github.com/eventum/eventum/issues/new
 
 ## Pull requests
 
