@@ -259,7 +259,7 @@ class PostNoteController extends BaseController
                 'from' => User::getFromHeader($this->usr_id),
                 'users' => Project::getUserAssocList($this->prj_id, 'active', User::ROLE_CUSTOMER),
                 'subscribers' => Notification::getSubscribers($this->issue_id, false, User::ROLE_USER),
-                'statuses' => Status::getAssocStatusList($this->prj_id, false),
+                'statuses' => Workflow::getAllowedStatuses($this->prj_id, $this->issue_id),
                 'current_issue_status' => Issue::getStatusID($this->issue_id),
                 'time_categories' => Time_Tracking::getAssocCategories($this->prj_id),
                 'note_category_id' => Time_Tracking::getCategoryId($this->prj_id, 'Note Discussion'),
