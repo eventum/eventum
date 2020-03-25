@@ -31,7 +31,6 @@ Session.vim
 
 /node_modules
 /vendor
-/mix-manifest.json
 /package-lock.json
 
 /config/cas.php
@@ -51,6 +50,9 @@ Session.vim
 
 /htdocs/components
 /htdocs/.htaccess
+/htdocs/css/all.css
+/htdocs/js/all.js
+/htdocs/mix-manifest.json
 /eventum-setup
 
 /localization/*.mo

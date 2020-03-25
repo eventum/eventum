@@ -11,6 +11,8 @@ const mix = require('laravel-mix');
  |
  */
 
+Config.publicPath = 'htdocs';
+
 mix.styles([
     'htdocs/css/main.css',
     'htdocs/css/page.css',
@@ -20,3 +22,8 @@ mix.scripts([
     'htdocs/js/main.js',
     'htdocs/js/page.js',
 ], 'htdocs/js/all.js');
+
+mix.version([
+    'htdocs/css/all.css',
+    'htdocs/js/all.js',
+]);

@@ -24,7 +24,7 @@ class Asset
 
     public function __construct()
     {
-        $manifestPath = Paths::APP_PATH . '/mix-manifest.json';
+        $manifestPath = Paths::APP_PUBLIC_PATH . '/mix-manifest.json';
         $this->package = new Package(new JsonManifestVersionStrategy($manifestPath));
     }
 

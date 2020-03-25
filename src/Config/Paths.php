@@ -19,6 +19,7 @@ define('APP_PATH', dirname(__DIR__, 2));
 final class Paths
 {
     public const APP_PATH = APP_PATH;
+    public const APP_PUBLIC_PATH = APP_PATH . '/htdocs';
     public const APP_INC_PATH = APP_PATH . '/lib/eventum';
 
     // "/var" path for writable data
