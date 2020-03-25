@@ -12,12 +12,6 @@ More information can be found at the following URL:
 
   https://github.com/eventum/eventum/
 
-We have also provided mailing lists related to Eventum, both for users and
-potential developers at http://lists.mysql.com/:
-
- - [eventum-users@lists.mysql.com][1] - A general mailing list for users of the Eventum issue tracking tool
- - [eventum-devel@lists.mysql.com][2] - A mailing list for developers of the Eventum issue tracking tool
-
 We welcome you to send patches, bug fixes and other contributions to Eventum.
 Please see the [CONTRIBUTING.md](CONTRIBUTING.md) file for more details into how to do so.
 
