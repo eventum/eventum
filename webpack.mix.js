@@ -11,7 +11,7 @@ const mix = require('laravel-mix');
  |
  */
 
-Config.publicPath = 'htdocs';
+mix.setPublicPath('htdocs');
 
 mix.styles([
     'htdocs/css/main.css',
