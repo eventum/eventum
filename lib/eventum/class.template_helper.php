@@ -51,6 +51,12 @@ class Template_Helper
         $smarty->registerPlugin('modifier', 'timeago', [Date_Helper::class, 'formatTimeAgo']);
         $smarty->registerPlugin('modifier', 'format_email', [Eventum\EmailHelper::class, 'formatEmail']);
         $smarty->registerPlugin('modifier', 'textFormat', [Link_Filter::class, 'textFormat']);
+        $asset = new Templating\Asset();
+        $smarty->registerPlugin('function', 'asset', static function (array $args) use ($asset) {
+            $path = $args['path'] ?? null;
+
+            return $asset->asset($path);
+        });
 
         // Fixes problem with CRM API and dynamic includes.
         // See https://github.com/smarty-php/smarty/blob/v3.1.16/3.1.16_RELEASE_NOTES.txt
