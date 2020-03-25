@@ -24,12 +24,5 @@ Commits follow good practices for message and content
   - Write [good commit messages]
   - Strive for [atomic commits] whenever you can
 
-## Mailing Lists
-
- - [eventum-users@lists.mysql.com][1] - A general mailing list for users of the Eventum issue tracking tool
- - [eventum-devel@lists.mysql.com][2] - A mailing list for developers of the Eventum issue tracking tool
-
-  [1]: https://lists.mysql.com/eventum-users
-  [2]: https://lists.mysql.com/eventum-devel
 [good commit messages]: http://chris.beams.io/posts/git-commit/
 [atomic commits]: http://www.freshconsulting.com/atomic-commits/
