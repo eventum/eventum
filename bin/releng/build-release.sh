@@ -139,6 +139,14 @@ composer_install() {
 	cat deps >> docs/DEPENDENCIES.md && rm deps
 }
 
+assets_install() {
+	echo >&2 "Install assets"
+	yarn
+	yarn production
+	# remove, no longer needed
+	rm -rf htdocs/components
+}
+
 phpcompatinfo_report() {
 	$quick && return
 	echo >&2 "Create phpcompatinfo report"
@@ -255,6 +263,7 @@ prepare_source() {
 	install -d config/{workflow,custom_field,templates,crm,partner,include}
 
 	composer_install
+	assets_install
 	phpcompatinfo_report
 
 	# update to include checksums of js/css files
