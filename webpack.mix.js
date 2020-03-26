@@ -24,6 +24,9 @@ mix.styles([
     'htdocs/components/dropzone/dist/basic.css',
 ], 'htdocs/css/components.css');
 
+mix.copy('vendor/components/jquery-chosen/*.png', 'htdocs/css');
+mix.copy('vendor/fortawesome/font-awesome/fonts', 'htdocs/fonts');
+
 mix.scripts([
     'htdocs/js/main.js',
     'htdocs/js/page.js',
