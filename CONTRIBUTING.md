@@ -41,9 +41,13 @@ Commits follow good practices for message and content
 
 For asset compilation [laravel-mix] is used.
 
+You will need [node] and [yarn] installed.
+
 ```
 // Run all Mix tasks and watch for file changes
-npm run watch
+yarn run watch
 ```
 
 [laravel-mix]: https://laravel.com/docs/5.8/mix
+[node]: https://nodejs.org/
+[yarn]: https://yarnpkg.com/
