@@ -159,7 +159,14 @@
 	"minimum-stability": "dev",
 	"prefer-stable": true,
 	"scripts": {
-		"test": "simple-phpunit"
+		"test": "simple-phpunit",
+		"post-install-cmd": [
+			"@assets"
+		],
+		"assets": [
+			"yarn",
+			"yarn run development"
+		]
 	},
 	"support": {
 		"issues": "https://github.com/eventum/eventum/issues",
