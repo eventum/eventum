@@ -51,7 +51,9 @@ Session.vim
 /htdocs/components
 /htdocs/.htaccess
 /htdocs/css/all.css
+/htdocs/css/components.css
 /htdocs/js/all.js
+/htdocs/js/components.js
 /htdocs/mix-manifest.json
 /eventum-setup
 
