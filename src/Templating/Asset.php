@@ -14,18 +14,23 @@
 namespace Eventum\Templating;
 
 use Eventum\Config\Paths;
-use Symfony\Component\Asset\Package;
+use Setup;
+use Symfony\Component\Asset\PackageInterface;
+use Symfony\Component\Asset\PathPackage;
 use Symfony\Component\Asset\VersionStrategy\JsonManifestVersionStrategy;
 
 class Asset
 {
-    /** @var Package */
+    /** @var PackageInterface */
     private $package;
 
     public function __construct()
     {
         $manifestPath = Paths::APP_PUBLIC_PATH . '/mix-manifest.json';
-        $this->package = new Package(new JsonManifestVersionStrategy($manifestPath));
+        $relativeUrl = Setup::getRelativeUrl();
+        $versionStrategy = new JsonManifestVersionStrategy($manifestPath);
+
+        $this->package = new PathPackage($relativeUrl, $versionStrategy);
     }
 
     public function asset(string $path): string
