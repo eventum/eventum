@@ -58,3 +58,7 @@ mix.version([
     'htdocs/css/all.css',
     'htdocs/js/all.js',
 ]);
+
+if (mix.inProduction()) {
+    mix.disableNotifications();
+}
