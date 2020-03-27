@@ -24,16 +24,21 @@ class Asset
     /** @var PackageInterface */
     private $package;
 
-    public function __construct()
+    public function __construct(string $manifestPath, string $relativeUrl)
     {
-        $manifestPath = Paths::APP_PUBLIC_PATH . '/mix-manifest.json';
-        $relativeUrl = Setup::getRelativeUrl();
         $versionStrategy = new JsonManifestVersionStrategy($manifestPath);
-
         $this->package = new PathPackage($relativeUrl, $versionStrategy);
     }
 
-    public function asset(string $path): string
+    public static function create(): self
+    {
+        $manifestPath = Paths::APP_PUBLIC_PATH . '/mix-manifest.json';
+        $relativeUrl = Setup::getRelativeUrl();
+
+        return new self($manifestPath, $relativeUrl);
+    }
+
+    public function getUrl(string $path): string
     {
         return $this->package->getUrl($path);
     }
