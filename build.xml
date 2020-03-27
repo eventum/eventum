@@ -3,7 +3,6 @@
 	<property name="name" value="${phing.project.name}"/>
 	<property name="basedir" value="."/>
 	<property name="vendor" value="${basedir}/vendor"/>
-	<property name="contrib" value="${basedir}/contrib"/>
 
 	<!-- phplint -->
 	<target name="phplint" description="Run PHP Lint.">
@@ -29,9 +28,17 @@
 				<include name="packages/test/**"/>
 			</fileset>
 
-			<fileset dir="${contrib}">
+			<fileset dir="${basedir}">
+				<include name="src/Mail/MailStorage.php"/>
+			</fileset>
+
+			<fileset dir="${basedir}/contrib">
 				<include name="git/**"/>
 				<include name="shell-semver/**"/>
+			</fileset>
+
+			<fileset dir="${basedir}/htdocs">
+				<include name="components/**"/>
 			</fileset>
 
 			<!-- generic files -->

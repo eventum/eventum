@@ -110,26 +110,30 @@ clean_whitespace() {
 	sed -i -e 's/[\t ]\+$//' "$@"
 }
 
-composer_install() {
+install_dependencies() {
 	echo >&2 "Setup composer deps"
-	# this dir does not exist in git export, but referenced in composer.json
-	install -d tests/src
 
 	# first install with dev to get assets installed
 	$composer install --prefer-dist --no-suggest
+	install_assets
 
 	# and then without dev to get clean autoloader
-	mv htdocs/components htdocs/components.save
 	$composer install --prefer-dist --no-dev --no-suggest
-	mv htdocs/components.save/* htdocs/components
-	rmdir htdocs/components.save
 
 	# clean distribution and dump autoloader again
 	clean_dist
 	$composer dump-autoload
+}
 
-	# cleanup again
-	rm -r tests
+install_assets() {
+	echo >&2 "Install assets"
+	yarn
+	yarn production
+}
+
+dependencies_report() {
+	$quick && return
+	echo >&2 "Create dependencies report"
 
 	# save dependencies information
 	$composer licenses --no-dev --no-ansi > deps
@@ -137,14 +141,6 @@ composer_install() {
 	grep Warning: deps && exit 1
 	clean_whitespace deps
 	cat deps >> docs/DEPENDENCIES.md && rm deps
-}
-
-assets_install() {
-	echo >&2 "Install assets"
-	yarn
-	yarn production
-	# remove, no longer needed
-	rm -rf htdocs/components
 }
 
 phpcompatinfo_report() {
@@ -186,22 +182,6 @@ clean_dist() {
 	cd vendor
 	clean_scripts
 	cd ..
-
-	# component related sources, not needed runtime
-	rm htdocs/components/*/*-built.js
-	rm htdocs/components/*/*-built.css
-	rm htdocs/components/*-built.js
-	rm htdocs/components/jquery-ui/*.js
-	rm htdocs/components/require.*
-	mv htdocs/components/jquery-ui/themes/base .base
-	rm -r htdocs/components/jquery-ui/themes/*
-	mv .base htdocs/components/jquery-ui/themes/base
-	rm -r htdocs/components/jquery-ui/ui/minified
-	rm -r htdocs/components/jquery-ui/ui/i18n
-	rm htdocs/components/garlicjs/js/garlic-standalone.min.js
-
-	# not ready yet
-	rm src/Mail/MailStorage.php
 }
 
 cleanup_postdist() {
@@ -262,8 +242,8 @@ prepare_source() {
 	# add dirs for customization
 	install -d config/{workflow,custom_field,templates,crm,partner,include}
 
-	composer_install
-	assets_install
+	install_dependencies
+	dependencies_report
 	phpcompatinfo_report
 
 	# setup localization
