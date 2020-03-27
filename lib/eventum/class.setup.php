@@ -319,6 +319,7 @@ class Setup
         // at minimum should define top level array elements
         // so that fluent access works without errors and notices
         $defaults = [
+            'relative_url' => '/',
             'monitor' => [
                 'diskcheck' => [
                     'status' => 'enabled',

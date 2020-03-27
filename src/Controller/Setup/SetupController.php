@@ -45,6 +45,7 @@ class SetupController
 
     public function defaultAction(Request $request): Response
     {
+        $this->boot($request);
         $this->cat = $request->request->get('cat');
         $this->request = $request;
         $params = [
@@ -75,12 +76,10 @@ class SetupController
     protected function renderTemplate(array $params = []): Response
     {
         $appInfo = new AppInfo();
-        $baseUrl = $this->request->getBaseUrl();
-        $relative_url = rtrim(dirname($baseUrl, 2), '/') . '/';
         $params += $this->params;
         $params += [
             'core' => [
-                'rel_url' => $relative_url,
+                'rel_url' => Setup::getRelativeUrl(),
                 'app_title' => 'Eventum',
                 'app_version' => $appInfo->getVersion(),
                 'php_version' => PHP_VERSION,
@@ -192,5 +191,15 @@ class SetupController
         Auth::generatePrivateKey();
         $this->writeSetup();
         $this->setupDatabase();
+    }
+
+    private function boot(Request $request): void
+    {
+        $setup = Setup::get();
+
+        $baseUrl = $request->getBaseUrl();
+        $relative_url = rtrim(dirname($baseUrl, 2), '/') . '/';
+
+        $setup['relative_url'] = $relative_url;
     }
 }
