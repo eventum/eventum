@@ -186,6 +186,11 @@ cleanup_postdist() {
 	rm vendor/composer/*.json
 	rm vendor/*/LICENSE
 	rm composer.lock
+
+	# node related
+	rm package.json
+	rm webpack.mix.js
+	rm yarn.lock
 }
 
 phplint() {
