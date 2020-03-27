@@ -22,14 +22,15 @@
 		clean vendor/ dir from unwanted files that come with composer
 		but are not needed for running eventum
 	-->
-	<target name="clean-dist" description="clean distribution of unwanted files">
+	<target name="clean-dist" description="Clean distribution of unwanted files">
 		<delete verbose="true">
 			<fileset dir="${basedir}/res">
 				<include name="packages/test/**"/>
 			</fileset>
 
-			<fileset dir="${basedir}">
+			<fileset dir="${basedir}" defaultexcludes="false">
 				<include name="src/Mail/MailStorage.php"/>
+				<include name="node_modules/**"/>
 			</fileset>
 
 			<fileset dir="${basedir}/contrib">

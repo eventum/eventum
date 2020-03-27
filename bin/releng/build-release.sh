@@ -176,7 +176,7 @@ clean_dist() {
 	echo >&2 "Cleanup distribution of unwanted files"
 	$phing -f $topdir/build.xml clean-dist
 
-	# clean empty dirs
+	# Clean empty dirs
 	find vendor -type d -print0 | sort -zr | xargs -0 rmdir --ignore-fail-on-non-empty
 
 	cd vendor
