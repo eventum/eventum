@@ -51,11 +51,11 @@ class Template_Helper
         $smarty->registerPlugin('modifier', 'timeago', [Date_Helper::class, 'formatTimeAgo']);
         $smarty->registerPlugin('modifier', 'format_email', [Eventum\EmailHelper::class, 'formatEmail']);
         $smarty->registerPlugin('modifier', 'textFormat', [Link_Filter::class, 'textFormat']);
-        $asset = new Templating\Asset();
+        $asset = Templating\Asset::create();
         $smarty->registerPlugin('function', 'asset', static function (array $args) use ($asset) {
             $path = $args['path'] ?? null;
 
-            return $asset->asset($path);
+            return $asset->getUrl($path);
         });
 
         // Fixes problem with CRM API and dynamic includes.
