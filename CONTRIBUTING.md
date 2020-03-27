@@ -36,3 +36,18 @@ Commits follow good practices for message and content
 
 [good commit messages]: http://chris.beams.io/posts/git-commit/
 [atomic commits]: http://www.freshconsulting.com/atomic-commits/
+
+## Development
+
+For asset compilation [laravel-mix] is used.
+
+You will need [node] and [yarn] installed.
+
+```
+// Run all Mix tasks and watch for file changes
+yarn run watch
+```
+
+[laravel-mix]: https://laravel.com/docs/5.8/mix
+[node]: https://nodejs.org/
+[yarn]: https://yarnpkg.com/

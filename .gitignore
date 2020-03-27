@@ -29,7 +29,10 @@ Session.vim
 /phpmd.phar
 /phpunit.phar
 
-/vendor
+/node_modules/
+/vendor/
+/package-lock.json
+/yarn-error.log
 
 /config/cas.php
 /config/config.php
@@ -48,6 +51,14 @@ Session.vim
 
 /htdocs/components
 /htdocs/.htaccess
+/htdocs/css/all.css
+/htdocs/css/chosen-sprite*.png
+/htdocs/css/components.css
+/htdocs/fonts/
+/htdocs/js/all.js
+/htdocs/js/components.js
+/htdocs/mix-manifest.json
+
 /eventum-setup
 
 /localization/*.mo

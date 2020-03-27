@@ -60,9 +60,6 @@ vcs_checkout() {
 	git submodule init
 	git submodule update
 
-	# ensure we have latest master in submodules
-	$quick || git submodule foreach 'cd $toplevel/$path && git checkout master && git pull'
-
 	git archive HEAD | tar -x -C $dir
 
 	$quick && return
@@ -79,9 +76,6 @@ vcs_checkout() {
 		dir=$absdir/$submodule update_timestamps
 		cd $topdir
 	done
-
-	# reset submodules to previous state
-	git submodule update
 }
 
 po_checkout() {
@@ -110,26 +104,30 @@ clean_whitespace() {
 	sed -i -e 's/[\t ]\+$//' "$@"
 }
 
-composer_install() {
+install_dependencies() {
 	echo >&2 "Setup composer deps"
-	# this dir does not exist in git export, but referenced in composer.json
-	install -d tests/src
 
 	# first install with dev to get assets installed
-	$composer install --prefer-dist
+	$composer install --prefer-dist --no-suggest
+	install_assets
 
 	# and then without dev to get clean autoloader
-	mv htdocs/components htdocs/components.save
-	$composer install --prefer-dist --no-dev
-	mv htdocs/components.save/* htdocs/components
-	rmdir htdocs/components.save
+	$composer install --prefer-dist --no-dev --no-suggest
 
 	# clean distribution and dump autoloader again
 	clean_dist
 	$composer dump-autoload
+}
 
-	# cleanup again
-	rm -r tests
+install_assets() {
+	echo >&2 "Install assets"
+	yarn
+	yarn production
+}
+
+dependencies_report() {
+	$quick && return
+	echo >&2 "Create dependencies report"
 
 	# save dependencies information
 	$composer licenses --no-dev --no-ansi > deps
@@ -172,28 +170,12 @@ clean_dist() {
 	echo >&2 "Cleanup distribution of unwanted files"
 	$phing -f $topdir/build.xml clean-dist
 
-	# clean empty dirs
+	# Clean empty dirs
 	find vendor -type d -print0 | sort -zr | xargs -0 rmdir --ignore-fail-on-non-empty
 
 	cd vendor
 	clean_scripts
 	cd ..
-
-	# component related sources, not needed runtime
-	rm htdocs/components/*/*-built.js
-	rm htdocs/components/*/*-built.css
-	rm htdocs/components/*-built.js
-	rm htdocs/components/jquery-ui/*.js
-	rm htdocs/components/require.*
-	mv htdocs/components/jquery-ui/themes/base .base
-	rm -r htdocs/components/jquery-ui/themes/*
-	mv .base htdocs/components/jquery-ui/themes/base
-	rm -r htdocs/components/jquery-ui/ui/minified
-	rm -r htdocs/components/jquery-ui/ui/i18n
-	rm htdocs/components/garlicjs/js/garlic-standalone.min.js
-
-	# not ready yet
-	rm src/Mail/MailStorage.php
 }
 
 cleanup_postdist() {
@@ -204,6 +186,11 @@ cleanup_postdist() {
 	rm vendor/composer/*.json
 	rm vendor/*/LICENSE
 	rm composer.lock
+
+	# node related
+	rm package.json
+	rm webpack.mix.js
+	rm yarn.lock
 }
 
 phplint() {
@@ -254,11 +241,9 @@ prepare_source() {
 	# add dirs for customization
 	install -d config/{workflow,custom_field,templates,crm,partner,include}
 
-	composer_install
+	install_dependencies
+	dependencies_report
 	phpcompatinfo_report
-
-	# update to include checksums of js/css files
-	$topdir/bin/releng/dyncontent-chksum.pl
 
 	# setup localization
 	make -C localization install clean

@@ -64,7 +64,7 @@ before_install:
   - bin/releng/configure.sh
 
 install:
-  - composer install --no-interaction --prefer-dist
+  - composer install --no-interaction --prefer-dist --no-suggest
   - bin/releng/seed.sh
 
 script:
