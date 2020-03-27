@@ -107,7 +107,7 @@
 				<include name="**/contrib/**"/>
 				<include name="**/demo/**"/>
 				<include name="**/data/**"/>
-				<include name="bin/*"/>
+				<include name="**/bin/*"/>
 			</fileset>
 
 			<!-- specific to packages -->
