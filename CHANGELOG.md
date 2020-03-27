@@ -5,6 +5,7 @@
 Upgrading to 3.8.x versions requires that you upgrade to latest 3.5.x version first.
 
 - Query workflow backend for allowed next statuses when writing notes or emails, #802
+- Store 'Segregate Reporters' setting when creating a new project, #803
 
 [3.8.9]: https://github.com/eventum/eventum/compare/v3.8.8...master
 

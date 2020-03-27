@@ -459,11 +459,12 @@ class Project
                     prj_sender_flag_location,
                     prj_mail_aliases,
                     prj_remote_invocation,
+                    prj_segregate_reporter,
                     prj_customer_backend,
                     prj_workflow_backend
                  ) VALUES (
                      ?, ?, ?, ?, ?, ?, ?,
-                     ?, ?, ?, ?, ?, ?
+                     ?, ?, ?, ?, ?, ?, ?
                  )';
         try {
             DB_Helper::getInstance()->query($stmt, [
@@ -478,6 +479,7 @@ class Project
                 $_POST['flag_location'],
                 $_POST['mail_aliases'],
                 $_POST['remote_invocation'],
+                $_POST['segregate_reporter'],
                 $_POST['customer_backend'],
                 $_POST['workflow_backend'],
             ]);
