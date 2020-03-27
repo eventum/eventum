@@ -3,6 +3,7 @@
 	<property name="name" value="${phing.project.name}"/>
 	<property name="basedir" value="."/>
 	<property name="vendor" value="${basedir}/vendor"/>
+	<property name="delete.verbose" value="false"/>
 
 	<!-- phplint -->
 	<target name="phplint" description="Run PHP Lint.">
@@ -23,7 +24,7 @@
 		but are not needed for running eventum
 	-->
 	<target name="clean-dist" description="Clean distribution of unwanted files">
-		<delete verbose="true">
+		<delete verbose="${delete.verbose}" includeemptydirs="true" failonerror="true">
 			<fileset dir="${basedir}/res">
 				<include name="packages/test/**"/>
 			</fileset>
