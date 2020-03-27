@@ -60,9 +60,6 @@ vcs_checkout() {
 	git submodule init
 	git submodule update
 
-	# ensure we have latest master in submodules
-	$quick || git submodule foreach 'cd $toplevel/$path && git checkout master && git pull'
-
 	git archive HEAD | tar -x -C $dir
 
 	$quick && return
@@ -79,9 +76,6 @@ vcs_checkout() {
 		dir=$absdir/$submodule update_timestamps
 		cd $topdir
 	done
-
-	# reset submodules to previous state
-	git submodule update
 }
 
 po_checkout() {
