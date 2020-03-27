@@ -1,4 +1,5 @@
 const mix = require('laravel-mix');
+const collect = require('collect.js');
 
 /*
  |--------------------------------------------------------------------------
@@ -62,3 +63,38 @@ mix.version([
 if (mix.inProduction()) {
     mix.disableNotifications();
 }
+
+/**
+ * Update manifest to remove leading slash of key => value pairs
+ * @author Elan Ruusamäe <glen@pld-linux.org>
+ * @see https://github.com/symfony/symfony/issues/36234
+ */
+mix.extend('updateManifestPathsRelative', (config) => {
+    config.plugins.push(new class {
+        apply(compiler) {
+            compiler.plugin('done', () => {
+                const manifest = {};
+                collect(Mix.manifest.get()).each((value, key) => {
+                    key = this.normalizePath(key);
+                    value = this.normalizePath(value);
+                    manifest[key] = value;
+                });
+                Mix.manifest.manifest = manifest;
+                Mix.manifest.refresh();
+            });
+        }
+
+        /**
+         * @param {string} filePath
+         */
+        normalizePath(filePath) {
+            if (filePath.startsWith('/')) {
+                filePath = filePath.substring(1);
+            }
+
+            return filePath;
+        }
+    })
+});
+
+mix.updateManifestPathsRelative();
