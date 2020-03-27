@@ -29,10 +29,16 @@ class AssetTest extends TestCase
 
     public function testAsset(): void
     {
-        // returns /dist/main.js?id=ecfe06d840525bff34b2 because leading slash
-        $this->assertEquals('/dist/main.js?id=ecfe06d840525bff34b2', $this->asset->getUrl('/dist/main.js'));
+        $this->assertEquals(
+            '/dist/main.js',
+            $this->asset->getUrl('/dist/main.js'),
+            'Absolute paths is not found from manifest and is not added prefix'
+        );
 
-        // returns "/example/dist/main.js" because no match in manifest
-        $this->assertEquals('/example/dist/main.js', $this->asset->getUrl('dist/main.js'));
+        $this->assertEquals(
+            '/example/dist/main.js?id=ecfe06d840525bff34b2',
+            $this->asset->getUrl('dist/main.js'),
+            'Relative path is found from manifest and path is prefixed'
+        );
     }
 }
