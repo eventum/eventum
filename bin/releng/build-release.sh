@@ -116,11 +116,11 @@ composer_install() {
 	install -d tests/src
 
 	# first install with dev to get assets installed
-	$composer install --prefer-dist
+	$composer install --prefer-dist --no-suggest
 
 	# and then without dev to get clean autoloader
 	mv htdocs/components htdocs/components.save
-	$composer install --prefer-dist --no-dev
+	$composer install --prefer-dist --no-dev --no-suggest
 	mv htdocs/components.save/* htdocs/components
 	rmdir htdocs/components.save
 
