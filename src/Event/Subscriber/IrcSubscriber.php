@@ -46,7 +46,7 @@ class IrcSubscriber implements EventSubscriberInterface
             return;
         }
 
-        $dispatcher->dispatch(SystemEvents::IRC_FORMAT_MESSAGE, $event);
+        $dispatcher->dispatch($event, SystemEvents::IRC_FORMAT_MESSAGE);
 
         // if notice is empty, skip insert
         // this can be used in event handler to skip event handling.

@@ -76,6 +76,6 @@ class CommitSubscriber implements EventSubscriberInterface
         ];
 
         $event = new GenericEvent(null, $arguments);
-        $dispatcher->dispatch(SystemEvents::IRC_NOTIFY, $event);
+        $dispatcher->dispatch($event, SystemEvents::IRC_NOTIFY);
     }
 }
