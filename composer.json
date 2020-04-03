@@ -55,6 +55,7 @@
 		"php-ds/php-ds": "^1.2",
 		"phplot/phplot": "~6.1.0",
 		"phpxmlrpc/phpxmlrpc": "^4.1",
+		"pimple/pimple": "^3.2",
 		"portphp/csv": "^1.1",
 		"portphp/doctrine": "^1.1",
 		"portphp/steps": "^1.2",
