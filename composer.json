@@ -161,7 +161,7 @@
 	"scripts": {
 		"test": "simple-phpunit",
 		"post-install-cmd": [
-			"@assets"
+			"echo Run \"composer assets\" to build css/js"
 		],
 		"assets": [
 			"yarn",
