@@ -48,6 +48,9 @@ You will need [node] and [yarn] installed.
 yarn run watch
 ```
 
+The [webpack.mix.js] file is the entry point for all asset compilation.
+
+[webpack.mix.js]: webpack.mix.js
 [laravel-mix]: https://laravel.com/docs/5.8/mix
 [node]: https://nodejs.org/
 [yarn]: https://yarnpkg.com/
