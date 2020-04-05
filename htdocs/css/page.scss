@@ -1,0 +1,649 @@
+/*
+ * This file is part of the Eventum (Issue Tracking System) package.
+ *
+ * @copyright (c) Eventum Team
+ * @license GNU General Public License, version 2 or later (GPL-2+)
+ *
+ * For the full copyright and license information,
+ * please see the COPYING and AUTHORS files
+ * that were distributed with this source code.
+ */
+
+body {
+    &#setup {
+        line-height: 1.25em;
+
+        td {
+            vertical-align: text-top;
+        }
+    }
+
+    &#new_issue #create_issue {
+        width: 100%;
+    }
+
+    &#index h1 {
+        text-align: center;
+    }
+
+    &.login form#login_form table {
+        background: #006486;
+        margin: 0 auto;
+        width: 500px;
+        color: #FFFFFF;
+        border-radius: 0.5em;
+        -webkit-border-radius: 0.5em;
+        -moz-border-radius: 0.5em;
+
+        a {
+            color: #FFFFFF;
+        }
+
+        td {
+            padding: .3em;
+
+            &.message {
+                color: #ffff00;
+                text-align: center;
+            }
+
+            &.label {
+                width: 40%;
+                text-align: right;
+                font-weight: bold;
+            }
+
+            &.button {
+                text-align: center;
+            }
+        }
+    }
+}
+
+#issue_overview {
+    #issue_menu {
+        float: right;
+        font-weight: normal;
+    }
+
+    tr {
+        &.title th {
+            border-top-left-radius: .5em;
+            border-top-right-radius: .5em;
+        }
+
+        &.buttons th {
+            border-bottom-left-radius: .5em;
+            border-bottom-right-radius: .5em;
+        }
+    }
+
+    .grid_cell {
+        padding: 0;
+        width: 50%;
+        vertical-align: top;
+        background: linear-gradient(to right, #255282 30%, #dddddd 30%);
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            width: 30%;
+            border: 1px solid #ffffff;
+        }
+
+        tr:last-child > th {
+            width: 30%;
+            border-bottom: none;
+        }
+
+        td {
+            width: 70%;
+        }
+    }
+
+    tr.full_width > td {
+        padding: 0;
+        border: 0;
+        margin: 0;
+
+        > table.grid {
+            width: 100%;
+            margin-top: -1px;
+
+            tr {
+                border-top: 0;
+            }
+
+            th {
+                width: 15%;
+            }
+        }
+    }
+
+    .buttons1 td {
+        background-color: #255282;
+        text-align: center;
+    }
+}
+
+body.issue_view div {
+    &#issue_links {
+        width: 100%;
+
+        a {
+            text-decoration: none;
+        }
+
+        div {
+            &:first-child {
+                float: left;
+                width: 300px;
+            }
+
+            &.right {
+                float: right;
+                width: 300px;
+                text-align: right;
+            }
+        }
+    }
+
+    &.issue_section {
+        margin-bottom: 1em;
+
+        > div.content > table {
+            width: 100%;
+        }
+    }
+}
+
+td#email_message {
+    -ms-word-break: break-all;
+    word-break: break-all;
+    word-break: break-word;
+}
+
+body {
+    &.issue_view {
+        div {
+            &.issue_section > div.content > table > tr.note_content {
+                -ms-word-break: break-all;
+                word-break: break-all;
+                word-break: break-word;
+            }
+
+            &#time_tracking tr.total_time td:first-child {
+                background: #9c494b;
+                color: #FFFFFF;
+                text-align: right;
+            }
+
+            &#custom_fields div.content th {
+                width: 200px;
+            }
+        }
+
+        #drafts .buttons_div {
+            width: 200px;
+            text-align: right;
+        }
+
+        .revision {
+            max-width: 5em;
+            overflow: hidden;
+            text-decoration: underline;
+        }
+
+        td {
+            &.checkins > a {
+                display: inline-block;
+                overflow: hidden;
+                vertical-align: top;
+            }
+
+            &.message > span {
+                display: inline-block;
+                max-height: 200px;
+                overflow: auto;
+            }
+        }
+
+        #issue_summary {
+            font-weight: bold;
+            border-bottom: 1px solid #eeeeee;
+        }
+
+        form[target="_removeCheckins"] table.grid tr td:nth-child(5) {
+            display: block;
+            max-height: 200px;
+            overflow: auto;
+        }
+    }
+
+    &#issue_update #page_locked {
+        background: #FFFF00;
+        padding: 6px;
+        border-radius: 0.5em;
+        -webkit-border-radius: 0.5em;
+        -moz-border-radius: 0.5em;
+    }
+
+    &#list {
+        div#quick_filter {
+            width: 80%;
+            margin: 0 auto;
+
+            div {
+                &#ft_options div {
+                    width: 50%;
+                    float: left;
+                }
+
+                &.bottom_bar {
+                    background: #dddddd;
+                    border-bottom-left-radius: 0.5em;
+                    -webkit-border-bottom-left-radius: 0.5em;
+                    -moz-border-radius-bottomleft: 0.5em;
+                    border-bottom-right-radius: 0.5em;
+                    -webkit-border-bottom-right-radius: 0.5em;
+                    -moz-border-radius-bottomright: 0.5em;
+
+                    table {
+                        width: 100%;
+
+                        td {
+                            width: 33%;
+                        }
+                    }
+                }
+            }
+        }
+
+        #current_filters {
+            text-align: center;
+            margin: 1em;
+
+            span {
+                background: #ffffaa;
+                padding: .5em;
+                display: inline-block;
+                width: inherit;
+            }
+        }
+
+        #bulk_update {
+            width: 80%;
+            margin: 1em auto;
+        }
+
+        #export_csv {
+            cursor: pointer;
+        }
+
+        #bulk_update table {
+            width: 100%;
+        }
+
+        td.custom_field {
+            cursor: pointer;
+        }
+    }
+
+    &#offline #error-header, &#confirm #error-header, &#setup #error-header, &#associate #error-header {
+        font-weight: bold;
+        font-size: 160%;
+        color: red;
+    }
+
+    &#emails table#email_filters {
+        width: 80%;
+        margin: 0 auto;
+    }
+
+    &#preferences {
+        table.bordered {
+            width: 80%;
+            margin-bottom: 1em;
+        }
+
+        .api_token {
+            .token {
+                width: 600px;
+
+                input {
+                    width: 100%;
+                }
+            }
+
+            .revoked {
+                text-decoration: line-through;
+                display: none;
+
+                input {
+                    color: darkGray;
+                    font-style: italic;
+                }
+            }
+        }
+    }
+
+    &#popup div.popup {
+        text-align: center;
+        font-weight: bold;
+        margin: 1em;
+    }
+
+    &#adv_search {
+        #date_fields, #custom_fields_row {
+            display: none;
+        }
+    }
+}
+
+#report_sidebar {
+    width: 200px;
+    background: #dddddd;
+    float: left;
+    padding: .5em;
+    border-radius: 0.5em;
+    -webkit-radius: 0.5em;
+    -moz-border-radius: 0.5em;
+
+    ul {
+        margin-left: 0;
+        padding-left: 1em;
+        list-style-type: square;
+
+        ul {
+            margin-left: 1em;
+            padding-left: 0;
+        }
+    }
+
+    > ul {
+        list-style-type: disc;
+    }
+}
+
+#report_content {
+    margin-left: 220px;
+
+    pre {
+        font-size: 1.3em;
+        padding: 10px;
+        width: auto;
+    }
+}
+
+#select_project {
+    table {
+        width: 400px;
+
+        tr.title {
+            font-size: 2em;
+        }
+    }
+
+    .project_label {
+        display: block;
+    }
+}
+
+#select_customer {
+    ul {
+        list-style: none;
+        margin-left: 0;
+        padding-left: 0;
+
+        li {
+            padding: .3em 0;
+        }
+    }
+
+    label {
+        display: block;
+    }
+}
+
+#custom_fields_form .chosen-select {
+    width: 360px;
+}
+
+/* SCM style fixes */
+.issue_view ul.scm_checkin {
+    list-style: outside none disc;
+    padding: 0 1.5em;
+    margin: 0;
+}
+
+/* Dropzone.js overrides */
+/* dropzone styles taken from MailChimp Filemanager background - http://blog.mailchimp.com/wp-content/uploads/2012/02/filemgr2.jpg */
+.dz-message {
+    background-color: #ebf5f7;
+    padding: 10px 5%;
+    width: 97%;
+    border: 2px dashed #027c99;
+}
+
+/* Chosen.js overrides */
+#bulk_update .chosen-container .chosen-drop {
+    top: -270px;
+    box-shadow: 4px -4px 5px rgba(0, 0, 0, 0.3);
+    border-top: 1px solid #aaaaaa;
+}
+
+/* fix multiple chosen selections overlapping next line (by Risto Risti) */
+.chosen-container.chosen-container-multi {
+    height: auto;
+    min-height: 27px;
+
+    .chosen-drop {
+        position: absolute;
+        top: 100%;
+    }
+}
+
+/* workaround */
+#assignment_chosen {
+    min-width: 290px;
+    width: auto !important;
+}
+
+.custom_field .chosen-container {
+    width: 50% !important;
+}
+
+/* PHP Debugbar overrides */
+div.phpdebugbar {
+    box-shadow: 0 -1px 5px #666666;
+}
+
+/* % complete progressbar in view issues page */
+#list {
+    .ui-progressbar {
+        position: relative;
+        height: 19px;
+    }
+
+    .progress-label {
+        position: absolute;
+        width: 100%;
+        text-align: center;
+        top: 1px;
+        font-size: 13px;
+    }
+}
+
+/* % complete progressbar in issue view */
+.issue_view {
+    .ui-progressbar {
+        position: relative;
+        height: 16px;
+        max-width: 200px;
+    }
+
+    .progress-label {
+        position: absolute;
+        width: 100%;
+        text-align: center;
+        top: 0;
+        font-size: 13px;
+        line-height: 1.05em;
+    }
+
+    .ui-widget-header {
+        background: #89A989;
+    }
+}
+
+/* Icon of priority (list, view, manage/priorities) */
+.priority_icon {
+    background-repeat: no-repeat;
+    background-position: left center;
+    padding-left: 16px;
+    margin: 0 3px 0 0px;
+}
+
+.priority-icon-1 {
+    background-image: url("../images/priority/1.png");
+}
+
+.priority-icon-2 {
+    background-image: url("../images/priority/2.png");
+}
+
+.priority-icon-3 {
+    background-image: url("../images/priority/3.png");
+}
+
+.priority-icon-4 {
+    background-image: url("../images/priority/4.png");
+}
+
+.priority-icon-5 {
+    background-image: url("../images/priority/5.png");
+}
+
+.priority-icon-6 {
+    background-image: url("../images/priority/6.png");
+}
+
+.priority-icon-7 {
+    background-image: url("../images/priority/7.png");
+}
+
+.priority-icon-8 {
+    background-image: url("../images/priority/8.png");
+}
+
+.priority-icon-9 {
+    background-image: url("../images/priority/9.png");
+}
+
+.priority-icon-10 {
+    background-image: url("../images/priority/10.png");
+}
+
+.priority-icon-11 {
+    background-image: url("../images/priority/11.png");
+}
+
+.priority-icon-12 {
+    background-image: url("../images/priority/12.png");
+}
+
+.priority-icon-13 {
+    background-image: url("../images/priority/13.png");
+}
+
+.priority-icon-14 {
+    background-image: url("../images/priority/14.png");
+}
+
+.priority-icon-15 {
+    background-image: url("../images/priority/15.png");
+}
+
+.priority-icon-16 {
+    background-image: url("../images/priority/16.png");
+}
+
+.priority-icon-17 {
+    background-image: url("../images/priority/17.png");
+}
+
+.priority-icon-18 {
+    background-image: url("../images/priority/18.png");
+}
+
+.priority-icon-19 {
+    background-image: url("../images/priority/19.png");
+}
+
+.priority-icon-20 {
+    background-image: url("../images/priority/20.png");
+}
+
+.priority-icon-21 {
+    background-image: url("../images/priority/21.png");
+}
+
+/* Select icon of priority – jQueryUI Selectmenu */
+#select_menu_priority_icon {
+    width: 82px;
+}
+
+option.select_icon_priority {
+    background-repeat: no-repeat !important;
+    padding-left: 20px;
+}
+
+.select_icon_priority .ui-icon {
+    background-position: left top;
+}
+
+/* Disable white background image */
+.issue_view .ui-progressbar.ui-widget-content, #list .ui-progressbar.ui-widget-content {
+    background: transparent;
+    border: 1px solid #c0c0c0;
+}
+
+/* manage custom field options */
+.custom_field_options {
+    #add_option {
+        margin-left: 1em;
+        cursor: pointer;
+    }
+
+    .new_options {
+        margin: 0;
+        padding: 0;
+
+        li {
+            border: 1px solid #000000;
+            list-style: none;
+            margin: 1em;
+            padding: 1em;
+            cursor: move;
+        }
+    }
+
+    .delete {
+        float: right;
+        cursor: pointer;
+    }
+
+    .instructions {
+        margin-left: 1em;
+        margin-top: .5em;
+        font-style: italic;
+    }
+}
+
+/* Font Awesome override */
+.expandable_buttons .fa {
+    font-size: 1.1em;
+}
