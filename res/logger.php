@@ -18,6 +18,8 @@
  * If you need to make customizations, use config/logger.php
  */
 
+use Eventum\Config\Paths;
+
 $formatters = [
     'default' => [
         'class' => 'Monolog\\Formatter\\LineFormatter',
@@ -40,21 +42,21 @@ $handlers = [
     'app_log' => [
         'class' => 'Eventum\\Monolog\\StreamHandler',
         'level' => 'INFO',
-        'stream' => APP_LOG_PATH . '/eventum.log',
+        'stream' => Paths::APP_LOG_PATH . '/eventum.log',
         'filePermission' => 0640,
         'formatter' => 'default',
     ],
     'auth_log' => [
         'class' => 'Eventum\\Monolog\\StreamHandler',
         'level' => 'INFO',
-        'stream' => APP_LOG_PATH . '/auth.log',
+        'stream' => Paths::APP_LOG_PATH . '/auth.log',
         'filePermission' => 0640,
         'formatter' => 'default',
     ],
     'cli_log' => [
         'class' => 'Eventum\\Monolog\\StreamHandler',
         'level' => 'INFO',
-        'stream' => APP_LOG_PATH . '/cli.log',
+        'stream' => Paths::APP_LOG_PATH . '/cli.log',
         'filePermission' => 0640,
         'formatter' => 'default',
     ],
