@@ -4,6 +4,7 @@ const collect = require('collect.js');
 /*
  |--------------------------------------------------------------------------
  | Mix Asset Management
+ | https://laravel.com/docs/5.8/mix
  |--------------------------------------------------------------------------
  |
  | Mix provides a clean, fluent API for defining some Webpack build steps
@@ -14,10 +15,10 @@ const collect = require('collect.js');
 
 mix.setPublicPath('htdocs');
 
-mix.styles([
-    'htdocs/css/main.css',
-    'htdocs/css/page.css',
-], 'htdocs/css/all.css');
+mix.sass('res/assets/sass/all.scss', 'htdocs/css/all.css').options({
+    processCssUrls: false
+});
+
 mix.styles([
     'htdocs/components/font-awesome/css/font-awesome.css',
     'htdocs/components/jquery-ui/themes/base/all.css',

@@ -6,6 +6,7 @@ Upgrading to 3.8.x versions requires that you upgrade to latest 3.5.x version fi
 
 - Increase font size on the pages, #809
 - Remove `APP_LOG_PATH` constant leftover, #811
+- Convert .css files to .scss, #810
 
 [3.8.10]: https://github.com/eventum/eventum/compare/v3.8.9...master
 
