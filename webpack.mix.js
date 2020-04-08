@@ -22,11 +22,11 @@ mix.sass('res/assets/sass/all.scss', 'htdocs/css/all.css').options({
 mix.styles([
     'htdocs/components/font-awesome/css/font-awesome.css',
     'htdocs/components/jquery-ui/themes/base/all.css',
-    'htdocs/components/jquery-chosen/chosen.css',
+    'node_modules/chosen-js/chosen.css',
     'htdocs/components/dropzone/dist/basic.css',
 ], 'htdocs/css/components.css');
 
-mix.copy('vendor/components/jquery-chosen/*.png', 'htdocs/css');
+mix.copy('node_modules/chosen-js/*.png', 'htdocs/css');
 mix.copy('vendor/fortawesome/font-awesome/fonts', 'htdocs/fonts');
 
 mix.scripts([
@@ -47,7 +47,7 @@ mix.scripts([
     'htdocs/components/jquery-ui/ui/menu.js',
     'htdocs/components/jquery-ui/ui/selectmenu.js',
     'htdocs/components/jquery-ui/ui/sortable.js',
-    'htdocs/components/jquery-chosen/chosen.jquery.js',
+    'node_modules/chosen-js/chosen.jquery.js',
     'htdocs/components/dropzone/dist/dropzone.js',
     'htdocs/components/autosize/dist/autosize.js',
     'htdocs/components/jquery-timeago/jquery.timeago.js',
