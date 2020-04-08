@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "9a4be6785f6c1e31f691c0e4be853f6f",
+    "content-hash": "24e224dcdca25eadb39ec2f87ef8d113",
     "packages": [
         {
             "name": "cakephp/cache",
@@ -6870,33 +6870,6 @@
                 "issues": "https://github.com/malsup/blockui/issues"
             },
             "time": "2014-11-24T03:14:41+00:00"
-        },
-        {
-            "name": "components/jquery-chosen",
-            "version": "1.2.0",
-            "dist": {
-                "type": "zip",
-                "url": "https://github.com/harvesthq/chosen/releases/download/v1.2.0/chosen_v1.2.0.zip",
-                "shasum": "ee7c9fe5ff1461bad457e523ee26e87d7d175084"
-            },
-            "type": "component",
-            "extra": {
-                "component": {
-                    "scripts": [
-                        "chosen.jquery.js"
-                    ],
-                    "style": [
-                        "chosen.css"
-                    ],
-                    "files": [
-                        "*.png",
-                        "chosen.css"
-                    ]
-                }
-            },
-            "license": [
-                "MIT"
-            ]
         },
         {
             "name": "components/jquery-cookie",
