@@ -17,6 +17,7 @@ Session.vim
 /.settings
 /dropin
 /TODO.*
+/.envrc.local
 
 /box.phar
 /codecept.phar
