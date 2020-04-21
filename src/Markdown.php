@@ -19,13 +19,13 @@ use Eventum\EventDispatcher\EventManager;
 use HTMLPurifier;
 use HTMLPurifier_HTML5Config;
 use League\CommonMark\CommonMarkConverter;
-use League\CommonMark\ConverterInterface;
 use League\CommonMark\Environment;
 use League\CommonMark\Extension\Autolink\AutolinkExtension;
 use League\CommonMark\Extension\CommonMarkCoreExtension;
 use League\CommonMark\Extension\InlinesOnly\InlinesOnlyExtension;
 use League\CommonMark\Extension\Table\TableExtension;
 use League\CommonMark\Extension\TaskList\TaskListExtension;
+use League\CommonMark\MarkdownConverterInterface;
 use Misc;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
@@ -41,7 +41,7 @@ final class Markdown
 
     /** @var HTMLPurifier */
     private $purifier;
-    /** @var ConverterInterface[] */
+    /** @var MarkdownConverterInterface[] */
     private $converter = [];
 
     public function __construct()
@@ -73,7 +73,7 @@ final class Markdown
         return $html;
     }
 
-    private function getConverter(bool $inline): ConverterInterface
+    private function getConverter(bool $inline): MarkdownConverterInterface
     {
         return $this->converter[(int)$inline] ?? $this->converter[(int)$inline] = $this->createConverter($inline);
     }
@@ -83,7 +83,7 @@ final class Markdown
         return $this->purifier ?? $this->purifier = $this->createPurifier();
     }
 
-    private function createConverter(bool $inline): ConverterInterface
+    private function createConverter(bool $inline): MarkdownConverterInterface
     {
         $config = [
             'renderer' => [
