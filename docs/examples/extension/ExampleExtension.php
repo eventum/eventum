@@ -34,6 +34,11 @@ class ExampleExtension implements
     Provider\WorkflowProvider
 {
     /**
+     * Path to the root of this Extension
+     */
+    public const EXTENSION_DIR = __DIR__;
+
+    /**
      * Method invoked so the extension can setup class loader.
      *
      * @param ClassLoader $loader
