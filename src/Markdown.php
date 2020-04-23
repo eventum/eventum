@@ -95,6 +95,10 @@ final class Markdown
             'html_input' => Environment::HTML_INPUT_ALLOW,
             'allow_unsafe_links' => false,
             'max_nesting_level' => self::MAX_NESTING_LEVEL,
+            'heading_permalink' => [
+                'inner_contents' => '¶',
+                'insert' => 'after',
+            ],
         ];
 
         $environment = new Environment($config);
