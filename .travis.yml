@@ -28,6 +28,7 @@ jobs:
     # TODO: would be nice to have two separate stages, one for build, and other for actually publishing
     - stage: release
       name: GitHub Release
+      dist: xenial
       php: "7.1"
       script:
         - bin/releng/dist.sh
