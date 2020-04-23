@@ -23,7 +23,12 @@ class EventumSupHeaderLength extends AbstractMigration
     public function up(): void
     {
         $type = self::PHINX_TYPE_STRING;
-        $options = ['limit' => self::HEADER_LENGTH, 'default' => ''];
+        $options = [
+            'limit' => self::HEADER_LENGTH,
+            'default' => '',
+            'encoding' => 'utf8',
+            'collation' => 'utf8_unicode_ci',
+        ];
         $this->table('support_email')
             ->changeColumn('sup_from', $type, $options)
             ->changeColumn('sup_to', $type, $options)
