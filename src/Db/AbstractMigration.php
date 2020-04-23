@@ -25,28 +25,27 @@ use Symfony\Component\Console\Output\OutputInterface;
 abstract class AbstractMigration extends PhinxAbstractMigration
 {
     // According to https://dev.mysql.com/doc/refman/5.0/en/blob.html BLOB sizes are the same as TEXT
-    const BLOB_TINY = MysqlAdapter::BLOB_TINY;
-    const BLOB_REGULAR = MysqlAdapter::BLOB_REGULAR;
-    const BLOB_MEDIUM = MysqlAdapter::BLOB_MEDIUM;
-    const BLOB_LONG = MysqlAdapter::BLOB_LONG;
+    protected const BLOB_TINY = MysqlAdapter::BLOB_TINY;
+    protected const BLOB_REGULAR = MysqlAdapter::BLOB_REGULAR;
+    protected const BLOB_MEDIUM = MysqlAdapter::BLOB_MEDIUM;
+    protected const BLOB_LONG = MysqlAdapter::BLOB_LONG;
 
-    const INT_TINY = MysqlAdapter::INT_TINY;
-    const INT_SMALL = MysqlAdapter::INT_SMALL;
-    const INT_MEDIUM = MysqlAdapter::INT_MEDIUM;
-    const INT_REGULAR = MysqlAdapter::INT_REGULAR;
-    const INT_BIG = MysqlAdapter::INT_BIG;
+    protected const INT_TINY = MysqlAdapter::INT_TINY;
+    protected const INT_SMALL = MysqlAdapter::INT_SMALL;
+    protected const INT_MEDIUM = MysqlAdapter::INT_MEDIUM;
+    protected const INT_REGULAR = MysqlAdapter::INT_REGULAR;
+    protected const INT_BIG = MysqlAdapter::INT_BIG;
 
-    const TEXT_TINY = MysqlAdapter::TEXT_TINY;
-    const TEXT_SMALL = MysqlAdapter::TEXT_SMALL;
-    const TEXT_REGULAR = MysqlAdapter::TEXT_REGULAR;
-    const TEXT_MEDIUM = MysqlAdapter::TEXT_MEDIUM;
-    const TEXT_LONG = MysqlAdapter::TEXT_LONG;
+    protected const TEXT_TINY = MysqlAdapter::TEXT_TINY;
+    protected const TEXT_SMALL = MysqlAdapter::TEXT_SMALL;
+    protected const TEXT_REGULAR = MysqlAdapter::TEXT_REGULAR;
+    protected const TEXT_MEDIUM = MysqlAdapter::TEXT_MEDIUM;
+    protected const TEXT_LONG = MysqlAdapter::TEXT_LONG;
 
-    const PHINX_TYPE_BLOB = MysqlAdapter::PHINX_TYPE_BLOB;
-    const PHINX_TYPE_STRING = MysqlAdapter::PHINX_TYPE_STRING;
+    protected const PHINX_TYPE_BLOB = MysqlAdapter::PHINX_TYPE_BLOB;
+    protected const PHINX_TYPE_STRING = MysqlAdapter::PHINX_TYPE_STRING;
 
     protected const ENCODING_ASCII = 'ascii';
-
     protected const COLLATION_ASCII = 'ascii_general_ci';
 
     /**

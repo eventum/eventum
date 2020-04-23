@@ -15,7 +15,7 @@ use Eventum\Db\AbstractMigration;
 
 class EventumSupHeaderLength extends AbstractMigration
 {
-    const HEADER_LENGTH = 4096;
+    private const HEADER_LENGTH = 4096;
 
     /**
      * here's no down() because we only changed column width
