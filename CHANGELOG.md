@@ -10,6 +10,7 @@ Upgrading to 3.8.x versions requires that you upgrade to latest 3.5.x version fi
 - Update jquery-chosen from 1.2.0 to 1.8.7, #812
 - Add example Subscriber/PhinxConfig how to add custom migrations, #818
 - Update perftools/php-profiler to 0.3.0, #817
+- Add heading permalink markdown extension, #819
 
 [3.8.10]: https://github.com/eventum/eventum/compare/v3.8.9...master
 

@@ -22,6 +22,7 @@ use League\CommonMark\CommonMarkConverter;
 use League\CommonMark\Environment;
 use League\CommonMark\Extension\Autolink\AutolinkExtension;
 use League\CommonMark\Extension\CommonMarkCoreExtension;
+use League\CommonMark\Extension\HeadingPermalink\HeadingPermalinkExtension;
 use League\CommonMark\Extension\InlinesOnly\InlinesOnlyExtension;
 use League\CommonMark\Extension\Table\TableExtension;
 use League\CommonMark\Extension\TaskList\TaskListExtension;
@@ -94,6 +95,10 @@ final class Markdown
             'html_input' => Environment::HTML_INPUT_ALLOW,
             'allow_unsafe_links' => false,
             'max_nesting_level' => self::MAX_NESTING_LEVEL,
+            'heading_permalink' => [
+                'inner_contents' => '¶',
+                'insert' => 'after',
+            ],
         ];
 
         $environment = new Environment($config);
@@ -143,6 +148,7 @@ final class Markdown
         $environment->addExtension(new TaskListExtension());
         $environment->addExtension(new MentionExtension());
         $environment->addExtension(new TableExtension());
+        $environment->addExtension(new HeadingPermalinkExtension());
 
         // allow extensions to apply behaviour
         $event = new GenericEvent($environment);
