@@ -19,6 +19,7 @@ use RuntimeException;
 use Setup;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Xhgui\Profiler\Profiler;
+use Xhgui\Profiler\ProfilingFlags;
 
 class XhguiProfilerExtension implements SubscriberProvider, EventSubscriberInterface
 {
@@ -57,9 +58,17 @@ class XhguiProfilerExtension implements SubscriberProvider, EventSubscriberInter
     private function getConfig(): array
     {
         $defaultConfig = [
-            'profiler.enable' => function () {
+            'profiler.enable' => static function () {
                 return true;
             },
+            'profiler.flags' => [
+                ProfilingFlags::CPU,
+                ProfilingFlags::MEMORY,
+                ProfilingFlags::NO_BUILTINS,
+                ProfilingFlags::NO_SPANS,
+            ],
+            'profiler.options' => [
+            ],
         ];
         $config = Setup::get()['xhgui_profiler']->toArray();
 

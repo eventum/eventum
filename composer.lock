@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "3e238060af0f764cdd8d62a459088b1e",
+    "content-hash": "0b5095f193a7b47c85d153030d903a9e",
     "packages": [
         {
             "name": "cakephp/cache",
@@ -7499,24 +7499,27 @@
         },
         {
             "name": "perftools/php-profiler",
-            "version": "v0.1.1",
+            "version": "v0.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/perftools/php-profiler.git",
-                "reference": "137890309934332da672069483c1a3a86c15616d"
+                "reference": "678904a674d5ef571aa01a0005ba90a157dfdeb3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/perftools/php-profiler/zipball/137890309934332da672069483c1a3a86c15616d",
-                "reference": "137890309934332da672069483c1a3a86c15616d",
+                "url": "https://api.github.com/repos/perftools/php-profiler/zipball/678904a674d5ef571aa01a0005ba90a157dfdeb3",
+                "reference": "678904a674d5ef571aa01a0005ba90a157dfdeb3",
                 "shasum": ""
             },
             "require": {
-                "perftools/xhgui-collector": "^1.1.0",
-                "php": "^5.3.0 || ^7.0"
+                "perftools/xhgui-collector": "^1.8",
+                "php": "^5.3.0 || ^7.0 || ^8.0"
+            },
+            "require-dev": {
+                "ext-json": "*"
             },
             "suggest": {
-                "alcaeus/mongo-php-adapter": "Adapter to provide ext-mongo interface on top of mongo-php-libary",
+                "alcaeus/mongo-php-adapter": "Adapter to provide ext-mongo interface on top of mongo-php-libary (PHP>=5.6)",
                 "ext-mongo": "mongo extension (PHP>=5.3,<7.0)",
                 "ext-mongodb": "mongodb extension (PHP>=5.4,<7.3)"
             },
@@ -7541,7 +7544,7 @@
                 }
             ],
             "description": "PHP Profiling based on XHGUI",
-            "time": "2019-04-02T15:42:10+00:00"
+            "time": "2020-04-20T18:10:08+00:00"
         },
         {
             "name": "perftools/xhgui-collector",
