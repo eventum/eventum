@@ -740,9 +740,19 @@ class Workflow
      * @param   int $prj_id The project ID
      * @param   ImapMessage $mail The Imap Mail Message object
      * @return  mixed null by default, -1 if the rest of the email script should not be processed
+     * @deprecated since 3.8.11 use ISSUE_UPDATED_BEFORE event
      */
     public static function preEmailDownload($prj_id, ImapMessage $mail)
     {
+        $arguments = [
+            'prj_id' => (int)$prj_id,
+        ];
+
+        $event = EventManager::dispatch(SystemEvents::MAIL_PROCESS_BEFORE, new GenericEvent($mail, $arguments));
+        if ($event->isPropagationStopped()) {
+            return -1;
+        }
+
         if (!$backend = self::getBackend($prj_id)) {
             return null;
         }
