@@ -2363,6 +2363,13 @@ dotenv@^6.2.0:
   resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-6.2.0.tgz#941c0410535d942c8becf28d3f357dbd9d476064"
   integrity sha512-HygQCKUBSFl8wKQZBSemMywRWcEDNidvNbjGVyZu3nbZ8qq9ubiPoGLMdRDpfSrpkkm9BXYFkpKxxFX38o/76w==
 
+drmonty-garlicjs@^1.2.3:
+  version "1.2.3"
+  resolved "https://registry.yarnpkg.com/drmonty-garlicjs/-/drmonty-garlicjs-1.2.3.tgz#469322717e0288b00a5ed930590818d80f6a1cef"
+  integrity sha1-RpMicX4CiLAKXtkwWQgY2A9qHO8=
+  dependencies:
+    jquery ">=1.8"
+
 duplexify@^3.4.2, duplexify@^3.6.0:
   version "3.7.1"
   resolved "https://registry.yarnpkg.com/duplexify/-/duplexify-3.7.1.tgz#2a4df5317f6ccfd91f86d6fd25d8d8a103b88309"
@@ -3742,7 +3749,7 @@ jest-worker@^25.1.0:
     merge-stream "^2.0.0"
     supports-color "^7.0.0"
 
-jquery@1.9:
+jquery@1.9.x, jquery@>=1.8:
   version "1.9.1"
   resolved "https://registry.yarnpkg.com/jquery/-/jquery-1.9.1.tgz#e4cd4835faaefbade535857613c0fc3ff2adaf34"
   integrity sha1-5M1INfqu+63lNYV2E8D8P/KtrzQ=

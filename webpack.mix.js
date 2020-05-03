@@ -53,7 +53,7 @@ mix.scripts([
     'htdocs/components/autosize/dist/autosize.js',
     'htdocs/components/jquery-timeago/jquery.timeago.js',
     'htdocs/components/filereader.js/filereader.js',
-    'htdocs/components/garlicjs/js/garlic.min.js',
+    'node_modules/drmonty-garlicjs/js/garlic.min.js',
     'htdocs/components/cmd-ctrl-enter/src/cmd-ctrl-enter.js',
 ], 'htdocs/js/components.js');
 

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f9e9023e3176a4bd09499c0de5d8b733",
+    "content-hash": "35f5d13f6e8c776583551f655b395b83",
     "packages": [
         {
             "name": "cakephp/cache",
@@ -7384,48 +7384,6 @@
             ],
             "description": "jQuery UI is a curated set of user interface interactions, effects, widgets, and themes built on top of the jQuery JavaScript Library. Whether you're building highly interactive web applications or you just need to add a date picker to a form control, jQuery UI is the perfect choice.",
             "time": "2015-03-13T14:48:12+00:00"
-        },
-        {
-            "name": "drmonty/garlicjs",
-            "version": "1.2.4",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/mrohnstock/garlicjs.git",
-                "reference": "8d90b27dd4a12351d1a9b8774276481bfbc8f8a7"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/mrohnstock/garlicjs/zipball/8d90b27dd4a12351d1a9b8774276481bfbc8f8a7",
-                "reference": "8d90b27dd4a12351d1a9b8774276481bfbc8f8a7",
-                "shasum": ""
-            },
-            "require": {
-                "components/jquery": ">=1.8"
-            },
-            "type": "component",
-            "extra": {
-                "component": {
-                    "scripts": [
-                        "js/garlic.min.js"
-                    ],
-                    "files": [
-                        "js/garlic.min.js",
-                        "js/garlic-standalone.min.js"
-                    ],
-                    "shim": {
-                        "deps": [
-                            "jquery"
-                        ]
-                    }
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "description": "Automatically persist your forms' text and select field values locally, until the form is submitted.",
-            "homepage": "http://garlicjs.org/",
-            "time": "2015-06-19T05:58:22+00:00"
         },
         {
             "name": "enyo/dropzone",
