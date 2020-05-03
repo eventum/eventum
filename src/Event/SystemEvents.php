@@ -81,6 +81,12 @@ final class SystemEvents
     public const MAIL_LOADED_IMAP = 'mail.loaded.imap';
 
     /**
+     * @since 3.8.11
+     * @see Workflow::preEmailDownload
+     */
+    public const MAIL_PROCESS_BEFORE = 'mail.process.before';
+
+    /**
      * @since 3.4.0
      * @see Mail_Queue::send()
      * @see MailQueueListener

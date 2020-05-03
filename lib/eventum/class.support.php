@@ -468,8 +468,7 @@ class Support
         }
 
         // pass in $mail object so it can be modified
-        $workflow = Workflow::preEmailDownload($mail->getProjectId(), $mail);
-        if ($workflow === -1) {
+        if (!Workflow::preEmailDownload($mail->getProjectId(), $mail)) {
             $logger->debug("Skip $message_id: Skipped by workflow");
 
             return;
