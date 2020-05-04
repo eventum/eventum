@@ -13,6 +13,7 @@
 
 namespace Eventum\Logger;
 
+use Eventum\Monolog\Logger;
 use Psr\Log\LoggerInterface;
 use Psr\Log\LoggerTrait as PsrLoggerTrait;
 
@@ -25,6 +26,10 @@ trait LoggerTrait
 
     public function log($level, $message, array $context = []): void
     {
+        if ($this->logger === null) {
+            $this->logger = Logger::app();
+        }
+
         $this->logger->log($level, $message, $context);
     }
 }

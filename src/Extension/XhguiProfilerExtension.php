@@ -15,14 +15,17 @@ namespace Eventum\Extension;
 
 use Eventum\Event\SystemEvents;
 use Eventum\Extension\Provider\SubscriberProvider;
-use RuntimeException;
+use Eventum\Logger\LoggerTrait;
 use Setup;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Throwable;
 use Xhgui\Profiler\Profiler;
 use Xhgui\Profiler\ProfilingFlags;
 
 class XhguiProfilerExtension implements SubscriberProvider, EventSubscriberInterface
 {
+    use LoggerTrait;
+
     public function getSubscribers(): array
     {
         return [
@@ -47,7 +50,9 @@ class XhguiProfilerExtension implements SubscriberProvider, EventSubscriberInter
 
         try {
             $profiler = new Profiler($config);
-        } catch (RuntimeException $e) {
+        } catch (Throwable $e) {
+            $this->debug($e->getMessage(), ['exception' => $e]);
+
             return;
         }
 
