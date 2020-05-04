@@ -36,7 +36,7 @@ mix.scripts([
 mix.scripts([
     'node_modules/jquery/jquery.js',
     'node_modules/jquery/jquery-migrate.js',
-    'htdocs/components/jquery-blockui/jquery.blockUI.js',
+    'node_modules/block-ui/jquery.blockUI.js',
     'htdocs/components/form/src/jquery.form.js',
     'htdocs/components/jquery-cookie/jquery.cookie.js',
     'htdocs/components/jquery-ui/ui/core.js',

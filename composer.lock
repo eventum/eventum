@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "35f5d13f6e8c776583551f655b395b83",
+    "content-hash": "83b458e6d14f36abad14e2c344ca646f",
     "packages": [
         {
             "name": "cakephp/cache",
@@ -7172,61 +7172,6 @@
             "time": "2013-04-05T19:32:49+00:00"
         },
         {
-            "name": "components/jquery-blockui",
-            "version": "2.70",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/malsup/blockui.git",
-                "reference": "316f6e5d76a33266970778e80507149d9ef6a02d"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/malsup/blockui/zipball/316f6e5d76a33266970778e80507149d9ef6a02d",
-                "reference": "316f6e5d76a33266970778e80507149d9ef6a02d",
-                "shasum": ""
-            },
-            "require": {
-                "components/jquery": ">=1.7",
-                "robloach/component-installer": "*"
-            },
-            "type": "component",
-            "extra": {
-                "component": {
-                    "scripts": [
-                        "jquery.blockUI.js"
-                    ],
-                    "shim": {
-                        "deps": [
-                            "jquery"
-                        ]
-                    }
-                }
-            },
-            "license": [
-                "MIT",
-                "GPL"
-            ],
-            "authors": [
-                {
-                    "name": "M. Alsup",
-                    "homepage": "http://jquery.malsup.com"
-                }
-            ],
-            "description": "Simulate synchronous ajax by blocking - not locking - the UI. This plugin lets you block user interaction with the page or with a specific element on the page. Also great at displaying modal dialogs.",
-            "homepage": "http://jquery.malsup.com/block/",
-            "keywords": [
-                "block",
-                "dialog",
-                "modal",
-                "overlay"
-            ],
-            "support": {
-                "source": "https://github.com/malsup/blockui/tree/2.70",
-                "issues": "https://github.com/malsup/blockui/issues"
-            },
-            "time": "2014-11-24T03:14:41+00:00"
-        },
-        {
             "name": "components/jquery-cookie",
             "version": "1.4.1.2",
             "source": {
@@ -8453,8 +8398,7 @@
     "stability-flags": {
         "horde/text-flowed": 20,
         "horde/util": 20,
-        "zendframework/zend-mail": 20,
-        "components/jquery-blockui": 20
+        "zendframework/zend-mail": 20
     },
     "prefer-stable": true,
     "prefer-lowest": false,
