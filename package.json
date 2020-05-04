@@ -18,12 +18,14 @@
     "cross-env": "^5.1",
     "drmonty-garlicjs": "^1.2.3",
     "jquery": "1.9.x",
+    "jquery-form": "^4.2.2",
     "laravel-mix": "^5.0.4",
     "sass": "^1.26.3",
     "sass-loader": "^8.0.2"
   },
   "resolutions": {
     "block-ui/jquery": "1.9.x",
-    "drmonty-garlicjs/jquery": "1.9.x"
+    "drmonty-garlicjs/jquery": "1.9.x",
+    "jquery-form/jquery": "1.9.x"
   }
 }

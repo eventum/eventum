@@ -37,7 +37,7 @@ mix.scripts([
     'node_modules/jquery/jquery.js',
     'node_modules/jquery/jquery-migrate.js',
     'node_modules/block-ui/jquery.blockUI.js',
-    'htdocs/components/form/src/jquery.form.js',
+    'node_modules/jquery-form/src/jquery.form.js',
     'htdocs/components/jquery-cookie/jquery.cookie.js',
     'htdocs/components/jquery-ui/ui/core.js',
     'htdocs/components/jquery-ui/ui/datepicker.js',

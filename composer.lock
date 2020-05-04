@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "83b458e6d14f36abad14e2c344ca646f",
+    "content-hash": "d531b10a6885a82bc3efd3d73f5f235b",
     "packages": [
         {
             "name": "cakephp/cache",
@@ -7514,62 +7514,6 @@
                 "jasig"
             ],
             "time": "2019-08-18T20:01:55+00:00"
-        },
-        {
-            "name": "jquery-form/form",
-            "version": "v4.2.2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/jquery-form/form.git",
-                "reference": "4beae57bc92402e2d03ca66b5ae2942d0c94c695"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/jquery-form/form/zipball/4beae57bc92402e2d03ca66b5ae2942d0c94c695",
-                "reference": "4beae57bc92402e2d03ca66b5ae2942d0c94c695",
-                "shasum": ""
-            },
-            "require": {
-                "components/jquery": ">=1.7.2"
-            },
-            "type": "library",
-            "extra": {
-                "component": {
-                    "scripts": [
-                        "src/jquery.form.js"
-                    ],
-                    "shim": {
-                        "deps": [
-                            "jquery"
-                        ]
-                    }
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "(LGPL-2.1+ OR MIT)"
-            ],
-            "authors": [
-                {
-                    "name": "Kevin Morris"
-                },
-                {
-                    "name": "Mike Alsup"
-                }
-            ],
-            "description": "The jQuery Form Plugin allows you to easily and unobtrusively upgrade HTML forms to use AJAX.",
-            "homepage": "https://github.com/jquery-form/form",
-            "keywords": [
-                "ajax",
-                "form",
-                "html-form",
-                "jquery",
-                "jquery-form",
-                "jquery-plugin",
-                "json",
-                "json-form"
-            ],
-            "time": "2017-08-09T20:56:53+00:00"
         },
         {
             "name": "kriswallsmith/assetic",
