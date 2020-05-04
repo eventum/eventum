@@ -34,7 +34,8 @@ mix.scripts([
     'htdocs/js/page.js',
 ], 'htdocs/js/all.js');
 mix.scripts([
-    'htdocs/components/jquery/jquery.js',
+    'node_modules/jquery/jquery.js',
+    'node_modules/jquery/jquery-migrate.js',
     'htdocs/components/jquery-blockui/jquery.blockUI.js',
     'htdocs/components/form/src/jquery.form.js',
     'htdocs/components/jquery-cookie/jquery.cookie.js',
