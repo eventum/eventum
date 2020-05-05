@@ -14,7 +14,6 @@
 namespace Eventum\ServiceProvider;
 
 use DB_Helper;
-use Eventum\Config\SphinxConfig;
 use Eventum\EventDispatcher\EventManager;
 use Eventum\Extension\ExtensionManager;
 use Eventum\Monolog\Logger;
@@ -22,7 +21,6 @@ use Pimple\Container;
 use Pimple\ServiceProviderInterface;
 use Psr\Log\LoggerInterface;
 use Setup;
-use SphinxClient;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class ServiceProvider implements ServiceProviderInterface
@@ -51,20 +49,6 @@ class ServiceProvider implements ServiceProviderInterface
 
         $app[ExtensionManager::class] = static function () {
             return ExtensionManager::getManager();
-        };
-
-        $app[SphinxConfig::class] = static function ($app) {
-            return new SphinxConfig($app['config']);
-        };
-
-        $app[SphinxClient::class] = static function ($app) {
-            /** @var SphinxConfig $config */
-            $config = $app[SphinxConfig::class];
-
-            $sphinx = new SphinxClient();
-            $sphinx->SetServer($config->host, $config->port);
-
-            return $sphinx;
         };
     }
 }
