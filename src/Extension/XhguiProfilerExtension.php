@@ -13,6 +13,7 @@
 
 namespace Eventum\Extension;
 
+use Eventum\Config\Config;
 use Eventum\Event\SystemEvents;
 use Eventum\Extension\Provider\SubscriberProvider;
 use Eventum\Logger\LoggerTrait;
@@ -25,6 +26,14 @@ use Xhgui\Profiler\ProfilingFlags;
 class XhguiProfilerExtension implements SubscriberProvider, EventSubscriberInterface
 {
     use LoggerTrait;
+
+    /** @var Config */
+    private $config;
+
+    public function __construct()
+    {
+        $this->config = Setup::get()['xhgui_profiler'];
+    }
 
     public function getSubscribers(): array
     {
@@ -42,14 +51,12 @@ class XhguiProfilerExtension implements SubscriberProvider, EventSubscriberInter
 
     public function boot(): void
     {
-        $config = $this->getConfig();
-
-        if ($config['status'] !== 'enabled') {
+        if ($this->config['status'] !== 'enabled') {
             return;
         }
 
         try {
-            $profiler = new Profiler($config);
+            $profiler = new Profiler($this->getProfilerConfig());
         } catch (Throwable $e) {
             $this->debug($e->getMessage(), ['exception' => $e]);
 
@@ -60,7 +67,7 @@ class XhguiProfilerExtension implements SubscriberProvider, EventSubscriberInter
         $profiler->registerShutdownHandler();
     }
 
-    private function getConfig(): array
+    private function getProfilerConfig(): array
     {
         $defaultConfig = [
             'profiler.enable' => static function () {
@@ -75,8 +82,7 @@ class XhguiProfilerExtension implements SubscriberProvider, EventSubscriberInter
             'profiler.options' => [
             ],
         ];
-        $config = Setup::get()['xhgui_profiler']->toArray();
 
-        return array_merge($defaultConfig, $config);
+        return array_merge($defaultConfig, $this->config->toArray());
     }
 }
