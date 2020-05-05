@@ -11,6 +11,7 @@
  * that were distributed with this source code.
  */
 
+use Eventum\Config\SphinxConfig;
 use Eventum\Monolog\Logger;
 use Psr\Log\LoggerInterface;
 
@@ -29,8 +30,9 @@ class Sphinx_Fulltext_Search extends Abstract_Fulltext_Search
 
     public function __construct()
     {
+        $config = new SphinxConfig();
         $this->sphinx = new SphinxClient();
-        $this->sphinx->SetServer(SPHINX_SEARCHD_HOST, SPHINX_SEARCHD_PORT);
+        $this->sphinx->SetServer($config->host, $config->port);
 
         // generate unique placeholder
         $this->excerpt_placeholder = 'excerpt' . mt_rand() . 'placeholder';
