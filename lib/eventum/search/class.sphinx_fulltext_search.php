@@ -12,11 +12,12 @@
  */
 
 use Eventum\Config\SphinxConfig;
-use Eventum\Monolog\Logger;
-use Psr\Log\LoggerInterface;
+use Eventum\Logger\LoggerTrait;
 
 class Sphinx_Fulltext_Search extends Abstract_Fulltext_Search
 {
+    use LoggerTrait;
+
     /** @var SphinxClient */
     private $sphinx;
 
@@ -25,8 +26,6 @@ class Sphinx_Fulltext_Search extends Abstract_Fulltext_Search
     private $excerpt_placeholder;
     private $matches = [];
     private $match_mode = '';
-    /** @var LoggerInterface */
-    private $logger;
 
     public function __construct()
     {
@@ -36,7 +35,6 @@ class Sphinx_Fulltext_Search extends Abstract_Fulltext_Search
 
         // generate unique placeholder
         $this->excerpt_placeholder = 'excerpt' . mt_rand() . 'placeholder';
-        $this->logger = Logger::app();
     }
 
     public function getIssueIDs($options): array
@@ -65,15 +63,14 @@ class Sphinx_Fulltext_Search extends Abstract_Fulltext_Search
         $res = $this->sphinx->Query($options['keywords'], $indexes);
 
         // TODO: report these somehow back to the UI
-        // probably easy to do with Logger framework (add new handler?)
         if (method_exists($this->sphinx, 'IsConnectError') && $this->sphinx->IsConnectError()) {
-            $this->logger->error('sphinx_fulltext_search: Network Error');
+            $this->error('sphinx_fulltext_search: Network Error');
         }
         if ($this->sphinx->GetLastWarning()) {
-            $this->logger->warning('sphinx_fulltext_search: ' . $this->sphinx->GetLastWarning());
+            $this->warning('sphinx_fulltext_search: ' . $this->sphinx->GetLastWarning());
         }
         if ($this->sphinx->GetLastError()) {
-            $this->logger->error('sphinx_fulltext_search: ' . $this->sphinx->GetLastError());
+            $this->error('sphinx_fulltext_search: ' . $this->sphinx->GetLastError());
         }
 
         $issue_ids = [];
@@ -146,7 +143,7 @@ class Sphinx_Fulltext_Search extends Abstract_Fulltext_Search
                         $res = $this->sphinx->BuildExcerpts($documents, 'email_stemmed', $this->keywords, $excerpt_options);
                         $excerpt['email'][Support::getSequenceByID($match['match_id'])] = $this->cleanUpExcerpt($res[0]);
                     } catch (Zend\Mail\Header\Exception\InvalidArgumentException $e) {
-                        $this->logger->error("Error loading email {$match['match_id']}", $match);
+                        $this->error("Error loading email {$match['match_id']}", $match);
                     }
                 } elseif ($match['index'] === 'phone') {
                     $phone_call = Phone_Support::getDetails($match['match_id']);
