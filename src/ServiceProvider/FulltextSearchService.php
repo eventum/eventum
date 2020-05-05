@@ -15,8 +15,10 @@ namespace Eventum\ServiceProvider;
 
 use Abstract_Fulltext_Search;
 use Eventum\Config\SphinxConfig;
+use MySQL_Fulltext_Search;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
+use Sphinx_Fulltext_Search;
 use SphinxClient;
 
 class FulltextSearchService implements ServiceProviderInterface
@@ -37,17 +39,25 @@ class FulltextSearchService implements ServiceProviderInterface
             return $sphinx;
         };
 
+        $app[MySQL_Fulltext_Search::class] = static function () {
+            return new MySQL_Fulltext_Search();
+        };
+
+        $app[Sphinx_Fulltext_Search::class] = static function ($app) {
+            return new Sphinx_Fulltext_Search($app[SphinxClient::class]);
+        };
+
         $app[Abstract_Fulltext_Search::class] = static function ($app) {
-            $class = $app['config']['fulltext_search_class'];
+            $className = $app['config']['fulltext_search_class'];
 
             // legacy: handle lowercased classname
-            if ($class === 'mysql_fulltext_search') {
-                $class = 'MySQL_Fulltext_Search';
-            } elseif ($class === 'sphinx_fulltext_search') {
-                $class = 'Sphinx_Fulltext_Search';
+            if ($className === 'mysql_fulltext_search') {
+                $className = 'MySQL_Fulltext_Search';
+            } elseif ($className === 'sphinx_fulltext_search') {
+                $className = 'Sphinx_Fulltext_Search';
             }
 
-            return new $class();
+            return $app[$className];
         };
     }
 }

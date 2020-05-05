@@ -12,7 +12,6 @@
  */
 
 use Eventum\Logger\LoggerTrait;
-use Eventum\ServiceContainer;
 
 class Sphinx_Fulltext_Search extends Abstract_Fulltext_Search
 {
@@ -27,9 +26,9 @@ class Sphinx_Fulltext_Search extends Abstract_Fulltext_Search
     private $matches = [];
     private $match_mode = '';
 
-    public function __construct()
+    public function __construct(SphinxClient $sphinx)
     {
-        $this->sphinx = ServiceContainer::get(SphinxClient::class);
+        $this->sphinx = $sphinx;
         // generate unique placeholder
         $this->excerpt_placeholder = 'excerpt' . mt_rand() . 'placeholder';
     }
