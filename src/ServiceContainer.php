@@ -28,4 +28,9 @@ class ServiceContainer
 
         return $container;
     }
+
+    public static function get(string $className)
+    {
+        return static::getInstance()[$className];
+    }
 }
