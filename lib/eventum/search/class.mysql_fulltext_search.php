@@ -15,7 +15,7 @@ use Eventum\Db\DatabaseException;
 
 class MySQL_Fulltext_Search extends Abstract_Fulltext_Search
 {
-    public function getIssueIDs($options)
+    public function getIssueIDs($options): array
     {
         // no pre-existing list, generate them
         $stmt = '(SELECT
@@ -98,12 +98,12 @@ class MySQL_Fulltext_Search extends Abstract_Fulltext_Search
         return $issues;
     }
 
-    public function getMatchModes()
+    public function getMatchModes(): bool
     {
         return false;
     }
 
-    public function getExcerpts()
+    public function getExcerpts(): array
     {
         return [];
     }
