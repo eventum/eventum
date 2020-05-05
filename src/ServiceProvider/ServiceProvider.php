@@ -13,6 +13,7 @@
 
 namespace Eventum\ServiceProvider;
 
+use Eventum\Extension\ExtensionManager;
 use Eventum\Monolog\Logger;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
@@ -28,6 +29,10 @@ class ServiceProvider implements ServiceProviderInterface
 
         $app['config'] = static function () {
             return Setup::get();
+        };
+
+        $app[ExtensionManager::class] = static function () {
+            return ExtensionManager::getManager();
         };
     }
 }
