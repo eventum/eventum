@@ -23,6 +23,7 @@ use Eventum\Extension\Provider\RouteProvider;
 use Eventum\Extension\Provider\SubscriberProvider;
 use Eventum\Extension\Provider\WorkflowProvider;
 use Eventum\Logger\LoggerTrait;
+use Eventum\ServiceContainer;
 use Generator;
 use InvalidArgumentException;
 use RuntimeException;
@@ -42,6 +43,7 @@ class ExtensionManager implements RouteProvider
      * Singleton Extension Manager
      *
      * @return ExtensionManager
+     * @deprecated since 3.8.11, use ServiceContainer::get(ExtensionManager::class) instead
      */
     public static function getManager(): self
     {
