@@ -13,6 +13,7 @@
 
 namespace Eventum\ServiceProvider;
 
+use DB_Helper;
 use Eventum\Extension\ExtensionManager;
 use Eventum\Monolog\Logger;
 use Pimple\Container;
@@ -29,6 +30,10 @@ class ServiceProvider implements ServiceProviderInterface
 
         $app['config'] = static function () {
             return Setup::get();
+        };
+
+        $app['db'] = static function () {
+            return DB_Helper::getInstance();
         };
 
         $app[ExtensionManager::class] = static function () {
