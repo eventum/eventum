@@ -13,6 +13,7 @@
 
 namespace Eventum;
 
+use Eventum\Config\Config;
 use Pimple\Container;
 
 class ServiceContainer
@@ -32,5 +33,10 @@ class ServiceContainer
     public static function get(string $className)
     {
         return static::getInstance()[$className];
+    }
+
+    public static function getConfig(): Config
+    {
+        return static::get('config');
     }
 }
