@@ -14,7 +14,7 @@
 namespace Eventum\Mail;
 
 use Eventum\Config\Paths;
-use Eventum\Monolog\Logger;
+use Eventum\Logger\LoggerTrait;
 use Exception;
 use Mail_Helper;
 use Setup;
@@ -22,6 +22,8 @@ use Zend\Mail\Transport;
 
 class MailTransport
 {
+    use LoggerTrait;
+
     /** @var Transport\TransportInterface|Transport\Smtp */
     private $transport;
 
@@ -53,7 +55,7 @@ class MailTransport
                 // this is largely useless, as the exception likely happens in toMessage call above
                 file_put_contents($traceFile, json_encode([$recipient, $mail->getHeadersArray(), $mail->getContent()]));
             }
-            Logger::app()->error($e->getMessage(), ['traceFile' => $traceFile, 'exception' => $e]);
+            $this->error($e->getMessage(), ['traceFile' => $traceFile, 'exception' => $e]);
 
             throw $e;
         } finally {

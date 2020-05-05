@@ -26,10 +26,15 @@ trait LoggerTrait
 
     public function log($level, $message, array $context = []): void
     {
+        $this->getLogger()->log($level, $message, $context);
+    }
+
+    protected function getLogger(): LoggerInterface
+    {
         if ($this->logger === null) {
             $this->logger = Logger::app();
         }
 
-        $this->logger->log($level, $message, $context);
+        return $this->logger;
     }
 }

@@ -13,10 +13,9 @@
 
 namespace Eventum\Controller;
 
-use Eventum\Monolog\Logger;
+use Eventum\Logger\LoggerTrait;
 use Eventum\Scm;
 use LogicException;
-use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -24,13 +23,14 @@ use Throwable;
 
 class ScmPingController
 {
+    use LoggerTrait;
+
     public function defaultAction(Request $request): Response
     {
-        $logger = Logger::app();
         $httpCode = 200;
         try {
             ob_start();
-            $this->process($request, $logger);
+            $this->process($request);
             $status = [
                 'code' => 0,
                 'message' => ob_get_clean(),
@@ -45,17 +45,18 @@ class ScmPingController
 
             if ($e instanceof LogicException) {
                 // LogicException subclasses are expected, not really errors
-                $logger->warning($e);
+                $this->warning($e);
             } else {
-                $logger->error($e);
+                $this->error($e);
             }
         }
 
         return new JsonResponse($status, $httpCode);
     }
 
-    private function process(Request $request, LoggerInterface $logger): void
+    private function process(Request $request): void
     {
+        $logger = $this->getLogger();
         $adapters = [
             new Scm\Adapter\Gitlab($request, $logger),
             new Scm\Adapter\Cvs($request, $logger),

@@ -22,7 +22,7 @@ use Eventum\Extension\Provider\PartnerProvider;
 use Eventum\Extension\Provider\RouteProvider;
 use Eventum\Extension\Provider\SubscriberProvider;
 use Eventum\Extension\Provider\WorkflowProvider;
-use Eventum\Monolog\Logger;
+use Eventum\Logger\LoggerTrait;
 use Generator;
 use InvalidArgumentException;
 use RuntimeException;
@@ -33,6 +33,8 @@ use Zend\Config\Config;
 
 class ExtensionManager implements RouteProvider
 {
+    use LoggerTrait;
+
     /** @var Provider\ExtensionProvider[] */
     protected $extensions;
 
@@ -143,7 +145,7 @@ class ExtensionManager implements RouteProvider
                 try {
                     yield $className => $this->createInstance($extension, $className);
                 } catch (Throwable $e) {
-                    Logger::app()->error("Unable to create $className: {$e->getMessage()}", ['exception' => $e]);
+                    $this->error("Unable to create $className: {$e->getMessage()}", ['exception' => $e]);
                 }
             }
         }
@@ -204,7 +206,7 @@ class ExtensionManager implements RouteProvider
             try {
                 $extension = $this->loadExtension($classname, $filename);
             } catch (Throwable $e) {
-                Logger::app()->error("Unable to load $classname: {$e->getMessage()}", ['exception' => $e]);
+                $this->error("Unable to load $classname: {$e->getMessage()}", ['exception' => $e]);
                 continue;
             }
 

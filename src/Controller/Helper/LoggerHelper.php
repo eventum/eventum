@@ -13,16 +13,10 @@
 
 namespace Eventum\Controller\Helper;
 
-use Eventum\Monolog\Logger;
+use Eventum\Logger\LoggerTrait;
 use Psr\Log\LoggerInterface;
-use Psr\Log\LoggerTrait;
 
 class LoggerHelper implements LoggerInterface
 {
     use LoggerTrait;
-
-    public function log($level, $message, array $context = [])
-    {
-        Logger::app()->log($level, $message, $context);
-    }
 }

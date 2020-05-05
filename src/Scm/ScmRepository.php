@@ -13,14 +13,16 @@
 
 namespace Eventum\Scm;
 
+use Eventum\Logger\LoggerTrait;
 use Eventum\Model\Entity\Commit;
 use Eventum\Model\Entity\CommitFile;
-use Eventum\Monolog\Logger;
 use Setup;
 use Zend\Config\Config;
 
 class ScmRepository
 {
+    use LoggerTrait;
+
     /** @var array|Config */
     private $config = [];
 
@@ -31,7 +33,7 @@ class ScmRepository
         if (isset($setup['scm'][$name])) {
             $this->config = $setup['scm'][$name];
         } else {
-            Logger::app()->warn("SCM Repo '$name' not defined");
+            $this->warning("SCM Repo '$name' not defined");
         }
     }
 
