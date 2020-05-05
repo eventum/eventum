@@ -18,7 +18,7 @@ use DB_Helper;
 use Eventum\Auth\AuthException;
 use Eventum\Auth\PasswordHash;
 use Eventum\Db\DatabaseException;
-use Setup;
+use Eventum\ServiceContainer;
 use User;
 
 /**
@@ -210,7 +210,7 @@ class MysqlAdapter implements AdapterInterface
 
     private function getBackOffConfig(): array
     {
-        $config = Setup::get()['auth']['login_backoff'] ?? null;
+        $config = ServiceContainer::getConfig()['auth']['login_backoff'] ?? null;
 
         return [
             'count' => $config['count'] ?? null,

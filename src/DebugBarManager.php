@@ -151,7 +151,7 @@ class DebugBarManager
             new ConfigCollector($smarty->tpl_vars, 'Smarty')
         );
         $debugBar->addCollector(
-            new ConfigCollector(Setup::get()->toArray(), 'Config')
+            new ConfigCollector(ServiceContainer::getConfig()->toArray(), 'Config')
         );
 
         $renderer->addControl(
