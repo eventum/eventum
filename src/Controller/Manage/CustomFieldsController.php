@@ -20,6 +20,7 @@ use Eventum\Db\Doctrine;
 use Eventum\Extension\ExtensionManager;
 use Eventum\Model\Entity\CustomField;
 use Eventum\Model\Repository\CustomFieldRepository;
+use Eventum\ServiceContainer;
 use Project;
 use Setup;
 use Symfony\Component\HttpFoundation\ParameterBag;
@@ -207,7 +208,8 @@ class CustomFieldsController extends ManageBaseController
     private function getBackends(): array
     {
         // load classes from extension manager
-        $manager = ExtensionManager::getManager();
+        /** @var ExtensionManager $manager */
+        $manager = ServiceContainer::get(ExtensionManager::class);
         $backends = $manager->getCustomFieldClasses();
 
         return $this->filterValues($backends);
