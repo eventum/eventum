@@ -20,6 +20,7 @@ use Eventum\Extension\Provider\ExtensionProvider;
 use Eventum\Extension\Provider\FactoryProvider;
 use Eventum\Extension\Provider\PartnerProvider;
 use Eventum\Extension\Provider\RouteProvider;
+use Eventum\Extension\Provider\ServiceProvider;
 use Eventum\Extension\Provider\SubscriberProvider;
 use Eventum\Extension\Provider\WorkflowProvider;
 use Eventum\Logger\LoggerTrait;
@@ -203,6 +204,7 @@ class ExtensionManager implements RouteProvider
     {
         $extensions = [];
         $loader = $this->getAutoloader();
+        $container = ServiceContainer::getInstance();
 
         foreach ($this->getExtensionFiles() as $classname => $filename) {
             try {
@@ -214,6 +216,9 @@ class ExtensionManager implements RouteProvider
 
             if ($extension instanceof AutoloadProvider) {
                 $extension->registerAutoloader($loader);
+            }
+            if ($extension instanceof ServiceProvider) {
+                $extension->register($container);
             }
             $extensions[$classname] = $extension;
         }
