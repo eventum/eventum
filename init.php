@@ -19,7 +19,7 @@ require_once __DIR__ . '/globals.php';
 if (Setup::needsSetup()) {
     // redirect to setup
     if (PHP_SAPI === 'cli') {
-        throw new RuntimeException('Eventum is not configured');
+        throw new RuntimeException('Eventum is not configured, setup file is missing');
     }
     header('Location: setup/');
     exit(0);
