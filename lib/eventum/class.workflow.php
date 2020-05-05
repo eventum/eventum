@@ -980,9 +980,22 @@ class Workflow
      * @param $issue_id
      * @param $usr_id
      * @return mixed null to use default rules, true or false otherwise
+     * @deprecated since 3.8.11 use ACCESS_ISSUE event
      */
     public static function canAccessIssue($prj_id, $issue_id, $usr_id)
     {
+        $arguments = [
+            'prj_id' => (int)$prj_id,
+            'issue_id' => (int)$issue_id,
+            'usr_id' => (int)$usr_id,
+        ];
+        $event = new GenericEvent(null, $arguments);
+        EventManager::dispatch(SystemEvents::ACCESS_ISSUE, $event);
+
+        if ($event->isPropagationStopped()) {
+            return false;
+        }
+
         if (!$backend = self::getBackend($prj_id)) {
             return null;
         }

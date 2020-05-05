@@ -179,6 +179,12 @@ final class SystemEvents
     public const ISSUE_LINK_FILTERS = 'issue.link.filters';
 
     /**
+     * @since 3.8.11
+     * @see Workflow::canAccessIssue()
+     */
+    public const ACCESS_ISSUE = 'access.issue';
+
+    /**
      * @since 3.5.0
      * @see Workflow::handleNewNote()
      */
