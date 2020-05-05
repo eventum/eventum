@@ -16,6 +16,7 @@ namespace Eventum\Controller\Manage;
 use Auth;
 use Eventum\Controller\Helper\MessagesHelper;
 use Eventum\Extension\ExtensionManager;
+use Eventum\ServiceContainer;
 use Project;
 use Status;
 use User;
@@ -111,8 +112,9 @@ class ProjectsController extends ManageBaseController
     private function getWorkflowBackends()
     {
         // load classes from extension manager
-        $manager = ExtensionManager::getManager();
-        $backends = $manager->getWorkflowClasses();
+        /** @var ExtensionManager $em */
+        $em = ServiceContainer::get(ExtensionManager::class);
+        $backends = $em->getWorkflowClasses();
 
         return $this->filterValues($backends);
     }
@@ -120,8 +122,9 @@ class ProjectsController extends ManageBaseController
     private function getCustomerBackends()
     {
         // load classes from extension manager
-        $manager = ExtensionManager::getManager();
-        $backends = $manager->getCustomerClasses();
+        /** @var ExtensionManager $em */
+        $em = ServiceContainer::get(ExtensionManager::class);
+        $backends = $em->getCustomerClasses();
 
         return $this->filterValues($backends);
     }

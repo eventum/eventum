@@ -120,7 +120,8 @@ class Kernel extends BaseKernel
             $routes->import("{$this->configDir}/routes.yml");
         }
 
-        $em = ExtensionManager::getManager();
+        /** @var ExtensionManager $em */
+        $em = ServiceContainer::get(ExtensionManager::class);
         $em->configureRoutes($routes);
     }
 

@@ -19,6 +19,7 @@ use Eventum\EventDispatcher\EventManager;
 use Eventum\Extension\ExtensionManager;
 use Eventum\Model\Entity;
 use Eventum\Model\Repository\StatusRepository;
+use Eventum\ServiceContainer;
 use Eventum\Test\Traits\DoctrineTrait;
 
 use ProjectSeeder;
@@ -37,7 +38,7 @@ abstract class TestCase extends WebTestCase
 
         // Boot ExtensionManager
         // current test touches parts that would require workflow to be called
-        ExtensionManager::getManager();
+        ServiceContainer::get(ExtensionManager::class);
     }
 
     /**

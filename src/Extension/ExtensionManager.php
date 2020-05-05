@@ -20,9 +20,11 @@ use Eventum\Extension\Provider\ExtensionProvider;
 use Eventum\Extension\Provider\FactoryProvider;
 use Eventum\Extension\Provider\PartnerProvider;
 use Eventum\Extension\Provider\RouteProvider;
+use Eventum\Extension\Provider\ServiceProvider;
 use Eventum\Extension\Provider\SubscriberProvider;
 use Eventum\Extension\Provider\WorkflowProvider;
 use Eventum\Logger\LoggerTrait;
+use Eventum\ServiceContainer;
 use Generator;
 use InvalidArgumentException;
 use RuntimeException;
@@ -42,6 +44,7 @@ class ExtensionManager implements RouteProvider
      * Singleton Extension Manager
      *
      * @return ExtensionManager
+     * @deprecated since 3.8.11, use ServiceContainer::get(ExtensionManager::class) instead
      */
     public static function getManager(): self
     {
@@ -201,6 +204,7 @@ class ExtensionManager implements RouteProvider
     {
         $extensions = [];
         $loader = $this->getAutoloader();
+        $container = ServiceContainer::getInstance();
 
         foreach ($this->getExtensionFiles() as $classname => $filename) {
             try {
@@ -212,6 +216,9 @@ class ExtensionManager implements RouteProvider
 
             if ($extension instanceof AutoloadProvider) {
                 $extension->registerAutoloader($loader);
+            }
+            if ($extension instanceof ServiceProvider) {
+                $extension->register($container);
             }
             $extensions[$classname] = $extension;
         }
