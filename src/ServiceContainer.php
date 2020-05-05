@@ -23,6 +23,7 @@ class ServiceContainer
 
         if (!$container) {
             $container = new Container();
+            $container->register(new ServiceProvider\ServiceProvider());
         }
 
         return $container;
