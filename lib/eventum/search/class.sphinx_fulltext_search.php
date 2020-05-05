@@ -33,15 +33,14 @@ class Sphinx_Fulltext_Search extends Abstract_Fulltext_Search
         $this->sphinx->SetServer(SPHINX_SEARCHD_HOST, SPHINX_SEARCHD_PORT);
 
         // generate unique placeholder
-        $this->excerpt_placeholder = 'excerpt' . rand() . 'placeholder';
+        $this->excerpt_placeholder = 'excerpt' . mt_rand() . 'placeholder';
         $this->logger = Logger::app();
     }
 
-    public function getIssueIDs($options)
+    public function getIssueIDs($options): array
     {
         // Build the Sphinx client
         $this->sphinx->SetSortMode(SPH_SORT_RELEVANCE);
-//        $this->sphinx->SetWeights(array(1, 1));
         $this->sphinx->SetLimits(0, 5000, 100000);
         $this->sphinx->SetArrayResult(true);
 
@@ -49,11 +48,10 @@ class Sphinx_Fulltext_Search extends Abstract_Fulltext_Search
             $options['match_mode'] = SPH_MATCH_ALL;
         }
         $this->sphinx->SetMatchMode($options['match_mode']);
-
         $this->sphinx->SetFilter('prj_id', [Auth::getCurrentProject()]);
 
         // TODO: Add support for selecting indexes to search
-        $indexes = implode('; ', $this->getIndexes((Auth::getCurrentRole() > User::ROLE_CUSTOMER)));
+        $indexes = implode('; ', $this->getIndexes(Auth::getCurrentRole() > User::ROLE_CUSTOMER));
 
         if ((isset($options['customer_id'])) && (!empty($options['customer_id']))) {
             $this->sphinx->SetFilter('customer_id', [$options['customer_id']]);
@@ -126,39 +124,39 @@ class Sphinx_Fulltext_Search extends Abstract_Fulltext_Search
                 'note' => [],
             ];
             foreach ($matches as $match) {
-                if ($match['index'] == 'issue') {
+                if ($match['index'] === 'issue') {
                     $issue = Issue::getDetails($issue_id);
                     $documents = [$issue['iss_summary']];
                     $res = $this->sphinx->BuildExcerpts($documents, 'issue_stemmed', $this->keywords, $excerpt_options);
-                    if ($res[0] != $issue['iss_summary']) {
-                        $excerpt['issue']['summary'] = self::cleanUpExcerpt($res[0]);
+                    if ($res[0] !== $issue['iss_summary']) {
+                        $excerpt['issue']['summary'] = $this->cleanUpExcerpt($res[0]);
                     }
 
                     $documents = [$issue['iss_original_description']];
                     $res = $this->sphinx->BuildExcerpts($documents, 'issue_stemmed', $this->keywords, $excerpt_options);
-                    if ($res[0] != $issue['iss_original_description']) {
-                        $excerpt['issue']['description'] = self::cleanUpExcerpt($res[0]);
+                    if ($res[0] !== $issue['iss_original_description']) {
+                        $excerpt['issue']['description'] = $this->cleanUpExcerpt($res[0]);
                     }
-                } elseif ($match['index'] == 'email') {
+                } elseif ($match['index'] === 'email') {
                     try {
                         $email = Support::getEmailSummary($match['match_id']);
                         $documents = [$email['sup_subject'] . "\n" . $email['message']];
                         $res = $this->sphinx->BuildExcerpts($documents, 'email_stemmed', $this->keywords, $excerpt_options);
-                        $excerpt['email'][Support::getSequenceByID($match['match_id'])] = self::cleanUpExcerpt($res[0]);
+                        $excerpt['email'][Support::getSequenceByID($match['match_id'])] = $this->cleanUpExcerpt($res[0]);
                     } catch (Zend\Mail\Header\Exception\InvalidArgumentException $e) {
                         $this->logger->error("Error loading email {$match['match_id']}", $match);
                     }
-                } elseif ($match['index'] == 'phone') {
+                } elseif ($match['index'] === 'phone') {
                     $phone_call = Phone_Support::getDetails($match['match_id']);
                     $documents = [$phone_call['phs_description']];
                     $res = $this->sphinx->BuildExcerpts($documents, 'phonesupport_stemmed', $this->keywords, $excerpt_options);
-                    $excerpt['phone'][] = self::cleanUpExcerpt($res[0]);
-                } elseif ($match['index'] == 'note') {
+                    $excerpt['phone'][] = $this->cleanUpExcerpt($res[0]);
+                } elseif ($match['index'] === 'note') {
                     $note = Note::getDetails($match['match_id']);
                     $documents = [$note['not_title'] . "\n" . $note['not_note']];
                     $res = $this->sphinx->BuildExcerpts($documents, 'note_stemmed', $this->keywords, $excerpt_options);
                     $note_seq = Note::getNoteSequenceNumber($issue_id, $match['match_id']);
-                    $excerpt['note'][$note_seq] = self::cleanUpExcerpt($res[0]);
+                    $excerpt['note'][$note_seq] = $this->cleanUpExcerpt($res[0]);
                 }
             }
 
@@ -182,7 +180,7 @@ class Sphinx_Fulltext_Search extends Abstract_Fulltext_Search
      * @param string $str
      * @return string
      */
-    private function cleanUpExcerpt($str): string
+    private function cleanUpExcerpt(string $str): string
     {
         return str_replace(
             [$this->excerpt_placeholder . '-before', $this->excerpt_placeholder . '-after'],
@@ -191,7 +189,7 @@ class Sphinx_Fulltext_Search extends Abstract_Fulltext_Search
         );
     }
 
-    public function getMatchModes()
+    public function getMatchModes(): array
     {
         return [
             SPH_MATCH_ALL => 'All Words',
@@ -247,7 +245,7 @@ class Sphinx_Fulltext_Search extends Abstract_Fulltext_Search
         }
     }
 
-    public function supportsExcerpts()
+    public function supportsExcerpts(): bool
     {
         return true;
     }
