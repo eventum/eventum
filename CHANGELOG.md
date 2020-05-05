@@ -7,6 +7,7 @@ Upgrading to 3.8.x versions requires that you upgrade to latest 3.5.x version fi
 - Add `MAIL_PROCESS_BEFORE` event to skip processing certain emails, #820
 - Catch and log fatal errors if XhguiProfile fails to initialize, #822
 - Migrate `SPHINX_SEARCHD_HOST` constant to `setup.php`, #824
+- Add Pimple based service container, #826
 
 [3.8.11]: https://github.com/eventum/eventum/compare/v3.8.10...master
 
