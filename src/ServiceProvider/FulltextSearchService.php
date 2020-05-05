@@ -39,8 +39,8 @@ class FulltextSearchService implements ServiceProviderInterface
             return $sphinx;
         };
 
-        $app[MySQL_Fulltext_Search::class] = static function () {
-            return new MySQL_Fulltext_Search();
+        $app[MySQL_Fulltext_Search::class] = static function ($app) {
+            return new MySQL_Fulltext_Search($app['db']);
         };
 
         $app[Sphinx_Fulltext_Search::class] = static function ($app) {

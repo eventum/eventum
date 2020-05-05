@@ -11,10 +11,18 @@
  * that were distributed with this source code.
  */
 
+use Eventum\Db\Adapter\AdapterInterface;
 use Eventum\Db\DatabaseException;
 
 class MySQL_Fulltext_Search extends Abstract_Fulltext_Search
 {
+    /** @var AdapterInterface */
+    private $db;
+
+    public function __construct(AdapterInterface $db)
+    {
+        $this->db = $db;
+    }
     public function getIssueIDs($options): array
     {
         // no pre-existing list, generate them
@@ -65,7 +73,7 @@ class MySQL_Fulltext_Search extends Abstract_Fulltext_Search
             $options['keywords'],
         ];
         try {
-            $res = DB_Helper::getInstance()->getColumn($stmt, $params);
+            $res = $this->db->getColumn($stmt, $params);
         } catch (DatabaseException $e) {
             return [-1];
         }
@@ -82,7 +90,7 @@ class MySQL_Fulltext_Search extends Abstract_Fulltext_Search
             $options['keywords'],
         ];
         try {
-            $custom_res = DB_Helper::getInstance()->getColumn($stmt, $params1);
+            $custom_res = $this->db->getColumn($stmt, $params1);
         } catch (DatabaseException $e) {
             return [-1];
         }
