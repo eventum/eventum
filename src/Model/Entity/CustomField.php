@@ -22,8 +22,8 @@ use Doctrine\ORM\PersistentCollection;
 use Eventum\CustomField\Factory;
 use Eventum\CustomField\Fields\ListInterface;
 use Eventum\CustomField\Proxy;
+use Eventum\Logger\LoggerTrait;
 use Eventum\Model\Repository\Traits\GetOneTrait;
-use Eventum\Monolog\Logger;
 use InvalidArgumentException;
 use User;
 
@@ -33,6 +33,7 @@ use User;
  */
 class CustomField
 {
+    use LoggerTrait;
     use GetOneTrait;
 
     public const TYPE_TEXT = 'text';
@@ -398,7 +399,7 @@ class CustomField
             try {
                 $this->proxy = Factory::create($this->backendClassName);
             } catch (InvalidArgumentException $e) {
-                Logger::app()->error("Could not load backend {$this->backendClassName}", ['exception' => $e]);
+                $this->error("Could not load backend {$this->backendClassName}", ['exception' => $e]);
                 $this->proxy = false;
             }
         }

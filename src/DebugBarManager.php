@@ -25,10 +25,9 @@ use DebugBar\JavascriptRenderer;
 use DebugBar\StandardDebugBar;
 use Doctrine\DBAL\Logging\DebugStack;
 use Doctrine\ORM\EntityManager;
-use Eventum\Monolog\Logger;
+use Eventum\Logger\LoggerTrait;
 use Monolog\Logger as MonologLogger;
 use PDO;
-use Psr\Log\LoggerInterface;
 use Setup;
 use Smarty;
 
@@ -39,11 +38,10 @@ use Smarty;
  */
 class DebugBarManager
 {
+    use LoggerTrait;
+
     /** @var DebugBar */
     private $debugBar;
-
-    /** @var LoggerInterface */
-    private $logger;
 
     public static function getDebugBarManager(): self
     {
@@ -65,7 +63,6 @@ class DebugBarManager
             return;
         }
 
-        $this->logger = Logger::app();
         $this->debugBar = new StandardDebugBar();
 
         $rel_url = Setup::getRelativeUrl();
@@ -134,7 +131,7 @@ class DebugBarManager
             $smarty->assign('debugbar_head', $renderer->renderHead());
             $smarty->assign('debugbar_body', $renderer->render());
         } catch (DebugBarException $e) {
-            $this->logger->error($e->getMessage());
+            $this->error($e->getMessage());
         }
     }
 

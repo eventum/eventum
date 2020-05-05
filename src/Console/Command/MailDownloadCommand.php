@@ -15,22 +15,20 @@ namespace Eventum\Console\Command;
 
 use Email_Account;
 use Eventum\ConcurrentLock;
+use Eventum\Logger\LoggerTrait;
 use Eventum\Mail\Exception\InvalidMessageException;
 use Eventum\Mail\ImapMessage;
-use Eventum\Monolog\Logger;
 use InvalidArgumentException;
-use Psr\Log\LoggerInterface;
 use RuntimeException;
 use Support;
 use Throwable;
 
 class MailDownloadCommand
 {
+    use LoggerTrait;
+
     public const DEFAULT_COMMAND = 'mail:download';
     public const USAGE = self::DEFAULT_COMMAND . ' [username] [hostname] [mailbox] [--limit=] [--no-lock]';
-
-    /** @var LoggerInterface */
-    private $logger;
 
     /**
      * Limit amount of emails to process.
@@ -39,11 +37,6 @@ class MailDownloadCommand
      * @var int
      */
     private $limit = 0;
-
-    public function __construct()
-    {
-        $this->logger = Logger::app();
-    }
 
     public function execute(?string $username, ?string $hostname, ?string $mailbox, bool $noLock, int $limit = 0): void
     {
@@ -80,7 +73,7 @@ class MailDownloadCommand
                     try {
                         $mail = ImapMessage::createFromImap($mbox, $i, $account);
                     } catch (InvalidMessageException $e) {
-                        $this->logger->error($e->getMessage(), ['num' => $i]);
+                        $this->error($e->getMessage(), ['num' => $i]);
                         continue;
                     }
                     Support::processMailMessage($mail, $account);
@@ -97,14 +90,14 @@ class MailDownloadCommand
                     try {
                         $mail = ImapMessage::createFromImap($mbox, $i, $account);
                     } catch (InvalidMessageException $e) {
-                        $this->logger->error($e->getMessage(), ['num' => $i]);
+                        $this->error($e->getMessage(), ['num' => $i]);
                         continue;
                     }
 
                     try {
                         Support::processMailMessage($mail, $account);
                     } catch (Throwable $e) {
-                        $this->logger->error($e->getMessage(), ['num' => $i]);
+                        $this->error($e->getMessage(), ['num' => $i]);
                         continue;
                     }
 
