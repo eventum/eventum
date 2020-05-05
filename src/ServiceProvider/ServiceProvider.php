@@ -14,18 +14,21 @@
 namespace Eventum\ServiceProvider;
 
 use DB_Helper;
+use Eventum\EventDispatcher\EventManager;
 use Eventum\Extension\ExtensionManager;
 use Eventum\Monolog\Logger;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
+use Psr\Log\LoggerInterface;
 use Setup;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class ServiceProvider implements ServiceProviderInterface
 {
     public function register(Container $app): void
     {
-        $app['logger'] = static function () {
-            return Logger::app();
+        $app['logger'] = static function ($app) {
+            return $app[LoggerInterface::class];
         };
 
         $app['config'] = static function () {
@@ -34,6 +37,14 @@ class ServiceProvider implements ServiceProviderInterface
 
         $app['db'] = static function () {
             return DB_Helper::getInstance();
+        };
+
+        $app[LoggerInterface::class] = static function () {
+            return Logger::app();
+        };
+
+        $app[EventDispatcherInterface::class] = static function () {
+            return EventManager::getEventDispatcher();
         };
 
         $app[ExtensionManager::class] = static function () {
