@@ -803,7 +803,7 @@ class Search
         return $instance;
     }
 
-    public static function getMatchModes()
+    public static function getMatchModes(): array
     {
         return self::getFullTextSearchInstance()->getMatchModes();
     }

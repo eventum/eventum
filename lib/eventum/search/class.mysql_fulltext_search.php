@@ -106,9 +106,9 @@ class MySQL_Fulltext_Search extends Abstract_Fulltext_Search
         return $issues;
     }
 
-    public function getMatchModes(): bool
+    public function getMatchModes(): array
     {
-        return false;
+        return [];
     }
 
     public function getExcerpts(): array

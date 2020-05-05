@@ -98,10 +98,10 @@ class Sphinx_Fulltext_Search extends Abstract_Fulltext_Search
         return array_unique($issue_ids);
     }
 
-    public function getExcerpts()
+    public function getExcerpts(): array
     {
         if (count($this->matches) < 1) {
-            return false;
+            return [];
         }
 
         $excerpt_options = [

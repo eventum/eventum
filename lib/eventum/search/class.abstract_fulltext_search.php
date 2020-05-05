@@ -23,7 +23,7 @@ abstract class Abstract_Fulltext_Search
      * @param   array   $options    the array of search options
      * @return  array   An array of issues IDs matching the given search options
      */
-    abstract public function getIssueIDs($options);
+    abstract public function getIssueIDs($options): array;
 
     /**
      * Returns the list of match modes the backend supports. Should return false if only one
@@ -32,7 +32,7 @@ abstract class Abstract_Fulltext_Search
      * @abstract
      * @return  array   An associative array of match modes
      */
-    abstract public function getMatchModes();
+    abstract public function getMatchModes(): array;
 
     /**
      * Returns an array of excerpts for the last search.
@@ -40,14 +40,14 @@ abstract class Abstract_Fulltext_Search
      * @abstract
      * @return array
      */
-    abstract public function getExcerpts();
+    abstract public function getExcerpts(): array;
 
     /**
      * If the backend supports excerpts
      *
      * @return  bool
      */
-    public function supportsExcerpts()
+    public function supportsExcerpts(): bool
     {
         return false;
     }

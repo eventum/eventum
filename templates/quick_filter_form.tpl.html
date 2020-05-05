@@ -68,7 +68,7 @@
                 <span>{t}Keyword(s){/t}:</span><br />
                 <input type="text" name="keywords" size="40" value="{$options.keywords|default:''|escape:"html"}">
                 <div id="ft_options">
-                    {if $match_modes != false}
+                    {if $match_modes}
                     <div>
                         <span>{t}Match Mode{/t}:</span><br />
                         <select name="match_mode">
