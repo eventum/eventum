@@ -14,8 +14,9 @@
 namespace Eventum\Console\Command;
 
 use Eventum\Extension\Provider\ExtensionProvider;
+use Eventum\Extension\RegisterExtension;
 use InvalidArgumentException;
-use ReflectionClass;
+use LogicException;
 use ReflectionException;
 use Setup;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -31,7 +32,6 @@ class ExtensionEnableCommand
     public function execute(OutputInterface $output, $filename, $classname): void
     {
         $this->output = $output;
-
         $this->setupExtension($filename, $classname);
     }
 
@@ -42,23 +42,24 @@ class ExtensionEnableCommand
      * @param string $extensionName class name of extension, must implement ExtensionProvider
      * @throws ReflectionException
      */
-    public function setupExtension($extensionFile, $extensionName): void
+    public function setupExtension(?string $extensionFile, ?string $extensionName): void
     {
+        $register = new RegisterExtension();
         $this->loadExtensionFile($extensionFile);
-        $reflectionClass = $this->getExtensionClass($extensionName);
 
-        $setup = Setup::get();
+        if (!$extensionName) {
+            throw new InvalidArgumentException('Extension class name not specified');
+        }
 
-        if (isset($setup['extensions'][$extensionName])) {
-            // already enabled?
-            $this->output->writeln("Extension already enabled: <info>{$extensionName}</info>");
+        try {
+            $register->register($extensionName);
+        } catch (LogicException $e) {
+            $this->output->writeln("<info>{$extensionName}</info>: {$e->getMessage()}");
 
             return;
         }
 
-        $this->output->writeln("Enabling extension: <info>{$extensionName}</info>");
-        $setup['extensions'][$extensionName] = $reflectionClass->getFileName();
-        Setup::save();
+        $this->output->writeln("Enabled extension: <info>{$extensionName}</info>");
     }
 
     private function loadExtensionFile($fileName): void
@@ -73,29 +74,5 @@ class ExtensionEnableCommand
 
         /** @noinspection PhpIncludeInspection */
         require_once $fileName;
-    }
-
-    /**
-     * Return ReflectionClass, validate that $extensionName is valid Extension.
-     *
-     * @param string $extensionName
-     * @throws ReflectionException
-     * @throws InvalidArgumentException
-     * @return ReflectionClass
-     */
-    private function getExtensionClass($extensionName): ReflectionClass
-    {
-        if (!$extensionName) {
-            throw new InvalidArgumentException('Extension class name not specified');
-        }
-
-        $reflectionClass = new ReflectionClass($extensionName);
-
-        $implements = $reflectionClass->implementsInterface(ExtensionProvider::class);
-        if (!$implements) {
-            throw new InvalidArgumentException("Class $extensionName does not implement ExtensionProvider");
-        }
-
-        return $reflectionClass;
     }
 }
