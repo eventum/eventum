@@ -11,7 +11,6 @@
  * that were distributed with this source code.
  */
 
-use Eventum\Config\SphinxConfig;
 use Eventum\Logger\LoggerTrait;
 use Eventum\ServiceContainer;
 
@@ -30,12 +29,7 @@ class Sphinx_Fulltext_Search extends Abstract_Fulltext_Search
 
     public function __construct()
     {
-        /** @var SphinxConfig $config */
-        $config = ServiceContainer::get(SphinxConfig::class);
-
-        $this->sphinx = new SphinxClient();
-        $this->sphinx->SetServer($config->host, $config->port);
-
+        $this->sphinx = ServiceContainer::get(SphinxClient::class);
         // generate unique placeholder
         $this->excerpt_placeholder = 'excerpt' . mt_rand() . 'placeholder';
     }
