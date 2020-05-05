@@ -13,6 +13,7 @@
 
 use Eventum\Config\SphinxConfig;
 use Eventum\Logger\LoggerTrait;
+use Eventum\ServiceContainer;
 
 class Sphinx_Fulltext_Search extends Abstract_Fulltext_Search
 {
@@ -29,7 +30,9 @@ class Sphinx_Fulltext_Search extends Abstract_Fulltext_Search
 
     public function __construct()
     {
-        $config = new SphinxConfig();
+        /** @var SphinxConfig $config */
+        $config = ServiceContainer::get(SphinxConfig::class);
+
         $this->sphinx = new SphinxClient();
         $this->sphinx->SetServer($config->host, $config->port);
 

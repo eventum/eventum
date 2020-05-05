@@ -14,6 +14,7 @@
 namespace Eventum\ServiceProvider;
 
 use DB_Helper;
+use Eventum\Config\SphinxConfig;
 use Eventum\EventDispatcher\EventManager;
 use Eventum\Extension\ExtensionManager;
 use Eventum\Monolog\Logger;
@@ -49,6 +50,10 @@ class ServiceProvider implements ServiceProviderInterface
 
         $app[ExtensionManager::class] = static function () {
             return ExtensionManager::getManager();
+        };
+
+        $app[SphinxConfig::class] = static function ($app) {
+            return new SphinxConfig($app['config']);
         };
     }
 }

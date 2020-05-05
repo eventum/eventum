@@ -2,10 +2,12 @@
 <?php
 
 use Eventum\Config\SphinxConfig;
+use Eventum\ServiceContainer;
 
 require_once __DIR__ . '/../init.php';
 
-$config = new SphinxConfig();
+/** @var SphinxConfig $config */
+$config = ServiceContainer::get(SphinxConfig::class);
 
 ?>
 
