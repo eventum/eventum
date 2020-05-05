@@ -18,6 +18,8 @@ use Setup;
 
 class SphinxConfig
 {
+    /** @var string */
+    public $host;
     /** @var int */
     public $port;
     /** @var string */
@@ -44,6 +46,7 @@ class SphinxConfig
     public function __construct()
     {
         $setup = Setup::get();
+        $this->host = $setup['sphinx_searchd_host'];
         $this->port = $setup['sphinx_searchd_port'];
         $this->log_path = $setup['sphinx_log_path'];
         $this->run_path = $setup['sphinx_run_path'];

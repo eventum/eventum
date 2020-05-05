@@ -25,6 +25,7 @@ class EventumConvertSphinxConst extends AbstractMigration
             'SPHINX_LOG_PATH' => '/var/log/sphinx/',
             'SPHINX_RUN_PATH' => '/var/run/sphinx/',
             'SPHINX_DATA_PATH' => '/var/lib/sphinx/eventum/',
+            'SPHINX_SEARCHD_HOST' => 'localhost',
             'SPHINX_SEARCHD_PORT' => 3312,
         ]);
 
