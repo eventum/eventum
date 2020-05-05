@@ -313,7 +313,7 @@ class LdapAdapter implements AdapterInterface
      * @throws AuthException
      * @return int usr_id
      */
-    private function createUser(UserEntry $remote)
+    private function createUser(UserEntry $remote): int
     {
         $emails = $remote->getEmails();
         if (!$emails) {

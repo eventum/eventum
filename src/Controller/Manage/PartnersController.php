@@ -41,7 +41,7 @@ class PartnersController extends ManageBaseController
      */
     protected function defaultAction(): void
     {
-        if ($this->cat == 'update') {
+        if ($this->cat === 'update') {
             $this->updateAction();
         }
 
@@ -91,7 +91,7 @@ class PartnersController extends ManageBaseController
      *
      * @return array
      */
-    private function getPartnersList()
+    private function getPartnersList(): array
     {
         $partners = [];
         $backends = ExtensionManager::getManager()->getPartnerClasses();
