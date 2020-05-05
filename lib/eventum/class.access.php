@@ -66,7 +66,7 @@ class Access
                         !Partner::isPartnerEnabledForIssue($usr_details['usr_par_code'], $issue_id)) {
             // check if the user is a partner
             $return = false;
-        } elseif ($details['iss_access_level'] != 'normal') {
+        } elseif ($details['iss_access_level'] !== 'normal') {
             $is_assignee_or_access_list = (Issue::isAssignedToUser($issue_id, $usr_id) or self::isOnAccessList($issue_id, $usr_id));
             if ($usr_role >= User::ROLE_MANAGER || $is_assignee_or_access_list) {
                 $return = true;
