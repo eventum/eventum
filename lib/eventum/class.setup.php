@@ -337,7 +337,9 @@ class Setup
             'smtp' => [],
             'ldap' => [],
 
-            'email_error' => [],
+            'email_error' => [
+                'subject' => '%extra.short_name%: %message%',
+            ],
 
             'email_routing' => [
                 'warning' => [],
