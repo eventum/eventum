@@ -1,6 +1,6 @@
 # Eventum Issue Tracking System
 
-## [3.8.11]
+## [3.8.11] - 2020-05-06
 
 Upgrading to 3.8.x versions requires that you upgrade to latest 3.5.x version first.
 
@@ -10,7 +10,7 @@ Upgrading to 3.8.x versions requires that you upgrade to latest 3.5.x version fi
 - Add Pimple based service container, #826
 - Add `ACCESS_ISSUE` event for checking issue access, #830
 
-[3.8.11]: https://github.com/eventum/eventum/compare/v3.8.10...master
+[3.8.11]: https://github.com/eventum/eventum/compare/v3.8.10...v3.8.11
 
 ## [3.8.10] - 2020-04-29
 
