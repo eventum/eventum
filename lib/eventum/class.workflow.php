@@ -978,12 +978,14 @@ class Workflow
      *
      * @deprecated since 3.8.11 use ACCESS_ISSUE event
      */
-    public static function canAccessIssue(int $prj_id, int $issue_id, int $usr_id, bool $return): bool
+    public static function canAccessIssue(int $prj_id, int $issue_id, int $usr_id, bool $return, bool $internal): bool
     {
         $arguments = [
             'prj_id' => $prj_id,
             'issue_id' => $issue_id,
             'usr_id' => $usr_id,
+            // if it's internal call. i.e called from canViewInternalNotes
+            'internal' => $internal,
         ];
         $event = new ResultableEvent(null, $arguments);
         $event->setResult($return);
