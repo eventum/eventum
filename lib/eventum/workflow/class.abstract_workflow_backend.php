@@ -18,6 +18,8 @@ use Eventum\Mail\MailMessage;
 /**
  * Abstract Class that all workflow backends should extend. This is so any new
  * workflow methods added in future releases will not break current backends.
+ *
+ * @deprecated use Extension events instead
  */
 abstract class Abstract_Workflow_Backend
 {
@@ -609,6 +611,7 @@ abstract class Abstract_Workflow_Backend
      * @param $issue_id
      * @param $usr_id
      * @return mixed null to use default rules, true or false otherwise
+     * @deprecated since 3.8.11 use ACCESS_ISSUE event
      */
     public function canAccessIssue($prj_id, $issue_id, $usr_id)
     {
