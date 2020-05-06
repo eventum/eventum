@@ -13,10 +13,10 @@
 
 namespace Eventum\Extension\Legacy;
 
+use Eventum\Event\ResultableEvent;
 use Eventum\Event\SystemEvents;
 use Eventum\Extension\Provider;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Symfony\Component\EventDispatcher\GenericEvent;
 use Workflow;
 
 /**
@@ -42,15 +42,15 @@ class WorkflowLegacyExtension implements Provider\SubscriberProvider, EventSubsc
     /**
      * @see Workflow::canAccessIssue
      */
-    public function canAccessIssue(GenericEvent $event): void
+    public function canAccessIssue(ResultableEvent $event): void
     {
         if (!$backend = Workflow::getBackend($event['prj_id'])) {
             return;
         }
 
-        $canAccess = $backend->canAccessIssue($event['prj_id'], $event['issue_id'], $event['usr_id']);
-        if ($canAccess === false) {
-            $event->stopPropagation();
+        $result = $backend->canAccessIssue($event['prj_id'], $event['issue_id'], $event['usr_id']);
+        if ($result !== null) {
+            $event->setResult($result);
         }
     }
 }

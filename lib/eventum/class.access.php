@@ -83,10 +83,7 @@ class Access
             $return = true;
         }
 
-        $workflow = Workflow::canAccessIssue($prj_id, $issue_id, $usr_id);
-        if ($workflow !== null) {
-            $return = $workflow;
-        }
+        $return = Workflow::canAccessIssue($prj_id, $issue_id, $usr_id, $return);
 
         $access[$issue_id . '-' . $usr_id] = $return;
 
