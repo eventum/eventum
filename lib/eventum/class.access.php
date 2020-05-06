@@ -83,16 +83,9 @@ class Access
             $return = true;
         }
 
-        $workflow = Workflow::canAccessIssue($prj_id, $issue_id, $usr_id);
-        if ($workflow !== null) {
-            $return = $workflow;
-        }
+        $return = Workflow::canAccessIssue($prj_id, $issue_id, $usr_id, $return, !$log);
 
         $access[$issue_id . '-' . $usr_id] = $return;
-
-        if ($log) {
-            self::log($return, $issue_id, $usr_id);
-        }
 
         return $return;
     }
@@ -657,63 +650,5 @@ class Access
         }
 
         return $sql;
-    }
-
-    /**
-     * @param int $issue_id
-     * @param int $usr_id
-     */
-    public static function log($return, $issue_id, $usr_id, $item = null, $item_id = null)
-    {
-        if (Setup::get()->get('audit_trail') !== 'enabled') {
-            return $return;
-        }
-
-        if (is_null($item) && is_null($item_id) && isset($_SERVER['REQUEST_URI'])) {
-            list($item, $item_id) = self::extractInfoFromURL($_SERVER['REQUEST_URI']);
-        }
-        $sql = 'INSERT INTO
-                    `issue_access_log`
-                SET
-                    alg_iss_id = ?,
-                    alg_usr_id = ?,
-                    alg_created = ?,
-                    alg_ip_address = ?,
-                    alg_failed = ?,
-                    alg_item = ?,
-                    alg_item_id = ?,
-                    alg_url = ?';
-        $params = [
-            $issue_id,
-            $usr_id,
-            Date_Helper::getCurrentDateGMT(),
-            $_SERVER['REMOTE_ADDR'] ?? null,
-            (int) !$return,
-            $item,
-            $item_id,
-            $_SERVER['REQUEST_URI'] ?? null,
-        ];
-        try {
-            DB_Helper::getInstance()->query($sql, $params);
-        } catch (DatabaseException $e) {
-            // do nothing besides log it
-        }
-
-        return $return;
-    }
-
-    private static function extractInfoFromURL($url)
-    {
-        if (preg_match("/view_note\.php\?id=(?P<item_id>\d+)/", $url, $matches)) {
-            return ['note', $matches[1]];
-        } elseif (preg_match("/view_email\.php\?ema_id=\d+&id=(?P<item_id>\d+)/", $url, $matches)) {
-            return ['email', $matches[1]];
-        } elseif (preg_match("/download\.php\?cat=attachment&id=(?P<item_id>\d+)/", $url, $matches)) {
-            return ['file', $matches[1]];
-        } elseif (preg_match("/update\.php/", $url, $matches)) {
-            return ['update', null];
-        }
-
-        return [null, null];
     }
 }

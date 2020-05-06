@@ -14,6 +14,8 @@
 namespace Eventum\Controller\Manage;
 
 use Eventum\Controller\Helper\MessagesHelper;
+use Eventum\Extension\AuditTrailExtension;
+use Eventum\Extension\RegisterExtension;
 use Project;
 use Setup;
 use User;
@@ -44,7 +46,7 @@ class GeneralController extends ManageBaseController
      */
     protected function defaultAction(): void
     {
-        if ($this->cat == 'update') {
+        if ($this->cat === 'update') {
             $this->updateAction();
         }
     }
@@ -81,6 +83,12 @@ class GeneralController extends ManageBaseController
             'audit_trail' => $post->get('audit_trail'),
         ];
         $res = Setup::save($setup);
+
+        // audit trail is an extension, enable disable extension
+        $enabled = $setup['audit_trail'] === 'enabled';
+        $register = new RegisterExtension();
+        $register->enable(AuditTrailExtension::class, $enabled);
+
         $this->tpl->assign('result', $res);
 
         $setupFile = Setup::getSetupFile();

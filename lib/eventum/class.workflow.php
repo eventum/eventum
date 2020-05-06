@@ -974,20 +974,24 @@ class Workflow
     }
 
     /**
-     * Performs additional checks on if a user can access an issue.
+     * Returns true if a user can access an issue.
      *
-     * @param $prj_id
-     * @param $issue_id
-     * @param $usr_id
-     * @return mixed null to use default rules, true or false otherwise
+     * @deprecated since 3.8.11 use ACCESS_ISSUE event
      */
-    public static function canAccessIssue($prj_id, $issue_id, $usr_id)
+    public static function canAccessIssue(int $prj_id, int $issue_id, int $usr_id, bool $return, bool $internal): bool
     {
-        if (!$backend = self::getBackend($prj_id)) {
-            return null;
-        }
+        $arguments = [
+            'prj_id' => $prj_id,
+            'issue_id' => $issue_id,
+            'usr_id' => $usr_id,
+            // if it's internal call. i.e called from canViewInternalNotes
+            'internal' => $internal,
+        ];
+        $event = new ResultableEvent(null, $arguments);
+        $event->setResult($return);
+        EventManager::dispatch(SystemEvents::ACCESS_ISSUE, $event);
 
-        return $backend->canAccessIssue($prj_id, $issue_id, $usr_id);
+        return $event->getResult();
     }
 
     /**
