@@ -14,6 +14,7 @@
 use Eventum\Db\AbstractMigration;
 use Eventum\Extension\AuditTrailExtension;
 use Eventum\Extension\RegisterExtension;
+use Eventum\ServiceContainer;
 
 class EventumRegisterAuditTrailExtension extends AbstractMigration
 {
@@ -21,6 +22,11 @@ class EventumRegisterAuditTrailExtension extends AbstractMigration
 
     public function up(): void
     {
+        $enabled = ServiceContainer::getConfig()['audit_trail'] === 'enabled';
+        if (!$enabled) {
+            return;
+        }
+
         $register = new RegisterExtension();
         $register->register(self::EXTENSION);
     }

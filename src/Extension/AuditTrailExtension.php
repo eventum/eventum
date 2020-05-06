@@ -18,18 +18,12 @@ use DB_Helper;
 use Eventum\Db\DatabaseException;
 use Eventum\Event\ResultableEvent;
 use Eventum\Event\SystemEvents;
-use Eventum\ServiceContainer;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class AuditTrailExtension implements Provider\SubscriberProvider, EventSubscriberInterface
 {
     public function getSubscribers(): array
     {
-        $enabled = ServiceContainer::getConfig()['audit_trail'] === 'enabled';
-        if (!$enabled) {
-            return [];
-        }
-
         return [
             self::class,
         ];

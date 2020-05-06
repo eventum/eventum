@@ -31,6 +31,17 @@ class RegisterExtension
         $this->config = Setup::get()['extensions'];
     }
 
+    public function enable(string $className, bool $enable): void
+    {
+        $extension = $this->getExtensionClass($className);
+
+        if ($enable && !$this->hasExtension($extension)) {
+            $this->register($extension->getName());
+        } else {
+            $this->unregister($extension->getName());
+        }
+    }
+
     /**
      * @throws LogicException
      * @throws ReflectionException
@@ -68,8 +79,8 @@ class RegisterExtension
      * Return ReflectionClass, validate that $extensionName is valid Extension.
      *
      * @param string $extensionName
-     * @throws InvalidArgumentException
      * @throws ReflectionException
+     * @throws InvalidArgumentException
      * @return ReflectionClass
      */
     private function getExtensionClass(string $extensionName): ReflectionClass
