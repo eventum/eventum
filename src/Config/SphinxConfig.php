@@ -14,7 +14,6 @@
 namespace Eventum\Config;
 
 use DB_Helper;
-use Setup;
 
 class SphinxConfig
 {
@@ -43,14 +42,13 @@ class SphinxConfig
     /** @var string */
     public $sql_database;
 
-    public function __construct()
+    public function __construct(Config $config)
     {
-        $setup = Setup::get();
-        $this->host = $setup['sphinx_searchd_host'];
-        $this->port = $setup['sphinx_searchd_port'];
-        $this->log_path = $setup['sphinx_log_path'];
-        $this->run_path = $setup['sphinx_run_path'];
-        $this->data_path = $setup['sphinx_data_path'];
+        $this->host = $config['sphinx_searchd_host'];
+        $this->port = $config['sphinx_searchd_port'];
+        $this->log_path = $config['sphinx_log_path'];
+        $this->run_path = $config['sphinx_run_path'];
+        $this->data_path = $config['sphinx_data_path'];
 
         $dbconfig = DB_Helper::getConfig();
 

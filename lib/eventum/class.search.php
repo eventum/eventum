@@ -12,6 +12,7 @@
  */
 
 use Eventum\Db\DatabaseException;
+use Eventum\ServiceContainer;
 use Eventum\Session;
 
 /**
@@ -791,30 +792,18 @@ class Search
         return $excerpts;
     }
 
-    /**
-     * @return Abstract_Fulltext_Search
-     */
-    private static function getFullTextSearchInstance()
+    private static function getFullTextSearchInstance(): Abstract_Fulltext_Search
     {
         static $instance = null;
 
         if ($instance === null) {
-            $class = Setup::get()['fulltext_search_class'];
-
-            // XXX legacy: handle lowercased classname
-            if ($class === 'mysql_fulltext_search') {
-                $class = 'MySQL_Fulltext_Search';
-            } elseif ($class === 'sphinx_fulltext_search') {
-                $class = 'Sphinx_Fulltext_Search';
-            }
-
-            $instance = new $class();
+            $instance = ServiceContainer::get(Abstract_Fulltext_Search::class);
         }
 
         return $instance;
     }
 
-    public static function getMatchModes()
+    public static function getMatchModes(): array
     {
         return self::getFullTextSearchInstance()->getMatchModes();
     }

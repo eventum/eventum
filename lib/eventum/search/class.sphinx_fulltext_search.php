@@ -11,7 +11,6 @@
  * that were distributed with this source code.
  */
 
-use Eventum\Config\SphinxConfig;
 use Eventum\Logger\LoggerTrait;
 
 class Sphinx_Fulltext_Search extends Abstract_Fulltext_Search
@@ -27,12 +26,9 @@ class Sphinx_Fulltext_Search extends Abstract_Fulltext_Search
     private $matches = [];
     private $match_mode = '';
 
-    public function __construct()
+    public function __construct(SphinxClient $sphinx)
     {
-        $config = new SphinxConfig();
-        $this->sphinx = new SphinxClient();
-        $this->sphinx->SetServer($config->host, $config->port);
-
+        $this->sphinx = $sphinx;
         // generate unique placeholder
         $this->excerpt_placeholder = 'excerpt' . mt_rand() . 'placeholder';
     }
@@ -102,10 +98,10 @@ class Sphinx_Fulltext_Search extends Abstract_Fulltext_Search
         return array_unique($issue_ids);
     }
 
-    public function getExcerpts()
+    public function getExcerpts(): array
     {
         if (count($this->matches) < 1) {
-            return false;
+            return [];
         }
 
         $excerpt_options = [

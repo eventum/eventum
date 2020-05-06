@@ -25,6 +25,7 @@ class ServiceContainer
         if (!$container) {
             $container = new Container();
             $container->register(new ServiceProvider\ServiceProvider());
+            $container->register(new ServiceProvider\FulltextSearchService());
         }
 
         return $container;
