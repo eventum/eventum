@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "763348c5bf6413b8cb4ec1d92ba0fbf7",
+    "content-hash": "b708609f7efa42a2d7e08075b3ec32e8",
     "packages": [
         {
             "name": "cakephp/cache",
@@ -7415,26 +7415,6 @@
                 "font",
                 "fontawesome",
                 "icon"
-            ]
-        },
-        {
-            "name": "jackmoore/autosize",
-            "version": "3.0.13",
-            "dist": {
-                "type": "zip",
-                "url": "https://github.com/jackmoore/autosize/archive/3.0.13.zip",
-                "shasum": "f2c48fb4cd76d89bb4e6e8c34e9cd130a1633aec"
-            },
-            "type": "component",
-            "extra": {
-                "component": {
-                    "scripts": [
-                        "dist/autosize.js"
-                    ]
-                }
-            },
-            "license": [
-                "MIT"
             ]
         },
         {

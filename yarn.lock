@@ -1184,6 +1184,11 @@ autoprefixer@^9.4.2:
     postcss "^7.0.27"
     postcss-value-parser "^4.0.3"
 
+autosize@3.0.13:
+  version "3.0.13"
+  resolved "https://registry.yarnpkg.com/autosize/-/autosize-3.0.13.tgz#34bc43675cbc9ef0fe89cb294797c75f2df24ffc"
+  integrity sha1-NLxDZ1y8nvD+icspR5fHXy3yT/w=
+
 babel-code-frame@^6.26.0:
   version "6.26.0"
   resolved "https://registry.yarnpkg.com/babel-code-frame/-/babel-code-frame-6.26.0.tgz#63fd43f7dc1e3bb7ce35947db8fe369a3f58c74b"

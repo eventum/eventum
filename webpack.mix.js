@@ -50,7 +50,7 @@ mix.scripts([
     'htdocs/components/jquery-ui/ui/sortable.js',
     'node_modules/chosen-js/chosen.jquery.js',
     'node_modules/dropzone/dist/dropzone.js',
-    'htdocs/components/autosize/dist/autosize.js',
+    'node_modules/autosize/dist/autosize.js',
     'htdocs/components/jquery-timeago/jquery.timeago.js',
     'htdocs/components/filereader.js/filereader.js',
     'node_modules/drmonty-garlicjs/js/garlic.min.js',
