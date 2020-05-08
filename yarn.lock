@@ -3773,7 +3773,7 @@ jquery-form@^4.2.2:
   dependencies:
     jquery ">=1.7.2"
 
-jquery@1.9.x, jquery@>=1.7.2, jquery@>=1.7.x, jquery@>=1.8:
+jquery@1.9.x, "jquery@>=1.5.0 <4.0", jquery@>=1.7.2, jquery@>=1.7.x, jquery@>=1.8:
   version "1.9.1"
   resolved "https://registry.yarnpkg.com/jquery/-/jquery-1.9.1.tgz#e4cd4835faaefbade535857613c0fc3ff2adaf34"
   integrity sha1-5M1INfqu+63lNYV2E8D8P/KtrzQ=
@@ -6214,6 +6214,13 @@ thunky@^1.0.2:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/thunky/-/thunky-1.1.0.tgz#5abaf714a9405db0504732bbccd2cedd9ef9537d"
   integrity sha512-eHY7nBftgThBqOyHGVN+l8gF0BucP09fMo0oO/Lb0w1OF80dJv+lDVpXG60WMQvkcxAkNybKsrEIE3ZtKGmPrA==
+
+timeago@^1.6.7:
+  version "1.6.7"
+  resolved "https://registry.yarnpkg.com/timeago/-/timeago-1.6.7.tgz#afd467c29a911e697fc22a81888c7c3022783cb5"
+  integrity sha512-FikcjN98+ij0siKH4VO4dZ358PR3oDDq4Vdl1+sN9gWz1/+JXGr3uZbUShYH/hL7bMhcTpPbplJU5Tej4b4jbQ==
+  dependencies:
+    jquery ">=1.5.0 <4.0"
 
 timers-browserify@^2.0.4:
   version "2.0.11"

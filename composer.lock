@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "b708609f7efa42a2d7e08075b3ec32e8",
+    "content-hash": "a25ee1e145e24403d2021f7c82f83235",
     "packages": [
         {
             "name": "cakephp/cache",
@@ -7764,55 +7764,6 @@
             ],
             "description": "Library for collecting and storing XHProf results for later use by XHGUI.",
             "time": "2019-12-04T18:39:08+00:00"
-        },
-        {
-            "name": "rmm5t/jquery-timeago",
-            "version": "v1.6.7",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/rmm5t/jquery-timeago.git",
-                "reference": "48fdda3ca724dcd655e8e990f6d7fbd203718905"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/rmm5t/jquery-timeago/zipball/48fdda3ca724dcd655e8e990f6d7fbd203718905",
-                "reference": "48fdda3ca724dcd655e8e990f6d7fbd203718905",
-                "shasum": ""
-            },
-            "require": {
-                "components/jquery": ">=1.5.0 <4.0"
-            },
-            "type": "library",
-            "extra": {
-                "component": {
-                    "scripts": [
-                        "jquery.timeago.js"
-                    ],
-                    "files": [
-                        "locales/jquery.timeago.*.js"
-                    ]
-                }
-            },
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Ryan McGeary",
-                    "email": "ryan@mcgeary.org"
-                }
-            ],
-            "description": "jQuery plugin that makes it easy to support automatically updating fuzzy timestamps (e.g. \"4 minutes ago\" or \"about 1 day ago\").",
-            "homepage": "http://timeago.yarp.com/",
-            "keywords": [
-                "microformat",
-                "time"
-            ],
-            "support": {
-                "issues": "https://github.com/rmm5t/jquery-timeago/issues",
-                "source": "https://github.com/rmm5t/jquery-timeago/tree/v1.6.7"
-            },
-            "time": "2019-04-23T15:55:20+00:00"
         },
         {
             "name": "robloach/component-installer",

@@ -51,7 +51,7 @@ mix.scripts([
     'node_modules/chosen-js/chosen.jquery.js',
     'node_modules/dropzone/dist/dropzone.js',
     'node_modules/autosize/dist/autosize.js',
-    'htdocs/components/jquery-timeago/jquery.timeago.js',
+    'node_modules/timeago/jquery.timeago.js',
     'htdocs/components/filereader.js/filereader.js',
     'node_modules/drmonty-garlicjs/js/garlic.min.js',
     'htdocs/components/cmd-ctrl-enter/src/cmd-ctrl-enter.js',
