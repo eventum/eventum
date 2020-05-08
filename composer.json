@@ -156,7 +156,7 @@
         ],
         "assets": [
             "yarn",
-            "yarn run development"
+            "yarn run assets:development"
         ],
         "test": "simple-phpunit"
     },

@@ -1,13 +1,16 @@
 {
   "private": true,
   "scripts": {
-    "dev": "yarn run development",
-    "development": "cross-env NODE_ENV=development webpack --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
-    "watch": "yarn run development -- --watch",
-    "watch-poll": "yarn run watch -- --watch-poll",
-    "hot": "cross-env NODE_ENV=development webpack-dev-server --inline --hot --config=node_modules/laravel-mix/setup/webpack.config.js",
-    "prod": "yarn run production",
-    "production": "cross-env NODE_ENV=production webpack --no-progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js"
+    "assets:development": "yarn run webpack:development --hide-modules --progress",
+    "assets:production": "yarn run webpack:production --hide-modules --no-progress",
+    "dev": "yarn run assets:development",
+    "hot": "yarn run webpack-dev-server:development --inline --hot",
+    "prod": "yarn run assets:production",
+    "watch": "yarn run assets:development -- --watch",
+    "watch-poll": "yarn run assets:watch -- --watch-poll",
+    "webpack-dev-server:development": "cross-env NODE_ENV=development webpack-dev-server --config=node_modules/laravel-mix/setup/webpack.config.js",
+    "webpack:development": "cross-env NODE_ENV=development webpack --config=node_modules/laravel-mix/setup/webpack.config.js",
+    "webpack:production": "cross-env NODE_ENV=production webpack --config=node_modules/laravel-mix/setup/webpack.config.js"
   },
   "engines": {
     "node": "^8.10.0||^10"
