@@ -2762,6 +2762,11 @@ file-loader@^2.0.0:
     loader-utils "^1.0.2"
     schema-utils "^1.0.0"
 
+file-reader-wrapper@^0.9.10:
+  version "0.9.10"
+  resolved "https://registry.yarnpkg.com/file-reader-wrapper/-/file-reader-wrapper-0.9.10.tgz#92b2f48a86196dcef6ddfef5791e53463778414a"
+  integrity sha1-krL0ioYZbc723f71eR5TRjd4QUo=
+
 file-type@^10.7.0:
   version "10.11.0"
   resolved "https://registry.yarnpkg.com/file-type/-/file-type-10.11.0.tgz#2961d09e4675b9fb9a3ee6b69e9cd23f43fd1890"

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a25ee1e145e24403d2021f7c82f83235",
+    "content-hash": "a0bc68ad7163beae2aa1aed1e3a1a864",
     "packages": [
         {
             "name": "cakephp/cache",
@@ -7091,45 +7091,6 @@
                 "merge"
             ],
             "time": "2019-01-23T01:57:04+00:00"
-        },
-        {
-            "name": "bgrins/filereader.js",
-            "version": "dev-composer",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/glensc/filereader.js.git",
-                "reference": "dd7886cc6f6b4f852d76a300795e3caca06fb1db"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/glensc/filereader.js/zipball/dd7886cc6f6b4f852d76a300795e3caca06fb1db",
-                "reference": "dd7886cc6f6b4f852d76a300795e3caca06fb1db",
-                "shasum": ""
-            },
-            "type": "library",
-            "extra": {
-                "component": {
-                    "scripts": [
-                        "filereader.js"
-                    ]
-                }
-            },
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Brian Grinstead",
-                    "email": "briangrinstead@gmail.com"
-                }
-            ],
-            "description": "A lightweight wrapper for the JavaScript FileReader interface",
-            "homepage": "http://bgrins.github.io/filereader.js/",
-            "support": {
-                "issues": "https://github.com/bgrins/filereader.js/issues",
-                "source": "https://github.com/glensc/filereader.js/tree/composer"
-            },
-            "time": "2016-01-12T21:48:16+00:00"
         },
         {
             "name": "components/jquery",

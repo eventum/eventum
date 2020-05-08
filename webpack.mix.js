@@ -52,7 +52,7 @@ mix.scripts([
     'node_modules/dropzone/dist/dropzone.js',
     'node_modules/autosize/dist/autosize.js',
     'node_modules/timeago/jquery.timeago.js',
-    'htdocs/components/filereader.js/filereader.js',
+    'node_modules/file-reader-wrapper/filereader.js',
     'node_modules/drmonty-garlicjs/js/garlic.min.js',
     'htdocs/components/cmd-ctrl-enter/src/cmd-ctrl-enter.js',
 ], 'htdocs/js/components.js');

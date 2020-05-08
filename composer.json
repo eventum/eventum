@@ -92,7 +92,6 @@
     "require-dev": {
         "alcaeus/mongo-php-adapter": "^1.1",
         "balbuf/composer-git-merge-driver": "^1.1",
-        "bgrins/filereader.js": "*",
         "components/jquery": "~1.8.3",
         "components/jquery-cookie": "~1.4.1",
         "components/jquery-datatables": "~1.10.4",
