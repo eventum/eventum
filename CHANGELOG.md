@@ -5,6 +5,7 @@
 Upgrading to 3.8.x versions requires that you upgrade to latest 3.5.x version first.
 
 - Add error message to email error reports, #831
+- Use npm packages instead of component installer, #823
 
 [3.8.12]: https://github.com/eventum/eventum/compare/v3.8.11...master
 
