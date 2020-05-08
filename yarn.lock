@@ -2377,6 +2377,11 @@ drmonty-garlicjs@^1.2.3:
   dependencies:
     jquery ">=1.8"
 
+dropzone@^4.3:
+  version "4.3.0"
+  resolved "https://registry.yarnpkg.com/dropzone/-/dropzone-4.3.0.tgz#48b0b8f2ad092872e4b535b672a7c3f1a1d67c91"
+  integrity sha1-SLC48q0JKHLktTW2cqfD8aHWfJE=
+
 duplexify@^3.4.2, duplexify@^3.6.0:
   version "3.7.1"
   resolved "https://registry.yarnpkg.com/duplexify/-/duplexify-3.7.1.tgz#2a4df5317f6ccfd91f86d6fd25d8d8a103b88309"

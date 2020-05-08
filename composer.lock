@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d531b10a6885a82bc3efd3d73f5f235b",
+    "content-hash": "763348c5bf6413b8cb4ec1d92ba0fbf7",
     "packages": [
         {
             "name": "cakephp/cache",
@@ -7329,29 +7329,6 @@
             ],
             "description": "jQuery UI is a curated set of user interface interactions, effects, widgets, and themes built on top of the jQuery JavaScript Library. Whether you're building highly interactive web applications or you just need to add a date picker to a form control, jQuery UI is the perfect choice.",
             "time": "2015-03-13T14:48:12+00:00"
-        },
-        {
-            "name": "enyo/dropzone",
-            "version": "4.3.0",
-            "dist": {
-                "type": "zip",
-                "url": "https://github.com/enyo/dropzone/archive/v4.3.0.zip",
-                "shasum": "42357a4753636163f73b8ce3bde140366b8f8039"
-            },
-            "type": "component",
-            "extra": {
-                "component": {
-                    "scripts": [
-                        "dist/dropzone.js"
-                    ],
-                    "styles": [
-                        "dist/basic.css"
-                    ]
-                }
-            },
-            "license": [
-                "MIT"
-            ]
         },
         {
             "name": "eventum/rpc",

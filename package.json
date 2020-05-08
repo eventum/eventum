@@ -17,6 +17,7 @@
     "chosen-js": "^1.8.7",
     "cross-env": "^5.1",
     "drmonty-garlicjs": "^1.2.3",
+    "dropzone": "^4.3",
     "jquery": "1.9.x",
     "jquery-form": "^4.2.2",
     "laravel-mix": "^5.0.4",
