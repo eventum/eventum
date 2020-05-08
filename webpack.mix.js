@@ -20,14 +20,14 @@ mix.sass('res/assets/sass/all.scss', 'htdocs/css/all.css').options({
 });
 
 mix.styles([
-    'htdocs/components/font-awesome/css/font-awesome.css',
+    'node_modules/font-awesome/css/font-awesome.css',
     'htdocs/components/jquery-ui/themes/base/all.css',
     'node_modules/chosen-js/chosen.css',
     'node_modules/dropzone/dist/basic.css',
 ], 'htdocs/css/components.css');
 
 mix.copy('node_modules/chosen-js/*.png', 'htdocs/css');
-mix.copy('vendor/fortawesome/font-awesome/fonts', 'htdocs/fonts');
+mix.copy('node_modules/font-awesome/fonts', 'htdocs/fonts');
 
 mix.scripts([
     'htdocs/js/main.js',

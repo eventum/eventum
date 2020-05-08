@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a0bc68ad7163beae2aa1aed1e3a1a864",
+    "content-hash": "5e0bbccb3c6f7fcd3037b86878518ed9",
     "packages": [
         {
             "name": "cakephp/cache",
@@ -7330,53 +7330,6 @@
             ],
             "description": "Eventum RPC Client Library",
             "time": "2018-05-02T19:29:45+00:00"
-        },
-        {
-            "name": "fortawesome/font-awesome",
-            "version": "4.7.0",
-            "dist": {
-                "type": "tar",
-                "url": "https://github.com/FortAwesome/Font-Awesome/archive/v4.7.0.tar.gz",
-                "shasum": "7a94b1800202e20c382d9847cdf51e8d1c106b7e"
-            },
-            "type": "library",
-            "extra": {
-                "component": {
-                    "styles": [
-                        "css/font-awesome.css"
-                    ],
-                    "files": [
-                        "fonts/fontawesome-webfont.eot",
-                        "fonts/fontawesome-webfont.svg",
-                        "fonts/fontawesome-webfont.ttf",
-                        "fonts/fontawesome-webfont.woff",
-                        "fonts/fontawesome-webfont.woff2",
-                        "fonts/FontAwesome.otf"
-                    ]
-                }
-            },
-            "license": [
-                "OFL-1.1",
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Dave Gandy",
-                    "email": "dave@fontawesome.io",
-                    "role": "Developer",
-                    "homepage": "http://twitter.com/davegandy"
-                }
-            ],
-            "description": "The iconic font and CSS framework",
-            "homepage": "http://fontawesome.io/",
-            "keywords": [
-                "awesome",
-                "bootstrap",
-                "font",
-                "font",
-                "fontawesome",
-                "icon"
-            ]
         },
         {
             "name": "jasig/phpcas",

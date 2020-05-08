@@ -20,6 +20,7 @@
     "drmonty-garlicjs": "^1.2.3",
     "dropzone": "^4.3",
     "file-reader-wrapper": "^0.9.10",
+    "font-awesome": "^4.7.0",
     "jquery": "1.9.x",
     "jquery-form": "^4.2.2",
     "laravel-mix": "^5.0.4",
