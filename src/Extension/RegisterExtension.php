@@ -37,7 +37,9 @@ class RegisterExtension
 
         if ($enable && !$this->hasExtension($extension)) {
             $this->register($extension->getName());
-        } else {
+        }
+
+        if (!$enable) {
             $this->unregister($extension->getName());
         }
     }
