@@ -16,10 +16,13 @@ namespace Eventum\Controller\Manage;
 use Auth;
 use Eventum\Controller\Helper\MessagesHelper;
 use Eventum\Db\DatabaseException;
+use Eventum\Db\Doctrine;
 use Eventum\Extension\ExtensionManager;
+use Eventum\Model\Entity;
 use Eventum\ServiceContainer;
 use Project;
 use Status;
+use Symfony\Component\HttpFoundation\ParameterBag;
 use User;
 use Validation;
 
@@ -81,42 +84,10 @@ class ProjectsController extends ManageBaseController
         }
 
         $prj_id = $post->getInt('id');
-
-        $stmt = 'UPDATE
-                    `project`
-                 SET
-                    prj_title=?,
-                    prj_status=?,
-                    prj_lead_usr_id=?,
-                    prj_initial_sta_id=?,
-                    prj_outgoing_sender_name=?,
-                    prj_outgoing_sender_email=?,
-                    prj_sender_flag=?,
-                    prj_sender_flag_location=?,
-                    prj_mail_aliases=?,
-                    prj_remote_invocation=?,
-                    prj_segregate_reporter=?,
-                    prj_customer_backend=?,
-                    prj_workflow_backend=?
-                 WHERE
-                    prj_id=?';
+        $repo = Doctrine::getProjectRepository();
+        $project = $this->updateFromRequest($repo->findOrCreate($prj_id), $post);
         try {
-            $this->db->query($stmt, [
-                $post->get('title'),
-                $post->get('status'),
-                $post->get('lead_usr_id'),
-                $post->get('initial_status'),
-                $post->get('outgoing_sender_name'),
-                $post->get('outgoing_sender_email'),
-                $post->get('sender_flag'),
-                $post->get('flag_location'),
-                $post->get('mail_aliases'),
-                $post->get('remote_invocation'),
-                $post->get('segregate_reporter'),
-                $post->get('customer_backend'),
-                $post->get('workflow_backend'),
-                $prj_id,
-            ]);
+            $repo->updateProject($project);
         } catch (DatabaseException $e) {
             $this->messages->addErrorMessage(ev_gettext('An error occurred while trying to update the project information.'));
 
@@ -199,5 +170,23 @@ class ProjectsController extends ManageBaseController
         }
 
         return $res;
+    }
+
+    private function updateFromRequest(Entity\Project $project, ParameterBag $post): Entity\Project
+    {
+        return $project
+            ->setTitle($post->get('title'))
+            ->setStatus($post->get('status'))
+            ->setLeadUserId($post->getInt('lead_usr_id'))
+            ->setInitialStatusId($post->getInt('initial_status'))
+            ->setOutgoingSenderName($post->get('outgoing_sender_name'))
+            ->setOutgoingSenderEmail($post->get('outgoing_sender_email'))
+            ->setSenderFlag($post->get('sender_flag'))
+            ->setSenderFlagLocation($post->get('flag_location'))
+            ->setMailAliases($post->get('mail_aliases'))
+            ->setRemoteInvocation($post->get('remote_invocation'))
+            ->setSegregateReporter($post->get('segregate_reporter') ? true : false)
+            ->setCustomerBackend($post->get('customer_backend'))
+            ->setWorkflowBackend($post->get('workflow_backend'));
     }
 }
