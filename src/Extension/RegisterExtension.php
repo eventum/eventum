@@ -31,7 +31,7 @@ class RegisterExtension
         $this->config = Setup::get()['extensions'];
     }
 
-    public function enable(string $className, bool $enable): void
+    public function enable(string $className, bool $enable = true): void
     {
         $extension = $this->getExtensionClass($className);
 
