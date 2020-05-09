@@ -15,11 +15,14 @@ namespace Eventum\Controller\Manage;
 
 use Auth;
 use Eventum\Controller\Helper\MessagesHelper;
+use Eventum\Db\DatabaseException;
 use Eventum\Extension\ExtensionManager;
 use Eventum\ServiceContainer;
 use Project;
 use Status;
+use Symfony\Component\HttpFoundation\ParameterBag;
 use User;
+use Validation;
 
 class ProjectsController extends ManageBaseController
 {
@@ -74,7 +77,80 @@ class ProjectsController extends ManageBaseController
             -1 => [ev_gettext('An error occurred while trying to update the project information.'), MessagesHelper::MSG_ERROR],
             -2 => [ev_gettext('Please enter the title for this project.'), MessagesHelper::MSG_ERROR],
         ];
-        $this->messages->mapMessages(Project::update(), $map);
+
+        $this->messages->mapMessages($this->update($this->getRequest()->request), $map);
+    }
+
+    /**
+     * Method used to update the details of the project information.
+     *
+     * @return  int 1 if the update worked, -1 otherwise
+     */
+    private function update(ParameterBag $post): int
+    {
+        if (Validation::isWhitespace($post->get('title'))) {
+            return -2;
+        }
+
+        $prj_id = $post->getInt('id');
+
+        $stmt = 'UPDATE
+                    `project`
+                 SET
+                    prj_title=?,
+                    prj_status=?,
+                    prj_lead_usr_id=?,
+                    prj_initial_sta_id=?,
+                    prj_outgoing_sender_name=?,
+                    prj_outgoing_sender_email=?,
+                    prj_sender_flag=?,
+                    prj_sender_flag_location=?,
+                    prj_mail_aliases=?,
+                    prj_remote_invocation=?,
+                    prj_segregate_reporter=?,
+                    prj_customer_backend=?,
+                    prj_workflow_backend=?
+                 WHERE
+                    prj_id=?';
+        try {
+            $this->db->query($stmt, [
+                $post->get('title'),
+                $post->get('status'),
+                $post->get('lead_usr_id'),
+                $post->get('initial_status'),
+                $post->get('outgoing_sender_name'),
+                $post->get('outgoing_sender_email'),
+                $post->get('sender_flag'),
+                $post->get('flag_location'),
+                $post->get('mail_aliases'),
+                $post->get('remote_invocation'),
+                $post->get('segregate_reporter'),
+                $post->get('customer_backend'),
+                $post->get('workflow_backend'),
+                $prj_id,
+            ]);
+        } catch (DatabaseException $e) {
+            return -1;
+        }
+
+        Project::removeUserByProjects([$prj_id], $post->get('users'));
+        // users who are now being associated with this project should be set to 'Standard User'
+        $role_id = User::ROLE_USER;
+        $lead_usr_id = $post->getInt('lead_usr_id');
+        foreach ($post->get('users') as $usr_id) {
+            $isLeadUser = (int)$usr_id === $lead_usr_id;
+            Project::associateUser($prj_id, $usr_id, $isLeadUser ? User::ROLE_MANAGER : $role_id);
+        }
+
+        $statuses = array_keys(Status::getAssocStatusList($prj_id));
+        if (count($statuses) > 0) {
+            Status::removeProjectAssociations($statuses, $prj_id);
+        }
+        foreach ($post->get('statuses') as $sta_id) {
+            Status::addProjectAssociation($sta_id, $prj_id);
+        }
+
+        return 1;
     }
 
     private function editAction(): void
