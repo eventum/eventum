@@ -159,14 +159,14 @@
 	"minimum-stability": "dev",
 	"prefer-stable": true,
 	"scripts": {
-		"test": "simple-phpunit",
 		"post-install-cmd": [
 			"echo Run \"composer assets\" to build css/js"
 		],
 		"assets": [
 			"yarn",
 			"yarn run development"
-		]
+		],
+		"test": "simple-phpunit"
 	},
 	"support": {
 		"issues": "https://github.com/eventum/eventum/issues",
