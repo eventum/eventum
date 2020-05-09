@@ -20,7 +20,6 @@ use Eventum\Extension\ExtensionManager;
 use Eventum\ServiceContainer;
 use Project;
 use Status;
-use Symfony\Component\HttpFoundation\ParameterBag;
 use User;
 use Validation;
 
@@ -69,27 +68,16 @@ class ProjectsController extends ManageBaseController
 
     private function updateAction(): void
     {
-        if (!$this->csrf->isValid('manage-projects', $this->getRequest()->request->get('token'))) {
+        $post = $this->getRequest()->request;
+
+        if (!$this->csrf->isValid('manage-projects', $post->get('token'))) {
             $this->error('Invalid CSRF Token');
         }
-        $map = [
-            1 => [ev_gettext('Thank you, the project was updated successfully.'), MessagesHelper::MSG_INFO],
-            -1 => [ev_gettext('An error occurred while trying to update the project information.'), MessagesHelper::MSG_ERROR],
-            -2 => [ev_gettext('Please enter the title for this project.'), MessagesHelper::MSG_ERROR],
-        ];
 
-        $this->messages->mapMessages($this->update($this->getRequest()->request), $map);
-    }
-
-    /**
-     * Method used to update the details of the project information.
-     *
-     * @return  int 1 if the update worked, -1 otherwise
-     */
-    private function update(ParameterBag $post): int
-    {
         if (Validation::isWhitespace($post->get('title'))) {
-            return -2;
+            $this->messages->addErrorMessage(ev_gettext('Please enter the title for this project.'));
+
+            return;
         }
 
         $prj_id = $post->getInt('id');
@@ -130,7 +118,9 @@ class ProjectsController extends ManageBaseController
                 $prj_id,
             ]);
         } catch (DatabaseException $e) {
-            return -1;
+            $this->messages->addErrorMessage(ev_gettext('An error occurred while trying to update the project information.'));
+
+            return;
         }
 
         Project::removeUserByProjects([$prj_id], $post->get('users'));
@@ -150,7 +140,7 @@ class ProjectsController extends ManageBaseController
             Status::addProjectAssociation($sta_id, $prj_id);
         }
 
-        return 1;
+        $this->messages->addInfoMessage(ev_gettext('Thank you, the project was updated successfully.'));
     }
 
     private function editAction(): void
