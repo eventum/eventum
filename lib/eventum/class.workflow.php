@@ -127,8 +127,9 @@ class Workflow
      * @param array $updated_fields
      * @param array $updated_custom_fields
      * @since 3.5.0 emits ISSUE_UPDATED event
+     * @since 3.8.13 workflow integration is done by WorkflowLegacyExtension
      */
-    public static function handleIssueUpdated($prj_id, $issue_id, $usr_id, $old_details, $raw_post, $updated_fields, $updated_custom_fields): void
+    public static function handleIssueUpdated(int $prj_id, int $issue_id, int $usr_id, $old_details, $raw_post, $updated_fields, $updated_custom_fields): void
     {
         Partner::handleIssueChange($issue_id, $usr_id, $old_details, $raw_post);
 
@@ -143,13 +144,6 @@ class Workflow
             'raw_post' => $raw_post,
         ];
         EventManager::dispatch(SystemEvents::ISSUE_UPDATED, new GenericEvent(null, $arguments));
-
-        $backend = self::getBackend($prj_id);
-        if (!$backend) {
-            return;
-        }
-
-        $backend->handleIssueUpdated($prj_id, $issue_id, $usr_id, $old_details, $raw_post);
     }
 
     /**

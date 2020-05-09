@@ -13,10 +13,12 @@
 
 namespace Eventum\Extension\Legacy;
 
+use Abstract_Workflow_Backend;
 use Eventum\Event\ResultableEvent;
 use Eventum\Event\SystemEvents;
 use Eventum\Extension\Provider;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\EventDispatcher\GenericEvent;
 use Workflow;
 
 /**
@@ -36,7 +38,21 @@ class WorkflowLegacyExtension implements Provider\SubscriberProvider, EventSubsc
         return [
             /** @see WorkflowLegacyExtension::canAccessIssue */
             SystemEvents::ACCESS_ISSUE => 'canAccessIssue',
+            /** @see WorkflowLegacyExtension::handleIssueUpdated */
+            SystemEvents::ISSUE_UPDATED => 'handleIssueUpdated',
         ];
+    }
+
+    /**
+     * @see Workflow::handleIssueUpdated
+     */
+    public function handleIssueUpdated(GenericEvent $event): void
+    {
+        if (!$backend = $this->getBackend($event)) {
+            return;
+        }
+
+        $backend->handleIssueUpdated($event['prj_id'], $event['issue_id'], $event['usr_id'], $event['old_details'], $event['raw_post']);
     }
 
     /**
@@ -44,7 +60,7 @@ class WorkflowLegacyExtension implements Provider\SubscriberProvider, EventSubsc
      */
     public function canAccessIssue(ResultableEvent $event): void
     {
-        if (!$backend = Workflow::getBackend($event['prj_id'])) {
+        if (!$backend = $this->getBackend($event)) {
             return;
         }
 
@@ -52,5 +68,10 @@ class WorkflowLegacyExtension implements Provider\SubscriberProvider, EventSubsc
         if ($result !== null) {
             $event->setResult($result);
         }
+    }
+
+    protected function getBackend(GenericEvent $event): ?Abstract_Workflow_Backend
+    {
+        return Workflow::getBackend($event['prj_id']);
     }
 }
