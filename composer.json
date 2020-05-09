@@ -1,175 +1,175 @@
 {
-	"name": "eventum/eventum",
-	"type": "project",
-	"description": "Eventum Issue / Bug tracking system",
-	"homepage": "https://github.com/eventum/eventum",
-	"license": "GPL-2.0-or-later",
-	"authors": [
-		{
-			"name": "Elan Ruusamäe",
-			"email": "glen@delfi.ee",
-			"role": "Developer"
-		},
-		{
-			"name": "Bryan Alsdorf",
-			"email": "balsdorf@gmail.com",
-			"role": "Developer"
-		}
-	],
-	"require": {
-		"php": "^7.1.3 || ^8.0",
-		"ext-ctype": "*",
-		"ext-dom": "*",
-		"ext-fileinfo": "*",
-		"ext-filter": "*",
-		"ext-gettext": "*",
-		"ext-iconv": "*",
-		"ext-intl": "*",
-		"ext-json": "*",
-		"ext-mbstring": "*",
-		"ext-pcre": "*",
-		"ext-pdo": "*",
-		"ext-pdo_mysql": "*",
-		"ext-session": "*",
-		"ext-spl": "*",
-		"ext-xml": "*",
-		"defuse/php-encryption": "^2.1",
-		"doctrine/dbal": "^2.5",
-		"doctrine/doctrine-bundle": "^2.0",
-		"doctrine/orm": "^2.5",
-		"enrise/urihelper": "^1.0",
-		"ezyang/htmlpurifier": "^4.10",
-		"fonts/liberation": "*",
-		"glen/filename-normalizer": "^2.0",
-		"horde/text-flowed": "dev-patch-1 as 2.0.3",
-		"horde/util": "dev-patch-1 as 2.5.8",
-		"ircmaxell/random-lib": "^1.2",
-		"league/commonmark": "^1.4",
-		"league/flysystem": "^1.0",
-		"league/html-to-markdown": "^4.8",
-		"malkusch/lock": "^2.1",
-		"mnapoli/silly": "^1.5",
-		"monolog/monolog": "^1.22.0",
-		"ocramius/package-versions": "^1.4",
-		"phlib/flysystem-pdo": "^1.1",
-		"php-ds/php-ds": "^1.2",
-		"phplot/phplot": "~6.1.0",
-		"phpxmlrpc/phpxmlrpc": "^4.1",
-		"pimple/pimple": "^3.2",
-		"portphp/csv": "^1.1",
-		"portphp/doctrine": "^1.1",
-		"portphp/steps": "^1.2",
-		"robmorgan/phinx": "^0.11.1",
-		"sebastian/diff": "^3.0",
-		"smarty-gettext/smarty-gettext": "~1.0",
-		"smarty/smarty": "~3.1.12",
-		"sphinx/php-sphinxapi": "2.0.*",
-		"symfony/asset": "^4.4",
-		"symfony/console": "^3.2.0 || ^4.0",
-		"symfony/event-dispatcher": "^2.7 || ^3.0 || ^4.0",
-		"symfony/expression-language": "^4.3",
-		"symfony/filesystem": "^2.7 || ^3.0 || ^4.0",
-		"symfony/framework-bundle": "^4.2",
-		"symfony/http-foundation": "^2.7 || ^3.0 || ^4.0",
-		"symfony/ldap": "^2.7 || ^3.3 || ^4.0",
-		"symfony/security-bundle": "^4.3",
-		"symfony/security-csrf": "^3.4 || ^4.0",
-		"symfony/var-exporter": "^4.2",
-		"theorchard/monolog-cascade": "^0.5.0",
-		"willdurand/email-reply-parser": "^2.7.0",
-		"xemlock/htmlpurifier-html5": "^0.1.10",
-		"zendframework/zend-config": "^3.2",
-		"zendframework/zend-mail": "2.10.x-dev",
-		"zendframework/zend-servicemanager": "^3.4"
-	},
-	"replace": {
-		"paragonie/random_compat": "9.99.99",
-		"symfony/polyfill-ctype": "1.99",
-		"symfony/polyfill-intl-idn": "1.99",
-		"symfony/polyfill-intl-normalizer": "1.99",
-		"symfony/polyfill-mbstring": "1.99"
-	},
-	"require-dev": {
-		"alcaeus/mongo-php-adapter": "^1.1",
-		"balbuf/composer-git-merge-driver": "^1.1",
-		"bgrins/filereader.js": "*",
-		"components/jquery": "~1.8.3",
-		"components/jquery-blockui": "*@dev",
-		"components/jquery-cookie": "~1.4.1",
-		"components/jquery-datatables": "~1.10.4",
-		"components/jqueryui": "1.11.*",
-		"drmonty/garlicjs": "~1.2.4",
-		"enyo/dropzone": "~4.3.0",
-		"eventum/rpc": "^4.3.0",
-		"fortawesome/font-awesome": "^4.7",
-		"jackmoore/autosize": "*",
-		"jasig/phpcas": "~1.3.3",
-		"jquery-form/form": "^4.2",
-		"maximebf/debugbar": "1.*",
-		"perftools/php-profiler": "^0.3.0",
-		"rmm5t/jquery-timeago": "*",
-		"robloach/component-installer": "*",
-		"sentry/sentry": "^1.7",
-		"symfony/browser-kit": "^4.2",
-		"symfony/phpunit-bridge": "^5.0",
-		"symfony/thanks": "^1.0",
-		"symfony/var-dumper": "^2.7 || ^3.3 || ^4.1.2",
-		"widernet/cmd-ctrl-enter": "~0.2.0"
-	},
-	"suggest": {
-		"ext-imap": "Support for fetching mail over IMAP/POP3"
-	},
-	"config": {
-		"autoloader-suffix": "EventumCore",
-		"component-baseurl": "/components",
-		"component-dir": "htdocs/components",
-		"platform": {
-			"php": "7.1.3",
-			"ext-mongodb": "1.5.0"
-		},
-		"sort-packages": true
-	},
-	"autoload": {
-		"psr-4": {
-			"Eventum\\": "src/"
-		},
-		"classmap": [
-			"lib/eventum"
-		],
-		"files": [
-			"lib/eventum/gettext.php"
-		]
-	},
-	"autoload-dev": {
-		"psr-4": {
-			"Eventum\\Test\\": [
-				"tests/"
-			]
-		},
-		"classmap": [
-			"db/seeds"
-		]
-	},
-	"repositories": [
-		{
-			"type": "composer",
-			"url": "https://eventum.github.io/composer/"
-		}
-	],
-	"minimum-stability": "dev",
-	"prefer-stable": true,
-	"scripts": {
-		"post-install-cmd": [
-			"echo Run \"composer assets\" to build css/js"
-		],
-		"assets": [
-			"yarn",
-			"yarn run development"
-		],
-		"test": "simple-phpunit"
-	},
-	"support": {
-		"issues": "https://github.com/eventum/eventum/issues",
-		"irc": "irc://irc.freenode.org/eventum"
-	}
+    "name": "eventum/eventum",
+    "type": "project",
+    "description": "Eventum Issue / Bug tracking system",
+    "homepage": "https://github.com/eventum/eventum",
+    "license": "GPL-2.0-or-later",
+    "authors": [
+        {
+            "name": "Elan Ruusamäe",
+            "email": "glen@delfi.ee",
+            "role": "Developer"
+        },
+        {
+            "name": "Bryan Alsdorf",
+            "email": "balsdorf@gmail.com",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": "^7.1.3 || ^8.0",
+        "ext-ctype": "*",
+        "ext-dom": "*",
+        "ext-fileinfo": "*",
+        "ext-filter": "*",
+        "ext-gettext": "*",
+        "ext-iconv": "*",
+        "ext-intl": "*",
+        "ext-json": "*",
+        "ext-mbstring": "*",
+        "ext-pcre": "*",
+        "ext-pdo": "*",
+        "ext-pdo_mysql": "*",
+        "ext-session": "*",
+        "ext-spl": "*",
+        "ext-xml": "*",
+        "defuse/php-encryption": "^2.1",
+        "doctrine/dbal": "^2.5",
+        "doctrine/doctrine-bundle": "^2.0",
+        "doctrine/orm": "^2.5",
+        "enrise/urihelper": "^1.0",
+        "ezyang/htmlpurifier": "^4.10",
+        "fonts/liberation": "*",
+        "glen/filename-normalizer": "^2.0",
+        "horde/text-flowed": "dev-patch-1 as 2.0.3",
+        "horde/util": "dev-patch-1 as 2.5.8",
+        "ircmaxell/random-lib": "^1.2",
+        "league/commonmark": "^1.4",
+        "league/flysystem": "^1.0",
+        "league/html-to-markdown": "^4.8",
+        "malkusch/lock": "^2.1",
+        "mnapoli/silly": "^1.5",
+        "monolog/monolog": "^1.22.0",
+        "ocramius/package-versions": "^1.4",
+        "phlib/flysystem-pdo": "^1.1",
+        "php-ds/php-ds": "^1.2",
+        "phplot/phplot": "~6.1.0",
+        "phpxmlrpc/phpxmlrpc": "^4.1",
+        "pimple/pimple": "^3.2",
+        "portphp/csv": "^1.1",
+        "portphp/doctrine": "^1.1",
+        "portphp/steps": "^1.2",
+        "robmorgan/phinx": "^0.11.1",
+        "sebastian/diff": "^3.0",
+        "smarty-gettext/smarty-gettext": "~1.0",
+        "smarty/smarty": "~3.1.12",
+        "sphinx/php-sphinxapi": "2.0.*",
+        "symfony/asset": "^4.4",
+        "symfony/console": "^3.2.0 || ^4.0",
+        "symfony/event-dispatcher": "^2.7 || ^3.0 || ^4.0",
+        "symfony/expression-language": "^4.3",
+        "symfony/filesystem": "^2.7 || ^3.0 || ^4.0",
+        "symfony/framework-bundle": "^4.2",
+        "symfony/http-foundation": "^2.7 || ^3.0 || ^4.0",
+        "symfony/ldap": "^2.7 || ^3.3 || ^4.0",
+        "symfony/security-bundle": "^4.3",
+        "symfony/security-csrf": "^3.4 || ^4.0",
+        "symfony/var-exporter": "^4.2",
+        "theorchard/monolog-cascade": "^0.5.0",
+        "willdurand/email-reply-parser": "^2.7.0",
+        "xemlock/htmlpurifier-html5": "^0.1.10",
+        "zendframework/zend-config": "^3.2",
+        "zendframework/zend-mail": "2.10.x-dev",
+        "zendframework/zend-servicemanager": "^3.4"
+    },
+    "replace": {
+        "paragonie/random_compat": "9.99.99",
+        "symfony/polyfill-ctype": "1.99",
+        "symfony/polyfill-intl-idn": "1.99",
+        "symfony/polyfill-intl-normalizer": "1.99",
+        "symfony/polyfill-mbstring": "1.99"
+    },
+    "require-dev": {
+        "alcaeus/mongo-php-adapter": "^1.1",
+        "balbuf/composer-git-merge-driver": "^1.1",
+        "bgrins/filereader.js": "*",
+        "components/jquery": "~1.8.3",
+        "components/jquery-blockui": "*@dev",
+        "components/jquery-cookie": "~1.4.1",
+        "components/jquery-datatables": "~1.10.4",
+        "components/jqueryui": "1.11.*",
+        "drmonty/garlicjs": "~1.2.4",
+        "enyo/dropzone": "~4.3.0",
+        "eventum/rpc": "^4.3.0",
+        "fortawesome/font-awesome": "^4.7",
+        "jackmoore/autosize": "*",
+        "jasig/phpcas": "~1.3.3",
+        "jquery-form/form": "^4.2",
+        "maximebf/debugbar": "1.*",
+        "perftools/php-profiler": "^0.3.0",
+        "rmm5t/jquery-timeago": "*",
+        "robloach/component-installer": "*",
+        "sentry/sentry": "^1.7",
+        "symfony/browser-kit": "^4.2",
+        "symfony/phpunit-bridge": "^5.0",
+        "symfony/thanks": "^1.0",
+        "symfony/var-dumper": "^2.7 || ^3.3 || ^4.1.2",
+        "widernet/cmd-ctrl-enter": "~0.2.0"
+    },
+    "suggest": {
+        "ext-imap": "Support for fetching mail over IMAP/POP3"
+    },
+    "config": {
+        "autoloader-suffix": "EventumCore",
+        "component-baseurl": "/components",
+        "component-dir": "htdocs/components",
+        "platform": {
+            "php": "7.1.3",
+            "ext-mongodb": "1.5.0"
+        },
+        "sort-packages": true
+    },
+    "autoload": {
+        "psr-4": {
+            "Eventum\\": "src/"
+        },
+        "classmap": [
+            "lib/eventum"
+        ],
+        "files": [
+            "lib/eventum/gettext.php"
+        ]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Eventum\\Test\\": [
+                "tests/"
+            ]
+        },
+        "classmap": [
+            "db/seeds"
+        ]
+    },
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "https://eventum.github.io/composer/"
+        }
+    ],
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "scripts": {
+        "post-install-cmd": [
+            "echo Run \"composer assets\" to build css/js"
+        ],
+        "assets": [
+            "yarn",
+            "yarn run development"
+        ],
+        "test": "simple-phpunit"
+    },
+    "support": {
+        "issues": "https://github.com/eventum/eventum/issues",
+        "irc": "irc://irc.freenode.org/eventum"
+    }
 }
