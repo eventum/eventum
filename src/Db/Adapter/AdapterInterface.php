@@ -38,14 +38,6 @@ interface AdapterInterface
     const DB_FETCHMODE_ASSOC = 2;
 
     /**
-     * Connects to the database
-     *
-     * @param array $config
-     * @throws DatabaseException on connection failure
-     */
-    public function __construct(array $config);
-
-    /**
      * Escapes a string according to the current DBMS's standards
      *
      * @param string $str the string to be escaped
