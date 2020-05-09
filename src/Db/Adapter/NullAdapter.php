@@ -44,7 +44,7 @@ class NullAdapter implements AdapterInterface
     {
     }
 
-    public function getRow($query, $params = [], $fetchmode = AdapterInterface::DB_FETCHMODE_ASSOC)
+    public function getRow($query, $params = [], $fetchMode = AdapterInterface::DB_FETCHMODE_ASSOC)
     {
     }
 
