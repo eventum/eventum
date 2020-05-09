@@ -14,7 +14,8 @@
 namespace Eventum\Controller\Manage;
 
 use Auth;
-use Eventum\Controller\Helper\MessagesHelper;
+use DateTime;
+use Display_Column;
 use Eventum\Db\DatabaseException;
 use Eventum\Db\Doctrine;
 use Eventum\Extension\ExtensionManager;
@@ -25,6 +26,7 @@ use Eventum\ServiceContainer;
 use Project;
 use Status;
 use Symfony\Component\HttpFoundation\ParameterBag;
+use Time_Tracking;
 use User;
 use Validation;
 
@@ -60,15 +62,50 @@ class ProjectsController extends ManageBaseController
 
     private function newAction(): void
     {
-        if (!$this->csrf->isValid('manage-projects', $this->getRequest()->request->get('token'))) {
+        $post = $this->getRequest()->request;
+        if (!$this->csrf->isValid('manage-projects', $post->get('token'))) {
             $this->error('Invalid CSRF Token');
         }
-        $map = [
-            1 => [ev_gettext('Thank you, the project was added successfully.'), MessagesHelper::MSG_INFO],
-            -1 => [ev_gettext('An error occurred while trying to add the new project.'), MessagesHelper::MSG_ERROR],
-            -2 => [ev_gettext('Please enter the title for this new project.'), MessagesHelper::MSG_ERROR],
-        ];
-        $this->messages->mapMessages(Project::insert(), $map);
+
+        if (Validation::isWhitespace($post->get('title'))) {
+            $this->messages->addErrorMessage(ev_gettext('Please enter the title for this project.'));
+
+            return;
+        }
+
+        $repo = Doctrine::getProjectRepository();
+        $project = $this->updateFromRequest(new Entity\Project(), $post);
+        $project->setCreatedDate(new DateTime());
+        $project->setAnonymousPost('disabled');
+
+        try {
+            $repo->updateProject($project);
+        } catch (DatabaseException $e) {
+            $this->messages->addErrorMessage(ev_gettext('An error occurred while trying to add the new project.'));
+
+            return;
+        }
+
+        $prj_id = $project->getId();
+        // users who are now being associated with this project should be set to 'Standard User'
+        $role_id = User::ROLE_USER;
+        $lead_usr_id = $project->getLeadUserId();
+
+        foreach ($post->get('users', []) as $usr_id) {
+            $usr_id = (int)$usr_id;
+            $isLeadUser = $usr_id === $lead_usr_id;
+            Project::associateUser($prj_id, $usr_id, $isLeadUser ? User::ROLE_MANAGER : $role_id);
+        }
+        foreach ($post->get('statuses', []) as $sta_id) {
+            Status::addProjectAssociation($sta_id, $prj_id);
+        }
+        Display_Column::setupNewProject($prj_id);
+
+        // insert default timetracking categories
+        Time_Tracking::addProjectDefaults($prj_id);
+
+        $this->messages->addInfoMessage(ev_gettext('Thank you, the project was updated successfully.'));
+        $this->redirect("projects.php?cat=edit&id={$prj_id}");
     }
 
     private function updateAction(): void
@@ -106,8 +143,9 @@ class ProjectsController extends ManageBaseController
         // users who are now being associated with this project should be set to 'Standard User'
         $role_id = User::ROLE_USER;
         $lead_usr_id = $post->getInt('lead_usr_id');
-        foreach ($post->get('users') as $usr_id) {
-            $isLeadUser = (int)$usr_id === $lead_usr_id;
+        foreach ($post->get('users', []) as $usr_id) {
+            $usr_id = (int)$usr_id;
+            $isLeadUser = $usr_id === $lead_usr_id;
             Project::associateUser($prj_id, $usr_id, $isLeadUser ? User::ROLE_MANAGER : $role_id);
         }
 
