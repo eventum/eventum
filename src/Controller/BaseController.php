@@ -30,6 +30,7 @@ use Template_Helper;
  * @property-read Helper\LoggerHelper $logger
  * @property-read Helper\MessagesHelper $messages
  * @property-read Helper\PlotHelper $plot
+ * @property-read Helper\DbHelper $db
  * @property-read Helper\RepositoryHelper $repository
  */
 abstract class BaseController
