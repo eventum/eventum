@@ -18,6 +18,8 @@ use Eventum\Controller\Helper\MessagesHelper;
 use Eventum\Db\DatabaseException;
 use Eventum\Db\Doctrine;
 use Eventum\Extension\ExtensionManager;
+use Eventum\Extension\Legacy\WorkflowLegacyExtension;
+use Eventum\Extension\RegisterExtension;
 use Eventum\Model\Entity;
 use Eventum\ServiceContainer;
 use Project;
@@ -92,6 +94,12 @@ class ProjectsController extends ManageBaseController
             $this->messages->addErrorMessage(ev_gettext('An error occurred while trying to update the project information.'));
 
             return;
+        }
+
+        // enable WorkflowLegacyExtension if project has workflow enabled
+        if ($project->getWorkflowBackend()) {
+            $register = new RegisterExtension();
+            $register->enable(WorkflowLegacyExtension::class);
         }
 
         Project::removeUserByProjects([$prj_id], $post->get('users'));
