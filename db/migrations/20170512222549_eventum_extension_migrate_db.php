@@ -63,12 +63,7 @@ class EventumExtensionMigrateDb extends AbstractMigration
         $this->migrate('project', 'prj_customer_backend', $el);
     }
 
-    /**
-     * @param string $table
-     * @param string $field
-     * @param ExtensionLoader $el
-     */
-    private function migrate($table, $field, $el): void
+    private function migrate(string $table, string $field, ExtensionLoader $el): void
     {
         $table = $this->quoteColumnName($table);
         $column = $this->quoteTableName($field);

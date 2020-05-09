@@ -32,9 +32,6 @@ class ProjectsController extends ManageBaseController
     /** @var int */
     private $prj_id;
 
-    /**
-     * {@inheritdoc}
-     */
     protected function configure(): void
     {
         $request = $this->getRequest();
@@ -43,16 +40,13 @@ class ProjectsController extends ManageBaseController
         $this->prj_id = $request->request->getInt('prj_id') ?: $request->query->getInt('prj_id');
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function defaultAction(): void
     {
-        if ($this->cat == 'new') {
+        if ($this->cat === 'new') {
             $this->newAction();
-        } elseif ($this->cat == 'update') {
+        } elseif ($this->cat === 'update') {
             $this->updateAction();
-        } elseif ($this->cat == 'edit') {
+        } elseif ($this->cat === 'edit') {
             $this->editAction();
         }
     }
@@ -90,9 +84,6 @@ class ProjectsController extends ManageBaseController
         $this->tpl->assign('info', Project::getDetails($get->getInt('id')));
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function prepareTemplate(): void
     {
         $usr_id = Auth::getUserID();
@@ -109,7 +100,7 @@ class ProjectsController extends ManageBaseController
         );
     }
 
-    private function getWorkflowBackends()
+    private function getWorkflowBackends(): array
     {
         // load classes from extension manager
         /** @var ExtensionManager $em */
@@ -119,7 +110,7 @@ class ProjectsController extends ManageBaseController
         return $this->filterValues($backends);
     }
 
-    private function getCustomerBackends()
+    private function getCustomerBackends(): array
     {
         // load classes from extension manager
         /** @var ExtensionManager $em */
@@ -133,7 +124,7 @@ class ProjectsController extends ManageBaseController
      * Create array with key,value from $values $key,
      * i.e discarding values.
      */
-    private function filterValues($values)
+    private function filterValues(iterable $values): array
     {
         $res = [];
         foreach ($values as $key => $value) {

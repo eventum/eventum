@@ -132,7 +132,7 @@ class EmailsController extends BaseController
         foreach ($fields as $field) {
             $sort_order = 'asc';
             if ($options['sort_by'] == $field) {
-                if ($sort_order_option == 'asc') {
+                if ($sort_order_option === 'asc') {
                     $sort_order = 'desc';
                 } else {
                     $sort_order = 'asc';
