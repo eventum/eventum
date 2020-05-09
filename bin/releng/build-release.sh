@@ -122,7 +122,7 @@ install_dependencies() {
 install_assets() {
 	echo >&2 "Install assets"
 	yarn
-	yarn production
+	yarn assets:production
 }
 
 dependencies_report() {

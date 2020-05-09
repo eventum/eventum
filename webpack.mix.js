@@ -20,23 +20,24 @@ mix.sass('res/assets/sass/all.scss', 'htdocs/css/all.css').options({
 });
 
 mix.styles([
-    'htdocs/components/font-awesome/css/font-awesome.css',
+    'node_modules/font-awesome/css/font-awesome.css',
     'htdocs/components/jquery-ui/themes/base/all.css',
     'node_modules/chosen-js/chosen.css',
-    'htdocs/components/dropzone/dist/basic.css',
+    'node_modules/dropzone/dist/basic.css',
 ], 'htdocs/css/components.css');
 
 mix.copy('node_modules/chosen-js/*.png', 'htdocs/css');
-mix.copy('vendor/fortawesome/font-awesome/fonts', 'htdocs/fonts');
+mix.copy('node_modules/font-awesome/fonts', 'htdocs/fonts');
 
 mix.scripts([
     'htdocs/js/main.js',
     'htdocs/js/page.js',
 ], 'htdocs/js/all.js');
 mix.scripts([
-    'htdocs/components/jquery/jquery.js',
-    'htdocs/components/jquery-blockui/jquery.blockUI.js',
-    'htdocs/components/form/src/jquery.form.js',
+    'node_modules/jquery/jquery.js',
+    'node_modules/jquery/jquery-migrate.js',
+    'node_modules/block-ui/jquery.blockUI.js',
+    'node_modules/jquery-form/src/jquery.form.js',
     'htdocs/components/jquery-cookie/jquery.cookie.js',
     'htdocs/components/jquery-ui/ui/core.js',
     'htdocs/components/jquery-ui/ui/datepicker.js',
@@ -48,11 +49,11 @@ mix.scripts([
     'htdocs/components/jquery-ui/ui/selectmenu.js',
     'htdocs/components/jquery-ui/ui/sortable.js',
     'node_modules/chosen-js/chosen.jquery.js',
-    'htdocs/components/dropzone/dist/dropzone.js',
-    'htdocs/components/autosize/dist/autosize.js',
-    'htdocs/components/jquery-timeago/jquery.timeago.js',
-    'htdocs/components/filereader.js/filereader.js',
-    'htdocs/components/garlicjs/js/garlic.min.js',
+    'node_modules/dropzone/dist/dropzone.js',
+    'node_modules/autosize/dist/autosize.js',
+    'node_modules/timeago/jquery.timeago.js',
+    'node_modules/file-reader-wrapper/filereader.js',
+    'node_modules/drmonty-garlicjs/js/garlic.min.js',
     'htdocs/components/cmd-ctrl-enter/src/cmd-ctrl-enter.js',
 ], 'htdocs/js/components.js');
 

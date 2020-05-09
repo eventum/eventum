@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f9e9023e3176a4bd09499c0de5d8b733",
+    "content-hash": "5e0bbccb3c6f7fcd3037b86878518ed9",
     "packages": [
         {
             "name": "cakephp/cache",
@@ -7093,45 +7093,6 @@
             "time": "2019-01-23T01:57:04+00:00"
         },
         {
-            "name": "bgrins/filereader.js",
-            "version": "dev-composer",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/glensc/filereader.js.git",
-                "reference": "dd7886cc6f6b4f852d76a300795e3caca06fb1db"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/glensc/filereader.js/zipball/dd7886cc6f6b4f852d76a300795e3caca06fb1db",
-                "reference": "dd7886cc6f6b4f852d76a300795e3caca06fb1db",
-                "shasum": ""
-            },
-            "type": "library",
-            "extra": {
-                "component": {
-                    "scripts": [
-                        "filereader.js"
-                    ]
-                }
-            },
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Brian Grinstead",
-                    "email": "briangrinstead@gmail.com"
-                }
-            ],
-            "description": "A lightweight wrapper for the JavaScript FileReader interface",
-            "homepage": "http://bgrins.github.io/filereader.js/",
-            "support": {
-                "issues": "https://github.com/bgrins/filereader.js/issues",
-                "source": "https://github.com/glensc/filereader.js/tree/composer"
-            },
-            "time": "2016-01-12T21:48:16+00:00"
-        },
-        {
             "name": "components/jquery",
             "version": "1.8.3",
             "source": {
@@ -7170,61 +7131,6 @@
             "description": "jQuery JavaScript Library",
             "homepage": "http://jquery.com",
             "time": "2013-04-05T19:32:49+00:00"
-        },
-        {
-            "name": "components/jquery-blockui",
-            "version": "2.70",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/malsup/blockui.git",
-                "reference": "316f6e5d76a33266970778e80507149d9ef6a02d"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/malsup/blockui/zipball/316f6e5d76a33266970778e80507149d9ef6a02d",
-                "reference": "316f6e5d76a33266970778e80507149d9ef6a02d",
-                "shasum": ""
-            },
-            "require": {
-                "components/jquery": ">=1.7",
-                "robloach/component-installer": "*"
-            },
-            "type": "component",
-            "extra": {
-                "component": {
-                    "scripts": [
-                        "jquery.blockUI.js"
-                    ],
-                    "shim": {
-                        "deps": [
-                            "jquery"
-                        ]
-                    }
-                }
-            },
-            "license": [
-                "MIT",
-                "GPL"
-            ],
-            "authors": [
-                {
-                    "name": "M. Alsup",
-                    "homepage": "http://jquery.malsup.com"
-                }
-            ],
-            "description": "Simulate synchronous ajax by blocking - not locking - the UI. This plugin lets you block user interaction with the page or with a specific element on the page. Also great at displaying modal dialogs.",
-            "homepage": "http://jquery.malsup.com/block/",
-            "keywords": [
-                "block",
-                "dialog",
-                "modal",
-                "overlay"
-            ],
-            "support": {
-                "source": "https://github.com/malsup/blockui/tree/2.70",
-                "issues": "https://github.com/malsup/blockui/issues"
-            },
-            "time": "2014-11-24T03:14:41+00:00"
         },
         {
             "name": "components/jquery-cookie",
@@ -7386,71 +7292,6 @@
             "time": "2015-03-13T14:48:12+00:00"
         },
         {
-            "name": "drmonty/garlicjs",
-            "version": "1.2.4",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/mrohnstock/garlicjs.git",
-                "reference": "8d90b27dd4a12351d1a9b8774276481bfbc8f8a7"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/mrohnstock/garlicjs/zipball/8d90b27dd4a12351d1a9b8774276481bfbc8f8a7",
-                "reference": "8d90b27dd4a12351d1a9b8774276481bfbc8f8a7",
-                "shasum": ""
-            },
-            "require": {
-                "components/jquery": ">=1.8"
-            },
-            "type": "component",
-            "extra": {
-                "component": {
-                    "scripts": [
-                        "js/garlic.min.js"
-                    ],
-                    "files": [
-                        "js/garlic.min.js",
-                        "js/garlic-standalone.min.js"
-                    ],
-                    "shim": {
-                        "deps": [
-                            "jquery"
-                        ]
-                    }
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "description": "Automatically persist your forms' text and select field values locally, until the form is submitted.",
-            "homepage": "http://garlicjs.org/",
-            "time": "2015-06-19T05:58:22+00:00"
-        },
-        {
-            "name": "enyo/dropzone",
-            "version": "4.3.0",
-            "dist": {
-                "type": "zip",
-                "url": "https://github.com/enyo/dropzone/archive/v4.3.0.zip",
-                "shasum": "42357a4753636163f73b8ce3bde140366b8f8039"
-            },
-            "type": "component",
-            "extra": {
-                "component": {
-                    "scripts": [
-                        "dist/dropzone.js"
-                    ],
-                    "styles": [
-                        "dist/basic.css"
-                    ]
-                }
-            },
-            "license": [
-                "MIT"
-            ]
-        },
-        {
             "name": "eventum/rpc",
             "version": "v4.3.0",
             "source": {
@@ -7489,73 +7330,6 @@
             ],
             "description": "Eventum RPC Client Library",
             "time": "2018-05-02T19:29:45+00:00"
-        },
-        {
-            "name": "fortawesome/font-awesome",
-            "version": "4.7.0",
-            "dist": {
-                "type": "tar",
-                "url": "https://github.com/FortAwesome/Font-Awesome/archive/v4.7.0.tar.gz",
-                "shasum": "7a94b1800202e20c382d9847cdf51e8d1c106b7e"
-            },
-            "type": "library",
-            "extra": {
-                "component": {
-                    "styles": [
-                        "css/font-awesome.css"
-                    ],
-                    "files": [
-                        "fonts/fontawesome-webfont.eot",
-                        "fonts/fontawesome-webfont.svg",
-                        "fonts/fontawesome-webfont.ttf",
-                        "fonts/fontawesome-webfont.woff",
-                        "fonts/fontawesome-webfont.woff2",
-                        "fonts/FontAwesome.otf"
-                    ]
-                }
-            },
-            "license": [
-                "OFL-1.1",
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Dave Gandy",
-                    "email": "dave@fontawesome.io",
-                    "role": "Developer",
-                    "homepage": "http://twitter.com/davegandy"
-                }
-            ],
-            "description": "The iconic font and CSS framework",
-            "homepage": "http://fontawesome.io/",
-            "keywords": [
-                "awesome",
-                "bootstrap",
-                "font",
-                "font",
-                "fontawesome",
-                "icon"
-            ]
-        },
-        {
-            "name": "jackmoore/autosize",
-            "version": "3.0.13",
-            "dist": {
-                "type": "zip",
-                "url": "https://github.com/jackmoore/autosize/archive/3.0.13.zip",
-                "shasum": "f2c48fb4cd76d89bb4e6e8c34e9cd130a1633aec"
-            },
-            "type": "component",
-            "extra": {
-                "component": {
-                    "scripts": [
-                        "dist/autosize.js"
-                    ]
-                }
-            },
-            "license": [
-                "MIT"
-            ]
         },
         {
             "name": "jasig/phpcas",
@@ -7611,62 +7385,6 @@
                 "jasig"
             ],
             "time": "2019-08-18T20:01:55+00:00"
-        },
-        {
-            "name": "jquery-form/form",
-            "version": "v4.2.2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/jquery-form/form.git",
-                "reference": "4beae57bc92402e2d03ca66b5ae2942d0c94c695"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/jquery-form/form/zipball/4beae57bc92402e2d03ca66b5ae2942d0c94c695",
-                "reference": "4beae57bc92402e2d03ca66b5ae2942d0c94c695",
-                "shasum": ""
-            },
-            "require": {
-                "components/jquery": ">=1.7.2"
-            },
-            "type": "library",
-            "extra": {
-                "component": {
-                    "scripts": [
-                        "src/jquery.form.js"
-                    ],
-                    "shim": {
-                        "deps": [
-                            "jquery"
-                        ]
-                    }
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "(LGPL-2.1+ OR MIT)"
-            ],
-            "authors": [
-                {
-                    "name": "Kevin Morris"
-                },
-                {
-                    "name": "Mike Alsup"
-                }
-            ],
-            "description": "The jQuery Form Plugin allows you to easily and unobtrusively upgrade HTML forms to use AJAX.",
-            "homepage": "https://github.com/jquery-form/form",
-            "keywords": [
-                "ajax",
-                "form",
-                "html-form",
-                "jquery",
-                "jquery-form",
-                "jquery-plugin",
-                "json",
-                "json-form"
-            ],
-            "time": "2017-08-09T20:56:53+00:00"
         },
         {
             "name": "kriswallsmith/assetic",
@@ -7960,55 +7678,6 @@
             ],
             "description": "Library for collecting and storing XHProf results for later use by XHGUI.",
             "time": "2019-12-04T18:39:08+00:00"
-        },
-        {
-            "name": "rmm5t/jquery-timeago",
-            "version": "v1.6.7",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/rmm5t/jquery-timeago.git",
-                "reference": "48fdda3ca724dcd655e8e990f6d7fbd203718905"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/rmm5t/jquery-timeago/zipball/48fdda3ca724dcd655e8e990f6d7fbd203718905",
-                "reference": "48fdda3ca724dcd655e8e990f6d7fbd203718905",
-                "shasum": ""
-            },
-            "require": {
-                "components/jquery": ">=1.5.0 <4.0"
-            },
-            "type": "library",
-            "extra": {
-                "component": {
-                    "scripts": [
-                        "jquery.timeago.js"
-                    ],
-                    "files": [
-                        "locales/jquery.timeago.*.js"
-                    ]
-                }
-            },
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Ryan McGeary",
-                    "email": "ryan@mcgeary.org"
-                }
-            ],
-            "description": "jQuery plugin that makes it easy to support automatically updating fuzzy timestamps (e.g. \"4 minutes ago\" or \"about 1 day ago\").",
-            "homepage": "http://timeago.yarp.com/",
-            "keywords": [
-                "microformat",
-                "time"
-            ],
-            "support": {
-                "issues": "https://github.com/rmm5t/jquery-timeago/issues",
-                "source": "https://github.com/rmm5t/jquery-timeago/tree/v1.6.7"
-            },
-            "time": "2019-04-23T15:55:20+00:00"
         },
         {
             "name": "robloach/component-installer",
@@ -8495,8 +8164,7 @@
     "stability-flags": {
         "horde/text-flowed": 20,
         "horde/util": 20,
-        "zendframework/zend-mail": 20,
-        "components/jquery-blockui": 20
+        "zendframework/zend-mail": 20
     },
     "prefer-stable": true,
     "prefer-lowest": false,

@@ -1,22 +1,40 @@
 {
   "private": true,
   "scripts": {
-    "dev": "yarn run development",
-    "development": "cross-env NODE_ENV=development webpack --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
-    "watch": "yarn run development -- --watch",
-    "watch-poll": "yarn run watch -- --watch-poll",
-    "hot": "cross-env NODE_ENV=development webpack-dev-server --inline --hot --config=node_modules/laravel-mix/setup/webpack.config.js",
-    "prod": "yarn run production",
-    "production": "cross-env NODE_ENV=production webpack --no-progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js"
+    "assets:development": "yarn run webpack:development --hide-modules --progress",
+    "assets:production": "yarn run webpack:production --hide-modules --no-progress",
+    "dev": "yarn run assets:development",
+    "hot": "yarn run webpack-dev-server:development --inline --hot",
+    "prod": "yarn run assets:production",
+    "watch": "yarn run assets:development -- --watch",
+    "watch-poll": "yarn run assets:watch -- --watch-poll",
+    "webpack-dev-server:development": "cross-env NODE_ENV=development webpack-dev-server --config=node_modules/laravel-mix/setup/webpack.config.js",
+    "webpack:development": "cross-env NODE_ENV=development webpack --config=node_modules/laravel-mix/setup/webpack.config.js",
+    "webpack:production": "cross-env NODE_ENV=production webpack --config=node_modules/laravel-mix/setup/webpack.config.js"
   },
   "engines": {
-    "node": "^8.10.0"
+    "node": "^8.10.0||^10"
   },
   "devDependencies": {
+    "autosize": "3.0.13",
+    "block-ui": "^2.70.1",
     "chosen-js": "^1.8.7",
     "cross-env": "^5.1",
+    "drmonty-garlicjs": "^1.2.3",
+    "dropzone": "^4.3",
+    "file-reader-wrapper": "^0.9.10",
+    "font-awesome": "^4.7.0",
+    "jquery": "1.9.x",
+    "jquery-form": "^4.2.2",
     "laravel-mix": "^5.0.4",
     "sass": "^1.26.3",
-    "sass-loader": "^8.0.2"
+    "sass-loader": "^8.0.2",
+    "timeago": "^1.6.7"
+  },
+  "resolutions": {
+    "block-ui/jquery": "1.9.x",
+    "drmonty-garlicjs/jquery": "1.9.x",
+    "jquery-form/jquery": "1.9.x",
+    "timeago/jquery": "1.9.x"
   }
 }

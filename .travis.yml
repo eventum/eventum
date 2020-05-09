@@ -29,8 +29,14 @@ jobs:
     - stage: release
       name: GitHub Release
       dist: xenial
+      language:
+        - node_js
+        - php
       php: "7.1"
+      node_js: "10"
       script:
+        - node --version
+        - php --version
         - bin/releng/dist.sh
 
       # https://docs.travis-ci.com/user/deployment/releases
