@@ -141,6 +141,7 @@ class ProjectsController extends ManageBaseController
         }
 
         $this->messages->addInfoMessage(ev_gettext('Thank you, the project was updated successfully.'));
+        $this->redirect("projects.php?cat=edit&id={$prj_id}");
     }
 
     private function editAction(): void
