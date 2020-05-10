@@ -163,9 +163,16 @@ class ProjectsController extends ManageBaseController
 
     private function editAction(): void
     {
-        $get = $this->getRequest()->query;
+        $prj_id = $this->getRequest()->query->getInt('id');
 
-        $this->tpl->assign('info', Project::getDetails($get->getInt('id')));
+        $repo = Doctrine::getProjectRepository();
+        $project = $repo->findById($prj_id);
+
+        $details = $project->toArray();
+        $details['prj_assigned_users'] = Project::getUserColList($prj_id);
+        $details['assigned_statuses'] = array_keys(Status::getAssocStatusList($prj_id));
+
+        $this->tpl->assign('info', $details);
     }
 
     protected function prepareTemplate(): void
