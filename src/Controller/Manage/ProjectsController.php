@@ -14,12 +14,21 @@
 namespace Eventum\Controller\Manage;
 
 use Auth;
-use Eventum\Controller\Helper\MessagesHelper;
+use DateTime;
+use Display_Column;
+use Eventum\Db\DatabaseException;
+use Eventum\Db\Doctrine;
 use Eventum\Extension\ExtensionManager;
+use Eventum\Extension\Legacy\WorkflowLegacyExtension;
+use Eventum\Extension\RegisterExtension;
+use Eventum\Model\Entity;
 use Eventum\ServiceContainer;
 use Project;
 use Status;
+use Symfony\Component\HttpFoundation\ParameterBag;
+use Time_Tracking;
 use User;
+use Validation;
 
 class ProjectsController extends ManageBaseController
 {
@@ -53,35 +62,117 @@ class ProjectsController extends ManageBaseController
 
     private function newAction(): void
     {
-        if (!$this->csrf->isValid('manage-projects', $this->getRequest()->request->get('token'))) {
+        $post = $this->getRequest()->request;
+        if (!$this->csrf->isValid('manage-projects', $post->get('token'))) {
             $this->error('Invalid CSRF Token');
         }
-        $map = [
-            1 => [ev_gettext('Thank you, the project was added successfully.'), MessagesHelper::MSG_INFO],
-            -1 => [ev_gettext('An error occurred while trying to add the new project.'), MessagesHelper::MSG_ERROR],
-            -2 => [ev_gettext('Please enter the title for this new project.'), MessagesHelper::MSG_ERROR],
-        ];
-        $this->messages->mapMessages(Project::insert(), $map);
+
+        if (Validation::isWhitespace($post->get('title'))) {
+            $this->messages->addErrorMessage(ev_gettext('Please enter the title for this project.'));
+
+            return;
+        }
+
+        $repo = Doctrine::getProjectRepository();
+        $project = $this->updateFromRequest(new Entity\Project(), $post);
+        $project->setCreatedDate(new DateTime());
+        $project->setAnonymousPost('disabled');
+
+        try {
+            $repo->updateProject($project);
+        } catch (DatabaseException $e) {
+            $this->messages->addErrorMessage(ev_gettext('An error occurred while trying to add the new project.'));
+
+            return;
+        }
+
+        $prj_id = $project->getId();
+        // users who are now being associated with this project should be set to 'Standard User'
+        $role_id = User::ROLE_USER;
+        $lead_usr_id = $project->getLeadUserId();
+
+        foreach ($post->get('users', []) as $usr_id) {
+            $usr_id = (int)$usr_id;
+            $isLeadUser = $usr_id === $lead_usr_id;
+            Project::associateUser($prj_id, $usr_id, $isLeadUser ? User::ROLE_MANAGER : $role_id);
+        }
+        foreach ($post->get('statuses', []) as $sta_id) {
+            Status::addProjectAssociation($sta_id, $prj_id);
+        }
+        Display_Column::setupNewProject($prj_id);
+
+        // insert default timetracking categories
+        Time_Tracking::addProjectDefaults($prj_id);
+
+        $this->messages->addInfoMessage(ev_gettext('Thank you, the project was updated successfully.'));
+        $this->redirect("projects.php?cat=edit&id={$prj_id}");
     }
 
     private function updateAction(): void
     {
-        if (!$this->csrf->isValid('manage-projects', $this->getRequest()->request->get('token'))) {
+        $post = $this->getRequest()->request;
+
+        if (!$this->csrf->isValid('manage-projects', $post->get('token'))) {
             $this->error('Invalid CSRF Token');
         }
-        $map = [
-            1 => [ev_gettext('Thank you, the project was updated successfully.'), MessagesHelper::MSG_INFO],
-            -1 => [ev_gettext('An error occurred while trying to update the project information.'), MessagesHelper::MSG_ERROR],
-            -2 => [ev_gettext('Please enter the title for this project.'), MessagesHelper::MSG_ERROR],
-        ];
-        $this->messages->mapMessages(Project::update(), $map);
+
+        if (Validation::isWhitespace($post->get('title'))) {
+            $this->messages->addErrorMessage(ev_gettext('Please enter the title for this project.'));
+
+            return;
+        }
+
+        $prj_id = $post->getInt('id');
+        $repo = Doctrine::getProjectRepository();
+        $project = $this->updateFromRequest($repo->findOrCreate($prj_id), $post);
+        try {
+            $repo->updateProject($project);
+        } catch (DatabaseException $e) {
+            $this->messages->addErrorMessage(ev_gettext('An error occurred while trying to update the project information.'));
+
+            return;
+        }
+
+        // enable WorkflowLegacyExtension if project has workflow enabled
+        if ($project->getWorkflowBackend()) {
+            $register = new RegisterExtension();
+            $register->enable(WorkflowLegacyExtension::class);
+        }
+
+        Project::removeUserByProjects([$prj_id], $post->get('users'));
+        // users who are now being associated with this project should be set to 'Standard User'
+        $role_id = User::ROLE_USER;
+        $lead_usr_id = $post->getInt('lead_usr_id');
+        foreach ($post->get('users', []) as $usr_id) {
+            $usr_id = (int)$usr_id;
+            $isLeadUser = $usr_id === $lead_usr_id;
+            Project::associateUser($prj_id, $usr_id, $isLeadUser ? User::ROLE_MANAGER : $role_id);
+        }
+
+        $statuses = array_keys(Status::getAssocStatusList($prj_id));
+        if (count($statuses) > 0) {
+            Status::removeProjectAssociations($statuses, $prj_id);
+        }
+        foreach ($post->get('statuses') as $sta_id) {
+            Status::addProjectAssociation($sta_id, $prj_id);
+        }
+
+        $this->messages->addInfoMessage(ev_gettext('Thank you, the project was updated successfully.'));
+        $this->redirect("projects.php?cat=edit&id={$prj_id}");
     }
 
     private function editAction(): void
     {
-        $get = $this->getRequest()->query;
+        $prj_id = $this->getRequest()->query->getInt('id');
 
-        $this->tpl->assign('info', Project::getDetails($get->getInt('id')));
+        $repo = Doctrine::getProjectRepository();
+        $project = $repo->findById($prj_id);
+
+        $details = $project->toArray();
+        $details['prj_assigned_users'] = Project::getUserColList($prj_id);
+        $details['assigned_statuses'] = array_keys(Status::getAssocStatusList($prj_id));
+
+        $this->tpl->assign('info', $details);
     }
 
     protected function prepareTemplate(): void
@@ -132,5 +223,23 @@ class ProjectsController extends ManageBaseController
         }
 
         return $res;
+    }
+
+    private function updateFromRequest(Entity\Project $project, ParameterBag $post): Entity\Project
+    {
+        return $project
+            ->setTitle($post->get('title'))
+            ->setStatus($post->get('status'))
+            ->setLeadUserId($post->getInt('lead_usr_id'))
+            ->setInitialStatusId($post->getInt('initial_status'))
+            ->setOutgoingSenderName($post->get('outgoing_sender_name'))
+            ->setOutgoingSenderEmail($post->get('outgoing_sender_email'))
+            ->setSenderFlag($post->get('sender_flag'))
+            ->setSenderFlagLocation($post->get('flag_location'))
+            ->setMailAliases($post->get('mail_aliases'))
+            ->setRemoteInvocation($post->get('remote_invocation'))
+            ->setSegregateReporter($post->get('segregate_reporter') ? true : false)
+            ->setCustomerBackend($post->get('customer_backend'))
+            ->setWorkflowBackend($post->get('workflow_backend'));
     }
 }

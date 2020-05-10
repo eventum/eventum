@@ -23,6 +23,8 @@ use Doctrine\ORM\PersistentCollection;
  */
 class Project
 {
+    private const DATE_FORMAT = 'Y-m-d H:i:s';
+
     /**
      * @var int
      * @ORM\Column(name="prj_id", type="integer", nullable=false)
@@ -329,5 +331,28 @@ class Project
     public function getSegregateReporter(): bool
     {
         return $this->segregateReporter;
+    }
+
+    public function toArray(): array
+    {
+        return [
+            'prj_id' => $this->getId(),
+            'prj_created_date' => $this->createdDate->format(self::DATE_FORMAT),
+            'prj_title' => $this->getTitle(),
+            'prj_status' => $this->getStatus(),
+            'prj_lead_usr_id' => $this->getLeadUserId(),
+            'prj_initial_sta_id' => $this->getInitialStatusId(),
+            'prj_remote_invocation' => $this->getRemoteInvocation(),
+            'prj_anonymous_post' => $this->getAnonymousPost(),
+            'prj_anonymous_post_options' => $this->getAnonymousPostOptions(),
+            'prj_outgoing_sender_name' => $this->getOutgoingSenderName(),
+            'prj_outgoing_sender_email' => $this->getOutgoingSenderEmail(),
+            'prj_sender_flag' => $this->getSenderFlag(),
+            'prj_sender_flag_location' => $this->getSenderFlagLocation(),
+            'prj_mail_aliases' => $this->getMailAliases(),
+            'prj_customer_backend' => $this->getCustomerBackend(),
+            'prj_workflow_backend' => $this->getWorkflowBackend(),
+            'prj_segregate_reporter' => (string)(int)$this->getSegregateReporter(),
+        ];
     }
 }

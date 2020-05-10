@@ -14,9 +14,12 @@
 use Eventum\Db\AbstractMigration;
 use Eventum\Extension\BuiltinLegacyLoaderExtension;
 use Eventum\Extension\ExtensionLoader;
+use Eventum\Extension\RegisterExtension;
 
 class EventumExtensionMigrateDb extends AbstractMigration
 {
+    private const EXTENSION = BuiltinLegacyLoaderExtension::class;
+
     public function up(): void
     {
         $this->migratePartners();
@@ -31,10 +34,8 @@ class EventumExtensionMigrateDb extends AbstractMigration
      */
     private function setupLegacyLoader(): void
     {
-        $setup = Setup::get();
-        $rf = new ReflectionClass(BuiltinLegacyLoaderExtension::class);
-        $setup['extensions'][$rf->getName()] = $rf->getFileName();
-        Setup::save();
+        $register = new RegisterExtension();
+        $register->register(self::EXTENSION);
     }
 
     private function migratePartners(): void

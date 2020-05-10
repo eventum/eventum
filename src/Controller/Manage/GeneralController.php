@@ -14,7 +14,7 @@
 namespace Eventum\Controller\Manage;
 
 use Eventum\Controller\Helper\MessagesHelper;
-use Eventum\Extension\AuditTrailExtension;
+use Eventum\Extension;
 use Eventum\Extension\RegisterExtension;
 use Project;
 use Setup;
@@ -84,10 +84,10 @@ class GeneralController extends ManageBaseController
         ];
         $res = Setup::save($setup);
 
-        // audit trail is an extension, enable disable extension
-        $enabled = $setup['audit_trail'] === 'enabled';
+        // enable/disable features that have been moved to extensions
         $register = new RegisterExtension();
-        $register->enable(AuditTrailExtension::class, $enabled);
+        $register->enable(Extension\AuditTrailExtension::class, $setup['audit_trail'] === 'enabled');
+        $register->enable(Extension\IrcNotifyExtension::class, $setup['irc_notification'] === 'enabled');
 
         $this->tpl->assign('result', $res);
 

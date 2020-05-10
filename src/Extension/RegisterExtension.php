@@ -31,13 +31,15 @@ class RegisterExtension
         $this->config = Setup::get()['extensions'];
     }
 
-    public function enable(string $className, bool $enable): void
+    public function enable(string $className, bool $enable = true): void
     {
         $extension = $this->getExtensionClass($className);
 
         if ($enable && !$this->hasExtension($extension)) {
             $this->register($extension->getName());
-        } else {
+        }
+
+        if (!$enable) {
             $this->unregister($extension->getName());
         }
     }

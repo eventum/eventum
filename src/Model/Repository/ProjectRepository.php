@@ -14,6 +14,9 @@
 namespace Eventum\Model\Repository;
 
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\OptimisticLockException;
+use Doctrine\ORM\ORMException;
+use Eventum\Db\DatabaseException;
 use Eventum\Model\Entity;
 
 /**
@@ -22,4 +25,25 @@ use Eventum\Model\Entity;
 class ProjectRepository extends EntityRepository
 {
     use Traits\FindByIdTrait;
+
+    public function findOrCreate(int $id): Entity\Project
+    {
+        $project = $this->find($id);
+        if (!$project) {
+            $project = new Entity\Project();
+        }
+
+        return $project;
+    }
+
+    public function updateProject(Entity\Project $project): void
+    {
+        $em = $this->getEntityManager();
+        try {
+            $em->persist($project);
+            $em->flush();
+        } catch (ORMException | OptimisticLockException $e) {
+            throw new DatabaseException($e->getMessage(), $e->getCode(), $e);
+        }
+    }
 }

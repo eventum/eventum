@@ -13,9 +13,13 @@
 
 use Eventum\Db\AbstractMigration;
 use Eventum\Extension\IrcNotifyExtension;
+use Eventum\Extension\RegisterExtension;
+use Eventum\ServiceContainer;
 
 class EventumIrcExtension extends AbstractMigration
 {
+    private const EXTENSION = IrcNotifyExtension::class;
+
     public function up(): void
     {
         $this->registerExtension();
@@ -28,23 +32,22 @@ class EventumIrcExtension extends AbstractMigration
 
     private function registerExtension(): void
     {
-        $setup = Setup::get();
-
-        if ($setup['irc_notification'] === 'enabled') {
-            $rf = new ReflectionClass(IrcNotifyExtension::class);
-            $setup['extensions'][$rf->getName()] = $rf->getFileName();
-            Setup::save();
+        if ($this->isEnabled()) {
+            $register = new RegisterExtension();
+            $register->register(self::EXTENSION);
         }
     }
 
     private function unregisterExtension(): void
     {
-        $setup = Setup::get();
-
-        if ($setup['irc_notification'] === 'enabled') {
-            $rf = new ReflectionClass(IrcNotifyExtension::class);
-            unset($setup['extensions'][$rf->getName()]);
-            Setup::save();
+        if ($this->isEnabled()) {
+            $register = new RegisterExtension();
+            $register->unregister(self::EXTENSION);
         }
+    }
+
+    private function isEnabled(): bool
+    {
+        return ServiceContainer::getConfig()['irc_notification'] === 'enabled';
     }
 }

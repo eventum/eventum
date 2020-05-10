@@ -38,14 +38,6 @@ interface AdapterInterface
     const DB_FETCHMODE_ASSOC = 2;
 
     /**
-     * Connects to the database
-     *
-     * @param array $config
-     * @throws DatabaseException on connection failure
-     */
-    public function __construct(array $config);
-
-    /**
      * Escapes a string according to the current DBMS's standards
      *
      * @param string $str the string to be escaped
@@ -145,9 +137,9 @@ interface AdapterInterface
      *
      * @param string $query the SQL query
      * @param mixed $params array, string or numeric data
-     * @param int $fetchmode the fetch mode to use
+     * @param int $fetchMode the fetch mode to use
      * @throws DatabaseException on failure
      * @return array  the first row of results as an array
      */
-    public function getRow($query, $params = [], $fetchmode = self::DB_FETCHMODE_ASSOC);
+    public function getRow($query, $params = [], $fetchMode = self::DB_FETCHMODE_ASSOC);
 }

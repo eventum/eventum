@@ -118,7 +118,7 @@ class PdoAdapter implements AdapterInterface
         return $res;
     }
 
-    public function getRow($query, $params = [], $fetchmode = AdapterInterface::DB_FETCHMODE_ASSOC)
+    public function getRow($query, $params = [], $fetchMode = AdapterInterface::DB_FETCHMODE_ASSOC)
     {
         $stmt = $this->db->prepare($query);
         $this->convertParams($params);
@@ -128,9 +128,9 @@ class PdoAdapter implements AdapterInterface
             throw new DatabaseException($e->getMessage(), $e->getCode(), $e);
         }
 
-        $this->convertFetchMode($fetchmode);
+        $this->convertFetchMode($fetchMode);
 
-        return $stmt->fetch($fetchmode);
+        return $stmt->fetch($fetchMode);
     }
 
     /**
