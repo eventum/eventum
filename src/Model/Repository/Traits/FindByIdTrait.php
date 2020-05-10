@@ -22,7 +22,7 @@ trait FindByIdTrait
      * @throws EntityNotFoundException
      * @return mixed
      */
-    public function findById($id)
+    public function findById(int $id)
     {
         $res = $this->find($id);
         if (!$res) {

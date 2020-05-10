@@ -420,7 +420,7 @@ class Search
         }
         $csv[] = @implode("\t", $column_headings);
 
-        if (@$options['hide_excerpts'] != 1 && self::doesBackendSupportExcerpts() == true) {
+        if ($options['hide_excerpts'] != 1 && self::doesBackendSupportExcerpts() === true) {
             $excerpts = self::getFullTextExcerpts($options);
         }
 
@@ -776,7 +776,7 @@ class Search
     /**
      * This needs to be called after getFullTextIssues
      */
-    private static function getFullTextExcerpts(array $options)
+    private static function getFullTextExcerpts(array $options): array
     {
         if (empty($options['keywords']) || !Setup::get()['enable_fulltext']) {
             return [];
