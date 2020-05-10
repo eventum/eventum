@@ -55,10 +55,13 @@ Session.vim
 /htdocs/css/all.css
 /htdocs/css/chosen-sprite*.png
 /htdocs/css/components.css
+/htdocs/css/jquery-ui.css
 /htdocs/fonts/
+/htdocs/images/*.png
+/htdocs/images/vendor/
 /htdocs/js/all.js
 /htdocs/js/components.js
-/htdocs/images/*.png
+/htdocs/js/jquery-ui.js
 /htdocs/mix-manifest.json
 
 /eventum-setup
