@@ -8,3 +8,7 @@
  * please see the COPYING and AUTHORS files
  * that were distributed with this source code.
  */
+
+import { ExpandableCell } from "./ExpandableCell.js";
+
+window.ExpandableCell = new ExpandableCell();
