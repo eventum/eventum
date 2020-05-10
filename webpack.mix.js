@@ -14,10 +14,12 @@ const collect = require('collect.js');
  */
 
 mix.setPublicPath('htdocs');
-
-mix.sass('res/assets/sass/all.scss', 'htdocs/css/all.css').options({
-    processCssUrls: false
+mix.options({
+    // Process/optimize relative stylesheet url()'s. Set to false, if you don't want them touched.
+    processCssUrls: false,
 });
+
+mix.sass('res/assets/sass/all.scss', 'htdocs/css/all.css');
 
 mix.styles([
     'node_modules/font-awesome/css/font-awesome.css',
