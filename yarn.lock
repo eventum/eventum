@@ -3874,6 +3874,11 @@ jquery-form@^4.2.2:
   dependencies:
     jquery ">=1.7.2"
 
+jquery-ui@^1.12.1:
+  version "1.12.1"
+  resolved "https://registry.yarnpkg.com/jquery-ui/-/jquery-ui-1.12.1.tgz#bcb4045c8dd0539c134bc1488cdd3e768a7a9e51"
+  integrity sha1-vLQEXI3QU5wTS8FIjN0+dop6nlE=
+
 jquery@1.9.x, "jquery@>=1.5.0 <4.0", jquery@>=1.7.2, jquery@>=1.7.x, jquery@>=1.8:
   version "1.9.1"
   resolved "https://registry.yarnpkg.com/jquery/-/jquery-1.9.1.tgz#e4cd4835faaefbade535857613c0fc3ff2adaf34"
