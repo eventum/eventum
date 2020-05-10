@@ -36,7 +36,6 @@ mix.js([
 ], 'htdocs/js/app.js');
 
 mix.scripts([
-    'htdocs/js/main.js',
     'htdocs/js/page.js',
 ], 'htdocs/js/all.js');
 
