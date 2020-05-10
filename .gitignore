@@ -58,6 +58,7 @@ Session.vim
 /htdocs/fonts/
 /htdocs/js/all.js
 /htdocs/js/components.js
+/htdocs/images/*.png
 /htdocs/mix-manifest.json
 
 /eventum-setup

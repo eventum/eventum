@@ -16,8 +16,9 @@ const collect = require('collect.js');
 mix.setPublicPath('htdocs');
 mix.options({
     // Process/optimize relative stylesheet url()'s. Set to false, if you don't want them touched.
-    processCssUrls: false,
+    processCssUrls: true,
 });
+mix.setResourceRoot('..');
 
 mix.sass('res/assets/sass/all.scss', 'htdocs/css/all.css');
 
