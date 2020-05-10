@@ -16,6 +16,7 @@ namespace Eventum\Model\Entity;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Eventum\Model\Repository\Traits\ToArrayTrait;
 use Eventum\Scm\ScmRepository;
 
 /**
@@ -24,6 +25,8 @@ use Eventum\Scm\ScmRepository;
  */
 class Commit
 {
+    use ToArrayTrait;
+
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
@@ -275,10 +278,5 @@ class Commit
     public function getCommitRepo(): ScmRepository
     {
         return new ScmRepository($this->getScmName());
-    }
-
-    public function toArray(): array
-    {
-        return get_object_vars($this);
     }
 }

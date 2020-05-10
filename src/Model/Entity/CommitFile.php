@@ -14,6 +14,7 @@
 namespace Eventum\Model\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Eventum\Model\Repository\Traits\ToArrayTrait;
 
 /**
  * @ORM\Table(name="commit_file")
@@ -21,6 +22,8 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class CommitFile
 {
+    use ToArrayTrait;
+
     /**
      * @var int
      * @ORM\Id
@@ -176,10 +179,5 @@ class CommitFile
     public function hasVersions(): bool
     {
         return $this->getOldVersion() or $this->getNewVersion();
-    }
-
-    public function toArray(): array
-    {
-        return get_object_vars($this);
     }
 }
