@@ -9,10 +9,4 @@
  * that were distributed with this source code.
  */
 
-// This file is compiled into css using laravel-mix.
-// See CONTRIBUTING.md how to compile assets.
-
-@import 'main';
-@import 'markdown';
-@import 'page';
-@import 'priority';
+@import '~jquery-ui/themes/base/all.css';
