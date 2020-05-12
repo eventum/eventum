@@ -826,38 +826,6 @@ Validation.validateIssueNumberField = function(e)
      });
 };
 
-
-function CustomField()
-{
-}
-
-CustomField.field_info = [];
-
-CustomField.ready = function()
-{
-    // load information from the current page regarding fields
-    CustomField.loadFieldInfo();
-};
-
-CustomField.loadFieldInfo = function()
-{
-    $('.custom_field').each(function(index, Element) {
-        var field = $(this);
-        CustomField.field_info.push({
-            id: field.attr('data-custom-id'),
-            type: field.attr('data-custom-type'),
-            title: field.attr('data-custom-title'),
-            required: field.attr('data-custom-required'),
-            validation_js: field.attr('data-custom-validation-js')
-        })
-    });
-};
-
-CustomField.getFieldInfo = function()
-{
-    return CustomField.field_info;
-};
-
 function GrowingFileField() {
 }
 

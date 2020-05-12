@@ -10,5 +10,7 @@
  */
 
 import { ExpandableCell } from "./ExpandableCell.js";
+import { CustomField } from "./CustomField.js";
 
 window.ExpandableCell = new ExpandableCell();
+window.CustomField = new CustomField();
