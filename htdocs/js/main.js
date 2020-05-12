@@ -24,13 +24,13 @@ $(document).ready(function() {
     var page_id = $body.attr('id');
     classes.push(page_id);
     $.each(classes, function(indexInArray, className) {
-        if (className == '') {
+        className = className.replace(/-/g, '_');
+        if (className === '' || className === 'new') {
             return;
         }
-        className = className.replace(/-/g, '_');
-        if (className != 'new' && eval("typeof " + className) !== "undefined" &&
-                eval("typeof " + className + '.ready') == 'function') {
-            eval(className + '.ready(page_id)');
+
+        if (typeof window[className] !== "undefined" && typeof window[className].ready === 'function') {
+            window[className].ready(page_id);
         }
     });
 
