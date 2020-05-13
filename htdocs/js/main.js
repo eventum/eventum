@@ -858,61 +858,6 @@ CustomField.getFieldInfo = function()
     return CustomField.field_info;
 };
 
-
-function ExpandableCell()
-{
-}
-
-ExpandableCell.ready = function()
-{
-    $('.expandable_buttons .expand').click(function(e) {
-        var target = $(e.target).parent();
-        var expand_type = target.attr('data-expand-type');
-        var list_id = target.attr('data-list-id');
-        if (list_id != '') {
-            ExpandableCell.expand(expand_type, list_id);
-        } else {
-            $.each(expand_type.split(","), function(index, value) {
-                $('.expandable_buttons.' + value + ' .expand').each(function() {
-                    this.click();
-                })
-            });
-        }
-    });
-    $('.expandable_buttons .collapse').click(function(e) {
-        var target = $(e.target).parent();
-        var expand_type = target.attr('data-expand-type');
-        var list_id = target.attr('data-list-id');
-        if (list_id != '') {
-            ExpandableCell.collapse(expand_type, list_id);
-        } else {
-            $.each(expand_type.split(","), function(index, value) {
-                $('.expandable_buttons.' + value + ' .collapse').each(function() {
-                    this.click();
-                })
-            });
-        }
-    });
-};
-
-ExpandableCell.expand = function(expand_type, list_id) {
-    var row = $('#ec_' + expand_type + '_item_' + list_id + '_row');
-    var cell = row.find('td');
-    if (cell.html() == '') {
-        cell.load(Eventum.rel_url + 'get_remote_data.php?action=' + expand_type + '&ec_id=' + expand_type +
-            '&list_id=' + list_id, function() {
-            Eventum.setupTrimmedEmailToggle();
-        });
-
-    }
-    row.show();
-};
-
-ExpandableCell.collapse = function(expand_type, list_id) {
-    var row = $('#ec_' + expand_type + '_item_' + list_id + '_row');
-    row.hide();
-};
-
 function GrowingFileField() {
 }
 

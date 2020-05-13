@@ -31,6 +31,10 @@ mix.styles([
 mix.copy('node_modules/chosen-js/*.png', 'htdocs/css');
 mix.copy('node_modules/font-awesome/fonts', 'htdocs/fonts');
 
+mix.js([
+    'res/assets/scripts/bootstrap.js',
+], 'htdocs/js/bootstrap.js');
+
 mix.scripts([
     'htdocs/js/main.js',
     'htdocs/js/page.js',

@@ -31,7 +31,8 @@
     "resolve-url-loader": "^3.1.1",
     "sass": "^1.26.3",
     "sass-loader": "^8.0.2",
-    "timeago": "^1.6.7"
+    "timeago": "^1.6.7",
+    "vue-template-compiler": "^2.6.11"
   },
   "resolutions": {
     "block-ui/jquery": "1.9.x",

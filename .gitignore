@@ -60,6 +60,7 @@ Session.vim
 /htdocs/images/*.png
 /htdocs/images/vendor/
 /htdocs/js/all.js
+/htdocs/js/bootstrap.js
 /htdocs/js/components.js
 /htdocs/js/jquery-ui.js
 /htdocs/mix-manifest.json
