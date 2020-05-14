@@ -1,6 +1,6 @@
 # Eventum Issue Tracking System
 
-## [3.8.12]
+## [3.8.12] - 2020-05-14
 
 Upgrading to 3.8.x versions requires that you upgrade to latest 3.5.x version first.
 
@@ -10,7 +10,7 @@ Upgrading to 3.8.x versions requires that you upgrade to latest 3.5.x version fi
 - Extract ExpandableCell into a class, #837
 - Use Doctrine methods to save in ProjectsController, #833
 
-[3.8.12]: https://github.com/eventum/eventum/compare/v3.8.11...master
+[3.8.12]: https://github.com/eventum/eventum/compare/v3.8.11...v3.8.12
 
 ## [3.8.11] - 2020-05-06
 
