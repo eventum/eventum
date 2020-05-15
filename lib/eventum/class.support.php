@@ -369,29 +369,6 @@ class Support
     }
 
     /**
-     * Method used to get the total number of emails in the specified
-     * mailbox.
-     *
-     * @param   resource $mbox The mailbox
-     * @return  int The number of emails
-     */
-    public static function getTotalEmails($mbox)
-    {
-        return @imap_num_msg($mbox);
-    }
-
-    /**
-     * Method used to get new emails from the mailbox.
-     *
-     * @param  resource $mbox The mailbox
-     * @return array array of new message numbers
-     */
-    public static function getNewEmails($mbox)
-    {
-        return @imap_search($mbox, 'UNSEEN UNDELETED UNANSWERED');
-    }
-
-    /**
      * Bounce message to sender.
      *
      * @param ImapMessage $mail

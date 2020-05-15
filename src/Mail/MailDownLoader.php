@@ -17,7 +17,6 @@ use ArrayIterator;
 use Eventum\Logger\LoggerTrait;
 use Eventum\Mail\Exception\InvalidMessageException;
 use Generator;
-use Support;
 
 class MailDownLoader
 {
@@ -52,14 +51,14 @@ class MailDownLoader
     private function getMessageIndexes(): Generator
     {
         if ($this->onlyNewMails) {
-            $emails = Support::getNewEmails($this->mbox);
+            $emails = $this->getNewEmails();
             if (!is_array($emails)) {
                 return;
             }
 
             yield from new ArrayIterator($emails);
         } else {
-            $total_emails = Support::getTotalEmails($this->mbox);
+            $total_emails = $this->getTotalEmails();
             if ($total_emails <= 0) {
                 return;
             }
@@ -79,5 +78,27 @@ class MailDownLoader
 
             return null;
         }
+    }
+
+    /**
+     * Method used to get new emails from the mailbox.
+     *
+     * @param resource $mbox The mailbox
+     * @return array array of new message numbers
+     */
+    private function getNewEmails()
+    {
+        return imap_search($this->mbox, 'UNSEEN UNDELETED UNANSWERED');
+    }
+
+    /**
+     * Method used to get the total number of emails in the specified
+     * mailbox.
+     *
+     * @return  int The number of emails
+     */
+    private function getTotalEmails()
+    {
+        return @imap_num_msg($this->mbox);
     }
 }
