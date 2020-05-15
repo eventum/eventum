@@ -72,6 +72,8 @@ class MailDownLoader
     private function createMail(int $i): ?ImapMessage
     {
         try {
+            $this->debug('Create mail', ['num' => $i]);
+
             return ImapMessage::createFromImap($this->mbox, $i, $this->options);
         } catch (InvalidMessageException $e) {
             $this->error($e->getMessage(), ['num' => $i, 'e' => $e]);
