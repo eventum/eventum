@@ -111,7 +111,7 @@ class MailDownloadCommand extends SymfonyCommand
                     try {
                         $mail = ImapMessage::createFromImap($mbox, $i, $account);
                     } catch (InvalidMessageException $e) {
-                        $this->error($e->getMessage(), ['num' => $i]);
+                        $this->error($e->getMessage(), ['num' => $i, 'e' => $e]);
                         continue;
                     }
                     Support::processMailMessage($mail, $account);
@@ -128,14 +128,14 @@ class MailDownloadCommand extends SymfonyCommand
                     try {
                         $mail = ImapMessage::createFromImap($mbox, $i, $account);
                     } catch (InvalidMessageException $e) {
-                        $this->error($e->getMessage(), ['num' => $i]);
+                        $this->error($e->getMessage(), ['num' => $i, 'e' => $e]);
                         continue;
                     }
 
                     try {
                         Support::processMailMessage($mail, $account);
                     } catch (Throwable $e) {
-                        $this->error($e->getMessage(), ['num' => $i]);
+                        $this->error($e->getMessage(), ['mail' => $mail, 'e' => $e]);
                         continue;
                     }
 
