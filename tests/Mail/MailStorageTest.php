@@ -13,7 +13,6 @@
 
 namespace Eventum\Test\Mail;
 
-use Eventum\Mail\ImapMessage;
 use Eventum\Mail\MailStorage;
 use Eventum\Test\TestCase;
 use Setup;
@@ -80,22 +79,6 @@ class MailStorageTest extends TestCase
 //            isset($mail->cc) and var_export($mail->cc);
 //            !empty($mail->fromaddress) and var_export($mail->fromaddress);
         }
-    }
-
-    public function testImapHeaderStructure(): void
-    {
-        $mbox = Support::connectEmailServer($this->account);
-        $emails = Support::getNewEmails($mbox);
-        $this->assertNotEmpty($emails);
-
-        foreach ($emails as $i) {
-            $mail = ImapMessage::createFromImap($mbox, $i, $this->account);
-
-            // array of emails
-            $cc = $mail->getAddresses('To');
-            var_dump($cc);
-        }
-        die;
     }
 
     public function testSearch(): void
