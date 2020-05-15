@@ -16,10 +16,10 @@ namespace Eventum\Console\Command;
 use Email_Account;
 use Eventum\ConcurrentLock;
 use Eventum\Logger\LoggerTrait;
-use Eventum\Mail\Exception\InvalidMessageException;
-use Eventum\Mail\ImapMessage;
+use Eventum\Mail\MailDownLoader;
 use InvalidArgumentException;
 use Psr\Log\LoggerInterface;
+use LimitIterator;
 use RuntimeException;
 use Support;
 use Symfony\Component\Console\Command\Command as SymfonyCommand;
@@ -93,56 +93,19 @@ class MailDownloadCommand extends SymfonyCommand
         }
     }
 
-    /**
-     * @param int $account_id
-     */
-    private function processEmails($account_id): void
+    private function processEmails(int $account_id): void
     {
         $account = Email_Account::getDetails($account_id, true);
         $mbox = $this->getConnection($account);
-        $limit = 0;
 
-        // if we only want new emails
-        if ($account['ema_get_only_new']) {
-            $emails = Support::getNewEmails($mbox);
-
-            if (is_array($emails)) {
-                foreach ($emails as $i) {
-                    try {
-                        $mail = ImapMessage::createFromImap($mbox, $i, $account);
-                    } catch (InvalidMessageException $e) {
-                        $this->error($e->getMessage(), ['num' => $i, 'e' => $e]);
-                        continue;
-                    }
-                    Support::processMailMessage($mail, $account);
-                    if ($this->limit && $limit++ > $this->limit) {
-                        break;
-                    }
-                }
-            }
-        } else {
-            $total_emails = Support::getTotalEmails($mbox);
-
-            if ($total_emails > 0) {
-                for ($i = 1; $i <= $total_emails; $i++) {
-                    try {
-                        $mail = ImapMessage::createFromImap($mbox, $i, $account);
-                    } catch (InvalidMessageException $e) {
-                        $this->error($e->getMessage(), ['num' => $i, 'e' => $e]);
-                        continue;
-                    }
-
-                    try {
-                        Support::processMailMessage($mail, $account);
-                    } catch (Throwable $e) {
-                        $this->error($e->getMessage(), ['mail' => $mail, 'e' => $e]);
-                        continue;
-                    }
-
-                    if ($this->limit && ++$limit >= $this->limit) {
-                        break;
-                    }
-                }
+        $downloader = new MailDownloader($mbox, $account);
+        $it = new LimitIterator($downloader->getMails(), 0, $this->limit ?: -1);
+        foreach ($it as $mail) {
+            try {
+                Support::processMailMessage($mail, $account);
+            } catch (Throwable $e) {
+                $this->error($e->getMessage(), ['mail' => $mail, 'e' => $e]);
+                continue;
             }
         }
 
