@@ -38,10 +38,10 @@ class MailDownloadCommand
      */
     private $limit = 0;
 
-    public function execute(?string $username, ?string $hostname, ?string $mailbox, bool $noLock, int $limit = 0): void
+    public function __invoke(?string $username, ?string $hostname, ?string $mailbox, ?bool $noLock, ?int $limit): void
     {
         $account_id = $this->getAccountId($username, $hostname, $mailbox);
-        $this->limit = $limit;
+        $this->limit = $limit ?: 0;
 
         if (!$noLock) {
             $lock = new ConcurrentLock('download_emails_' . $account_id);
