@@ -53,9 +53,7 @@ class ImapConnection
         [$overview] = imap_fetch_overview($this->mbox, $num);
 
         $message = new ImapResource();
-        $message->mbox = $this->mbox;
         $message->num = $num;
-        $message->info = $this->account;
         $message->overview = $overview;
         $message->headers = imap_fetchheader($this->mbox, $num);
         $message->content = imap_body($this->mbox, $num);

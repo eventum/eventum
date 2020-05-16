@@ -38,13 +38,6 @@ class ImapMessage extends MailMessage
     public $num;
 
     /**
-     * Server parameters for IMAP connection
-     *
-     * @var array
-     */
-    public $info;
-
-    /**
      * Method to create email from data from extension and return Zend Mail Message object.
      *
      * This is bridge while migrating to Zend Mail package supporting reading from imap extension functions.
@@ -76,7 +69,6 @@ class ImapMessage extends MailMessage
         $message->getHeaders()->addHeader($header);
 
         $message->num = $resource->num;
-        $message->info = $resource->info;
 
         $event = new GenericEvent($message, $parameters);
         EventManager::dispatch(SystemEvents::MAIL_LOADED_IMAP, $event);
@@ -124,25 +116,5 @@ class ImapMessage extends MailMessage
         }
 
         return Date_Helper::getDateTime($date);
-    }
-
-    /**
-     * Get Project Id associated with this email account
-     *
-     * @return int
-     */
-    public function getProjectId(): int
-    {
-        return $this->info['ema_prj_id'];
-    }
-
-    /**
-     * Get The email account ID
-     *
-     * @return int
-     */
-    public function getEmailAccountId(): int
-    {
-        return $this->info['ema_id'];
     }
 }

@@ -15,12 +15,8 @@ namespace Eventum\Mail\Imap;
 
 class ImapResource
 {
-    /** @var resource */
-    public $mbox;
     /** @var int */
     public $num;
-    /** @var array */
-    public $info;
     /** @var object */
     public $imapheaders;
     /** @var object */

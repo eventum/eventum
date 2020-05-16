@@ -53,6 +53,10 @@ class ProcessMailMessage
     private $leaveCopy;
     /** @var ImapConnection */
     private $connection;
+    /** @var int */
+    private $ema_id;
+    /** @var int */
+    private $prj_id;
 
     public function __construct(ImapConnection $connection, LoggerInterface $logger = null)
     {
@@ -63,10 +67,14 @@ class ProcessMailMessage
         $this->useRouting = $info['ema_use_routing'] == 1;
         $this->leaveCopy = (bool)$info['ema_leave_copy'];
         $this->systemUserId = Setup::getSystemUserId();
+        $this->ema_id = (int)$info['ema_id'];
+        $this->prj_id = (int)$info['ema_prj_id'];
     }
 
     public function process(ImapMessage $mail): void
     {
+        $ema_id = $this->ema_id;
+        $prj_id = $this->prj_id;
         $message_id = $mail->messageId;
         $this->debug("Processing $message_id");
 
@@ -87,7 +95,7 @@ class ProcessMailMessage
         AuthCookie::setAuthCookie($this->systemUserId);
 
         // pass in $mail object so it can be modified
-        if (!Workflow::preEmailDownload($mail->getProjectId(), $mail)) {
+        if (!Workflow::preEmailDownload($prj_id, $mail)) {
             $this->debug("Skip $message_id: Skipped by workflow");
 
             return;
@@ -136,7 +144,7 @@ class ProcessMailMessage
         $sender_email = $mail->getSender();
 
         $t = [
-            'ema_id' => $mail->getEmailAccountId(),
+            'ema_id' => $ema_id,
             'date' => Date_Helper::convertDateGMT($mail->getMailDate()),
             // these below are likely unused by Support::insertEmail
             'message_id' => $mail->messageId,
@@ -158,9 +166,9 @@ class ProcessMailMessage
             // figure out if we should change to a different email account
             $iss_prj_id = Issue::getProjectID($t['issue_id']);
             if ($info['ema_prj_id'] != $iss_prj_id) {
-                $new_ema_id = Email_Account::getEmailAccount($iss_prj_id);
-                if (!empty($new_ema_id)) {
-                    $t['ema_id'] = $new_ema_id;
+                $ema_id = Email_Account::getEmailAccount($iss_prj_id);
+                if (!empty($ema_id)) {
+                    $t['ema_id'] = $ema_id;
                 }
             }
         }
