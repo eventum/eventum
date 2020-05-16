@@ -1280,7 +1280,7 @@ class Support
      * @param int $sup_id The support email ID
      * @return MailMessage
      */
-    public static function getSupportEmail($sup_id)
+    public static function getSupportEmail(int $sup_id): MailMessage
     {
         $stmt = 'SELECT
                     seb_full_email
