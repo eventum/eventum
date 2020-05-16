@@ -38,20 +38,6 @@ class ImapMessage extends MailMessage
     public $num;
 
     /**
-     * imap connection obtained from imap_open
-     *
-     * @var resource
-     */
-    public $mbox;
-
-    /**
-     * headerinfo result
-     *
-     * @var \stdClass
-     */
-    public $imapheaders;
-
-    /**
      * Server parameters for IMAP connection
      *
      * @var array
@@ -89,10 +75,8 @@ class ImapMessage extends MailMessage
         $header = new GenericHeader('X-IMAP-UnixDate', $resource->imapheaders->udate);
         $message->getHeaders()->addHeader($header);
 
-        $message->mbox = $resource->mbox;
         $message->num = $resource->num;
         $message->info = $resource->info;
-        $message->imapheaders = $resource->imapheaders;
 
         $event = new GenericEvent($message, $parameters);
         EventManager::dispatch(SystemEvents::MAIL_LOADED_IMAP, $event);
