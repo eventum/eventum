@@ -15,50 +15,46 @@ namespace Eventum\Mail;
 
 use ArrayIterator;
 use Eventum\Logger\LoggerTrait;
-use Eventum\Mail\Exception\InvalidMessageException;
+use Eventum\Mail\Imap\ImapConnection;
+use Eventum\Mail\Imap\ImapResource;
 use Generator;
 
 class MailDownLoader
 {
     use LoggerTrait;
 
-    /** @var resource */
-    private $mbox;
-    /** @var array */
-    private $options;
+    /** @var ImapConnection */
+    private $connection;
     /** @var bool */
     private $onlyNewMails;
 
-    public function __construct($mbox, array $options)
+    public function __construct(ImapConnection $connection, array $options)
     {
-        $this->mbox = $mbox;
-        $this->options = $options;
+        $this->connection = $connection;
         $this->onlyNewMails = $options['ema_get_only_new'];
     }
 
+    /**
+     * @return ImapResource[]|Generator
+     */
     public function getMails(): Generator
     {
         foreach ($this->getMessageIndexes() as $i) {
-            $mail = $this->createMail($i);
-            if (!$mail) {
-                continue;
-            }
-
-            yield $mail;
+            yield $this->connection->getMessage($i);
         }
     }
 
     private function getMessageIndexes(): Generator
     {
         if ($this->onlyNewMails) {
-            $emails = $this->getNewEmails();
+            $emails = $this->connection->getNewEmails();
             if (!is_array($emails)) {
                 return;
             }
 
             yield from new ArrayIterator($emails);
         } else {
-            $total_emails = $this->getTotalEmails();
+            $total_emails = $this->connection->getTotalEmails();
             if ($total_emails <= 0) {
                 return;
             }
@@ -67,40 +63,5 @@ class MailDownLoader
                 yield $i;
             }
         }
-    }
-
-    private function createMail(int $i): ?ImapMessage
-    {
-        try {
-            $this->debug('Create mail', ['num' => $i]);
-
-            return ImapMessage::createFromImap($this->mbox, $i, $this->options);
-        } catch (InvalidMessageException $e) {
-            $this->error($e->getMessage(), ['num' => $i, 'e' => $e]);
-
-            return null;
-        }
-    }
-
-    /**
-     * Method used to get new emails from the mailbox.
-     *
-     * @param resource $mbox The mailbox
-     * @return array array of new message numbers
-     */
-    private function getNewEmails()
-    {
-        return imap_search($this->mbox, 'UNSEEN UNDELETED UNANSWERED');
-    }
-
-    /**
-     * Method used to get the total number of emails in the specified
-     * mailbox.
-     *
-     * @return  int The number of emails
-     */
-    private function getTotalEmails()
-    {
-        return @imap_num_msg($this->mbox);
     }
 }

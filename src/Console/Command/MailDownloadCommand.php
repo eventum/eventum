@@ -16,11 +16,13 @@ namespace Eventum\Console\Command;
 use Email_Account;
 use Eventum\ConcurrentLock;
 use Eventum\Logger\LoggerTrait;
+use Eventum\Mail\Exception\InvalidMessageException;
+use Eventum\Mail\Imap\ImapConnection;
+use Eventum\Mail\ImapMessage;
 use Eventum\Mail\MailDownLoader;
 use InvalidArgumentException;
 use Psr\Log\LoggerInterface;
 use LimitIterator;
-use RuntimeException;
 use Support;
 use Symfony\Component\Console\Command\Command as SymfonyCommand;
 use Symfony\Component\Console\Input\InputArgument;
@@ -96,11 +98,19 @@ class MailDownloadCommand extends SymfonyCommand
     private function processEmails(int $account_id): void
     {
         $account = Email_Account::getDetails($account_id, true);
-        $mbox = $this->getConnection($account);
+        $mbox = new ImapConnection($account);
 
         $downloader = new MailDownloader($mbox, $account);
         $it = new LimitIterator($downloader->getMails(), 0, $this->limit ?: -1);
-        foreach ($it as $mail) {
+        foreach ($it as $resource) {
+            try {
+                $this->debug('Create mail', ['resource' => $resource]);
+                $mail = ImapMessage::createFromImapResource($resource);
+            } catch (InvalidMessageException $e) {
+                $this->error($e->getMessage(), ['resource' => $resource, 'e' => $e]);
+
+                continue;
+            }
             try {
                 Support::processMailMessage($mail, $account);
             } catch (Throwable $e) {
@@ -108,8 +118,6 @@ class MailDownloadCommand extends SymfonyCommand
                 continue;
             }
         }
-
-        $this->closeConnection($mbox);
     }
 
     /**
@@ -121,7 +129,7 @@ class MailDownloadCommand extends SymfonyCommand
      * @throws InvalidArgumentException
      * @return int
      */
-    private function getAccountId($username, $hostname, $mailbox)
+    private function getAccountId($username, $hostname, $mailbox): int
     {
         // get the account ID early since we need it also for unlocking.
         $account_id = Email_Account::getAccountID($username, $hostname, $mailbox);
@@ -134,68 +142,5 @@ class MailDownloadCommand extends SymfonyCommand
         }
 
         return $account_id;
-    }
-
-    /**
-     * Get IMAP connection handle
-     *
-     * @param array $account
-     * @throws RuntimeException
-     * @return resource
-     */
-    private function getConnection($account)
-    {
-        if (!function_exists('imap_open')) {
-            throw new RuntimeException(
-                "Eventum requires the IMAP extension in order to download messages saved on a IMAP/POP3 mailbox.\n" .
-                "See Prerequisites on the Wiki https://github.com/eventum/eventum/wiki/Prerequisites\n" .
-                'Please refer to the PHP manual for more details about how to install and enable the IMAP extension.'
-            );
-        }
-
-        $mbox = Support::connectEmailServer($account);
-        if ($mbox === false) {
-            $uri = Support::getServerURI($account);
-            $login = $account['ema_username'];
-            $error = imap_last_error();
-
-            throw new RuntimeException(
-                "$error\n" .
-                "Could not connect to the email server '$uri' with login: '$login'." .
-                'Please verify your email account settings and try again.'
-
-            );
-        }
-
-        return $mbox;
-    }
-
-    /**
-     * @param resource $mbox
-     */
-    private function closeConnection($mbox): void
-    {
-        $this->closeEmailServer($mbox);
-        $this->clearErrors();
-    }
-
-    /**
-     * Method used to close the existing connection to the email
-     * server.
-     *
-     * @param   resource $mbox The mailbox
-     */
-    private function closeEmailServer($mbox): void
-    {
-        imap_expunge($mbox);
-        imap_close($mbox);
-    }
-
-    /**
-     * Method used to clear the error stack as required by the IMAP PHP extension.
-     */
-    private function clearErrors(): void
-    {
-        imap_errors();
     }
 }
