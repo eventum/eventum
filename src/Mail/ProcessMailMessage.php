@@ -62,9 +62,8 @@ class ProcessMailMessage
 
     public function process(ImapMessage $mail): void
     {
-        AuthCookie::setAuthCookie($this->systemUserId);
-
         $message_id = $mail->messageId;
+        $this->debug("Processing $message_id");
 
         // check if the current message was already seen
         if ($this->onlyNew && $mail->isSeen()) {
@@ -75,10 +74,12 @@ class ProcessMailMessage
 
         // if message_id already exists, return immediately -- nothing to do
         if (Support::exists($message_id) || Note::exists($message_id)) {
-            $this->debug("Skip $message_id: Already exists as email or note.");
+            $this->debug("Skip $message_id: already exists as email or note.");
 
             return;
         }
+
+        AuthCookie::setAuthCookie($this->systemUserId);
 
         // pass in $mail object so it can be modified
         if (!Workflow::preEmailDownload($mail->getProjectId(), $mail)) {
@@ -92,7 +93,7 @@ class ProcessMailMessage
             try {
                 $routed = Routing::route($mail);
             } catch (RoutingException $e) {
-                $this->info("Skip $message_id: RoutingException: {$e->getMessage()}");
+                $this->debug("Skip $message_id: RoutingException: {$e->getMessage()}");
 
                 // "if leave copy of emails on IMAP server" is "off",
                 // then we can bounce on the message
