@@ -20,10 +20,10 @@ use Eventum\Mail\Exception\InvalidMessageException;
 use Eventum\Mail\Imap\ImapConnection;
 use Eventum\Mail\ImapMessage;
 use Eventum\Mail\MailDownLoader;
+use Eventum\Mail\ProcessMailMessage;
 use InvalidArgumentException;
-use Psr\Log\LoggerInterface;
 use LimitIterator;
-use Support;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Command\Command as SymfonyCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -101,6 +101,7 @@ class MailDownloadCommand extends SymfonyCommand
         $mbox = new ImapConnection($account);
 
         $downloader = new MailDownloader($mbox, $account);
+        $processor = new ProcessMailMessage($account, $this->logger);
         $it = new LimitIterator($downloader->getMails(), 0, $this->limit ?: -1);
         foreach ($it as $resource) {
             try {
@@ -109,11 +110,11 @@ class MailDownloadCommand extends SymfonyCommand
                 $this->info('Mail object created', ['mail' => $mail]);
             } catch (InvalidMessageException $e) {
                 $this->error($e->getMessage(), ['resource' => $resource, 'e' => $e]);
-
                 continue;
             }
+
             try {
-                Support::processMailMessage($mail, $account);
+                $processor->process($mail);
             } catch (Throwable $e) {
                 $this->error($e->getMessage(), ['mail' => $mail, 'e' => $e]);
                 continue;
