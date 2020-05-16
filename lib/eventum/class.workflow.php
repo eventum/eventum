@@ -137,7 +137,8 @@ class Workflow
      * @param   array $changes
      * @return  mixed. True to continue, anything else to cancel the change and return the value
      * @since 3.5.0 emits ISSUE_CREATED_BEFORE event
-     * @todo port to ResultableEvent
+     * @since 3.8.13 can use stopPropagation() to cancel event
+     * @since 3.8.13 workflow integration is done by WorkflowLegacyExtension
      */
     public static function preIssueUpdated($prj_id, $issue_id, $usr_id, &$changes, $issue_details)
     {
@@ -148,6 +149,7 @@ class Workflow
             'issue_details' => $issue_details,
             'changes' => $changes,
             // 'true' to continue, anything else to cancel the change and return the value
+            // @deprecated since 3.8.13, use stopPropagation() to cancel
             'bubble' => true,
         ];
 
@@ -157,12 +159,11 @@ class Workflow
             return $event['bubble'];
         }
 
-        $backend = self::getBackend($prj_id);
-        if (!$backend) {
-            return true;
+        if ($event->isPropagationStopped()) {
+            return false;
         }
 
-        return $backend->preIssueUpdated($prj_id, $issue_id, $usr_id, $changes);
+        return true;
     }
 
     /**

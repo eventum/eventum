@@ -36,10 +36,12 @@ class WorkflowLegacyExtension implements Provider\SubscriberProvider, EventSubsc
     public static function getSubscribedEvents(): array
     {
         return [
-            /** @see WorkflowLegacyExtension::canAccessIssue */
-            SystemEvents::ACCESS_ISSUE => 'canAccessIssue',
             /** @see WorkflowLegacyExtension::handleIssueUpdated */
             SystemEvents::ISSUE_UPDATED => 'handleIssueUpdated',
+            /** @see WorkflowLegacyExtension::preIssueUpdated */
+            SystemEvents::ISSUE_UPDATED_BEFORE => 'preIssueUpdated',
+            /** @see WorkflowLegacyExtension::canAccessIssue */
+            SystemEvents::ACCESS_ISSUE => 'canAccessIssue',
         ];
     }
 
@@ -53,6 +55,21 @@ class WorkflowLegacyExtension implements Provider\SubscriberProvider, EventSubsc
         }
 
         $backend->handleIssueUpdated($event['prj_id'], $event['issue_id'], $event['usr_id'], $event['old_details'], $event['raw_post']);
+    }
+
+    /**
+     * @see Workflow::preIssueUpdated
+     */
+    public function preIssueUpdated(GenericEvent $event): void
+    {
+        if (!$backend = $this->getBackend($event)) {
+            return;
+        }
+
+        $result = $backend->preIssueUpdated($event['prj_id'], $event['issue_id'], $event['usr_id'], $event['changes']);
+        if ($result !== true) {
+            $event->stopPropagation();
+        }
     }
 
     /**
