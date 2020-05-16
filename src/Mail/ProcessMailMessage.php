@@ -20,6 +20,7 @@ use Email_Account;
 use Eventum\Logger\LoggerTrait;
 use Eventum\Mail\Exception\RoutingException;
 use Eventum\Mail\Helper\AddressHeader;
+use Eventum\Mail\Imap\ImapConnection;
 use History;
 use Issue;
 use Mail_Helper;
@@ -50,10 +51,14 @@ class ProcessMailMessage
     private $systemUserId;
     /** @var bool */
     private $leaveCopy;
+    /** @var ImapConnection */
+    private $connection;
 
-    public function __construct(array $info, LoggerInterface $logger = null)
+    public function __construct(ImapConnection $connection, LoggerInterface $logger = null)
     {
+        $info = $connection->getOptions();
         $this->logger = $logger ?: new NullLogger();
+        $this->connection = $connection;
         $this->onlyNew = (bool)$info['ema_get_only_new'];
         $this->useRouting = $info['ema_use_routing'] == 1;
         $this->leaveCopy = (bool)$info['ema_leave_copy'];
@@ -101,7 +106,7 @@ class ProcessMailMessage
                 // eventum_bounce: bon_id, bon_message_id, bon_error
                 if (!$this->leaveCopy) {
                     Support::bounceMessage($mail, $e);
-                    $mail->deleteMessage();
+                    $this->connection->deleteMessage($mail);
                 }
 
                 return;
@@ -113,7 +118,7 @@ class ProcessMailMessage
 
                 if (!$this->leaveCopy) {
                     $this->debug("$message_id: Delete from IMAP/POP3");
-                    $mail->deleteMessage();
+                    $this->connection->deleteMessage($mail);
                 }
 
                 return;
@@ -296,7 +301,7 @@ class ProcessMailMessage
         }
 
         if ($res > 0) {
-            $mail->deleteMessage();
+            $this->connection->deleteMessage($mail);
         }
     }
 }

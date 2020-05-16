@@ -13,6 +13,7 @@
 
 namespace Eventum\Mail\Imap;
 
+use Eventum\Mail\ImapMessage;
 use RuntimeException;
 use Support;
 
@@ -40,6 +41,11 @@ class ImapConnection
     public function __destruct()
     {
         $this->closeConnection();
+    }
+
+    public function getOptions(): array
+    {
+        return $this->account;
     }
 
     public function getMessage(int $num): ImapResource
@@ -77,6 +83,22 @@ class ImapConnection
     public function getTotalEmails(): int
     {
         return imap_num_msg($this->mbox);
+    }
+
+    /**
+     * Deletes the specified message from the IMAP/POP server
+     * NOTE: YOU STILL MUST call imap_expunge($mbox) to permanently delete the message.
+     */
+    public function deleteMessage(ImapMessage $mail): void
+    {
+        $index = $mail->num;
+        // need to delete the message from the server?
+        if (!$this->account['ema_leave_copy']) {
+            imap_delete($this->mbox, $index);
+        } else {
+            // mark the message as already read
+            imap_setflag_full($this->mbox, $index, '\\Seen');
+        }
     }
 
     /**

@@ -101,7 +101,7 @@ class MailDownloadCommand extends SymfonyCommand
         $mbox = new ImapConnection($account);
 
         $downloader = new MailDownloader($mbox, $account);
-        $processor = new ProcessMailMessage($account, $this->logger);
+        $processor = new ProcessMailMessage($mbox, $this->logger);
         $it = new LimitIterator($downloader->getMails(), 0, $this->limit ?: -1);
         foreach ($it as $resource) {
             try {
