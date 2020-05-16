@@ -14,14 +14,15 @@
 namespace Eventum\Console;
 
 use Eventum\EventDispatcher\EventManager;
+use Eventum\ServiceContainer;
 use Silly\Application as BaseApplication;
 
 class Application extends BaseApplication
 {
     public function __construct($name = 'UNKNOWN', $version = 'UNKNOWN')
     {
-        $this->setDispatcher(EventManager::getEventDispatcher());
-
         parent::__construct($name, $version);
+        $this->setDispatcher(EventManager::getEventDispatcher());
+        $this->useContainer(ServiceContainer::getContainer());
     }
 }

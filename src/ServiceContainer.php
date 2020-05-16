@@ -15,6 +15,8 @@ namespace Eventum;
 
 use Eventum\Config\Config;
 use Pimple\Container;
+use Pimple\Psr11\Container as PsrContainer;
+use Psr\Container\ContainerInterface;
 
 class ServiceContainer
 {
@@ -26,6 +28,18 @@ class ServiceContainer
             $container = new Container();
             $container->register(new ServiceProvider\ServiceProvider());
             $container->register(new ServiceProvider\FulltextSearchService());
+            $container->register(new ServiceProvider\ConsoleCommandsService());
+        }
+
+        return $container;
+    }
+
+    public static function getContainer(): ContainerInterface
+    {
+        static $container;
+
+        if (!$container) {
+            $container = new PsrContainer(self::getInstance());
         }
 
         return $container;
