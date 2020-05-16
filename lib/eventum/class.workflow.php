@@ -99,24 +99,6 @@ class Workflow
     }
 
     /**
-     * Checks whether the given project ID is setup to use workflow integration
-     * or not.
-     *
-     * @param   int $prj_id The project ID
-     * @return  bool
-     * @deprecated this method is not used by eventum
-     */
-    public static function hasWorkflowIntegration($prj_id)
-    {
-        $backend = self::_getBackendNameByProject($prj_id);
-        if (empty($backend)) {
-            return false;
-        }
-
-        return true;
-    }
-
-    /**
      * Is called when an issue is updated.
      *
      * @param   int $prj_id the project ID
