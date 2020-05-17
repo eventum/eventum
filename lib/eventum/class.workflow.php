@@ -302,25 +302,20 @@ class Workflow
      * @param   bool $has_TAM if this issue has a technical account manager
      * @param   bool $has_RR if Round Robin was used to assign this issue
      * @since 3.5.0 emits ISSUE_CREATED event
+     * @since 3.8.13 workflow integration is done by WorkflowLegacyExtension
+     * @since 3.8.13 emits EventContext event
      */
-    public static function handleNewIssue($prj_id, $issue_id, $has_TAM, $has_RR): void
+    public static function handleNewIssue(int $prj_id, int $issue_id, bool $has_TAM, bool $has_RR): void
     {
-        $usr_id = Auth::getUserID() ?: Setup::get()['system_user_id'];
+        $usr_id = Auth::getUserID() ?: Setup::getSystemUserId();
         $arguments = [
-            'issue_id' => (int)$issue_id,
-            'prj_id' => (int)$prj_id,
-            'usr_id' => (int)$usr_id,
             'has_TAM' => $has_TAM,
             'has_RR' => $has_RR,
             'issue_details' => Issue::getDetails($issue_id),
         ];
-        EventManager::dispatch(SystemEvents::ISSUE_CREATED, new GenericEvent(null, $arguments));
+        $event = new EventContext($prj_id, $issue_id, $usr_id, $arguments);
 
-        $backend = self::getBackend($prj_id);
-        if (!$backend) {
-            return;
-        }
-        $backend->handleNewIssue($prj_id, $issue_id, $has_TAM, $has_RR);
+        EventManager::dispatch(SystemEvents::ISSUE_CREATED, $event);
     }
 
     /**
