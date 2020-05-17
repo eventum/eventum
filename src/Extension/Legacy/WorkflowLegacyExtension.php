@@ -19,6 +19,7 @@ use Eventum\Event\EventContext;
 use Eventum\Event\ResultableEvent;
 use Eventum\Event\SystemEvents;
 use Eventum\Extension\Provider;
+use Eventum\LinkFilter\LinkFilter;
 use Eventum\Mail\ImapMessage;
 use Eventum\Mail\MailMessage;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -103,6 +104,8 @@ class WorkflowLegacyExtension implements Provider\SubscriberProvider, EventSubsc
             SystemEvents::NOTIFICATION_ACTIONS => 'getNotificationActions',
             /** @see WorkflowLegacyExtension::getIssueFieldsToDisplay */
             SystemEvents::ISSUE_FIELDS_DISPLAY => 'getIssueFieldsToDisplay',
+            /** @see WorkflowLegacyExtension::addLinkFilters */
+            SystemEvents::ISSUE_LINK_FILTERS => 'addLinkFilters',
             /** @see WorkflowLegacyExtension::canAccessIssue */
             SystemEvents::ACCESS_ISSUE => 'canAccessIssue',
         ];
@@ -525,6 +528,20 @@ class WorkflowLegacyExtension implements Provider\SubscriberProvider, EventSubsc
         if ($result !== null) {
             $event->setResult($result);
         }
+    }
+
+    /**
+     * @see Workflow::addLinkFilters
+     */
+    public function addLinkFilters(EventContext $event): void
+    {
+        if (!$backend = $this->getBackend($event)) {
+            return;
+        }
+
+        /** @var LinkFilter $linkFilter */
+        $linkFilter = $event->getSubject();
+        $linkFilter->addRules($backend->getLinkFilters($event->getProjectId()));
     }
 
     /**

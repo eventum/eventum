@@ -924,24 +924,16 @@ class Workflow
     }
 
     /**
-     * Updates filters in $filters.
+     * Updates filters in $linkFilter.
      *
      * @since 3.6.3 emits ISSUE_LINK_FILTERS event
-     * @deprecated
+     * @since 3.8.13 workflow integration is done by WorkflowLegacyExtension
+     * @since 3.8.13 emits EventContext event
      */
     public static function addLinkFilters(LinkFilter $linkFilter, int $prj_id): void
     {
-        $arguments = [
-            'prj_id' => $prj_id,
-        ];
-        $event = new GenericEvent($linkFilter, $arguments);
+        $event = new EventContext($prj_id, null, null, [], $linkFilter);
         EventManager::dispatch(SystemEvents::ISSUE_LINK_FILTERS, $event);
-
-        if (!$backend = self::getBackend($prj_id)) {
-            return;
-        }
-
-        $linkFilter->addRules($backend->getLinkFilters($prj_id));
     }
 
     /**
