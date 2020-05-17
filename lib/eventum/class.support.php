@@ -709,7 +709,7 @@ class Support
         $severity = false;
         $references = $mail->getAllReferences();
 
-        $workflow = Workflow::getIssueIDforNewEmail($info['ema_prj_id'], $info, $mail);
+        $workflow = Workflow::getIssueIDForNewEmail($info['ema_prj_id'], $info, $mail);
         if (is_array($workflow)) {
             if (isset($workflow['customer_id'])) {
                 $customer_id = $workflow['customer_id'];

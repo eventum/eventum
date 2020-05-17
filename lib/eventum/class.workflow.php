@@ -778,18 +778,29 @@ class Workflow
      * a new issue.
      * Can also return an array containing 'customer_id', 'contact_id' and 'contract_id', 'sev_id'
      *
+     * TODO:
+     * - update caller so this method always returns array
+     *
      * @param   int $prj_id The ID of the project
-     * @param   array $info an array of info about the email account
+     * @param   array $account an array of info about the email account
      * @param   MailMessage $mail The Mail object
      * @return  string|array
+     * @since 3.8.13 emits ISSUE_EMAIL_CREATE_OPTIONS event
+     * @since 3.8.13 workflow integration is done by WorkflowLegacyExtension
      */
-    public static function getIssueIDForNewEmail($prj_id, $info, MailMessage $mail)
+    public static function getIssueIDForNewEmail(int $prj_id, array $account, MailMessage $mail)
     {
-        if (!$backend = self::getBackend($prj_id)) {
-            return null;
+        $arguments = [
+            'account' => $account,
+        ];
+        $event = new ResultableEvent($prj_id, null, null, $arguments, $mail);
+        EventManager::dispatch(SystemEvents::ISSUE_EMAIL_CREATE_OPTIONS, $event);
+
+        if ($event->hasResult()) {
+            return $event->getResult();
         }
 
-        return $backend->getIssueIDforNewEmail($prj_id, $info, $mail);
+        return null;
     }
 
     /**

@@ -209,6 +209,12 @@ final class SystemEvents
     public const ISSUE_UPDATED = 'issue.updated';
 
     /**
+     * @since 3.5.0
+     * @see Workflow::getIssueIDForNewEmail()
+     */
+    public const ISSUE_EMAIL_CREATE_OPTIONS = 'issue.email.create.options';
+
+    /**
      * @since 3.6.3
      * @see Workflow::getAllowedStatuses()
      */

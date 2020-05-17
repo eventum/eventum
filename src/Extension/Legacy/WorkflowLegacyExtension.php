@@ -91,6 +91,8 @@ class WorkflowLegacyExtension implements Provider\SubscriberProvider, EventSubsc
             SystemEvents::NOTE_INSERT_BEFORE => 'preNoteInsert',
             /** @see WorkflowLegacyExtension::shouldAutoAddToNotificationList */
             SystemEvents::PROJECT_NOTIFICATION_AUTO_ADD => 'shouldAutoAddToNotificationList',
+            /** @see WorkflowLegacyExtension::getIssueIDForNewEmail */
+            SystemEvents::ISSUE_EMAIL_CREATE_OPTIONS => 'getIssueIDForNewEmail',
             /** @see WorkflowLegacyExtension::canAccessIssue */
             SystemEvents::ACCESS_ISSUE => 'canAccessIssue',
         ];
@@ -405,6 +407,24 @@ class WorkflowLegacyExtension implements Provider\SubscriberProvider, EventSubsc
         }
 
         $result = $backend->shouldAutoAddToNotificationList($event->getProjectId());
+        if ($result !== null) {
+            $event->setResult($result);
+        }
+    }
+
+    /**
+     * @see Workflow::getIssueIDForNewEmail
+     */
+    public function getIssueIDForNewEmail(ResultableEvent $event): void
+    {
+        if (!$backend = $this->getBackend($event)) {
+            return;
+        }
+
+        /** @var MailMessage $mail */
+        $mail = $event->getSubject();
+        $account = $event['account'];
+        $result = $backend->getIssueIDForNewEmail($event->getProjectId(), $account, $mail);
         if ($result !== null) {
             $event->setResult($result);
         }
