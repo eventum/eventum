@@ -1258,7 +1258,7 @@ class Support
 
         // now for the real thing
         if ($mail->getAttachment()->hasAttachments()) {
-            if (empty($associated_note_id)) {
+            if (!$associated_note_id) {
                 $history_log = ev_gettext('Attachment originated from an email');
             } else {
                 $history_log = ev_gettext('Attachment originated from a note');
