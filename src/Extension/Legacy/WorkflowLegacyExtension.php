@@ -95,6 +95,8 @@ class WorkflowLegacyExtension implements Provider\SubscriberProvider, EventSubsc
             SystemEvents::ISSUE_EMAIL_CREATE_OPTIONS => 'getIssueIDForNewEmail',
             /** @see WorkflowLegacyExtension::modifyMailQueue */
             SystemEvents::MAIL_QUEUE_MODIFY => 'modifyMailQueue',
+            /** @see WorkflowLegacyExtension::preStatusChange */
+            SystemEvents::ISSUE_STATUS_BEFORE => 'preStatusChange',
             /** @see WorkflowLegacyExtension::canAccessIssue */
             SystemEvents::ACCESS_ISSUE => 'canAccessIssue',
         ];
@@ -448,6 +450,29 @@ class WorkflowLegacyExtension implements Provider\SubscriberProvider, EventSubsc
         /** @var array $options */
         $options = $event['options'];
         $backend->modifyMailQueue($event->getProjectId(), $address->getEmail(), $mail, $options);
+    }
+
+    /**
+     * @see Workflow::preStatusChange
+     */
+    public function preStatusChange(ResultableEvent $event): void
+    {
+        if (!$backend = $this->getBackend($event)) {
+            return;
+        }
+
+        $issue_id = $event->getIssueId();
+        $status_id = $event['status_id'];
+        $notify = $event['notify'];
+        $result = $backend->preStatusChange($event->getProjectId(), $issue_id, $status_id, $notify);
+        if ($result !== null) {
+            $event->setResult($result);
+        }
+
+        // assign back, in case they were modified
+        $event['issue_id'] = $issue_id;
+        $event['status_id'] = $status_id;
+        $event['notify'] = $notify;
     }
 
     /**

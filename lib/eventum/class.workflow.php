@@ -825,21 +825,35 @@ class Workflow
     }
 
     /**
-     * Called before the status changes. Parameters are passed by reference so the values can be changed.
+     * Called before the issue status changes. Parameters are passed by reference so the values can be changed.
      *
      * @param   int $prj_id
      * @param   int $issue_id
      * @param   int $status_id
      * @param   bool $notify
      * @return  bool true to continue normal processing, anything else to cancel and return value
+     * @since 3.8.13 workflow integration is done by WorkflowLegacyExtension
+     * @since 3.8.13 emits ISSUE_STATUS_BEFORE event
      */
-    public static function preStatusChange($prj_id, &$issue_id, &$status_id, &$notify)
+    public static function preStatusChange(int $prj_id, int &$issue_id, int &$status_id, bool &$notify)
     {
-        if (!$backend = self::getBackend($prj_id)) {
-            return true;
+        $arguments = [
+            'status_id' => $status_id,
+            'notify' => $notify,
+        ];
+        $event = new ResultableEvent($prj_id, $issue_id, null, $arguments);
+        EventManager::dispatch(SystemEvents::ISSUE_STATUS_BEFORE, $event);
+
+        // assign back, in case they were modified
+        $issue_id = $event['issue_id'];
+        $status_id = $event['status_id'];
+        $notify = $event['notify'];
+
+        if ($event->hasResult()) {
+            return $event->getResult();
         }
 
-        return $backend->preStatusChange($prj_id, $issue_id, $status_id, $notify);
+        return true;
     }
 
     /**

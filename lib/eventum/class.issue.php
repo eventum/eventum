@@ -289,9 +289,10 @@ class Issue
      * @param   bool $notify if a notification should be sent about this change
      * @return  int 1 if the update worked, -2 if no change is made, -1 on error
      */
-    public static function setStatus($issue_id, $status_id, $notify = false)
+    public static function setStatus(int $issue_id, int $status_id, bool $notify = false)
     {
-        $workflow = Workflow::preStatusChange(self::getProjectID($issue_id), $issue_id, $status_id, $notify);
+        $prj_id = self::getProjectID($issue_id);
+        $workflow = Workflow::preStatusChange($prj_id, $issue_id, $status_id, $notify);
         if ($workflow !== true) {
             return $workflow;
         }

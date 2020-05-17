@@ -221,6 +221,12 @@ final class SystemEvents
     public const ISSUE_EMAIL_CREATE_OPTIONS = 'issue.email.create.options';
 
     /**
+     * @since 3.5.0
+     * @see Workflow::preStatusChange
+     */
+    public const ISSUE_STATUS_BEFORE = 'issue.status.before';
+
+    /**
      * @since 3.6.3
      * @see Workflow::getAllowedStatuses()
      */
