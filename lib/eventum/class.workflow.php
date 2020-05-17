@@ -498,7 +498,7 @@ class Workflow
      * @return  array|bool|null an array of information or true to continue unchanged or false to prevent the user from being added
      * @since 3.6.3 emits NOTIFICATION_HANDLE_SUBSCRIPTION event
      * @since 3.6.4 add 'address' property of type Address
-     * @deprecated
+     * @since 3.8.13 workflow integration is done by WorkflowLegacyExtension
      */
     public static function handleSubscription(int $prj_id, int $issue_id, &$subscriber_usr_id, &$email, &$actions)
     {
@@ -521,11 +521,7 @@ class Workflow
             return $event->getResult();
         }
 
-        if (!$backend = self::getBackend($prj_id)) {
-            return null;
-        }
-
-        return $backend->handleSubscription($prj_id, $issue_id, $subscriber_usr_id, $email, $actions);
+        return null;
     }
 
     /**

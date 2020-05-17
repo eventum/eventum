@@ -66,6 +66,8 @@ class WorkflowLegacyExtension implements Provider\SubscriberProvider, EventSubsc
             SystemEvents::ISSUE_CLOSED => 'handleIssueClosed',
             /** @see WorkflowLegacyExtension::handleCustomFieldsUpdated */
             SystemEvents::CUSTOM_FIELDS_UPDATED => 'handleCustomFieldsUpdated',
+            /** @see WorkflowLegacyExtension::handleSubscription */
+            SystemEvents::NOTIFICATION_HANDLE_SUBSCRIPTION => 'handleSubscription',
             /** @see WorkflowLegacyExtension::canAccessIssue */
             SystemEvents::ACCESS_ISSUE => 'canAccessIssue',
         ];
@@ -182,6 +184,29 @@ class WorkflowLegacyExtension implements Provider\SubscriberProvider, EventSubsc
         $new = $event['new'];
         $changed = $event['changed'];
         $backend->handleCustomFieldsUpdated($event->getProjectId(), $event->getIssueId(), $old, $new, $changed);
+    }
+
+    /**
+     * @see Workflow::handleSubscription
+     */
+    public function handleSubscription(ResultableEvent $event): void
+    {
+        if (!$backend = $this->getBackend($event)) {
+            return;
+        }
+
+        $subscriber_usr_id = $event['subscriber_usr_id'];
+        $email = $event['email'];
+        $actions = $event['actions'];
+
+        $result = $backend->handleSubscription($event->getProjectId(), $event->getIssueId(), $subscriber_usr_id, $email, $actions);
+
+        // assign back, in case these were modified
+        $event['subscriber_usr_id'] = $subscriber_usr_id;
+        $event['email'] = $email;
+        $event['actions'] = $actions;
+
+        $event->setResult($result);
     }
 
     /**
