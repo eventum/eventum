@@ -288,6 +288,12 @@ final class SystemEvents
 
     /**
      * @since 3.8.13
+     * @see Workflow::ACCESS_ISSUE_UPDATE()
+     */
+    public const ACCESS_ISSUE_CHANGE_ASSIGNEE = 'access.issue.change_assignee';
+
+    /**
+     * @since 3.8.13
      * @see Workflow::handleAuthorizedReplierAdded()
      */
     public const AUTHORIZED_REPLIER_ADD = 'authorized_replier.add';

@@ -108,6 +108,8 @@ class WorkflowLegacyExtension implements Provider\SubscriberProvider, EventSubsc
             SystemEvents::ISSUE_LINK_FILTERS => 'addLinkFilters',
             /** @see WorkflowLegacyExtension::canUpdateIssue */
             SystemEvents::ACCESS_ISSUE_UPDATE => 'canUpdateIssue',
+            /** @see WorkflowLegacyExtension::canChangeAssignee */
+            SystemEvents::ACCESS_ISSUE_CHANGE_ASSIGNEE => 'canChangeAssignee',
             /** @see WorkflowLegacyExtension::canAccessIssue */
             SystemEvents::ACCESS_ISSUE => 'canAccessIssue',
         ];
@@ -346,6 +348,21 @@ class WorkflowLegacyExtension implements Provider\SubscriberProvider, EventSubsc
         }
 
         $result = $backend->canChangeAccessLevel($event->getProjectId(), $event->getIssueId(), $event->getUserId());
+        if ($result !== null) {
+            $event->setResult($result);
+        }
+    }
+
+    /**
+     * @see Workflow::canChangeAssignee
+     */
+    public function canChangeAssignee(ResultableEvent $event): void
+    {
+        if (!$backend = $this->getBackend($event)) {
+            return;
+        }
+
+        $result = $backend->canChangeAssignee($event->getProjectId(), $event->getIssueId(), $event->getUserId());
         if ($result !== null) {
             $event->setResult($result);
         }

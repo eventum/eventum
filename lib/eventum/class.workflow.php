@@ -956,14 +956,20 @@ class Workflow
 
     /**
      * Returns if a user can change the assignee of an issue. Return null to use default rules.
+     *
+     * @since 3.8.13 workflow integration is done by WorkflowLegacyExtension
+     * @since 3.8.13 emits ACCESS_ISSUE_CHANGE_ASSIGNEE event
      */
-    public static function canChangeAssignee($prj_id, $issue_id, $usr_id)
+    public static function canChangeAssignee(int $prj_id, int $issue_id, int $usr_id): ?bool
     {
-        if (!$backend = self::getBackend($prj_id)) {
-            return null;
+        $event = new ResultableEvent($prj_id, $issue_id, $usr_id);
+        EventManager::dispatch(SystemEvents::ACCESS_ISSUE_CHANGE_ASSIGNEE, $event);
+
+        if ($event->hasResult()) {
+            return $event->getResult();
         }
 
-        return $backend->canChangeAssignee($prj_id, $issue_id, $usr_id);
+        return null;
     }
 
     /**
