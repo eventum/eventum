@@ -880,14 +880,24 @@ class Workflow
      * @param   string $email The email address of the user being added
      * @param   string $source The source of this call
      * @return  array   an array of actions
+     * @since 3.8.13 workflow integration is done by WorkflowLegacyExtension
+     * @since 3.8.13 emits NOTIFICATION_ACTIONS event
      */
-    public static function getNotificationActions($prj_id, $issue_id, $email, $source)
+    public static function getNotificationActions(int $prj_id, int $issue_id, string $email, string $source): ?array
     {
-        if (!$backend = self::getBackend($prj_id)) {
-            return null;
+        $arguments = [
+            'email' => $email,
+            'address' => AddressHeader::fromString($email)->getAddress(),
+            'source' => $source,
+        ];
+        $event = new ResultableEvent($prj_id, $issue_id, null, $arguments);
+        EventManager::dispatch(SystemEvents::NOTIFICATION_ACTIONS, $event);
+
+        if ($event->hasResult()) {
+            return $event->getResult();
         }
 
-        return $backend->getNotificationActions($prj_id, $issue_id, $email, $source);
+        return null;
     }
 
     /**

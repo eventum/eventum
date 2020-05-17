@@ -99,6 +99,8 @@ class WorkflowLegacyExtension implements Provider\SubscriberProvider, EventSubsc
             SystemEvents::ISSUE_STATUS_BEFORE => 'preStatusChange',
             /** @see WorkflowLegacyExtension::prePage */
             SystemEvents::PAGE_BEFORE => 'prePage',
+            /** @see WorkflowLegacyExtension::getNotificationActions */
+            SystemEvents::NOTIFICATION_ACTIONS => 'getNotificationActions',
             /** @see WorkflowLegacyExtension::canAccessIssue */
             SystemEvents::ACCESS_ISSUE => 'canAccessIssue',
         ];
@@ -488,6 +490,23 @@ class WorkflowLegacyExtension implements Provider\SubscriberProvider, EventSubsc
 
         $page_name = $event->getSubject();
         $backend->prePage($event->getProjectId(), $page_name);
+    }
+
+    /**
+     * @see Workflow::getNotificationActions
+     */
+    public function getNotificationActions(ResultableEvent $event): void
+    {
+        if (!$backend = $this->getBackend($event)) {
+            return;
+        }
+
+        $source = $event['source'];
+        $email = $event['email'];
+        $result = $backend->getNotificationActions($event->getProjectId(), $event->getIssueId(), $email, $source);
+        if ($result !== null) {
+            $event->setResult($result);
+        }
     }
 
     /**

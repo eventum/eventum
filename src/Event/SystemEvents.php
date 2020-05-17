@@ -156,6 +156,12 @@ final class SystemEvents
     public const PROJECT_NOTIFICATION_AUTO_ADD = 'project.notification.auto_add';
 
     /**
+     * @since 3.8.13
+     * @see Workflow::getNotificationActions
+     */
+    public const NOTIFICATION_ACTIONS = 'notitication.actions';
+
+    /**
      * @since 3.4.2
      */
     public const IRC_NOTIFY = 'irc.notify';
