@@ -17,33 +17,26 @@ use Symfony\Component\EventDispatcher\GenericEvent;
 
 class EventContext extends GenericEvent
 {
-    /** @var int */
-    public $prj_id;
-    /** @var int|null */
-    public $issue_id;
-    /** @var int|null */
-    public $usr_id;
-
     public function __construct(int $prj_id, ?int $issue_id, ?int $usr_id, $arguments = [], $subject = null)
     {
         parent::__construct($subject, $arguments);
-        $this->setArgument('prj_id', $this->prj_id = $prj_id);
-        $this->setArgument('issue_id', $this->issue_id = $issue_id);
-        $this->setArgument('usr_id', $this->usr_id = $usr_id);
+        $this->setArgument('prj_id', $prj_id);
+        $this->setArgument('issue_id', $issue_id);
+        $this->setArgument('usr_id', $usr_id);
     }
 
     public function getProjectId(): int
     {
-        return $this->prj_id;
+        return $this->getArgument('prj_id');
     }
 
     public function getIssueId(): ?int
     {
-        return $this->issue_id;
+        return $this->getArgument('issue_id');
     }
 
     public function getUserId(): ?int
     {
-        return $this->usr_id;
+        return $this->getArgument('usr_id');
     }
 }
