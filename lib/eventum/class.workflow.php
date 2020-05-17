@@ -528,32 +528,31 @@ class Workflow
      * Determines if the address should should be emailed.
      *
      * @param int $prj_id the project ID
-     * @param string $address The email address to check
+     * @param string $email The email address to check
      * @param bool $issue_id
      * @param bool $type
      * @since 3.6.0 emits NOTIFICATION_NOTIFY_ADDRESS event
+     * @since 3.8.13 workflow integration is done by WorkflowLegacyExtension
+     * @since 3.8.13 $subject is set to Address of $email
      * @return bool
      * @todo https://github.com/eventum/eventum/pull/438#issuecomment-452706697
      */
-    public static function shouldEmailAddress(int $prj_id, $address, ?int $issue_id = null, $type = false): bool
+    public static function shouldEmailAddress(int $prj_id, string $email, ?int $issue_id = null, $type = false): bool
     {
+        $address = AddressHeader::fromString($email)->getAddress();
         $arguments = [
-            'address' => AddressHeader::fromString($address)->getAddress(),
-            'type' => $type ? $type : null,
+            'address' => $address,
+            'type' => $type ?: null,
         ];
 
-        $event = new ResultableEvent($prj_id, $issue_id, null, $arguments);
+        $event = new ResultableEvent($prj_id, $issue_id, null, $arguments, $address);
         EventManager::dispatch(SystemEvents::NOTIFICATION_NOTIFY_ADDRESS, $event);
 
         if ($event->hasResult()) {
             return $event->getResult();
         }
 
-        if (!$backend = self::getBackend($prj_id)) {
-            return true;
-        }
-
-        return $backend->shouldEmailAddress($prj_id, $address, $issue_id, $type);
+        return true;
     }
 
     /**

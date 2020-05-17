@@ -68,6 +68,8 @@ class WorkflowLegacyExtension implements Provider\SubscriberProvider, EventSubsc
             SystemEvents::CUSTOM_FIELDS_UPDATED => 'handleCustomFieldsUpdated',
             /** @see WorkflowLegacyExtension::handleSubscription */
             SystemEvents::NOTIFICATION_HANDLE_SUBSCRIPTION => 'handleSubscription',
+            /** @see WorkflowLegacyExtension::shouldEmailAddress */
+            SystemEvents::NOTIFICATION_NOTIFY_ADDRESS => 'shouldEmailAddress',
             /** @see WorkflowLegacyExtension::canAccessIssue */
             SystemEvents::ACCESS_ISSUE => 'canAccessIssue',
         ];
@@ -207,6 +209,23 @@ class WorkflowLegacyExtension implements Provider\SubscriberProvider, EventSubsc
         $event['actions'] = $actions;
 
         $event->setResult($result);
+    }
+
+    /**
+     * @see Workflow::shouldEmailAddress
+     */
+    public function shouldEmailAddress(ResultableEvent $event): void
+    {
+        if (!$backend = $this->getBackend($event)) {
+            return;
+        }
+
+        $address = $event['address'];
+        $type = $event['type'];
+        $result = $backend->shouldEmailAddress($event->getProjectId(), $address, $event->getIssueId(), $type);
+        if ($result !== null) {
+            $event->setResult($result);
+        }
     }
 
     /**
