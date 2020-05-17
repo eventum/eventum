@@ -993,16 +993,19 @@ class Workflow
     /**
      * Returns an array of additional access levels an issue can be set to
      *
-     * @param $prj_id
-     * @return array
+     * @since 3.8.13 workflow integration is done by WorkflowLegacyExtension
+     * @since 3.8.13 emits ACCESS_LEVELS event
      */
-    public static function getAccessLevels($prj_id)
+    public static function getAccessLevels(int $prj_id): ?array
     {
-        if (!$backend = self::getBackend($prj_id)) {
-            return [];
+        $event = new ResultableEvent($prj_id, null, null);
+        EventManager::dispatch(SystemEvents::ACCESS_LEVELS, $event);
+
+        if ($event->hasResult()) {
+            return $event->getResult();
         }
 
-        return $backend->getAccessLevels($prj_id);
+        return null;
     }
 
     /**

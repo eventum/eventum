@@ -257,6 +257,12 @@ final class SystemEvents
     public const ACCESS_ISSUE = 'access.issue';
 
     /**
+     * @since 3.8.11
+     * @see Workflow::getAccessLevels()
+     */
+    public const ACCESS_LEVELS = 'access.levels';
+
+    /**
      * @since 3.8.13
      * @see Workflow::canEmailIssue()
      */
