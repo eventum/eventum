@@ -25,6 +25,12 @@ final class SystemEvents
     public const ATTACHMENT_ATTACH_FILE = 'attachment.attach.file';
 
     /**
+     * @since 3.8.13
+     * @see Workflow::handleAttachment
+     */
+    public const ATTACHMENT_ATTACHMENT_GROUP = 'attachment.attach.group';
+
+    /**
      * Event fired when history entry is added
      *
      * @since 3.3.0

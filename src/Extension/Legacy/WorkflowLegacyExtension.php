@@ -14,6 +14,8 @@
 namespace Eventum\Extension\Legacy;
 
 use Abstract_Workflow_Backend;
+use Eventum\Attachment\AttachmentGroup;
+use Eventum\Event\EventContext;
 use Eventum\Event\ResultableEvent;
 use Eventum\Event\SystemEvents;
 use Eventum\Extension\Provider;
@@ -40,6 +42,8 @@ class WorkflowLegacyExtension implements Provider\SubscriberProvider, EventSubsc
             SystemEvents::ISSUE_UPDATED => 'handleIssueUpdated',
             /** @see WorkflowLegacyExtension::preIssueUpdated */
             SystemEvents::ISSUE_UPDATED_BEFORE => 'preIssueUpdated',
+            /** @see WorkflowLegacyExtension::handleAttachment */
+            SystemEvents::ATTACHMENT_ATTACHMENT_GROUP => 'handleAttachment',
             /** @see WorkflowLegacyExtension::canAccessIssue */
             SystemEvents::ACCESS_ISSUE => 'canAccessIssue',
         ];
@@ -70,6 +74,20 @@ class WorkflowLegacyExtension implements Provider\SubscriberProvider, EventSubsc
         if ($result !== true) {
             $event->stopPropagation();
         }
+    }
+
+    /**
+     * @see Workflow::handleAttachment
+     */
+    public function handleAttachment(EventContext $event): void
+    {
+        if (!$backend = $this->getBackend($event)) {
+            return;
+        }
+
+        /** @var AttachmentGroup $attachmentGroup */
+        $attachmentGroup = $event->getSubject();
+        $backend->handleAttachment($event->getProjectId(), $event->getIssueId(), $event->getUserId(), $attachmentGroup);
     }
 
     /**

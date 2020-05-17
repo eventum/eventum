@@ -14,6 +14,7 @@
 use Eventum\Attachment\AttachmentGroup;
 use Eventum\Config\Paths;
 use Eventum\Db\Doctrine;
+use Eventum\Event\EventContext;
 use Eventum\Event\ResultableEvent;
 use Eventum\Event\SystemEvents;
 use Eventum\EventDispatcher\EventManager;
@@ -173,15 +174,13 @@ class Workflow
      * @param   int $issue_id the ID of the issue
      * @param   int $usr_id the id of the user who attached this file
      * @param   AttachmentGroup $attachment_group The attachment object
+     * @since 3.8.13 Emits ATTACHMENT_ATTACHMENT_GROUP event
+     * @since 3.8.13 workflow integration is done by WorkflowLegacyExtension
      */
-    public static function handleAttachment($prj_id, $issue_id, $usr_id, AttachmentGroup $attachment_group): void
+    public static function handleAttachment(int $prj_id, int $issue_id, int $usr_id, AttachmentGroup $attachment_group): void
     {
-        $backend = self::getBackend($prj_id);
-        if (!$backend) {
-            return;
-        }
-
-        $backend->handleAttachment($prj_id, $issue_id, $usr_id, $attachment_group);
+        $event = new EventContext($prj_id, $issue_id, $usr_id, [], $attachment_group);
+        EventManager::dispatch(SystemEvents::ATTACHMENT_ATTACHMENT_GROUP, $event);
     }
 
     /**
