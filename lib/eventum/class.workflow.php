@@ -908,14 +908,19 @@ class Workflow
      * @param   int $issue_id The ID of the issue
      * @param   string $location The location to display these fields at
      * @return  array   an array of fields to display and their associated options
+     * @since 3.8.13 workflow integration is done by WorkflowLegacyExtension
+     * @since 3.8.13 emits ISSUE_FIELDS_DISPLAY event
      */
-    public static function getIssueFieldsToDisplay($prj_id, $issue_id, $location)
+    public static function getIssueFieldsToDisplay(int $prj_id, int $issue_id, string $location): array
     {
-        if (!$backend = self::getBackend($prj_id)) {
-            return [];
+        $event = new ResultableEvent($prj_id, $issue_id, null, [], $location);
+        EventManager::dispatch(SystemEvents::ISSUE_FIELDS_DISPLAY, $event);
+
+        if ($event->hasResult()) {
+            return $event->getResult();
         }
 
-        return $backend->getIssueFieldsToDisplay($prj_id, $issue_id, $location);
+        return [];
     }
 
     /**

@@ -245,6 +245,12 @@ final class SystemEvents
     public const ISSUE_LINK_FILTERS = 'issue.link.filters';
 
     /**
+     * @since 3.8.13
+     * @see Workflow::getIssueFieldsToDisplay
+     */
+    public const ISSUE_FIELDS_DISPLAY = 'issue.fields.display';
+
+    /**
      * @since 3.8.11
      * @see Workflow::canAccessIssue()
      */

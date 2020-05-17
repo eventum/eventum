@@ -101,6 +101,8 @@ class WorkflowLegacyExtension implements Provider\SubscriberProvider, EventSubsc
             SystemEvents::PAGE_BEFORE => 'prePage',
             /** @see WorkflowLegacyExtension::getNotificationActions */
             SystemEvents::NOTIFICATION_ACTIONS => 'getNotificationActions',
+            /** @see WorkflowLegacyExtension::getIssueFieldsToDisplay */
+            SystemEvents::ISSUE_FIELDS_DISPLAY => 'getIssueFieldsToDisplay',
             /** @see WorkflowLegacyExtension::canAccessIssue */
             SystemEvents::ACCESS_ISSUE => 'canAccessIssue',
         ];
@@ -504,6 +506,22 @@ class WorkflowLegacyExtension implements Provider\SubscriberProvider, EventSubsc
         $source = $event['source'];
         $email = $event['email'];
         $result = $backend->getNotificationActions($event->getProjectId(), $event->getIssueId(), $email, $source);
+        if ($result !== null) {
+            $event->setResult($result);
+        }
+    }
+
+    /**
+     * @see Workflow::getIssueFieldsToDisplay
+     */
+    public function getIssueFieldsToDisplay(ResultableEvent $event): void
+    {
+        if (!$backend = $this->getBackend($event)) {
+            return;
+        }
+
+        $location = $event->getSubject();
+        $result = $backend->getIssueFieldsToDisplay($event->getProjectId(), $event->getIssueId(), $location);
         if ($result !== null) {
             $event->setResult($result);
         }
