@@ -622,6 +622,7 @@ class Access
     {
         $sql = '';
         if (Auth::getCurrentRole() < User::ROLE_MANAGER) {
+            $usr_id = Auth::getUserID();
             $sql .= " AND
                         (
                             iss_access_level = 'normal' OR
@@ -630,10 +631,10 @@ class Access
                                 SUBSTR(iss_access_level, 1, 6) = 'group_' AND ugr_grp_id = SUBSTR(iss_access_level, 7)
                             ) OR
                             (
-                                isu_usr_id = " . Auth::getUserID() . '
+                                isu_usr_id = " . $usr_id . '
                             )';
 
-            $workflow = Workflow::getAdditionalAccessSQL($prj_id, Auth::getUserID());
+            $workflow = Workflow::getAdditionalAccessSQL($prj_id, $usr_id);
             if ($workflow !== null) {
                 $sql .= $workflow;
             }

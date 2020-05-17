@@ -264,6 +264,12 @@ final class SystemEvents
 
     /**
      * @since 3.8.13
+     * @see Workflow::getAdditionalAccessSQL()
+     */
+    public const ACCESS_LISTING_SQL = 'access.listing.sql';
+
+    /**
+     * @since 3.8.13
      * @see Workflow::canEmailIssue()
      */
     public const ACCESS_ISSUE_EMAIL = 'access.issue.email';

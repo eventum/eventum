@@ -116,6 +116,8 @@ class WorkflowLegacyExtension implements Provider\SubscriberProvider, EventSubsc
             SystemEvents::ACCESS_LEVELS => 'getAccessLevels',
             /** @see WorkflowLegacyExtension::canAccessIssue */
             SystemEvents::ACCESS_ISSUE => 'canAccessIssue',
+            /** @see WorkflowLegacyExtension::getAdditionalAccessSQL */
+            SystemEvents::ACCESS_LISTING_SQL => 'getAdditionalAccessSQL',
         ];
     }
 
@@ -708,6 +710,22 @@ class WorkflowLegacyExtension implements Provider\SubscriberProvider, EventSubsc
         }
 
         $result = $backend->canAccessIssue($event['prj_id'], $event['issue_id'], $event['usr_id']);
+        if ($result !== null) {
+            $event->setResult($result);
+        }
+    }
+
+    /**
+     * @see Workflow::getAdditionalAccessSQL
+     */
+    public function getAdditionalAccessSQL(ResultableEvent $event): void
+    {
+        if (!$backend = $this->getBackend($event)) {
+            return;
+        }
+
+        $result = $backend->getAdditionalAccessSQL($event->getProjectId(), $event->getUserId());
+
         if ($result !== null) {
             $event->setResult($result);
         }

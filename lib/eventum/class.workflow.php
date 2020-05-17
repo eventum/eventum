@@ -1030,17 +1030,20 @@ class Workflow
     /**
      * Returns custom SQL to limit what results a user can see on the list issues page
      *
-     * @param $prj_id
-     * @param $usr_id
      * @return mixed null to use default rules or an sql string otherwise
+     * @since 3.8.13 workflow integration is done by WorkflowLegacyExtension
+     * @since 3.8.13 emits ACCESS_SQL_STATEMENT event
      */
-    public static function getAdditionalAccessSQL($prj_id, $usr_id)
+    public static function getAdditionalAccessSQL(int $prj_id, int $usr_id): ?string
     {
-        if (!$backend = self::getBackend($prj_id)) {
-            return null;
+        $event = new ResultableEvent($prj_id, null, $usr_id);
+        EventManager::dispatch(SystemEvents::ACCESS_LISTING_SQL, $event);
+
+        if ($event->hasResult()) {
+            return $event->getResult();
         }
 
-        return $backend->getAdditionalAccessSQL($prj_id, $usr_id);
+        return null;
     }
 
     /**
