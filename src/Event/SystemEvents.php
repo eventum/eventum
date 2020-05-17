@@ -299,6 +299,12 @@ final class SystemEvents
     public const AUTHORIZED_REPLIER_ADD = 'authorized_replier.add';
 
     /**
+     * @since 3.8.13
+     * @see Workflow::getActiveGroup()
+     */
+    public const GROUP_ACTIVE = 'group.active';
+
+    /**
      * @since 3.5.0
      * @see Workflow::handleNewNote()
      */

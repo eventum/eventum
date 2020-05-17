@@ -110,6 +110,8 @@ class WorkflowLegacyExtension implements Provider\SubscriberProvider, EventSubsc
             SystemEvents::ACCESS_ISSUE_UPDATE => 'canUpdateIssue',
             /** @see WorkflowLegacyExtension::canChangeAssignee */
             SystemEvents::ACCESS_ISSUE_CHANGE_ASSIGNEE => 'canChangeAssignee',
+            /** @see WorkflowLegacyExtension::getActiveGroup */
+            SystemEvents::GROUP_ACTIVE => 'getActiveGroup',
             /** @see WorkflowLegacyExtension::canAccessIssue */
             SystemEvents::ACCESS_ISSUE => 'canAccessIssue',
         ];
@@ -573,6 +575,21 @@ class WorkflowLegacyExtension implements Provider\SubscriberProvider, EventSubsc
         }
 
         $result = $backend->canUpdateIssue($event->getProjectId(), $event->getIssueId(), $event->getUserId());
+        if ($result !== null) {
+            $event->setResult($result);
+        }
+    }
+
+    /**
+     * @see Workflow::getActiveGroup
+     */
+    public function getActiveGroup(ResultableEvent $event): void
+    {
+        if (!$backend = $this->getBackend($event)) {
+            return;
+        }
+
+        $result = $backend->getActiveGroup($event->getProjectId());
         if ($result !== null) {
             $event->setResult($result);
         }

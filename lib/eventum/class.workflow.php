@@ -974,14 +974,20 @@ class Workflow
 
     /**
      * Returns the ID of the group that is "active" right now.
+     *
+     * @since 3.8.13 workflow integration is done by WorkflowLegacyExtension
+     * @since 3.8.13 emits GROUP_ACTIVE event
      */
-    public static function getActiveGroup($prj_id)
+    public static function getActiveGroup(int $prj_id): ?int
     {
-        if (!$backend = self::getBackend($prj_id)) {
-            return null;
+        $event = new ResultableEvent($prj_id, null, null);
+        EventManager::dispatch(SystemEvents::GROUP_ACTIVE, $event);
+
+        if ($event->hasResult()) {
+            return $event->getResult();
         }
 
-        return $backend->getActiveGroup($prj_id);
+        return null;
     }
 
     /**
