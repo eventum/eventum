@@ -371,14 +371,13 @@ class Workflow
      *
      * @param   int $prj_id The project ID
      * @param   int $issue_id the ID of the issue
+     * @since 3.8.13 emits MAIL_ASSOCIATED_MANUAL event
+     * @since 3.8.13 workflow integration is done by WorkflowLegacyExtension
      */
-    public static function handleManualEmailAssociation($prj_id, $issue_id): void
+    public static function handleManualEmailAssociation(int $prj_id, int $issue_id): void
     {
-        $backend = self::getBackend($prj_id);
-        if (!$backend) {
-            return;
-        }
-        $backend->handleManualEmailAssociation($prj_id, $issue_id);
+        $event = new EventContext($prj_id, $issue_id, null, []);
+        EventManager::dispatch(SystemEvents::MAIL_ASSOCIATED_MANUAL, $event);
     }
 
     /**

@@ -114,6 +114,12 @@ final class SystemEvents
     public const MAIL_CREATED = 'mail.created';
 
     /**
+     * @since 3.8.13
+     * @see Workflow::handleManualEmailAssociation
+     */
+    public const MAIL_ASSOCIATED_MANUAL = 'mail.associated.manual';
+
+    /**
      * @since 3.6.0
      * @see Workflow::shouldEmailAddress()
      */
