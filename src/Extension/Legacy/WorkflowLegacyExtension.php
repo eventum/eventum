@@ -52,6 +52,8 @@ class WorkflowLegacyExtension implements Provider\SubscriberProvider, EventSubsc
             SystemEvents::ISSUE_UPDATED_SEVERITY => 'handleSeverityChange',
             /** @see WorkflowLegacyExtension::handleBlockedEmail */
             SystemEvents::EMAIL_BLOCKED => 'handleBlockedEmail',
+            /** @see WorkflowLegacyExtension::handleAssignmentChange */
+            SystemEvents::ISSUE_ASSIGNMENT_CHANGE => 'handleAssignmentChange',
             /** @see WorkflowLegacyExtension::canAccessIssue */
             SystemEvents::ACCESS_ISSUE => 'canAccessIssue',
         ];
@@ -153,6 +155,22 @@ class WorkflowLegacyExtension implements Provider\SubscriberProvider, EventSubsc
         $email_details = $event['email_details'];
         $type = $event['type'];
         $backend->handleBlockedEmail($event->getProjectId(), $event->getIssueId(), $email_details, $type);
+    }
+
+    /**
+     * @see Workflow::handleAssignmentChange
+     */
+    public function handleAssignmentChange(EventContext $event): void
+    {
+        if (!$backend = $this->getBackend($event)) {
+            return;
+        }
+
+        $issue_details = $event['issue_details'];
+        $new_assignees = $event['new_assignees'];
+        $remote_assignment = $event['remote_assignment'];
+
+        $backend->handleAssignmentChange($event->getProjectId(), $event->getIssueId(), $event->getUserId(), $issue_details, $new_assignees, $remote_assignment);
     }
 
     /**
