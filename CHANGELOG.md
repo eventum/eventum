@@ -6,7 +6,8 @@ Upgrading to 3.8.x versions requires that you upgrade to latest 3.5.x version fi
 
 [3.8.13]: https://github.com/eventum/eventum/compare/v3.8.12...master
 
-- Move JavaScript classes (CustomField, ExpandableCell, GrowingFileField, Validation) to modules #839
+- Move JavaScript classes (CustomField, ExpandableCell, GrowingFileField, Validation) to modules, #839
+- Move workflow handling to WorkflowLegacyExtension extension, #832
 
 ## [3.8.12] - 2020-05-14
 
