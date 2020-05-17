@@ -472,14 +472,18 @@ class Workflow
      * @param   array $old the custom fields before the update
      * @param   array $new the custom fields after the update
      * @param   array $changed an array containing what was changed
+     * @since 3.8.13 emits CUSTOM_FIELDS_UPDATED event
+     * @since 3.8.13 workflow integration is done by WorkflowLegacyExtension
      */
-    public static function handleCustomFieldsUpdated($prj_id, $issue_id, $old, $new, $changed): void
+    public static function handleCustomFieldsUpdated(int $prj_id, int $issue_id, array $old, array $new, array $changed): void
     {
-        if (!$backend = self::getBackend($prj_id)) {
-            return;
-        }
-
-        $backend->handleCustomFieldsUpdated($prj_id, $issue_id, $old, $new, $changed);
+        $arguments = [
+            'old' => $old,
+            'new' => $new,
+            'changed' => $changed,
+        ];
+        $event = new EventContext($prj_id, $issue_id, null, $arguments);
+        EventManager::dispatch(SystemEvents::CUSTOM_FIELDS_UPDATED, $event);
     }
 
     /**

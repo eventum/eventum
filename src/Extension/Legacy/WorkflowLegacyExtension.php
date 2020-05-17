@@ -64,6 +64,8 @@ class WorkflowLegacyExtension implements Provider\SubscriberProvider, EventSubsc
             SystemEvents::ISSUE_ALLOWED_STATUSES => 'getAllowedStatuses',
             /** @see WorkflowLegacyExtension::handleIssueClosed */
             SystemEvents::ISSUE_CLOSED => 'handleIssueClosed',
+            /** @see WorkflowLegacyExtension::handleCustomFieldsUpdated */
+            SystemEvents::CUSTOM_FIELDS_UPDATED => 'handleCustomFieldsUpdated',
             /** @see WorkflowLegacyExtension::canAccessIssue */
             SystemEvents::ACCESS_ISSUE => 'canAccessIssue',
         ];
@@ -165,6 +167,21 @@ class WorkflowLegacyExtension implements Provider\SubscriberProvider, EventSubsc
         $email_details = $event['email_details'];
         $type = $event['type'];
         $backend->handleBlockedEmail($event->getProjectId(), $event->getIssueId(), $email_details, $type);
+    }
+
+    /**
+     * @see Workflow::handleCustomFieldsUpdated
+     */
+    public function handleCustomFieldsUpdated(EventContext $event): void
+    {
+        if (!$backend = $this->getBackend($event)) {
+            return;
+        }
+
+        $old = $event['old'];
+        $new = $event['new'];
+        $changed = $event['changed'];
+        $backend->handleCustomFieldsUpdated($event->getProjectId(), $event->getIssueId(), $old, $new, $changed);
     }
 
     /**
