@@ -1303,7 +1303,7 @@ class Support
      * @param   array $sup_ids The list of email IDs to associate
      * @return  int 1 if it worked, -1 otherwise
      */
-    public static function associateEmail($usr_id, $issue_id, $sup_ids)
+    public static function associateEmail(int $usr_id, int $issue_id, array $sup_ids)
     {
         $list = DB_Helper::buildList($sup_ids);
         $stmt = "UPDATE
@@ -1353,7 +1353,7 @@ class Support
      * @param   bool $authorize If the senders should be added the authorized repliers list
      * @return  int 1 if it worked, -1 otherwise
      */
-    public static function associate($usr_id, $issue_id, $sup_ids, $authorize = false)
+    public static function associate(int $usr_id, int $issue_id, array $sup_ids, bool $authorize = false)
     {
         $res = self::associateEmail($usr_id, $issue_id, $sup_ids);
         if ($res != 1) {

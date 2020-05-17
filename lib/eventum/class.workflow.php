@@ -373,10 +373,15 @@ class Workflow
      * @param   int $issue_id the ID of the issue
      * @since 3.8.13 emits MAIL_ASSOCIATED_MANUAL event
      * @since 3.8.13 workflow integration is done by WorkflowLegacyExtension
+     * @since 3.8.13 adds $target and $sup_ids to make method actually useful
      */
-    public static function handleManualEmailAssociation(int $prj_id, int $issue_id): void
+    public static function handleManualEmailAssociation(int $prj_id, int $issue_id, string $target, array $sup_ids): void
     {
-        $event = new EventContext($prj_id, $issue_id, null, []);
+        $arguments = [
+            'target' => $target,
+            'sup_ids' => $sup_ids,
+        ];
+        $event = new EventContext($prj_id, $issue_id, null, $arguments);
         EventManager::dispatch(SystemEvents::MAIL_ASSOCIATED_MANUAL, $event);
     }
 

@@ -89,16 +89,14 @@ class AssociateController extends BaseController
     // FIXME: get rid of $_POST
     public function associateAction(): void
     {
-        if ($this->target === 'email') {
-            $res = Support::associate($this->usr_id, $this->issue_id, $this->items);
-            if ($res == 1) {
-                Workflow::handleManualEmailAssociation($this->prj_id, $this->issue_id);
+        if (in_array($this->target, ['email', 'reference'], true)) {
+            if ($this->target === 'email') {
+                $res = Support::associate($this->usr_id, $this->issue_id, $this->items);
+            } else {
+                $res = Support::associateEmail($this->usr_id, $this->issue_id, $this->items);
             }
-            $this->tpl->assign('associate_result', $res);
-        } elseif ($this->target === 'reference') {
-            $res = Support::associateEmail($this->usr_id, $this->issue_id, $this->items);
             if ($res == 1) {
-                Workflow::handleManualEmailAssociation($this->prj_id, $this->issue_id);
+                Workflow::handleManualEmailAssociation($this->prj_id, $this->issue_id, $this->target, $this->items);
             }
             $this->tpl->assign('associate_result', $res);
         } else {
