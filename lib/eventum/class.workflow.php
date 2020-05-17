@@ -612,17 +612,25 @@ class Workflow
      *
      * @param   int $prj_id The project ID
      * @param   int $issue_id The issue ID
-     * @param string $sender_email The email address to check
+     * @param string $email The email address to check
      * @param MailMessage $mail
      * @return  bool True if the note should be added, false otherwise
+     * @since 3.8.13 emits ACCESS_ISSUE_NOTE event
+     * @since 3.8.13 workflow integration is done by WorkflowLegacyExtension
      */
-    public static function canSendNote($prj_id, $issue_id, $sender_email, MailMessage $mail)
+    public static function canSendNote(int $prj_id, int $issue_id, string $email, MailMessage $mail): bool
     {
-        if (!$backend = self::getBackend($prj_id)) {
-            return null;
+        $address = AddressHeader::fromString($email)->getAddress();
+        $arguments = [
+            'mail' => $mail,
+        ];
+        $event = new ResultableEvent($prj_id, $issue_id, null, $arguments, $address);
+        EventManager::dispatch(SystemEvents::ACCESS_ISSUE_NOTE, $event);
+        if ($event->hasResult()) {
+            return $event->getResult();
         }
 
-        return $backend->canSendNote($prj_id, $issue_id, $sender_email, $mail);
+        return false;
     }
 
     /**

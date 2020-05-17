@@ -19,6 +19,7 @@ use Eventum\Event\EventContext;
 use Eventum\Event\ResultableEvent;
 use Eventum\Event\SystemEvents;
 use Eventum\Extension\Provider;
+use Eventum\Mail\MailMessage;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 use Workflow;
@@ -75,6 +76,8 @@ class WorkflowLegacyExtension implements Provider\SubscriberProvider, EventSubsc
             SystemEvents::NOTIFICATION_NOTIFY_ADDRESSES_EXTRA => 'getAdditionalEmailAddresses',
             /** @see WorkflowLegacyExtension::canEmailIssue */
             SystemEvents::ACCESS_ISSUE_EMAIL => 'canEmailIssue',
+            /** @see WorkflowLegacyExtension::canSendNote */
+            SystemEvents::ACCESS_ISSUE_NOTE => 'canSendNote',
             /** @see WorkflowLegacyExtension::canAccessIssue */
             SystemEvents::ACCESS_ISSUE => 'canAccessIssue',
         ];
@@ -263,6 +266,26 @@ class WorkflowLegacyExtension implements Provider\SubscriberProvider, EventSubsc
         $address = $event->getSubject();
         $email = $address->getEmail();
         $result = $backend->canEmailIssue($event->getProjectId(), $event->getIssueId(), $email);
+        if ($result !== null) {
+            $event->setResult($result);
+        }
+    }
+
+    /**
+     * @see Workflow::canSendNote
+     */
+    public function canSendNote(ResultableEvent $event): void
+    {
+        if (!$backend = $this->getBackend($event)) {
+            return;
+        }
+
+        /** @var Address $address */
+        $address = $event->getSubject();
+        $email = $address->getEmail();
+        /** @var MailMessage $mailMessage */
+        $mail = $event['mail'];
+        $result = $backend->canSendNote($event->getProjectId(), $event->getIssueId(), $email, $mail);
         if ($result !== null) {
             $event->setResult($result);
         }
