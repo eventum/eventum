@@ -62,6 +62,8 @@ class WorkflowLegacyExtension implements Provider\SubscriberProvider, EventSubsc
             SystemEvents::NOTE_CREATED => 'handleNewNote',
             /** @see WorkflowLegacyExtension::getAllowedStatuses */
             SystemEvents::ISSUE_ALLOWED_STATUSES => 'getAllowedStatuses',
+            /** @see WorkflowLegacyExtension::handleIssueClosed */
+            SystemEvents::ISSUE_CLOSED => 'handleIssueClosed',
             /** @see WorkflowLegacyExtension::canAccessIssue */
             SystemEvents::ACCESS_ISSUE => 'canAccessIssue',
         ];
@@ -220,6 +222,23 @@ class WorkflowLegacyExtension implements Provider\SubscriberProvider, EventSubsc
 
         $result = $backend->getAllowedStatuses($event->getProjectId(), $event->getIssueId());
         $event->setResult($result);
+    }
+
+    /**
+     * @see Workflow::handleIssueClosed
+     */
+    public function handleIssueClosed(EventContext $event): void
+    {
+        if (!$backend = $this->getBackend($event)) {
+            return;
+        }
+
+        $send_notification = $event['send_notification'];
+        $resolution_id = $event['resolution_id'];
+        $status_id = $event['status_id'];
+        $reason = $event['reason'];
+
+        $backend->handleIssueClosed($event->getProjectId(), $event->getIssueId(), $send_notification, $resolution_id, $status_id, $reason, $event->getUserId());
     }
 
     /**

@@ -445,30 +445,23 @@ class Workflow
      * @param   string $reason The reason for closing this issue
      * @param   int $usr_id The ID of the user closing this issue
      * @since 3.4.2 emits ISSUE_CLOSED event
-     * @deprecated since 3.4.2
+     * @since 3.8.13 workflow integration is done by WorkflowLegacyExtension
+     * @since 3.8.13 emits EventContext event
      */
-    public static function handleIssueClosed($prj_id, $issue_id, $send_notification, $resolution_id, $status_id, $reason, $usr_id): void
+    public static function handleIssueClosed(int $prj_id, int $issue_id, $send_notification, int $resolution_id, int $status_id, $reason, int $usr_id): void
     {
         $issue_details = Issue::getDetails($issue_id, true);
 
         $arguments = [
-            'prj_id' => (int)$prj_id,
-            'issue_id' => (int)$issue_id,
             'send_notification' => $send_notification,
-            'resolution_id' => (int)$resolution_id,
-            'status_id' => (int)$status_id,
+            'resolution_id' => $resolution_id,
+            'status_id' => $status_id,
             'reason' => $reason,
-            'usr_id' => (int)$usr_id,
             'issue_details' => $issue_details,
         ];
 
-        $event = new GenericEvent(null, $arguments);
+        $event = new EventContext($prj_id, $issue_id, $usr_id, $arguments);
         EventManager::dispatch(SystemEvents::ISSUE_CLOSED, $event);
-
-        if (!$backend = self::getBackend($prj_id)) {
-            return;
-        }
-        $backend->handleIssueClosed($prj_id, $issue_id, $send_notification, $resolution_id, $status_id, $reason, $usr_id);
     }
 
     /**
