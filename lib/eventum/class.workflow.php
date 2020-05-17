@@ -560,17 +560,27 @@ class Workflow
      *
      * @param   int $prj_id the project ID
      * @param   int $issue_id the ID of the issue
-     * @param   string $event The event to return additional email addresses for. Currently only "new_issue" is supported.
+     * @param   string $eventName The event to return additional email addresses for. Values "new_issue", "issue_updated" are supported.
      * @param   array $extra Extra information, contains different info depending on where it is called from
      * @return  array   an array of email addresses to be notified
+     * @since 3.8.13 emits NOTIFICATION_NOTIFY_ADDRESS event
+     * @since 3.8.13 workflow integration is done by WorkflowLegacyExtension
      */
-    public static function getAdditionalEmailAddresses($prj_id, $issue_id, $event, $extra = false)
+    public static function getAdditionalEmailAddresses(int $prj_id, int $issue_id, string $eventName, $extra = null): array
     {
-        if (!$backend = self::getBackend($prj_id)) {
-            return [];
+        $arguments = [
+            'address' => $eventName,
+            'extra' => $extra ?: [],
+        ];
+
+        $event = new ResultableEvent($prj_id, $issue_id, null, $arguments);
+        EventManager::dispatch(SystemEvents::NOTIFICATION_NOTIFY_ADDRESSES_EXTRA, $event);
+
+        if ($event->hasResult()) {
+            return $event->getResult();
         }
 
-        return $backend->getAdditionalEmailAddresses($prj_id, $issue_id, $event, $extra);
+        return [];
     }
 
     /**

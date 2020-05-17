@@ -132,6 +132,12 @@ final class SystemEvents
     public const NOTIFICATION_NOTIFY_ADDRESS = 'notification.notify.address';
 
     /**
+     * @since 3.8.13
+     * @see Workflow::getAdditionalEmailAddresses()
+     */
+    public const NOTIFICATION_NOTIFY_ADDRESSES_EXTRA = 'notification.notify.addresses.extra';
+
+    /**
      * @since 3.6.3
      * @see Workflow::handleSubscription()
      */

@@ -70,6 +70,8 @@ class WorkflowLegacyExtension implements Provider\SubscriberProvider, EventSubsc
             SystemEvents::NOTIFICATION_HANDLE_SUBSCRIPTION => 'handleSubscription',
             /** @see WorkflowLegacyExtension::shouldEmailAddress */
             SystemEvents::NOTIFICATION_NOTIFY_ADDRESS => 'shouldEmailAddress',
+            /** @see WorkflowLegacyExtension::getAdditionalEmailAddresses */
+            SystemEvents::NOTIFICATION_NOTIFY_ADDRESSES_EXTRA => 'getAdditionalEmailAddresses',
             /** @see WorkflowLegacyExtension::canAccessIssue */
             SystemEvents::ACCESS_ISSUE => 'canAccessIssue',
         ];
@@ -223,6 +225,23 @@ class WorkflowLegacyExtension implements Provider\SubscriberProvider, EventSubsc
         $address = $event['address'];
         $type = $event['type'];
         $result = $backend->shouldEmailAddress($event->getProjectId(), $address, $event->getIssueId(), $type);
+        if ($result !== null) {
+            $event->setResult($result);
+        }
+    }
+
+    /**
+     * @see Workflow::shouldEmailAddress
+     */
+    public function getAdditionalEmailAddresses(ResultableEvent $event): void
+    {
+        if (!$backend = $this->getBackend($event)) {
+            return;
+        }
+
+        $eventName = $event['eventName'];
+        $extra = $event['extra'];
+        $result = $backend->getAdditionalEmailAddresses($event->getProjectId(), $event->getIssueId(), $eventName, $extra);
         if ($result !== null) {
             $event->setResult($result);
         }
