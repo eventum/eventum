@@ -60,6 +60,8 @@ class WorkflowLegacyExtension implements Provider\SubscriberProvider, EventSubsc
             SystemEvents::MAIL_ASSOCIATED_MANUAL => 'handleManualEmailAssociation',
             /** @see WorkflowLegacyExtension::handleNewNote */
             SystemEvents::NOTE_CREATED => 'handleNewNote',
+            /** @see WorkflowLegacyExtension::getAllowedStatuses */
+            SystemEvents::ISSUE_ALLOWED_STATUSES => 'getAllowedStatuses',
             /** @see WorkflowLegacyExtension::canAccessIssue */
             SystemEvents::ACCESS_ISSUE => 'canAccessIssue',
         ];
@@ -205,6 +207,19 @@ class WorkflowLegacyExtension implements Provider\SubscriberProvider, EventSubsc
         $closing = $event['closing'];
         $note_id = $event['note_id'];
         $backend->handleNewNote($event->getProjectId(), $event->getIssueId(), $event->getUserId(), $closing, $note_id);
+    }
+
+    /**
+     * @see Workflow::getAllowedStatuses
+     */
+    public function getAllowedStatuses(ResultableEvent $event): void
+    {
+        if (!$backend = $this->getBackend($event)) {
+            return;
+        }
+
+        $result = $backend->getAllowedStatuses($event->getProjectId(), $event->getIssueId());
+        $event->setResult($result);
     }
 
     /**
