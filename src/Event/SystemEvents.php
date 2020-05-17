@@ -149,6 +149,12 @@ final class SystemEvents
     public const ISSUE_UPDATED_BEFORE = 'issue.updated.before';
 
     /**
+     * @since 3.8.13
+     * @see Workflow::handlePriorityChange
+     */
+    public const ISSUE_UPDATED_PRIORITY = 'issue.updated.priority';
+
+    /**
      * @since 3.6.0
      * @see Issue::markAsDuplicate
      */

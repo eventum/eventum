@@ -46,6 +46,8 @@ class WorkflowLegacyExtension implements Provider\SubscriberProvider, EventSubsc
             SystemEvents::ATTACHMENT_ATTACHMENT_GROUP => 'handleAttachment',
             /** @see WorkflowLegacyExtension::shouldAttachFile */
             SystemEvents::ATTACHMENT_ATTACH_FILE => 'shouldAttachFile',
+            /** @see WorkflowLegacyExtension::handlePriorityChange */
+            SystemEvents::ISSUE_UPDATED_PRIORITY => 'handlePriorityChange',
             /** @see WorkflowLegacyExtension::canAccessIssue */
             SystemEvents::ACCESS_ISSUE => 'canAccessIssue',
         ];
@@ -105,6 +107,20 @@ class WorkflowLegacyExtension implements Provider\SubscriberProvider, EventSubsc
         $attachment = $event->getSubject();
         $result = $backend->shouldAttachFile($event->getProjectId(), $event->getIssueId(), $event->getUserId(), $attachment);
         $event->setResult($result);
+    }
+
+    /**
+     * @see Workflow::handlePriorityChange
+     */
+    public function handlePriorityChange(EventContext $event): void
+    {
+        if (!$backend = $this->getBackend($event)) {
+            return;
+        }
+
+        $old_details = $event['old_details'];
+        $changes = $event['changes'];
+        $backend->handlePriorityChange($event->getProjectId(), $event->getIssueId(), $event->getUserId(), $old_details, $changes);
     }
 
     /**

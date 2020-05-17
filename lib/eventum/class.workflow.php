@@ -211,14 +211,17 @@ class Workflow
      * @param   int $usr_id the id of the user who changed the issue
      * @param   array $old_details the old details of the issue
      * @param   array $changes The changes that were applied to this issue (the $_POST)
+     * @since 3.8.13 emits ISSUE_UPDATED_PRIORITY event
+     * @since 3.8.13 workflow integration is done by WorkflowLegacyExtension
      */
-    public static function handlePriorityChange($prj_id, $issue_id, $usr_id, $old_details, $changes): void
+    public static function handlePriorityChange(int $prj_id, int $issue_id, int $usr_id, array $old_details, array $changes): void
     {
-        $backend = self::getBackend($prj_id);
-        if (!$backend) {
-            return;
-        }
-        $backend->handlePriorityChange($prj_id, $issue_id, $usr_id, $old_details, $changes);
+        $arguments = [
+            'old_details' => $old_details,
+            'changes' => $changes,
+        ];
+        $event = new EventContext($prj_id, $issue_id, $usr_id, $arguments);
+        EventManager::dispatch(SystemEvents::ISSUE_UPDATED_PRIORITY, $event);
     }
 
     /**
