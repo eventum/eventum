@@ -221,6 +221,12 @@ final class SystemEvents
     public const ACCESS_ISSUE = 'access.issue';
 
     /**
+     * @since 3.8.13
+     * @see Workflow::canEmailIssue()
+     */
+    public const ACCESS_ISSUE_EMAIL = 'access.issue.email';
+
+    /**
      * @since 3.5.0
      * @see Workflow::handleNewNote()
      */

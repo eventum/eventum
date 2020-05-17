@@ -1696,13 +1696,13 @@ class Support
      * @param   string $sender_email The email address
      * @return  bool
      */
-    public static function isAllowedToEmail($issue_id, $sender_email)
+    public static function isAllowedToEmail(int $issue_id, $sender_email): bool
     {
         $prj_id = Issue::getProjectID($issue_id);
 
         // check the workflow
         $workflow_can_email = Workflow::canEmailIssue($prj_id, $issue_id, $sender_email);
-        if ($workflow_can_email != null) {
+        if ($workflow_can_email !== null) {
             return $workflow_can_email;
         }
 

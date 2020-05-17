@@ -592,14 +592,19 @@ class Workflow
      * @param   string $email The email address that is trying to send an email
      * @return  bool true if the sender can email the issue, false if the sender
      *          should not email the issue and null if the default rules should be used
+     * @since 3.8.13 emits ACCESS_ISSUE_EMAIL event
+     * @since 3.8.13 workflow integration is done by WorkflowLegacyExtension
      */
-    public static function canEmailIssue($prj_id, $issue_id, $email)
+    public static function canEmailIssue(int $prj_id, int $issue_id, string $email): ?bool
     {
-        if (!$backend = self::getBackend($prj_id)) {
-            return null;
+        $address = AddressHeader::fromString($email)->getAddress();
+        $event = new ResultableEvent($prj_id, $issue_id, null, [], $address);
+        EventManager::dispatch(SystemEvents::ACCESS_ISSUE_EMAIL, $event);
+        if ($event->hasResult()) {
+            return $event->getResult();
         }
 
-        return $backend->canEmailIssue($prj_id, $issue_id, $email);
+        return null;
     }
 
     /**

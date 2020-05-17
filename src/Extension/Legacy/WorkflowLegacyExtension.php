@@ -22,6 +22,7 @@ use Eventum\Extension\Provider;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 use Workflow;
+use Zend\Mail\Address;
 
 /**
  * Extension that adds integration of legacy workflow classes to Extension events
@@ -72,6 +73,8 @@ class WorkflowLegacyExtension implements Provider\SubscriberProvider, EventSubsc
             SystemEvents::NOTIFICATION_NOTIFY_ADDRESS => 'shouldEmailAddress',
             /** @see WorkflowLegacyExtension::getAdditionalEmailAddresses */
             SystemEvents::NOTIFICATION_NOTIFY_ADDRESSES_EXTRA => 'getAdditionalEmailAddresses',
+            /** @see WorkflowLegacyExtension::canEmailIssue */
+            SystemEvents::ACCESS_ISSUE_EMAIL => 'canEmailIssue',
             /** @see WorkflowLegacyExtension::canAccessIssue */
             SystemEvents::ACCESS_ISSUE => 'canAccessIssue',
         ];
@@ -242,6 +245,24 @@ class WorkflowLegacyExtension implements Provider\SubscriberProvider, EventSubsc
         $eventName = $event['eventName'];
         $extra = $event['extra'];
         $result = $backend->getAdditionalEmailAddresses($event->getProjectId(), $event->getIssueId(), $eventName, $extra);
+        if ($result !== null) {
+            $event->setResult($result);
+        }
+    }
+
+    /**
+     * @see Workflow::canEmailIssue
+     */
+    public function canEmailIssue(ResultableEvent $event): void
+    {
+        if (!$backend = $this->getBackend($event)) {
+            return;
+        }
+
+        /** @var Address $address */
+        $address = $event->getSubject();
+        $email = $address->getEmail();
+        $result = $backend->canEmailIssue($event->getProjectId(), $event->getIssueId(), $email);
         if ($result !== null) {
             $event->setResult($result);
         }
