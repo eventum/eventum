@@ -345,7 +345,7 @@ class Access
         return User::getRoleByUser($usr_id, $prj_id) >= User::ROLE_USER;
     }
 
-    public static function canChangeAccessLevel($issue_id, $usr_id)
+    public static function canChangeAccessLevel(int $issue_id, int $usr_id): bool
     {
         if (!self::canAccessIssue($issue_id, $usr_id)) {
             return false;

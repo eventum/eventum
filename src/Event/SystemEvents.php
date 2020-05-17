@@ -239,6 +239,12 @@ final class SystemEvents
     public const ACCESS_ISSUE_CLONE = 'access.issue.clone';
 
     /**
+     * @since 3.8.13
+     * @see Workflow::canChangeAccessLevel()
+     */
+    public const ACCESS_ISSUE_CHANGE_ACCESS = 'access.issue.change_access';
+
+    /**
      * @since 3.5.0
      * @see Workflow::handleNewNote()
      */

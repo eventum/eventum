@@ -80,6 +80,8 @@ class WorkflowLegacyExtension implements Provider\SubscriberProvider, EventSubsc
             SystemEvents::ACCESS_ISSUE_NOTE => 'canSendNote',
             /** @see WorkflowLegacyExtension::canCloneIssue */
             SystemEvents::ACCESS_ISSUE_CLONE => 'canCloneIssue',
+            /** @see WorkflowLegacyExtension::canChangeAccessLevel */
+            SystemEvents::ACCESS_ISSUE_CHANGE_ACCESS => 'canChangeAccessLevel',
             /** @see WorkflowLegacyExtension::canAccessIssue */
             SystemEvents::ACCESS_ISSUE => 'canAccessIssue',
         ];
@@ -303,6 +305,21 @@ class WorkflowLegacyExtension implements Provider\SubscriberProvider, EventSubsc
         }
 
         $result = $backend->canCloneIssue($event->getProjectId(), $event->getIssueId(), $event->getUserId());
+        if ($result !== null) {
+            $event->setResult($result);
+        }
+    }
+
+    /**
+     * @see Workflow::canChangeAccessLevel
+     */
+    public function canChangeAccessLevel(ResultableEvent $event): void
+    {
+        if (!$backend = $this->getBackend($event)) {
+            return;
+        }
+
+        $result = $backend->canChangeAccessLevel($event->getProjectId(), $event->getIssueId(), $event->getUserId());
         if ($result !== null) {
             $event->setResult($result);
         }
