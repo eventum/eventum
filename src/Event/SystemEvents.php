@@ -144,6 +144,12 @@ final class SystemEvents
     public const NOTIFICATION_HANDLE_SUBSCRIPTION = 'notification.handle.subscription';
 
     /**
+     * @since 3.8.13
+     * @see Workflow::shouldAutoAddToNotificationList
+     */
+    public const PROJECT_NOTIFICATION_AUTO_ADD = 'project.notification.auto_add';
+
+    /**
      * @since 3.4.2
      */
     public const IRC_NOTIFY = 'irc.notify';

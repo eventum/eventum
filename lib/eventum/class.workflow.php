@@ -756,16 +756,21 @@ class Workflow
     /**
      * Indicates if the email addresses should automatically be added to the NL from notes and emails.
      *
+     * TODO:
+     * This should be probably moved to project settings as it has no context than project id.
+     *
      * @param   int $prj_id the project ID
      * @return  bool
+     * @since 3.8.13 emits PROJECT_NOTIFICATION_AUTO_ADD event
+     * @since 3.8.13 workflow integration is done by WorkflowLegacyExtension
      */
-    public static function shouldAutoAddToNotificationList($prj_id)
+    public static function shouldAutoAddToNotificationList(int $prj_id): bool
     {
-        if (!$backend = self::getBackend($prj_id)) {
-            return true;
-        }
+        $event = new ResultableEvent($prj_id, null, null);
+        $event->setResult(true);
+        EventManager::dispatch(SystemEvents::PROJECT_NOTIFICATION_AUTO_ADD, $event);
 
-        return $backend->shouldAutoAddToNotificationList($prj_id);
+        return $event->getResult();
     }
 
     /**

@@ -89,6 +89,8 @@ class WorkflowLegacyExtension implements Provider\SubscriberProvider, EventSubsc
             SystemEvents::MAIL_PROCESS_BEFORE => 'preEmailDownload',
             /** @see WorkflowLegacyExtension::preNoteInsert */
             SystemEvents::NOTE_INSERT_BEFORE => 'preNoteInsert',
+            /** @see WorkflowLegacyExtension::shouldAutoAddToNotificationList */
+            SystemEvents::PROJECT_NOTIFICATION_AUTO_ADD => 'shouldAutoAddToNotificationList',
             /** @see WorkflowLegacyExtension::canAccessIssue */
             SystemEvents::ACCESS_ISSUE => 'canAccessIssue',
         ];
@@ -391,6 +393,21 @@ class WorkflowLegacyExtension implements Provider\SubscriberProvider, EventSubsc
 
         // assign back, in case it was modified
         $event['data'] = $data;
+    }
+
+    /**
+     * @see Workflow::shouldAutoAddToNotificationList
+     */
+    public function shouldAutoAddToNotificationList(ResultableEvent $event): void
+    {
+        if (!$backend = $this->getBackend($event)) {
+            return;
+        }
+
+        $result = $backend->shouldAutoAddToNotificationList($event->getProjectId());
+        if ($result !== null) {
+            $event->setResult($result);
+        }
     }
 
     /**
