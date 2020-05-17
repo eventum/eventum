@@ -19,6 +19,7 @@ use Eventum\Event\EventContext;
 use Eventum\Event\ResultableEvent;
 use Eventum\Event\SystemEvents;
 use Eventum\Extension\Provider;
+use Eventum\Mail\ImapMessage;
 use Eventum\Mail\MailMessage;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
@@ -84,6 +85,8 @@ class WorkflowLegacyExtension implements Provider\SubscriberProvider, EventSubsc
             SystemEvents::ACCESS_ISSUE_CHANGE_ACCESS => 'canChangeAccessLevel',
             /** @see WorkflowLegacyExtension::handleAuthorizedReplierAdded */
             SystemEvents::AUTHORIZED_REPLIER_ADD => 'handleAuthorizedReplierAdded',
+            /** @see WorkflowLegacyExtension::preEmailDownload */
+            SystemEvents::MAIL_PROCESS_BEFORE => 'preEmailDownload',
             /** @see WorkflowLegacyExtension::canAccessIssue */
             SystemEvents::ACCESS_ISSUE => 'canAccessIssue',
         ];
@@ -347,6 +350,24 @@ class WorkflowLegacyExtension implements Provider\SubscriberProvider, EventSubsc
         // assign back, in case it was modified
         if ($email !== $address->getEmail()) {
             $event['email'] = $email;
+        }
+    }
+
+    /**
+     * @see Workflow::preEmailDownload
+     */
+    public function preEmailDownload(EventContext $event): void
+    {
+        if (!$backend = $this->getBackend($event)) {
+            return;
+        }
+
+        /** @var ImapMessage $mail */
+        $mail = $event->getSubject();
+
+        $result = $backend->preEmailDownload($event->getProjectId(), $mail);
+        if ($result === -1) {
+            $event->stopPropagation();
         }
     }
 
