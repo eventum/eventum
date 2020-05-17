@@ -862,14 +862,13 @@ class Workflow
      *
      * @param   int $prj_id The project ID
      * @param   string $page_name The name of the page
+     * @since 3.8.13 workflow integration is done by WorkflowLegacyExtension
+     * @since 3.8.13 emits PAGE_BEFORE event
      */
-    public static function prePage($prj_id, $page_name)
+    public static function prePage(int $prj_id, string $page_name): void
     {
-        if (!$backend = self::getBackend($prj_id)) {
-            return true;
-        }
-
-        return $backend->prePage($prj_id, $page_name);
+        $event = new EventContext($prj_id, null, null, [], $page_name);
+        EventManager::dispatch(SystemEvents::PAGE_BEFORE, $event);
     }
 
     /**

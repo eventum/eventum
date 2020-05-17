@@ -97,6 +97,8 @@ class WorkflowLegacyExtension implements Provider\SubscriberProvider, EventSubsc
             SystemEvents::MAIL_QUEUE_MODIFY => 'modifyMailQueue',
             /** @see WorkflowLegacyExtension::preStatusChange */
             SystemEvents::ISSUE_STATUS_BEFORE => 'preStatusChange',
+            /** @see WorkflowLegacyExtension::prePage */
+            SystemEvents::PAGE_BEFORE => 'prePage',
             /** @see WorkflowLegacyExtension::canAccessIssue */
             SystemEvents::ACCESS_ISSUE => 'canAccessIssue',
         ];
@@ -473,6 +475,19 @@ class WorkflowLegacyExtension implements Provider\SubscriberProvider, EventSubsc
         $event['issue_id'] = $issue_id;
         $event['status_id'] = $status_id;
         $event['notify'] = $notify;
+    }
+
+    /**
+     * @see Workflow::prePage
+     */
+    public function prePage(EventContext $event): void
+    {
+        if (!$backend = $this->getBackend($event)) {
+            return;
+        }
+
+        $page_name = $event->getSubject();
+        $backend->prePage($event->getProjectId(), $page_name);
     }
 
     /**

@@ -299,6 +299,12 @@ final class SystemEvents
     public const REMINDER_ACTION_PERFORM = 'reminder.action.perform';
 
     /**
+     * @since 3.8.13
+     * @see Workflow::prePage()
+     */
+    public const PAGE_BEFORE = 'page.before';
+
+    /**
      * @since 3.4.2
      */
     public const IRC_FORMAT_MESSAGE = 'irc.format.message';
