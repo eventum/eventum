@@ -395,27 +395,21 @@ class Workflow
      * @param   int $note_id The ID of the new note
      * @since 3.5.0 emits NOTE_CREATED event
      * @since 3.7.0 adds 'issue' argument to event
+     * @since 3.8.13 emits EventContext event
+     * @since 3.8.13 workflow integration is done by WorkflowLegacyExtension
      */
     public static function handleNewNote(int $prj_id, int $issue_id, $usr_id, $closing, $note_id): void
     {
         Partner::handleNewNote($issue_id, $note_id);
 
         $arguments = [
-            'issue_id' => (int)$issue_id,
             'issue' => Doctrine::getIssueRepository()->findById($issue_id),
-            'prj_id' => (int)$prj_id,
-            'usr_id' => (int)$usr_id,
             'note_id' => (int)$note_id,
             'note_details' => Note::getDetails($note_id),
             'closing' => (bool)$closing,
         ];
-        EventManager::dispatch(SystemEvents::NOTE_CREATED, new GenericEvent(null, $arguments));
-
-        $backend = self::getBackend($prj_id);
-        if (!$backend) {
-            return;
-        }
-        $backend->handleNewNote($prj_id, $issue_id, $usr_id, $closing, $note_id);
+        $event = new EventContext($prj_id, $issue_id, $usr_id, $arguments);
+        EventManager::dispatch(SystemEvents::NOTE_CREATED, $event);
     }
 
     /**

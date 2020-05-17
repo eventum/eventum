@@ -58,6 +58,8 @@ class WorkflowLegacyExtension implements Provider\SubscriberProvider, EventSubsc
             SystemEvents::ISSUE_CREATED => 'handleNewIssue',
             /** @see WorkflowLegacyExtension::handleManualEmailAssociation */
             SystemEvents::MAIL_ASSOCIATED_MANUAL => 'handleManualEmailAssociation',
+            /** @see WorkflowLegacyExtension::handleNewNote */
+            SystemEvents::NOTE_CREATED => 'handleNewNote',
             /** @see WorkflowLegacyExtension::canAccessIssue */
             SystemEvents::ACCESS_ISSUE => 'canAccessIssue',
         ];
@@ -189,6 +191,20 @@ class WorkflowLegacyExtension implements Provider\SubscriberProvider, EventSubsc
         $has_TAM = $event['has_TAM'];
         $has_RR = $event['has_RR'];
         $backend->handleNewIssue($event->getProjectId(), $event->getIssueId(), $has_TAM, $has_RR);
+    }
+
+    /**
+     * @see Workflow::handleNewNote
+     */
+    public function handleNewNote(EventContext $event): void
+    {
+        if (!$backend = $this->getBackend($event)) {
+            return;
+        }
+
+        $closing = $event['closing'];
+        $note_id = $event['note_id'];
+        $backend->handleNewNote($event->getProjectId(), $event->getIssueId(), $event->getUserId(), $closing, $note_id);
     }
 
     /**
