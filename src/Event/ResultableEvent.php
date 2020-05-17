@@ -14,14 +14,13 @@
 namespace Eventum\Event;
 
 use InvalidArgumentException;
-use Symfony\Component\EventDispatcher\GenericEvent;
 
 /**
  * Event which has state.
  *
  * Event consumers should call setResult() to indicate they want that value to be outcome.
  */
-class ResultableEvent extends GenericEvent
+class ResultableEvent extends EventContext
 {
     /**
      * @var mixed any data except null

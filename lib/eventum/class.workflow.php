@@ -196,12 +196,7 @@ class Workflow
      */
     public static function shouldAttachFile(int $prj_id, int $issue_id, $usr_id, array $attachment): bool
     {
-        $arguments = [
-            'prj_id' => $prj_id,
-            'issue_id' => $issue_id,
-            'usr_id' => is_numeric($usr_id) ? (int)$usr_id : $usr_id,
-        ];
-        $event = new ResultableEvent($attachment, $arguments);
+        $event = new ResultableEvent($prj_id, $issue_id, $usr_id, [], $attachment);
         EventManager::dispatch(SystemEvents::ATTACHMENT_ATTACH_FILE, $event);
         if ($event->hasResult()) {
             return $event->getResult();
@@ -451,13 +446,8 @@ class Workflow
      */
     public static function getAllowedStatuses($prj_id, $issue_id = null): array
     {
-        $arguments = [
-            'prj_id' => (int)$prj_id,
-            'issue_id' => $issue_id ? (int)$issue_id : null,
-        ];
-
         $statusList = Status::getAssocStatusList($prj_id, false);
-        $event = new ResultableEvent($statusList, $arguments);
+        $event = new ResultableEvent($prj_id, $issue_id, null, [], $statusList);
         EventManager::dispatch(SystemEvents::ISSUE_ALLOWED_STATUSES, $event);
         if ($event->hasResult()) {
             return $event->getResult();
@@ -539,18 +529,16 @@ class Workflow
      * @since 3.6.4 add 'address' property of type Address
      * @deprecated
      */
-    public static function handleSubscription($prj_id, $issue_id, &$subscriber_usr_id, &$email, &$actions)
+    public static function handleSubscription(int $prj_id, int $issue_id, &$subscriber_usr_id, &$email, &$actions)
     {
         $arguments = [
-            'prj_id' => (int)$prj_id,
-            'issue_id' => (int)$issue_id,
             'subscriber_usr_id' => is_numeric($subscriber_usr_id) ? (int)$subscriber_usr_id : $subscriber_usr_id,
             'email' => $email, // @deprecated, use 'address' instead
             'address' => $email ? AddressHeader::fromString($email)->getAddress() : null,
             'actions' => $actions,
         ];
 
-        $event = new ResultableEvent(null, $arguments);
+        $event = new ResultableEvent($prj_id, $issue_id, null, $arguments);
         EventManager::dispatch(SystemEvents::NOTIFICATION_HANDLE_SUBSCRIPTION, $event);
 
         // assign back, in case these were changed
@@ -580,16 +568,14 @@ class Workflow
      * @return bool
      * @todo https://github.com/eventum/eventum/pull/438#issuecomment-452706697
      */
-    public static function shouldEmailAddress($prj_id, $address, $issue_id = false, $type = false)
+    public static function shouldEmailAddress(int $prj_id, $address, ?int $issue_id = null, $type = false): bool
     {
         $arguments = [
-            'prj_id' => (int)$prj_id,
-            'issue_id' => $issue_id ? (int)$issue_id : null,
             'address' => AddressHeader::fromString($address)->getAddress(),
             'type' => $type ? $type : null,
         ];
 
-        $event = new ResultableEvent(null, $arguments);
+        $event = new ResultableEvent($prj_id, $issue_id, null, $arguments);
         EventManager::dispatch(SystemEvents::NOTIFICATION_NOTIFY_ADDRESS, $event);
 
         if ($event->hasResult()) {
@@ -957,13 +943,10 @@ class Workflow
     public static function canAccessIssue(int $prj_id, int $issue_id, int $usr_id, bool $return, bool $internal): bool
     {
         $arguments = [
-            'prj_id' => $prj_id,
-            'issue_id' => $issue_id,
-            'usr_id' => $usr_id,
             // if it's internal call. i.e called from canViewInternalNotes
             'internal' => $internal,
         ];
-        $event = new ResultableEvent(null, $arguments);
+        $event = new ResultableEvent($prj_id, $issue_id, $usr_id, $arguments);
         $event->setResult($return);
         EventManager::dispatch(SystemEvents::ACCESS_ISSUE, $event);
 

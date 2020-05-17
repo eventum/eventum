@@ -19,12 +19,12 @@ class EventContext extends GenericEvent
 {
     /** @var int */
     public $prj_id;
-    /** @var int */
+    /** @var int|null */
     public $issue_id;
-    /** @var int */
+    /** @var int|null */
     public $usr_id;
 
-    public function __construct(int $prj_id, int $issue_id, int $usr_id, $arguments = [], $subject = null)
+    public function __construct(int $prj_id, ?int $issue_id, ?int $usr_id, $arguments = [], $subject = null)
     {
         parent::__construct($subject, $arguments);
         $this->setArgument('prj_id', $this->prj_id = $prj_id);
@@ -37,12 +37,12 @@ class EventContext extends GenericEvent
         return $this->prj_id;
     }
 
-    public function getIssueId(): int
+    public function getIssueId(): ?int
     {
         return $this->issue_id;
     }
 
-    public function getUserId(): int
+    public function getUserId(): ?int
     {
         return $this->usr_id;
     }
