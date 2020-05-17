@@ -106,6 +106,8 @@ class WorkflowLegacyExtension implements Provider\SubscriberProvider, EventSubsc
             SystemEvents::ISSUE_FIELDS_DISPLAY => 'getIssueFieldsToDisplay',
             /** @see WorkflowLegacyExtension::addLinkFilters */
             SystemEvents::ISSUE_LINK_FILTERS => 'addLinkFilters',
+            /** @see WorkflowLegacyExtension::canUpdateIssue */
+            SystemEvents::ACCESS_ISSUE_UPDATE => 'canUpdateIssue',
             /** @see WorkflowLegacyExtension::canAccessIssue */
             SystemEvents::ACCESS_ISSUE => 'canAccessIssue',
         ];
@@ -542,6 +544,21 @@ class WorkflowLegacyExtension implements Provider\SubscriberProvider, EventSubsc
         /** @var LinkFilter $linkFilter */
         $linkFilter = $event->getSubject();
         $linkFilter->addRules($backend->getLinkFilters($event->getProjectId()));
+    }
+
+    /**
+     * @see Workflow::canUpdateIssue
+     */
+    public function canUpdateIssue(ResultableEvent $event): void
+    {
+        if (!$backend = $this->getBackend($event)) {
+            return;
+        }
+
+        $result = $backend->canUpdateIssue($event->getProjectId(), $event->getIssueId(), $event->getUserId());
+        if ($result !== null) {
+            $event->setResult($result);
+        }
     }
 
     /**

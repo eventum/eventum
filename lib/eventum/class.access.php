@@ -391,7 +391,7 @@ class Access
         ];
     }
 
-    public static function canUpdateIssue($issue_id, $usr_id)
+    public static function canUpdateIssue(int $issue_id, int $usr_id): bool
     {
         if (!self::canAccessIssue($issue_id, $usr_id)) {
             return false;
@@ -410,11 +410,7 @@ class Access
             }
         }
 
-        if (User::getRoleByUser($usr_id, $prj_id) >= User::ROLE_CUSTOMER) {
-            return true;
-        }
-
-        return false;
+        return User::getRoleByUser($usr_id, $prj_id) >= User::ROLE_CUSTOMER;
     }
 
     public static function canChangeAssignee($issue_id, $usr_id)

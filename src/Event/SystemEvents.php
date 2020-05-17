@@ -276,6 +276,12 @@ final class SystemEvents
 
     /**
      * @since 3.8.13
+     * @see Workflow::canUpdateIssue()
+     */
+    public const ACCESS_ISSUE_UPDATE = 'access.issue.update';
+
+    /**
+     * @since 3.8.13
      * @see Workflow::canChangeAccessLevel()
      */
     public const ACCESS_ISSUE_CHANGE_ACCESS = 'access.issue.change_access';

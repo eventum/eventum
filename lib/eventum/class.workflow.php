@@ -938,14 +938,20 @@ class Workflow
 
     /**
      * Returns if a user can update an issue. Return null to use default rules.
+     *
+     * @since 3.8.13 workflow integration is done by WorkflowLegacyExtension
+     * @since 3.8.13 emits ACCESS_ISSUE_UPDATE event
      */
-    public static function canUpdateIssue($prj_id, $issue_id, $usr_id)
+    public static function canUpdateIssue(int $prj_id, int $issue_id, int $usr_id): ?bool
     {
-        if (!$backend = self::getBackend($prj_id)) {
-            return null;
+        $event = new ResultableEvent($prj_id, $issue_id, $usr_id);
+        EventManager::dispatch(SystemEvents::ACCESS_ISSUE_UPDATE, $event);
+
+        if ($event->hasResult()) {
+            return $event->getResult();
         }
 
-        return $backend->canUpdateIssue($prj_id, $issue_id, $usr_id);
+        return null;
     }
 
     /**
