@@ -807,18 +807,21 @@ class Workflow
      * Modifies the content of the message being added to the mail queue.
      *
      * @param   int $prj_id
-     * @param   string $recipient
+     * @param   string $email
      * @param MailMessage $mail The Mail object
      * @param array $options Optional options, see Mail_Queue::queue
      * @since 3.3.0 the method signature changed
+     * @since 3.8.13 emits MAIL_QUEUE_MODIFY event
+     * @since 3.8.13 workflow integration is done by WorkflowLegacyExtension
      */
-    public static function modifyMailQueue($prj_id, $recipient, MailMessage $mail, $options): void
+    public static function modifyMailQueue(int $prj_id, string $email, MailMessage $mail, array $options): void
     {
-        if (!$backend = self::getBackend($prj_id)) {
-            return;
-        }
-
-        $backend->modifyMailQueue($prj_id, $recipient, $mail, $options);
+        $arguments = [
+            'options' => $options,
+            'address' => AddressHeader::fromString($email)->getAddress(),
+        ];
+        $event = new EventContext($prj_id, null, null, $arguments, $mail);
+        EventManager::dispatch(SystemEvents::MAIL_QUEUE_MODIFY, $event);
     }
 
     /**

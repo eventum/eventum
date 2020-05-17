@@ -102,6 +102,12 @@ final class SystemEvents
     public const MAIL_QUEUE_ERROR = 'mail.queue.error';
 
     /**
+     * @since 3.8.13
+     * @see Workflow::modifyMailQueue
+     */
+    public const MAIL_QUEUE_MODIFY = 'mail.queue.modify';
+
+    /**
      * @since 3.4.2
      * @see Workflow::handleNewEmail()
      */

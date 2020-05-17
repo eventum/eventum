@@ -93,6 +93,8 @@ class WorkflowLegacyExtension implements Provider\SubscriberProvider, EventSubsc
             SystemEvents::PROJECT_NOTIFICATION_AUTO_ADD => 'shouldAutoAddToNotificationList',
             /** @see WorkflowLegacyExtension::getIssueIDForNewEmail */
             SystemEvents::ISSUE_EMAIL_CREATE_OPTIONS => 'getIssueIDForNewEmail',
+            /** @see WorkflowLegacyExtension::modifyMailQueue */
+            SystemEvents::MAIL_QUEUE_MODIFY => 'modifyMailQueue',
             /** @see WorkflowLegacyExtension::canAccessIssue */
             SystemEvents::ACCESS_ISSUE => 'canAccessIssue',
         ];
@@ -428,6 +430,24 @@ class WorkflowLegacyExtension implements Provider\SubscriberProvider, EventSubsc
         if ($result !== null) {
             $event->setResult($result);
         }
+    }
+
+    /**
+     * @see Workflow::modifyMailQueue
+     */
+    public function modifyMailQueue(EventContext $event): void
+    {
+        if (!$backend = $this->getBackend($event)) {
+            return;
+        }
+
+        /** @var MailMessage $mail */
+        $mail = $event->getSubject();
+        /** @var Address $recipient */
+        $address = $event['address'];
+        /** @var array $options */
+        $options = $event['options'];
+        $backend->modifyMailQueue($event->getProjectId(), $address->getEmail(), $mail, $options);
     }
 
     /**
