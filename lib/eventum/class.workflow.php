@@ -1011,7 +1011,8 @@ class Workflow
     /**
      * Returns true if a user can access an issue.
      *
-     * @deprecated since 3.8.11 use ACCESS_ISSUE event
+     * @since 3.8.11 emits ACCESS_ISSUE event
+     * @since 3.8.11 workflow integration is done by WorkflowLegacyExtension
      */
     public static function canAccessIssue(int $prj_id, int $issue_id, int $usr_id, bool $return, bool $internal): bool
     {
