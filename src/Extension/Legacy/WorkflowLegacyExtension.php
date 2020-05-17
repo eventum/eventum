@@ -82,6 +82,8 @@ class WorkflowLegacyExtension implements Provider\SubscriberProvider, EventSubsc
             SystemEvents::ACCESS_ISSUE_CLONE => 'canCloneIssue',
             /** @see WorkflowLegacyExtension::canChangeAccessLevel */
             SystemEvents::ACCESS_ISSUE_CHANGE_ACCESS => 'canChangeAccessLevel',
+            /** @see WorkflowLegacyExtension::handleAuthorizedReplierAdded */
+            SystemEvents::AUTHORIZED_REPLIER_ADD => 'handleAuthorizedReplierAdded',
             /** @see WorkflowLegacyExtension::canAccessIssue */
             SystemEvents::ACCESS_ISSUE => 'canAccessIssue',
         ];
@@ -322,6 +324,29 @@ class WorkflowLegacyExtension implements Provider\SubscriberProvider, EventSubsc
         $result = $backend->canChangeAccessLevel($event->getProjectId(), $event->getIssueId(), $event->getUserId());
         if ($result !== null) {
             $event->setResult($result);
+        }
+    }
+
+    /**
+     * @see Workflow::canChangeAccessLevel
+     */
+    public function handleAuthorizedReplierAdded(ResultableEvent $event): void
+    {
+        if (!$backend = $this->getBackend($event)) {
+            return;
+        }
+
+        /** @var Address $address */
+        $address = $event->getSubject();
+        $email = $address->getEmail();
+        $result = $backend->handleAuthorizedReplierAdded($event->getProjectId(), $event->getIssueId(), $email);
+        if ($result !== null) {
+            $event->setResult($result);
+        }
+
+        // assign back, in case it was modified
+        if ($email !== $address->getEmail()) {
+            $event['email'] = $email;
         }
     }
 

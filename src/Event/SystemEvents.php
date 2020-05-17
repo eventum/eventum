@@ -245,6 +245,12 @@ final class SystemEvents
     public const ACCESS_ISSUE_CHANGE_ACCESS = 'access.issue.change_access';
 
     /**
+     * @since 3.8.13
+     * @see Workflow::handleAuthorizedReplierAdded()
+     */
+    public const AUTHORIZED_REPLIER_ADD = 'authorized_replier.add';
+
+    /**
      * @since 3.5.0
      * @see Workflow::handleNewNote()
      */

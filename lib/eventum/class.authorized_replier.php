@@ -118,7 +118,8 @@ class Authorized_Replier
             return -1;
         }
 
-        $workflow = Workflow::handleAuthorizedReplierAdded(Issue::getProjectID($issue_id), $issue_id, $email);
+        $prj_id = Issue::getProjectID($issue_id);
+        $workflow = Workflow::handleAuthorizedReplierAdded($prj_id, $issue_id, $email);
         if ($workflow === false) {
             // cancel subscribing the user
             return -1;

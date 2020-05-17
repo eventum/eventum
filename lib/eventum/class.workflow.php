@@ -681,15 +681,26 @@ class Workflow
      * @param   int $prj_id The project ID
      * @param   int $issue_id The ID of the issue
      * @param   string $email The email address added
-     * @return  bool
+     * @return  bool if returns false, cancel subscribing the user
+     * @since 3.8.13 emits AUTHORIZED_REPLIER_ADD event
+     * @since 3.8.13 workflow integration is done by WorkflowLegacyExtension
      */
-    public static function handleAuthorizedReplierAdded($prj_id, $issue_id, &$email)
+    public static function handleAuthorizedReplierAdded(int $prj_id, int $issue_id, &$email): ?bool
     {
-        if (!$backend = self::getBackend($prj_id)) {
-            return null;
+        $address = AddressHeader::fromString($email)->getAddress();
+        $event = new ResultableEvent($prj_id, $issue_id, null, $address);
+        EventManager::dispatch(SystemEvents::AUTHORIZED_REPLIER_ADD, $event);
+
+        // assign back, in case it was modified by event
+        if (isset($event['email'])) {
+            $email = $event['email'];
         }
 
-        return $backend->handleAuthorizedReplierAdded($prj_id, $issue_id, $email);
+        if ($event->hasResult()) {
+            return $event->getResult();
+        }
+
+        return null;
     }
 
     /**
