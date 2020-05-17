@@ -1350,10 +1350,9 @@ class Support
      * @param   int $usr_id The user ID of the person performing this change
      * @param   int $issue_id The issue ID
      * @param   array $sup_ids The list of email IDs to associate
-     * @param   bool $authorize If the senders should be added the authorized repliers list
      * @return  int 1 if it worked, -1 otherwise
      */
-    public static function associate(int $usr_id, int $issue_id, array $sup_ids, bool $authorize = false)
+    public static function associate(int $usr_id, int $issue_id, array $sup_ids)
     {
         $res = self::associateEmail($usr_id, $issue_id, $sup_ids);
         if ($res != 1) {
@@ -1396,10 +1395,6 @@ class Support
             $t['sup_id'] = $row['sup_id'];
             $t['usr_id'] = $usr_id;
             Notification::notifyNewEmail($mail, $t);
-            if ($authorize) {
-                $sender_email = $mail->getSender();
-                Authorized_Replier::manualInsert($issue_id, $sender_email, false);
-            }
         }
 
         return 1;
