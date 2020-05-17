@@ -192,22 +192,15 @@ class Workflow
      * @param   array $attachment attachment object
      * @return  bool
      * @since 3.6.3 emits ATTACHMENT_ATTACH_FILE event
-     * @deprecated
+     * @since 3.8.13 workflow integration is done by WorkflowLegacyExtension
      */
     public static function shouldAttachFile(int $prj_id, int $issue_id, $usr_id, array $attachment): bool
     {
         $event = new ResultableEvent($prj_id, $issue_id, $usr_id, [], $attachment);
+        $event->setResult(true);
         EventManager::dispatch(SystemEvents::ATTACHMENT_ATTACH_FILE, $event);
-        if ($event->hasResult()) {
-            return $event->getResult();
-        }
 
-        $backend = self::getBackend($prj_id);
-        if (!$backend) {
-            return true;
-        }
-
-        return $backend->shouldAttachFile($prj_id, $issue_id, $usr_id, $attachment);
+        return $event->getResult();
     }
 
     /**

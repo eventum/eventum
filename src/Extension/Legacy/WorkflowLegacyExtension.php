@@ -44,6 +44,8 @@ class WorkflowLegacyExtension implements Provider\SubscriberProvider, EventSubsc
             SystemEvents::ISSUE_UPDATED_BEFORE => 'preIssueUpdated',
             /** @see WorkflowLegacyExtension::handleAttachment */
             SystemEvents::ATTACHMENT_ATTACHMENT_GROUP => 'handleAttachment',
+            /** @see WorkflowLegacyExtension::shouldAttachFile */
+            SystemEvents::ATTACHMENT_ATTACH_FILE => 'shouldAttachFile',
             /** @see WorkflowLegacyExtension::canAccessIssue */
             SystemEvents::ACCESS_ISSUE => 'canAccessIssue',
         ];
@@ -88,6 +90,21 @@ class WorkflowLegacyExtension implements Provider\SubscriberProvider, EventSubsc
         /** @var AttachmentGroup $attachmentGroup */
         $attachmentGroup = $event->getSubject();
         $backend->handleAttachment($event->getProjectId(), $event->getIssueId(), $event->getUserId(), $attachmentGroup);
+    }
+
+    /**
+     * @see Workflow::shouldAttachFile
+     */
+    public function shouldAttachFile(ResultableEvent $event): void
+    {
+        if (!$backend = $this->getBackend($event)) {
+            return;
+        }
+
+        /** @var array $attachment */
+        $attachment = $event->getSubject();
+        $result = $backend->shouldAttachFile($event->getProjectId(), $event->getIssueId(), $event->getUserId(), $attachment);
+        $event->setResult($result);
     }
 
     /**
