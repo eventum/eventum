@@ -326,23 +326,22 @@ class Workflow
      * @param   MailMessage $mail The Mail object
      * @param   array $row the array of data that was inserted into the database
      * @param   bool $closing if we are closing the issue
-     * @since 3.4.2 emits MAIL_PENDING event
-     * @deprecated since 3.4.2
      * @see Support::moveEmail
      * @see Support::insertEmail
+     * @since 3.4.2 emits MAIL_PENDING event
      * @since 3.7.0 adds 'issue' argument to event
+     * @since 3.8.13 workflow integration is done by WorkflowLegacyExtension
+     * @since 3.8.13 emits EventContext event
      */
-    public static function handleNewEmail(int $prj_id, int $issue_id, MailMessage $mail, $row, $closing = false): void
+    public static function handleNewEmail(int $prj_id, int $issue_id, MailMessage $mail, array $row, bool $closing = false): void
     {
         Partner::handleNewEmail($issue_id, $row['sup_id']);
 
         // there are more variable options in $row
         // add just useful ones for event handler
         $arguments = [
-            'prj_id' => (int)$prj_id,
-            'issue_id' => (int)$issue_id,
             'issue' => Doctrine::getIssueRepository()->findById($issue_id),
-            'closing' => (bool)$closing,
+            'closing' => $closing,
             'customer_id' => $row['customer_id'] ?? null,
             'contact_id' => $row['contact_id'] ?? null,
             'ema_id' => $row['ema_id'] ?? null,
@@ -352,18 +351,12 @@ class Workflow
         ];
 
         if (empty($row['issue_id'])) {
-            $event = new GenericEvent($mail, $arguments);
+            $event = new EventContext($prj_id, $issue_id, null, $arguments, $mail);
             EventManager::dispatch(SystemEvents::MAIL_PENDING, $event);
         }
 
-        $event = new GenericEvent($mail, $arguments);
+        $event = new EventContext($prj_id, $issue_id, null, $arguments, $mail);
         EventManager::dispatch(SystemEvents::MAIL_CREATED, $event);
-
-        $backend = self::getBackend($prj_id);
-        if (!$backend) {
-            return;
-        }
-        $backend->handleNewEmail($prj_id, $issue_id, $mail, $row, $closing);
     }
 
     /**

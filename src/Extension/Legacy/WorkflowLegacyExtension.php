@@ -60,6 +60,8 @@ class WorkflowLegacyExtension implements Provider\SubscriberProvider, EventSubsc
             SystemEvents::ISSUE_ASSIGNMENT_CHANGE => 'handleAssignmentChange',
             /** @see WorkflowLegacyExtension::handleNewIssue */
             SystemEvents::ISSUE_CREATED => 'handleNewIssue',
+            /** @see WorkflowLegacyExtension::handleNewEmail */
+            SystemEvents::MAIL_CREATED => 'handleNewEmail',
             /** @see WorkflowLegacyExtension::handleManualEmailAssociation */
             SystemEvents::MAIL_ASSOCIATED_MANUAL => 'handleManualEmailAssociation',
             /** @see WorkflowLegacyExtension::handleNewNote */
@@ -648,6 +650,22 @@ class WorkflowLegacyExtension implements Provider\SubscriberProvider, EventSubsc
         $has_TAM = $event['has_TAM'];
         $has_RR = $event['has_RR'];
         $backend->handleNewIssue($event->getProjectId(), $event->getIssueId(), $has_TAM, $has_RR);
+    }
+
+    /**
+     * @see Workflow::handleNewEmail
+     */
+    public function handleNewEmail(EventContext $event): void
+    {
+        if (!$backend = $this->getBackend($event)) {
+            return;
+        }
+
+        /** @var MailMessage $mail */
+        $mail = $event->getSubject();
+        $closing = $event['closing'];
+        $row = $event['data'];
+        $backend->handleNewEmail($event->getProjectId(), $event->getIssueId(), $mail, $row, $closing);
     }
 
     /**

@@ -903,7 +903,7 @@ class Support
      * - string cc (overwrites $mail->cc) !!!
      * @return  int The support ID inserted to database
      */
-    public static function insertEmail(MailMessage $mail, $email_options): int
+    public static function insertEmail(MailMessage $mail, array $email_options): int
     {
         $closing = $email_options['closing'] ?? false;
 
