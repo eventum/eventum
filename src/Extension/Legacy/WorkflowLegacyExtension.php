@@ -122,6 +122,8 @@ class WorkflowLegacyExtension implements Provider\SubscriberProvider, EventSubsc
             SystemEvents::ISSUE_MOVE_FROM_PROJECT => 'handleIssueMovedFromProject',
             /** @see WorkflowLegacyExtension::handleIssueMovedToProject */
             SystemEvents::ISSUE_MOVE_TO_PROJECT => 'handleIssueMovedToProject',
+            /** @see WorkflowLegacyExtension::getMovedIssueMapping */
+            SystemEvents::ISSUE_MOVE_MAPPING => 'getMovedIssueMapping',
         ];
     }
 
@@ -716,6 +718,23 @@ class WorkflowLegacyExtension implements Provider\SubscriberProvider, EventSubsc
 
         $prj_id = $event['old_prj_id'];
         $backend->handleIssueMovedToProject($event->getProjectId(), $event->getIssueId(), $prj_id);
+    }
+
+    /**
+     * @see Workflow::getMovedIssueMapping
+     */
+    public function getMovedIssueMapping(ResultableEvent $event): void
+    {
+        if (!$backend = $this->getBackend($event)) {
+            return;
+        }
+
+        $mapping = $event->getResult();
+        $old_prj_id = $event['old_prj_id'];
+        $result = $backend->getMovedIssueMapping($event->getProjectId(), $event->getIssueId(), $mapping, $old_prj_id);
+        if ($result !== null) {
+            $event->setResult($result);
+        }
     }
 
     /**

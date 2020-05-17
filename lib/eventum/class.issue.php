@@ -1421,7 +1421,7 @@ class Issue
             if (($prj_id != $new_prj_id) && (array_key_exists($new_prj_id, Project::getAssocList($usr_id)))) {
                 if (User::getRoleByUser($usr_id, $new_prj_id) >= User::ROLE_REPORTER) {
                     $res = self::moveIssue($issue_id, $new_prj_id);
-                    if ($res == -1) {
+                    if ($res === -1) {
                         return $res;
                     }
                 } else {
@@ -1440,7 +1440,7 @@ class Issue
      * @param int $new_prj_id
      * @return int 1 on success, -1 otherwise
      */
-    public static function moveIssue($issue_id, $new_prj_id)
+    public static function moveIssue(int $issue_id, int $new_prj_id): int
     {
         $old_prj_id = self::getProjectID($issue_id);
         $mapping = self::getMovedIssueMapping($issue_id, $new_prj_id);
@@ -1481,11 +1481,7 @@ class Issue
         return 1;
     }
 
-    /**
-     * @param int $issue_id
-     * @param int $new_prj_id
-     */
-    private static function getMovedIssueMapping($issue_id, $new_prj_id)
+    private static function getMovedIssueMapping(int $issue_id, int $new_prj_id): array
     {
         $mapping = [];
         $current_details = self::getDetails($issue_id);

@@ -1087,14 +1087,19 @@ class Workflow
      * @param $old_prj_id integer The ID of the project the issue is being moved from
      * @return array A key/value array with the keys being field names in the issue table
      * @since 3.1.7
+     * @since 3.8.13 workflow integration is done by WorkflowLegacyExtension
+     * @since 3.8.13 emits ISSUE_MOVE_MAPPING event
      */
-    public static function getMovedIssueMapping($prj_id, $issue_id, $mapping, $old_prj_id)
+    public static function getMovedIssueMapping(int $prj_id, int $issue_id, array $mapping, int $old_prj_id): array
     {
-        if (!$backend = self::getBackend($prj_id)) {
-            return $mapping;
-        }
+        $arguments = [
+            'old_prj_id' => $old_prj_id,
+        ];
+        $event = new ResultableEvent($prj_id, $issue_id, null, $arguments);
+        $event->setResult($mapping);
+        EventManager::dispatch(SystemEvents::ISSUE_MOVE_MAPPING, $event);
 
-        return $backend->getMovedIssueMapping($prj_id, $issue_id, $mapping, $old_prj_id);
+        return $event->getResult();
     }
 
     /**

@@ -263,6 +263,12 @@ final class SystemEvents
     public const ISSUE_MOVE_TO_PROJECT = 'issue.move.to_project';
 
     /**
+     * @since 3.8.13
+     * @see Workflow::getMovedIssueMapping
+     */
+    public const ISSUE_MOVE_MAPPING = 'issue.move.mapping';
+
+    /**
      * @since 3.8.11
      * @see Workflow::canAccessIssue()
      */
