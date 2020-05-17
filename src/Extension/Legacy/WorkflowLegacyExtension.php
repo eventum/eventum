@@ -118,6 +118,10 @@ class WorkflowLegacyExtension implements Provider\SubscriberProvider, EventSubsc
             SystemEvents::ACCESS_ISSUE => 'canAccessIssue',
             /** @see WorkflowLegacyExtension::getAdditionalAccessSQL */
             SystemEvents::ACCESS_LISTING_SQL => 'getAdditionalAccessSQL',
+            /** @see WorkflowLegacyExtension::handleIssueMovedFromProject */
+            SystemEvents::ISSUE_MOVE_FROM_PROJECT => 'handleIssueMovedFromProject',
+            /** @see WorkflowLegacyExtension::handleIssueMovedToProject */
+            SystemEvents::ISSUE_MOVE_TO_PROJECT => 'handleIssueMovedToProject',
         ];
     }
 
@@ -686,6 +690,32 @@ class WorkflowLegacyExtension implements Provider\SubscriberProvider, EventSubsc
         $reason = $event['reason'];
 
         $backend->handleIssueClosed($event->getProjectId(), $event->getIssueId(), $send_notification, $resolution_id, $status_id, $reason, $event->getUserId());
+    }
+
+    /**
+     * @see Workflow::handleIssueMovedFromProject
+     */
+    public function handleIssueMovedFromProject(EventContext $event): void
+    {
+        if (!$backend = $this->getBackend($event)) {
+            return;
+        }
+
+        $prj_id = $event['new_prj_id'];
+        $backend->handleIssueMovedFromProject($event->getProjectId(), $event->getIssueId(), $prj_id);
+    }
+
+    /**
+     * @see Workflow::handleIssueMovedToProject
+     */
+    public function handleIssueMovedToProject(EventContext $event): void
+    {
+        if (!$backend = $this->getBackend($event)) {
+            return;
+        }
+
+        $prj_id = $event['old_prj_id'];
+        $backend->handleIssueMovedToProject($event->getProjectId(), $event->getIssueId(), $prj_id);
     }
 
     /**

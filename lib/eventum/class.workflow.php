@@ -1049,35 +1049,33 @@ class Workflow
     /**
      * Called when an issue is moved from this project to another.
      *
-     * @param $prj_id integer
-     * @param $issue_id integer
-     * @param $new_prj_id integer
      * @since 3.1.7
+     * @since 3.8.13 workflow integration is done by WorkflowLegacyExtension
+     * @since 3.8.13 emits ISSUE_MOVE_FROM_PROJECT event
      */
-    public static function handleIssueMovedFromProject($prj_id, $issue_id, $new_prj_id)
+    public static function handleIssueMovedFromProject(int $prj_id, int $issue_id, int $new_prj_id): void
     {
-        if (!$backend = self::getBackend($prj_id)) {
-            return null;
-        }
-
-        $backend->handleIssueMovedFromProject($prj_id, $issue_id, $new_prj_id);
+        $arguments = [
+            'new_prj_id' => $new_prj_id,
+        ];
+        $event = new ResultableEvent($prj_id, $issue_id, null, $arguments);
+        EventManager::dispatch(SystemEvents::ISSUE_MOVE_FROM_PROJECT, $event);
     }
 
     /**
      * Called when an issue is moved to this project from another.
      *
-     * @param $prj_id integer
-     * @param $issue_id integer
-     * @param $old_prj_id integer
      * @since 3.1.7
+     * @since 3.8.13 workflow integration is done by WorkflowLegacyExtension
+     * @since 3.8.13 emits ISSUE_MOVE_TO_PROJECT event
      */
-    public static function handleIssueMovedToProject($prj_id, $issue_id, $old_prj_id)
+    public static function handleIssueMovedToProject(int $prj_id, int $issue_id, int $old_prj_id): void
     {
-        if (!$backend = self::getBackend($prj_id)) {
-            return null;
-        }
-
-        $backend->handleIssueMovedToProject($prj_id, $issue_id, $old_prj_id);
+        $arguments = [
+            'old_prj_id' => $old_prj_id,
+        ];
+        $event = new ResultableEvent($prj_id, $issue_id, null, $arguments);
+        EventManager::dispatch(SystemEvents::ISSUE_MOVE_TO_PROJECT, $event);
     }
 
     /**

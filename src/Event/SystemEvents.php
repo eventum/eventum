@@ -251,6 +251,18 @@ final class SystemEvents
     public const ISSUE_FIELDS_DISPLAY = 'issue.fields.display';
 
     /**
+     * @since 3.8.13
+     * @see Workflow::handleIssueMovedFromProject
+     */
+    public const ISSUE_MOVE_FROM_PROJECT = 'issue.move.from_project';
+
+    /**
+     * @since 3.8.13
+     * @see Workflow::handleIssueMovedToProject
+     */
+    public const ISSUE_MOVE_TO_PROJECT = 'issue.move.to_project';
+
+    /**
      * @since 3.8.11
      * @see Workflow::canAccessIssue()
      */
