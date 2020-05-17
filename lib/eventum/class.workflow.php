@@ -732,14 +732,25 @@ class Workflow
      * @param   int $issue_id
      * @param   array $data
      * @return  mixed   Null by default, false if the note should not be inserted
+     * @since 3.8.13 emits NOTE_INSERT_BEFORE event
+     * @since 3.8.13 workflow integration is done by WorkflowLegacyExtension
      */
-    public static function preNoteInsert($prj_id, $issue_id, &$data)
+    public static function preNoteInsert(int $prj_id, int $issue_id, &$data): ?bool
     {
-        if (!$backend = self::getBackend($prj_id)) {
-            return null;
+        $arguments = [
+            'data' => $data,
+        ];
+        $event = new ResultableEvent($prj_id, $issue_id, null, $arguments);
+        EventManager::dispatch(SystemEvents::NOTE_INSERT_BEFORE, $event);
+
+        // assign back, in case it was changed
+        $data = $event['data'];
+
+        if ($event->hasResult()) {
+            return $event->getResult();
         }
 
-        return $backend->preNoteInsert($prj_id, $issue_id, $data);
+        return null;
     }
 
     /**

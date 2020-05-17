@@ -87,6 +87,8 @@ class WorkflowLegacyExtension implements Provider\SubscriberProvider, EventSubsc
             SystemEvents::AUTHORIZED_REPLIER_ADD => 'handleAuthorizedReplierAdded',
             /** @see WorkflowLegacyExtension::preEmailDownload */
             SystemEvents::MAIL_PROCESS_BEFORE => 'preEmailDownload',
+            /** @see WorkflowLegacyExtension::preNoteInsert */
+            SystemEvents::NOTE_INSERT_BEFORE => 'preNoteInsert',
             /** @see WorkflowLegacyExtension::canAccessIssue */
             SystemEvents::ACCESS_ISSUE => 'canAccessIssue',
         ];
@@ -369,6 +371,26 @@ class WorkflowLegacyExtension implements Provider\SubscriberProvider, EventSubsc
         if ($result === -1) {
             $event->stopPropagation();
         }
+    }
+
+    /**
+     * @see Workflow::preNoteInsert
+     */
+    public function preNoteInsert(ResultableEvent $event): void
+    {
+        if (!$backend = $this->getBackend($event)) {
+            return;
+        }
+
+        /** @var array $data */
+        $data = $event->getSubject();
+        $result = $backend->preNoteInsert($event->getProjectId(), $event->getIssueId(), $data);
+        if ($result !== null) {
+            $event->setResult($result);
+        }
+
+        // assign back, in case it was modified
+        $event['data'] = $data;
     }
 
     /**

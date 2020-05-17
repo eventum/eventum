@@ -257,6 +257,12 @@ final class SystemEvents
     public const NOTE_CREATED = 'note.created';
 
     /**
+     * @since 3.8.13
+     * @see Workflow::preNoteInsert
+     */
+    public const NOTE_INSERT_BEFORE = 'note.insert.before';
+
+    /**
      * @since 3.4.2
      * @see Notification::notifyNewIssue()
      */
