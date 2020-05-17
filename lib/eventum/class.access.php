@@ -323,7 +323,7 @@ class Access
         return self::canUpdateIssue($issue_id, $usr_id);
     }
 
-    public static function canCloneIssue($issue_id, $usr_id)
+    public static function canCloneIssue(int $issue_id, int $usr_id): bool
     {
         if (!self::canAccessIssue($issue_id, $usr_id)) {
             return false;
@@ -342,11 +342,7 @@ class Access
             }
         }
 
-        if (User::getRoleByUser($usr_id, $prj_id) >= User::ROLE_USER) {
-            return true;
-        }
-
-        return false;
+        return User::getRoleByUser($usr_id, $prj_id) >= User::ROLE_USER;
     }
 
     public static function canChangeAccessLevel($issue_id, $usr_id)

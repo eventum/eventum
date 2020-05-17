@@ -78,6 +78,8 @@ class WorkflowLegacyExtension implements Provider\SubscriberProvider, EventSubsc
             SystemEvents::ACCESS_ISSUE_EMAIL => 'canEmailIssue',
             /** @see WorkflowLegacyExtension::canSendNote */
             SystemEvents::ACCESS_ISSUE_NOTE => 'canSendNote',
+            /** @see WorkflowLegacyExtension::canCloneIssue */
+            SystemEvents::ACCESS_ISSUE_CLONE => 'canCloneIssue',
             /** @see WorkflowLegacyExtension::canAccessIssue */
             SystemEvents::ACCESS_ISSUE => 'canAccessIssue',
         ];
@@ -286,6 +288,21 @@ class WorkflowLegacyExtension implements Provider\SubscriberProvider, EventSubsc
         /** @var MailMessage $mailMessage */
         $mail = $event['mail'];
         $result = $backend->canSendNote($event->getProjectId(), $event->getIssueId(), $email, $mail);
+        if ($result !== null) {
+            $event->setResult($result);
+        }
+    }
+
+    /**
+     * @see Workflow::canCloneIssue
+     */
+    public function canCloneIssue(ResultableEvent $event): void
+    {
+        if (!$backend = $this->getBackend($event)) {
+            return;
+        }
+
+        $result = $backend->canCloneIssue($event->getProjectId(), $event->getIssueId(), $event->getUserId());
         if ($result !== null) {
             $event->setResult($result);
         }

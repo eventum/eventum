@@ -640,14 +640,18 @@ class Workflow
      * @param   int $issue_id The issue ID
      * @param   string $usr_id The ID of the user
      * @return  bool True if the issue can be cloned, false otherwise
+     * @since 3.8.13 emits ACCESS_ISSUE_CLONE event
+     * @since 3.8.13 workflow integration is done by WorkflowLegacyExtension
      */
-    public static function canCloneIssue($prj_id, $issue_id, $usr_id)
+    public static function canCloneIssue(int $prj_id, int $issue_id, int $usr_id): ?bool
     {
-        if (!$backend = self::getBackend($prj_id)) {
-            return null;
+        $event = new ResultableEvent($prj_id, $issue_id, $usr_id);
+        EventManager::dispatch(SystemEvents::ACCESS_ISSUE_CLONE, $event);
+        if ($event->hasResult()) {
+            return $event->getResult();
         }
 
-        return $backend->canCloneIssue($prj_id, $issue_id, $usr_id);
+        return null;
     }
 
     /**

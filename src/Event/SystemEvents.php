@@ -233,6 +233,12 @@ final class SystemEvents
     public const ACCESS_ISSUE_NOTE = 'access.issue.note';
 
     /**
+     * @since 3.8.13
+     * @see Workflow::canCloneIssue()
+     */
+    public const ACCESS_ISSUE_CLONE = 'access.issue.clone';
+
+    /**
      * @since 3.5.0
      * @see Workflow::handleNewNote()
      */
