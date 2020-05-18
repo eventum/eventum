@@ -23,81 +23,12 @@ use Eventum\LinkFilter\LinkFilter;
 use Eventum\Mail\Helper\AddressHeader;
 use Eventum\Mail\ImapMessage;
 use Eventum\Mail\MailMessage;
-use Eventum\Monolog\Logger;
 
 /**
  * @deprecated workflow backend concept is deprecated, use event subscribers
  */
 class Workflow
 {
-    /**
-     * Returns the name of the workflow backend for the specified project.
-     *
-     * @param   int $prj_id the id of the project to lookup
-     * @throws Exception
-     * @return  string the name of the customer backend
-     */
-    private static function _getBackendNameByProject($prj_id)
-    {
-        static $backends;
-
-        if ($backends === null) {
-            $stmt = 'SELECT
-                    prj_id,
-                    prj_workflow_backend
-                 FROM
-                    `project`
-                 ORDER BY
-                    prj_id';
-            $backends = DB_Helper::getInstance()->getPair($stmt);
-        }
-
-        return $backends[$prj_id] ?? null;
-    }
-
-    /**
-     * Includes the appropriate workflow backend class associated with the
-     * given project ID, instantiates it and returns the class.
-     *
-     * @param   int $prj_id The project ID
-     */
-    public static function getBackend($prj_id): ?Abstract_Workflow_Backend
-    {
-        static $cache = [];
-
-        $prj_id = (int)$prj_id;
-
-        $initialize = static function (int $prj_id): ?Abstract_Workflow_Backend {
-            // bunch of code calling without project id context
-            if (!$prj_id) {
-                return null;
-            }
-
-            $backendName = static::_getBackendNameByProject($prj_id);
-            if (!$backendName) {
-                return null;
-            }
-
-            try {
-                /** @var Abstract_Workflow_Backend $backend */
-                $backend = static::getExtensionLoader()->createInstance($backendName);
-                $backend->prj_id = $prj_id;
-            } catch (InvalidArgumentException $e) {
-                Logger::app()->error($e->getMessage(), ['exception' => $e]);
-
-                return null;
-            }
-
-            return $backend;
-        };
-
-        if (array_key_exists($prj_id, $cache)) {
-            return $cache[$prj_id];
-        }
-
-        return $cache[$prj_id] = $initialize($prj_id);
-    }
-
     /**
      * Is called when an issue is updated.
      *

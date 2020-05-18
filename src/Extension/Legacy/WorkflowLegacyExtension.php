@@ -15,15 +15,19 @@ namespace Eventum\Extension\Legacy;
 
 use Abstract_Workflow_Backend;
 use Eventum\Attachment\AttachmentGroup;
+use Eventum\Db\Doctrine;
 use Eventum\Event\EventContext;
 use Eventum\Event\ResultableEvent;
 use Eventum\Event\SystemEvents;
+use Eventum\Extension\ExtensionLoader;
 use Eventum\Extension\Provider;
 use Eventum\LinkFilter\LinkFilter;
+use Eventum\Logger\LoggerTrait;
 use Eventum\Mail\ImapMessage;
 use Eventum\Mail\MailMessage;
+use Eventum\Model\Repository\ProjectRepository;
+use InvalidArgumentException;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Symfony\Component\EventDispatcher\GenericEvent;
 use Workflow;
 use Zend\Mail\Address;
 
@@ -32,6 +36,19 @@ use Zend\Mail\Address;
  */
 class WorkflowLegacyExtension implements Provider\SubscriberProvider, EventSubscriberInterface
 {
+    use LoggerTrait;
+
+    /** @var ExtensionLoader */
+    private $extensionLoader;
+    /** @var ProjectRepository */
+    private $projectRepository;
+
+    public function __construct()
+    {
+        $this->projectRepository = Doctrine::getProjectRepository();
+        $this->extensionLoader = Workflow::getExtensionLoader();
+    }
+
     public function getSubscribers(): array
     {
         return [
@@ -800,8 +817,42 @@ class WorkflowLegacyExtension implements Provider\SubscriberProvider, EventSubsc
         }
     }
 
-    protected function getBackend(GenericEvent $event): ?Abstract_Workflow_Backend
+    private function getBackend(EventContext $event): ?Abstract_Workflow_Backend
     {
-        return Workflow::getBackend($event['prj_id']);
+        static $cache = [];
+
+        $prj_id = $event->getProjectId();
+
+        // bunch of code calling without project id context
+        if (!$prj_id) {
+            return null;
+        }
+
+        if (array_key_exists($prj_id, $cache)) {
+            return $cache[$prj_id];
+        }
+
+        return $cache[$prj_id] = $this->loadBackend($prj_id);
+    }
+
+    private function loadBackend(int $prj_id): ?Abstract_Workflow_Backend
+    {
+        try {
+            $project = $this->projectRepository->findById($prj_id);
+            $backendName = $project->getWorkflowBackend();
+            if (!$backendName) {
+                return null;
+            }
+
+            /** @var Abstract_Workflow_Backend $backend */
+            $backend = $this->extensionLoader->createInstance($backendName);
+            $backend->prj_id = $prj_id;
+        } catch (InvalidArgumentException $e) {
+            $this->error($e->getMessage(), ['exception' => $e]);
+
+            return null;
+        }
+
+        return $backend;
     }
 }
