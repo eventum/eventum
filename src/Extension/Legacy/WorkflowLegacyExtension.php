@@ -132,25 +132,27 @@ class WorkflowLegacyExtension implements Provider\SubscriberProvider, EventSubsc
     /**
      * @see Workflow::handleIssueUpdated
      */
-    public function handleIssueUpdated(GenericEvent $event): void
+    public function handleIssueUpdated(EventContext $event): void
     {
         if (!$backend = $this->getBackend($event)) {
             return;
         }
 
-        $backend->handleIssueUpdated($event['prj_id'], $event['issue_id'], $event['usr_id'], $event['old_details'], $event['raw_post']);
+        $old_details = $event['old_details'];
+        $changes = $event['raw_post'];
+        $backend->handleIssueUpdated($event->getProjectId(), $event->getIssueId(), $event->getUserId(), $old_details, $changes);
     }
 
     /**
      * @see Workflow::preIssueUpdated
      */
-    public function preIssueUpdated(GenericEvent $event): void
+    public function preIssueUpdated(EventContext $event): void
     {
         if (!$backend = $this->getBackend($event)) {
             return;
         }
 
-        $result = $backend->preIssueUpdated($event['prj_id'], $event['issue_id'], $event['usr_id'], $event['changes']);
+        $result = $backend->preIssueUpdated($event->getProjectId(), $event->getIssueId(), $event->getUserId(), $event['changes']);
         if ($result !== true) {
             $event->stopPropagation();
         }

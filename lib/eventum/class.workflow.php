@@ -24,7 +24,6 @@ use Eventum\Mail\Helper\AddressHeader;
 use Eventum\Mail\ImapMessage;
 use Eventum\Mail\MailMessage;
 use Eventum\Monolog\Logger;
-use Symfony\Component\EventDispatcher\GenericEvent;
 
 /**
  * @deprecated workflow backend concept is deprecated, use event subscribers
@@ -111,22 +110,21 @@ class Workflow
      * @param array $updated_custom_fields
      * @since 3.5.0 emits ISSUE_UPDATED event
      * @since 3.8.13 workflow integration is done by WorkflowLegacyExtension
+     * @since 3.8.13 emits EventContext event
      */
     public static function handleIssueUpdated(int $prj_id, int $issue_id, int $usr_id, $old_details, $raw_post, $updated_fields, $updated_custom_fields): void
     {
         Partner::handleIssueChange($issue_id, $usr_id, $old_details, $raw_post);
 
         $arguments = [
-            'issue_id' => (int)$issue_id,
-            'prj_id' => (int)$prj_id,
-            'usr_id' => (int)$usr_id,
             'issue_details' => Issue::getDetails($issue_id, true),
             'updated_fields' => $updated_fields,
             'updated_custom_fields' => $updated_custom_fields,
             'old_details' => $old_details,
             'raw_post' => $raw_post,
         ];
-        EventManager::dispatch(SystemEvents::ISSUE_UPDATED, new GenericEvent(null, $arguments));
+        $event = new EventContext($prj_id, $issue_id, $usr_id, $arguments);
+        EventManager::dispatch(SystemEvents::ISSUE_UPDATED, $event);
     }
 
     /**
@@ -140,13 +138,11 @@ class Workflow
      * @since 3.5.0 emits ISSUE_CREATED_BEFORE event
      * @since 3.8.13 can use stopPropagation() to cancel event
      * @since 3.8.13 workflow integration is done by WorkflowLegacyExtension
+     * @since 3.8.13 emits EventContext event
      */
-    public static function preIssueUpdated($prj_id, $issue_id, $usr_id, &$changes, $issue_details)
+    public static function preIssueUpdated(int $prj_id, int $issue_id, int $usr_id, &$changes, $issue_details)
     {
         $arguments = [
-            'issue_id' => (int)$issue_id,
-            'prj_id' => (int)$prj_id,
-            'usr_id' => (int)$usr_id,
             'issue_details' => $issue_details,
             'changes' => $changes,
             // 'true' to continue, anything else to cancel the change and return the value
@@ -154,7 +150,8 @@ class Workflow
             'bubble' => true,
         ];
 
-        $event = EventManager::dispatch(SystemEvents::ISSUE_UPDATED_BEFORE, new GenericEvent(null, $arguments));
+        $event = new EventContext($prj_id, $issue_id, $usr_id, $arguments);
+        EventManager::dispatch(SystemEvents::ISSUE_UPDATED_BEFORE, $event);
 
         if ($event['bubble'] !== true) {
             return $event['bubble'];
