@@ -33,6 +33,7 @@ class AttachmentMigrateCommand extends Command
 {
     public const DEFAULT_COMMAND = 'attachment:migrate';
     public const USAGE = self::DEFAULT_COMMAND . ' [source_adapter] [target_adapter] [--chunksize=] [--limit=] [--migrate] [--verify]';
+    private const DEFAULT_CHUNKSIZE = 100;
 
     /** @var AdapterInterface */
     private $db;
@@ -46,8 +47,9 @@ class AttachmentMigrateCommand extends Command
     /** @var string */
     private $target_adapter;
 
-    public function execute(OutputInterface $output, $source_adapter, $target_adapter, $migrate, $verify, $limit, $chunksize = 100): void
+    public function __invoke(OutputInterface $output, $source_adapter, $target_adapter, $migrate, $verify, $limit, $chunksize): void
     {
+        $chunksize = $chunksize ?: self::DEFAULT_CHUNKSIZE;
         $this->output = $output;
         $this->assertInput($source_adapter, $target_adapter, $migrate, $verify);
 

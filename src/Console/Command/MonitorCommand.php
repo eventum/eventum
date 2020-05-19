@@ -40,7 +40,7 @@ class MonitorCommand
     /** @var int */
     private $errors = 0;
 
-    public function execute(OutputInterface $output, $quiet)
+    public function __invoke(OutputInterface $output, $quiet): int
     {
         $this->output = $output;
 

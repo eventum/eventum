@@ -24,7 +24,7 @@ class MailQueueProcessCommand
     /** @var string */
     private $lock_name = 'process_mail_queue';
 
-    public function execute(): void
+    public function __invoke(): void
     {
         $lock = new ConcurrentLock($this->lock_name);
         $lock->synchronized(

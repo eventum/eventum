@@ -29,7 +29,7 @@ class ExtensionEnableCommand
     /** @var OutputInterface */
     private $output;
 
-    public function execute(OutputInterface $output, $filename, $classname): void
+    public function __invoke(OutputInterface $output, $filename, $classname): void
     {
         $this->output = $output;
         $this->setupExtension($filename, $classname);

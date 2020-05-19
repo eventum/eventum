@@ -21,6 +21,6 @@ use Eventum\Console\Application;
 use Eventum\Console\Command\MailDownloadCommand as Command;
 
 $app = new Application();
-$app->command(Command::USAGE, [new Command(), 'execute']);
+$app->command(Command::USAGE, Command::class);
 $app->setDefaultCommand(Command::DEFAULT_COMMAND, true);
 $app->run();

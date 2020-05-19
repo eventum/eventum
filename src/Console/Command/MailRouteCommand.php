@@ -28,7 +28,7 @@ class MailRouteCommand
      * @param string $filename optional filename to load
      * @return int Program exit code
      */
-    public function execute(OutputInterface $output, $filename)
+    public function __invoke(OutputInterface $output, $filename): int
     {
         // take input from first argument if specified
         // otherwise read from STDIN
