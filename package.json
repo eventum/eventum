@@ -39,5 +39,8 @@
     "drmonty-garlicjs/jquery": "1.9.x",
     "jquery-form/jquery": "1.9.x",
     "timeago/jquery": "1.9.x"
+  },
+  "dependencies": {
+    "cmd-ctrl-enter": "github:widernet/cmd-ctrl-enter#8843088cd312a97ef0abb64de1fe83e02c915b5c"
   }
 }
