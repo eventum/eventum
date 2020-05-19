@@ -22,7 +22,7 @@ class ExportIssuesCommand extends Command
     public const DEFAULT_COMMAND = 'export:issues';
     public const USAGE = self::DEFAULT_COMMAND . ' [issueId] [filename]';
 
-    public function execute(OutputInterface $output, ?int $issueId, ?string $fileName): void
+    public function __invoke(OutputInterface $output, ?int $issueId, ?string $fileName): void
     {
         $this->output = $output;
 

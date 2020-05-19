@@ -24,6 +24,9 @@ class ConsoleCommandsService implements ServiceProviderInterface
         $app[Command\ReminderCheckCommand::class] = static function () {
             return new Command\ReminderCheckCommand();
         };
+        $app[Command\ExportIssuesCommand::class] = static function () {
+            return new Command\ExportIssuesCommand();
+        };
         $app[Command\MailDownloadCommand::class] = static function () {
             return new Command\MailDownloadCommand();
         };
