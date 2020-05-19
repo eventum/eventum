@@ -15,14 +15,26 @@ namespace Eventum\Console\Command;
 
 use Eventum\ConcurrentLock;
 use Mail_Queue;
+use Symfony\Component\Console\Command\Command as SymfonyCommand;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
 
-class MailQueueProcessCommand
+class MailQueueProcessCommand extends SymfonyCommand
 {
     public const DEFAULT_COMMAND = 'mail-queue:process';
     public const USAGE = self::DEFAULT_COMMAND;
 
+    protected static $defaultName = self::DEFAULT_COMMAND;
+
     /** @var string */
     private $lock_name = 'process_mail_queue';
+
+    public function execute(InputInterface $input, OutputInterface $output): int
+    {
+        $this();
+
+        return 0;
+    }
 
     public function __invoke(): void
     {
