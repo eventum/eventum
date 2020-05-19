@@ -1936,7 +1936,7 @@ class Notification
      * @param   string $source The source of this call, "add_unknown_user", "self_assign", "remote_assign", "anon_issue", "issue_update", "issue_from_email", "new_issue", "note", "add_extra_recipients"
      * @return  array The list of default notification actions
      */
-    public static function getDefaultActions($issue_id = null, $email = null, $source = null): array
+    public static function getDefaultActions(?int $issue_id = null, ?string $email = null, ?string $source = null): array
     {
         $prj_id = Auth::getCurrentProject();
         $workflow = Workflow::getNotificationActions($prj_id, $issue_id, $email, $source);
