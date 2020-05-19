@@ -13,12 +13,12 @@
 
 namespace Example\Subscriber;
 
+use Eventum\Event\EventContext;
 use Eventum\Event\SystemEvents;
 use Eventum\TaskList\TaskListItem;
 use Eventum\TaskList\TaskListMatcher;
 use Issue;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Symfony\Component\EventDispatcher\GenericEvent;
 
 class IssuePercentageUpdater implements EventSubscriberInterface
 {
@@ -38,7 +38,7 @@ class IssuePercentageUpdater implements EventSubscriberInterface
         $this->matcher = new TaskListMatcher();
     }
 
-    public function updateIssueComplete(GenericEvent $event): void
+    public function updateIssueComplete(EventContext $event): void
     {
         $complete = $this->getTaskComplete($event['issue_details']['iss_description']);
         if ($complete === null) {
@@ -46,7 +46,7 @@ class IssuePercentageUpdater implements EventSubscriberInterface
             return;
         }
 
-        Issue::setIssueCompletePercentage($event['issue_id'], $complete);
+        Issue::setIssueCompletePercentage($event->getIssueId(), $complete);
     }
 
     /**
@@ -62,7 +62,7 @@ class IssuePercentageUpdater implements EventSubscriberInterface
             return null;
         }
 
-        $complete = array_filter(array_map(function (TaskListItem $c) {
+        $complete = array_filter(array_map(static function (TaskListItem $c) {
             return $c->isChecked();
         }, $tasks));
 

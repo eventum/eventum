@@ -25,6 +25,12 @@ final class SystemEvents
     public const ATTACHMENT_ATTACH_FILE = 'attachment.attach.file';
 
     /**
+     * @since 3.8.13
+     * @see Workflow::handleAttachment
+     */
+    public const ATTACHMENT_ATTACHMENT_GROUP = 'attachment.attach.group';
+
+    /**
      * Event fired when history entry is added
      *
      * @since 3.3.0
@@ -96,6 +102,12 @@ final class SystemEvents
     public const MAIL_QUEUE_ERROR = 'mail.queue.error';
 
     /**
+     * @since 3.8.13
+     * @see Workflow::modifyMailQueue
+     */
+    public const MAIL_QUEUE_MODIFY = 'mail.queue.modify';
+
+    /**
      * @since 3.4.2
      * @see Workflow::handleNewEmail()
      */
@@ -108,16 +120,46 @@ final class SystemEvents
     public const MAIL_CREATED = 'mail.created';
 
     /**
+     * @since 3.8.13
+     * @see Workflow::handleManualEmailAssociation
+     */
+    public const MAIL_ASSOCIATED_MANUAL = 'mail.associated.manual';
+
+    /**
+     * @since 3.8.13
+     * @see Workflow::handleCustomFieldsUpdated()
+     */
+    public const CUSTOM_FIELDS_UPDATED = 'custom_field.updated';
+
+    /**
      * @since 3.6.0
      * @see Workflow::shouldEmailAddress()
      */
     public const NOTIFICATION_NOTIFY_ADDRESS = 'notification.notify.address';
 
     /**
+     * @since 3.8.13
+     * @see Workflow::getAdditionalEmailAddresses()
+     */
+    public const NOTIFICATION_NOTIFY_ADDRESSES_EXTRA = 'notification.notify.addresses.extra';
+
+    /**
      * @since 3.6.3
      * @see Workflow::handleSubscription()
      */
     public const NOTIFICATION_HANDLE_SUBSCRIPTION = 'notification.handle.subscription';
+
+    /**
+     * @since 3.8.13
+     * @see Workflow::shouldAutoAddToNotificationList
+     */
+    public const PROJECT_NOTIFICATION_AUTO_ADD = 'project.notification.auto_add';
+
+    /**
+     * @since 3.8.13
+     * @see Workflow::getNotificationActions
+     */
+    public const NOTIFICATION_ACTIONS = 'notitication.actions';
 
     /**
      * @since 3.4.2
@@ -141,6 +183,18 @@ final class SystemEvents
      * @see Workflow::preIssueUpdated
      */
     public const ISSUE_UPDATED_BEFORE = 'issue.updated.before';
+
+    /**
+     * @since 3.8.13
+     * @see Workflow::handlePriorityChange
+     */
+    public const ISSUE_UPDATED_PRIORITY = 'issue.updated.priority';
+
+    /**
+     * @since 3.8.13
+     * @see Workflow::handlePriorityChange
+     */
+    public const ISSUE_UPDATED_SEVERITY = 'issue.updated.severity';
 
     /**
      * @since 3.6.0
@@ -167,6 +221,18 @@ final class SystemEvents
     public const ISSUE_UPDATED = 'issue.updated';
 
     /**
+     * @since 3.5.0
+     * @see Workflow::getIssueIDForNewEmail()
+     */
+    public const ISSUE_EMAIL_CREATE_OPTIONS = 'issue.email.create.options';
+
+    /**
+     * @since 3.5.0
+     * @see Workflow::preStatusChange
+     */
+    public const ISSUE_STATUS_BEFORE = 'issue.status.before';
+
+    /**
      * @since 3.6.3
      * @see Workflow::getAllowedStatuses()
      */
@@ -179,16 +245,106 @@ final class SystemEvents
     public const ISSUE_LINK_FILTERS = 'issue.link.filters';
 
     /**
+     * @since 3.8.13
+     * @see Workflow::getIssueFieldsToDisplay
+     */
+    public const ISSUE_FIELDS_DISPLAY = 'issue.fields.display';
+
+    /**
+     * @since 3.8.13
+     * @see Workflow::handleIssueMovedFromProject
+     */
+    public const ISSUE_MOVE_FROM_PROJECT = 'issue.move.from_project';
+
+    /**
+     * @since 3.8.13
+     * @see Workflow::handleIssueMovedToProject
+     */
+    public const ISSUE_MOVE_TO_PROJECT = 'issue.move.to_project';
+
+    /**
+     * @since 3.8.13
+     * @see Workflow::getMovedIssueMapping
+     */
+    public const ISSUE_MOVE_MAPPING = 'issue.move.mapping';
+
+    /**
      * @since 3.8.11
      * @see Workflow::canAccessIssue()
      */
     public const ACCESS_ISSUE = 'access.issue';
 
     /**
+     * @since 3.8.11
+     * @see Workflow::getAccessLevels()
+     */
+    public const ACCESS_LEVELS = 'access.levels';
+
+    /**
+     * @since 3.8.13
+     * @see Workflow::getAdditionalAccessSQL()
+     */
+    public const ACCESS_LISTING_SQL = 'access.listing.sql';
+
+    /**
+     * @since 3.8.13
+     * @see Workflow::canEmailIssue()
+     */
+    public const ACCESS_ISSUE_EMAIL = 'access.issue.email';
+
+    /**
+     * @since 3.8.13
+     * @see Workflow::canSendNote()
+     */
+    public const ACCESS_ISSUE_NOTE = 'access.issue.note';
+
+    /**
+     * @since 3.8.13
+     * @see Workflow::canCloneIssue()
+     */
+    public const ACCESS_ISSUE_CLONE = 'access.issue.clone';
+
+    /**
+     * @since 3.8.13
+     * @see Workflow::canUpdateIssue()
+     */
+    public const ACCESS_ISSUE_UPDATE = 'access.issue.update';
+
+    /**
+     * @since 3.8.13
+     * @see Workflow::canChangeAccessLevel()
+     */
+    public const ACCESS_ISSUE_CHANGE_ACCESS = 'access.issue.change_access';
+
+    /**
+     * @since 3.8.13
+     * @see Workflow::ACCESS_ISSUE_UPDATE()
+     */
+    public const ACCESS_ISSUE_CHANGE_ASSIGNEE = 'access.issue.change_assignee';
+
+    /**
+     * @since 3.8.13
+     * @see Workflow::handleAuthorizedReplierAdded()
+     */
+    public const AUTHORIZED_REPLIER_ADD = 'authorized_replier.add';
+
+    /**
+     * @since 3.8.13
+     * @see Workflow::getActiveGroup()
+     */
+    public const GROUP_ACTIVE = 'group.active';
+
+    /**
      * @since 3.5.0
      * @see Workflow::handleNewNote()
      */
     public const NOTE_CREATED = 'note.created';
+
+    /**
+     * @since 3.8.13
+     * @see Workflow::preNoteInsert
+     */
+    public const NOTE_INSERT_BEFORE = 'note.insert.before';
 
     /**
      * @since 3.4.2
@@ -201,6 +357,12 @@ final class SystemEvents
      * @see Reminder_Action::perform()
      */
     public const REMINDER_ACTION_PERFORM = 'reminder.action.perform';
+
+    /**
+     * @since 3.8.13
+     * @see Workflow::prePage()
+     */
+    public const PAGE_BEFORE = 'page.before';
 
     /**
      * @since 3.4.2

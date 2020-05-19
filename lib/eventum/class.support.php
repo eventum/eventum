@@ -709,7 +709,7 @@ class Support
         $severity = false;
         $references = $mail->getAllReferences();
 
-        $workflow = Workflow::getIssueIDforNewEmail($info['ema_prj_id'], $info, $mail);
+        $workflow = Workflow::getIssueIDForNewEmail($info['ema_prj_id'], $info, $mail);
         if (is_array($workflow)) {
             if (isset($workflow['customer_id'])) {
                 $customer_id = $workflow['customer_id'];
@@ -903,7 +903,7 @@ class Support
      * - string cc (overwrites $mail->cc) !!!
      * @return  int The support ID inserted to database
      */
-    public static function insertEmail(MailMessage $mail, $email_options): int
+    public static function insertEmail(MailMessage $mail, array $email_options): int
     {
         $closing = $email_options['closing'] ?? false;
 
@@ -1258,7 +1258,7 @@ class Support
 
         // now for the real thing
         if ($mail->getAttachment()->hasAttachments()) {
-            if (empty($associated_note_id)) {
+            if (!$associated_note_id) {
                 $history_log = ev_gettext('Attachment originated from an email');
             } else {
                 $history_log = ev_gettext('Attachment originated from a note');
@@ -1303,7 +1303,7 @@ class Support
      * @param   array $sup_ids The list of email IDs to associate
      * @return  int 1 if it worked, -1 otherwise
      */
-    public static function associateEmail($usr_id, $issue_id, $sup_ids)
+    public static function associateEmail(int $usr_id, int $issue_id, array $sup_ids)
     {
         $list = DB_Helper::buildList($sup_ids);
         $stmt = "UPDATE
@@ -1350,10 +1350,9 @@ class Support
      * @param   int $usr_id The user ID of the person performing this change
      * @param   int $issue_id The issue ID
      * @param   array $sup_ids The list of email IDs to associate
-     * @param   bool $authorize If the senders should be added the authorized repliers list
      * @return  int 1 if it worked, -1 otherwise
      */
-    public static function associate($usr_id, $issue_id, $sup_ids, $authorize = false)
+    public static function associate(int $usr_id, int $issue_id, array $sup_ids)
     {
         $res = self::associateEmail($usr_id, $issue_id, $sup_ids);
         if ($res != 1) {
@@ -1396,10 +1395,6 @@ class Support
             $t['sup_id'] = $row['sup_id'];
             $t['usr_id'] = $usr_id;
             Notification::notifyNewEmail($mail, $t);
-            if ($authorize) {
-                $sender_email = $mail->getSender();
-                Authorized_Replier::manualInsert($issue_id, $sender_email, false);
-            }
         }
 
         return 1;
@@ -1701,13 +1696,13 @@ class Support
      * @param   string $sender_email The email address
      * @return  bool
      */
-    public static function isAllowedToEmail($issue_id, $sender_email)
+    public static function isAllowedToEmail(int $issue_id, $sender_email): bool
     {
         $prj_id = Issue::getProjectID($issue_id);
 
         // check the workflow
         $workflow_can_email = Workflow::canEmailIssue($prj_id, $issue_id, $sender_email);
-        if ($workflow_can_email != null) {
+        if ($workflow_can_email !== null) {
             return $workflow_can_email;
         }
 

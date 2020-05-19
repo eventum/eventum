@@ -289,9 +289,10 @@ class Issue
      * @param   bool $notify if a notification should be sent about this change
      * @return  int 1 if the update worked, -2 if no change is made, -1 on error
      */
-    public static function setStatus($issue_id, $status_id, $notify = false)
+    public static function setStatus(int $issue_id, int $status_id, bool $notify = false)
     {
-        $workflow = Workflow::preStatusChange(self::getProjectID($issue_id), $issue_id, $status_id, $notify);
+        $prj_id = self::getProjectID($issue_id);
+        $workflow = Workflow::preStatusChange($prj_id, $issue_id, $status_id, $notify);
         if ($workflow !== true) {
             return $workflow;
         }
@@ -1420,7 +1421,7 @@ class Issue
             if (($prj_id != $new_prj_id) && (array_key_exists($new_prj_id, Project::getAssocList($usr_id)))) {
                 if (User::getRoleByUser($usr_id, $new_prj_id) >= User::ROLE_REPORTER) {
                     $res = self::moveIssue($issue_id, $new_prj_id);
-                    if ($res == -1) {
+                    if ($res === -1) {
                         return $res;
                     }
                 } else {
@@ -1439,9 +1440,9 @@ class Issue
      * @param int $new_prj_id
      * @return int 1 on success, -1 otherwise
      */
-    public static function moveIssue($issue_id, $new_prj_id)
+    public static function moveIssue(int $issue_id, int $new_prj_id): int
     {
-        $current_prj_id = self::getProjectID($issue_id);
+        $old_prj_id = self::getProjectID($issue_id);
         $mapping = self::getMovedIssueMapping($issue_id, $new_prj_id);
 
         $values = [$new_prj_id];
@@ -1467,24 +1468,20 @@ class Issue
         self::getProjectID($issue_id, true);
 
         History::add($issue_id, Auth::getUserID(), 'issue_moved', 'Issue moved from {old_project} to {new_project} by {user}', [
-                'old_project' => Project::getName($current_prj_id),
+                'old_project' => Project::getName($old_prj_id),
                 'new_project' => Project::getName($new_prj_id),
                 'user' => User::getFullName(Auth::getUserID()),
         ]);
 
-        Workflow::handleIssueMovedFromProject($current_prj_id, $issue_id, $new_prj_id);
-        Workflow::handleIssueMovedToProject($new_prj_id, $issue_id, $current_prj_id);
+        Workflow::handleIssueMovedFromProject($old_prj_id, $issue_id, $new_prj_id);
+        Workflow::handleIssueMovedToProject($new_prj_id, $issue_id, $old_prj_id);
 
         Notification::notifyNewIssue($new_prj_id, $issue_id);
 
         return 1;
     }
 
-    /**
-     * @param int $issue_id
-     * @param int $new_prj_id
-     */
-    private static function getMovedIssueMapping($issue_id, $new_prj_id)
+    private static function getMovedIssueMapping(int $issue_id, int $new_prj_id): array
     {
         $mapping = [];
         $current_details = self::getDetails($issue_id);

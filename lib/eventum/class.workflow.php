@@ -14,6 +14,7 @@
 use Eventum\Attachment\AttachmentGroup;
 use Eventum\Config\Paths;
 use Eventum\Db\Doctrine;
+use Eventum\Event\EventContext;
 use Eventum\Event\ResultableEvent;
 use Eventum\Event\SystemEvents;
 use Eventum\EventDispatcher\EventManager;
@@ -22,100 +23,12 @@ use Eventum\LinkFilter\LinkFilter;
 use Eventum\Mail\Helper\AddressHeader;
 use Eventum\Mail\ImapMessage;
 use Eventum\Mail\MailMessage;
-use Eventum\Monolog\Logger;
-use Symfony\Component\EventDispatcher\GenericEvent;
 
 /**
  * @deprecated workflow backend concept is deprecated, use event subscribers
  */
 class Workflow
 {
-    /**
-     * Returns the name of the workflow backend for the specified project.
-     *
-     * @param   int $prj_id the id of the project to lookup
-     * @throws Exception
-     * @return  string the name of the customer backend
-     */
-    private static function _getBackendNameByProject($prj_id)
-    {
-        static $backends;
-
-        if ($backends === null) {
-            $stmt = 'SELECT
-                    prj_id,
-                    prj_workflow_backend
-                 FROM
-                    `project`
-                 ORDER BY
-                    prj_id';
-            $backends = DB_Helper::getInstance()->getPair($stmt);
-        }
-
-        return $backends[$prj_id] ?? null;
-    }
-
-    /**
-     * Includes the appropriate workflow backend class associated with the
-     * given project ID, instantiates it and returns the class.
-     *
-     * @param   int $prj_id The project ID
-     */
-    public static function getBackend($prj_id): ?Abstract_Workflow_Backend
-    {
-        static $cache = [];
-
-        $prj_id = (int)$prj_id;
-
-        $initialize = static function (int $prj_id): ?Abstract_Workflow_Backend {
-            // bunch of code calling without project id context
-            if (!$prj_id) {
-                return null;
-            }
-
-            $backendName = static::_getBackendNameByProject($prj_id);
-            if (!$backendName) {
-                return null;
-            }
-
-            try {
-                /** @var Abstract_Workflow_Backend $backend */
-                $backend = static::getExtensionLoader()->createInstance($backendName);
-                $backend->prj_id = $prj_id;
-            } catch (InvalidArgumentException $e) {
-                Logger::app()->error($e->getMessage(), ['exception' => $e]);
-
-                return null;
-            }
-
-            return $backend;
-        };
-
-        if (array_key_exists($prj_id, $cache)) {
-            return $cache[$prj_id];
-        }
-
-        return $cache[$prj_id] = $initialize($prj_id);
-    }
-
-    /**
-     * Checks whether the given project ID is setup to use workflow integration
-     * or not.
-     *
-     * @param   int $prj_id The project ID
-     * @return  bool
-     * @deprecated this method is not used by eventum
-     */
-    public static function hasWorkflowIntegration($prj_id)
-    {
-        $backend = self::_getBackendNameByProject($prj_id);
-        if (empty($backend)) {
-            return false;
-        }
-
-        return true;
-    }
-
     /**
      * Is called when an issue is updated.
      *
@@ -127,29 +40,22 @@ class Workflow
      * @param array $updated_fields
      * @param array $updated_custom_fields
      * @since 3.5.0 emits ISSUE_UPDATED event
+     * @since 3.8.13 workflow integration is done by WorkflowLegacyExtension
+     * @since 3.8.13 emits EventContext event
      */
-    public static function handleIssueUpdated($prj_id, $issue_id, $usr_id, $old_details, $raw_post, $updated_fields, $updated_custom_fields): void
+    public static function handleIssueUpdated(int $prj_id, int $issue_id, int $usr_id, $old_details, $raw_post, $updated_fields, $updated_custom_fields): void
     {
         Partner::handleIssueChange($issue_id, $usr_id, $old_details, $raw_post);
 
         $arguments = [
-            'issue_id' => (int)$issue_id,
-            'prj_id' => (int)$prj_id,
-            'usr_id' => (int)$usr_id,
             'issue_details' => Issue::getDetails($issue_id, true),
             'updated_fields' => $updated_fields,
             'updated_custom_fields' => $updated_custom_fields,
             'old_details' => $old_details,
             'raw_post' => $raw_post,
         ];
-        EventManager::dispatch(SystemEvents::ISSUE_UPDATED, new GenericEvent(null, $arguments));
-
-        $backend = self::getBackend($prj_id);
-        if (!$backend) {
-            return;
-        }
-
-        $backend->handleIssueUpdated($prj_id, $issue_id, $usr_id, $old_details, $raw_post);
+        $event = new EventContext($prj_id, $issue_id, $usr_id, $arguments);
+        EventManager::dispatch(SystemEvents::ISSUE_UPDATED, $event);
     }
 
     /**
@@ -161,32 +67,32 @@ class Workflow
      * @param   array $changes
      * @return  mixed. True to continue, anything else to cancel the change and return the value
      * @since 3.5.0 emits ISSUE_CREATED_BEFORE event
-     * @todo port to ResultableEvent
+     * @since 3.8.13 can use stopPropagation() to cancel event
+     * @since 3.8.13 workflow integration is done by WorkflowLegacyExtension
+     * @since 3.8.13 emits EventContext event
      */
-    public static function preIssueUpdated($prj_id, $issue_id, $usr_id, &$changes, $issue_details)
+    public static function preIssueUpdated(int $prj_id, int $issue_id, int $usr_id, &$changes, $issue_details)
     {
         $arguments = [
-            'issue_id' => (int)$issue_id,
-            'prj_id' => (int)$prj_id,
-            'usr_id' => (int)$usr_id,
             'issue_details' => $issue_details,
             'changes' => $changes,
             // 'true' to continue, anything else to cancel the change and return the value
+            // @deprecated since 3.8.13, use stopPropagation() to cancel
             'bubble' => true,
         ];
 
-        $event = EventManager::dispatch(SystemEvents::ISSUE_UPDATED_BEFORE, new GenericEvent(null, $arguments));
+        $event = new EventContext($prj_id, $issue_id, $usr_id, $arguments);
+        EventManager::dispatch(SystemEvents::ISSUE_UPDATED_BEFORE, $event);
 
         if ($event['bubble'] !== true) {
             return $event['bubble'];
         }
 
-        $backend = self::getBackend($prj_id);
-        if (!$backend) {
-            return true;
+        if ($event->isPropagationStopped()) {
+            return false;
         }
 
-        return $backend->preIssueUpdated($prj_id, $issue_id, $usr_id, $changes);
+        return true;
     }
 
     /**
@@ -196,15 +102,13 @@ class Workflow
      * @param   int $issue_id the ID of the issue
      * @param   int $usr_id the id of the user who attached this file
      * @param   AttachmentGroup $attachment_group The attachment object
+     * @since 3.8.13 Emits ATTACHMENT_ATTACHMENT_GROUP event
+     * @since 3.8.13 workflow integration is done by WorkflowLegacyExtension
      */
-    public static function handleAttachment($prj_id, $issue_id, $usr_id, AttachmentGroup $attachment_group): void
+    public static function handleAttachment(int $prj_id, int $issue_id, int $usr_id, AttachmentGroup $attachment_group): void
     {
-        $backend = self::getBackend($prj_id);
-        if (!$backend) {
-            return;
-        }
-
-        $backend->handleAttachment($prj_id, $issue_id, $usr_id, $attachment_group);
+        $event = new EventContext($prj_id, $issue_id, $usr_id, [], $attachment_group);
+        EventManager::dispatch(SystemEvents::ATTACHMENT_ATTACHMENT_GROUP, $event);
     }
 
     /**
@@ -216,27 +120,15 @@ class Workflow
      * @param   array $attachment attachment object
      * @return  bool
      * @since 3.6.3 emits ATTACHMENT_ATTACH_FILE event
-     * @deprecated
+     * @since 3.8.13 workflow integration is done by WorkflowLegacyExtension
      */
     public static function shouldAttachFile(int $prj_id, int $issue_id, $usr_id, array $attachment): bool
     {
-        $arguments = [
-            'prj_id' => $prj_id,
-            'issue_id' => $issue_id,
-            'usr_id' => is_numeric($usr_id) ? (int)$usr_id : $usr_id,
-        ];
-        $event = new ResultableEvent($attachment, $arguments);
+        $event = new ResultableEvent($prj_id, $issue_id, $usr_id, [], $attachment);
+        $event->setResult(true);
         EventManager::dispatch(SystemEvents::ATTACHMENT_ATTACH_FILE, $event);
-        if ($event->hasResult()) {
-            return $event->getResult();
-        }
 
-        $backend = self::getBackend($prj_id);
-        if (!$backend) {
-            return true;
-        }
-
-        return $backend->shouldAttachFile($prj_id, $issue_id, $usr_id, $attachment);
+        return $event->getResult();
     }
 
     /**
@@ -247,14 +139,17 @@ class Workflow
      * @param   int $usr_id the id of the user who changed the issue
      * @param   array $old_details the old details of the issue
      * @param   array $changes The changes that were applied to this issue (the $_POST)
+     * @since 3.8.13 emits ISSUE_UPDATED_PRIORITY event
+     * @since 3.8.13 workflow integration is done by WorkflowLegacyExtension
      */
-    public static function handlePriorityChange($prj_id, $issue_id, $usr_id, $old_details, $changes): void
+    public static function handlePriorityChange(int $prj_id, int $issue_id, int $usr_id, array $old_details, array $changes): void
     {
-        $backend = self::getBackend($prj_id);
-        if (!$backend) {
-            return;
-        }
-        $backend->handlePriorityChange($prj_id, $issue_id, $usr_id, $old_details, $changes);
+        $arguments = [
+            'old_details' => $old_details,
+            'changes' => $changes,
+        ];
+        $event = new EventContext($prj_id, $issue_id, $usr_id, $arguments);
+        EventManager::dispatch(SystemEvents::ISSUE_UPDATED_PRIORITY, $event);
     }
 
     /**
@@ -265,14 +160,17 @@ class Workflow
      * @param   int $usr_id the id of the user who changed the issue
      * @param   array $old_details the old details of the issue
      * @param   array $changes The changes that were applied to this issue (the $_POST)
+     * @since 3.8.13 emits ISSUE_UPDATED_SEVERITY event
+     * @since 3.8.13 workflow integration is done by WorkflowLegacyExtension
      */
-    public static function handleSeverityChange($prj_id, $issue_id, $usr_id, $old_details, $changes): void
+    public static function handleSeverityChange(int $prj_id, int $issue_id, int $usr_id, array $old_details, array $changes): void
     {
-        $backend = self::getBackend($prj_id);
-        if (!$backend) {
-            return;
-        }
-        $backend->handleSeverityChange($prj_id, $issue_id, $usr_id, $old_details, $changes);
+        $arguments = [
+            'old_details' => $old_details,
+            'changes' => $changes,
+        ];
+        $event = new EventContext($prj_id, $issue_id, $usr_id, $arguments);
+        EventManager::dispatch(SystemEvents::ISSUE_UPDATED_SEVERITY, $event);
     }
 
     /**
@@ -284,25 +182,19 @@ class Workflow
      * @param   string $type what type of blocked email this is
      * @param MailMessage $mail
      * @since 3.4.2 emits BLOCKED_EMAIL event
-     * @deprecated use SystemEvents::EMAIL_BLOCKED event listener
+     * @since 3.8.13 workflow integration is done by WorkflowLegacyExtension
+     * @since 3.8.13 $mail is passed as $subject to an event
+     * @since 3.8.13 emits EventContext event
      */
-    public static function handleBlockedEmail($prj_id, $issue_id, $email_details, $type, $mail = null): void
+    public static function handleBlockedEmail(int $prj_id, int $issue_id, array $email_details, string $type, MailMessage $mail): void
     {
         $arguments = [
-            'prj_id' => (int)$prj_id,
-            'issue_id' => (int)$issue_id,
             'email_details' => $email_details,
             'type' => $type,
             'mail' => $mail,
         ];
-        $event = new GenericEvent(null, $arguments);
+        $event = new EventContext($prj_id, $issue_id, null, $arguments, $mail);
         EventManager::dispatch(SystemEvents::EMAIL_BLOCKED, $event);
-
-        $backend = self::getBackend($prj_id);
-        if (!$backend) {
-            return;
-        }
-        $backend->handleBlockedEmail($prj_id, $issue_id, $email_details, $type);
     }
 
     /**
@@ -315,27 +207,19 @@ class Workflow
      * @param   array $new_assignees the new assignees of this issue
      * @param   bool $remote_assignment if this issue was remotely assigned
      * @since 3.4.2 emits ISSUE_ASSIGNMENT_CHANGE event
-     * @deprecated since 3.4.2
+     * @since 3.8.13 workflow integration is done by WorkflowLegacyExtension
+     * @since 3.8.13 emits EventContext event
      */
-    public static function handleAssignmentChange($prj_id, $issue_id, $usr_id, $issue_details, $new_assignees, $remote_assignment = false): void
+    public static function handleAssignmentChange(int $prj_id, int $issue_id, int $usr_id, array $issue_details, $new_assignees, bool $remote_assignment = false): void
     {
         $arguments = [
-            'prj_id' => (int)$prj_id,
-            'issue_id' => (int)$issue_id,
-            'usr_id' => (int)$usr_id,
             'issue_details' => $issue_details,
-            'new_assignees' => $new_assignees,
+            'new_assignees' => $new_assignees ?: [],
             'remote_assignment' => $remote_assignment,
         ];
 
-        $event = new GenericEvent(null, $arguments);
+        $event = new EventContext($prj_id, $issue_id, $usr_id, $arguments);
         EventManager::dispatch(SystemEvents::ISSUE_ASSIGNMENT_CHANGE, $event);
-
-        $backend = self::getBackend($prj_id);
-        if (!$backend) {
-            return;
-        }
-        $backend->handleAssignmentChange($prj_id, $issue_id, $usr_id, $issue_details, $new_assignees, $remote_assignment);
     }
 
     /**
@@ -346,25 +230,20 @@ class Workflow
      * @param   bool $has_TAM if this issue has a technical account manager
      * @param   bool $has_RR if Round Robin was used to assign this issue
      * @since 3.5.0 emits ISSUE_CREATED event
+     * @since 3.8.13 workflow integration is done by WorkflowLegacyExtension
+     * @since 3.8.13 emits EventContext event
      */
-    public static function handleNewIssue($prj_id, $issue_id, $has_TAM, $has_RR): void
+    public static function handleNewIssue(int $prj_id, int $issue_id, bool $has_TAM, bool $has_RR): void
     {
-        $usr_id = Auth::getUserID() ?: Setup::get()['system_user_id'];
+        $usr_id = Auth::getUserID() ?: Setup::getSystemUserId();
         $arguments = [
-            'issue_id' => (int)$issue_id,
-            'prj_id' => (int)$prj_id,
-            'usr_id' => (int)$usr_id,
             'has_TAM' => $has_TAM,
             'has_RR' => $has_RR,
             'issue_details' => Issue::getDetails($issue_id),
         ];
-        EventManager::dispatch(SystemEvents::ISSUE_CREATED, new GenericEvent(null, $arguments));
+        $event = new EventContext($prj_id, $issue_id, $usr_id, $arguments);
 
-        $backend = self::getBackend($prj_id);
-        if (!$backend) {
-            return;
-        }
-        $backend->handleNewIssue($prj_id, $issue_id, $has_TAM, $has_RR);
+        EventManager::dispatch(SystemEvents::ISSUE_CREATED, $event);
     }
 
     /**
@@ -375,23 +254,22 @@ class Workflow
      * @param   MailMessage $mail The Mail object
      * @param   array $row the array of data that was inserted into the database
      * @param   bool $closing if we are closing the issue
-     * @since 3.4.2 emits MAIL_PENDING event
-     * @deprecated since 3.4.2
      * @see Support::moveEmail
      * @see Support::insertEmail
+     * @since 3.4.2 emits MAIL_PENDING event
      * @since 3.7.0 adds 'issue' argument to event
+     * @since 3.8.13 workflow integration is done by WorkflowLegacyExtension
+     * @since 3.8.13 emits EventContext event
      */
-    public static function handleNewEmail(int $prj_id, int $issue_id, MailMessage $mail, $row, $closing = false): void
+    public static function handleNewEmail(int $prj_id, int $issue_id, MailMessage $mail, array $row, bool $closing = false): void
     {
         Partner::handleNewEmail($issue_id, $row['sup_id']);
 
         // there are more variable options in $row
         // add just useful ones for event handler
         $arguments = [
-            'prj_id' => (int)$prj_id,
-            'issue_id' => (int)$issue_id,
             'issue' => Doctrine::getIssueRepository()->findById($issue_id),
-            'closing' => (bool)$closing,
+            'closing' => $closing,
             'customer_id' => $row['customer_id'] ?? null,
             'contact_id' => $row['contact_id'] ?? null,
             'ema_id' => $row['ema_id'] ?? null,
@@ -401,18 +279,12 @@ class Workflow
         ];
 
         if (empty($row['issue_id'])) {
-            $event = new GenericEvent($mail, $arguments);
+            $event = new EventContext($prj_id, $issue_id, null, $arguments, $mail);
             EventManager::dispatch(SystemEvents::MAIL_PENDING, $event);
         }
 
-        $event = new GenericEvent($mail, $arguments);
+        $event = new EventContext($prj_id, $issue_id, null, $arguments, $mail);
         EventManager::dispatch(SystemEvents::MAIL_CREATED, $event);
-
-        $backend = self::getBackend($prj_id);
-        if (!$backend) {
-            return;
-        }
-        $backend->handleNewEmail($prj_id, $issue_id, $mail, $row, $closing);
     }
 
     /**
@@ -420,14 +292,18 @@ class Workflow
      *
      * @param   int $prj_id The project ID
      * @param   int $issue_id the ID of the issue
+     * @since 3.8.13 emits MAIL_ASSOCIATED_MANUAL event
+     * @since 3.8.13 workflow integration is done by WorkflowLegacyExtension
+     * @since 3.8.13 adds $target and $sup_ids to make method actually useful
      */
-    public static function handleManualEmailAssociation($prj_id, $issue_id): void
+    public static function handleManualEmailAssociation(int $prj_id, int $issue_id, string $target, array $sup_ids): void
     {
-        $backend = self::getBackend($prj_id);
-        if (!$backend) {
-            return;
-        }
-        $backend->handleManualEmailAssociation($prj_id, $issue_id);
+        $arguments = [
+            'target' => $target,
+            'sup_ids' => $sup_ids,
+        ];
+        $event = new EventContext($prj_id, $issue_id, null, $arguments);
+        EventManager::dispatch(SystemEvents::MAIL_ASSOCIATED_MANUAL, $event);
     }
 
     /**
@@ -440,27 +316,21 @@ class Workflow
      * @param   int $note_id The ID of the new note
      * @since 3.5.0 emits NOTE_CREATED event
      * @since 3.7.0 adds 'issue' argument to event
+     * @since 3.8.13 emits EventContext event
+     * @since 3.8.13 workflow integration is done by WorkflowLegacyExtension
      */
     public static function handleNewNote(int $prj_id, int $issue_id, $usr_id, $closing, $note_id): void
     {
         Partner::handleNewNote($issue_id, $note_id);
 
         $arguments = [
-            'issue_id' => (int)$issue_id,
             'issue' => Doctrine::getIssueRepository()->findById($issue_id),
-            'prj_id' => (int)$prj_id,
-            'usr_id' => (int)$usr_id,
             'note_id' => (int)$note_id,
             'note_details' => Note::getDetails($note_id),
             'closing' => (bool)$closing,
         ];
-        EventManager::dispatch(SystemEvents::NOTE_CREATED, new GenericEvent(null, $arguments));
-
-        $backend = self::getBackend($prj_id);
-        if (!$backend) {
-            return;
-        }
-        $backend->handleNewNote($prj_id, $issue_id, $usr_id, $closing, $note_id);
+        $event = new EventContext($prj_id, $issue_id, $usr_id, $arguments);
+        EventManager::dispatch(SystemEvents::NOTE_CREATED, $event);
     }
 
     /**
@@ -471,24 +341,15 @@ class Workflow
      * @return  array an associative array of statuses valid for this issue
      * @since 3.6.3 emits ISSUE_ALLOWED_STATUSES event
      * @since 3.6.4 adds Status::getAssocStatusList as Subject
-     * @deprecated
+     * @since 3.8.13 workflow integration is done by WorkflowLegacyExtension
      */
-    public static function getAllowedStatuses($prj_id, $issue_id = null): array
+    public static function getAllowedStatuses(int $prj_id, ?int $issue_id = null): array
     {
-        $arguments = [
-            'prj_id' => (int)$prj_id,
-            'issue_id' => $issue_id ? (int)$issue_id : null,
-        ];
-
         $statusList = Status::getAssocStatusList($prj_id, false);
-        $event = new ResultableEvent($statusList, $arguments);
+        $event = new ResultableEvent($prj_id, $issue_id, null, [], $statusList);
         EventManager::dispatch(SystemEvents::ISSUE_ALLOWED_STATUSES, $event);
         if ($event->hasResult()) {
             return $event->getResult();
-        }
-
-        if ($backend = self::getBackend($prj_id)) {
-            $statusList = $backend->getAllowedStatuses($prj_id, $issue_id);
         }
 
         return $statusList;
@@ -505,30 +366,23 @@ class Workflow
      * @param   string $reason The reason for closing this issue
      * @param   int $usr_id The ID of the user closing this issue
      * @since 3.4.2 emits ISSUE_CLOSED event
-     * @deprecated since 3.4.2
+     * @since 3.8.13 workflow integration is done by WorkflowLegacyExtension
+     * @since 3.8.13 emits EventContext event
      */
-    public static function handleIssueClosed($prj_id, $issue_id, $send_notification, $resolution_id, $status_id, $reason, $usr_id): void
+    public static function handleIssueClosed(int $prj_id, int $issue_id, $send_notification, int $resolution_id, int $status_id, $reason, int $usr_id): void
     {
         $issue_details = Issue::getDetails($issue_id, true);
 
         $arguments = [
-            'prj_id' => (int)$prj_id,
-            'issue_id' => (int)$issue_id,
             'send_notification' => $send_notification,
-            'resolution_id' => (int)$resolution_id,
-            'status_id' => (int)$status_id,
+            'resolution_id' => $resolution_id,
+            'status_id' => $status_id,
             'reason' => $reason,
-            'usr_id' => (int)$usr_id,
             'issue_details' => $issue_details,
         ];
 
-        $event = new GenericEvent(null, $arguments);
+        $event = new EventContext($prj_id, $issue_id, $usr_id, $arguments);
         EventManager::dispatch(SystemEvents::ISSUE_CLOSED, $event);
-
-        if (!$backend = self::getBackend($prj_id)) {
-            return;
-        }
-        $backend->handleIssueClosed($prj_id, $issue_id, $send_notification, $resolution_id, $status_id, $reason, $usr_id);
     }
 
     /**
@@ -539,14 +393,18 @@ class Workflow
      * @param   array $old the custom fields before the update
      * @param   array $new the custom fields after the update
      * @param   array $changed an array containing what was changed
+     * @since 3.8.13 emits CUSTOM_FIELDS_UPDATED event
+     * @since 3.8.13 workflow integration is done by WorkflowLegacyExtension
      */
-    public static function handleCustomFieldsUpdated($prj_id, $issue_id, $old, $new, $changed): void
+    public static function handleCustomFieldsUpdated(int $prj_id, int $issue_id, array $old, array $new, array $changed): void
     {
-        if (!$backend = self::getBackend($prj_id)) {
-            return;
-        }
-
-        $backend->handleCustomFieldsUpdated($prj_id, $issue_id, $old, $new, $changed);
+        $arguments = [
+            'old' => $old,
+            'new' => $new,
+            'changed' => $changed,
+        ];
+        $event = new EventContext($prj_id, $issue_id, null, $arguments);
+        EventManager::dispatch(SystemEvents::CUSTOM_FIELDS_UPDATED, $event);
     }
 
     /**
@@ -561,20 +419,18 @@ class Workflow
      * @return  array|bool|null an array of information or true to continue unchanged or false to prevent the user from being added
      * @since 3.6.3 emits NOTIFICATION_HANDLE_SUBSCRIPTION event
      * @since 3.6.4 add 'address' property of type Address
-     * @deprecated
+     * @since 3.8.13 workflow integration is done by WorkflowLegacyExtension
      */
-    public static function handleSubscription($prj_id, $issue_id, &$subscriber_usr_id, &$email, &$actions)
+    public static function handleSubscription(int $prj_id, int $issue_id, &$subscriber_usr_id, &$email, &$actions)
     {
         $arguments = [
-            'prj_id' => (int)$prj_id,
-            'issue_id' => (int)$issue_id,
             'subscriber_usr_id' => is_numeric($subscriber_usr_id) ? (int)$subscriber_usr_id : $subscriber_usr_id,
             'email' => $email, // @deprecated, use 'address' instead
             'address' => $email ? AddressHeader::fromString($email)->getAddress() : null,
             'actions' => $actions,
         ];
 
-        $event = new ResultableEvent(null, $arguments);
+        $event = new ResultableEvent($prj_id, $issue_id, null, $arguments);
         EventManager::dispatch(SystemEvents::NOTIFICATION_HANDLE_SUBSCRIPTION, $event);
 
         // assign back, in case these were changed
@@ -586,45 +442,38 @@ class Workflow
             return $event->getResult();
         }
 
-        if (!$backend = self::getBackend($prj_id)) {
-            return null;
-        }
-
-        return $backend->handleSubscription($prj_id, $issue_id, $subscriber_usr_id, $email, $actions);
+        return null;
     }
 
     /**
      * Determines if the address should should be emailed.
      *
      * @param int $prj_id the project ID
-     * @param string $address The email address to check
+     * @param string $email The email address to check
      * @param bool $issue_id
      * @param bool $type
      * @since 3.6.0 emits NOTIFICATION_NOTIFY_ADDRESS event
+     * @since 3.8.13 workflow integration is done by WorkflowLegacyExtension
+     * @since 3.8.13 $subject is set to Address of $email
      * @return bool
      * @todo https://github.com/eventum/eventum/pull/438#issuecomment-452706697
      */
-    public static function shouldEmailAddress($prj_id, $address, $issue_id = false, $type = false)
+    public static function shouldEmailAddress(int $prj_id, string $email, ?int $issue_id = null, $type = false): bool
     {
+        $address = AddressHeader::fromString($email)->getAddress();
         $arguments = [
-            'prj_id' => (int)$prj_id,
-            'issue_id' => $issue_id ? (int)$issue_id : null,
-            'address' => AddressHeader::fromString($address)->getAddress(),
-            'type' => $type ? $type : null,
+            'address' => $address,
+            'type' => $type ?: null,
         ];
 
-        $event = new ResultableEvent(null, $arguments);
+        $event = new ResultableEvent($prj_id, $issue_id, null, $arguments, $address);
         EventManager::dispatch(SystemEvents::NOTIFICATION_NOTIFY_ADDRESS, $event);
 
         if ($event->hasResult()) {
             return $event->getResult();
         }
 
-        if (!$backend = self::getBackend($prj_id)) {
-            return true;
-        }
-
-        return $backend->shouldEmailAddress($prj_id, $address, $issue_id, $type);
+        return true;
     }
 
     /**
@@ -632,17 +481,27 @@ class Workflow
      *
      * @param   int $prj_id the project ID
      * @param   int $issue_id the ID of the issue
-     * @param   string $event The event to return additional email addresses for. Currently only "new_issue" is supported.
+     * @param   string $eventName The event to return additional email addresses for. Values "new_issue", "issue_updated" are supported.
      * @param   array $extra Extra information, contains different info depending on where it is called from
      * @return  array   an array of email addresses to be notified
+     * @since 3.8.13 emits NOTIFICATION_NOTIFY_ADDRESS event
+     * @since 3.8.13 workflow integration is done by WorkflowLegacyExtension
      */
-    public static function getAdditionalEmailAddresses($prj_id, $issue_id, $event, $extra = false)
+    public static function getAdditionalEmailAddresses(int $prj_id, int $issue_id, string $eventName, $extra = null): array
     {
-        if (!$backend = self::getBackend($prj_id)) {
-            return [];
+        $arguments = [
+            'address' => $eventName,
+            'extra' => $extra ?: [],
+        ];
+
+        $event = new ResultableEvent($prj_id, $issue_id, null, $arguments);
+        EventManager::dispatch(SystemEvents::NOTIFICATION_NOTIFY_ADDRESSES_EXTRA, $event);
+
+        if ($event->hasResult()) {
+            return $event->getResult();
         }
 
-        return $backend->getAdditionalEmailAddresses($prj_id, $issue_id, $event, $extra);
+        return [];
     }
 
     /**
@@ -654,14 +513,19 @@ class Workflow
      * @param   string $email The email address that is trying to send an email
      * @return  bool true if the sender can email the issue, false if the sender
      *          should not email the issue and null if the default rules should be used
+     * @since 3.8.13 emits ACCESS_ISSUE_EMAIL event
+     * @since 3.8.13 workflow integration is done by WorkflowLegacyExtension
      */
-    public static function canEmailIssue($prj_id, $issue_id, $email)
+    public static function canEmailIssue(int $prj_id, int $issue_id, string $email): ?bool
     {
-        if (!$backend = self::getBackend($prj_id)) {
-            return null;
+        $address = AddressHeader::fromString($email)->getAddress();
+        $event = new ResultableEvent($prj_id, $issue_id, null, [], $address);
+        EventManager::dispatch(SystemEvents::ACCESS_ISSUE_EMAIL, $event);
+        if ($event->hasResult()) {
+            return $event->getResult();
         }
 
-        return $backend->canEmailIssue($prj_id, $issue_id, $email);
+        return null;
     }
 
     /**
@@ -669,17 +533,25 @@ class Workflow
      *
      * @param   int $prj_id The project ID
      * @param   int $issue_id The issue ID
-     * @param string $sender_email The email address to check
+     * @param string $email The email address to check
      * @param MailMessage $mail
      * @return  bool True if the note should be added, false otherwise
+     * @since 3.8.13 emits ACCESS_ISSUE_NOTE event
+     * @since 3.8.13 workflow integration is done by WorkflowLegacyExtension
      */
-    public static function canSendNote($prj_id, $issue_id, $sender_email, MailMessage $mail)
+    public static function canSendNote(int $prj_id, int $issue_id, string $email, MailMessage $mail): bool
     {
-        if (!$backend = self::getBackend($prj_id)) {
-            return null;
+        $address = AddressHeader::fromString($email)->getAddress();
+        $arguments = [
+            'mail' => $mail,
+        ];
+        $event = new ResultableEvent($prj_id, $issue_id, null, $arguments, $address);
+        EventManager::dispatch(SystemEvents::ACCESS_ISSUE_NOTE, $event);
+        if ($event->hasResult()) {
+            return $event->getResult();
         }
 
-        return $backend->canSendNote($prj_id, $issue_id, $sender_email, $mail);
+        return false;
     }
 
     /**
@@ -689,14 +561,18 @@ class Workflow
      * @param   int $issue_id The issue ID
      * @param   string $usr_id The ID of the user
      * @return  bool True if the issue can be cloned, false otherwise
+     * @since 3.8.13 emits ACCESS_ISSUE_CLONE event
+     * @since 3.8.13 workflow integration is done by WorkflowLegacyExtension
      */
-    public static function canCloneIssue($prj_id, $issue_id, $usr_id)
+    public static function canCloneIssue(int $prj_id, int $issue_id, int $usr_id): ?bool
     {
-        if (!$backend = self::getBackend($prj_id)) {
-            return null;
+        $event = new ResultableEvent($prj_id, $issue_id, $usr_id);
+        EventManager::dispatch(SystemEvents::ACCESS_ISSUE_CLONE, $event);
+        if ($event->hasResult()) {
+            return $event->getResult();
         }
 
-        return $backend->canCloneIssue($prj_id, $issue_id, $usr_id);
+        return null;
     }
 
     /**
@@ -706,14 +582,18 @@ class Workflow
      * @param   int $issue_id The issue ID
      * @param   string $usr_id The ID of the user
      * @return  bool True if the issue can be cloned, false otherwise
+     * @since 3.8.13 emits ACCESS_ISSUE_CHANGE_ACCESS event
+     * @since 3.8.13 workflow integration is done by WorkflowLegacyExtension
      */
-    public static function canChangeAccessLevel($prj_id, $issue_id, $usr_id)
+    public static function canChangeAccessLevel(int $prj_id, int $issue_id, int $usr_id): ?bool
     {
-        if (!$backend = self::getBackend($prj_id)) {
-            return null;
+        $event = new ResultableEvent($prj_id, $issue_id, $usr_id);
+        EventManager::dispatch(SystemEvents::ACCESS_ISSUE_CHANGE_ACCESS, $event);
+        if ($event->hasResult()) {
+            return $event->getResult();
         }
 
-        return $backend->canChangeAccessLevel($prj_id, $issue_id, $usr_id);
+        return null;
     }
 
     /**
@@ -722,15 +602,26 @@ class Workflow
      * @param   int $prj_id The project ID
      * @param   int $issue_id The ID of the issue
      * @param   string $email The email address added
-     * @return  bool
+     * @return  bool if returns false, cancel subscribing the user
+     * @since 3.8.13 emits AUTHORIZED_REPLIER_ADD event
+     * @since 3.8.13 workflow integration is done by WorkflowLegacyExtension
      */
-    public static function handleAuthorizedReplierAdded($prj_id, $issue_id, &$email)
+    public static function handleAuthorizedReplierAdded(int $prj_id, int $issue_id, &$email): ?bool
     {
-        if (!$backend = self::getBackend($prj_id)) {
-            return null;
+        $address = AddressHeader::fromString($email)->getAddress();
+        $event = new ResultableEvent($prj_id, $issue_id, null, $address);
+        EventManager::dispatch(SystemEvents::AUTHORIZED_REPLIER_ADD, $event);
+
+        // assign back, in case it was modified by event
+        if (isset($event['email'])) {
+            $email = $event['email'];
         }
 
-        return $backend->handleAuthorizedReplierAdded($prj_id, $issue_id, $email);
+        if ($event->hasResult()) {
+            return $event->getResult();
+        }
+
+        return null;
     }
 
     /**
@@ -740,24 +631,18 @@ class Workflow
      * @param   int $prj_id The project ID
      * @param   ImapMessage $mail The Imap Mail Message object
      * @return  mixed null by default, -1 if the rest of the email script should not be processed
-     * @deprecated since 3.8.11 use ISSUE_UPDATED_BEFORE event
+     * @since 3.8.11 emits ISSUE_UPDATED_BEFORE event
+     * @since 3.8.13 workflow integration is done by WorkflowLegacyExtension
      */
-    public static function preEmailDownload($prj_id, ImapMessage $mail): bool
+    public static function preEmailDownload(int $prj_id, ImapMessage $mail): bool
     {
-        $arguments = [
-            'prj_id' => (int)$prj_id,
-        ];
-
-        $event = EventManager::dispatch(SystemEvents::MAIL_PROCESS_BEFORE, new GenericEvent($mail, $arguments));
+        $event = new EventContext($prj_id, null, null, [], $mail);
+        EventManager::dispatch(SystemEvents::MAIL_PROCESS_BEFORE, $event);
         if ($event->isPropagationStopped()) {
             return false;
         }
 
-        if (!$backend = self::getBackend($prj_id)) {
-            return true;
-        }
-
-        return $backend->preEmailDownload($prj_id, $mail) !== -1;
+        return true;
     }
 
     /**
@@ -768,29 +653,45 @@ class Workflow
      * @param   int $issue_id
      * @param   array $data
      * @return  mixed   Null by default, false if the note should not be inserted
+     * @since 3.8.13 emits NOTE_INSERT_BEFORE event
+     * @since 3.8.13 workflow integration is done by WorkflowLegacyExtension
      */
-    public static function preNoteInsert($prj_id, $issue_id, &$data)
+    public static function preNoteInsert(int $prj_id, int $issue_id, &$data): ?bool
     {
-        if (!$backend = self::getBackend($prj_id)) {
-            return null;
+        $arguments = [
+            'data' => $data,
+        ];
+        $event = new ResultableEvent($prj_id, $issue_id, null, $arguments);
+        EventManager::dispatch(SystemEvents::NOTE_INSERT_BEFORE, $event);
+
+        // assign back, in case it was changed
+        $data = $event['data'];
+
+        if ($event->hasResult()) {
+            return $event->getResult();
         }
 
-        return $backend->preNoteInsert($prj_id, $issue_id, $data);
+        return null;
     }
 
     /**
      * Indicates if the email addresses should automatically be added to the NL from notes and emails.
      *
+     * TODO:
+     * This should be probably moved to project settings as it has no context than project id.
+     *
      * @param   int $prj_id the project ID
      * @return  bool
+     * @since 3.8.13 emits PROJECT_NOTIFICATION_AUTO_ADD event
+     * @since 3.8.13 workflow integration is done by WorkflowLegacyExtension
      */
-    public static function shouldAutoAddToNotificationList($prj_id)
+    public static function shouldAutoAddToNotificationList(int $prj_id): bool
     {
-        if (!$backend = self::getBackend($prj_id)) {
-            return true;
-        }
+        $event = new ResultableEvent($prj_id, null, null);
+        $event->setResult(true);
+        EventManager::dispatch(SystemEvents::PROJECT_NOTIFICATION_AUTO_ADD, $event);
 
-        return $backend->shouldAutoAddToNotificationList($prj_id);
+        return $event->getResult();
     }
 
     /**
@@ -798,54 +699,82 @@ class Workflow
      * a new issue.
      * Can also return an array containing 'customer_id', 'contact_id' and 'contract_id', 'sev_id'
      *
+     * TODO:
+     * - update caller so this method always returns array
+     *
      * @param   int $prj_id The ID of the project
-     * @param   array $info an array of info about the email account
+     * @param   array $account an array of info about the email account
      * @param   MailMessage $mail The Mail object
      * @return  string|array
+     * @since 3.8.13 emits ISSUE_EMAIL_CREATE_OPTIONS event
+     * @since 3.8.13 workflow integration is done by WorkflowLegacyExtension
      */
-    public static function getIssueIDForNewEmail($prj_id, $info, MailMessage $mail)
+    public static function getIssueIDForNewEmail(int $prj_id, array $account, MailMessage $mail)
     {
-        if (!$backend = self::getBackend($prj_id)) {
-            return null;
+        $arguments = [
+            'account' => $account,
+        ];
+        $event = new ResultableEvent($prj_id, null, null, $arguments, $mail);
+        EventManager::dispatch(SystemEvents::ISSUE_EMAIL_CREATE_OPTIONS, $event);
+
+        if ($event->hasResult()) {
+            return $event->getResult();
         }
 
-        return $backend->getIssueIDforNewEmail($prj_id, $info, $mail);
+        return null;
     }
 
     /**
      * Modifies the content of the message being added to the mail queue.
      *
      * @param   int $prj_id
-     * @param   string $recipient
+     * @param   string $email
      * @param MailMessage $mail The Mail object
      * @param array $options Optional options, see Mail_Queue::queue
      * @since 3.3.0 the method signature changed
+     * @since 3.8.13 emits MAIL_QUEUE_MODIFY event
+     * @since 3.8.13 workflow integration is done by WorkflowLegacyExtension
      */
-    public static function modifyMailQueue($prj_id, $recipient, MailMessage $mail, $options): void
+    public static function modifyMailQueue(int $prj_id, string $email, MailMessage $mail, array $options): void
     {
-        if (!$backend = self::getBackend($prj_id)) {
-            return;
-        }
-
-        $backend->modifyMailQueue($prj_id, $recipient, $mail, $options);
+        $arguments = [
+            'options' => $options,
+            'address' => AddressHeader::fromString($email)->getAddress(),
+        ];
+        $event = new EventContext($prj_id, null, null, $arguments, $mail);
+        EventManager::dispatch(SystemEvents::MAIL_QUEUE_MODIFY, $event);
     }
 
     /**
-     * Called before the status changes. Parameters are passed by reference so the values can be changed.
+     * Called before the issue status changes. Parameters are passed by reference so the values can be changed.
      *
      * @param   int $prj_id
      * @param   int $issue_id
      * @param   int $status_id
      * @param   bool $notify
      * @return  bool true to continue normal processing, anything else to cancel and return value
+     * @since 3.8.13 workflow integration is done by WorkflowLegacyExtension
+     * @since 3.8.13 emits ISSUE_STATUS_BEFORE event
      */
-    public static function preStatusChange($prj_id, &$issue_id, &$status_id, &$notify)
+    public static function preStatusChange(int $prj_id, int &$issue_id, int &$status_id, bool &$notify)
     {
-        if (!$backend = self::getBackend($prj_id)) {
-            return true;
+        $arguments = [
+            'status_id' => $status_id,
+            'notify' => $notify,
+        ];
+        $event = new ResultableEvent($prj_id, $issue_id, null, $arguments);
+        EventManager::dispatch(SystemEvents::ISSUE_STATUS_BEFORE, $event);
+
+        // assign back, in case they were modified
+        $issue_id = $event['issue_id'];
+        $status_id = $event['status_id'];
+        $notify = $event['notify'];
+
+        if ($event->hasResult()) {
+            return $event->getResult();
         }
 
-        return $backend->preStatusChange($prj_id, $issue_id, $status_id, $notify);
+        return true;
     }
 
     /**
@@ -854,14 +783,13 @@ class Workflow
      *
      * @param   int $prj_id The project ID
      * @param   string $page_name The name of the page
+     * @since 3.8.13 workflow integration is done by WorkflowLegacyExtension
+     * @since 3.8.13 emits PAGE_BEFORE event
      */
-    public static function prePage($prj_id, $page_name)
+    public static function prePage(int $prj_id, string $page_name): void
     {
-        if (!$backend = self::getBackend($prj_id)) {
-            return true;
-        }
-
-        return $backend->prePage($prj_id, $page_name);
+        $event = new EventContext($prj_id, null, null, [], $page_name);
+        EventManager::dispatch(SystemEvents::PAGE_BEFORE, $event);
     }
 
     /**
@@ -873,14 +801,24 @@ class Workflow
      * @param   string $email The email address of the user being added
      * @param   string $source The source of this call
      * @return  array   an array of actions
+     * @since 3.8.13 workflow integration is done by WorkflowLegacyExtension
+     * @since 3.8.13 emits NOTIFICATION_ACTIONS event
      */
-    public static function getNotificationActions($prj_id, $issue_id, $email, $source)
+    public static function getNotificationActions(int $prj_id, int $issue_id, string $email, string $source): ?array
     {
-        if (!$backend = self::getBackend($prj_id)) {
-            return null;
+        $arguments = [
+            'email' => $email,
+            'address' => AddressHeader::fromString($email)->getAddress(),
+            'source' => $source,
+        ];
+        $event = new ResultableEvent($prj_id, $issue_id, null, $arguments);
+        EventManager::dispatch(SystemEvents::NOTIFICATION_ACTIONS, $event);
+
+        if ($event->hasResult()) {
+            return $event->getResult();
         }
 
-        return $backend->getNotificationActions($prj_id, $issue_id, $email, $source);
+        return null;
     }
 
     /**
@@ -891,103 +829,119 @@ class Workflow
      * @param   int $issue_id The ID of the issue
      * @param   string $location The location to display these fields at
      * @return  array   an array of fields to display and their associated options
+     * @since 3.8.13 workflow integration is done by WorkflowLegacyExtension
+     * @since 3.8.13 emits ISSUE_FIELDS_DISPLAY event
      */
-    public static function getIssueFieldsToDisplay($prj_id, $issue_id, $location)
+    public static function getIssueFieldsToDisplay(int $prj_id, int $issue_id, string $location): array
     {
-        if (!$backend = self::getBackend($prj_id)) {
-            return [];
+        $event = new ResultableEvent($prj_id, $issue_id, null, [], $location);
+        EventManager::dispatch(SystemEvents::ISSUE_FIELDS_DISPLAY, $event);
+
+        if ($event->hasResult()) {
+            return $event->getResult();
         }
 
-        return $backend->getIssueFieldsToDisplay($prj_id, $issue_id, $location);
+        return [];
     }
 
     /**
-     * Updates filters in $filters.
+     * Updates filters in $linkFilter.
      *
      * @since 3.6.3 emits ISSUE_LINK_FILTERS event
-     * @deprecated
+     * @since 3.8.13 workflow integration is done by WorkflowLegacyExtension
+     * @since 3.8.13 emits EventContext event
      */
     public static function addLinkFilters(LinkFilter $linkFilter, int $prj_id): void
     {
-        $arguments = [
-            'prj_id' => $prj_id,
-        ];
-        $event = new GenericEvent($linkFilter, $arguments);
+        $event = new EventContext($prj_id, null, null, [], $linkFilter);
         EventManager::dispatch(SystemEvents::ISSUE_LINK_FILTERS, $event);
-
-        if (!$backend = self::getBackend($prj_id)) {
-            return;
-        }
-
-        $linkFilter->addRules($backend->getLinkFilters($prj_id));
     }
 
     /**
      * Returns if a user can update an issue. Return null to use default rules.
+     *
+     * @since 3.8.13 workflow integration is done by WorkflowLegacyExtension
+     * @since 3.8.13 emits ACCESS_ISSUE_UPDATE event
      */
-    public static function canUpdateIssue($prj_id, $issue_id, $usr_id)
+    public static function canUpdateIssue(int $prj_id, int $issue_id, int $usr_id): ?bool
     {
-        if (!$backend = self::getBackend($prj_id)) {
-            return null;
+        $event = new ResultableEvent($prj_id, $issue_id, $usr_id);
+        EventManager::dispatch(SystemEvents::ACCESS_ISSUE_UPDATE, $event);
+
+        if ($event->hasResult()) {
+            return $event->getResult();
         }
 
-        return $backend->canUpdateIssue($prj_id, $issue_id, $usr_id);
+        return null;
     }
 
     /**
      * Returns if a user can change the assignee of an issue. Return null to use default rules.
+     *
+     * @since 3.8.13 workflow integration is done by WorkflowLegacyExtension
+     * @since 3.8.13 emits ACCESS_ISSUE_CHANGE_ASSIGNEE event
      */
-    public static function canChangeAssignee($prj_id, $issue_id, $usr_id)
+    public static function canChangeAssignee(int $prj_id, int $issue_id, int $usr_id): ?bool
     {
-        if (!$backend = self::getBackend($prj_id)) {
-            return null;
+        $event = new ResultableEvent($prj_id, $issue_id, $usr_id);
+        EventManager::dispatch(SystemEvents::ACCESS_ISSUE_CHANGE_ASSIGNEE, $event);
+
+        if ($event->hasResult()) {
+            return $event->getResult();
         }
 
-        return $backend->canChangeAssignee($prj_id, $issue_id, $usr_id);
+        return null;
     }
 
     /**
      * Returns the ID of the group that is "active" right now.
+     *
+     * @since 3.8.13 workflow integration is done by WorkflowLegacyExtension
+     * @since 3.8.13 emits GROUP_ACTIVE event
      */
-    public static function getActiveGroup($prj_id)
+    public static function getActiveGroup(int $prj_id): ?int
     {
-        if (!$backend = self::getBackend($prj_id)) {
-            return null;
+        $event = new ResultableEvent($prj_id, null, null);
+        EventManager::dispatch(SystemEvents::GROUP_ACTIVE, $event);
+
+        if ($event->hasResult()) {
+            return $event->getResult();
         }
 
-        return $backend->getActiveGroup($prj_id);
+        return null;
     }
 
     /**
      * Returns an array of additional access levels an issue can be set to
      *
-     * @param $prj_id
-     * @return array
+     * @since 3.8.13 workflow integration is done by WorkflowLegacyExtension
+     * @since 3.8.13 emits ACCESS_LEVELS event
      */
-    public static function getAccessLevels($prj_id)
+    public static function getAccessLevels(int $prj_id): ?array
     {
-        if (!$backend = self::getBackend($prj_id)) {
-            return [];
+        $event = new ResultableEvent($prj_id, null, null);
+        EventManager::dispatch(SystemEvents::ACCESS_LEVELS, $event);
+
+        if ($event->hasResult()) {
+            return $event->getResult();
         }
 
-        return $backend->getAccessLevels($prj_id);
+        return null;
     }
 
     /**
      * Returns true if a user can access an issue.
      *
-     * @deprecated since 3.8.11 use ACCESS_ISSUE event
+     * @since 3.8.11 emits ACCESS_ISSUE event
+     * @since 3.8.11 workflow integration is done by WorkflowLegacyExtension
      */
     public static function canAccessIssue(int $prj_id, int $issue_id, int $usr_id, bool $return, bool $internal): bool
     {
         $arguments = [
-            'prj_id' => $prj_id,
-            'issue_id' => $issue_id,
-            'usr_id' => $usr_id,
             // if it's internal call. i.e called from canViewInternalNotes
             'internal' => $internal,
         ];
-        $event = new ResultableEvent(null, $arguments);
+        $event = new ResultableEvent($prj_id, $issue_id, $usr_id, $arguments);
         $event->setResult($return);
         EventManager::dispatch(SystemEvents::ACCESS_ISSUE, $event);
 
@@ -997,51 +951,52 @@ class Workflow
     /**
      * Returns custom SQL to limit what results a user can see on the list issues page
      *
-     * @param $prj_id
-     * @param $usr_id
      * @return mixed null to use default rules or an sql string otherwise
+     * @since 3.8.13 workflow integration is done by WorkflowLegacyExtension
+     * @since 3.8.13 emits ACCESS_SQL_STATEMENT event
      */
-    public static function getAdditionalAccessSQL($prj_id, $usr_id)
+    public static function getAdditionalAccessSQL(int $prj_id, int $usr_id): ?string
     {
-        if (!$backend = self::getBackend($prj_id)) {
-            return null;
+        $event = new ResultableEvent($prj_id, null, $usr_id);
+        EventManager::dispatch(SystemEvents::ACCESS_LISTING_SQL, $event);
+
+        if ($event->hasResult()) {
+            return $event->getResult();
         }
 
-        return $backend->getAdditionalAccessSQL($prj_id, $usr_id);
+        return null;
     }
 
     /**
      * Called when an issue is moved from this project to another.
      *
-     * @param $prj_id integer
-     * @param $issue_id integer
-     * @param $new_prj_id integer
      * @since 3.1.7
+     * @since 3.8.13 workflow integration is done by WorkflowLegacyExtension
+     * @since 3.8.13 emits ISSUE_MOVE_FROM_PROJECT event
      */
-    public static function handleIssueMovedFromProject($prj_id, $issue_id, $new_prj_id)
+    public static function handleIssueMovedFromProject(int $prj_id, int $issue_id, int $new_prj_id): void
     {
-        if (!$backend = self::getBackend($prj_id)) {
-            return null;
-        }
-
-        $backend->handleIssueMovedFromProject($prj_id, $issue_id, $new_prj_id);
+        $arguments = [
+            'new_prj_id' => $new_prj_id,
+        ];
+        $event = new ResultableEvent($prj_id, $issue_id, null, $arguments);
+        EventManager::dispatch(SystemEvents::ISSUE_MOVE_FROM_PROJECT, $event);
     }
 
     /**
      * Called when an issue is moved to this project from another.
      *
-     * @param $prj_id integer
-     * @param $issue_id integer
-     * @param $old_prj_id integer
      * @since 3.1.7
+     * @since 3.8.13 workflow integration is done by WorkflowLegacyExtension
+     * @since 3.8.13 emits ISSUE_MOVE_TO_PROJECT event
      */
-    public static function handleIssueMovedToProject($prj_id, $issue_id, $old_prj_id)
+    public static function handleIssueMovedToProject(int $prj_id, int $issue_id, int $old_prj_id): void
     {
-        if (!$backend = self::getBackend($prj_id)) {
-            return null;
-        }
-
-        $backend->handleIssueMovedToProject($prj_id, $issue_id, $old_prj_id);
+        $arguments = [
+            'old_prj_id' => $old_prj_id,
+        ];
+        $event = new ResultableEvent($prj_id, $issue_id, null, $arguments);
+        EventManager::dispatch(SystemEvents::ISSUE_MOVE_TO_PROJECT, $event);
     }
 
     /**
@@ -1053,14 +1008,19 @@ class Workflow
      * @param $old_prj_id integer The ID of the project the issue is being moved from
      * @return array A key/value array with the keys being field names in the issue table
      * @since 3.1.7
+     * @since 3.8.13 workflow integration is done by WorkflowLegacyExtension
+     * @since 3.8.13 emits ISSUE_MOVE_MAPPING event
      */
-    public static function getMovedIssueMapping($prj_id, $issue_id, $mapping, $old_prj_id)
+    public static function getMovedIssueMapping(int $prj_id, int $issue_id, array $mapping, int $old_prj_id): array
     {
-        if (!$backend = self::getBackend($prj_id)) {
-            return $mapping;
-        }
+        $arguments = [
+            'old_prj_id' => $old_prj_id,
+        ];
+        $event = new ResultableEvent($prj_id, $issue_id, null, $arguments);
+        $event->setResult($mapping);
+        EventManager::dispatch(SystemEvents::ISSUE_MOVE_MAPPING, $event);
 
-        return $backend->getMovedIssueMapping($prj_id, $issue_id, $mapping, $old_prj_id);
+        return $event->getResult();
     }
 
     /**
