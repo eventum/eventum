@@ -1,9 +1,9 @@
 {block "stylesheets" append}
-  <link rel="stylesheet" type="text/css" media="screen" href="{$core.rel_url}components/jquery-datatables/media/css/jquery.dataTables.css">
+  <link rel="stylesheet" type="text/css" media="screen" href="{asset path='css/datatables.css'}">
 {/block}
 
 {block "javascripts" append}
-<script type="text/javascript" src="{$core.rel_url}components/jquery-datatables/media/js/jquery.dataTables.js"></script>
+<script type="text/javascript" src="{asset path='js/datatables.js'}"></script>
 <script type="text/javascript">
   var active_users_count = {$active_user_count};
   var page_url = '{$core.rel_url}manage/users.php';
