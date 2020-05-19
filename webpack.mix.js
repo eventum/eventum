@@ -101,7 +101,6 @@ mix.scripts([
     // 'node_modules/jquery-ui/ui/safe-blur.js', // unused
 ], 'htdocs/js/jquery-ui.js');
 
-
 mix.scripts([
     'node_modules/jquery/jquery.js',
     'node_modules/jquery/jquery-migrate.js',
@@ -120,9 +119,12 @@ mix.scripts([
 
 mix.version([
     'htdocs/css/all.css',
+    'htdocs/css/components.css',
     'htdocs/css/jquery-ui.css',
     'htdocs/js/all.js',
-    'htdocs/js/jquery-ui.js',
+    'htdocs/js/bootstrap.js',
+    'htdocs/js/components.js',
+    'htdocs/js/jquery-ui.js'
 ]);
 
 if (mix.inProduction()) {
