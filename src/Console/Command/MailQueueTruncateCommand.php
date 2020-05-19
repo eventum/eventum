@@ -20,9 +20,11 @@ class MailQueueTruncateCommand
 {
     public const DEFAULT_COMMAND = 'mail-queue:truncate';
     public const USAGE = self::DEFAULT_COMMAND . ' [-q|--quiet] [--interval=]';
+    private const DEFAULT_INTERVAL = '1 month';
 
-    public function execute(OutputInterface $output, $quiet, $interval = '1 month'): void
+    public function __invoke(OutputInterface $output, $quiet, $interval): void
     {
+        $interval = $interval ?: self::DEFAULT_INTERVAL;
         Mail_Queue::truncate($interval);
 
         if (!$quiet) {

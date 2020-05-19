@@ -45,6 +45,9 @@ class ConsoleCommandsService implements ServiceProviderInterface
         $app[Command\MailQueueProcessCommand::class] = static function () {
             return new Command\MailQueueProcessCommand();
         };
+        $app[Command\MailQueueTruncateCommand::class] = static function () {
+            return new Command\MailQueueTruncateCommand();
+        };
         $app[Command\MailDownloadCommand::class] = static function () {
             return new Command\MailDownloadCommand();
         };
