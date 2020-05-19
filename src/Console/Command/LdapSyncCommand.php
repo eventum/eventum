@@ -32,7 +32,7 @@ class LdapSyncCommand extends Command
     /** @var bool */
     private $dryrun;
 
-    public function execute(OutputInterface $output, $dryrun = false, $createUsers, $noUpdate, $noDisable): void
+    public function __invoke(OutputInterface $output, $dryrun = false, $createUsers, $noUpdate, $noDisable): void
     {
         $this->output = $output;
         $this->dryrun = $dryrun;

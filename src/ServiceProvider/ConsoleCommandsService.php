@@ -30,6 +30,9 @@ class ConsoleCommandsService implements ServiceProviderInterface
         $app[Command\ExtensionEnableCommand::class] = static function () {
             return new Command\ExtensionEnableCommand();
         };
+        $app[Command\LdapSyncCommand::class] = static function () {
+            return new Command\LdapSyncCommand();
+        };
         $app[Command\MailDownloadCommand::class] = static function () {
             return new Command\MailDownloadCommand();
         };
