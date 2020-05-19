@@ -8,6 +8,7 @@ Upgrading to 3.8.x versions requires that you upgrade to latest 3.5.x version fi
 
 - Move JavaScript classes (CustomField, ExpandableCell, GrowingFileField, Validation) to modules, #839
 - Move workflow handling to WorkflowLegacyExtension extension, #832
+- Use container for Silly console application, #844
 
 ## [3.8.12] - 2020-05-14
 
