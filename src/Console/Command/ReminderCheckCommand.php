@@ -27,7 +27,7 @@ class ReminderCheckCommand extends SymfonyCommand
     public const DEFAULT_COMMAND = 'reminder:check';
     public const USAGE = self::DEFAULT_COMMAND . ' [--debug]';
 
-    protected static $defaultName = self::DEFAULT_COMMAND;
+    protected static $defaultName = 'eventum:' . self::DEFAULT_COMMAND;
 
     /** @var OutputInterface */
     private $output;

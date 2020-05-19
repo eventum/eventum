@@ -29,7 +29,7 @@ class ExtensionEnableCommand extends SymfonyCommand
     public const DEFAULT_COMMAND = 'extension:enable';
     public const USAGE = self::DEFAULT_COMMAND . ' [filename] [classname]';
 
-    protected static $defaultName = self::DEFAULT_COMMAND;
+    protected static $defaultName = 'eventum:' . self::DEFAULT_COMMAND;
 
     /** @var OutputInterface */
     private $output;

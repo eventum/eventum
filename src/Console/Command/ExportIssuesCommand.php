@@ -25,7 +25,7 @@ class ExportIssuesCommand extends SymfonyCommand
     public const DEFAULT_COMMAND = 'export:issues';
     public const USAGE = self::DEFAULT_COMMAND . ' [issueId] [filename]';
 
-    protected static $defaultName = self::DEFAULT_COMMAND;
+    protected static $defaultName = 'eventum:' . self::DEFAULT_COMMAND;
 
     protected function configure(): void
     {

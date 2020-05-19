@@ -32,7 +32,7 @@ class LdapSyncCommand extends SymfonyCommand
     public const DEFAULT_COMMAND = 'ldap:sync';
     public const USAGE = self::DEFAULT_COMMAND . ' [--dry-run] [--create-users] [--no-update] [--no-disable]';
 
-    protected static $defaultName = self::DEFAULT_COMMAND;
+    protected static $defaultName = 'eventum:' . self::DEFAULT_COMMAND;
 
     /** @var LdapAdapter */
     private $ldap;

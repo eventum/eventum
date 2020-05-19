@@ -36,7 +36,7 @@ class MailDownloadCommand extends SymfonyCommand
     public const DEFAULT_COMMAND = 'mail:download';
     public const USAGE = self::DEFAULT_COMMAND . ' [username] [hostname] [mailbox] [--limit=] [--no-lock]';
 
-    protected static $defaultName = self::DEFAULT_COMMAND;
+    protected static $defaultName = 'eventum:' . self::DEFAULT_COMMAND;
 
     /**
      * Limit amount of emails to process.

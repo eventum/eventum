@@ -38,34 +38,21 @@ class ListCommand extends \Symfony\Component\Console\Command\ListCommand
     }
 
     /**
-     * Hide commands from bundle, as they are not usable.
+     * Show only commands from eventum namespace
      *
      * @see https://symfony.com/doc/current/console/hide_commands.html
      */
     private function hideCommands(): void
     {
-        $hiddenNamespaces = [
-            'assets',
-            'cache',
-            'config',
-            'debug',
-            'doctrine',
-            'lint',
-            'router',
-            'secrets',
-            'security',
-        ];
-
         /** @var Application $app */
         $app = $this->getApplication();
         $commands = $app->all();
 
         foreach ($commands as $commandName => $command) {
             $namespace = $app->extractNamespace($commandName, 1);
-            if (!in_array($namespace, $hiddenNamespaces, 1)) {
-                continue;
+            if ($namespace !== 'eventum') {
+                $command->setHidden(true);
             }
-            $command->setHidden(true);
         }
     }
 }
