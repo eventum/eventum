@@ -50,16 +50,7 @@ class ImapConnection
 
     public function getMessage(int $num): ImapResource
     {
-        [$overview] = imap_fetch_overview($this->mbox, $num);
-
-        $message = new ImapResource();
-        $message->num = $num;
-        $message->overview = $overview;
-        $message->headers = imap_fetchheader($this->mbox, $num);
-        $message->content = imap_body($this->mbox, $num);
-        $message->imapheaders = imap_headerinfo($this->mbox, $num);
-
-        return $message;
+        return new ImapResource($this->mbox, $num);
     }
 
     /**
