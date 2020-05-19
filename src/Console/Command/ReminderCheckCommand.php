@@ -33,7 +33,7 @@ class ReminderCheckCommand
     /** @var int[] */
     private $triggered_issues = [];
 
-    public function execute(OutputInterface $output, $debug): void
+    public function __invoke(OutputInterface $output, $debug): void
     {
         $this->output = $output;
 

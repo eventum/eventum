@@ -21,6 +21,9 @@ class ConsoleCommandsService implements ServiceProviderInterface
 {
     public function register(Container $app): void
     {
+        $app[Command\ReminderCheckCommand::class] = static function () {
+            return new Command\ReminderCheckCommand();
+        };
         $app[Command\MailDownloadCommand::class] = static function () {
             return new Command\MailDownloadCommand();
         };
