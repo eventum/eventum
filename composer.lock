@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c8109e4f0dff10334337f36fe11e0b4a",
+    "content-hash": "dbe6c59df30f60590b6bc8399daa7bd8",
     "packages": [
         {
             "name": "cakephp/cache",
@@ -7145,52 +7145,6 @@
             "description": "jQuery JavaScript Library",
             "homepage": "http://jquery.com",
             "time": "2013-04-05T19:32:49+00:00"
-        },
-        {
-            "name": "components/jquery-cookie",
-            "version": "1.4.1.2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/Gta-Cool/jquery-cookie.git",
-                "reference": "0a10666155fd3aab9be5735b0ba83a4dccf59d78"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/Gta-Cool/jquery-cookie/zipball/0a10666155fd3aab9be5735b0ba83a4dccf59d78",
-                "reference": "0a10666155fd3aab9be5735b0ba83a4dccf59d78",
-                "shasum": ""
-            },
-            "require": {
-                "components/jquery": "*",
-                "robloach/component-installer": "*"
-            },
-            "type": "component",
-            "extra": {
-                "component": {
-                    "scripts": [
-                        "jquery.cookie.js"
-                    ]
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Klaus Hartl",
-                    "homepage": "https://github.com/carhartl"
-                }
-            ],
-            "description": "A simple, lightweight jQuery plugin for reading, writing and deleting cookies",
-            "homepage": "https://github.com/carhartl/jquery-cookie",
-            "keywords": [
-                "JS",
-                "cookie",
-                "javascript",
-                "jquery"
-            ],
-            "time": "2014-07-02T18:35:35+00:00"
         },
         {
             "name": "eventum/rpc",

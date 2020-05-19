@@ -157,7 +157,7 @@ Eventum.toggle_section_visibility = function(id) {
 
     $('#' + id + '_link').text(link_title);
 
-    $.cookie('visibility_' + id, display, {expires: Eventum.expires});
+    Cookie.set('visibility_' + id, display);
 };
 
 Eventum.close_and_refresh = function(noparent)

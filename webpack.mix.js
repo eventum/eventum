@@ -106,7 +106,7 @@ mix.scripts([
     'node_modules/jquery/jquery-migrate.js',
     'node_modules/block-ui/jquery.blockUI.js',
     'node_modules/jquery-form/src/jquery.form.js',
-    'htdocs/components/jquery-cookie/jquery.cookie.js',
+    'node_modules/js-cookie/src/js.cookie.js',
     'node_modules/jquery-ui/jquery-ui.js',
     'node_modules/chosen-js/chosen.jquery.js',
     'node_modules/dropzone/dist/dropzone.js',
