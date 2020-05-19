@@ -20,6 +20,7 @@
     "block-ui": "^2.70.1",
     "chosen-js": "^1.8.7",
     "cross-env": "^5.1",
+    "datatables": "^1.10.18",
     "drmonty-garlicjs": "^1.2.3",
     "dropzone": "^4.3",
     "file-reader-wrapper": "^0.9.10",
@@ -36,6 +37,7 @@
   },
   "resolutions": {
     "block-ui/jquery": "1.9.x",
+    "datatables/jquery": "1.9.x",
     "drmonty-garlicjs/jquery": "1.9.x",
     "jquery-form/jquery": "1.9.x",
     "timeago/jquery": "1.9.x"
