@@ -19,16 +19,24 @@ use Eventum\Logger\LoggerTrait;
 use Eventum\Mail\Exception\InvalidMessageException;
 use Eventum\Mail\ImapMessage;
 use InvalidArgumentException;
+use Psr\Log\LoggerInterface;
 use RuntimeException;
 use Support;
+use Symfony\Component\Console\Command\Command as SymfonyCommand;
+use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Output\OutputInterface;
 use Throwable;
 
-class MailDownloadCommand
+class MailDownloadCommand extends SymfonyCommand
 {
     use LoggerTrait;
 
     public const DEFAULT_COMMAND = 'mail:download';
     public const USAGE = self::DEFAULT_COMMAND . ' [username] [hostname] [mailbox] [--limit=] [--no-lock]';
+
+    protected static $defaultName = self::DEFAULT_COMMAND;
 
     /**
      * Limit amount of emails to process.
@@ -37,6 +45,36 @@ class MailDownloadCommand
      * @var int
      */
     private $limit = 0;
+
+    public function __construct(LoggerInterface $logger = null)
+    {
+        $logger = $logger ?: $this->getLogger();
+        $this->logger = $logger;
+        parent::__construct();
+    }
+
+    protected function configure(): void
+    {
+        $this
+            ->addArgument('username', InputArgument::REQUIRED)
+            ->addArgument('hostname', InputArgument::REQUIRED)
+            ->addArgument('mailbox', InputArgument::REQUIRED)
+            ->addOption('no-lock', null, InputOption::VALUE_NONE, 'Skip application concurrency locking')
+            ->addOption('limit', 'l', InputOption::VALUE_REQUIRED, 'Process at most LIMIT mail a time');
+    }
+
+    public function execute(InputInterface $input, OutputInterface $output): int
+    {
+        $username = $input->getArgument('username');
+        $hostname = $input->getArgument('hostname');
+        $mailbox = $input->getArgument('mailbox');
+        $noLock = $input->getOption('no-lock');
+        $limit = $input->getOption('limit');
+
+        $this($username, $hostname, $mailbox, $noLock, $limit);
+
+        return 0;
+    }
 
     public function __invoke(?string $username, ?string $hostname, ?string $mailbox, ?bool $noLock, ?int $limit): void
     {

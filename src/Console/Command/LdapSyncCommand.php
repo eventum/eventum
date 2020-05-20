@@ -16,21 +16,50 @@ namespace Eventum\Console\Command;
 use Eventum\Auth\Adapter\LdapAdapter;
 use Eventum\Auth\AuthException;
 use Eventum\Auth\Ldap\UserEntry;
+use Eventum\Console\ConsoleTrait;
 use Generator;
 use InvalidArgumentException;
 use RuntimeException;
+use Symfony\Component\Console\Command\Command as SymfonyCommand;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class LdapSyncCommand extends Command
+class LdapSyncCommand extends SymfonyCommand
 {
+    use ConsoleTrait;
+
     public const DEFAULT_COMMAND = 'ldap:sync';
     public const USAGE = self::DEFAULT_COMMAND . ' [--dry-run] [--create-users] [--no-update] [--no-disable]';
+
+    protected static $defaultName = self::DEFAULT_COMMAND;
 
     /** @var LdapAdapter */
     private $ldap;
 
     /** @var bool */
     private $dryrun;
+
+    protected function configure(): void
+    {
+        $this
+            ->addOption('dry-run', null, InputOption::VALUE_NONE)
+            ->addOption('create-users', null, InputOption::VALUE_NONE)
+            ->addOption('no-update', null, InputOption::VALUE_NONE)
+            ->addOption('no-disable', null, InputOption::VALUE_NONE);
+    }
+
+    public function execute(InputInterface $input, OutputInterface $output): int
+    {
+        $dryrun = $input->getOption('dry-run');
+        $createUsers = $input->getOption('create-users');
+        $noUpdate = $input->getOption('no-update');
+        $noDisable = $input->getOption('no-disable');
+
+        $this($output, $dryrun, $createUsers, $noUpdate, $noDisable);
+
+        return 0;
+    }
 
     public function __invoke(OutputInterface $output, $dryrun = false, $createUsers, $noUpdate, $noDisable): void
     {
@@ -65,7 +94,7 @@ class LdapSyncCommand extends Command
 
             // FIXME: where's adding new users part?
             // TODO: check if ldap enabled and eventum disabled activates accounts in eventum
-            $this->writeln("checking: $uid, $dn", self::VERY_VERBOSE);
+            $this->writeln("checking: $uid, $dn", OutputInterface::VERBOSITY_VERY_VERBOSE);
             try {
                 $this->updateLocalUserFromBackend($uid);
             } catch (AuthException $e) {
@@ -93,7 +122,7 @@ class LdapSyncCommand extends Command
             $uid = $user->getUid();
             $dn = $user->getDn();
 
-            $this->writeln("checking: $uid, $dn", self::VERY_VERBOSE);
+            $this->writeln("checking: $uid, $dn", OutputInterface::VERBOSITY_VERY_VERBOSE);
 
             $active = $this->ldap->accountActive($uid);
 
@@ -132,7 +161,7 @@ class LdapSyncCommand extends Command
             // skip entries with no email
             if (!$user->getEmails()) {
                 $uid = $user->getUid();
-                $this->writeln("skip (no email): $uid", self::VERBOSE);
+                $this->writeln("skip (no email): $uid", OutputInterface::VERBOSITY_VERBOSE);
                 continue;
             }
 

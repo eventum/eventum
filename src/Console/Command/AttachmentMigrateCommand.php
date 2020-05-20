@@ -18,6 +18,7 @@ use DateTimeZone;
 use DB_Helper;
 use Eventum\Attachment\AttachmentManager;
 use Eventum\Attachment\StorageManager;
+use Eventum\Console\ConsoleTrait;
 use Eventum\Db\Adapter\AdapterInterface;
 use Exception;
 use League\Flysystem\Adapter\Local;
@@ -26,14 +27,22 @@ use League\Flysystem\FileNotFoundException;
 use League\Flysystem\Filesystem;
 use Misc;
 use RuntimeException;
+use Symfony\Component\Console\Command\Command as SymfonyCommand;
 use Symfony\Component\Console\Helper\ProgressBar;
+use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class AttachmentMigrateCommand extends Command
+class AttachmentMigrateCommand extends SymfonyCommand
 {
+    use ConsoleTrait;
+
     public const DEFAULT_COMMAND = 'attachment:migrate';
     public const USAGE = self::DEFAULT_COMMAND . ' [source_adapter] [target_adapter] [--chunksize=] [--limit=] [--migrate] [--verify]';
     private const DEFAULT_CHUNKSIZE = 100;
+
+    protected static $defaultName = self::DEFAULT_COMMAND;
 
     /** @var AdapterInterface */
     private $db;
@@ -46,6 +55,31 @@ class AttachmentMigrateCommand extends Command
 
     /** @var string */
     private $target_adapter;
+
+    protected function configure(): void
+    {
+        $this
+            ->addArgument('source_adapter', InputArgument::REQUIRED)
+            ->addArgument('target_adapter', InputArgument::REQUIRED)
+            ->addOption('chunksize', null, InputOption::VALUE_REQUIRED)
+            ->addOption('migrate', null, InputOption::VALUE_NONE)
+            ->addOption('verify', null, InputOption::VALUE_NONE)
+            ->addOption('limit', 'l', InputOption::VALUE_REQUIRED);
+    }
+
+    public function execute(InputInterface $input, OutputInterface $output): int
+    {
+        $source_adapter = $input->getArgument('source_adapter');
+        $target_adapter = $input->getArgument('target_adapter');
+        $migrate = $input->getOption('migrate');
+        $verify = $input->getOption('verify');
+        $limit = $input->getOption('limit');
+        $chunksize = $input->getOption('chunksize');
+
+        $this($output, $source_adapter, $target_adapter, $migrate, $verify, $limit, $chunksize);
+
+        return 0;
+    }
 
     public function __invoke(OutputInterface $output, $source_adapter, $target_adapter, $migrate, $verify, $limit, $chunksize): void
     {

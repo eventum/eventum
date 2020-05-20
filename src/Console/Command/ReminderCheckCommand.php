@@ -17,12 +17,17 @@ use Eventum\ConcurrentLock;
 use Reminder;
 use Reminder_Action;
 use Reminder_Condition;
+use Symfony\Component\Console\Command\Command as SymfonyCommand;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class ReminderCheckCommand
+class ReminderCheckCommand extends SymfonyCommand
 {
     public const DEFAULT_COMMAND = 'reminder:check';
     public const USAGE = self::DEFAULT_COMMAND . ' [--debug]';
+
+    protected static $defaultName = self::DEFAULT_COMMAND;
 
     /** @var OutputInterface */
     private $output;
@@ -32,6 +37,21 @@ class ReminderCheckCommand
 
     /** @var int[] */
     private $triggered_issues = [];
+
+    protected function configure(): void
+    {
+        $this
+            ->addOption('debug', null, InputOption::VALUE_NONE);
+    }
+
+    public function execute(InputInterface $input, OutputInterface $output): int
+    {
+        $debug = $input->getOption('debug');
+
+        $this($output, $debug);
+
+        return 0;
+    }
 
     public function __invoke(OutputInterface $output, $debug): void
     {

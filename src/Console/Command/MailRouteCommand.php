@@ -16,12 +16,32 @@ namespace Eventum\Console\Command;
 use Eventum\Mail\Exception\RoutingException;
 use Eventum\Mail\MailMessage;
 use Routing;
+use Symfony\Component\Console\Command\Command as SymfonyCommand;
+use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class MailRouteCommand
+class MailRouteCommand extends SymfonyCommand
 {
     public const DEFAULT_COMMAND = 'mail:route';
     public const USAGE = self::DEFAULT_COMMAND . '  [filename]';
+
+    protected static $defaultName = self::DEFAULT_COMMAND;
+
+    protected function configure(): void
+    {
+        $this
+            ->addArgument('filename', InputArgument::OPTIONAL);
+    }
+
+    public function execute(InputInterface $input, OutputInterface $output): int
+    {
+        $filename = $input->getArgument('filename');
+
+        $this($output, $filename);
+
+        return 0;
+    }
 
     /**
      * @param OutputInterface $output

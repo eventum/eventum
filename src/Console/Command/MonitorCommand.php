@@ -20,9 +20,12 @@ use Eventum\Db\DatabaseException;
 use Exception;
 use Mail_Queue;
 use Setup;
+use Symfony\Component\Console\Command\Command as SymfonyCommand;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class MonitorCommand
+class MonitorCommand extends SymfonyCommand
 {
     public const DEFAULT_COMMAND = 'system:monitor';
     public const USAGE = self::DEFAULT_COMMAND . ' [-q|--quiet]';
@@ -34,11 +37,26 @@ class MonitorCommand
     public const STATE_UNKNOWN = 3;
     public const STATE_DEPENDENT = 4;
 
+    protected static $defaultName = self::DEFAULT_COMMAND;
+
     /** @var OutputInterface */
     private $output;
 
     /** @var int */
     private $errors = 0;
+
+    protected function configure(): void
+    {
+        $this
+            ->addOption('quiet', 'q', InputOption::VALUE_NONE);
+    }
+
+    public function execute(InputInterface $input, OutputInterface $output): int
+    {
+        $quiet = $input->getOption('quiet');
+
+        return $this($output, $quiet);
+    }
 
     public function __invoke(OutputInterface $output, $quiet): int
     {

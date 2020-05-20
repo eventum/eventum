@@ -11,6 +11,7 @@ Upgrading to 3.8.x versions requires that you upgrade to latest 3.5.x version fi
 - Use cmd-ctrl-enter from node package, #842
 - Use jquery datatables from webpack bundle, #843
 - Replace jquery-cookie with a js-cookie npm module, #836
+- Make commands available from Symfony Console, #845
 
 [3.8.13]: https://github.com/eventum/eventum/compare/v3.8.12...master
 [11000th]: https://github.com/eventum/eventum/tree/8a9b4c15ba6986331c99fd0f83a757d4594bfb19
