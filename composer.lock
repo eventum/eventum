@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "73a7932dcba403f56459475157bef33c",
+    "content-hash": "eb2323e65e29576ca365a2bac3c70b89",
     "packages": [
         {
             "name": "cakephp/cache",
@@ -8053,26 +8053,6 @@
             ],
             "description": "Encourages sending ⭐ and 💵 to fellow PHP package maintainers (not limited to Symfony components)!",
             "time": "2020-01-15T17:39:29+00:00"
-        },
-        {
-            "name": "widernet/cmd-ctrl-enter",
-            "version": "0.2.0",
-            "dist": {
-                "type": "zip",
-                "url": "https://github.com/widernet/cmd-ctrl-enter/archive/8843088c/0.2.0.zip",
-                "shasum": "5ed24097dc59b1d426a5ad3efb329b19939d7b44"
-            },
-            "type": "library",
-            "extra": {
-                "component": {
-                    "scripts": [
-                        "src/cmd-ctrl-enter.js"
-                    ]
-                }
-            },
-            "license": [
-                "MIT"
-            ]
         }
     ],
     "aliases": [

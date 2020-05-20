@@ -114,7 +114,7 @@ mix.scripts([
     'node_modules/timeago/jquery.timeago.js',
     'node_modules/file-reader-wrapper/filereader.js',
     'node_modules/drmonty-garlicjs/js/garlic.min.js',
-    'htdocs/components/cmd-ctrl-enter/src/cmd-ctrl-enter.js',
+    'node_modules/cmd-ctrl-enter/src/cmd-ctrl-enter.js',
 ], 'htdocs/js/components.js');
 
 mix.version([

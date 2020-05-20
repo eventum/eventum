@@ -8,6 +8,7 @@ Upgrading to 3.8.x versions requires that you upgrade to latest 3.5.x version fi
 - Move workflow handling to WorkflowLegacyExtension extension, #832
 - Use container for Silly console application, #844
 - With this release, we reached [11000th] commit! 💯
+- Use cmd-ctrl-enter from node package, #842
 
 [3.8.13]: https://github.com/eventum/eventum/compare/v3.8.12...master
 [11000th]: https://github.com/eventum/eventum/tree/8a9b4c15ba6986331c99fd0f83a757d4594bfb19
