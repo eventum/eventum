@@ -362,7 +362,7 @@ issue_view.toggle_issue_section = function(id)
 
     $('#toggle_' + id).text(link_title);
 
-    $.cookie('visibility_' + id, display, {expires: Eventum.expires});
+    Cookie.set('visibility_' + id, display);
 };
 
 issue_view.openHistory = function()

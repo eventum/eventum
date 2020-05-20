@@ -13,8 +13,10 @@ import { ExpandableCell } from "./ExpandableCell.js";
 import { CustomField } from "./CustomField.js";
 import { GrowingFileField } from "./GrowingFileField.js";
 import { Validation } from "./Validation.js";
+import { Cookie } from "./Cookie.js";
 
 window.ExpandableCell = new ExpandableCell();
 window.CustomField = new CustomField();
 window.GrowingFileField = new GrowingFileField();
 window.Validation = new Validation();
+window.Cookie = new Cookie(Cookies.noConflict());

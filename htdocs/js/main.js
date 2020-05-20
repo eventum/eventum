@@ -136,6 +136,7 @@ Eventum.setupTrimmedEmailToggle = function () {
         .on('click', Eventum.TrimmedEmailToggleFunction);
 };
 
+/** @deprecated: jquery-cookie, no longer used */
 Eventum.expires = new Date(new Date().getTime() + (56 * 86400000));
 Eventum.checkClose = false;
 Eventum.closeConfirmMessage = 'Do you want to close this window?';
@@ -157,7 +158,7 @@ Eventum.toggle_section_visibility = function(id) {
 
     $('#' + id + '_link').text(link_title);
 
-    $.cookie('visibility_' + id, display, {expires: Eventum.expires});
+    Cookie.set('visibility_' + id, display);
 };
 
 Eventum.close_and_refresh = function(noparent)

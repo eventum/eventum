@@ -23,7 +23,7 @@ function showAllDrafts(thisBox)
     } else {
         showValue = 0;
     }
-    $.cookie('show_all_drafts', showValue, { expires: Eventum.expires });
+    Cookie.set('show_all_drafts', showValue);
     document.location.href = document.location.href;
 }
 //-->
