@@ -55,6 +55,7 @@ Session.vim
 /htdocs/css/all.css
 /htdocs/css/chosen-sprite*.png
 /htdocs/css/components.css
+/htdocs/css/datatables.css
 /htdocs/css/jquery-ui.css
 /htdocs/fonts/
 /htdocs/images/*.png
@@ -62,6 +63,7 @@ Session.vim
 /htdocs/js/all.js
 /htdocs/js/bootstrap.js
 /htdocs/js/components.js
+/htdocs/js/datatables.js
 /htdocs/js/jquery-ui.js
 /htdocs/mix-manifest.json
 

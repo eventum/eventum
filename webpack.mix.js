@@ -117,13 +117,23 @@ mix.scripts([
     'node_modules/cmd-ctrl-enter/src/cmd-ctrl-enter.js',
 ], 'htdocs/js/components.js');
 
+mix.styles([
+    'node_modules/datatables/media/css/jquery.dataTables.css',
+], 'htdocs/css/datatables.css');
+mix.scripts([
+    'node_modules/datatables/media/js/jquery.dataTables.js',
+], 'htdocs/js/datatables.js');
+mix.copy('node_modules/datatables/media/images/*.png', 'htdocs/images');
+
 mix.version([
     'htdocs/css/all.css',
     'htdocs/css/components.css',
+    'htdocs/css/datatables.css',
     'htdocs/css/jquery-ui.css',
     'htdocs/js/all.js',
     'htdocs/js/bootstrap.js',
     'htdocs/js/components.js',
+    'htdocs/js/datatables.js',
     'htdocs/js/jquery-ui.js'
 ]);
 

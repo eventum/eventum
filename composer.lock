@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "eb2323e65e29576ca365a2bac3c70b89",
+    "content-hash": "c8109e4f0dff10334337f36fe11e0b4a",
     "packages": [
         {
             "name": "cakephp/cache",
@@ -7191,34 +7191,6 @@
                 "jquery"
             ],
             "time": "2014-07-02T18:35:35+00:00"
-        },
-        {
-            "name": "components/jquery-datatables",
-            "version": "1.10.4",
-            "dist": {
-                "type": "zip",
-                "url": "https://github.com/DataTables/DataTables/archive/1.10.4.zip",
-                "shasum": "f5fc67a8f660823f8cc24aeb178bfd607af8d7ec"
-            },
-            "type": "component",
-            "extra": {
-                "component": {
-                    "scripts": [
-                        "media/js/jquery.dataTables.js",
-                        "media/js/jquery.dataTables.min.js"
-                    ],
-                    "style": [
-                        "media/css/jquery.dataTables.css",
-                        "media/css/jquery.dataTables.min.css"
-                    ],
-                    "files": [
-                        "media/css/jquery.dataTables.css",
-                        "media/css/jquery.dataTables.min.css",
-                        "media/images/*.ico",
-                        "media/images/*.png"
-                    ]
-                }
-            }
         },
         {
             "name": "eventum/rpc",
