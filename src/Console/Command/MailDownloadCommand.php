@@ -99,6 +99,7 @@ class MailDownloadCommand extends SymfonyCommand
     {
         $account = Email_Account::getDetails($account_id, true);
         $mbox = new ImapConnection($account);
+        $this->debug('Connecting to {account}', ['account' => (string)$mbox]);
 
         $downloader = new MailDownloader($mbox, $account);
         $processor = new ProcessMailMessage($mbox, $this->logger);

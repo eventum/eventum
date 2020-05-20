@@ -38,6 +38,13 @@ class ImapConnection
         $this->mbox = $this->getConnection();
     }
 
+    public function __toString()
+    {
+        $connection = $this->account;
+
+        return sprintf('%s[%s]/%s', $connection['ema_hostname'], $connection['ema_username'], $connection['ema_folder']);
+    }
+
     public function __destruct()
     {
         $this->closeConnection();
