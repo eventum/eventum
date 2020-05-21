@@ -23,7 +23,6 @@ use Eventum\Mail\ImapMessage;
 use Eventum\Mail\MailBuilder;
 use Eventum\Mail\MailMessage;
 use Eventum\Monolog\Logger;
-use Zend\Mail\AddressList;
 
 /**
  * Class to handle the business logic related to the email feature of
@@ -369,35 +368,12 @@ class Support
     }
 
     /**
-     * Method used to get the total number of emails in the specified
-     * mailbox.
-     *
-     * @param   resource $mbox The mailbox
-     * @return  int The number of emails
-     */
-    public static function getTotalEmails($mbox)
-    {
-        return @imap_num_msg($mbox);
-    }
-
-    /**
-     * Method used to get new emails from the mailbox.
-     *
-     * @param  resource $mbox The mailbox
-     * @return array array of new message numbers
-     */
-    public static function getNewEmails($mbox)
-    {
-        return @imap_search($mbox, 'UNSEEN UNDELETED UNANSWERED');
-    }
-
-    /**
      * Bounce message to sender.
      *
      * @param ImapMessage $mail
      * @param RoutingException $e error to bounce
      */
-    private static function bounceMessage(ImapMessage $mail, RoutingException $e): void
+    public static function bounceMessage(ImapMessage $mail, RoutingException $e): void
     {
         // open text template
         $tpl = new Template_Helper();
@@ -446,241 +422,7 @@ class Support
      */
     public static function processMailMessage(ImapMessage $mail, $info): void
     {
-        $logger = Logger::app();
-        $system_user_id = Setup::get()['system_user_id'];
-
-        AuthCookie::setAuthCookie($system_user_id);
-
-        $message_id = $mail->messageId;
-
-        // check if the current message was already seen
-        if ($info['ema_get_only_new'] && $mail->isSeen()) {
-            $logger->debug("Skip $message_id: processing only new mails and already Seen.");
-
-            return;
-        }
-
-        // if message_id already exists, return immediately -- nothing to do
-        if (self::exists($message_id) || Note::exists($message_id)) {
-            $logger->debug("Skip $message_id: Already exists as email or note.");
-
-            return;
-        }
-
-        // pass in $mail object so it can be modified
-        if (!Workflow::preEmailDownload($mail->getProjectId(), $mail)) {
-            $logger->debug("Skip $message_id: Skipped by workflow");
-
-            return;
-        }
-
-        // route emails if necessary
-        if ($info['ema_use_routing'] == 1) {
-            try {
-                $routed = Routing::route($mail);
-            } catch (RoutingException $e) {
-                $logger->debug("Skip $message_id: RoutingException: {$e->getMessage()}");
-
-                // "if leave copy of emails on IMAP server" is "off",
-                // then we can bounce on the message
-                // otherwise proper would be to create table -
-                // eventum_bounce: bon_id, bon_message_id, bon_error
-                if (!$info['ema_leave_copy']) {
-                    self::bounceMessage($mail, $e);
-                    $mail->deleteMessage();
-                }
-
-                return;
-            }
-
-            // the mail was routed
-            if ($routed === true) {
-                $logger->debug("Routed $message_id");
-
-                if (!$info['ema_leave_copy']) {
-                    $logger->debug("$message_id: Delete from IMAP/POP3");
-                    $mail->deleteMessage();
-                }
-
-                return;
-            }
-
-            // no match for issue-, note-, draft- routing,
-            // continue to allow routing and issue auto creating from same account,
-            // but it will download email, store it in database and do nothing with it
-            // if it does not match support@ address.
-            // by "do nothing" it is meant that the mail will be downloaded each time
-            // the mails are processed from imap account.
-        }
-
-        /** @var string $sender_email */
-        $sender_email = $mail->getSender();
-
-        $t = [
-            'ema_id' => $mail->getEmailAccountId(),
-            'date' => Date_Helper::convertDateGMT($mail->getMailDate()),
-            // these below are likely unused by Support::insertEmail
-            'message_id' => $mail->messageId,
-            'from' => $mail->from,
-            'to' => $mail->to,
-            'cc' => $mail->cc,
-            'subject' => $mail->subject,
-            'body' => $mail->getMessageBody(),
-            'full_email' => $mail->getRawContent(),
-        ];
-
-        $info['date'] = $t['date'];
-        $should_create_array = self::createIssueFromEmail($mail, $info);
-        $should_create_issue = $should_create_array['should_create_issue'];
-
-        if (!empty($should_create_array['issue_id'])) {
-            $t['issue_id'] = $should_create_array['issue_id'];
-
-            // figure out if we should change to a different email account
-            $iss_prj_id = Issue::getProjectID($t['issue_id']);
-            if ($info['ema_prj_id'] != $iss_prj_id) {
-                $new_ema_id = Email_Account::getEmailAccount($iss_prj_id);
-                if (!empty($new_ema_id)) {
-                    $t['ema_id'] = $new_ema_id;
-                }
-            }
-        }
-        if (!empty($should_create_array['customer_id'])) {
-            $t['customer_id'] = $should_create_array['customer_id'];
-        }
-        if (empty($t['issue_id'])) {
-            $t['issue_id'] = 0;
-        } else {
-            $prj_id = Issue::getProjectID($t['issue_id']);
-            AuthCookie::setAuthCookie($system_user_id);
-            AuthCookie::setProjectCookie($prj_id);
-        }
-        if ($should_create_array['type'] === 'note') {
-            // assume that this is not a valid note
-            $res = -1;
-
-            if ($t['issue_id'] != 0) {
-                // check if this is valid user
-                $usr_id = User::getUserIDByEmail($sender_email);
-                if (!empty($usr_id)) {
-                    $role_id = User::getRoleByUser($usr_id, $prj_id);
-                    if ($role_id > User::ROLE_CUSTOMER) {
-                        // actually a valid user so insert the note
-
-                        AuthCookie::setAuthCookie($usr_id);
-                        AuthCookie::setProjectCookie($prj_id);
-
-                        $users = Project::getUserEmailAssocList($prj_id, 'active', User::ROLE_CUSTOMER);
-                        $user_emails = Misc::lowercase(array_values($users));
-                        $users = array_flip($users);
-
-                        $addresses = [];
-
-                        $to_addresses = AddressHeader::fromString($mail->to)->getEmails();
-                        if ($to_addresses) {
-                            $addresses = $to_addresses;
-                        }
-                        $cc_addresses = AddressHeader::fromString($mail->cc)->getEmails();
-                        if ($cc_addresses) {
-                            $addresses = array_merge($addresses, $cc_addresses);
-                        }
-
-                        $cc_users = [];
-                        foreach ($addresses as $email) {
-                            if (in_array(strtolower($email), $user_emails)) {
-                                $cc_users[] = $users[strtolower($email)];
-                            }
-                        }
-
-                        // XXX FIXME, this is not nice thing to do
-                        $_POST = [
-                            'title' => Mail_Helper::removeExcessRe($t['subject']),
-                            'note' => $t['body'],
-                            'note_cc' => $cc_users,
-                            'add_extra_recipients' => 'yes',
-                            'message_id' => $t['message_id'],
-                            'parent_id' => $should_create_array['parent_id'],
-                        ];
-                        $res = Note::insertFromPost($usr_id, $t['issue_id']);
-
-                        // need to handle attachments coming from notes as well
-                        if ($res != -1) {
-                            self::extractAttachments($t['issue_id'], $mail, true, $res);
-                        }
-                    }
-                }
-            }
-        } else {
-            // check if we need to block this email
-            if ($should_create_issue == true || !self::blockEmailIfNeeded($mail, $t['issue_id'])) {
-                if ($t['issue_id']) {
-                    Mail_Helper::rewriteThreadingHeaders($mail, $t['issue_id'], 'email');
-                }
-
-                // make variable available for workflow to be able to detect whether this email created new issue
-                $t['should_create_issue'] = $should_create_array['should_create_issue'];
-
-                $sup_id = self::insertEmail($mail, $t);
-                $res = 1;
-                // only extract the attachments from the email if we are associating the email to an issue
-                if (!empty($t['issue_id'])) {
-                    self::extractAttachments($t['issue_id'], $mail);
-
-                    // notifications about new emails are always external
-                    $internal_only = false;
-                    $assignee_only = false;
-                    // special case when emails are bounced back, so we don't want a notification to customers about those
-                    if ($mail->isBounceMessage()) {
-                        // broadcast this email only to the assignees for this issue
-                        $internal_only = true;
-                        $assignee_only = true;
-                    } elseif ($should_create_issue == true) {
-                        // if a new issue was created, only send a copy of the email to the assignee (if any), don't resend to the original TO/CC list
-                        $assignee_only = true;
-                        $internal_only = true;
-                    }
-
-                    if (Workflow::shouldAutoAddToNotificationList($info['ema_prj_id'])) {
-                        self::addExtraRecipientsToNotificationList($info['ema_prj_id'], $t, $should_create_issue);
-                    }
-
-                    if (self::isAllowedToEmail($t['issue_id'], $sender_email)) {
-                        $t['internal_only'] = $internal_only;
-                        $t['assignee_only'] = $assignee_only;
-                        $t['sup_id'] = $sup_id;
-                        $t['usr_id'] = Auth::getUserID();
-                        Notification::notifyNewEmail($mail, $t);
-                    }
-
-                    // try to get usr_id of sender, if not, use system account
-                    $addr = $mail->getSender();
-                    $usr_id = User::getUserIDByEmail($addr) ?: $system_user_id;
-
-                    // mark this issue as updated if only if this email wasn't used to open it
-                    if (!$should_create_issue) {
-                        if ((!empty($t['customer_id'])) && ($t['customer_id'] !== 'NULL') && ((empty($usr_id)) || (User::getRoleByUser($usr_id, $prj_id) == User::ROLE_CUSTOMER))) {
-                            Issue::markAsUpdated($t['issue_id'], 'customer action');
-                        } else {
-                            if ((!empty($usr_id)) && (User::getRoleByUser($usr_id, $prj_id) > User::ROLE_CUSTOMER)) {
-                                Issue::markAsUpdated($t['issue_id'], 'staff response');
-                            } else {
-                                Issue::markAsUpdated($t['issue_id'], 'user response');
-                            }
-                        }
-                    }
-                    // log routed email
-                    History::add($t['issue_id'], $usr_id, 'email_routed', 'Email routed from {from}', [
-                        'from' => $mail->from,
-                    ]);
-                }
-            } else {
-                $res = 1;
-            }
-        }
-
-        if ($res > 0) {
-            $mail->deleteMessage();
-        }
+        throw new RuntimeException('Method is removed');
     }
 
     /**
@@ -1538,7 +1280,7 @@ class Support
      * @param int $sup_id The support email ID
      * @return MailMessage
      */
-    public static function getSupportEmail($sup_id)
+    public static function getSupportEmail(int $sup_id): MailMessage
     {
         $stmt = 'SELECT
                     seb_full_email

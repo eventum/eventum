@@ -18,7 +18,9 @@ use DateTime;
 use Eventum\Event\SystemEvents;
 use Eventum\EventDispatcher\EventManager;
 use Eventum\Mail\Helper\MailLoader;
+use Eventum\Mail\Imap\ImapResource;
 use InvalidArgumentException;
+use RuntimeException;
 use Symfony\Component\EventDispatcher\GenericEvent;
 use Zend\Mail\Header\GenericHeader;
 use Zend\Mail\Storage as ZendMailStorage;
@@ -36,44 +38,12 @@ class ImapMessage extends MailMessage
     public $num;
 
     /**
-     * imap connection obtained from imap_open
-     *
-     * @var resource
-     */
-    public $mbox;
-
-    /**
-     * headerinfo result
-     *
-     * @var \stdClass
-     */
-    public $imapheaders;
-
-    /**
-     * Server parameters for IMAP connection
-     *
-     * @var array
-     */
-    public $info;
-
-    /**
-     * Method to read email from imap extension and return Zend Mail Message object.
+     * Method to create email from data from extension and return Zend Mail Message object.
      *
      * This is bridge while migrating to Zend Mail package supporting reading from imap extension functions.
-     *
-     * @param resource $mbox
-     * @param int $num
-     * @param array $info connection information about connection
-     * @return ImapMessage
      */
-    public static function createFromImap($mbox, $num, $info): ImapMessage
+    public static function createFromImapResource(ImapResource $resource): ImapMessage
     {
-        // check if the current message was already seen
-        [$overview] = imap_fetch_overview($mbox, $num);
-
-        $headers = imap_fetchheader($mbox, $num);
-        $content = imap_body($mbox, $num);
-
         // fill with "\Seen", "\Deleted", "\Answered", ... etc
         $knownFlags = [
             'recent' => ZendMailStorage::FLAG_RECENT,
@@ -85,29 +55,33 @@ class ImapMessage extends MailMessage
         ];
         $flags = [];
         foreach ($knownFlags as $flag => $value) {
-            if ($overview->$flag) {
+            if ($resource->overview->$flag) {
                 $flags[] = $value;
             }
         }
 
-        $parameters = self::createParameters("$headers\r\n\r\n$content", $flags);
+        $parameters = self::createParameters("{$resource->headers}\r\n\r\n{$resource->content}", $flags);
         $message = new self($parameters);
 
         // set MailDate to $message object, as it's not available in message headers, only in IMAP itself
         // this likely "message received date"
-        $imapheaders = imap_headerinfo($mbox, $num);
-        $header = new GenericHeader('X-IMAP-UnixDate', $imapheaders->udate);
+        $header = new GenericHeader('X-IMAP-UnixDate', $resource->imapheaders->udate);
         $message->getHeaders()->addHeader($header);
 
-        $message->mbox = $mbox;
-        $message->num = $num;
-        $message->info = $info;
-        $message->imapheaders = $imapheaders;
+        $message->num = $resource->num;
 
         $event = new GenericEvent($message, $parameters);
         EventManager::dispatch(SystemEvents::MAIL_LOADED_IMAP, $event);
 
         return $message;
+    }
+
+    /**
+     * @deprecated removed in 3.8.12
+     */
+    public static function createFromImap($mbox, $num, $info): ImapMessage
+    {
+        throw new RuntimeException('This method no longer exists');
     }
 
     /**
@@ -128,7 +102,7 @@ class ImapMessage extends MailMessage
      *
      * @return DateTime
      */
-    public function getMailDate()
+    public function getMailDate(): DateTime
     {
         $headers = $this->headers;
         if ($headers->has('X-IMAP-UnixDate')) {
@@ -142,40 +116,5 @@ class ImapMessage extends MailMessage
         }
 
         return Date_Helper::getDateTime($date);
-    }
-
-    /**
-     * Deletes the specified message from the IMAP/POP server
-     * NOTE: YOU STILL MUST call imap_expunge($mbox) to permanently delete the message.
-     */
-    public function deleteMessage(): void
-    {
-        // need to delete the message from the server?
-        if (!$this->info['ema_leave_copy']) {
-            imap_delete($this->mbox, $this->num);
-        } else {
-            // mark the message as already read
-            imap_setflag_full($this->mbox, $this->num, '\\Seen');
-        }
-    }
-
-    /**
-     * Get Project Id associated with this email account
-     *
-     * @return int
-     */
-    public function getProjectId()
-    {
-        return $this->info['ema_prj_id'];
-    }
-
-    /**
-     * Get The email account ID
-     *
-     * @return int
-     */
-    public function getEmailAccountId()
-    {
-        return $this->info['ema_id'];
     }
 }

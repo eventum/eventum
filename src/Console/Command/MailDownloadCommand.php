@@ -17,11 +17,13 @@ use Email_Account;
 use Eventum\ConcurrentLock;
 use Eventum\Logger\LoggerTrait;
 use Eventum\Mail\Exception\InvalidMessageException;
+use Eventum\Mail\Imap\ImapConnection;
 use Eventum\Mail\ImapMessage;
+use Eventum\Mail\MailDownLoader;
+use Eventum\Mail\ProcessMailMessage;
 use InvalidArgumentException;
+use LimitIterator;
 use Psr\Log\LoggerInterface;
-use RuntimeException;
-use Support;
 use Symfony\Component\Console\Command\Command as SymfonyCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -93,60 +95,33 @@ class MailDownloadCommand extends SymfonyCommand
         }
     }
 
-    /**
-     * @param int $account_id
-     */
-    private function processEmails($account_id): void
+    private function processEmails(int $account_id): void
     {
         $account = Email_Account::getDetails($account_id, true);
-        $mbox = $this->getConnection($account);
-        $limit = 0;
+        $mbox = new ImapConnection($account);
+        $this->debug("Processing {$mbox}");
 
-        // if we only want new emails
-        if ($account['ema_get_only_new']) {
-            $emails = Support::getNewEmails($mbox);
+        $downloader = new MailDownloader($mbox, $account);
+        $processor = new ProcessMailMessage($mbox, $this->logger);
+        $it = new LimitIterator($downloader->getMails(), 0, $this->limit ?: -1);
 
-            if (is_array($emails)) {
-                foreach ($emails as $i) {
-                    try {
-                        $mail = ImapMessage::createFromImap($mbox, $i, $account);
-                    } catch (InvalidMessageException $e) {
-                        $this->error($e->getMessage(), ['num' => $i]);
-                        continue;
-                    }
-                    Support::processMailMessage($mail, $account);
-                    if ($this->limit && $limit++ > $this->limit) {
-                        break;
-                    }
-                }
+        foreach ($it as $resource) {
+            try {
+                $this->debug("Loading IMAP resource {$resource}", ['resource' => $resource]);
+                $mail = ImapMessage::createFromImapResource($resource);
+                $this->debug('Mail object created', ['mail' => $mail->messageId]);
+            } catch (InvalidMessageException $e) {
+                $this->error($e->getMessage(), ['resource' => $resource, 'e' => $e]);
+                continue;
             }
-        } else {
-            $total_emails = Support::getTotalEmails($mbox);
 
-            if ($total_emails > 0) {
-                for ($i = 1; $i <= $total_emails; $i++) {
-                    try {
-                        $mail = ImapMessage::createFromImap($mbox, $i, $account);
-                    } catch (InvalidMessageException $e) {
-                        $this->error($e->getMessage(), ['num' => $i]);
-                        continue;
-                    }
-
-                    try {
-                        Support::processMailMessage($mail, $account);
-                    } catch (Throwable $e) {
-                        $this->error($e->getMessage(), ['num' => $i]);
-                        continue;
-                    }
-
-                    if ($this->limit && ++$limit >= $this->limit) {
-                        break;
-                    }
-                }
+            try {
+                $processor->process($mail);
+            } catch (Throwable $e) {
+                $this->error($e->getMessage(), ['mail' => $mail, 'e' => $e]);
+                continue;
             }
         }
-
-        $this->closeConnection($mbox);
     }
 
     /**
@@ -158,7 +133,7 @@ class MailDownloadCommand extends SymfonyCommand
      * @throws InvalidArgumentException
      * @return int
      */
-    private function getAccountId($username, $hostname, $mailbox)
+    private function getAccountId($username, $hostname, $mailbox): int
     {
         // get the account ID early since we need it also for unlocking.
         $account_id = Email_Account::getAccountID($username, $hostname, $mailbox);
@@ -171,68 +146,5 @@ class MailDownloadCommand extends SymfonyCommand
         }
 
         return $account_id;
-    }
-
-    /**
-     * Get IMAP connection handle
-     *
-     * @param array $account
-     * @throws RuntimeException
-     * @return resource
-     */
-    private function getConnection($account)
-    {
-        if (!function_exists('imap_open')) {
-            throw new RuntimeException(
-                "Eventum requires the IMAP extension in order to download messages saved on a IMAP/POP3 mailbox.\n" .
-                "See Prerequisites on the Wiki https://github.com/eventum/eventum/wiki/Prerequisites\n" .
-                'Please refer to the PHP manual for more details about how to install and enable the IMAP extension.'
-            );
-        }
-
-        $mbox = Support::connectEmailServer($account);
-        if ($mbox === false) {
-            $uri = Support::getServerURI($account);
-            $login = $account['ema_username'];
-            $error = imap_last_error();
-
-            throw new RuntimeException(
-                "$error\n" .
-                "Could not connect to the email server '$uri' with login: '$login'." .
-                'Please verify your email account settings and try again.'
-
-            );
-        }
-
-        return $mbox;
-    }
-
-    /**
-     * @param resource $mbox
-     */
-    private function closeConnection($mbox): void
-    {
-        $this->closeEmailServer($mbox);
-        $this->clearErrors();
-    }
-
-    /**
-     * Method used to close the existing connection to the email
-     * server.
-     *
-     * @param   resource $mbox The mailbox
-     */
-    private function closeEmailServer($mbox): void
-    {
-        imap_expunge($mbox);
-        imap_close($mbox);
-    }
-
-    /**
-     * Method used to clear the error stack as required by the IMAP PHP extension.
-     */
-    private function clearErrors(): void
-    {
-        imap_errors();
     }
 }

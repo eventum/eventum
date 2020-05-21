@@ -83,6 +83,7 @@ final class SystemEvents
      *
      * @since 3.4.0
      * @see ImapMessage::createFromImap
+     * @see ImapMessage::createFromImapResource
      */
     public const MAIL_LOADED_IMAP = 'mail.loaded.imap';
 
