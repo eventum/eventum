@@ -25,7 +25,7 @@ class MailQueueTruncateCommand extends SymfonyCommand
     public const USAGE = self::DEFAULT_COMMAND . ' [-q|--quiet] [--interval=]';
     private const DEFAULT_INTERVAL = '1 month';
 
-    protected static $defaultName = self::DEFAULT_COMMAND;
+    protected static $defaultName = 'eventum:' . self::DEFAULT_COMMAND;
 
     protected function configure(): void
     {

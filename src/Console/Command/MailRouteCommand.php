@@ -26,7 +26,7 @@ class MailRouteCommand extends SymfonyCommand
     public const DEFAULT_COMMAND = 'mail:route';
     public const USAGE = self::DEFAULT_COMMAND . '  [filename]';
 
-    protected static $defaultName = self::DEFAULT_COMMAND;
+    protected static $defaultName = 'eventum:' . self::DEFAULT_COMMAND;
 
     protected function configure(): void
     {

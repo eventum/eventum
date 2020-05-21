@@ -42,7 +42,7 @@ class AttachmentMigrateCommand extends SymfonyCommand
     public const USAGE = self::DEFAULT_COMMAND . ' [source_adapter] [target_adapter] [--chunksize=] [--limit=] [--migrate] [--verify]';
     private const DEFAULT_CHUNKSIZE = 100;
 
-    protected static $defaultName = self::DEFAULT_COMMAND;
+    protected static $defaultName = 'eventum:' . self::DEFAULT_COMMAND;
 
     /** @var AdapterInterface */
     private $db;

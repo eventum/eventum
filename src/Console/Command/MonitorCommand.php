@@ -37,7 +37,7 @@ class MonitorCommand extends SymfonyCommand
     public const STATE_UNKNOWN = 3;
     public const STATE_DEPENDENT = 4;
 
-    protected static $defaultName = self::DEFAULT_COMMAND;
+    protected static $defaultName = 'eventum:' . self::DEFAULT_COMMAND;
 
     /** @var OutputInterface */
     private $output;
