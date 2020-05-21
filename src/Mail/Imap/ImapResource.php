@@ -39,6 +39,13 @@ class ImapResource
         $this->initLazyProperties(['imapheaders', 'overview', 'headers', 'content']);
     }
 
+    public function __toString()
+    {
+        $messageId = isset($this->imapheaders) ? $this->imapheaders->message_id : 'uninitialized';
+
+        return sprintf('#%d %s', $this->num, $messageId);
+    }
+
     /**
      * @return object
      */
