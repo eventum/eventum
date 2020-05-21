@@ -99,16 +99,17 @@ class MailDownloadCommand extends SymfonyCommand
     {
         $account = Email_Account::getDetails($account_id, true);
         $mbox = new ImapConnection($account);
-        $this->debug('Connecting to {account}', ['account' => (string)$mbox]);
+        $this->debug("Processing {$mbox}");
 
         $downloader = new MailDownloader($mbox, $account);
         $processor = new ProcessMailMessage($mbox, $this->logger);
         $it = new LimitIterator($downloader->getMails(), 0, $this->limit ?: -1);
+
         foreach ($it as $resource) {
             try {
-                $this->debug('Loaded IMAP resource {message-id}', ['message-id' => $resource->imapheaders->message_id, 'resource' => $resource]);
+                $this->debug("Loading IMAP resource {$resource}", ['resource' => $resource]);
                 $mail = ImapMessage::createFromImapResource($resource);
-                $this->debug('Mail object created', ['mail' => $mail]);
+                $this->debug('Mail object created', ['mail' => $mail->messageId]);
             } catch (InvalidMessageException $e) {
                 $this->error($e->getMessage(), ['resource' => $resource, 'e' => $e]);
                 continue;
