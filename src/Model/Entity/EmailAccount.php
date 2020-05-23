@@ -75,16 +75,14 @@ class EmailAccount
     private $password;
 
     /**
-     * TODO: convert to bool
-     * @var int
-     * @ORM\Column(name="ema_get_only_new", type="integer", nullable=false)
+     * @var bool
+     * @ORM\Column(name="ema_get_only_new", type="boolean", nullable=false)
      */
     private $onlyNew;
 
     /**
-     * TODO: convert to bool
-     * @var int
-     * @ORM\Column(name="ema_leave_copy", type="integer", nullable=false)
+     * @var bool
+     * @ORM\Column(name="ema_leave_copy", type="boolean", nullable=false)
      */
     private $leaveCopy;
 
@@ -103,7 +101,7 @@ class EmailAccount
 
     /**
      * @var bool
-     * @ORM\Column(name="ema_use_routing", type="boolean", nullable=true)
+     * @ORM\Column(name="ema_use_routing", type="boolean", nullable=false)
      */
     private $useRouting;
 
@@ -196,26 +194,26 @@ class EmailAccount
         return $this->password;
     }
 
-    public function setOnlyNew(int $onlyNew): self
+    public function setOnlyNew(bool $onlyNew): self
     {
         $this->onlyNew = $onlyNew;
 
         return $this;
     }
 
-    public function getOnlyNew(): int
+    public function getOnlyNew(): bool
     {
         return $this->onlyNew;
     }
 
-    public function setLeaveCopy(int $leaveCopy): self
+    public function setLeaveCopy(bool $leaveCopy): self
     {
         $this->leaveCopy = $leaveCopy;
 
         return $this;
     }
 
-    public function getLeaveCopy(): int
+    public function getLeaveCopy(): bool
     {
         return $this->leaveCopy;
     }
