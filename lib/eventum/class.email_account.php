@@ -122,11 +122,12 @@ class Email_Account
      * @param   int $ema_id The support email account ID
      * @return  int The project ID
      */
-    public static function getProjectID($ema_id)
+    public static function getProjectID(int $ema_id): int
     {
-        $details = self::getDetails($ema_id);
+        $repo = Doctrine::getEmailAccountRepository();
+        $account = $repo->findById($ema_id);
 
-        return $details['ema_prj_id'];
+        return $account->getProjectId();
     }
 
     /**
