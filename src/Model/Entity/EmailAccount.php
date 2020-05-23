@@ -96,9 +96,8 @@ class EmailAccount
     private $issueAutoCreationEnabled;
 
     /**
-     * TODO: use array
-     * @var string
-     * @ORM\Column(name="ema_issue_auto_creation_options", type="text", length=65535, nullable=true)
+     * @var array
+     * @ORM\Column(name="ema_issue_auto_creation_options", type="array", length=65535, nullable=true)
      */
     private $issueAutoCreationOptions;
 
@@ -233,14 +232,14 @@ class EmailAccount
         return $this->issueAutoCreationEnabled;
     }
 
-    public function setIssueAutoCreationOptions(string $issueAutoCreationOptions): self
+    public function setIssueAutoCreationOptions(?array $issueAutoCreationOptions): self
     {
         $this->issueAutoCreationOptions = $issueAutoCreationOptions;
 
         return $this;
     }
 
-    public function getIssueAutoCreationOptions(): string
+    public function getIssueAutoCreationOptions(): ?array
     {
         return $this->issueAutoCreationOptions;
     }
