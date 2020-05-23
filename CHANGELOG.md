@@ -5,6 +5,7 @@
 Upgrading to 3.8.x versions requires that you upgrade to latest 3.5.x version first.
 
 - Remove dangerous feature: removing emails when deleting email account, #853
+- Cleanup leftovers from components, #851
 
 [3.8.14]: https://github.com/eventum/eventum/compare/v3.8.13...master
 
