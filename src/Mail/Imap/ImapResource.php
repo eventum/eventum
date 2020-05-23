@@ -47,6 +47,20 @@ class ImapResource
     }
 
     /**
+     * Return true if message is \Seen, \Deleted or \Answered
+     *
+     * @return bool
+     */
+    public function isSeen(): bool
+    {
+        return (
+            $this->overview->seen
+            || $this->overview->deleted
+            || $this->overview->answered
+        );
+    }
+
+    /**
      * @return object
      */
     private function getImapHeaders()

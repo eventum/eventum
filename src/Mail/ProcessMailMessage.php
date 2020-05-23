@@ -18,9 +18,11 @@ use AuthCookie;
 use Date_Helper;
 use Email_Account;
 use Eventum\Logger\LoggerTrait;
+use Eventum\Mail\Exception\InvalidMessageException;
 use Eventum\Mail\Exception\RoutingException;
 use Eventum\Mail\Helper\AddressHeader;
 use Eventum\Mail\Imap\ImapConnection;
+use Eventum\Mail\Imap\ImapResource;
 use History;
 use Issue;
 use Mail_Helper;
@@ -71,35 +73,51 @@ class ProcessMailMessage
         $this->prj_id = (int)$info['ema_prj_id'];
     }
 
-    public function process(ImapMessage $mail): void
+    public function process(ImapResource $resource): void
     {
-        $ema_id = $this->ema_id;
-        $prj_id = $this->prj_id;
-        $message_id = $mail->messageId;
-        $this->debug("Processing $message_id");
-
-        // check if the current message was already seen
-        if ($this->onlyNew && $mail->isSeen()) {
-            $this->debug("Skip $message_id: processing only new mails and already Seen.");
-
-            return;
-        }
+        $message_id = $resource->imapheaders->message_id;
+        $this->debug("Loading IMAP resource {$resource}", ['resource' => $resource]);
 
         // if message_id already exists, return immediately -- nothing to do
         if (Support::exists($message_id) || Note::exists($message_id)) {
-            $this->debug("Skip $message_id: already exists as email or note.");
+            $this->debug("Skip $resource: Already exists as email or note.");
 
             return;
         }
 
-        AuthCookie::setAuthCookie($this->systemUserId);
+        // check if the current message was already seen
+        if ($this->onlyNew && $resource->isSeen()) {
+            $this->debug("Skip $resource: Processing only new mails and the message is already Seen.");
+
+            return;
+        }
+
+        try {
+            $mail = ImapMessage::createFromImapResource($resource);
+            $this->debug('Created mail object', ['mail' => $mail->messageId]);
+        } catch (InvalidMessageException $e) {
+            $this->error($e->getMessage(), ['resource' => $resource, 'e' => $e]);
+
+            return;
+        }
 
         // pass in $mail object so it can be modified
-        if (!Workflow::preEmailDownload($prj_id, $mail)) {
-            $this->debug("Skip $message_id: Skipped by workflow");
+        if (!Workflow::preEmailDownload($this->prj_id, $mail)) {
+            $this->debug("Skip $resource: Skipped by workflow");
 
             return;
         }
+
+        $this->processMessage($mail);
+    }
+
+    private function processMessage(ImapMessage $mail): void
+    {
+        $prj_id = $this->prj_id;
+        $ema_id = $this->ema_id;
+        $message_id = $mail->messageId;
+
+        AuthCookie::setAuthCookie($this->systemUserId);
 
         // route emails if necessary
         if ($this->useRouting) {
