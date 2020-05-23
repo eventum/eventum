@@ -17,7 +17,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Table(name="email_account", uniqueConstraints={@ORM\UniqueConstraint(name="ema_username", columns={"ema_username", "ema_hostname", "ema_folder"})}, indexes={@ORM\Index(name="ema_prj_id", columns={"ema_prj_id"})})
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Eventum\Model\Repository\EmailAccountRepository")
  */
 class EmailAccount
 {
