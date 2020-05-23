@@ -14,6 +14,7 @@
 use Eventum\Crypto\CryptoManager;
 use Eventum\Crypto\EncryptedValue;
 use Eventum\Db\DatabaseException;
+use Eventum\Db\Doctrine;
 
 class Email_Account
 {
@@ -145,27 +146,12 @@ class Email_Account
      * @param bool $include_password
      * @return  array The account details
      */
-    public static function getDetails($ema_id, $include_password = false)
+    public static function getDetails(int $ema_id, bool $include_password = false): array
     {
-        $stmt = 'SELECT
-                    *
-                 FROM
-                    `email_account`
-                 WHERE
-                    ema_id=?';
+        $repo = Doctrine::getEmailAccountRepository();
+        $account = $repo->findById($ema_id);
+        $res = $account->toArray();
 
-        // IMPORTANT: do not print out $ema_id without sanitizing, it may contain XSS
-        try {
-            $res = DB_Helper::getInstance()->getRow($stmt, [$ema_id]);
-        } catch (DatabaseException $e) {
-            throw new RuntimeException('email account not found');
-        }
-
-        if (!$res) {
-            throw new RuntimeException('email account not found');
-        }
-
-        $res['ema_issue_auto_creation_options'] = Misc::unserialize($res['ema_issue_auto_creation_options']);
         if ($include_password) {
             $res['ema_password'] = new EncryptedValue($res['ema_password']);
         } else {

@@ -14,7 +14,12 @@
 namespace Eventum\Model\Repository;
 
 use Doctrine\ORM\EntityRepository;
+use Eventum\Model\Entity;
 
+/**
+ * @method Entity\EmailAccount findById(int $iss_id)
+ */
 class EmailAccountRepository extends EntityRepository
 {
+    use Traits\FindByIdTrait;
 }

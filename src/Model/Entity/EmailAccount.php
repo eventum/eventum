@@ -252,4 +252,23 @@ class EmailAccount
     {
         return $this->useRouting;
     }
+
+    public function toArray(): array
+    {
+        return [
+            'ema_id' => $this->getId(),
+            'ema_prj_id' => $this->getProjectId(),
+            'ema_type' => $this->getType(),
+            'ema_folder' => $this->getFolder(),
+            'ema_hostname' => $this->getHostname(),
+            'ema_port' => $this->getPort(),
+            'ema_username' => $this->getUsername(),
+            'ema_password' => $this->getPassword(),
+            'ema_get_only_new' => $this->getOnlyNew(),
+            'ema_leave_copy' => $this->getLeaveCopy(),
+            'ema_issue_auto_creation' => $this->hasIssueAutoCreationEnabled() ? 'enabled' : 'disabled',
+            'ema_issue_auto_creation_options' => $this->getIssueAutoCreationOptions(),
+            'ema_use_routing' => $this->useRouting(),
+        ];
+    }
 }
