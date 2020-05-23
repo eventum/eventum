@@ -21,6 +21,7 @@ class EventumEmailAccountTypesUnify extends AbstractMigration
             ->changeColumn('ema_leave_copy', 'boolean', ['default' => false])
             ->changeColumn('ema_get_only_new', 'boolean', ['default' => false])
             ->changeColumn('ema_use_routing', 'boolean', ['default' => false])
+            ->changeColumn('ema_port', 'integer', ['length' => self::INT_SMALL, 'signed' => false])
             ->update();
     }
 

@@ -56,9 +56,8 @@ class EmailAccount
     private $hostname;
 
     /**
-     * TODO: convert to integer
-     * @var string
-     * @ORM\Column(name="ema_port", type="string", length=5, nullable=false)
+     * @var int
+     * @ORM\Column(name="ema_port", type="smallint", nullable=false)
      */
     private $port;
 
@@ -158,14 +157,14 @@ class EmailAccount
         return $this->hostname;
     }
 
-    public function setPort(string $port): self
+    public function setPort(int $port): self
     {
         $this->port = $port;
 
         return $this;
     }
 
-    public function getPort(): string
+    public function getPort(): int
     {
         return $this->port;
     }
