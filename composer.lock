@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "eb9e05fd45334259949c81eec66d7448",
+    "content-hash": "29b9724bebbbc9b402493f19ca99709f",
     "packages": [
         {
             "name": "cakephp/cache",
@@ -7302,46 +7302,6 @@
                 "merge"
             ],
             "time": "2019-01-23T01:57:04+00:00"
-        },
-        {
-            "name": "components/jquery",
-            "version": "1.8.3",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/components/jquery.git",
-                "reference": "a94bf4baa9955613937d4f4c083c9d95ad0564fb"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/components/jquery/zipball/a94bf4baa9955613937d4f4c083c9d95ad0564fb",
-                "reference": "a94bf4baa9955613937d4f4c083c9d95ad0564fb",
-                "shasum": ""
-            },
-            "require": {
-                "robloach/component-installer": "*"
-            },
-            "type": "component",
-            "extra": {
-                "component": {
-                    "scripts": [
-                        "jquery.js"
-                    ]
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "John Resig",
-                    "email": "jeresig@gmail.com",
-                    "homepage": "http://ejohn.org/"
-                }
-            ],
-            "description": "jQuery JavaScript Library",
-            "homepage": "http://jquery.com",
-            "time": "2013-04-05T19:32:49+00:00"
         },
         {
             "name": "eventum/rpc",
