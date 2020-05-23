@@ -25,21 +25,12 @@ class Email_Account
      * @param   int $ema_id The email account ID
      * @return  array The issue auto creation options
      */
-    public static function getIssueAutoCreationOptions($ema_id)
+    public static function getIssueAutoCreationOptions(int $ema_id): ?array
     {
-        $stmt = 'SELECT
-                    ema_issue_auto_creation_options
-                 FROM
-                    `email_account`
-                 WHERE
-                    ema_id=?';
-        $res = DB_Helper::getInstance()->getOne($stmt, [$ema_id]);
+        $repo = Doctrine::getEmailAccountRepository();
+        $account = $repo->findById($ema_id);
 
-        if (!is_string($res)) {
-            $res = (string)$res;
-        }
-
-        return Misc::unserialize($res);
+        return $account->getIssueAutoCreationOptions();
     }
 
     /**
