@@ -16,9 +16,7 @@ namespace Eventum\Console\Command;
 use Email_Account;
 use Eventum\ConcurrentLock;
 use Eventum\Logger\LoggerTrait;
-use Eventum\Mail\Exception\InvalidMessageException;
 use Eventum\Mail\Imap\ImapConnection;
-use Eventum\Mail\ImapMessage;
 use Eventum\Mail\MailDownLoader;
 use Eventum\Mail\ProcessMailMessage;
 use InvalidArgumentException;
@@ -107,18 +105,9 @@ class MailDownloadCommand extends SymfonyCommand
 
         foreach ($it as $resource) {
             try {
-                $this->debug("Loading IMAP resource {$resource}", ['resource' => $resource]);
-                $mail = ImapMessage::createFromImapResource($resource);
-                $this->debug('Mail object created', ['mail' => $mail->messageId]);
-            } catch (InvalidMessageException $e) {
-                $this->error($e->getMessage(), ['resource' => $resource, 'e' => $e]);
-                continue;
-            }
-
-            try {
-                $processor->process($mail);
+                $processor->process($resource);
             } catch (Throwable $e) {
-                $this->error($e->getMessage(), ['mail' => $mail, 'e' => $e]);
+                $this->error($e->getMessage(), ['resource' => $resource, 'e' => $e]);
                 continue;
             }
         }
