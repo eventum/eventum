@@ -80,7 +80,14 @@ class ProcessMailMessage
 
         // if message_id already exists, return immediately -- nothing to do
         if (Support::exists($message_id) || Note::exists($message_id)) {
-            $this->debug("Skip $resource: already exists as email or note.");
+            $this->debug("Skip $resource: Already exists as email or note.");
+
+            return;
+        }
+
+        // check if the current message was already seen
+        if ($this->onlyNew && $resource->isSeen()) {
+            $this->debug("Skip $resource: Processing only new mails and the message is already Seen.");
 
             return;
         }
@@ -90,13 +97,6 @@ class ProcessMailMessage
             $this->debug('Created mail object', ['mail' => $mail->messageId]);
         } catch (InvalidMessageException $e) {
             $this->error($e->getMessage(), ['resource' => $resource, 'e' => $e]);
-
-            return;
-        }
-
-        // check if the current message was already seen
-        if ($this->onlyNew && $mail->isSeen()) {
-            $this->debug("Skip $resource: processing only new mails and already Seen.");
 
             return;
         }

@@ -574,7 +574,7 @@ class MailMessage extends Message
      *
      * @return bool
      */
-    public function isSeen()
+    public function isSeen(): bool
     {
         return $this->hasFlag(Storage::FLAG_SEEN)
             || $this->hasFlag(Storage::FLAG_DELETED)
