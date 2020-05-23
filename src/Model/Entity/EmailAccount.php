@@ -86,8 +86,8 @@ class EmailAccount
     private $leaveCopy;
 
     /**
-     * TODO: convert to bool
-     * @var string
+     * TODO: convert database to bool
+     * @var bool
      * @ORM\Column(name="ema_issue_auto_creation", type="string", length=8, nullable=false)
      */
     private $issueAutoCreationEnabled;
@@ -217,16 +217,16 @@ class EmailAccount
         return $this->leaveCopy;
     }
 
-    public function setIssueAutoCreationEnabled(string $issueAutoCreationEnabled): self
+    public function setIssueAutoCreationEnabled(bool $issueAutoCreationEnabled): self
     {
-        $this->issueAutoCreationEnabled = $issueAutoCreationEnabled;
+        $this->issueAutoCreationEnabled = $issueAutoCreationEnabled ? 'enabled' : 'disabled';
 
         return $this;
     }
 
-    public function hasIssueAutoCreationEnabled(): string
+    public function hasIssueAutoCreationEnabled(): bool
     {
-        return $this->issueAutoCreationEnabled;
+        return $this->issueAutoCreationEnabled === 'enabled';
     }
 
     public function setIssueAutoCreationOptions(?array $issueAutoCreationOptions): self
