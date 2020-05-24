@@ -15,6 +15,7 @@ namespace Example;
 
 use Eventum\Extension\ClassLoader;
 use Eventum\Extension\Provider;
+use Example\Auth\NullAuthAdapter;
 
 /**
  * Example Eventum Extension.
@@ -29,6 +30,7 @@ class ExampleExtension implements
     Provider\AutoloadProvider,
     Provider\CrmProvider,
     Provider\CustomFieldProvider,
+    Provider\AuthAdapterProvider,
     Provider\PartnerProvider,
     Provider\SubscriberProvider,
     Provider\WorkflowProvider
@@ -158,6 +160,19 @@ class ExampleExtension implements
             Subscriber\GitlabLinkSubscriber::class,
             Subscriber\HistorySubscriber::class,
             Subscriber\UserSubscriber::class,
+        ];
+    }
+
+    /**
+     * Return class names implementing Auth\Adapter\AdapterInterface
+     *
+     * @return string[]
+     * @see \Eventum\Extension\Provider\AuthAdapterProvider
+     */
+    public function getAvailableAuthAdapters(): array
+    {
+        return [
+            NullAuthAdapter::class,
         ];
     }
 }

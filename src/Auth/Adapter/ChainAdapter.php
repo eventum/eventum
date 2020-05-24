@@ -152,12 +152,12 @@ class ChainAdapter implements AdapterInterface
     {
         foreach ($this->adapters as $adapter) {
             $redirect = $adapter->autoRedirectToExternalLogin();
-            if ($redirect !== null) {
+            if ($redirect !== false) {
                 return $redirect;
             }
         }
 
-        return null;
+        return false;
     }
 
     /**
