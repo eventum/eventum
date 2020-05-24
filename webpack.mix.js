@@ -32,8 +32,8 @@ mix.copy('node_modules/chosen-js/*.png', 'htdocs/css');
 mix.copy('node_modules/font-awesome/fonts', 'htdocs/fonts');
 
 mix.js([
-    'res/assets/scripts/bootstrap.js',
-], 'htdocs/js/bootstrap.js');
+    'res/assets/scripts/app.js',
+], 'htdocs/js/app.js');
 
 mix.scripts([
     'htdocs/js/main.js',
@@ -131,10 +131,10 @@ mix.version([
     'htdocs/css/datatables.css',
     'htdocs/css/jquery-ui.css',
     'htdocs/js/all.js',
-    'htdocs/js/bootstrap.js',
+    'htdocs/js/app.js',
     'htdocs/js/components.js',
     'htdocs/js/datatables.js',
-    'htdocs/js/jquery-ui.js'
+    'htdocs/js/jquery-ui.js',
 ]);
 
 if (mix.inProduction()) {
