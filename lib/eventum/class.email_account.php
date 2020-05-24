@@ -116,64 +116,6 @@ class Email_Account
     }
 
     /**
-     * Method used to update a support email account details.
-     *
-     * @return  int 1 if the update worked, -1 otherwise
-     */
-    public static function update()
-    {
-        if (empty($_POST['get_only_new'])) {
-            $_POST['get_only_new'] = 0;
-        }
-        if (empty($_POST['leave_copy'])) {
-            $_POST['leave_copy'] = 0;
-        }
-        if (empty($_POST['use_routing'])) {
-            $_POST['use_routing'] = 0;
-        } elseif ($_POST['use_routing'] == 1) {
-            // if an account will be used for routing, you can't leave the message on the server
-            $_POST['leave_copy'] = 0;
-        }
-        $stmt = 'UPDATE
-                    `email_account`
-                 SET
-                    ema_prj_id=?,
-                    ema_type=?,
-                    ema_hostname=?,
-                    ema_port=?,
-                    ema_folder=?,
-                    ema_username=?,
-                    ema_get_only_new=?,
-                    ema_leave_copy=?,
-                    ema_use_routing=?
-                 WHERE
-                    ema_id=?';
-        $params = [
-            $_POST['project'],
-            $_POST['type'],
-            $_POST['hostname'],
-            $_POST['port'],
-            @$_POST['folder'],
-            $_POST['username'],
-            $_POST['get_only_new'],
-            $_POST['leave_copy'],
-            $_POST['use_routing'],
-            $_POST['id'],
-        ];
-
-        try {
-            DB_Helper::getInstance()->query($stmt, $params);
-            if (!empty($_POST['password'])) {
-                self::updatePassword($_POST['id'], $_POST['password']);
-            }
-        } catch (DatabaseException $e) {
-            return -1;
-        }
-
-        return 1;
-    }
-
-    /**
      * Update password for specified email account
      *
      * @param int $ema_id

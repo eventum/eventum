@@ -27,6 +27,16 @@ class EmailAccountRepository extends EntityRepository
 {
     use Traits\FindByIdTrait;
 
+    public function findOrCreate(int $id): Entity\EmailAccount
+    {
+        $account = $this->find($id);
+        if (!$account) {
+            $account = new Entity\EmailAccount();
+        }
+
+        return $account;
+    }
+
     public function findByDSN(string $hostname, string $username, ?string $folder): Entity\EmailAccount
     {
         $criteria = [

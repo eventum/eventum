@@ -75,11 +75,22 @@ class EmailAccountsController extends ManageBaseController
 
     private function updateAction(): void
     {
-        $map = [
-            1 => [ev_gettext('Thank you, the email account was updated successfully.'), MessagesHelper::MSG_INFO],
-            -1 => [ev_gettext('An error occurred while trying to update the account information.'), MessagesHelper::MSG_ERROR],
-        ];
-        $this->messages->mapMessages(Email_Account::update(), $map);
+        $post = $this->getRequest()->request;
+
+        $account_id = $post->getInt('id');
+        $repo = Doctrine::getEmailAccountRepository();
+        $account = $this->updateFromRequest($repo->findOrCreate($account_id), $post);
+
+        try {
+            $repo->updateAccount($account);
+        } catch (DatabaseException $e) {
+            $this->messages->addErrorMessage(ev_gettext('An error occurred while trying to update the account information.'));
+
+            return;
+        }
+
+        $this->messages->addInfoMessage(ev_gettext('Thank you, the email account was updated successfully.'));
+        $this->redirect("email_accounts.php?cat=edit&id={$account->getId()}");
     }
 
     private function deleteAction(): void
@@ -120,12 +131,16 @@ class EmailAccountsController extends ManageBaseController
             ->setPort($post->getInt('port'))
             ->setFolder($post->get('folder'))
             ->setUserName($post->get('username'))
-            ->setPassword(CryptoManager::encrypt($post->get('password')))
             ->setOnlyNew($post->get('get_only_new') === '1')
             ->setLeaveCopy($post->get('leave_copy') === '1')
             ->setUseRouting($post->get('use_routing') === '1')
             ->setIssueAutoCreationEnabled($post->get('issue_auto_creation') === 'enabled')
             ->setIssueAutoCreationOptions($post->get('options'));
+
+        // password is not updated, if left empty
+        if ($post->get('password')) {
+            $account->setPassword(CryptoManager::encrypt($post->get('password')));
+        }
 
         // if an account will be used for routing, you can't leave the message on the server
         if ($account->useRouting()) {
