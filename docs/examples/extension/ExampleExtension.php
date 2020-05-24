@@ -15,6 +15,7 @@ namespace Example;
 
 use Eventum\Extension\ClassLoader;
 use Eventum\Extension\Provider;
+use Example\Auth\NullAuthAdapter;
 
 /**
  * Example Eventum Extension.
@@ -171,6 +172,7 @@ class ExampleExtension implements
     public function getAvailableAuthAdapters(): array
     {
         return [
+            NullAuthAdapter::class,
         ];
     }
 }
