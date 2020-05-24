@@ -13,16 +13,6 @@
 
 namespace Eventum\Extension;
 
-use Eventum\Extension\Provider\AutoloadProvider;
-use Eventum\Extension\Provider\CrmProvider;
-use Eventum\Extension\Provider\CustomFieldProvider;
-use Eventum\Extension\Provider\ExtensionProvider;
-use Eventum\Extension\Provider\FactoryProvider;
-use Eventum\Extension\Provider\PartnerProvider;
-use Eventum\Extension\Provider\RouteProvider;
-use Eventum\Extension\Provider\ServiceProvider;
-use Eventum\Extension\Provider\SubscriberProvider;
-use Eventum\Extension\Provider\WorkflowProvider;
 use Eventum\Logger\LoggerTrait;
 use Eventum\ServiceContainer;
 use Generator;
@@ -33,7 +23,7 @@ use Symfony\Component\Routing\RouteCollectionBuilder;
 use Throwable;
 use Zend\Config\Config;
 
-class ExtensionManager implements RouteProvider
+class ExtensionManager implements Provider\RouteProvider
 {
     use LoggerTrait;
 
@@ -66,8 +56,8 @@ class ExtensionManager implements RouteProvider
      */
     public function getWorkflowClasses(): Generator
     {
-        return $this->createInstances('getAvailableWorkflows', static function (ExtensionProvider $extension) {
-            return $extension instanceof WorkflowProvider;
+        return $this->createInstances('getAvailableWorkflows', static function (Provider\ExtensionProvider $extension) {
+            return $extension instanceof Provider\WorkflowProvider;
         });
     }
 
@@ -76,8 +66,8 @@ class ExtensionManager implements RouteProvider
      */
     public function getCustomFieldClasses(): Generator
     {
-        return $this->createInstances('getAvailableCustomFields', static function (ExtensionProvider $extension) {
-            return $extension instanceof CustomFieldProvider;
+        return $this->createInstances('getAvailableCustomFields', static function (Provider\ExtensionProvider $extension) {
+            return $extension instanceof Provider\CustomFieldProvider;
         });
     }
 
@@ -86,8 +76,8 @@ class ExtensionManager implements RouteProvider
      */
     public function getCustomerClasses(): Generator
     {
-        return $this->createInstances('getAvailableCRMs', static function (ExtensionProvider $extension) {
-            return $extension instanceof CrmProvider;
+        return $this->createInstances('getAvailableCRMs', static function (Provider\ExtensionProvider $extension) {
+            return $extension instanceof Provider\CrmProvider;
         });
     }
 
@@ -96,8 +86,8 @@ class ExtensionManager implements RouteProvider
      */
     public function getPartnerClasses(): Generator
     {
-        return $this->createInstances('getAvailablePartners', static function (ExtensionProvider $extension) {
-            return $extension instanceof PartnerProvider;
+        return $this->createInstances('getAvailablePartners', static function (Provider\ExtensionProvider $extension) {
+            return $extension instanceof Provider\PartnerProvider;
         });
     }
 
@@ -108,16 +98,16 @@ class ExtensionManager implements RouteProvider
      */
     public function getSubscribers(): Generator
     {
-        return $this->createInstances(__FUNCTION__, static function (ExtensionProvider $extension) {
-            return $extension instanceof SubscriberProvider;
+        return $this->createInstances(__FUNCTION__, static function (Provider\ExtensionProvider $extension) {
+            return $extension instanceof Provider\SubscriberProvider;
         });
     }
 
     public function configureRoutes(RouteCollectionBuilder $routes): void
     {
-        /** @var RouteProvider[] $extensions */
-        $extensions = $this->filterExtensions(static function (ExtensionProvider $extension) {
-            return $extension instanceof RouteProvider;
+        /** @var Provider\RouteProvider[] $extensions */
+        $extensions = $this->filterExtensions(static function (Provider\ExtensionProvider $extension) {
+            return $extension instanceof Provider\RouteProvider;
         });
 
         foreach ($extensions as $extension) {
@@ -164,20 +154,20 @@ class ExtensionManager implements RouteProvider
     {
         $getSortedExtensions = static function (array $extensions) use ($preferredExtension): Generator {
             // prefer provided extension
-            if ($preferredExtension instanceof FactoryProvider) {
+            if ($preferredExtension instanceof Provider\FactoryProvider) {
                 yield $preferredExtension;
             }
             unset($extensions[get_class($preferredExtension)]);
 
             foreach ($extensions as $extension) {
-                if ($extension instanceof FactoryProvider) {
+                if ($extension instanceof Provider\FactoryProvider) {
                     yield $extension;
                 }
             }
         };
 
         foreach ($getSortedExtensions($this->extensions) as $extension) {
-            /** @var FactoryProvider $extension */
+            /** @var Provider\FactoryProvider $extension */
             $object = $extension->factory($className);
 
             // extension may not provide factory for this class
@@ -214,10 +204,10 @@ class ExtensionManager implements RouteProvider
                 continue;
             }
 
-            if ($extension instanceof AutoloadProvider) {
+            if ($extension instanceof Provider\AutoloadProvider) {
                 $extension->registerAutoloader($loader);
             }
-            if ($extension instanceof ServiceProvider) {
+            if ($extension instanceof Provider\ServiceProvider) {
                 $extension->register($container);
             }
             $extensions[$classname] = $extension;
