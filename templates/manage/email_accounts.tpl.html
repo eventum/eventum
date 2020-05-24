@@ -251,7 +251,13 @@
       <td>&nbsp;{$list[i].ema_port}</td>
       <td>&nbsp;{$list[i].ema_username|escape:"html"}</td>
       <td>&nbsp;{$list[i].ema_folder}</td>
-      <td>&nbsp;<a href="issue_auto_creation.php?ema_id={$list[i].ema_id}">{$list[i].ema_issue_auto_creation|ucfirst}</a></td>
+      <td>&nbsp;<a href="issue_auto_creation.php?ema_id={$list[i].ema_id}">{strip}
+        {if $list[i].ema_issue_auto_creation}
+        {t}Enabled{/t}
+        {else}
+        {t}Disabled{/t}
+        {/if}
+        {/strip}</a></td>
     </tr>
     {sectionelse}
     <tr class="no_results">
