@@ -58,41 +58,6 @@ class Email_Account
     }
 
     /**
-     * Method used to get the account ID for a given email account.
-     *
-     * @param   string $username The username for the specific email account
-     * @param   string $hostname The hostname for the specific email account
-     * @param   string $mailbox The mailbox for the specific email account
-     * @return  int The support email account ID
-     */
-    public static function getAccountID($username, $hostname, $mailbox)
-    {
-        $stmt = 'SELECT
-                    ema_id
-                 FROM
-                    `email_account`
-                 WHERE
-                    ema_username=? AND
-                    ema_hostname=?';
-        try {
-            $params = [$username, $hostname];
-            if ($mailbox !== null) {
-                $stmt .= ' AND ema_folder=?';
-                $params[] = $mailbox;
-            }
-            $res = DB_Helper::getInstance()->getOne($stmt, $params);
-        } catch (DatabaseException $e) {
-            return 0;
-        }
-
-        if ($res == null) {
-            return 0;
-        }
-
-        return $res;
-    }
-
-    /**
      * Method used to get the project ID associated with a given email account.
      *
      * @param   int $ema_id The support email account ID

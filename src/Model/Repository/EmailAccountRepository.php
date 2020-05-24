@@ -13,6 +13,7 @@
 
 namespace Eventum\Model\Repository;
 
+use Doctrine\ORM\EntityNotFoundException;
 use Doctrine\ORM\EntityRepository;
 use Eventum\Model\Entity;
 
@@ -22,6 +23,26 @@ use Eventum\Model\Entity;
 class EmailAccountRepository extends EntityRepository
 {
     use Traits\FindByIdTrait;
+
+    public function findByDSN(string $hostname, string $username, ?string $folder): Entity\EmailAccount
+    {
+        $criteria = [
+            'username' => $username,
+            'hostname' => $hostname,
+        ];
+        if ($folder) {
+            $criteria['folder'] = $folder;
+        }
+
+        /** @var Entity\EmailAccount $res */
+        $res = $this->findOneBy($criteria);
+        if (!$res) {
+            $type = get_class($this);
+            throw EntityNotFoundException::fromClassNameAndIdentifier($type, $criteria);
+        }
+
+        return $res;
+    }
 
     public function persistAndFlush(Entity\EmailAccount $account): void
     {
