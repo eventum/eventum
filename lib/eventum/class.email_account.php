@@ -34,30 +34,6 @@ class Email_Account
     }
 
     /**
-     * Method used to update the issue auto creation related options.
-     *
-     * @param   int $ema_id The email account ID
-     * @return  int 1 if the update worked, -1 otherwise
-     */
-    public static function updateIssueAutoCreation($ema_id, $auto_creation, $options)
-    {
-        $stmt = 'UPDATE
-                    `email_account`
-                 SET
-                    ema_issue_auto_creation=?,
-                    ema_issue_auto_creation_options=?
-                 WHERE
-                    ema_id=?';
-        try {
-            DB_Helper::getInstance()->query($stmt, [$auto_creation, @serialize($options), $ema_id]);
-        } catch (DatabaseException $e) {
-            return -1;
-        }
-
-        return 1;
-    }
-
-    /**
      * Method used to get the support email account associated with a given
      * support email message.
      *

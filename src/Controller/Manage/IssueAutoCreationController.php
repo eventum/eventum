@@ -16,8 +16,11 @@ namespace Eventum\Controller\Manage;
 use Category;
 use CRM;
 use Email_Account;
+use Eventum\Db\Doctrine;
+use Eventum\Model\Entity;
 use Priority;
 use Project;
+use Symfony\Component\HttpFoundation\ParameterBag;
 use User;
 
 class IssueAutoCreationController extends ManageBaseController
@@ -55,7 +58,7 @@ class IssueAutoCreationController extends ManageBaseController
     {
         $this->prj_id = Email_Account::getProjectID($this->ema_id);
 
-        if ($this->cat == 'update') {
+        if ($this->cat === 'update') {
             $this->updateAction();
         }
     }
@@ -63,7 +66,10 @@ class IssueAutoCreationController extends ManageBaseController
     private function updateAction(): void
     {
         $post = $this->getRequest()->request;
-        Email_Account::updateIssueAutoCreation($this->ema_id, $post->get('issue_auto_creation'), $post->get('options'));
+
+        $repo = Doctrine::getEmailAccountRepository();
+        $account = $this->updateFromRequest($repo->findById($this->ema_id), $post);
+        $repo->persistAndFlush($account);
     }
 
     /**
@@ -83,5 +89,12 @@ class IssueAutoCreationController extends ManageBaseController
                 'uses_customer_integration' => CRM::hasCustomerIntegration($this->prj_id),
             ]
         );
+    }
+
+    private function updateFromRequest(Entity\EmailAccount $account, ParameterBag $post): Entity\EmailAccount
+    {
+        return $account
+            ->setIssueAutoCreationEnabled($post->get('issue_auto_creation') === 'enabled')
+            ->setIssueAutoCreationOptions($post->get('options'));
     }
 }

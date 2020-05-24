@@ -22,4 +22,11 @@ use Eventum\Model\Entity;
 class EmailAccountRepository extends EntityRepository
 {
     use Traits\FindByIdTrait;
+
+    public function persistAndFlush(Entity\EmailAccount $account): void
+    {
+        $em = $this->getEntityManager();
+        $em->persist($account);
+        $em->flush($account);
+    }
 }
