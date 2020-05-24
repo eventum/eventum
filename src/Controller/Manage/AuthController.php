@@ -15,9 +15,11 @@ namespace Eventum\Controller\Manage;
 
 use Eventum\Auth\Adapter\Factory;
 use Eventum\Auth\AuthException;
+use Eventum\ServiceContainer;
 use ReflectionClass;
 use Setup;
 use User;
+use Zend\Config\Config;
 
 class AuthController extends ManageBaseController
 {
@@ -95,8 +97,8 @@ class AuthController extends ManageBaseController
 
     private function getAuthAdapterConfig(): array
     {
-        /** @var \Zend\Config\Config $config */
-        $config = Setup::get()['auth'];
+        /** @var Config $config */
+        $config = ServiceContainer::getConfig()['auth'];
         $configOptions = $config['options']->toArray();
         $adapters = [];
         $options = [];
@@ -105,7 +107,7 @@ class AuthController extends ManageBaseController
         foreach ($adapterList as $adapterClass => $defaultOptions) {
             $reflection = new ReflectionClass($adapterClass);
             $displayName = $reflection->getConstant('displayName');
-            $adapters[$adapterClass] = $displayName;
+            $adapters[$adapterClass] = $displayName ?: $adapterClass;
             $options[$adapterClass] = $configOptions[$adapterClass] ?? $defaultOptions;
         }
 

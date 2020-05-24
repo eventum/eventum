@@ -13,6 +13,7 @@
 
 namespace Eventum\Extension;
 
+use ArrayIterator;
 use Eventum\Logger\LoggerTrait;
 use Eventum\ServiceContainer;
 use Generator;
@@ -101,6 +102,21 @@ class ExtensionManager implements Provider\RouteProvider
         return $this->createInstances(__FUNCTION__, static function (Provider\ExtensionProvider $extension) {
             return $extension instanceof Provider\SubscriberProvider;
         });
+    }
+
+    /**
+     * Return instances of Partner implementations.
+     */
+    public function getAvailableAuthAdapters(): iterable
+    {
+        /** @var Provider\RouteProvider[] $extensions */
+        $extensions = $this->filterExtensions(static function (Provider\ExtensionProvider $extension) {
+            return $extension instanceof Provider\AuthAdapterProvider;
+        });
+
+        foreach ($extensions as $extension) {
+            yield from new ArrayIterator($extension->getAvailableAuthAdapters());
+        }
     }
 
     public function configureRoutes(RouteCollectionBuilder $routes): void
