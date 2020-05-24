@@ -15,6 +15,7 @@ Upgrading to 3.8.x versions requires that you upgrade to latest 3.5.x version fi
 - Setup symfony/monolog-bundle for improved console error logging, #846
 - Extract and add verbosity to mail downloader command, #841
 - MailDownloader: Process ImapResource first, #848
+- Allow choosing Auth adapters from Extension provides, #849
 
 [3.8.13]: https://github.com/eventum/eventum/compare/v3.8.12...master
 [11000th]: https://github.com/eventum/eventum/tree/8a9b4c15ba6986331c99fd0f83a757d4594bfb19
