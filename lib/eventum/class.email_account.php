@@ -193,8 +193,6 @@ class Email_Account
             return false;
         }
 
-        Support::removeEmailByAccounts($items);
-
         return true;
     }
 

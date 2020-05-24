@@ -307,32 +307,6 @@ class Support
     }
 
     /**
-     * Method used to remove all support email entries associated with
-     * a specified list of support email accounts.
-     *
-     * @param   array $ids The list of support email accounts
-     * @return  bool
-     */
-    public static function removeEmailByAccounts($ids)
-    {
-        if (count($ids) < 1) {
-            return true;
-        }
-
-        $stmt = 'DELETE FROM
-                    `support_email`
-                 WHERE
-                    sup_ema_id IN (' . DB_Helper::buildList($ids) . ')';
-        try {
-            DB_Helper::getInstance()->query($stmt);
-        } catch (DatabaseException $e) {
-            return false;
-        }
-
-        return true;
-    }
-
-    /**
      * Method used to build the server URI to connect to.
      *
      * @param   array $info The email server information
