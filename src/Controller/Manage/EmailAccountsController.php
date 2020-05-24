@@ -15,7 +15,12 @@ namespace Eventum\Controller\Manage;
 
 use Email_Account;
 use Eventum\Controller\Helper\MessagesHelper;
+use Eventum\Crypto\CryptoManager;
+use Eventum\Db\DatabaseException;
+use Eventum\Db\Doctrine;
+use Eventum\Model\Entity;
 use Project;
+use Symfony\Component\HttpFoundation\ParameterBag;
 use User;
 
 class EmailAccountsController extends ManageBaseController
@@ -29,9 +34,6 @@ class EmailAccountsController extends ManageBaseController
     /** @var string */
     private $cat;
 
-    /**
-     * {@inheritdoc}
-     */
     protected function configure(): void
     {
         $request = $this->getRequest();
@@ -39,31 +41,36 @@ class EmailAccountsController extends ManageBaseController
         $this->cat = $request->request->get('cat') ?: $request->query->get('cat');
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function defaultAction(): void
     {
-        if ($this->cat == 'new') {
+        if ($this->cat === 'new') {
             $this->newAction();
-        } elseif ($this->cat == 'update') {
+        } elseif ($this->cat === 'update') {
             $this->updateAction();
-        } elseif ($this->cat == 'delete') {
+        } elseif ($this->cat === 'delete') {
             $this->deleteAction();
-        }
-
-        if ($this->cat == 'edit') {
+        } elseif ($this->cat === 'edit') {
             $this->editAction();
         }
     }
 
     private function newAction(): void
     {
-        $map = [
-            1 => [ev_gettext('Thank you, the email account was added successfully.'), MessagesHelper::MSG_INFO],
-            -1 => [ev_gettext('An error occurred while trying to add the new account.'), MessagesHelper::MSG_ERROR],
-        ];
-        $this->messages->mapMessages(Email_Account::insert(), $map);
+        $post = $this->getRequest()->request;
+
+        $repo = Doctrine::getEmailAccountRepository();
+        $account = $this->updateFromRequest(new Entity\EmailAccount(), $post);
+
+        try {
+            $repo->updateAccount($account);
+        } catch (DatabaseException $e) {
+            $this->messages->addErrorMessage(ev_gettext('An error occurred while trying to add the new account.'));
+
+            return;
+        }
+
+        $this->messages->addInfoMessage(ev_gettext('Thank you, the email account was added successfully.'));
+        $this->redirect("email_accounts.php?cat=edit&id={$account->getId()}");
     }
 
     private function updateAction(): void
@@ -102,5 +109,29 @@ class EmailAccountsController extends ManageBaseController
                 'all_projects' => Project::getAll(),
             ]
         );
+    }
+
+    private function updateFromRequest(Entity\EmailAccount $account, ParameterBag $post): Entity\EmailAccount
+    {
+        $account
+            ->setProjectId($post->getInt('project'))
+            ->setType($post->get('type'))
+            ->setHostName($post->get('hostname'))
+            ->setPort($post->getInt('port'))
+            ->setFolder($post->get('folder'))
+            ->setUserName($post->get('username'))
+            ->setPassword(CryptoManager::encrypt($post->get('password')))
+            ->setOnlyNew($post->get('get_only_new') === '1')
+            ->setLeaveCopy($post->get('leave_copy') === '1')
+            ->setUseRouting($post->get('use_routing') === '1')
+            ->setIssueAutoCreationEnabled($post->get('issue_auto_creation') === 'enabled')
+            ->setIssueAutoCreationOptions($post->get('options'));
+
+        // if an account will be used for routing, you can't leave the message on the server
+        if ($account->useRouting()) {
+            $account->setLeaveCopy(false);
+        }
+
+        return $account;
     }
 }

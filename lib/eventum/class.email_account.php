@@ -116,64 +116,6 @@ class Email_Account
     }
 
     /**
-     * Method used to add a new support email account.
-     *
-     * @return  int 1 if the update worked, -1 otherwise
-     */
-    public static function insert()
-    {
-        if (empty($_POST['get_only_new'])) {
-            $_POST['get_only_new'] = 0;
-        }
-        if (empty($_POST['leave_copy'])) {
-            $_POST['leave_copy'] = 0;
-        }
-        if (empty($_POST['use_routing'])) {
-            $_POST['use_routing'] = 0;
-        } elseif ($_POST['use_routing'] == 1) {
-            // if an account will be used for routing, you can't leave the message on the server
-            $_POST['leave_copy'] = 0;
-        }
-        $stmt = 'INSERT INTO
-                    `email_account`
-                 (
-                    ema_prj_id,
-                    ema_type,
-                    ema_hostname,
-                    ema_port,
-                    ema_folder,
-                    ema_username,
-                    ema_password,
-                    ema_get_only_new,
-                    ema_leave_copy,
-                    ema_use_routing
-                 ) VALUES (
-                    ?, ?, ?, ?, ?,
-                    ?, ?, ?, ?, ?
-                 )';
-        $params = [
-            $_POST['project'],
-            $_POST['type'],
-            $_POST['hostname'],
-            $_POST['port'],
-            @$_POST['folder'],
-            $_POST['username'],
-            CryptoManager::encrypt($_POST['password']),
-            $_POST['get_only_new'],
-            $_POST['leave_copy'],
-            $_POST['use_routing'],
-        ];
-
-        try {
-            DB_Helper::getInstance()->query($stmt, $params);
-        } catch (DatabaseException $e) {
-            return -1;
-        }
-
-        return 1;
-    }
-
-    /**
      * Method used to update a support email account details.
      *
      * @return  int 1 if the update worked, -1 otherwise

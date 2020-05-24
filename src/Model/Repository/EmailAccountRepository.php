@@ -15,6 +15,9 @@ namespace Eventum\Model\Repository;
 
 use Doctrine\ORM\EntityNotFoundException;
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\OptimisticLockException;
+use Doctrine\ORM\ORMException;
+use Eventum\Db\DatabaseException;
 use Eventum\Model\Entity;
 
 /**
@@ -42,6 +45,15 @@ class EmailAccountRepository extends EntityRepository
         }
 
         return $res;
+    }
+
+    public function updateAccount(Entity\EmailAccount $account): void
+    {
+        try {
+            $this->persistAndFlush($account);
+        } catch (ORMException | OptimisticLockException $e) {
+            throw new DatabaseException($e->getMessage(), $e->getCode(), $e);
+        }
     }
 
     public function persistAndFlush(Entity\EmailAccount $account): void
