@@ -1,6 +1,6 @@
 # Eventum Issue Tracking System
 
-## [3.8.13]
+## [3.8.13] - 2020-05-24
 
 Upgrading to 3.8.x versions requires that you upgrade to latest 3.5.x version first.
 
@@ -17,7 +17,7 @@ Upgrading to 3.8.x versions requires that you upgrade to latest 3.5.x version fi
 - MailDownloader: Process ImapResource first, #848
 - Allow choosing Auth adapters from Extension provides, #849
 
-[3.8.13]: https://github.com/eventum/eventum/compare/v3.8.12...master
+[3.8.13]: https://github.com/eventum/eventum/compare/v3.8.12...v3.8.13
 [11000th]: https://github.com/eventum/eventum/tree/8a9b4c15ba6986331c99fd0f83a757d4594bfb19
 
 ## [3.8.12] - 2020-05-14
