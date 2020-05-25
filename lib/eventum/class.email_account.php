@@ -143,25 +143,18 @@ class Email_Account
      *
      * @return  array The list of accounts
      */
-    public static function getList()
+    public static function getList(): array
     {
-        $stmt = 'SELECT
-                    *
-                 FROM
-                    `email_account`
-                 ORDER BY
-                    ema_hostname';
-        try {
-            $res = DB_Helper::getInstance()->getAll($stmt);
-        } catch (DatabaseException $e) {
-            return '';
-        }
+        $repo = Doctrine::getEmailAccountRepository();
 
-        foreach ($res as &$row) {
+        $res = [];
+        foreach ($repo->findAll() as $account) {
+            $row = $account->toArray();
             $row['prj_title'] = Project::getName($row['ema_prj_id']);
 
             // do not expose as not needed
             unset($row['ema_password']);
+            $res[] = $row;
         }
 
         return $res;

@@ -37,6 +37,14 @@ class EmailAccountRepository extends EntityRepository
         return $account;
     }
 
+    /**
+     * @return array|Entity\EmailAccount[]
+     */
+    public function findAll(array $orderBy = ['hostname' => 'ASC']): array
+    {
+        return $this->findBy([], $orderBy);
+    }
+
     public function findByDSN(string $hostname, string $username, ?string $folder): Entity\EmailAccount
     {
         $criteria = [
