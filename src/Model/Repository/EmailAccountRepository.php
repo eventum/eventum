@@ -74,6 +74,13 @@ class EmailAccountRepository extends EntityRepository
         }
     }
 
+    public function removeAccount(Entity\EmailAccount $account): void
+    {
+        $em = $this->getEntityManager();
+        $em->remove($account);
+        $em->flush();
+    }
+
     public function persistAndFlush(Entity\EmailAccount $account): void
     {
         $em = $this->getEntityManager();

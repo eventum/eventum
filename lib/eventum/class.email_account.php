@@ -95,27 +95,6 @@ class Email_Account
     }
 
     /**
-     * Method used to remove the specified support email accounts.
-     *
-     * @return  bool
-     */
-    public static function remove()
-    {
-        $items = $_POST['items'];
-        $stmt = 'DELETE FROM
-                    `email_account`
-                 WHERE
-                    ema_id IN (' . DB_Helper::buildList($items) . ')';
-        try {
-            DB_Helper::getInstance()->query($stmt, $items);
-        } catch (DatabaseException $e) {
-            return false;
-        }
-
-        return true;
-    }
-
-    /**
      * Update password for specified email account
      *
      * @param int $ema_id

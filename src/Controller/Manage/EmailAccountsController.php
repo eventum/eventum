@@ -14,7 +14,6 @@
 namespace Eventum\Controller\Manage;
 
 use Email_Account;
-use Eventum\Controller\Helper\MessagesHelper;
 use Eventum\Crypto\CryptoManager;
 use Eventum\Db\DatabaseException;
 use Eventum\Db\Doctrine;
@@ -96,11 +95,21 @@ class EmailAccountsController extends ManageBaseController
 
     private function deleteAction(): void
     {
-        $map = [
-            1 => [ev_gettext('Thank you, the email account was deleted successfully.'), MessagesHelper::MSG_INFO],
-            -1 => [ev_gettext('An error occurred while trying to delete the account information.'), MessagesHelper::MSG_ERROR],
-        ];
-        $this->messages->mapMessages(Email_Account::remove(), $map);
+        $post = $this->getRequest()->request;
+
+        try {
+            foreach ($post->get('items', []) as $account_id) {
+                $account = $this->repo->findById($account_id);
+                $this->repo->removeAccount($account);
+            }
+        } catch (DatabaseException $e) {
+            $this->messages->addErrorMessage(ev_gettext('An error occurred while trying to delete the account information.'));
+
+            return;
+        }
+
+        $this->messages->addInfoMessage(ev_gettext('Thank you, the email account was deleted successfully.'));
+        $this->redirect('email_accounts.php');
     }
 
     private function editAction(): void
