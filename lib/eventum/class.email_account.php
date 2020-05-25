@@ -117,29 +117,6 @@ class Email_Account
     }
 
     /**
-     * Method used to get the list of available support email
-     * accounts in the system.
-     *
-     * @return  array The list of accounts
-     */
-    public static function getList(): array
-    {
-        $repo = Doctrine::getEmailAccountRepository();
-
-        $res = [];
-        foreach ($repo->findAll() as $account) {
-            $row = $account->toArray();
-            $row['prj_title'] = Project::getName($row['ema_prj_id']);
-
-            // do not expose as not needed
-            unset($row['ema_password']);
-            $res[] = $row;
-        }
-
-        return $res;
-    }
-
-    /**
      * Method used to get an associative array of the support email
      * accounts in the format of account ID => account title.
      *

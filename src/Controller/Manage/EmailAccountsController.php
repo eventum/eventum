@@ -126,7 +126,7 @@ class EmailAccountsController extends ManageBaseController
     {
         $this->tpl->assign(
             [
-                'list' => Email_Account::getList(),
+                'list' => $this->getEmailAccounts(),
                 'all_projects' => Project::getAll(),
             ]
         );
@@ -158,5 +158,26 @@ class EmailAccountsController extends ManageBaseController
         }
 
         return $account;
+    }
+
+    /**
+     * Method used to get the list of available support email
+     * accounts in the system.
+     *
+     * @return  array The list of accounts
+     */
+    private function getEmailAccounts(): array
+    {
+        $res = [];
+        foreach ($this->repo->findAll() as $account) {
+            $row = $account->toArray();
+            $row['prj_title'] = Project::getName($row['ema_prj_id']);
+
+            // do not expose as not needed
+            unset($row['ema_password']);
+            $res[] = $row;
+        }
+
+        return $res;
     }
 }
