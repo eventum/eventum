@@ -19,6 +19,7 @@ use Eventum\Crypto\CryptoManager;
 use Eventum\Db\DatabaseException;
 use Eventum\Db\Doctrine;
 use Eventum\Model\Entity;
+use Eventum\Model\Repository\EmailAccountRepository;
 use Project;
 use Symfony\Component\HttpFoundation\ParameterBag;
 use User;
@@ -33,12 +34,15 @@ class EmailAccountsController extends ManageBaseController
 
     /** @var string */
     private $cat;
+    /** @var EmailAccountRepository */
+    private $repo;
 
     protected function configure(): void
     {
         $request = $this->getRequest();
 
         $this->cat = $request->request->get('cat') ?: $request->query->get('cat');
+        $this->repo = Doctrine::getEmailAccountRepository();
     }
 
     protected function defaultAction(): void
@@ -57,12 +61,10 @@ class EmailAccountsController extends ManageBaseController
     private function newAction(): void
     {
         $post = $this->getRequest()->request;
-
-        $repo = Doctrine::getEmailAccountRepository();
         $account = $this->updateFromRequest(new Entity\EmailAccount(), $post);
 
         try {
-            $repo->updateAccount($account);
+            $this->repo->updateAccount($account);
         } catch (DatabaseException $e) {
             $this->messages->addErrorMessage(ev_gettext('An error occurred while trying to add the new account.'));
 
@@ -78,11 +80,10 @@ class EmailAccountsController extends ManageBaseController
         $post = $this->getRequest()->request;
 
         $account_id = $post->getInt('id');
-        $repo = Doctrine::getEmailAccountRepository();
-        $account = $this->updateFromRequest($repo->findOrCreate($account_id), $post);
+        $account = $this->updateFromRequest($this->repo->findOrCreate($account_id), $post);
 
         try {
-            $repo->updateAccount($account);
+            $this->repo->updateAccount($account);
         } catch (DatabaseException $e) {
             $this->messages->addErrorMessage(ev_gettext('An error occurred while trying to update the account information.'));
 
