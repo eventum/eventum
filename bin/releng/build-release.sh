@@ -107,11 +107,6 @@ clean_whitespace() {
 install_dependencies() {
 	echo >&2 "Setup composer deps"
 
-	# first install with dev to get assets installed
-	$composer install --prefer-dist --no-suggest
-	install_assets
-
-	# and then without dev to get clean autoloader
 	$composer install --prefer-dist --no-dev --no-suggest
 
 	# clean distribution and dump autoloader again
@@ -242,6 +237,7 @@ prepare_source() {
 	install -d config/{workflow,custom_field,templates,crm,partner,include}
 
 	install_dependencies
+	install_assets
 	dependencies_report
 	phpcompatinfo_report
 
