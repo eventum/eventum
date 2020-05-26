@@ -2570,8 +2570,9 @@ class Issue
 
         $res['access_level_name'] = Access::getAccessLevelName($res['iss_access_level']);
 
-        // add issue url to simplify client apps
+        // helpers to simplify client apps
         $res['issue_url'] = Setup::getBaseUrl() . 'view.php?id=' . $issue_id;
+        $res['iss_updated_date_ts'] = Date_Helper::getUnixTimestamp($res['iss_updated_date'], 'GMT');
 
         $returns[$issue_id] = $res;
 
