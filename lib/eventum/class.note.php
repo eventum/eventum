@@ -64,9 +64,9 @@ class Note
      * Retrieves the details about a given note.
      *
      * @param   int $note_id The note ID
-     * @return  bool|array The note details
+     * @return  array The note details
      */
-    public static function getDetails($note_id)
+    public static function getDetails($note_id): array
     {
         $stmt = 'SELECT
                     `note`.*,
@@ -84,7 +84,7 @@ class Note
             throw new InvalidArgumentException("Could not fetch note: $note_id");
         }
 
-        $res['timestamp'] = Date_Helper::getUnixTimestamp($res['not_created_date'], 'GMT');
+        $res['not_created_date_ts'] = Date_Helper::getUnixTimestamp($res['not_created_date'], 'GMT');
         $res['has_blocked_message'] = $res['not_is_blocked'] == 1;
 
         if (!empty($res['not_unknown_user'])) {
@@ -96,6 +96,9 @@ class Note
             $mail = MailMessage::createFromString($res['not_full_message']);
             $res['attachments'] = $mail->getAttachment()->getAttachments();
         }
+
+        /** @deprecated */
+        $res['timestamp'] = $res['not_created_date_ts'];
 
         return $res;
     }

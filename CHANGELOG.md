@@ -6,6 +6,7 @@ Upgrading to 3.8.x versions requires that you upgrade to latest 3.5.x version fi
 
 - Remove dangerous feature: removing emails when deleting email account, #853
 - Cleanup leftovers from components, #851
+- RemoteApi: Add method to retrieve note details by note id, #854
 
 [3.8.14]: https://github.com/eventum/eventum/compare/v3.8.13...master
 
