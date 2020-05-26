@@ -97,6 +97,9 @@ class Note
             $res['attachments'] = $mail->getAttachment()->getAttachments();
         }
 
+        // helpers to simplify client apps
+        $res['issue_url'] = Setup::getBaseUrl() . 'view.php?id=' . $res['not_iss_id'];
+
         /** @deprecated */
         $res['timestamp'] = $res['not_created_date_ts'];
 
