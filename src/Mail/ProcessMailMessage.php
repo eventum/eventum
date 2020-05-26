@@ -174,6 +174,7 @@ class ProcessMailMessage
             'full_email' => $mail->getRawContent(),
         ];
 
+        $info = Email_Account::getDetails($ema_id);
         $info['date'] = $t['date'];
         $should_create_array = Support::createIssueFromEmail($mail, $info);
         $should_create_issue = $should_create_array['should_create_issue'];
