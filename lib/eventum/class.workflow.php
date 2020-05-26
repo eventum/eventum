@@ -23,6 +23,7 @@ use Eventum\LinkFilter\LinkFilter;
 use Eventum\Mail\Helper\AddressHeader;
 use Eventum\Mail\ImapMessage;
 use Eventum\Mail\MailMessage;
+use Zend\Mail\Address;
 
 /**
  * @deprecated workflow backend concept is deprecated, use event subscribers
@@ -728,18 +729,19 @@ class Workflow
      * Modifies the content of the message being added to the mail queue.
      *
      * @param   int $prj_id
-     * @param   string $email
+     * @param   string|Address $email
      * @param MailMessage $mail The Mail object
      * @param array $options Optional options, see Mail_Queue::queue
      * @since 3.3.0 the method signature changed
      * @since 3.8.13 emits MAIL_QUEUE_MODIFY event
      * @since 3.8.13 workflow integration is done by WorkflowLegacyExtension
      */
-    public static function modifyMailQueue(int $prj_id, string $email, MailMessage $mail, array $options): void
+    public static function modifyMailQueue(int $prj_id, $email, MailMessage $mail, array $options): void
     {
+        $address = $email instanceof Address ? $email : AddressHeader::fromString($email)->getAddress();
         $arguments = [
             'options' => $options,
-            'address' => AddressHeader::fromString($email)->getAddress(),
+            'address' => $address,
         ];
         $event = new EventContext($prj_id, null, null, $arguments, $mail);
         EventManager::dispatch(SystemEvents::MAIL_QUEUE_MODIFY, $event);

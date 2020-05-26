@@ -17,6 +17,7 @@ use Eventum\Mail\MailBuilder;
 use Eventum\Mail\MailMessage;
 use Eventum\Mail\MailTransport;
 use Symfony\Component\EventDispatcher\GenericEvent;
+use Zend\Mail\Address;
 
 class Mail_Queue
 {
@@ -35,7 +36,7 @@ class Mail_Queue
      * Adds an email to the outgoing mail queue.
      *
      * @param MailBuilder|MailMessage $mail
-     * @param string $recipient The recipient, can be E-Mail header form ("User <email@example.org>")
+     * @param string|Address $recipient The recipient, can be E-Mail header form ("User <email@example.org>")
      * @param array $options Optional options:
      * - string $from From address, defaults to system user
      * - integer $save_email_copy Whether to send a copy of this email to a configurable address or not (eventum_sent@)
