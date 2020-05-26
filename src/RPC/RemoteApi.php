@@ -693,6 +693,23 @@ class RemoteApi
     }
 
     /**
+     * @param int $note_id
+     * @return array
+     * @access protected
+     * @since 3.8.14
+     */
+    public function getNoteDetails($note_id)
+    {
+        try {
+            $note = Note::getDetails($note_id);
+        } catch (InvalidArgumentException $e) {
+            throw new RemoteApiException($e->getMessage(), $e->getCode(), $e);
+        }
+
+        return $note;
+    }
+
+    /**
      * @param int $issue_id
      * @param int $note_id
      * @return array
