@@ -694,16 +694,21 @@ class RemoteApi
 
     /**
      * @param int $note_id
+     * @param array $fields
      * @return array
      * @access protected
      * @since 3.8.14
      */
-    public function getNoteDetails($note_id)
+    public function getNoteDetails($note_id, $fields)
     {
         try {
             $note = Note::getDetails($note_id);
         } catch (InvalidArgumentException $e) {
             throw new RemoteApiException($e->getMessage(), $e->getCode(), $e);
+        }
+
+        if ($fields) {
+            $note = $this->filterKeys($note, $fields);
         }
 
         return $note;
@@ -1416,5 +1421,13 @@ class RemoteApi
         if ($may_change_issue !== 'yes') {
             throw new RemoteApiException("You are not currently assigned to issue #$issue_id.");
         }
+    }
+
+    /**
+     * Filter array to return only named keys
+     */
+    private function filterKeys(array $array, array $keys): array
+    {
+        return array_intersect_key($array, array_flip($keys));
     }
 }
