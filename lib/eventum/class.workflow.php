@@ -919,7 +919,7 @@ class Workflow
      * @since 3.8.13 workflow integration is done by WorkflowLegacyExtension
      * @since 3.8.13 emits ACCESS_LEVELS event
      */
-    public static function getAccessLevels(int $prj_id): ?array
+    public static function getAccessLevels(?int $prj_id): ?array
     {
         $event = new ResultableEvent($prj_id, null, null);
         EventManager::dispatch(SystemEvents::ACCESS_LEVELS, $event);

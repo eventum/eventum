@@ -348,11 +348,11 @@ class Auth
      *
      * @return  int The project ID
      */
-    public static function getCurrentProject($redirect = true)
+    public static function getCurrentProject(bool $redirect = true): ?int
     {
         $cookie = AuthCookie::getProjectCookie();
         if (!$cookie) {
-            return '';
+            return null;
         }
         $usr_id = self::getUserID();
         $projects = Project::getAssocList($usr_id);
@@ -364,7 +364,7 @@ class Auth
             if ($redirect) {
                 self::redirect('select_project.php');
             } else {
-                return false;
+                return null;
             }
         }
 
