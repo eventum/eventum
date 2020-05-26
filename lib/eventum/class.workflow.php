@@ -610,7 +610,7 @@ class Workflow
     public static function handleAuthorizedReplierAdded(int $prj_id, int $issue_id, &$email): ?bool
     {
         $address = AddressHeader::fromString($email)->getAddress();
-        $event = new ResultableEvent($prj_id, $issue_id, null, $address);
+        $event = new ResultableEvent($prj_id, $issue_id, null, [], $address);
         EventManager::dispatch(SystemEvents::AUTHORIZED_REPLIER_ADD, $event);
 
         // assign back, in case it was modified by event
