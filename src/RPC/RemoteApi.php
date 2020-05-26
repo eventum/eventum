@@ -707,6 +707,8 @@ class RemoteApi
             throw new RemoteApiException($e->getMessage(), $e->getCode(), $e);
         }
 
+        $this->checkIssuePermissions($note['not_iss_id']);
+
         if ($fields) {
             $note = $this->filterKeys($note, $fields);
         }
@@ -1386,7 +1388,7 @@ class RemoteApi
      * @param int $issue_id
      * @since 3.2.2
      */
-    private function checkIssuePermissions($issue_id)
+    private function checkIssuePermissions(int $issue_id): void
     {
         $projects = $this->getUserAssignedProjects(false);
         $details = $this->getIssueDetails($issue_id);
