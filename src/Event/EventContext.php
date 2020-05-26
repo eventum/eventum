@@ -17,7 +17,7 @@ use Symfony\Component\EventDispatcher\GenericEvent;
 
 class EventContext extends GenericEvent
 {
-    public function __construct(int $prj_id, ?int $issue_id, ?int $usr_id, $arguments = [], $subject = null)
+    public function __construct(?int $prj_id, ?int $issue_id, ?int $usr_id, $arguments = [], $subject = null)
     {
         parent::__construct($subject, $arguments);
         $this->setArgument('prj_id', $prj_id);
