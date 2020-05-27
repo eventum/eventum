@@ -28,6 +28,7 @@ class Setup
      * The configuration is loaded from config/setup.php file
      *
      * @return Config The system-wide preferences
+     * @deprecated use ServiceContainer::getConfig()
      */
     public static function get(): Config
     {

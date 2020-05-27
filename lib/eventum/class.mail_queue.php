@@ -46,7 +46,7 @@ class Mail_Queue
      * - integer $type_id The ID of the event that triggered this notification (issue_id, sup_id, not_id, etc)
      * @return bool true if entry was added to mail queue table
      */
-    public static function queue($mail, $recipient, array $options = [])
+    public static function queue($mail, $recipient, array $options = []): bool
     {
         $prj_id = Auth::getCurrentProject(false);
 

@@ -97,7 +97,7 @@ class Mail_Helper
      * @param Address|string $address The email address value
      * @return string The email address
      */
-    public static function getEmailAddress($address)
+    public static function getEmailAddress($address): string
     {
         if (!$address instanceof Address) {
             $address = AddressHeader::fromString($address)->getAddress();

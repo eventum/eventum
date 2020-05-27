@@ -19,7 +19,7 @@ use Zend\Mail;
 use Zend\Mime;
 
 /**
- * Trivial helper to combine of Mail\Message, Mime\Message and MailMessage
+ * Helper to combine of Mail\Message, Mime\Message and MailMessage
  */
 class MailBuilder
 {
@@ -39,21 +39,15 @@ class MailBuilder
         $this->mime = new Mime\Message();
     }
 
-    /**
-     * @return Mail\Message
-     */
-    public function getMessage()
+    public function getMessage(): Mail\Message
     {
         return $this->message;
     }
 
     /**
      * Add inline text part to message
-     *
-     * @param string $text
-     * @return $this
      */
-    public function addTextPart($text)
+    public function addTextPart(string $text): self
     {
         $this->mime->addPart(MimePart::createTextPart($text));
 
@@ -62,9 +56,6 @@ class MailBuilder
 
     /**
      * Add $attachment object as attachment to message
-     *
-     * @param Attachment $attachment
-     * @return $this
      */
     public function addAttachment(Attachment $attachment): self
     {
@@ -83,10 +74,8 @@ class MailBuilder
      *
      * it's not recommended to call this message more than once on same object,
      * the behavior is undefined.
-     *
-     * @return MailMessage
      */
-    public function toMailMessage()
+    public function toMailMessage(): MailMessage
     {
         $this->message->setBody($this->mime);
 
