@@ -31,16 +31,18 @@ class MailDumper
     }
 
     /**
-     * Method used to save the routed mail into a backup directory.
+     * Same $mail to a file, return saved filename.
      *
      * @throws IOException
      */
-    public function dump(MailMessage $mail): void
+    public function dump(MailMessage $mail): string
     {
         $filename = $this->getFilename($mail);
         $fs = new Filesystem();
         $fs->dumpFile($filename, $mail->getRawContent());
         $fs->chmod($filename, 0644);
+
+        return $filename;
     }
 
     private function getFilename(MailMessage $mail): string
