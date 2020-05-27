@@ -103,6 +103,23 @@ final class SystemEvents
     public const MAIL_QUEUE_ERROR = 'mail.queue.error';
 
     /**
+     * @since 3.8.14
+     * @see Routing::route_emails
+     */
+    public const MAIL_ROUTE_EMAIL = 'mail.route.email';
+
+    /**
+     * @since 3.8.14
+     * @see Routing::route_notes
+     */
+    public const MAIL_ROUTE_NOTE = 'mail.route.note';
+    /**
+     * @since 3.8.14
+     * @see Routing::route_drafts
+     */
+    public const MAIL_ROUTE_DRAFT = 'mail.route.draft';
+
+    /**
      * @since 3.8.13
      * @see Workflow::modifyMailQueue
      */

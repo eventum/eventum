@@ -11,6 +11,8 @@
  * that were distributed with this source code.
  */
 
+use Eventum\Event\SystemEvents;
+use Eventum\EventDispatcher\EventManager;
 use Eventum\Mail\Exception\RoutingException;
 use Eventum\Mail\Helper\AddressHeader;
 use Eventum\Mail\Helper\WarningMessage;
@@ -86,8 +88,9 @@ class Routing
      * @throws RoutingException in case of failure
      * @return bool true if mail was routed
      */
-    protected static function route_emails(MailMessage $mail)
+    protected static function route_emails(MailMessage $mail): bool
     {
+        EventManager::dispatch(SystemEvents::MAIL_ROUTE_EMAIL, $mail);
         // save the full message for logging purposes
         MailDumper::dump($mail, MailDumper::TYPE_EMAIL);
 
@@ -240,8 +243,10 @@ class Routing
      * @throws RoutingException in case of failure
      * @return bool true if mail was routed
      */
-    protected static function route_notes(MailMessage $mail)
+    protected static function route_notes(MailMessage $mail): bool
     {
+        EventManager::dispatch(SystemEvents::MAIL_ROUTE_NOTE, $mail);
+
         // save the full message for logging purposes
         MailDumper::dump($mail, MailDumper::TYPE_NOTE);
 
@@ -369,8 +374,10 @@ class Routing
      * @throws RoutingException in case of failure
      * @return bool true if mail was routed
      */
-    protected static function route_drafts($mail)
+    protected static function route_drafts(MailMessage $mail): bool
     {
+        EventManager::dispatch(SystemEvents::MAIL_ROUTE_DRAFT, $mail);
+
         // save the full message for logging purposes
         MailDumper::dump($mail, MailDumper::TYPE_DRAFT);
 
