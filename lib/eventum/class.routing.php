@@ -16,7 +16,6 @@ use Eventum\EventDispatcher\EventManager;
 use Eventum\Mail\Exception\RoutingException;
 use Eventum\Mail\Helper\AddressHeader;
 use Eventum\Mail\Helper\WarningMessage;
-use Eventum\Mail\MailDumper;
 use Eventum\Mail\MailMessage;
 
 /**
@@ -91,8 +90,6 @@ class Routing
     protected static function route_emails(MailMessage $mail): bool
     {
         EventManager::dispatch(SystemEvents::MAIL_ROUTE_EMAIL, $mail);
-        // save the full message for logging purposes
-        MailDumper::dump($mail, MailDumper::TYPE_EMAIL);
 
         // check if the email routing interface is even supposed to be enabled
         $setup = Setup::get();
@@ -247,9 +244,6 @@ class Routing
     {
         EventManager::dispatch(SystemEvents::MAIL_ROUTE_NOTE, $mail);
 
-        // save the full message for logging purposes
-        MailDumper::dump($mail, MailDumper::TYPE_NOTE);
-
         $headers = $mail->getHeaders();
 
         // remove the reply-to: header
@@ -377,9 +371,6 @@ class Routing
     protected static function route_drafts(MailMessage $mail): bool
     {
         EventManager::dispatch(SystemEvents::MAIL_ROUTE_DRAFT, $mail);
-
-        // save the full message for logging purposes
-        MailDumper::dump($mail, MailDumper::TYPE_DRAFT);
 
         $headers = $mail->getHeaders();
 
