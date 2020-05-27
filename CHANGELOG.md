@@ -2,7 +2,7 @@
 
 ## [3.8.14]
 
-Upgrading to 3.8.x versions requires that you upgrade to latest 3.5.x version first.
+Upgrading to 3.8.x versions requires that you upgrade to the latest 3.5.x version first.
 
 - Remove dangerous feature: removing emails when deleting email account, #853
 - Cleanup leftovers from components, #851

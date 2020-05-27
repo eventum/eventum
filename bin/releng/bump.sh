@@ -14,7 +14,7 @@ cat <<EOF | patch -p1
  
 +## [$new]
 +
-+Upgrading to 3.8.x versions requires that you upgrade to latest 3.5.x version first.
++Upgrading to 3.8.x versions requires that you upgrade to the latest 3.5.x version first.
 +
 +[$new]: https://github.com/eventum/eventum/compare/v$old...master
 +
