@@ -52,16 +52,19 @@ class MailDumperExtension implements SubscriberProvider, EventSubscriberInterfac
 
     public function dumpDraft(MailMessage $mail): void
     {
-        MailDumper::dump($mail, MailDumper::TYPE_DRAFT);
+        $dumper = new MailDumper($this->path . '/routed_drafts');
+        $dumper->dump($mail);
     }
 
     public function dumpEmail(MailMessage $mail): void
     {
-        MailDumper::dump($mail, MailDumper::TYPE_EMAIL);
+        $dumper = new MailDumper($this->path . '/routed_emails');
+        $dumper->dump($mail);
     }
 
     public function dumpNote(MailMessage $mail): void
     {
-        MailDumper::dump($mail, MailDumper::TYPE_NOTE);
+        $dumper = new MailDumper($this->path . '/routed_notes');
+        $dumper->dump($mail);
     }
 }

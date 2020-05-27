@@ -13,59 +13,41 @@
 
 namespace Eventum\Mail;
 
-use Setup;
+use DateTime;
 use Symfony\Component\Filesystem\Exception\IOException;
 use Symfony\Component\Filesystem\Filesystem;
 
 class MailDumper
 {
-    public const TYPE_EMAIL = 'email';
-    public const TYPE_DRAFT = 'draft';
-    public const TYPE_NOTE = 'note';
+    /** Similar to RFC3339_EXTENDED, but filesystem safe */
+    private const DATE_FORMAT = 'Y-m-d_H.i.s.u';
+
+    /** @var string */
+    private $path;
+
+    public function __construct(string $path)
+    {
+        $this->path = $path;
+    }
 
     /**
      * Method used to save the routed mail into a backup directory.
      *
      * @throws IOException
      */
-    public static function dump(MailMessage $mail, string $type): void
+    public function dump(MailMessage $mail): void
     {
-        $filename = static::getFilename($type);
-        if (!$filename) {
-            return;
-        }
-
+        $filename = $this->getFilename($mail);
         $fs = new Filesystem();
         $fs->dumpFile($filename, $mail->getRawContent());
         $fs->chmod($filename, 0644);
     }
 
-    private static function getFilename(string $type)
+    private function getFilename(MailMessage $mail): string
     {
-        $path = Setup::get()['routed_mails_savedir'];
-        if (!$path) {
-            return null;
-        }
+        $ts = new DateTime();
+        $mid = trim($mail->messageId ?: 'unknown', '<>');
 
-        $dirMap = [
-            'email' => 'routed_emails',
-            'draft' => 'routed_drafts',
-            'note' => 'routed_notes',
-        ];
-        $nameMap = [
-            // value 'note' here is incorrect
-            // but keeping backward compat
-            'email' => 'note',
-            'draft' => 'draft',
-            'note' => 'note',
-        ];
-
-        [$usec, $timestamp] = explode(' ', microtime());
-
-        return sprintf(
-            "%s/{$dirMap[$type]}/%s{$usec}.{$nameMap[$type]}.txt",
-            $path,
-            date('Y-m-d_H-i-s_', $timestamp)
-        );
+        return sprintf("%s/%s_$mid.txt", $this->path, $ts->format(self::DATE_FORMAT));
     }
 }
