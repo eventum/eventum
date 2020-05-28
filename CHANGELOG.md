@@ -8,6 +8,7 @@ Upgrading to 3.8.x versions requires that you upgrade to the latest 3.5.x versio
 - Cleanup leftovers from components, #851
 - RemoteApi: Add method to retrieve note details by note id, #854
 - Move mail dumper logic to an extension, #856
+- Add `iss_updated_date_ts` to Issue::getDetails, `issue_url` to Note::getDetails, #855
 
 [3.8.14]: https://github.com/eventum/eventum/compare/v3.8.13...master
 
