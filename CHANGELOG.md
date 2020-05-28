@@ -1,6 +1,6 @@
 # Eventum Issue Tracking System
 
-## [3.8.14]
+## [3.8.14] - 2020-05-28
 
 Upgrading to 3.8.x versions requires that you upgrade to the latest 3.5.x version first.
 
@@ -10,7 +10,7 @@ Upgrading to 3.8.x versions requires that you upgrade to the latest 3.5.x versio
 - Move mail dumper logic to an extension, #856
 - Add `iss_updated_date_ts` to Issue::getDetails, `issue_url` to Note::getDetails, #855
 
-[3.8.14]: https://github.com/eventum/eventum/compare/v3.8.13...master
+[3.8.14]: https://github.com/eventum/eventum/compare/v3.8.13...v3.8.14
 
 ## [3.8.13] - 2020-05-24
 
