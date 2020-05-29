@@ -1,5 +1,11 @@
 # Eventum Issue Tracking System
 
+## [3.8.15]
+
+Upgrading to 3.8.x versions requires that you upgrade to the latest 3.5.x version first.
+
+[3.8.15]: https://github.com/eventum/eventum/compare/v3.8.14...master
+
 ## [3.8.14] - 2020-05-28
 
 Upgrading to 3.8.x versions requires that you upgrade to the latest 3.5.x version first.
