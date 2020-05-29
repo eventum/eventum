@@ -13,6 +13,7 @@
 
 namespace Eventum\Controller;
 
+use Access;
 use Auth;
 use Contract;
 use CRM;
@@ -72,8 +73,7 @@ class CloseController extends BaseController
         $this->prj_id = Auth::getCurrentProject();
         $this->role_id = Auth::getCurrentRole();
 
-        // FIXME: ROLE_CUSTOMER check superfluous regarding Issue::canAccess?
-        return !($this->role_id === User::ROLE_CUSTOMER || !Issue::canAccess($this->issue_id, $this->usr_id));
+        return Access::canUpdateIssue($this->issue_id, $this->usr_id);
     }
 
     /**
