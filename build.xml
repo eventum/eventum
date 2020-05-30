@@ -40,9 +40,6 @@
 			</fileset>
 
 			<fileset dir="${basedir}/htdocs">
-				<include name="css/main.css"/>
-				<include name="css/page.css"/>
-				<include name="js/main.js"/>
 				<include name="js/page.js"/>
 			</fileset>
 

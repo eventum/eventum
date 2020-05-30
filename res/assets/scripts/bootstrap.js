@@ -14,7 +14,9 @@ import { CustomField } from "./CustomField.js";
 import { GrowingFileField } from "./GrowingFileField.js";
 import { Validation } from "./Validation.js";
 import { Cookie } from "./Cookie.js";
+import { Eventum } from "./Eventum.js";
 
+window.Eventum = new Eventum();
 window.ExpandableCell = new ExpandableCell();
 window.CustomField = new CustomField();
 window.GrowingFileField = new GrowingFileField();

@@ -5,6 +5,7 @@
 Upgrading to 3.8.x versions requires that you upgrade to the latest 3.5.x version first.
 
 - Fix privilege check when closing issues, #857
+- Convert `js/main.js` to a module, #852
 
 [3.8.15]: https://github.com/eventum/eventum/compare/v3.8.14...master
 
