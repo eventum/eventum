@@ -33,7 +33,7 @@
 				<include name="src/Mail/MailStorage.php"/>
 			</fileset>
 
-			<fileset dir="${basedir}/node_modules">
+			<fileset dir="${basedir}/node_modules" defaultexcludes="false">
 			</fileset>
 
 			<fileset dir="${basedir}/contrib">
