@@ -192,7 +192,7 @@ class AuthCookie
      * @param   string $cookie_name The name of the cookie to check for
      * @return  array The unserialized contents of the cookie
      */
-    private static function getDecodedCookie($cookie_name): ?array
+    private static function getDecodedCookie(string $cookie_name): ?array
     {
         if (empty($_COOKIE[$cookie_name])) {
             return null;

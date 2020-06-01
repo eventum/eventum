@@ -122,16 +122,16 @@ class SelectProjectController extends BaseController
      *
      * @return int|null
      */
-    private function getProjectId()
+    private function getProjectId(): ?int
     {
         // from project_cookie
         $cookie = AuthCookie::getProjectCookie();
-        if ($cookie['remember'] && $cookie['prj_id']) {
+        if ($cookie && $cookie['remember'] && $cookie['prj_id']) {
             return $cookie['prj_id'];
         }
 
         // choose project if the list of active projects consists of just one project
-        if (count($this->projects) == 1) {
+        if (count($this->projects) === 1) {
             [$prj_id] = each($this->projects);
 
             return $prj_id;
