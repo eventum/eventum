@@ -110,7 +110,7 @@ install_dependencies() {
 	$composer install --prefer-dist --no-dev --no-suggest
 
 	# clean distribution and dump autoloader again
-	clean_dist
+	clean_vendor
 	$composer dump-autoload
 }
 
@@ -161,9 +161,9 @@ clean_scripts() {
 	find -name '*.php' | xargs -r sed -i -e 's,\r$,,'
 }
 
-clean_dist() {
-	echo >&2 "Cleanup distribution of unwanted files"
-	$phing -f $topdir/build.xml clean-dist
+clean_vendor() {
+	echo >&2 "Cleanup vendor of unwanted files"
+	$phing -f $topdir/build.xml clean-vendor
 
 	# Clean empty dirs
 	find vendor -type d -print0 | sort -zr | xargs -0 rmdir --ignore-fail-on-non-empty
@@ -171,6 +171,11 @@ clean_dist() {
 	cd vendor
 	clean_scripts
 	cd ..
+}
+
+clean_dist() {
+	echo >&2 "Cleanup distribution of unwanted files"
+	$phing -f $topdir/build.xml clean-dist
 }
 
 cleanup_postdist() {
@@ -252,6 +257,7 @@ prepare_source() {
 	chmod -R a+rwX config var
 
 	# cleanup rest of the stuff, that was necessary for release preparation process
+	clean_dist
 	cleanup_postdist
 
 	phplint

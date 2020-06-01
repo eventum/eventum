@@ -42,7 +42,11 @@
 			<fileset dir="${basedir}/htdocs">
 				<include name="js/page.js"/>
 			</fileset>
+		</delete>
+	</target>
 
+	<target name="clean-vendor" description="Clean vendor of unwanted files">
+		<delete verbose="${delete.verbose}" includeemptydirs="true" failonerror="true">
 			<!-- generic files -->
 			<fileset dir="${vendor}" defaultexcludes="false">
 				<include name="**/*.md"/>
@@ -243,5 +247,4 @@
 			</fileset>
 		</delete>
 	</target>
-
 </project>
