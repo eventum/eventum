@@ -14,8 +14,13 @@
 namespace Eventum\Controller\Manage;
 
 use Email_Account;
-use Eventum\Controller\Helper\MessagesHelper;
+use Eventum\Crypto\CryptoManager;
+use Eventum\Db\DatabaseException;
+use Eventum\Db\Doctrine;
+use Eventum\Model\Entity;
+use Eventum\Model\Repository\EmailAccountRepository;
 use Project;
+use Symfony\Component\HttpFoundation\ParameterBag;
 use User;
 
 class EmailAccountsController extends ManageBaseController
@@ -28,60 +33,83 @@ class EmailAccountsController extends ManageBaseController
 
     /** @var string */
     private $cat;
+    /** @var EmailAccountRepository */
+    private $repo;
 
-    /**
-     * {@inheritdoc}
-     */
     protected function configure(): void
     {
         $request = $this->getRequest();
 
         $this->cat = $request->request->get('cat') ?: $request->query->get('cat');
+        $this->repo = Doctrine::getEmailAccountRepository();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function defaultAction(): void
     {
-        if ($this->cat == 'new') {
+        if ($this->cat === 'new') {
             $this->newAction();
-        } elseif ($this->cat == 'update') {
+        } elseif ($this->cat === 'update') {
             $this->updateAction();
-        } elseif ($this->cat == 'delete') {
+        } elseif ($this->cat === 'delete') {
             $this->deleteAction();
-        }
-
-        if ($this->cat == 'edit') {
+        } elseif ($this->cat === 'edit') {
             $this->editAction();
         }
     }
 
     private function newAction(): void
     {
-        $map = [
-            1 => [ev_gettext('Thank you, the email account was added successfully.'), MessagesHelper::MSG_INFO],
-            -1 => [ev_gettext('An error occurred while trying to add the new account.'), MessagesHelper::MSG_ERROR],
-        ];
-        $this->messages->mapMessages(Email_Account::insert(), $map);
+        $post = $this->getRequest()->request;
+        $account = $this->updateFromRequest(new Entity\EmailAccount(), $post);
+
+        try {
+            $this->repo->updateAccount($account);
+        } catch (DatabaseException $e) {
+            $this->messages->addErrorMessage(ev_gettext('An error occurred while trying to add the new account.'));
+
+            return;
+        }
+
+        $this->messages->addInfoMessage(ev_gettext('Thank you, the email account was added successfully.'));
+        $this->redirect("email_accounts.php?cat=edit&id={$account->getId()}");
     }
 
     private function updateAction(): void
     {
-        $map = [
-            1 => [ev_gettext('Thank you, the email account was updated successfully.'), MessagesHelper::MSG_INFO],
-            -1 => [ev_gettext('An error occurred while trying to update the account information.'), MessagesHelper::MSG_ERROR],
-        ];
-        $this->messages->mapMessages(Email_Account::update(), $map);
+        $post = $this->getRequest()->request;
+
+        $account_id = $post->getInt('id');
+        $account = $this->updateFromRequest($this->repo->findOrCreate($account_id), $post);
+
+        try {
+            $this->repo->updateAccount($account);
+        } catch (DatabaseException $e) {
+            $this->messages->addErrorMessage(ev_gettext('An error occurred while trying to update the account information.'));
+
+            return;
+        }
+
+        $this->messages->addInfoMessage(ev_gettext('Thank you, the email account was updated successfully.'));
+        $this->redirect("email_accounts.php?cat=edit&id={$account->getId()}");
     }
 
     private function deleteAction(): void
     {
-        $map = [
-            1 => [ev_gettext('Thank you, the email account was deleted successfully.'), MessagesHelper::MSG_INFO],
-            -1 => [ev_gettext('An error occurred while trying to delete the account information.'), MessagesHelper::MSG_ERROR],
-        ];
-        $this->messages->mapMessages(Email_Account::remove(), $map);
+        $post = $this->getRequest()->request;
+
+        try {
+            foreach ($post->get('items', []) as $account_id) {
+                $account = $this->repo->findById($account_id);
+                $this->repo->removeAccount($account);
+            }
+        } catch (DatabaseException $e) {
+            $this->messages->addErrorMessage(ev_gettext('An error occurred while trying to delete the account information.'));
+
+            return;
+        }
+
+        $this->messages->addInfoMessage(ev_gettext('Thank you, the email account was deleted successfully.'));
+        $this->redirect('email_accounts.php');
     }
 
     private function editAction(): void
@@ -98,9 +126,58 @@ class EmailAccountsController extends ManageBaseController
     {
         $this->tpl->assign(
             [
-                'list' => Email_Account::getList(),
+                'list' => $this->getEmailAccounts(),
                 'all_projects' => Project::getAll(),
             ]
         );
+    }
+
+    private function updateFromRequest(Entity\EmailAccount $account, ParameterBag $post): Entity\EmailAccount
+    {
+        $account
+            ->setProjectId($post->getInt('project'))
+            ->setType($post->get('type'))
+            ->setHostName($post->get('hostname'))
+            ->setPort($post->getInt('port'))
+            ->setFolder($post->get('folder'))
+            ->setUserName($post->get('username'))
+            ->setOnlyNew($post->get('get_only_new') === '1')
+            ->setLeaveCopy($post->get('leave_copy') === '1')
+            ->setUseRouting($post->get('use_routing') === '1')
+            ->setIssueAutoCreationEnabled($post->get('issue_auto_creation') === 'enabled')
+            ->setIssueAutoCreationOptions($post->get('options'));
+
+        // password is not updated, if left empty
+        if ($post->get('password')) {
+            $account->setPassword(CryptoManager::encrypt($post->get('password')));
+        }
+
+        // if an account will be used for routing, you can't leave the message on the server
+        if ($account->useRouting()) {
+            $account->setLeaveCopy(false);
+        }
+
+        return $account;
+    }
+
+    /**
+     * Method used to get the list of available support email
+     * accounts in the system.
+     *
+     * @return  array The list of accounts
+     */
+    private function getEmailAccounts(): array
+    {
+        $res = [];
+        foreach ($this->repo->findAll() as $account) {
+            $row = $account->toArray();
+            $row['prj_title'] = Project::getName($row['ema_prj_id']);
+
+            // do not expose as not needed
+            unset($row['ema_password']);
+            $res[] = $row;
+        }
+
+        return $res;
     }
 }

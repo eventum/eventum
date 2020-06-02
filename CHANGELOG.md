@@ -6,6 +6,7 @@ Upgrading to 3.8.x versions requires that you upgrade to the latest 3.5.x versio
 
 - Fix privilege check when closing issues, #857
 - Convert `js/main.js` to a module, #852
+- Migrate `Email_Account` class logic to Models and Doctrine Repository, #850
 
 [3.8.15]: https://github.com/eventum/eventum/compare/v3.8.14...master
 

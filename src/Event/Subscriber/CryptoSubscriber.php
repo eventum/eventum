@@ -15,6 +15,7 @@ namespace Eventum\Event\Subscriber;
 
 use Email_Account;
 use Eventum\Crypto\EncryptedValue;
+use Eventum\Db\Doctrine;
 use Eventum\Event\ConfigUpdateEvent;
 use Eventum\Event\SystemEvents;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -40,13 +41,12 @@ class CryptoSubscriber implements EventSubscriberInterface
         $event->encrypt($config['ldap']['bindpw']);
 
         // encrypt email account passwords
-        $accounts = Email_Account::getList();
+        $accounts = $this->getEmailAccounts();
         foreach ($accounts as $account) {
-            $account = Email_Account::getDetails($account['ema_id'], true);
             /** @var EncryptedValue $password */
-            $password = $account['ema_password'];
+            $password = $account->getPassword();
             // the raw value contains the original plaintext
-            Email_Account::updatePassword($account['ema_id'], $password->getEncrypted());
+            Email_Account::updatePassword($account->getId(), $password->getEncrypted());
         }
     }
 
@@ -60,7 +60,7 @@ class CryptoSubscriber implements EventSubscriberInterface
         $event->decrypt($config['database']['password']);
         $event->decrypt($config['ldap']['bindpw']);
 
-        $accounts = Email_Account::getList();
+        $accounts = $this->getEmailAccounts();
 
         $state = $config['encryption'];
 
@@ -68,10 +68,9 @@ class CryptoSubscriber implements EventSubscriberInterface
         $passwords = [];
         $config['encryption'] = 'enabled';
         foreach ($accounts as $account) {
-            $account = Email_Account::getDetails($account['ema_id'], true);
             /** @var EncryptedValue $password */
-            $password = $account['ema_password'];
-            $passwords[$account['ema_id']] = $password->getValue();
+            $password = $account->getPassword();
+            $passwords[$account->getId()] = $password->getValue();
         }
 
         // save passwords when encryption disabled
@@ -82,5 +81,10 @@ class CryptoSubscriber implements EventSubscriberInterface
 
         // this needs to be restored, other events may rely on the value
         $config['encryption'] = $state;
+    }
+
+    private function getEmailAccounts(): array
+    {
+        return Doctrine::getEmailAccountRepository()->findAll();
     }
 }

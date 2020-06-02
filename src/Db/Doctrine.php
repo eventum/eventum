@@ -30,6 +30,7 @@ use Misc;
  * @method static Repository\CommitFileRepository getCommitFileRepository()
  * @method static Repository\CommitRepository getCommitRepository()
  * @method static Repository\CustomFieldRepository getCustomFieldRepository()
+ * @method static Repository\EmailAccountRepository getEmailAccountRepository()
  * @method static Repository\IssueAssociationRepository getIssueAssociationRepository()
  * @method static Repository\IssueRepository getIssueRepository()
  * @method static Repository\ProjectRepository getProjectRepository()

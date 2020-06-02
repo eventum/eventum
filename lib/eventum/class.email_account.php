@@ -14,6 +14,7 @@
 use Eventum\Crypto\CryptoManager;
 use Eventum\Crypto\EncryptedValue;
 use Eventum\Db\DatabaseException;
+use Eventum\Db\Doctrine;
 
 class Email_Account
 {
@@ -24,45 +25,12 @@ class Email_Account
      * @param   int $ema_id The email account ID
      * @return  array The issue auto creation options
      */
-    public static function getIssueAutoCreationOptions($ema_id)
+    public static function getIssueAutoCreationOptions(int $ema_id): ?array
     {
-        $stmt = 'SELECT
-                    ema_issue_auto_creation_options
-                 FROM
-                    `email_account`
-                 WHERE
-                    ema_id=?';
-        $res = DB_Helper::getInstance()->getOne($stmt, [$ema_id]);
+        $repo = Doctrine::getEmailAccountRepository();
+        $account = $repo->findById($ema_id);
 
-        if (!is_string($res)) {
-            $res = (string)$res;
-        }
-
-        return Misc::unserialize($res);
-    }
-
-    /**
-     * Method used to update the issue auto creation related options.
-     *
-     * @param   int $ema_id The email account ID
-     * @return  int 1 if the update worked, -1 otherwise
-     */
-    public static function updateIssueAutoCreation($ema_id, $auto_creation, $options)
-    {
-        $stmt = 'UPDATE
-                    `email_account`
-                 SET
-                    ema_issue_auto_creation=?,
-                    ema_issue_auto_creation_options=?
-                 WHERE
-                    ema_id=?';
-        try {
-            DB_Helper::getInstance()->query($stmt, [$auto_creation, @serialize($options), $ema_id]);
-        } catch (DatabaseException $e) {
-            return -1;
-        }
-
-        return 1;
+        return $account->getIssueAutoCreationOptions();
     }
 
     /**
@@ -90,51 +58,17 @@ class Email_Account
     }
 
     /**
-     * Method used to get the account ID for a given email account.
-     *
-     * @param   string $username The username for the specific email account
-     * @param   string $hostname The hostname for the specific email account
-     * @param   string $mailbox The mailbox for the specific email account
-     * @return  int The support email account ID
-     */
-    public static function getAccountID($username, $hostname, $mailbox)
-    {
-        $stmt = 'SELECT
-                    ema_id
-                 FROM
-                    `email_account`
-                 WHERE
-                    ema_username=? AND
-                    ema_hostname=?';
-        try {
-            $params = [$username, $hostname];
-            if ($mailbox !== null) {
-                $stmt .= ' AND ema_folder=?';
-                $params[] = $mailbox;
-            }
-            $res = DB_Helper::getInstance()->getOne($stmt, $params);
-        } catch (DatabaseException $e) {
-            return 0;
-        }
-
-        if ($res == null) {
-            return 0;
-        }
-
-        return $res;
-    }
-
-    /**
      * Method used to get the project ID associated with a given email account.
      *
      * @param   int $ema_id The support email account ID
      * @return  int The project ID
      */
-    public static function getProjectID($ema_id)
+    public static function getProjectID(int $ema_id): int
     {
-        $details = self::getDetails($ema_id);
+        $repo = Doctrine::getEmailAccountRepository();
+        $account = $repo->findById($ema_id);
 
-        return $details['ema_prj_id'];
+        return $account->getProjectId();
     }
 
     /**
@@ -145,27 +79,12 @@ class Email_Account
      * @param bool $include_password
      * @return  array The account details
      */
-    public static function getDetails($ema_id, $include_password = false)
+    public static function getDetails(int $ema_id, bool $include_password = false): array
     {
-        $stmt = 'SELECT
-                    *
-                 FROM
-                    `email_account`
-                 WHERE
-                    ema_id=?';
+        $repo = Doctrine::getEmailAccountRepository();
+        $account = $repo->findById($ema_id);
+        $res = $account->toArray();
 
-        // IMPORTANT: do not print out $ema_id without sanitizing, it may contain XSS
-        try {
-            $res = DB_Helper::getInstance()->getRow($stmt, [$ema_id]);
-        } catch (DatabaseException $e) {
-            throw new RuntimeException('email account not found');
-        }
-
-        if (!$res) {
-            throw new RuntimeException('email account not found');
-        }
-
-        $res['ema_issue_auto_creation_options'] = Misc::unserialize($res['ema_issue_auto_creation_options']);
         if ($include_password) {
             $res['ema_password'] = new EncryptedValue($res['ema_password']);
         } else {
@@ -173,143 +92,6 @@ class Email_Account
         }
 
         return $res;
-    }
-
-    /**
-     * Method used to remove the specified support email accounts.
-     *
-     * @return  bool
-     */
-    public static function remove()
-    {
-        $items = $_POST['items'];
-        $stmt = 'DELETE FROM
-                    `email_account`
-                 WHERE
-                    ema_id IN (' . DB_Helper::buildList($items) . ')';
-        try {
-            DB_Helper::getInstance()->query($stmt, $items);
-        } catch (DatabaseException $e) {
-            return false;
-        }
-
-        return true;
-    }
-
-    /**
-     * Method used to add a new support email account.
-     *
-     * @return  int 1 if the update worked, -1 otherwise
-     */
-    public static function insert()
-    {
-        if (empty($_POST['get_only_new'])) {
-            $_POST['get_only_new'] = 0;
-        }
-        if (empty($_POST['leave_copy'])) {
-            $_POST['leave_copy'] = 0;
-        }
-        if (empty($_POST['use_routing'])) {
-            $_POST['use_routing'] = 0;
-        } elseif ($_POST['use_routing'] == 1) {
-            // if an account will be used for routing, you can't leave the message on the server
-            $_POST['leave_copy'] = 0;
-        }
-        $stmt = 'INSERT INTO
-                    `email_account`
-                 (
-                    ema_prj_id,
-                    ema_type,
-                    ema_hostname,
-                    ema_port,
-                    ema_folder,
-                    ema_username,
-                    ema_password,
-                    ema_get_only_new,
-                    ema_leave_copy,
-                    ema_use_routing
-                 ) VALUES (
-                    ?, ?, ?, ?, ?,
-                    ?, ?, ?, ?, ?
-                 )';
-        $params = [
-            $_POST['project'],
-            $_POST['type'],
-            $_POST['hostname'],
-            $_POST['port'],
-            @$_POST['folder'],
-            $_POST['username'],
-            CryptoManager::encrypt($_POST['password']),
-            $_POST['get_only_new'],
-            $_POST['leave_copy'],
-            $_POST['use_routing'],
-        ];
-
-        try {
-            DB_Helper::getInstance()->query($stmt, $params);
-        } catch (DatabaseException $e) {
-            return -1;
-        }
-
-        return 1;
-    }
-
-    /**
-     * Method used to update a support email account details.
-     *
-     * @return  int 1 if the update worked, -1 otherwise
-     */
-    public static function update()
-    {
-        if (empty($_POST['get_only_new'])) {
-            $_POST['get_only_new'] = 0;
-        }
-        if (empty($_POST['leave_copy'])) {
-            $_POST['leave_copy'] = 0;
-        }
-        if (empty($_POST['use_routing'])) {
-            $_POST['use_routing'] = 0;
-        } elseif ($_POST['use_routing'] == 1) {
-            // if an account will be used for routing, you can't leave the message on the server
-            $_POST['leave_copy'] = 0;
-        }
-        $stmt = 'UPDATE
-                    `email_account`
-                 SET
-                    ema_prj_id=?,
-                    ema_type=?,
-                    ema_hostname=?,
-                    ema_port=?,
-                    ema_folder=?,
-                    ema_username=?,
-                    ema_get_only_new=?,
-                    ema_leave_copy=?,
-                    ema_use_routing=?
-                 WHERE
-                    ema_id=?';
-        $params = [
-            $_POST['project'],
-            $_POST['type'],
-            $_POST['hostname'],
-            $_POST['port'],
-            @$_POST['folder'],
-            $_POST['username'],
-            $_POST['get_only_new'],
-            $_POST['leave_copy'],
-            $_POST['use_routing'],
-            $_POST['id'],
-        ];
-
-        try {
-            DB_Helper::getInstance()->query($stmt, $params);
-            if (!empty($_POST['password'])) {
-                self::updatePassword($_POST['id'], $_POST['password']);
-            }
-        } catch (DatabaseException $e) {
-            return -1;
-        }
-
-        return 1;
     }
 
     /**
@@ -332,36 +114,6 @@ class Email_Account
         ];
 
         DB_Helper::getInstance()->query($stmt, $params);
-    }
-
-    /**
-     * Method used to get the list of available support email
-     * accounts in the system.
-     *
-     * @return  array The list of accounts
-     */
-    public static function getList()
-    {
-        $stmt = 'SELECT
-                    *
-                 FROM
-                    `email_account`
-                 ORDER BY
-                    ema_hostname';
-        try {
-            $res = DB_Helper::getInstance()->getAll($stmt);
-        } catch (DatabaseException $e) {
-            return '';
-        }
-
-        foreach ($res as &$row) {
-            $row['prj_title'] = Project::getName($row['ema_prj_id']);
-
-            // do not expose as not needed
-            unset($row['ema_password']);
-        }
-
-        return $res;
     }
 
     /**
@@ -408,9 +160,9 @@ class Email_Account
      * @param   int $prj_id The ID of the project. If blank the currently project will be used.
      * @return  int The email account ID
      */
-    public static function getEmailAccount($prj_id = false)
+    public static function getEmailAccount(int $prj_id = null): ?int
     {
-        if ($prj_id == false) {
+        if (!$prj_id) {
             $prj_id = Auth::getCurrentProject();
         }
         $stmt = 'SELECT
@@ -421,12 +173,7 @@ class Email_Account
                     ema_prj_id=?
                  LIMIT
                     1 OFFSET 0';
-        try {
-            $res = DB_Helper::getInstance()->getOne($stmt, [$prj_id]);
-        } catch (DatabaseException $e) {
-            return '';
-        }
 
-        return $res;
+        return DB_Helper::getInstance()->getOne($stmt, [$prj_id]) ?: null;
     }
 }

@@ -21,6 +21,7 @@ trait FindByIdTrait
      * @param int $id the identifier
      * @throws EntityNotFoundException
      * @return mixed
+     * @deprecated there's doctrine builtin method by this name that returns "many" not "one". it's considered bad style to change method behavior.
      */
     public function findById(int $id)
     {

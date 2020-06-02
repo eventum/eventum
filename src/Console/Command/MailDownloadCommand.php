@@ -13,12 +13,15 @@
 
 namespace Eventum\Console\Command;
 
+use Doctrine\ORM\EntityNotFoundException;
 use Email_Account;
 use Eventum\ConcurrentLock;
+use Eventum\Db\Doctrine;
 use Eventum\Logger\LoggerTrait;
 use Eventum\Mail\Imap\ImapConnection;
 use Eventum\Mail\MailDownLoader;
 use Eventum\Mail\ProcessMailMessage;
+use Eventum\Model\Entity\EmailAccount;
 use InvalidArgumentException;
 use LimitIterator;
 use Psr\Log\LoggerInterface;
@@ -78,7 +81,8 @@ class MailDownloadCommand extends SymfonyCommand
 
     public function __invoke(?string $username, ?string $hostname, ?string $mailbox, ?bool $noLock, ?int $limit): void
     {
-        $account_id = $this->getAccountId($username, $hostname, $mailbox);
+        $account = $this->findAccount($hostname ?: '', $username ?: '', $mailbox);
+        $account_id = $account->getId();
         $this->limit = $limit ?: 0;
 
         if (!$noLock) {
@@ -114,26 +118,20 @@ class MailDownloadCommand extends SymfonyCommand
     }
 
     /**
-     * Get email account id from parameters
+     * Get email account from the parameters
      *
-     * @param string $username
-     * @param string $hostname
-     * @param string $mailbox
      * @throws InvalidArgumentException
-     * @return int
      */
-    private function getAccountId($username, $hostname, $mailbox): int
+    private function findAccount(string $hostname, string $username, ?string $mailbox): EmailAccount
     {
-        // get the account ID early since we need it also for unlocking.
-        $account_id = Email_Account::getAccountID($username, $hostname, $mailbox);
-
-        if (!$account_id) {
+        $repo = Doctrine::getEmailAccountRepository();
+        try {
+            return $repo->findByDSN($hostname, $username, $mailbox);
+        } catch (EntityNotFoundException $e) {
             throw new InvalidArgumentException(
                 "Could not find a email account with the parameter provided.\n" .
                 'Please verify your email account settings and try again.'
             );
         }
-
-        return $account_id;
     }
 }
