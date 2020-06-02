@@ -1,6 +1,6 @@
 # Eventum Issue Tracking System
 
-## [3.8.15]
+## [3.8.15] - 2020-06-02
 
 Upgrading to 3.8.x versions requires that you upgrade to the latest 3.5.x version first.
 
@@ -8,7 +8,7 @@ Upgrading to 3.8.x versions requires that you upgrade to the latest 3.5.x versio
 - Convert `js/main.js` to a module, #852
 - Migrate `Email_Account` class logic to Models and Doctrine Repository, #850
 
-[3.8.15]: https://github.com/eventum/eventum/compare/v3.8.14...master
+[3.8.15]: https://github.com/eventum/eventum/compare/v3.8.14...v3.8.15
 
 ## [3.8.14] - 2020-05-28
 
