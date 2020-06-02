@@ -25,7 +25,7 @@ class EventContext extends GenericEvent
         $this->setArgument('usr_id', $usr_id);
     }
 
-    public function getProjectId(): int
+    public function getProjectId(): ?int
     {
         return $this->getArgument('prj_id');
     }
