@@ -160,9 +160,9 @@ class Email_Account
      * @param   int $prj_id The ID of the project. If blank the currently project will be used.
      * @return  int The email account ID
      */
-    public static function getEmailAccount($prj_id = false)
+    public static function getEmailAccount(int $prj_id = null): ?int
     {
-        if ($prj_id == false) {
+        if (!$prj_id) {
             $prj_id = Auth::getCurrentProject();
         }
         $stmt = 'SELECT
@@ -173,12 +173,7 @@ class Email_Account
                     ema_prj_id=?
                  LIMIT
                     1 OFFSET 0';
-        try {
-            $res = DB_Helper::getInstance()->getOne($stmt, [$prj_id]);
-        } catch (DatabaseException $e) {
-            return '';
-        }
 
-        return $res;
+        return DB_Helper::getInstance()->getOne($stmt, [$prj_id]) ?: null;
     }
 }
