@@ -105,6 +105,10 @@ class RemoteDataController extends BaseController
                 $res = $this->getIssueDescription($this->list_id);
                 break;
 
+            case 'preview':
+                $res = $this->getPreview();
+                break;
+
             default:
                 $res = 'ERROR: Unable to call function ' . htmlspecialchars($this->action);
         }
@@ -242,6 +246,18 @@ class RemoteDataController extends BaseController
         $raw = $res['maq_headers'] . "\n" . $res['maq_body'];
 
         return nl2br(htmlspecialchars($raw, ENT_SUBSTITUTE));
+    }
+
+    /**
+     * Renders an HTML preview of a markdown message.
+     *
+     * @return  string the rendered message
+     */
+    private function getPreview(): string
+    {
+        $request = $this->getRequest();
+        $source = (string) $request->get('source');
+        return !empty($source) ? $this->processText($source) : "";
     }
 
     private function processText($text)
