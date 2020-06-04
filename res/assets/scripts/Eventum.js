@@ -379,4 +379,22 @@ export class Eventum {
             }
         }
     }
+
+    showPreview(input_id, preview_id) {
+        const $input = $(input_id);
+        $input.hide();
+
+        const $preview = $(preview_id);
+        $preview.load(this.rel_url + 'get_remote_data.php?action=preview', { source: $input.val() });
+        $preview.show();
+    }
+
+    hidePreview(input_id, preview_id) {
+        const $input = $(input_id);
+        $input.show();
+
+        const $preview = $(preview_id);
+        $preview.hide();
+    }
+
 }
