@@ -257,7 +257,8 @@ class RemoteDataController extends BaseController
     {
         $request = $this->getRequest();
         $source = (string) $request->get('source');
-        return !empty($source) ? $this->processText($source) : "";
+
+        return $source ? $this->processText($source) : '';
     }
 
     private function processText($text)
