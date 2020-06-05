@@ -15,6 +15,7 @@ import { GrowingFileField } from "./GrowingFileField.js";
 import { Validation } from "./Validation.js";
 import { Cookie } from "./Cookie.js";
 import { Eventum } from "./Eventum.js";
+import SelectProject from "./pages/SelectProject.js";
 
 window.Eventum = new Eventum();
 window.ExpandableCell = new ExpandableCell();
@@ -22,3 +23,6 @@ window.CustomField = new CustomField();
 window.GrowingFileField = new GrowingFileField();
 window.Validation = new Validation();
 window.Cookie = new Cookie(Cookies.noConflict());
+
+// pages
+window.select_project = new SelectProject();
