@@ -16,6 +16,7 @@ import { Validation } from "./Validation.js";
 import { Cookie } from "./Cookie.js";
 import { Eventum } from "./Eventum.js";
 import SelectProject from "./pages/SelectProject.js";
+import ListIssues from "./pages/ListIssues.js";
 
 window.Eventum = new Eventum();
 window.ExpandableCell = new ExpandableCell();
@@ -26,3 +27,4 @@ window.Cookie = new Cookie(Cookies.noConflict());
 
 // pages
 window.select_project = new SelectProject();
+window.list_issues = new ListIssues();
