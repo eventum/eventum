@@ -21,6 +21,7 @@ import IssueView from "./pages/IssueView.js";
 import IssueUpdate from "./pages/IssueUpdate.js";
 import CloseIssue from "./pages/CloseIssue.js";
 import AdvSearch from "./pages/AdvSearch.js";
+import NewIssue from "./pages/NewIssue.js";
 
 window.Eventum = new Eventum();
 window.ExpandableCell = new ExpandableCell();
@@ -36,3 +37,4 @@ window.issue_view = new IssueView();
 window.issue_update = new IssueUpdate();
 window.close_issue = new CloseIssue();
 window.adv_search = new AdvSearch();
+window.new_issue = new NewIssue();
