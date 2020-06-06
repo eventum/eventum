@@ -23,6 +23,7 @@ import CloseIssue from "./pages/CloseIssue.js";
 import AdvSearch from "./pages/AdvSearch.js";
 import NewIssue from "./pages/NewIssue.js";
 import AnonPost from "./pages/AnonPost.js";
+import Stats from "./pages/Stats.js";
 
 window.Eventum = new Eventum();
 window.ExpandableCell = new ExpandableCell();
@@ -40,3 +41,4 @@ window.close_issue = new CloseIssue();
 window.adv_search = new AdvSearch();
 window.new_issue = new NewIssue();
 window.anon_post = new AnonPost();
+window.stats = new Stats();
