@@ -83,10 +83,10 @@ export class Eventum {
         return selector.replace(/(\[|\])/g, '\\$1')
     }
 
-    getField(name_or_obj, form) {
+    getField(name_or_obj, $form) {
         if ($.type(name_or_obj) === 'string') {
-            if (form) {
-                return form.find('[name="' + name_or_obj + '"]');
+            if ($form) {
+                return $form.find('[name="' + name_or_obj + '"]');
             } else {
                 return $('[name="' + name_or_obj + '"]')
             }
