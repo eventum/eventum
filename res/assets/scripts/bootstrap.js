@@ -24,6 +24,7 @@ import AdvSearch from "./pages/AdvSearch.js";
 import NewIssue from "./pages/NewIssue.js";
 import AnonPost from "./pages/AnonPost.js";
 import Stats from "./pages/Stats.js";
+import Product from "./pages/Product.js";
 
 window.Eventum = new Eventum();
 window.ExpandableCell = new ExpandableCell();
@@ -42,3 +43,4 @@ window.adv_search = new AdvSearch();
 window.new_issue = new NewIssue();
 window.anon_post = new AnonPost();
 window.stats = new Stats();
+window.product = new Product();

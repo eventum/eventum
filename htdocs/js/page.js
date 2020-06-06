@@ -14,26 +14,6 @@
 
 
 /*
- * Product chooser functions used in multiplepages
- */
-function product() {}
-
-product.ready = function()
-{
-    $('#product').bind('change', product.display_product_version_howto).change();
-};
-
-product.display_product_version_howto = function()
-{
-    var howto = $('#product :selected').attr('data-desc');
-    if (howto == undefined || howto == '') {
-        $('#product_version_howto').hide();
-    } else {
-        $('#product_version_howto').text(howto).show();
-    }
-};
-
-/*
  * Preferences page
  */
 function preferences() {}
