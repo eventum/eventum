@@ -60,7 +60,6 @@ Session.vim
 /htdocs/images/*.png
 /htdocs/images/vendor/
 /htdocs/js/*.js.LICENSE.txt
-/htdocs/js/all.js
 /htdocs/js/app.js
 /htdocs/js/components.js
 /htdocs/js/datatables.js

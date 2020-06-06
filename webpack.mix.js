@@ -35,10 +35,6 @@ mix.js([
     'res/assets/scripts/app.js',
 ], 'htdocs/js/app.js');
 
-mix.scripts([
-    'htdocs/js/page.js',
-], 'htdocs/js/all.js');
-
 mix.sass('res/assets/sass/jquery-ui.scss', 'htdocs/css/jquery-ui.css');
 mix.scripts([
     // core.js
@@ -129,7 +125,6 @@ mix.version([
     'htdocs/css/components.css',
     'htdocs/css/datatables.css',
     'htdocs/css/jquery-ui.css',
-    'htdocs/js/all.js',
     'htdocs/js/app.js',
     'htdocs/js/components.js',
     'htdocs/js/datatables.js',
