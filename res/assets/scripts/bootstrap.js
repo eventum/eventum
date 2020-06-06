@@ -26,6 +26,7 @@ import AnonPost from "./pages/AnonPost.js";
 import Stats from "./pages/Stats.js";
 import Product from "./pages/Product.js";
 import Preferences from "./pages/Preferences.js";
+import CustomFieldOptions from "./pages/CustomFieldOptions.js";
 
 window.Eventum = new Eventum();
 window.ExpandableCell = new ExpandableCell();
@@ -46,3 +47,4 @@ window.anon_post = new AnonPost();
 window.stats = new Stats();
 window.product = new Product();
 window.preferences = new Preferences();
+window.custom_field_options = new CustomFieldOptions();
