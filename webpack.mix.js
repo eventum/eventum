@@ -120,6 +120,10 @@ mix.scripts([
 ], 'htdocs/js/datatables.js');
 mix.copy('node_modules/datatables/media/images/*.png', 'htdocs/images');
 
+mix.scripts([
+    'res/assets/scripts/dynamic_custom_field.js',
+], 'htdocs/js/dynamic_custom_field.js');
+
 mix.version([
     'htdocs/css/app.css',
     'htdocs/css/components.css',
@@ -129,6 +133,7 @@ mix.version([
     'htdocs/js/components.js',
     'htdocs/js/datatables.js',
     'htdocs/js/jquery-ui.js',
+    'htdocs/js/dynamic_custom_field.js',
 ]);
 
 if (mix.inProduction()) {

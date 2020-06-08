@@ -63,6 +63,7 @@ Session.vim
 /htdocs/js/app.js
 /htdocs/js/components.js
 /htdocs/js/datatables.js
+/htdocs/js/dynamic_custom_field.js
 /htdocs/js/jquery-ui.js
 /htdocs/mix-manifest.json
 
