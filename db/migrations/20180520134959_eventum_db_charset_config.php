@@ -12,12 +12,13 @@
  */
 
 use Eventum\Db\AbstractMigration;
+use Eventum\ServiceContainer;
 
 class EventumDbCharsetConfig extends AbstractMigration
 {
     public function up(): void
     {
-        $config = Setup::get();
+        $config = ServiceContainer::getConfig();
         $config['database']['charset'] = 'utf8';
 
         Setup::save();

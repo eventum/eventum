@@ -13,15 +13,16 @@
 
 use Eventum\Config\Config;
 use Eventum\Db\AbstractMigration;
+use Eventum\ServiceContainer;
 
 class EventumConvertConst extends AbstractMigration
 {
     public function up(): void
     {
         $unixTimestamp = time();
-        $setup = Setup::get();
+        $config = ServiceContainer::getConfig();
 
-        $this->convertConstants($setup, [
+        $this->convertConstants($config, [
             // new users will use these for default preferences
             // if the user will receive an email when an issue is assigned to him
             'APP_DEFAULT_ASSIGNED_EMAILS' => true,
@@ -81,20 +82,20 @@ class EventumConvertConst extends AbstractMigration
         ]);
 
         // fixup: this should be relative time
-        if ($setup['cookie_expire'] > $unixTimestamp) {
-            $setup['cookie_expire'] -= $unixTimestamp;
+        if ($config['cookie_expire'] > $unixTimestamp) {
+            $config['cookie_expire'] -= $unixTimestamp;
         }
-        if ($setup['project_cookie_expire'] > $unixTimestamp) {
-            $setup['project_cookie_expire'] -= $unixTimestamp;
+        if ($config['project_cookie_expire'] > $unixTimestamp) {
+            $config['project_cookie_expire'] -= $unixTimestamp;
         }
 
         // fixup: use proper names
-        $setup['cookie_path'] = $setup['cookie_url'];
-        $setup['anonymous_user'] = $setup['anon_user'];
-        unset($setup['cookie_url'], $setup['anon_user']);
+        $config['cookie_path'] = $config['cookie_url'];
+        $config['anonymous_user'] = $config['anon_user'];
+        unset($config['cookie_url'], $config['anon_user']);
 
         // fixup: init tool_caption from app_name
-        $setup['tool_caption'] = $setup['tool_caption'] ?: $setup['name'];
+        $config['tool_caption'] = $config['tool_caption'] ?: $config['name'];
 
         Setup::save();
     }

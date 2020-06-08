@@ -14,14 +14,15 @@
 use Eventum\Config\Config;
 
 use Eventum\Db\AbstractMigration;
+use Eventum\ServiceContainer;
 
 class EventumConvertSphinxConst extends AbstractMigration
 {
     public function up(): void
     {
-        $setup = Setup::get();
+        $config = ServiceContainer::getConfig();
 
-        $this->convertConstants($setup, [
+        $this->convertConstants($config, [
             'SPHINX_LOG_PATH' => '/var/log/sphinx/',
             'SPHINX_RUN_PATH' => '/var/run/sphinx/',
             'SPHINX_DATA_PATH' => '/var/lib/sphinx/eventum/',
@@ -29,7 +30,7 @@ class EventumConvertSphinxConst extends AbstractMigration
             'SPHINX_SEARCHD_PORT' => 3312,
         ]);
 
-        $setup['sphinx_searchd_port'] = (int)$setup['sphinx_searchd_port'];
+        $config['sphinx_searchd_port'] = (int)$config['sphinx_searchd_port'];
 
         Setup::save();
     }

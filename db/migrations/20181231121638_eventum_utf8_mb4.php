@@ -12,6 +12,7 @@
  */
 
 use Eventum\Db\AbstractMigration;
+use Eventum\ServiceContainer;
 
 /**
  * Upgrade MySQL charset to utf8mb4
@@ -30,7 +31,7 @@ class EventumUtf8Mb4 extends AbstractMigration
             throw new RuntimeException('Requires MySQL Version >=' . self::MIN_VERSION);
         }
 
-        $config = Setup::get();
+        $config = ServiceContainer::getConfig();
         $config['database']['charset_rollback'] = $config['database']['charset'];
         $config['database']['charset'] = self::CHARSET;
         $config['database']['collation'] = self::COLLATION;
@@ -40,7 +41,7 @@ class EventumUtf8Mb4 extends AbstractMigration
 
     public function down(): void
     {
-        $config = Setup::get();
+        $config = ServiceContainer::getConfig();
         if (!$config['database']['charset_rollback']) {
             return;
         }
