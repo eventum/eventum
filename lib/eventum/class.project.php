@@ -476,7 +476,7 @@ class Project
                     pru_prj_id=? AND
                     pru_usr_id=usr_id AND
                     usr_id != ?';
-        $params = [$prj_id, Setup::get()['system_user_id']];
+        $params = [$prj_id, Setup::getSystemUserId()];
         if ($status != null) {
             $stmt .= " AND usr_status='active' ";
         }
@@ -644,7 +644,7 @@ class Project
                     pru_usr_id=usr_id AND
                     usr_status='active' AND
                     usr_id <> ?";
-        $params = [$prj_id, Setup::get()['system_user_id']];
+        $params = [$prj_id, Setup::getSystemUserId()];
         if (count($contact_ids) > 0) {
             $stmt .= ' AND (pru_role <> ? OR usr_customer_contact_id IN(' . DB_Helper::buildList($contact_ids) . ')) ';
             $params[] = User::ROLE_CUSTOMER;

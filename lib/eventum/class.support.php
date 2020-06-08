@@ -525,7 +525,7 @@ class Support
         if ($info['ema_issue_auto_creation'] === 'enabled'
             && $should_create_issue && !$mail->isBounceMessage()) {
             $options = Email_Account::getIssueAutoCreationOptions($info['ema_id']);
-            $system_user_id = Setup::get()['system_user_id'];
+            $system_user_id = Setup::getSystemUserId();
             AuthCookie::setAuthCookie($system_user_id);
             AuthCookie::setProjectCookie($prj_id);
 
@@ -967,7 +967,7 @@ class Support
             if (!$usr_id) {
                 // if we couldn't find a real customer by that email, set the usr_id to be the system user id,
                 // and store the actual email address in the unknown_user field.
-                $usr_id = Setup::get()['system_user_id'];
+                $usr_id = Setup::getSystemUserId();
                 $unknown_user = $sender_email;
             }
         }
@@ -2155,7 +2155,7 @@ class Support
             Workflow::handleBlockedEmail($prj_id, $issue_id, $email_details, $email_type, $mail);
 
             // try to get usr_id of sender, if not, use system account
-            $usr_id = User::getUserIDByEmail($sender_email, true) ?: Setup::get()['system_user_id'];
+            $usr_id = User::getUserIDByEmail($sender_email, true) ?: Setup::getSystemUserId();
             History::add($issue_id, $usr_id, 'email_blocked', "Email from '{from}' blocked", [
                 'from' => $sender_email,
             ]);

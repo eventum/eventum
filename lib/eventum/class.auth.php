@@ -356,7 +356,7 @@ class Auth
         }
         $usr_id = self::getUserID();
         $projects = Project::getAssocList($usr_id);
-        if ($usr_id == Setup::get()['system_user_id']) {
+        if ($usr_id == Setup::getSystemUserId()) {
             return isset($cookie['prj_id']) ? (int)$cookie['prj_id'] : null;
         }
 

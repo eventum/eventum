@@ -41,7 +41,7 @@ class DateHelperUserTest extends TestCase
     {
         $config = Setup::get();
         self::setTimezone($this->admin_user_id = $config['admin_user'], self::USER_TIMEZONE);
-        self::setTimezone($this->system_user_id = $config['system_user_id'], self::ADMIN_TIMEZONE);
+        self::setTimezone($this->system_user_id = Setup::getSystemUserId(), self::ADMIN_TIMEZONE);
     }
 
     private static function setTimezone(int $usr_id, string $timezone): void

@@ -990,7 +990,7 @@ class Issue
      */
     public static function addAnonymousReport()
     {
-        $system_user_id = Setup::get()['system_user_id'];
+        $system_user_id = Setup::getSystemUserId();
         $prj_id = (int) $_POST['project'];
         $options = Project::getAnonymousPostOptions($prj_id);
         $initial_status = Project::getInitialStatus($prj_id);
@@ -1627,7 +1627,7 @@ class Issue
      */
     public static function createFromEmail(MailMessage $mail, $options)
     {
-        $system_user_id = Setup::get()['system_user_id'];
+        $system_user_id = Setup::getSystemUserId();
         $category = $options['category'] ?? null;
         $priority = $options['priority'] ?? null;
         $assignment = $options['users'] ?? null;
@@ -1938,7 +1938,7 @@ class Issue
                 if (!empty($assignee)) {
                     $users[] = $assignee;
                     self::addUserAssociation($usr_id, $issue_id, $assignee, false);
-                    History::add($issue_id, Setup::get()['system_user_id'], 'rr_issue_assigned', 'Issue auto-assigned to {assignee} (RR)', [
+                    History::add($issue_id, Setup::getSystemUserId(), 'rr_issue_assigned', 'Issue auto-assigned to {assignee} (RR)', [
                          'assignee' => User::getFullName($assignee),
                     ]);
                     $has_RR = true;
@@ -2031,7 +2031,7 @@ class Issue
     {
         // if there is no reporter set, use the system user
         if (empty($data['reporter'])) {
-            $data['reporter'] = Setup::get()['system_user_id'];
+            $data['reporter'] = Setup::getSystemUserId();
         }
 
         if ((!isset($data['estimated_dev_time'])) || ($data['estimated_dev_time'] == '')) {

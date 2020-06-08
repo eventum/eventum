@@ -40,7 +40,7 @@ class CommitSubscriber implements EventSubscriberInterface
 
         if (!$commit->getUserId()) {
             // XXX: complex logic figuring out user id
-            $usr_id = Setup::get()['system_user_id'];
+            $usr_id = Setup::getSystemUserId();
             $commit->setUserId($usr_id);
         }
     }

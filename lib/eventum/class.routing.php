@@ -104,7 +104,7 @@ class Routing
         }
 
         // associate routed emails to the internal system account
-        $system_user_id = Setup::get()['system_user_id'];
+        $system_user_id = Setup::getSystemUserId();
         $sys_account = User::getNameEmail($system_user_id);
         if (empty($sys_account['usr_email'])) {
             throw RoutingException::noAssociatedUserConfigured();
@@ -296,7 +296,7 @@ class Routing
         }
 
         if (!$sender_usr_id) {
-            $sender_usr_id = Setup::get()['system_user_id'];
+            $sender_usr_id = Setup::getSystemUserId();
             $unknown_user = $mail->from;
         } else {
             $unknown_user = false;

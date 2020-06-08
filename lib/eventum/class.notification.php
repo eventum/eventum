@@ -1984,7 +1984,7 @@ class Notification
             // cancel subscribing the user
             return -2;
         }
-        if ($subscriber_usr_id == Setup::get()['system_user_id']) {
+        if ($subscriber_usr_id == Setup::getSystemUserId()) {
             return -2;
         }
 
