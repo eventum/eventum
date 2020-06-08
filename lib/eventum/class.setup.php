@@ -147,6 +147,14 @@ class Setup
     }
 
     /**
+     * @since 3.8.17
+     */
+    public static function getDefaultLocale(): string
+    {
+        return self::get()['default_locale'] ?? 'en_US';
+    }
+
+    /**
      * Method used to get the default start of week day.
      *
      * @return int 0 - Sunday, 1 - Monday

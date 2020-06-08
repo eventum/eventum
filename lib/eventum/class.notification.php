@@ -1030,7 +1030,7 @@ class Notification
             if (!empty($recipient_usr_id)) {
                 Language::set(User::getLang($recipient_usr_id));
             } else {
-                Language::set(Setup::get()['default_locale']);
+                Language::set(Setup::getDefaultLocale());
             }
 
             if ($type === 'notes') {
@@ -1288,7 +1288,7 @@ class Notification
             if (!empty($recipient_usr_id)) {
                 Language::set(User::getLang($recipient_usr_id));
             } else {
-                Language::set(Setup::get()['default_locale']);
+                Language::set(Setup::getDefaultLocale());
             }
 
             $text_message = $tpl->getTemplateContents();
@@ -1368,7 +1368,7 @@ class Notification
             if (!empty($recipient_usr_id)) {
                 Language::set(User::getLang($recipient_usr_id));
             } else {
-                Language::set(Setup::get()['default_locale']);
+                Language::set(Setup::getDefaultLocale());
             }
 
             // TRANSLATORS: %1 - issue_id, %2 - iss_summary

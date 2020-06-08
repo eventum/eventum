@@ -1428,7 +1428,7 @@ class User
                         usr_id = ?';
             $res = DB_Helper::getInstance()->getOne($sql, [$usr_id]);
 
-            $returns[$usr_id] = $res ?: Setup::get()['default_locale'];
+            $returns[$usr_id] = $res ?: Setup::getDefaultLocale();
         }
 
         return $returns[$usr_id];
