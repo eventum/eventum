@@ -1492,8 +1492,9 @@ class Issue
         $new_prc_id = array_search($iss_prc_title, $new_iss_prc_list);
         if ($new_prc_id === false) {
             // use the first category listed in the new project
-            $mapping['iss_prc_id'] = key($new_iss_prc_list);
+            $new_prc_id = key($new_iss_prc_list);
         }
+        $mapping['iss_prc_id'] = $new_prc_id;
 
         // set new priority
         $new_iss_pri_list = Priority::getAssocList($new_prj_id);
@@ -1501,8 +1502,9 @@ class Issue
         $new_pri_id = array_search($iss_pri_title, $new_iss_pri_list);
         if ($new_pri_id === false) {
             // use the first category listed in the new project
-            $mapping['iss_pri_id'] = key($new_iss_pri_list);
+            $new_pri_id = key($new_iss_pri_list);
         }
+        $mapping['iss_pri_id'] = $new_pri_id;
 
         return Workflow::getMovedIssueMapping($new_prj_id, $issue_id, $mapping, $current_details['iss_prj_id']);
     }

@@ -4,6 +4,8 @@
 
 Upgrading to 3.8.x versions requires that you upgrade to the latest 3.5.x version first.
 
+- Fix category/priority mapping when moving an issue between projects, #864
+
 [3.8.17]: https://github.com/eventum/eventum/compare/v3.8.16...master
 
 ## [3.8.16] - 2020-06-04
