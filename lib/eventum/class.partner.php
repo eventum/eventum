@@ -13,6 +13,7 @@
 
 use Eventum\Config\Paths;
 use Eventum\Db\DatabaseException;
+use Eventum\Db\Doctrine;
 use Eventum\Extension\ExtensionLoader;
 
 /**
@@ -250,21 +251,13 @@ class Partner
         return 1;
     }
 
-    public static function getProjectsForPartner($par_code)
+    public static function getProjectsForPartner(string $par_code): array
     {
-        $sql = 'SELECT
-                    pap_prj_id,
-                    prj_title
-                FROM
-                    `partner_project`,
-                    `project`
-                WHERE
-                    pap_prj_id = prj_id AND
-                    pap_par_code = ?';
-        try {
-            $res = DB_Helper::getInstance()->getPair($sql, [$par_code]);
-        } catch (DatabaseException $e) {
-            return [];
+        $repo = Doctrine::getProjectRepository();
+        $res = [];
+
+        foreach ($repo->findByPartnerCode($par_code) as $project) {
+            $res[$project->getId()] = $project->getTitle();
         }
 
         return $res;
