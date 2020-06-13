@@ -260,11 +260,10 @@ class Workflow
      * @since 3.7.0 adds 'issue' argument to event
      * @since 3.8.13 workflow integration is done by WorkflowLegacyExtension
      * @since 3.8.13 emits EventContext event
+     * @since 3.8.17 Partner integration is done by PartnerLegacyExtension
      */
     public static function handleNewEmail(int $prj_id, int $issue_id, MailMessage $mail, array $row, bool $closing = false): void
     {
-        Partner::handleNewEmail($issue_id, $row['sup_id']);
-
         // there are more variable options in $row
         // add just useful ones for event handler
         $arguments = [
