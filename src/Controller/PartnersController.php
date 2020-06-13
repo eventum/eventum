@@ -89,17 +89,22 @@ class PartnersController extends BaseController
         $this->tpl->assign('update_result', 1);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function prepareTemplate(): void
     {
-        $this->tpl->assign(
-            [
-                'issue_id' => $this->issue_id,
-                'enabled_partners' => Partner::getPartnersByProject($this->prj_id),
-                'partners' => Partner::getPartnersByIssue($this->issue_id),
-            ]
-        );
+        $this->tpl->assign([
+            'issue_id' => $this->issue_id,
+            'partners' => $this->getPartnersOptions(),
+        ]);
+    }
+
+    private function getPartnersOptions(): array
+    {
+        $selected = Partner::getPartnersByIssue($this->issue_id);
+        $options = [];
+        foreach (Partner::getPartnersByProject($this->prj_id) as $option => $value) {
+            $options[$option] = $value['name'];
+        }
+
+        return $this->html->checkboxes($options, array_keys($selected));
     }
 }

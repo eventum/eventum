@@ -48,4 +48,15 @@ class HtmlHelper
             'selected' => (int)$value,
         ];
     }
+
+    /**
+     * @see https://www.smarty.net/docsv2/en/language.function.html.checkboxes.tpl
+     */
+    public function checkboxes(array $options, array $selected): array
+    {
+        return [
+            'options' => $options,
+            'selected' => $selected,
+        ];
+    }
 }
