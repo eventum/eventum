@@ -27,9 +27,6 @@ class PartnersController extends ManageBaseController
     /** @var string */
     private $cat;
 
-    /**
-     * {@inheritdoc}
-     */
     protected function configure(): void
     {
         $request = $this->getRequest();
@@ -37,16 +34,11 @@ class PartnersController extends ManageBaseController
         $this->cat = $request->request->get('cat') ?: $request->query->get('cat');
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function defaultAction(): void
     {
         if ($this->cat === 'update') {
             $this->updateAction();
-        }
-
-        if ($this->cat == 'edit') {
+        } elseif ($this->cat === 'edit') {
             $this->editAction();
         }
     }
@@ -73,9 +65,6 @@ class PartnersController extends ManageBaseController
         $this->tpl->assign('info', $info);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function prepareTemplate(): void
     {
         $this->tpl->assign(
