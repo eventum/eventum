@@ -35,7 +35,7 @@ class EventumExtensionMigrateDb extends AbstractMigration
     private function setupLegacyLoader(): void
     {
         $register = new RegisterExtension();
-        $register->register(self::EXTENSION);
+        $register->enable(self::EXTENSION);
     }
 
     private function migratePartners(): void
