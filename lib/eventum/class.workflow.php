@@ -321,13 +321,13 @@ class Workflow
      * @since 3.8.13 workflow integration is done by WorkflowLegacyExtension
      * @since 3.8.17 Partner integration is done by PartnerLegacyExtension
      */
-    public static function handleNewNote(int $prj_id, int $issue_id, $usr_id, $closing, $note_id): void
+    public static function handleNewNote(int $prj_id, int $issue_id, int $usr_id, bool $closing, int $note_id): void
     {
         $arguments = [
             'issue' => Doctrine::getIssueRepository()->findById($issue_id),
-            'note_id' => (int)$note_id,
+            'note_id' => $note_id,
             'note_details' => Note::getDetails($note_id),
-            'closing' => (bool)$closing,
+            'closing' => $closing,
         ];
         $event = new EventContext($prj_id, $issue_id, $usr_id, $arguments);
         EventManager::dispatch(SystemEvents::NOTE_CREATED, $event);
