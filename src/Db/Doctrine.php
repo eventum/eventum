@@ -33,6 +33,7 @@ use Misc;
  * @method static Repository\EmailAccountRepository getEmailAccountRepository()
  * @method static Repository\IssueAssociationRepository getIssueAssociationRepository()
  * @method static Repository\IssueRepository getIssueRepository()
+ * @method static Repository\PartnerProjectRepository getPartnerProjectRepository()
  * @method static Repository\ProjectRepository getProjectRepository()
  * @method static Repository\RemoteLinkRepository getRemoteLinkRepository()
  * @method static Repository\SearchProfileRepository getSearchProfileRepository()

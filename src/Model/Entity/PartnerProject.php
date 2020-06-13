@@ -17,7 +17,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Table(name="partner_project")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Eventum\Model\Repository\PartnerProjectRepository")
  */
 class PartnerProject
 {
