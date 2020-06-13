@@ -11,14 +11,18 @@
  * that were distributed with this source code.
  */
 
+namespace Example\Partner;
+
+use Abstract_Partner_Backend;
+
 /**
  * Example class for partner business logic.
  */
-class Example_Partner_Backend extends Abstract_Partner_Backend
+class ExamplePartner extends Abstract_Partner_Backend
 {
     public function __construct()
     {
-        // setup the backend
+        parent::__construct();
     }
 
     public function getName()
