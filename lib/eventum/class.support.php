@@ -1424,6 +1424,7 @@ class Support
 
         $is_allowed = true;
         $sender_usr_id = User::getUserIDByEmail($sender_email, true);
+        $notAuthorizedReplier = !Authorized_Replier::isAuthorizedReplier($issue_id, $sender_email);
         if (empty($sender_usr_id)) {
             if (CRM::hasCustomerIntegration($prj_id)) {
                 // check for a customer contact with several email addresses
@@ -1435,12 +1436,11 @@ class Support
                 } catch (CRMException $e) {
                     $contact_emails = [];
                 }
-                if ((!in_array(strtolower($sender_email), $contact_emails)) &&
-                        (!Authorized_Replier::isAuthorizedReplier($issue_id, $sender_email))) {
+                if ($notAuthorizedReplier && !in_array(strtolower($sender_email), $contact_emails, true)) {
                     $is_allowed = false;
                 }
             } else {
-                if (!Authorized_Replier::isAuthorizedReplier($issue_id, $sender_email)) {
+                if ($notAuthorizedReplier) {
                     $is_allowed = false;
                 }
             }
@@ -1454,11 +1454,11 @@ class Support
                 $is_allowed = true;
             } elseif ((User::isPartner($sender_usr_id)) && (in_array(User::getPartnerID($sender_usr_id), Partner::getPartnerCodesByIssue($issue_id)))) {
                 $is_allowed = true;
-            } elseif ((!Issue::canAccess($issue_id, $sender_usr_id)) && (!Authorized_Replier::isAuthorizedReplier($issue_id, $sender_email))) {
+            } elseif (!Issue::canAccess($issue_id, $sender_usr_id) && $notAuthorizedReplier) {
                 $is_allowed = false;
-            } elseif ((!Authorized_Replier::isAuthorizedReplier($issue_id, $sender_email)) &&
-                    (!Issue::isAssignedToUser($issue_id, $sender_usr_id)) &&
-                    (User::getRoleByUser($sender_usr_id, Issue::getProjectID($issue_id)) != User::ROLE_CUSTOMER)) {
+            } elseif ($notAuthorizedReplier &&
+                !Issue::isAssignedToUser($issue_id, $sender_usr_id) &&
+                User::getRoleByUser($sender_usr_id, Issue::getProjectID($issue_id)) != User::ROLE_CUSTOMER) {
                 $is_allowed = false;
             }
         }
