@@ -13,7 +13,7 @@
 
 namespace Eventum\Controller\Manage;
 
-use Eventum\Controller\Helper\MessagesHelper;
+use Eventum\Db\DatabaseException;
 use Eventum\Db\Doctrine;
 use Eventum\Extension\ExtensionManager;
 use Eventum\ServiceContainer;
@@ -46,16 +46,20 @@ class PartnersController extends ManageBaseController
 
     private function updateAction(): void
     {
-        $post = $this->getRequest()->request;
+        $request = $this->getRequest()->request;
 
-        $res = Partner::update($post->get('code'), $post->get('projects'));
-        $this->tpl->assign('result', $res);
+        $code = $request->get('code');
+        try {
+            $repo = Doctrine::getPartnerProjectRepository();
+            $repo->setProjectAssociation($code, $request->get('projects'));
+        } catch (DatabaseException $e) {
+            $this->messages->addErrorMessage(ev_gettext('An error occurred while trying to update the partner information.'));
 
-        $map = [
-            1 => [ev_gettext('Thank you, the partner was updated successfully.'), MessagesHelper::MSG_INFO],
-            -1 => [ev_gettext('An error occurred while trying to update the partner information.'), MessagesHelper::MSG_ERROR],
-        ];
-        $this->messages->mapMessages($res, $map);
+            return;
+        }
+
+        $this->messages->addInfoMessage(ev_gettext('Thank you, the partner was updated successfully.'));
+        $this->redirect("partners.php?cat=edit&code={$code}");
     }
 
     private function editAction(): void

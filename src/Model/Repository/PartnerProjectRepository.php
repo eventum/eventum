@@ -14,7 +14,9 @@
 namespace Eventum\Model\Repository;
 
 use Doctrine\ORM\EntityRepository;
+use Eventum\Db\DatabaseException;
 use Eventum\Model\Entity;
+use Partner;
 
 /**
  * @method Entity\PartnerProject findById(int $prj_id)
@@ -22,4 +24,13 @@ use Eventum\Model\Entity;
 class PartnerProjectRepository extends EntityRepository
 {
     use Traits\FindByIdTrait;
+
+    public function setProjectAssociation(string $code, array $projects): void
+    {
+        $res = Partner::update($code, $projects);
+
+        if ($res === -1) {
+            throw new DatabaseException();
+        }
+    }
 }
