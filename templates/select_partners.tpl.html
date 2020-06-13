@@ -1,5 +1,5 @@
 {extends "base.tpl.html"}
-{block title}{t 1=$smarty.get.id|intval}Issue #%1 -  Select Partners{/t}{/block}
+{block title}{t 1=$issue_id}Issue #%1 -  Select Partners{/t}{/block}
 
 {block content}
 {if $update_result|default:'' != ''}
