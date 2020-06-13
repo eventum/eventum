@@ -13,7 +13,6 @@
 
 use Eventum\Config\Paths;
 use Eventum\Db\DatabaseException;
-use Eventum\Db\Doctrine;
 use Eventum\Extension\ExtensionLoader;
 
 /**
@@ -210,15 +209,6 @@ class Partner
         return false;
     }
 
-    public static function getDetails($par_code)
-    {
-        return [
-            'code' => $par_code,
-            'name' => self::getBackend($par_code)->getName(),
-            'projects' => self::getProjectsForPartner($par_code),
-        ];
-    }
-
     public static function update($par_code, $projects)
     {
 
@@ -249,18 +239,6 @@ class Partner
         }
 
         return 1;
-    }
-
-    public static function getProjectsForPartner(string $par_code): array
-    {
-        $repo = Doctrine::getProjectRepository();
-        $res = [];
-
-        foreach ($repo->findByPartnerCode($par_code) as $project) {
-            $res[$project->getId()] = $project->getTitle();
-        }
-
-        return $res;
     }
 
     public static function getName($par_code)

@@ -14,6 +14,7 @@
 namespace Eventum\Controller\Manage;
 
 use Eventum\Controller\Helper\MessagesHelper;
+use Eventum\Db\Doctrine;
 use Eventum\Extension\ExtensionManager;
 use Eventum\ServiceContainer;
 use Partner;
@@ -59,9 +60,9 @@ class PartnersController extends ManageBaseController
 
     private function editAction(): void
     {
-        $get = $this->getRequest()->query;
+        $request = $this->getRequest()->query;
 
-        $info = Partner::getDetails($get->get('code'));
+        $info = $this->getDetails($request->get('code'));
         $this->tpl->assign('info', $info);
     }
 
@@ -74,6 +75,27 @@ class PartnersController extends ManageBaseController
                 'project_list' => Project::getAll(),
             ]
         );
+    }
+
+    private function getProjects(string $par_code): array
+    {
+        $repo = Doctrine::getProjectRepository();
+        $res = [];
+
+        foreach ($repo->findByPartnerCode($par_code) as $project) {
+            $res[$project->getId()] = $project->getTitle();
+        }
+
+        return $res;
+    }
+
+    private function getDetails(string $par_code): array
+    {
+        return [
+            'code' => $par_code,
+            'name' => Partner::getBackend($par_code)->getName(),
+            'projects' => $this->getProjects($par_code),
+        ];
     }
 
     /**
@@ -91,7 +113,7 @@ class PartnersController extends ManageBaseController
             $partners[] = [
                 'code' => $par_code,
                 'name' => $backend->getName(),
-                'projects' => Partner::getProjectsForPartner($par_code),
+                'projects' => $this->getProjects($par_code),
             ];
         }
 
