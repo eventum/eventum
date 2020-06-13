@@ -13,7 +13,10 @@
 
 namespace Eventum\Extension\Legacy;
 
+use Eventum\Event\EventContext;
+use Eventum\Event\SystemEvents;
 use Eventum\Extension\Provider;
+use Partner;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
@@ -31,6 +34,18 @@ class PartnerLegacyExtension implements Provider\SubscriberProvider, EventSubscr
     public static function getSubscribedEvents(): array
     {
         return [
+            /** @see PartnerLegacyExtension::handleNewNote */
+            SystemEvents::NOTE_CREATED => 'handleNewNote',
         ];
+    }
+
+    /**
+     * @see Workflow::handleNewNote
+     */
+    public function handleNewNote(EventContext $event): void
+    {
+        $note_id = $event['note_id'];
+
+        Partner::handleNewNote($event->getIssueId(), $note_id);
     }
 }

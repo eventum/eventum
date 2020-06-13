@@ -319,11 +319,10 @@ class Workflow
      * @since 3.7.0 adds 'issue' argument to event
      * @since 3.8.13 emits EventContext event
      * @since 3.8.13 workflow integration is done by WorkflowLegacyExtension
+     * @since 3.8.17 Partner integration is done by PartnerLegacyExtension
      */
     public static function handleNewNote(int $prj_id, int $issue_id, $usr_id, $closing, $note_id): void
     {
-        Partner::handleNewNote($issue_id, $note_id);
-
         $arguments = [
             'issue' => Doctrine::getIssueRepository()->findById($issue_id),
             'note_id' => (int)$note_id,
