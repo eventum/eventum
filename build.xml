@@ -40,10 +40,6 @@
 				<include name="git/**"/>
 				<include name="shell-semver/**"/>
 			</fileset>
-
-			<fileset dir="${basedir}/htdocs">
-				<include name="js/page.js"/>
-			</fileset>
 		</delete>
 	</target>
 

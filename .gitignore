@@ -51,7 +51,7 @@ Session.vim
 /config/workflow/
 
 /htdocs/.htaccess
-/htdocs/css/all.css
+/htdocs/css/app.css
 /htdocs/css/chosen-sprite*.png
 /htdocs/css/components.css
 /htdocs/css/datatables.css
@@ -60,7 +60,6 @@ Session.vim
 /htdocs/images/*.png
 /htdocs/images/vendor/
 /htdocs/js/*.js.LICENSE.txt
-/htdocs/js/all.js
 /htdocs/js/app.js
 /htdocs/js/components.js
 /htdocs/js/datatables.js

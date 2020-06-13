@@ -20,7 +20,7 @@ mix.options({
 });
 mix.setResourceRoot('..');
 
-mix.sass('res/assets/sass/all.scss', 'htdocs/css/all.css');
+mix.sass('res/assets/sass/app.scss', 'htdocs/css/app.css');
 
 mix.styles([
     'node_modules/font-awesome/css/font-awesome.css',
@@ -34,10 +34,6 @@ mix.copy('node_modules/font-awesome/fonts', 'htdocs/fonts');
 mix.js([
     'res/assets/scripts/app.js',
 ], 'htdocs/js/app.js');
-
-mix.scripts([
-    'htdocs/js/page.js',
-], 'htdocs/js/all.js');
 
 mix.sass('res/assets/sass/jquery-ui.scss', 'htdocs/css/jquery-ui.css');
 mix.scripts([
@@ -125,11 +121,10 @@ mix.scripts([
 mix.copy('node_modules/datatables/media/images/*.png', 'htdocs/images');
 
 mix.version([
-    'htdocs/css/all.css',
+    'htdocs/css/app.css',
     'htdocs/css/components.css',
     'htdocs/css/datatables.css',
     'htdocs/css/jquery-ui.css',
-    'htdocs/js/all.js',
     'htdocs/js/app.js',
     'htdocs/js/components.js',
     'htdocs/js/datatables.js',
