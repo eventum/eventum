@@ -15,6 +15,7 @@ namespace Eventum\Controller;
 
 use Access;
 use Auth;
+use Eventum\Db\Doctrine;
 use Issue;
 use Partner;
 use User;
@@ -83,8 +84,9 @@ class PartnersController extends BaseController
     {
         $post = $this->getRequest()->request;
 
-        $res = Partner::selectPartnersForIssue($this->issue_id, $post->get('partners'));
-        $this->tpl->assign('update_result', $res);
+        $repo = Doctrine::getIssuePartnerRepository();
+        $repo->setIssueAssociation($this->issue_id, $post->get('partners', []));
+        $this->tpl->assign('update_result', 1);
     }
 
     /**
