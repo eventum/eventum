@@ -13,10 +13,9 @@
 
 namespace Eventum\Model\Repository;
 
+use DB_Helper;
 use Doctrine\ORM\EntityRepository;
-use Eventum\Db\DatabaseException;
 use Eventum\Model\Entity;
-use Partner;
 
 /**
  * @method Entity\PartnerProject findById(int $prj_id)
@@ -28,10 +27,23 @@ class PartnerProjectRepository extends EntityRepository
 
     public function setProjectAssociation(Entity\PartnerProject $pap, array $projects): void
     {
-        $res = Partner::update($pap->getCode(), $projects);
+        $db = DB_Helper::getInstance();
+        $par_code = $pap->getCode();
 
-        if ($res === -1) {
-            throw new DatabaseException();
+        // delete all first, then re-insert
+        $sql = 'DELETE FROM
+                    `partner_project`
+                WHERE
+                    pap_par_code = ?';
+        $db->query($sql, [$par_code]);
+
+        foreach ($projects as $prj_id) {
+            $sql = 'INSERT INTO
+                            `partner_project`
+                        SET
+                            pap_par_code = ?,
+                            pap_prj_id = ?';
+            $db->query($sql, [$par_code, $prj_id]);
         }
     }
 }

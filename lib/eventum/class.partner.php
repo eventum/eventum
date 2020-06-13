@@ -209,38 +209,6 @@ class Partner
         return false;
     }
 
-    public static function update($par_code, $projects)
-    {
-
-        // delete all first, then re-insert
-        $sql = 'DELETE FROM
-                    `partner_project`
-                WHERE
-                    pap_par_code = ?';
-        try {
-            DB_Helper::getInstance()->query($sql, [$par_code]);
-        } catch (DatabaseException $e) {
-            return -1;
-        }
-
-        if (is_array($projects)) {
-            foreach ($projects as $prj_id) {
-                $sql = 'INSERT INTO
-                            `partner_project`
-                        SET
-                            pap_par_code = ?,
-                            pap_prj_id = ?';
-                try {
-                    DB_Helper::getInstance()->query($sql, [$par_code, $prj_id]);
-                } catch (DatabaseException $e) {
-                    return -1;
-                }
-            }
-        }
-
-        return 1;
-    }
-
     public static function getName($par_code)
     {
         $backend = self::getBackend($par_code);
