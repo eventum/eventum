@@ -60,7 +60,7 @@ class ExamplePartner extends Abstract_Partner_Backend
         return 'foo blah blah';
     }
 
-    public static function canUserAccessFeature($usr_id, $feature)
+    public function canUserAccessFeature($usr_id, $feature)
     {
         switch ($feature) {
             case 'create_issue':
@@ -72,7 +72,7 @@ class ExamplePartner extends Abstract_Partner_Backend
         }
     }
 
-    public static function canUserAccessIssueSection($usr_id, $section)
+    public function canUserAccessIssueSection($usr_id, $section)
     {
         switch ($section) {
             case 'partners':
@@ -102,7 +102,7 @@ class ExamplePartner extends Abstract_Partner_Backend
         }
     }
 
-    public static function canUpdateIssue($issue_id, $usr_id)
+    public function canUpdateIssue($issue_id, $usr_id)
     {
         return false;
     }
