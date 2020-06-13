@@ -14,9 +14,11 @@
 namespace Eventum\Model\Repository;
 
 use Auth;
-use Date_Helper;
 use DB_Helper;
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\OptimisticLockException;
+use Doctrine\ORM\ORMException;
+use Eventum\Db\DatabaseException;
 use Eventum\Model\Entity;
 use History;
 use Partner;
@@ -43,6 +45,17 @@ class IssuePartnerRepository extends EntityRepository
         }
     }
 
+    public function persist(Entity\IssuePartner $ipa): void
+    {
+        $em = $this->getEntityManager();
+        try {
+            $em->persist($ipa);
+            $em->flush();
+        } catch (ORMException | OptimisticLockException $e) {
+            throw new DatabaseException($e->getMessage(), $e->getCode(), $e);
+        }
+    }
+
     private function addPartnerToIssue(int $issueId, string $par_code): void
     {
         $current_partners = Partner::getPartnerCodesByIssue($issueId);
@@ -50,14 +63,8 @@ class IssuePartnerRepository extends EntityRepository
             return;
         }
 
-        $params = [$issueId, $par_code, Date_Helper::getCurrentDateGMT()];
-        $sql = 'INSERT INTO
-                    `issue_partner`
-                SET
-                    ipa_iss_id = ?,
-                    ipa_par_code = ?,
-                    ipa_created_date = ?';
-        DB_Helper::getInstance()->query($sql, $params);
+        $ipa = new Entity\IssuePartner($issueId, $par_code);
+        $this->persist($ipa);
 
         $backend = Partner::getBackend($par_code);
         $backend->issueAdded($issueId);

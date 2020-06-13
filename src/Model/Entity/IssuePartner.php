@@ -44,6 +44,13 @@ class IssuePartner
      */
     private $createdDate;
 
+    public function __construct(int $issueId, string $partnerCode)
+    {
+        $this->issueId = $issueId;
+        $this->partnerCode = $partnerCode;
+        $this->createdDate = new DateTime();
+    }
+
     public function setIssueId(int $issueId): self
     {
         $this->issueId = $issueId;
