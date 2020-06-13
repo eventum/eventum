@@ -51,7 +51,8 @@ class PartnersController extends ManageBaseController
         $code = $request->get('code');
         try {
             $repo = Doctrine::getPartnerProjectRepository();
-            $repo->setProjectAssociation($code, $request->get('projects'));
+            $pap = $repo->findOneByCode($code);
+            $repo->setProjectAssociation($pap, $request->get('projects'));
         } catch (DatabaseException $e) {
             $this->messages->addErrorMessage(ev_gettext('An error occurred while trying to update the partner information.'));
 

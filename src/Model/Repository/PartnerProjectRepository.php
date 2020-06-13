@@ -20,14 +20,15 @@ use Partner;
 
 /**
  * @method Entity\PartnerProject findById(int $prj_id)
+ * @method Entity\PartnerProject findOneByCode(string $code)
  */
 class PartnerProjectRepository extends EntityRepository
 {
     use Traits\FindByIdTrait;
 
-    public function setProjectAssociation(string $code, array $projects): void
+    public function setProjectAssociation(Entity\PartnerProject $pap, array $projects): void
     {
-        $res = Partner::update($code, $projects);
+        $res = Partner::update($pap->getCode(), $projects);
 
         if ($res === -1) {
             throw new DatabaseException();
