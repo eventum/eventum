@@ -11,14 +11,18 @@
  * that were distributed with this source code.
  */
 
+namespace Example\Partner;
+
+use Abstract_Partner_Backend;
+
 /**
  * Example class for partner business logic.
  */
-class Example_Partner_Backend extends Abstract_Partner_Backend
+class ExamplePartner extends Abstract_Partner_Backend
 {
     public function __construct()
     {
-        // setup the backend
+        parent::__construct();
     }
 
     public function getName()
@@ -28,22 +32,22 @@ class Example_Partner_Backend extends Abstract_Partner_Backend
 
     public function issueAdded($iss_id)
     {
-        echo "partner: issue $iss_id added for " . $this->getName();
+        error_log("partner: issue $iss_id added for " . $this->getName());
     }
 
     public function issueRemoved($iss_id)
     {
-        echo "partner: issue $iss_id removed for " . $this->getName();
+        error_log("partner: issue $iss_id removed for " . $this->getName());
     }
 
     public function handleNewEmail($iss_id, $sup_id)
     {
-        echo "partner: new email $sup_id on issue $iss_id";
+        error_log("partner: new email $sup_id on issue $iss_id");
     }
 
     public function handleNewNote($iss_id, $not_id)
     {
-        echo "partner: new note $not_id on $iss_id";
+        error_log("partner: new note $not_id on $iss_id");
     }
 
     public function handleIssueChange($iss_id, $usr_id, $old_details, $changes)

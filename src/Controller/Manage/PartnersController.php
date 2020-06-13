@@ -13,7 +13,8 @@
 
 namespace Eventum\Controller\Manage;
 
-use Eventum\Controller\Helper\MessagesHelper;
+use Eventum\Db\DatabaseException;
+use Eventum\Db\Doctrine;
 use Eventum\Extension\ExtensionManager;
 use Eventum\ServiceContainer;
 use Partner;
@@ -27,9 +28,6 @@ class PartnersController extends ManageBaseController
     /** @var string */
     private $cat;
 
-    /**
-     * {@inheritdoc}
-     */
     protected function configure(): void
     {
         $request = $this->getRequest();
@@ -37,45 +35,42 @@ class PartnersController extends ManageBaseController
         $this->cat = $request->request->get('cat') ?: $request->query->get('cat');
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function defaultAction(): void
     {
         if ($this->cat === 'update') {
             $this->updateAction();
-        }
-
-        if ($this->cat == 'edit') {
+        } elseif ($this->cat === 'edit') {
             $this->editAction();
         }
     }
 
     private function updateAction(): void
     {
-        $post = $this->getRequest()->request;
+        $request = $this->getRequest()->request;
 
-        $res = Partner::update($post->get('code'), $post->get('projects'));
-        $this->tpl->assign('result', $res);
+        $code = $request->get('code');
+        try {
+            $repo = Doctrine::getPartnerProjectRepository();
+            $pap = $repo->findOneByCode($code);
+            $repo->setProjectAssociation($pap, $request->get('projects'));
+        } catch (DatabaseException $e) {
+            $this->messages->addErrorMessage(ev_gettext('An error occurred while trying to update the partner information.'));
 
-        $map = [
-            1 => [ev_gettext('Thank you, the partner was updated successfully.'), MessagesHelper::MSG_INFO],
-            -1 => [ev_gettext('An error occurred while trying to update the partner information.'), MessagesHelper::MSG_ERROR],
-        ];
-        $this->messages->mapMessages($res, $map);
+            return;
+        }
+
+        $this->messages->addInfoMessage(ev_gettext('Thank you, the partner was updated successfully.'));
+        $this->redirect("partners.php?cat=edit&code={$code}");
     }
 
     private function editAction(): void
     {
-        $get = $this->getRequest()->query;
+        $request = $this->getRequest()->query;
 
-        $info = Partner::getDetails($get->get('code'));
+        $info = $this->getDetails($request->get('code'));
         $this->tpl->assign('info', $info);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function prepareTemplate(): void
     {
         $this->tpl->assign(
@@ -85,6 +80,27 @@ class PartnersController extends ManageBaseController
                 'project_list' => Project::getAll(),
             ]
         );
+    }
+
+    private function getProjects(string $par_code): array
+    {
+        $repo = Doctrine::getProjectRepository();
+        $res = [];
+
+        foreach ($repo->findByPartnerCode($par_code) as $project) {
+            $res[$project->getId()] = $project->getTitle();
+        }
+
+        return $res;
+    }
+
+    private function getDetails(string $par_code): array
+    {
+        return [
+            'code' => $par_code,
+            'name' => Partner::getBackend($par_code)->getName(),
+            'projects' => $this->getProjects($par_code),
+        ];
     }
 
     /**
@@ -102,7 +118,7 @@ class PartnersController extends ManageBaseController
             $partners[] = [
                 'code' => $par_code,
                 'name' => $backend->getName(),
-                'projects' => Partner::getProjectsForPartner($par_code),
+                'projects' => $this->getProjects($par_code),
             ];
         }
 

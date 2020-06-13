@@ -124,10 +124,7 @@ class ExampleExtension implements
     public function getAvailablePartners(): array
     {
         return [
-            /*
-            'PartnerBackend',
-            'Example\\PartnerX',
-            */
+            Partner\ExamplePartner::class,
         ];
     }
 

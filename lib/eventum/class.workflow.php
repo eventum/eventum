@@ -43,11 +43,10 @@ class Workflow
      * @since 3.5.0 emits ISSUE_UPDATED event
      * @since 3.8.13 workflow integration is done by WorkflowLegacyExtension
      * @since 3.8.13 emits EventContext event
+     * @since 3.8.17 Partner integration is done by PartnerLegacyExtension
      */
     public static function handleIssueUpdated(int $prj_id, int $issue_id, int $usr_id, $old_details, $raw_post, $updated_fields, $updated_custom_fields): void
     {
-        Partner::handleIssueChange($issue_id, $usr_id, $old_details, $raw_post);
-
         $arguments = [
             'issue_details' => Issue::getDetails($issue_id, true),
             'updated_fields' => $updated_fields,
@@ -261,11 +260,10 @@ class Workflow
      * @since 3.7.0 adds 'issue' argument to event
      * @since 3.8.13 workflow integration is done by WorkflowLegacyExtension
      * @since 3.8.13 emits EventContext event
+     * @since 3.8.17 Partner integration is done by PartnerLegacyExtension
      */
     public static function handleNewEmail(int $prj_id, int $issue_id, MailMessage $mail, array $row, bool $closing = false): void
     {
-        Partner::handleNewEmail($issue_id, $row['sup_id']);
-
         // there are more variable options in $row
         // add just useful ones for event handler
         $arguments = [
@@ -319,16 +317,15 @@ class Workflow
      * @since 3.7.0 adds 'issue' argument to event
      * @since 3.8.13 emits EventContext event
      * @since 3.8.13 workflow integration is done by WorkflowLegacyExtension
+     * @since 3.8.17 Partner integration is done by PartnerLegacyExtension
      */
-    public static function handleNewNote(int $prj_id, int $issue_id, $usr_id, $closing, $note_id): void
+    public static function handleNewNote(int $prj_id, int $issue_id, int $usr_id, bool $closing, int $note_id): void
     {
-        Partner::handleNewNote($issue_id, $note_id);
-
         $arguments = [
             'issue' => Doctrine::getIssueRepository()->findById($issue_id),
-            'note_id' => (int)$note_id,
+            'note_id' => $note_id,
             'note_details' => Note::getDetails($note_id),
-            'closing' => (bool)$closing,
+            'closing' => $closing,
         ];
         $event = new EventContext($prj_id, $issue_id, $usr_id, $arguments);
         EventManager::dispatch(SystemEvents::NOTE_CREATED, $event);

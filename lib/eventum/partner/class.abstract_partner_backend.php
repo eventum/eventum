@@ -89,7 +89,7 @@ abstract class Abstract_Partner_Backend
      * @param string $feature
      * @return bool
      */
-    public static function canUserAccessFeature($usr_id, $feature)
+    public function canUserAccessFeature($usr_id, $feature)
     {
     }
 
@@ -98,7 +98,7 @@ abstract class Abstract_Partner_Backend
      * @param int $usr_id
      * @return bool
      */
-    public static function canEditIssue($issue_id, $usr_id)
+    public function canEditIssue($issue_id, $usr_id)
     {
     }
 
@@ -107,7 +107,7 @@ abstract class Abstract_Partner_Backend
      * @param string $section partners, drafts, files, time, notes, phone, history, notification_list, authorized_repliers
      * @return bool
      */
-    public static function canUserAccessIssueSection($usr_id, $section)
+    public function canUserAccessIssueSection($usr_id, $section)
     {
     }
 
@@ -118,7 +118,7 @@ abstract class Abstract_Partner_Backend
      * @param int   $usr_id
      * @return bool
      */
-    public static function canUpdateIssue($issue_id, $usr_id)
+    public function canUpdateIssue($issue_id, $usr_id)
     {
     }
 }

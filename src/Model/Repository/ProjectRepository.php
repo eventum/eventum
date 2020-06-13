@@ -16,6 +16,7 @@ namespace Eventum\Model\Repository;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
+use Doctrine\ORM\QueryBuilder;
 use Eventum\Db\DatabaseException;
 use Eventum\Model\Entity;
 
@@ -36,6 +37,23 @@ class ProjectRepository extends EntityRepository
         return $project;
     }
 
+    /**
+     * @param string $code
+     * @return Entity\Project[]
+     */
+    public function findByPartnerCode(string $code): array
+    {
+        $qb = $this->getQueryBuilder();
+
+        $qb
+            ->innerJoin(Entity\PartnerProject::class, 'pap')
+            ->andWhere('pap.projectId=prj.id')
+            ->andWhere('pap.code=:code')
+            ->setParameter('code', $code);
+
+        return $qb->getQuery()->getResult();
+    }
+
     public function updateProject(Entity\Project $project): void
     {
         $em = $this->getEntityManager();
@@ -45,5 +63,10 @@ class ProjectRepository extends EntityRepository
         } catch (ORMException | OptimisticLockException $e) {
             throw new DatabaseException($e->getMessage(), $e->getCode(), $e);
         }
+    }
+
+    private function getQueryBuilder(): QueryBuilder
+    {
+        return $this->createQueryBuilder('prj');
     }
 }
