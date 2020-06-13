@@ -43,11 +43,10 @@ class Workflow
      * @since 3.5.0 emits ISSUE_UPDATED event
      * @since 3.8.13 workflow integration is done by WorkflowLegacyExtension
      * @since 3.8.13 emits EventContext event
+     * @since 3.8.17 Partner integration is done by PartnerLegacyExtension
      */
     public static function handleIssueUpdated(int $prj_id, int $issue_id, int $usr_id, $old_details, $raw_post, $updated_fields, $updated_custom_fields): void
     {
-        Partner::handleIssueChange($issue_id, $usr_id, $old_details, $raw_post);
-
         $arguments = [
             'issue_details' => Issue::getDetails($issue_id, true),
             'updated_fields' => $updated_fields,

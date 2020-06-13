@@ -36,6 +36,8 @@ class PartnerLegacyExtension implements Provider\SubscriberProvider, EventSubscr
         return [
             /** @see PartnerLegacyExtension::handleNewNote */
             SystemEvents::NOTE_CREATED => 'handleNewNote',
+            /** @see PartnerLegacyExtension::handleIssueUpdated */
+            SystemEvents::ISSUE_UPDATED => 'handleIssueUpdated',
         ];
     }
 
@@ -47,5 +49,15 @@ class PartnerLegacyExtension implements Provider\SubscriberProvider, EventSubscr
         $note_id = $event['note_id'];
 
         Partner::handleNewNote($event->getIssueId(), $note_id);
+    }
+
+    /**
+     * @see Workflow::handleIssueUpdated
+     */
+    public function handleIssueUpdated(EventContext $event): void
+    {
+        $old_details = $event['old_details'];
+        $raw_post = $event['raw_post'];
+        Partner::handleIssueChange($event->getIssueId(), $event->getUserId(), $old_details, $raw_post);
     }
 }
