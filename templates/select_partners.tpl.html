@@ -1,5 +1,5 @@
 {extends "base.tpl.html"}
-{block title}{t 1=$smarty.get.id|intval}Issue #%1 -  Select Partners{/t}{/block}
+{block title}{t 1=$issue_id}Issue #%1 -  Select Partners{/t}{/block}
 
 {block content}
 {if $update_result|default:'' != ''}
@@ -50,11 +50,11 @@
         <tr class="title">
             <th colspan="2">{t}Select Partners{/t}</th>
         </tr>
-        {foreach from=$enabled_partners item=partner key=par_code}
+
+        {html_checkboxes name="partners" options=$partners.options selected=$partners.selected assign="checkboxes"}
+        {foreach from=$checkboxes item=checkbox}
         <tr>
-            <td>
-                <label><input class="partners" type="checkbox" name="partners[]" value="{$par_code}" {if $partners.$par_code != ''}checked{/if} />
-                    {$partner.name}</label></td>
+          <td>{$checkbox}</td>
         </tr>
         {/foreach}
 
