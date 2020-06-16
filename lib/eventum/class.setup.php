@@ -15,6 +15,7 @@ use Eventum\Config\Config;
 use Eventum\Config\ConfigPersistence;
 use Eventum\Config\Paths;
 use Eventum\Monolog\Logger;
+use Eventum\ServiceContainer;
 use Symfony\Component\Filesystem\Exception\IOException;
 
 /**
@@ -133,6 +134,14 @@ class Setup
     public static function getSystemUserId(): int
     {
         return self::get()['system_user_id'] ?? (defined('APP_SYSTEM_USER_ID') ? APP_SYSTEM_USER_ID : 1);
+    }
+
+    /**
+     * @since 3.8.17
+     */
+    public static function getSmtpFrom(): ?string
+    {
+        return self::get()['smtp']['from'];
     }
 
     /**

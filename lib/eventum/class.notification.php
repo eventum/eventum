@@ -183,7 +183,7 @@ class Notification
 
             // if no project name, use eventum wide sender name
             if (empty($info['sender_name'])) {
-                $setup_sender_info = self::getAddressInfo($setup['smtp']['from']);
+                $setup_sender_info = self::getAddressInfo(Setup::getSmtpFrom());
                 $info['sender_name'] = $setup_sender_info['sender_name'];
             }
         } else {
@@ -204,7 +204,7 @@ class Notification
             $project_info = Project::getOutgoingSenderAddress($project_id);
             if (empty($project_info['email'])) {
                 /// no project email, use main email address
-                $from_email = $setup['smtp']['from'];
+                $from_email = Setup::getSmtpFrom();
             } else {
                 $from_email = $project_info['email'];
             }
@@ -2241,21 +2241,21 @@ class Notification
      */
     public static function notifyByMail($text_message, $from, $to, $subject, $issue_id, $options = []): void
     {
-        $to = AddressHeader::fromString($to)->getAddress();
-        $from = AddressHeader::fromString($from ?: Setup::get()->smtp->from)->getAddress();
+        $toAddress = AddressHeader::fromString($to)->getAddress();
+        $fromAddress = AddressHeader::fromString($from ?: Setup::getSmtpFrom())->getAddress();
 
         $builder = new MailBuilder();
         $builder->addTextPart($text_message)
             ->getMessage()
             ->setSubject($subject)
-            ->setFrom($from->getEmail(), $from->getName())
-            ->setTo($to->getEmail(), $to->getName());
+            ->setFrom($fromAddress->getEmail(), $fromAddress->getName())
+            ->setTo($toAddress->getEmail(), $toAddress->getName());
 
         $mail = $builder->toMailMessage();
         $mail->addHeaders(Mail_Helper::getBaseThreadingHeaders($issue_id));
 
         $options['issue_id'] = $issue_id;
 
-        Mail_Queue::queue($mail, $to, $options);
+        Mail_Queue::queue($mail, $toAddress, $options);
     }
 }

@@ -62,7 +62,7 @@ class Mail_Queue
         $headers = $mail->getHeaders();
 
         if (!$mail->from) {
-            $from = $options['from'] ?? Setup::get()->smtp->from;
+            $from = $options['from'] ?? Setup::getSmtpFrom();
             $mail->setFrom($from);
         }
 
