@@ -178,6 +178,13 @@ class Setup
             Paths::APP_TPL_PATH,
         ];
     }
+    /**
+     * @since 3.8.17
+     */
+    public static function isMaintenance(): bool
+    {
+        return self::get()['maintenance'];
+    }
 
     /**
      * Set options to system config.
