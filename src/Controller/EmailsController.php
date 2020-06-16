@@ -34,6 +34,9 @@ class EmailsController extends BaseController
     /** @var int */
     private $prj_id;
 
+    /** @var int */
+    private $default_pager_size;
+
     /**
      * {@inheritdoc}
      */
@@ -42,6 +45,7 @@ class EmailsController extends BaseController
         $request = $this->getRequest();
 
         $this->prj_id = $request->query->getInt('prj_id');
+        $this->default_pager_size = Setup::getDefaultPagerSize();
     }
 
     /**
@@ -81,7 +85,7 @@ class EmailsController extends BaseController
     protected function prepareTemplate(): void
     {
         $pagerRow = Support::getParam('pagerRow') ?: 0;
-        $rows = Support::getParam('rows') ?: Setup::get()['default_pager_size'];
+        $rows = Support::getParam('rows') ?: $this->default_pager_size;
 
         $options = Support::saveSearchParams();
         $list = Support::getEmailListing($options, $pagerRow, $rows);

@@ -175,6 +175,14 @@ class Setup
     }
 
     /**
+     * @since 3.8.17
+     */
+    public static function getDefaultPagerSize(): int
+    {
+        return self::get()['default_pager_size'];
+    }
+
+    /**
      * @return array
      * @since 3.8.0
      */

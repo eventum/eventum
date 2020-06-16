@@ -61,6 +61,8 @@ class ListController extends BaseController
     private $search;
     /** @var SearchProfileRepository */
     private $profile;
+    /** @var int */
+    private $default_pager_size;
 
     /**
      * {@inheritdoc}
@@ -68,6 +70,7 @@ class ListController extends BaseController
     protected function configure(): void
     {
         $this->nosave = (bool)$this->getRequest()->get('nosave');
+        $this->default_pager_size = Setup::getDefaultPagerSize();
     }
 
     /**
@@ -98,9 +101,9 @@ class ListController extends BaseController
 
         $rows = $this->search->get('rows');
         if ($rows === 'ALL') {
-            $this->rows = $rows ?: Setup::get()['default_pager_size'];
+            $this->rows = $rows ?: $this->default_pager_size;
         } else {
-            $this->rows = ((int)$rows) ?: Setup::get()['default_pager_size'];
+            $this->rows = ((int)$rows) ?: $this->default_pager_size;
         }
 
         $this->options_override = [];

@@ -40,6 +40,9 @@ class AdvSearchController extends BaseController
     /** @var int */
     private $custom_id;
 
+    /** @var int */
+    private $default_pager_size;
+
     /**
      * {@inheritdoc}
      */
@@ -48,6 +51,7 @@ class AdvSearchController extends BaseController
         $request = $this->getRequest();
 
         $this->custom_id = $request->query->getInt('custom_id');
+        $this->default_pager_size = Setup::getDefaultPagerSize();
     }
 
     /**
@@ -108,7 +112,7 @@ class AdvSearchController extends BaseController
             $options = Filter::getDetails($this->custom_id, $check_perm);
         } else {
             $options = [];
-            $options['cst_rows'] = Setup::get()['default_pager_size'];
+            $options['cst_rows'] = $this->default_pager_size;
         }
 
         $this->tpl->assign('options', $options);
