@@ -14,6 +14,7 @@
 namespace Eventum\Test\Mail;
 
 use Eventum\Mail\MailStorage;
+use Eventum\ServiceContainer;
 use Eventum\Test\TestCase;
 use Setup;
 use Support;
@@ -31,7 +32,7 @@ class MailStorageTest extends TestCase
 
     public function setUp(): void
     {
-        $setup = Setup::get();
+        $setup = ServiceContainer::getConfig();
 
         if (!isset($setup['tests.imap-account'])) {
             $this->markTestSkipped("Define 'tests.imap-account' array in setup.php for testing");

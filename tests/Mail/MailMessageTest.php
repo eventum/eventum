@@ -16,6 +16,7 @@ namespace Eventum\Test\Mail;
 use Date_Helper;
 use Eventum\Mail\MailBuilder;
 use Eventum\Mail\MailMessage;
+use Eventum\ServiceContainer;
 use Eventum\Test\TestCase;
 use Mail_Helper;
 use Mail_Queue;
@@ -496,7 +497,7 @@ class MailMessageTest extends TestCase
         ];
         Setup::set(['smtp' => $smtp]);
 
-        $from = Setup::get()->smtp->from;
+        $from = ServiceContainer::getConfig()['smtp']['from'];
         $to = Mail_Helper::getFormattedName($info['usr_full_name'], $info['usr_email']);
 
         // the same but with ZF

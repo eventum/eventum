@@ -14,12 +14,13 @@
 use Eventum\Config\Config;
 use Eventum\Config\ConfigPersistence;
 use Eventum\Monolog\Logger;
+use Eventum\ServiceContainer;
 
 require_once __DIR__ . '/../autoload.php';
 require_once __DIR__ . '/../globals.php';
 
 // set default timezone
-$config = Setup::get();
+$config = ServiceContainer::getConfig();
 $config['default_timezone'] = 'Europe/Tallinn';
 date_default_timezone_set(Setup::getDefaultTimezone());
 

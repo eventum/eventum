@@ -15,6 +15,7 @@ namespace Eventum\Test\Date;
 
 use Date_Helper;
 use Eventum\Db\Doctrine;
+use Eventum\ServiceContainer;
 use Eventum\Test\TestCase;
 use Setup;
 
@@ -39,7 +40,7 @@ class DateHelperUserTest extends TestCase
 
     public function setUp(): void
     {
-        $config = Setup::get();
+        $config = ServiceContainer::getConfig();
         self::setTimezone($this->admin_user_id = $config['admin_user'], self::USER_TIMEZONE);
         self::setTimezone($this->system_user_id = Setup::getSystemUserId(), self::ADMIN_TIMEZONE);
     }
