@@ -8,6 +8,7 @@ Upgrading to 3.8.x versions requires that you upgrade to the latest 3.5.x versio
 - Convert `htdocs/js/page.js` to modules, #861
 - Move `Partner` handling out of `Workflow` class to `PartnerLegacyExtension`, #865
 - Process `dynamic_custom_field.js` with webpack, #863
+- Add model for `issue_partner` table, #866
 
 [3.8.17]: https://github.com/eventum/eventum/compare/v3.8.16...master
 
