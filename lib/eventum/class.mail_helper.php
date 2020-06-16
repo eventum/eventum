@@ -14,6 +14,7 @@
 use Eventum\Mail\Helper\AddressHeader;
 use Eventum\Mail\MailMessage;
 use Eventum\Mail\MailTransport;
+use Eventum\ServiceContainer;
 use Zend\Mail\Address;
 
 class Mail_Helper
@@ -154,8 +155,8 @@ class Mail_Helper
     public static function saveOutgoingEmailCopy(MailMessage $mail, $issue_id, $maq_type): void
     {
         // check early: do we really want to save every outgoing email?
-        $setup = Setup::get();
-        $save_outgoing_email = $setup['smtp']['save_outgoing_email'] == 'yes';
+        $setup = ServiceContainer::getConfig();
+        $save_outgoing_email = $setup['smtp']['save_outgoing_email'] === 'yes';
         if (!$save_outgoing_email || !$setup['smtp']['save_address']) {
             return;
         }

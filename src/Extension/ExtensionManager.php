@@ -262,7 +262,7 @@ class ExtensionManager implements Provider\RouteProvider
      */
     protected function getExtensionFiles()
     {
-        return Setup::get()['extensions'] ?: [];
+        return ServiceContainer::getConfig()['extensions'] ?: [];
     }
 
     /**

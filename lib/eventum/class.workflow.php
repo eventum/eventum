@@ -23,6 +23,7 @@ use Eventum\LinkFilter\LinkFilter;
 use Eventum\Mail\Helper\AddressHeader;
 use Eventum\Mail\ImapMessage;
 use Eventum\Mail\MailMessage;
+use Eventum\ServiceContainer;
 use Zend\Mail\Address;
 
 /**
@@ -1027,7 +1028,7 @@ class Workflow
      */
     public static function getExtensionLoader(): ExtensionLoader
     {
-        $localPath = Setup::get()['local_path'];
+        $localPath = ServiceContainer::getConfig()['local_path'];
 
         $dirs = [
             Paths::APP_INC_PATH . '/workflow',

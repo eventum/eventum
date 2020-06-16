@@ -14,6 +14,7 @@
 namespace Eventum\Controller\Manage;
 
 use Eventum\Controller\Helper\MessagesHelper;
+use Eventum\ServiceContainer;
 use Project;
 use Setup;
 use User;
@@ -94,7 +95,7 @@ class MonitorController extends ManageBaseController
                     'enabled' => ev_gettext('Enabled'),
                     'disabled' => ev_gettext('Disabled'),
                 ],
-                'setup' => Setup::get(),
+                'setup' => ServiceContainer::getConfig(),
             ]
         );
     }

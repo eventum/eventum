@@ -14,6 +14,7 @@
 namespace Eventum\Controller\Manage;
 
 use Eventum\Controller\Helper\MessagesHelper;
+use Eventum\ServiceContainer;
 use Setup;
 use User;
 
@@ -81,7 +82,7 @@ class ScmController extends ManageBaseController
         $this->tpl->assign(
             [
                 'scm_ping_url' => Setup::getBaseUrl() . 'scm_ping.php',
-                'setup' => Setup::get(),
+                'setup' => ServiceContainer::getConfig(),
             ]
         );
     }

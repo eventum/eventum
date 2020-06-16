@@ -12,6 +12,7 @@
  */
 
 use Eventum\Db\DatabaseException;
+use Eventum\ServiceContainer;
 
 /**
  * Class to handle the business logic related to the reminder emails
@@ -999,8 +1000,8 @@ class Reminder
     public static function _getReminderAlertAddresses()
     {
         $emails = [];
-        $setup = Setup::get();
-        if ($setup['email_reminder']['status'] == 'enabled' && $setup['email_reminder']['addresses']) {
+        $setup = ServiceContainer::getConfig();
+        if ($setup['email_reminder']['status'] === 'enabled' && $setup['email_reminder']['addresses']) {
             $emails = explode(',', $setup['email_reminder']['addresses']);
             $emails = Misc::trim($emails);
         }

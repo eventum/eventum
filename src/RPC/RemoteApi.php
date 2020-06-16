@@ -28,6 +28,7 @@ use Draft;
 use Eventum\Attachment\Attachment;
 use Eventum\Attachment\AttachmentManager;
 use Eventum\Attachment\Exceptions\AttachmentException;
+use Eventum\ServiceContainer;
 use History;
 use InvalidArgumentException;
 use Issue;
@@ -621,7 +622,7 @@ class RemoteApi
             unset($email);
         }
 
-        $setup = Setup::get();
+        $setup = ServiceContainer::getConfig();
 
         if (isset($setup['description_email_0']) && $setup['description_email_0'] === 'enabled') {
             $issue = Issue::getDetails($issue_id);

@@ -17,6 +17,7 @@ use DB_Helper;
 use Eventum\Config\Paths;
 use Eventum\Db;
 use Eventum\Db\DatabaseException;
+use Eventum\ServiceContainer;
 use Exception;
 use Mail_Queue;
 use Setup;
@@ -97,8 +98,7 @@ class MonitorCommand extends SymfonyCommand
         ];
 
         // load prefs
-        $setup = Setup::get();
-        $prefs = $setup['monitor'];
+        $prefs = ServiceContainer::getConfig()['monitor'];
 
         $this->checkDatabase();
         $this->checkMailQueue();

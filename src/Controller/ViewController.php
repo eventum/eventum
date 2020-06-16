@@ -25,6 +25,7 @@ use Draft;
 use Email_Account;
 use Eventum\Attachment\AttachmentManager;
 use Eventum\Db\Doctrine;
+use Eventum\ServiceContainer;
 use Group;
 use Issue;
 use Issue_Field;
@@ -247,7 +248,7 @@ class ViewController extends BaseController
 
         // figure out what data to show in each column
         $columns = [0 => [], 1 => []];
-        $internalColor = Setup::get()['internal_color'];
+        $internalColor = ServiceContainer::getConfig()['internal_color'];
 
         if (CRM::hasCustomerIntegration($this->prj_id) and !empty($details['iss_customer_id'])) {
             $columns[0][] = [
@@ -405,7 +406,7 @@ class ViewController extends BaseController
      */
     private function getIssueCommits(int $issue_id): array
     {
-        if (Setup::get()['scm_integration'] !== 'enabled') {
+        if (ServiceContainer::getConfig()['scm_integration'] !== 'enabled') {
             return [];
         }
 

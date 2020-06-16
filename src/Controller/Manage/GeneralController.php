@@ -16,6 +16,7 @@ namespace Eventum\Controller\Manage;
 use Eventum\Controller\Helper\MessagesHelper;
 use Eventum\Extension;
 use Eventum\Extension\RegisterExtension;
+use Eventum\ServiceContainer;
 use Project;
 use Setup;
 use User;
@@ -117,7 +118,7 @@ class GeneralController extends ManageBaseController
         $this->tpl->assign(
             [
                 'project_list' => Project::getAll(),
-                'setup' => Setup::get(),
+                'setup' => ServiceContainer::getConfig(),
                 'user_roles' => User::getRoles([User::ROLE_CUSTOMER]),
             ]
         );

@@ -16,6 +16,7 @@ use Eventum\Db\Adapter\AdapterInterface;
 use Eventum\Db\Adapter\NullAdapter;
 use Eventum\Db\DatabaseException;
 use Eventum\Monolog\Logger;
+use Eventum\ServiceContainer;
 
 class DB_Helper
 {
@@ -80,7 +81,7 @@ class DB_Helper
      */
     public static function getConfig(): ?array
     {
-        $setup = Setup::get();
+        $setup = ServiceContainer::getConfig();
 
         return isset($setup['database']) ? $setup['database']->toArray() : null;
     }

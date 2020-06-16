@@ -15,7 +15,7 @@ namespace Eventum\Extension;
 
 use Eventum\Event\Subscriber\IrcSubscriber;
 use Eventum\Extension\Provider\SubscriberProvider;
-use Setup;
+use Eventum\ServiceContainer;
 
 class IrcNotifyExtension implements SubscriberProvider
 {
@@ -26,7 +26,7 @@ class IrcNotifyExtension implements SubscriberProvider
     {
         $subscribers = [];
 
-        $setup = Setup::get();
+        $setup = ServiceContainer::getConfig();
         if ($setup['irc_notification'] === 'enabled') {
             $subscribers[] = IrcSubscriber::class;
         }

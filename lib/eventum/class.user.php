@@ -16,6 +16,7 @@ use Eventum\Event;
 use Eventum\EventDispatcher\EventManager;
 use Eventum\Mail\MailBuilder;
 use Eventum\Monolog\Logger;
+use Eventum\ServiceContainer;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
 /**
@@ -1391,9 +1392,9 @@ class User
      */
     public static function isClockedIn($usr_id)
     {
-        $setup = Setup::get();
+        $setup = ServiceContainer::getConfig();
         // If clock in handling is disabled, say that we are always clocked in
-        if ($setup['handle_clock_in'] == 'disabled') {
+        if ($setup['handle_clock_in'] === 'disabled') {
             return true;
         }
         $stmt = 'SELECT

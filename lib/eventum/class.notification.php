@@ -20,6 +20,7 @@ use Eventum\Mail\Helper\AddressHeader;
 use Eventum\Mail\Helper\WarningMessage;
 use Eventum\Mail\MailBuilder;
 use Eventum\Mail\MailMessage;
+use Eventum\ServiceContainer;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
 /**
@@ -166,7 +167,7 @@ class Notification
      */
     public static function getFixedFromHeader($issue_id, $sender, $type)
     {
-        $setup = Setup::get();
+        $setup = ServiceContainer::getConfig();
         if ($type === 'issue') {
             $routing = 'email_routing';
         } else {
@@ -1292,7 +1293,7 @@ class Notification
             }
 
             $text_message = $tpl->getTemplateContents();
-            $setup = Setup::get()->smtp->toArray();
+            $setup = ServiceContainer::getConfig()['smtp']->toArray();
             $from = self::getFixedFromHeader($issue_id, $setup['from'], 'issue');
             $recipient = Mime_Helper::decodeQuotedPrintable($recipient);
             // TRANSLATORS: %1: $issue_id, %2 = iss_summary
@@ -1375,7 +1376,7 @@ class Notification
             $subject = ev_gettext('[#%1$s] Issue Created: %2$s', $issue_id, $data['iss_summary']);
             $text_message = $tpl->getTemplateContents();
 
-            $setup = Setup::get()->smtp->toArray();
+            $setup = ServiceContainer::getConfig()['smtp']->toArray();
             $from = self::getFixedFromHeader($issue_id, $setup['from'], 'issue');
             $options = [
                 'save_email_copy' => 1,
@@ -1945,7 +1946,7 @@ class Notification
         }
 
         $actions = [];
-        $setup = Setup::get();
+        $setup = ServiceContainer::getConfig();
 
         if ($setup['update'] == 1) {
             $actions[] = 'updated';

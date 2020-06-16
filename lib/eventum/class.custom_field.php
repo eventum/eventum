@@ -19,6 +19,7 @@ use Eventum\Diff;
 use Eventum\Extension\ExtensionLoader;
 use Eventum\Model\Entity\CustomField;
 use Eventum\Monolog\Logger;
+use Eventum\ServiceContainer;
 
 /**
  * Class to handle the business logic related to the administration
@@ -366,7 +367,7 @@ class Custom_Field
      */
     public static function getExtensionLoader(): ExtensionLoader
     {
-        $localPath = Setup::get()['local_path'];
+        $localPath = ServiceContainer::getConfig()['local_path'];
 
         $dirs = [
             Paths::APP_INC_PATH . '/custom_field',

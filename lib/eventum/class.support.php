@@ -23,6 +23,7 @@ use Eventum\Mail\ImapMessage;
 use Eventum\Mail\MailBuilder;
 use Eventum\Mail\MailMessage;
 use Eventum\Monolog\Logger;
+use Eventum\ServiceContainer;
 
 /**
  * Class to handle the business logic related to the email feature of
@@ -449,7 +450,7 @@ class Support
         } elseif (is_numeric($workflow)) {
             $issue_id = $workflow;
         } else {
-            $setup = Setup::get();
+            $setup = ServiceContainer::getConfig();
             if ($setup['subject_based_routing']['status'] === 'enabled'
                 and (preg_match("/\[#(\d+)\]( Note| BLOCKED)*/", $mail->subject, $matches))) {
                 // look for [#XXXX] in the subject line
@@ -740,7 +741,7 @@ class Support
         $sort_order = self::getParam('sort_order');
         $rows = self::getParam('rows');
         $cookie = [
-            'rows' => $rows ? $rows : Setup::get()['default_pager_size'],
+            'rows' => $rows ? $rows : ServiceContainer::getConfig()['default_pager_size'],
             'pagerRow' => self::getParam('pagerRow'),
             'hide_associated' => self::getParam('hide_associated'),
             'sort_by' => $sort_by ? $sort_by : 'sup_date',

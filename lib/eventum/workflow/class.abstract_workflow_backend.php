@@ -14,6 +14,7 @@
 use Eventum\Attachment\AttachmentGroup;
 use Eventum\Mail\ImapMessage;
 use Eventum\Mail\MailMessage;
+use Eventum\ServiceContainer;
 
 /**
  * Abstract Class that all workflow backends should extend. This is so any new
@@ -77,7 +78,7 @@ abstract class Abstract_Workflow_Backend
     {
         $defaults = $this->getConfigDefaults();
         $name = $this->getWorkflowName();
-        $setup = Setup::get();
+        $setup = ServiceContainer::getConfig();
 
         if (!isset($setup['workflow'])) {
             $setup['workflow'] = [];

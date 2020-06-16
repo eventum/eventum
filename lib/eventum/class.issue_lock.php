@@ -12,6 +12,7 @@
  */
 
 use Eventum\Config\Paths;
+use Eventum\ServiceContainer;
 
 /**
  * Manages issue specific locks
@@ -28,7 +29,7 @@ class Issue_Lock
      */
     public static function acquire($issue_id, $usr_id)
     {
-        $setup = Setup::get();
+        $setup = ServiceContainer::getConfig();
         $lock_ttl = $setup['issue_lock'];
         $expires = time() + $lock_ttl;
 

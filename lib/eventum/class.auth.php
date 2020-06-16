@@ -15,6 +15,7 @@ use Eventum\Auth\Adapter\AdapterInterface;
 use Eventum\Auth\AuthException;
 use Eventum\Model\Entity;
 use Eventum\Monolog\Logger;
+use Eventum\ServiceContainer;
 use Eventum\Session;
 use Symfony\Component\Filesystem\Exception\IOException;
 use Symfony\Component\Filesystem\Filesystem;
@@ -444,7 +445,7 @@ class Auth
             return;
         }
 
-        $config = Setup::get();
+        $config = ServiceContainer::getConfig();
         $cookieDomain = $config['cookie_domain'];
         $cookiePath = $config['cookie_path'];
         if ($cookieDomain) {
@@ -460,7 +461,7 @@ class Auth
         static $adapter = false;
 
         if ($adapter === false) {
-            $spec = Setup::get()['auth'] ?? [];
+            $spec = ServiceContainer::getConfig()['auth'] ?? [];
 
             try {
                 $adapter = Eventum\Auth\Adapter\Factory::create($spec);

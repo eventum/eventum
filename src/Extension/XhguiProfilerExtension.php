@@ -17,7 +17,7 @@ use Eventum\Config\Config;
 use Eventum\Event\SystemEvents;
 use Eventum\Extension\Provider\SubscriberProvider;
 use Eventum\Logger\LoggerTrait;
-use Setup;
+use Eventum\ServiceContainer;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Throwable;
 use Xhgui\Profiler\Profiler;
@@ -32,7 +32,7 @@ class XhguiProfilerExtension implements SubscriberProvider, EventSubscriberInter
 
     public function __construct()
     {
-        $this->config = Setup::get()['xhgui_profiler'];
+        $this->config = ServiceContainer::getConfig()['xhgui_profiler'];
     }
 
     public function getSubscribers(): array
