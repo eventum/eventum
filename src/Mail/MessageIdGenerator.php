@@ -38,6 +38,8 @@ class MessageIdGenerator
 
     private function convertBase(string $input): string
     {
-        return base_convert($input, 16, 36);
+        $filtered = preg_replace('/\D+/', '', $input);
+
+        return base_convert($filtered, 16, 36);
     }
 }
