@@ -16,6 +16,7 @@ namespace Eventum\ServiceProvider;
 use DB_Helper;
 use Eventum\EventDispatcher\EventManager;
 use Eventum\Extension\ExtensionManager;
+use Eventum\Mail\MessageIdGenerator;
 use Eventum\Monolog\Logger;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
@@ -49,6 +50,10 @@ class ServiceProvider implements ServiceProviderInterface
 
         $app[ExtensionManager::class] = static function () {
             return ExtensionManager::getManager();
+        };
+
+        $app[MessageIdGenerator::class] = static function () {
+            return new MessageIdGenerator(Setup::getHostname());
         };
     }
 }
