@@ -4,6 +4,8 @@
 
 See [Upgrading] for details how to upgrade.
 
+- Update Phinx to 0.12, #877
+
 [3.9.1]: https://github.com/eventum/eventum/compare/v3.9.0...master
 
 ## [3.9.0] - 2020-07-01
