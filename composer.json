@@ -17,7 +17,7 @@
         }
     ],
     "require": {
-        "php": "^7.1.3 || ^8.0",
+        "php": "^7.2.0 || ^8.0",
         "ext-ctype": "*",
         "ext-dom": "*",
         "ext-fileinfo": "*",
@@ -111,7 +111,7 @@
     "config": {
         "autoloader-suffix": "EventumCore",
         "platform": {
-            "php": "7.1.3",
+            "php": "7.2.5",
             "ext-mongodb": "1.5.0"
         },
         "sort-packages": true
