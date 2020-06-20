@@ -20,9 +20,6 @@ jobs:
     - php: "7.2"
     - php: "7.3"
     - php: "7.4"
-      env:
-      # The deprecations are third party, can't solve them here
-      - SYMFONY_DEPRECATIONS_HELPER="max[total]=42&max[self]=0&max[direct]=0"
     - php: "nightly"
 
     # TODO: would be nice to have two separate stages, one for build, and other for actually publishing
