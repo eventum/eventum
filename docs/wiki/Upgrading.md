@@ -15,6 +15,7 @@ See 2.2 upgrade instructions how to convert database to UTF-8.
 
 When upgrading to a new version of Eventum, please follow these instructions:
 
+1.  Check the [requirements](Prerequisites.md) for the version
 1.  Backup your copy of Eventum - files and data.
 2.  Extract your new Eventum copy over your existing folder structure
 3.  Run the upgrade scripts described in below
