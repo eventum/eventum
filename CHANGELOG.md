@@ -1,6 +1,6 @@
 # Eventum Issue Tracking System
 
-## [3.8.17]
+## [3.8.17] - 2020-06-20
 
 Upgrading to 3.8.x versions requires that you upgrade to the latest 3.5.x version first.
 
@@ -10,7 +10,7 @@ Upgrading to 3.8.x versions requires that you upgrade to the latest 3.5.x versio
 - Process `dynamic_custom_field.js` with webpack, #863
 - Add model for `issue_partner` table, #866
 
-[3.8.17]: https://github.com/eventum/eventum/compare/v3.8.16...master
+[3.8.17]: https://github.com/eventum/eventum/compare/v3.8.16...v3.8.17
 
 ## [3.8.16] - 2020-06-04
 
