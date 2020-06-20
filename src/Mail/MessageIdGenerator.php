@@ -25,18 +25,28 @@ class MessageIdGenerator
         $this->hostname = $hostname;
     }
 
+    public function generateWithSeed(string $first, string $second): string
+    {
+        return $this->format($first, $second);
+    }
+
     public function generate(): string
     {
         // first part is time based
-        $first = $this->convertBase(microtime(true));
+        $first = microtime(true);
 
         // second part is random string
-        $second = $this->convertBase(bin2hex(Misc::generateRandom(8)));
+        $second = bin2hex(Misc::generateRandom(8));
 
-        return '<eventum.md5.' . $first . '.' . $second . '@' . $this->hostname . '>';
+        return $this->format($first, $second);
     }
 
-    private function convertBase(string $input): string
+    private function format(string $first, string $second): string
+    {
+        return '<eventum.md5.' . $this->convert($first) . '.' . $this->convert($second) . '@' . $this->hostname . '>';
+    }
+
+    private function convert(string $input): string
     {
         $filtered = preg_replace('/\D+/', '', $input);
 
