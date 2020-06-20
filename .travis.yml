@@ -1,6 +1,6 @@
 language: php
 sudo: required
-dist: trusty
+dist: xenial
 
 # disable the default submodule logic
 git:
@@ -28,11 +28,10 @@ jobs:
     # TODO: would be nice to have two separate stages, one for build, and other for actually publishing
     - stage: release
       name: GitHub Release
-      dist: xenial
       language:
         - node_js
         - php
-      php: "7.1"
+      php: "7.2"
       node_js: "10"
       script:
         - node --version

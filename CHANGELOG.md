@@ -2,7 +2,9 @@
 
 ## [3.9.0]
 
-Upgrading to 3.9.x versions requires that you upgrade to the latest 3.5.x version first.
+See [Upgrading] for details how to upgrade.
+
+- Update PHP requirement to 7.2, #868
 
 [3.9.0]: https://github.com/eventum/eventum/compare/v3.9.0...master
 
@@ -2040,3 +2042,5 @@ This release uses Composer for PHP Class autoloader.
 ## 1.1 - 2004-06-05
 
 - Initial release (João; Bryan)
+
+[Upgrading]: docs/wiki/Upgrading.md
