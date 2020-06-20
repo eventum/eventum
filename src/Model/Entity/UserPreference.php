@@ -17,6 +17,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\PersistentCollection;
 use Eventum\Model\Repository\Traits\GetOneTrait;
+use Eventum\ServiceContainer;
 use Setup;
 
 /**
@@ -117,7 +118,7 @@ class UserPreference
         $this->timezone = Setup::getDefaultTimezone();
         $this->weekFirstday = Setup::getDefaultWeekday();
 
-        $config = Setup::get();
+        $config = ServiceContainer::getConfig();
         $this->relativeDate = $config['relative_date'] === 'enabled';
         $this->listRefreshRate = $config['default_refresh_rate'];
         $this->emailRefreshRate = $config['default_refresh_rate'];

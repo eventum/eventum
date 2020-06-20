@@ -496,7 +496,7 @@ class MailMessageTest extends TestCase
         ];
         Setup::set(['smtp' => $smtp]);
 
-        $from = Setup::get()->smtp->from;
+        $from = Setup::getSmtpFrom();
         $to = Mail_Helper::getFormattedName($info['usr_full_name'], $info['usr_email']);
 
         // the same but with ZF

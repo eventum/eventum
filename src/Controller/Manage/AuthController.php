@@ -58,7 +58,7 @@ class AuthController extends ManageBaseController
     private function updateAction(): void
     {
         $post = $this->getRequest()->request;
-        $config = Setup::get()['auth'];
+        $config = ServiceContainer::getConfig()['auth'];
 
         $adapter = $post->get('adapter');
         /* NOTYET

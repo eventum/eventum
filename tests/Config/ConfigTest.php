@@ -13,6 +13,7 @@
 
 namespace Eventum\Test\Config;
 
+use Eventum\ServiceContainer;
 use Eventum\Test\TestCase;
 use Setup;
 
@@ -20,7 +21,7 @@ class ConfigTest extends TestCase
 {
     public function testConfig(): void
     {
-        $config = Setup::get();
+        $config = ServiceContainer::getConfig();
 
         $config['item1'] = 'one';
         $this->assertEquals('one', $config['item1'], 'config as array set works');
@@ -63,7 +64,7 @@ class ConfigTest extends TestCase
         $this->assertEquals(300, $config->issue_lock, 'the other entries are not lost');
         $this->assertEquals('localhost', $config->smtp->host, 'config change is present');
 
-        $config = Setup::get();
+        $config = ServiceContainer::getConfig();
         $this->assertEquals('one', $config->item1, 'config change is present');
     }
 
@@ -75,7 +76,7 @@ class ConfigTest extends TestCase
      */
     public function testSetType(): void
     {
-        $config = Setup::get();
+        $config = ServiceContainer::getConfig();
 
         $config['smtp'] = [
             'from' => 'admin@example.org',
@@ -92,7 +93,7 @@ class ConfigTest extends TestCase
 
     public function testArrayEmpty(): void
     {
-        $setup = Setup::get();
+        $setup = ServiceContainer::getConfig();
 
         // init
         $setup['email_reminder'] = [];
@@ -138,7 +139,7 @@ class ConfigTest extends TestCase
         Setup::set($defaults);
         Setup::set($config);
 
-        $config = Setup::get()->toArray();
+        $config = ServiceContainer::getConfig()->toArray();
         $this->assertEquals('enabled', $config['email_routing']['status']);
     }
 }

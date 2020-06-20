@@ -12,12 +12,13 @@
  */
 
 use Eventum\Db\AbstractMigration;
+use Eventum\ServiceContainer;
 
 class EventumLoginBackOffConfig extends AbstractMigration
 {
     public function up(): void
     {
-        $config = Setup::get()['auth'];
+        $config = ServiceContainer::getConfig()['auth'];
         $config['login_backoff'] = [
             'count' => $this->getBackoffCount(),
             'minutes' => $this->getBackoffMinutes(),

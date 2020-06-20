@@ -33,7 +33,7 @@ class Edit_Reporter
 
         // If no valid user found reset to system account
         if (!$usr_id) {
-            $usr_id = Setup::get()['system_user_id'];
+            $usr_id = Setup::getSystemUserId();
         }
 
         $sql = 'UPDATE

@@ -27,7 +27,7 @@ class Authorized_Replier
      */
     public static function getAuthorizedRepliers(int $issue_id): array
     {
-        $system_user_id = Setup::get()['system_user_id'];
+        $system_user_id = Setup::getSystemUserId();
 
         // split into users and others (those with email address but no real user accounts)
         $repliers = [
@@ -141,7 +141,7 @@ class Authorized_Replier
                     ?, ?, ?
                  )';
         try {
-            DB_Helper::getInstance()->query($stmt, [$issue_id, Setup::get()['system_user_id'], $email]);
+            DB_Helper::getInstance()->query($stmt, [$issue_id, Setup::getSystemUserId(), $email]);
         } catch (DatabaseException $e) {
             return -1;
         }
@@ -272,7 +272,7 @@ class Authorized_Replier
     public static function getReplier($iur_id)
     {
         $stmt = "SELECT
-                    if (iur_usr_id = '" . Setup::get()['system_user_id'] . "', iur_email, usr_full_name) replier
+                    if (iur_usr_id = '" . Setup::getSystemUserId() . "', iur_email, usr_full_name) replier
                  FROM
                     `issue_user_replier`,
                     `user`

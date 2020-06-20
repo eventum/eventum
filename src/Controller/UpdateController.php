@@ -20,6 +20,7 @@ use Category;
 use CRM;
 use Custom_Field;
 use Date_Helper;
+use Eventum\ServiceContainer;
 use Group;
 use Issue;
 use Issue_Field;
@@ -240,7 +241,7 @@ class UpdateController extends BaseController
     {
         $columns = [0 => [], 1 => []];
         $issue_fields_display = Issue_Field::getFieldsToDisplay($this->issue_id, 'view_issue');
-        $internalColor = Setup::get()['internal_color'];
+        $internalColor = ServiceContainer::getConfig()['internal_color'];
 
         if (CRM::hasCustomerIntegration($prj_id) and !empty($details['iss_customer_id'])) {
             $columns[0][] = [

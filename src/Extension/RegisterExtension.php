@@ -15,6 +15,7 @@ namespace Eventum\Extension;
 
 use Eventum\Config\Config;
 use Eventum\Extension\Provider\ExtensionProvider;
+use Eventum\ServiceContainer;
 use InvalidArgumentException;
 use LogicException;
 use ReflectionClass;
@@ -28,7 +29,7 @@ class RegisterExtension
 
     public function __construct()
     {
-        $this->config = Setup::get()['extensions'];
+        $this->config = ServiceContainer::getConfig()['extensions'];
     }
 
     public function enable(string $className, bool $enable = true): void

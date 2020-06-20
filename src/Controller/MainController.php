@@ -16,10 +16,10 @@ namespace Eventum\Controller;
 use Auth;
 use CRM;
 use Date_Helper;
+use Eventum\ServiceContainer;
 use News;
 use Project;
 use Search_Profile;
-use Setup;
 use Stats;
 use User;
 
@@ -75,7 +75,7 @@ class MainController extends BaseController
      */
     private function getHideClosedFlag(): bool
     {
-        $cookie_name = Setup::get()['hide_closed_stats_cookie'];
+        $cookie_name = ServiceContainer::getConfig()['hide_closed_stats_cookie'];
         $request = $this->getRequest();
         $hide_closed = null;
 

@@ -16,7 +16,7 @@ namespace Eventum\Controller\Manage;
 use Eventum\Crypto\CryptoException;
 use Eventum\Crypto\CryptoKeyManager;
 use Eventum\Crypto\CryptoUpgradeManager;
-use Setup;
+use Eventum\ServiceContainer;
 use User;
 
 class EncryptionController extends ManageBaseController
@@ -110,7 +110,7 @@ class EncryptionController extends ManageBaseController
      */
     protected function prepareTemplate(): void
     {
-        $setup = Setup::get();
+        $setup = ServiceContainer::getConfig();
         $this->tpl->assign(
             [
                 'encryption' => $this->html->enableRadioButtons($setup['encryption']),

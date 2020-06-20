@@ -16,7 +16,7 @@ namespace Eventum\Crypto;
 use Defuse\Crypto\Crypto;
 use Defuse\Crypto\Key;
 use Defuse\Crypto\RuntimeTests;
-use Setup;
+use Eventum\ServiceContainer;
 
 /**
  * Class Crypto Manager.
@@ -31,7 +31,7 @@ final class CryptoManager
      */
     public static function encryptionEnabled(): bool
     {
-        return Setup::get()->encryption === 'enabled';
+        return ServiceContainer::getConfig()['encryption'] === 'enabled';
     }
 
     /**

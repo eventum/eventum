@@ -16,6 +16,7 @@ use Eventum\Event;
 use Eventum\EventDispatcher\EventManager;
 use Eventum\Mail\MailBuilder;
 use Eventum\Monolog\Logger;
+use Eventum\ServiceContainer;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
 /**
@@ -514,7 +515,7 @@ class User
                  WHERE
                     usr_status='active' AND
                     usr_id != ?";
-        $system_user_id = Setup::get()['system_user_id'];
+        $system_user_id = Setup::getSystemUserId();
         $params[] = $system_user_id;
 
         if ($prj_id) {
@@ -598,7 +599,7 @@ class User
     {
         static $returns;
 
-        if ($usr_id == Setup::get()['system_user_id']) {
+        if ($usr_id == Setup::getSystemUserId()) {
             return self::ROLE_ADMINISTRATOR;
         }
 
@@ -991,7 +992,7 @@ class User
     public static function update($usr_id, array $user, $notify = true)
     {
         // system account should not be updateable
-        if ($usr_id == Setup::get()['system_user_id']) {
+        if ($usr_id == Setup::getSystemUserId()) {
             return false;
         }
 
@@ -1159,7 +1160,7 @@ class User
      */
     public static function getList($options = [])
     {
-        $system_user_id = Setup::get()['system_user_id'];
+        $system_user_id = Setup::getSystemUserId();
         // FIXME: what about other statuses like "pending"?
         $stmt = 'SELECT
                     usr_id
@@ -1391,9 +1392,9 @@ class User
      */
     public static function isClockedIn($usr_id)
     {
-        $setup = Setup::get();
+        $setup = ServiceContainer::getConfig();
         // If clock in handling is disabled, say that we are always clocked in
-        if ($setup['handle_clock_in'] == 'disabled') {
+        if ($setup['handle_clock_in'] === 'disabled') {
             return true;
         }
         $stmt = 'SELECT
@@ -1428,7 +1429,7 @@ class User
                         usr_id = ?';
             $res = DB_Helper::getInstance()->getOne($sql, [$usr_id]);
 
-            $returns[$usr_id] = $res ?: Setup::get()['default_locale'];
+            $returns[$usr_id] = $res ?: Setup::getDefaultLocale();
         }
 
         return $returns[$usr_id];

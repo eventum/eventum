@@ -23,6 +23,7 @@ use Eventum\Mail\ImapMessage;
 use Eventum\Mail\MailBuilder;
 use Eventum\Mail\MailMessage;
 use Eventum\Monolog\Logger;
+use Eventum\ServiceContainer;
 
 /**
  * Class to handle the business logic related to the email feature of
@@ -449,7 +450,7 @@ class Support
         } elseif (is_numeric($workflow)) {
             $issue_id = $workflow;
         } else {
-            $setup = Setup::get();
+            $setup = ServiceContainer::getConfig();
             if ($setup['subject_based_routing']['status'] === 'enabled'
                 and (preg_match("/\[#(\d+)\]( Note| BLOCKED)*/", $mail->subject, $matches))) {
                 // look for [#XXXX] in the subject line
@@ -525,7 +526,7 @@ class Support
         if ($info['ema_issue_auto_creation'] === 'enabled'
             && $should_create_issue && !$mail->isBounceMessage()) {
             $options = Email_Account::getIssueAutoCreationOptions($info['ema_id']);
-            $system_user_id = Setup::get()['system_user_id'];
+            $system_user_id = Setup::getSystemUserId();
             AuthCookie::setAuthCookie($system_user_id);
             AuthCookie::setProjectCookie($prj_id);
 
@@ -740,7 +741,7 @@ class Support
         $sort_order = self::getParam('sort_order');
         $rows = self::getParam('rows');
         $cookie = [
-            'rows' => $rows ? $rows : Setup::get()['default_pager_size'],
+            'rows' => $rows ? $rows : ServiceContainer::getConfig()['default_pager_size'],
             'pagerRow' => self::getParam('pagerRow'),
             'hide_associated' => self::getParam('hide_associated'),
             'sort_by' => $sort_by ? $sort_by : 'sup_date',
@@ -967,7 +968,7 @@ class Support
             if (!$usr_id) {
                 // if we couldn't find a real customer by that email, set the usr_id to be the system user id,
                 // and store the actual email address in the unknown_user field.
-                $usr_id = Setup::get()['system_user_id'];
+                $usr_id = Setup::getSystemUserId();
                 $unknown_user = $sender_email;
             }
         }
@@ -2155,7 +2156,7 @@ class Support
             Workflow::handleBlockedEmail($prj_id, $issue_id, $email_details, $email_type, $mail);
 
             // try to get usr_id of sender, if not, use system account
-            $usr_id = User::getUserIDByEmail($sender_email, true) ?: Setup::get()['system_user_id'];
+            $usr_id = User::getUserIDByEmail($sender_email, true) ?: Setup::getSystemUserId();
             History::add($issue_id, $usr_id, 'email_blocked', "Email from '{from}' blocked", [
                 'from' => $sender_email,
             ]);

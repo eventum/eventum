@@ -17,6 +17,7 @@ use Eventum\Mail\Exception\RoutingException;
 use Eventum\Mail\Helper\AddressHeader;
 use Eventum\Mail\Helper\WarningMessage;
 use Eventum\Mail\MailMessage;
+use Eventum\ServiceContainer;
 
 /**
  * Class to handle all routing functionality
@@ -32,7 +33,7 @@ class Routing
      */
     public static function route(MailMessage $mail)
     {
-        $setup = Setup::get();
+        $setup = ServiceContainer::getConfig();
 
         // create mapping for quickly checking if routing is enabled
         $routing = [
@@ -92,7 +93,7 @@ class Routing
         EventManager::dispatch(SystemEvents::MAIL_ROUTE_EMAIL, $mail);
 
         // check if the email routing interface is even supposed to be enabled
-        $setup = Setup::get();
+        $setup = ServiceContainer::getConfig();
         if ($setup['email_routing']['status'] !== 'enabled') {
             throw RoutingException::noEmailRouting();
         }
@@ -104,7 +105,7 @@ class Routing
         }
 
         // associate routed emails to the internal system account
-        $system_user_id = Setup::get()['system_user_id'];
+        $system_user_id = Setup::getSystemUserId();
         $sys_account = User::getNameEmail($system_user_id);
         if (empty($sys_account['usr_email'])) {
             throw RoutingException::noAssociatedUserConfigured();
@@ -250,7 +251,7 @@ class Routing
         $headers->removeHeader('Reply-To');
 
         // check if the email routing interface is even supposed to be enabled
-        $setup = Setup::get();
+        $setup = ServiceContainer::getConfig();
         if ($setup['note_routing']['status'] !== 'enabled') {
             throw RoutingException::noEmailRouting();
         }
@@ -296,7 +297,7 @@ class Routing
         }
 
         if (!$sender_usr_id) {
-            $sender_usr_id = Setup::get()['system_user_id'];
+            $sender_usr_id = Setup::getSystemUserId();
             $unknown_user = $mail->from;
         } else {
             $unknown_user = false;
@@ -378,7 +379,7 @@ class Routing
         $headers->removeHeader('Reply-To');
 
         // check if the draft interface is even supposed to be enabled
-        $setup = Setup::get();
+        $setup = ServiceContainer::getConfig();
         if ($setup['draft_routing']['status'] !== 'enabled') {
             throw RoutingException::noDraftRouting();
         }
@@ -435,7 +436,7 @@ class Routing
      */
     private static function getMatchingIssueIDs($addresses, $type)
     {
-        $setup = Setup::get();
+        $setup = ServiceContainer::getConfig();
         $settings = $setup["${type}_routing"];
         if (!$settings) {
             return false;

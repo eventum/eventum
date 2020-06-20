@@ -19,6 +19,7 @@ use Eventum\AppInfo;
 use Eventum\Controller\Traits\RequestTrait;
 use Eventum\Controller\Traits\SmartyResponseTrait;
 use Eventum\Monolog\Logger;
+use Eventum\ServiceContainer;
 use Eventum\Setup\DatabaseSetup;
 use Eventum\Setup\RequirementNotSatisfiedException;
 use Eventum\Setup\Requirements;
@@ -195,7 +196,7 @@ class SetupController
 
     private function boot(Request $request): void
     {
-        $setup = Setup::get();
+        $setup = ServiceContainer::getConfig();
 
         $baseUrl = $request->getBaseUrl();
         $relative_url = rtrim(dirname($baseUrl, 2), '/') . '/';

@@ -15,6 +15,7 @@ use Eventum\Config\Paths;
 use Eventum\Db\Adapter\AdapterInterface;
 use Eventum\Db\DatabaseException;
 use Eventum\Extension\ExtensionLoader;
+use Eventum\ServiceContainer;
 
 define('CRM_EXCLUDE_EXPIRED', 'exclude_expired');
 
@@ -742,7 +743,7 @@ abstract class CRM
      */
     public static function getExtensionLoader(): ExtensionLoader
     {
-        $localPath = Setup::get()['local_path'];
+        $localPath = ServiceContainer::getConfig()['local_path'];
         $dirs = [
             Paths::APP_INC_PATH . '/crm',
             $localPath . '/crm',

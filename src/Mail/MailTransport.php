@@ -15,9 +15,9 @@ namespace Eventum\Mail;
 
 use Eventum\Config\Paths;
 use Eventum\Logger\LoggerTrait;
+use Eventum\ServiceContainer;
 use Exception;
 use Mail_Helper;
-use Setup;
 use Zend\Mail\Transport;
 
 class MailTransport
@@ -94,7 +94,7 @@ class MailTransport
      */
     private function getSpec(): array
     {
-        $setup = Setup::get()['smtp'];
+        $setup = ServiceContainer::getConfig()['smtp'];
 
         $options = [];
         if ($setup['host']) {

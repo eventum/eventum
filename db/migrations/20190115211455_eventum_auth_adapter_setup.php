@@ -13,6 +13,7 @@
 
 use Eventum\Auth\Adapter;
 use Eventum\Db\AbstractMigration;
+use Eventum\ServiceContainer;
 
 class EventumAuthAdapterSetup extends AbstractMigration
 {
@@ -40,7 +41,7 @@ class EventumAuthAdapterSetup extends AbstractMigration
 
     private function setupAuthAdapter(): void
     {
-        $setup = Setup::get();
+        $setup = ServiceContainer::getConfig();
         $setup['auth'] = $this->createConfiguration();
         Setup::save();
     }

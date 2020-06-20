@@ -17,6 +17,7 @@ use Cascade\Cascade;
 use DateTimeZone;
 use Eventum\Config\Paths;
 use Eventum\DebugBarManager;
+use Eventum\ServiceContainer;
 use Monolog;
 use Monolog\Registry;
 use Setup;
@@ -63,7 +64,7 @@ class Logger extends Registry
     {
         // load $setup, so required files could use $setup variable
         /** @var \Zend\Config\Config $setup */
-        $setup = Setup::get();
+        $setup = ServiceContainer::getConfig();
 
         $configPath = Setup::getConfigPath();
         $files = [

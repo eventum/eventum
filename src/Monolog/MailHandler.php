@@ -17,6 +17,7 @@ use Eventum\ServiceContainer;
 use Misc;
 use Monolog;
 use Monolog\Handler\NativeMailerHandler;
+use Setup;
 
 class MailHandler extends NativeMailerHandler
 {
@@ -38,6 +39,6 @@ class MailHandler extends NativeMailerHandler
             $to = [];
         }
 
-        parent::__construct($to, $config['subject'], $setup['smtp']['from'], $level);
+        parent::__construct($to, $config['subject'], Setup::getSmtpFrom(), $level);
     }
 }

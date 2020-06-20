@@ -18,9 +18,8 @@ use Eventum\Auth\AuthException;
 use Eventum\Auth\Ldap\LdapConnection;
 use Eventum\Auth\Ldap\UserEntry;
 use Eventum\Monolog\Logger;
+use Eventum\ServiceContainer;
 use Generator;
-use Setup;
-use Symfony\Component\Ldap\Entry;
 use Symfony\Component\Ldap\Exception\ConnectionException;
 use User;
 
@@ -56,6 +55,9 @@ class LdapAdapter implements AdapterInterface
      */
     public $inactive_dn;
 
+    /** @var array */
+    private $default_role;
+
     /**
      * configures LDAP
      *
@@ -63,11 +65,12 @@ class LdapAdapter implements AdapterInterface
      */
     public function __construct()
     {
-        $config = Setup::get()['ldap'];
+        $config = ServiceContainer::getConfig()['ldap'];
         $this->logger = Logger::auth();
         $this->ldap = new LdapConnection($config);
         $this->active_dn = $config['active_dn'];
         $this->inactive_dn = $config['inactive_dn'];
+        $this->default_role = $config['default_role'];
         $this->create_users = (bool)$config['create_users'];
 
         if (!$this->active_dn || !$this->inactive_dn) {
@@ -330,7 +333,7 @@ class LdapAdapter implements AdapterInterface
         // set first email as default
         $data['email'] = array_shift($emails);
 
-        $data['role'] = Setup::get()->ldap->default_role;
+        $data['role'] = $this->default_role;
 
         if (!empty($data['customer_id']) && !empty($data['contact_id'])) {
             foreach ($data['role'] as $prj_id => $role) {

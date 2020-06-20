@@ -15,8 +15,8 @@ namespace Eventum\Mail\Helper;
 
 use Closure;
 use Eventum\Mail\MailMessage;
+use Eventum\ServiceContainer;
 use Issue;
-use Setup;
 use Support;
 use User;
 use Zend\Mail\Exception\InvalidArgumentException;
@@ -162,14 +162,13 @@ class WarningMessage
     /**
      * @return bool return true if the feature is enabled
      */
-    protected function enabled()
+    protected function enabled(): bool
     {
         static $enabled;
 
         if ($enabled === null) {
-            $setup = Setup::get();
-            $enabled = $setup['email_routing']['status'] == 'enabled'
-                && $setup['email_routing']['warning']['status'] == 'enabled';
+            $email_routing = ServiceContainer::getConfig()['email_routing'];
+            $enabled = $email_routing['status'] === 'enabled' && $email_routing['warning']['status'] === 'enabled';
         }
 
         return $enabled;

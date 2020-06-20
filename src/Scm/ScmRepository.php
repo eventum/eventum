@@ -16,7 +16,7 @@ namespace Eventum\Scm;
 use Eventum\Logger\LoggerTrait;
 use Eventum\Model\Entity\Commit;
 use Eventum\Model\Entity\CommitFile;
-use Setup;
+use Eventum\ServiceContainer;
 use Zend\Config\Config;
 
 class ScmRepository
@@ -28,7 +28,7 @@ class ScmRepository
 
     public function __construct(string $name)
     {
-        $setup = Setup::get();
+        $setup = ServiceContainer::getConfig();
 
         if (isset($setup['scm'][$name])) {
             $this->config = $setup['scm'][$name];
@@ -42,12 +42,9 @@ class ScmRepository
         return $this->config['name'];
     }
 
-    /**
-     * @return \Zend\Config\Config
-     */
     public static function getAllRepos(): Config
     {
-        return Setup::get()['scm'];
+        return ServiceContainer::getConfig()['scm'];
     }
 
     /**

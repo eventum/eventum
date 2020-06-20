@@ -14,6 +14,7 @@
 namespace Eventum\Controller\Manage;
 
 use Eventum\Controller\Helper\MessagesHelper;
+use Eventum\ServiceContainer;
 use Project;
 use Setup;
 use User;
@@ -53,7 +54,7 @@ class LdapController extends ManageBaseController
     {
         $post = $this->getRequest()->request;
 
-        $config = Setup::get();
+        $config = ServiceContainer::getConfig();
         $setup = $config['ldap']->toArray();
 
         // special handling for binddn/bindpw:

@@ -16,7 +16,7 @@ namespace Eventum\Controller;
 use Auth;
 use AuthCookie;
 use Eventum\Controller\Helper\MessagesHelper;
-use Setup;
+use Eventum\ServiceContainer;
 use User;
 
 class SignupController extends BaseController
@@ -62,7 +62,7 @@ class SignupController extends BaseController
 
     private function createVisitorAccountAction(): void
     {
-        $setup = Setup::get();
+        $setup = ServiceContainer::getConfig();
 
         if ($setup['open_signup'] !== 'enabled') {
             $error = ev_gettext('Sorry, but this feature has been disabled by the administrator.');

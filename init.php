@@ -45,7 +45,7 @@ Language::setup();
 header('Content-Type: text/html; charset=UTF-8');
 
 // display maintenance message if requested.
-if (Setup::get()['maintenance']) {
+if (Setup::isMaintenance()) {
     $is_manage = (strpos($_SERVER['PHP_SELF'], '/manage/') !== false);
     if (!$is_manage) {
         $tpl = new Template_Helper();

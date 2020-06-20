@@ -35,7 +35,7 @@ class IssueAssociationTest extends TestCase
 
     public function setUp(): void
     {
-        $this->system_user_id = Setup::get()['system_user_id'];
+        $this->system_user_id = Setup::getSystemUserId();
         $this->repo = Doctrine::getIssueAssociationRepository();
 
         $issues = [IssueSeeder::ISSUE_1, IssueSeeder::ISSUE_2, 13, 14, 15];

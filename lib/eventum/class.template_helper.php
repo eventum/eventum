@@ -14,6 +14,7 @@
 use Eventum\AppInfo;
 use Eventum\Config\Paths;
 use Eventum\DebugBarManager;
+use Eventum\ServiceContainer;
 use Eventum\Templating;
 
 /**
@@ -138,7 +139,7 @@ class Template_Helper
      */
     private function processTemplate(): self
     {
-        $setup = Setup::get();
+        $setup = ServiceContainer::getConfig();
         $appInfo = AppInfo::getInstance();
         $core = [
             'rel_url' => Setup::getRelativeUrl(),
@@ -146,7 +147,7 @@ class Template_Helper
             'app_title' => Setup::getAppName(),
             'app_version' => $appInfo->getVersion(),
             'app_version_link' => $appInfo->getVersionLink(),
-            'app_setup' => Setup::get(),
+            'app_setup' => ServiceContainer::getConfig(),
             'roles' => User::getAssocRoleIDs(),
             'template_id' => str_replace(['/', '.tpl.html'], ['_'], $this->tpl_name),
             'handle_clock_in' => $setup['handle_clock_in'] === 'enabled',
@@ -203,7 +204,7 @@ class Template_Helper
         }
         $this->assign('core', $core);
 
-        $userFile = new Templating\UserFile($this->smarty, Setup::get()['local_path']);
+        $userFile = new Templating\UserFile($this->smarty, ServiceContainer::getConfig()['local_path']);
         $userFile();
 
         if ($this->debugBarEnabled && isset($role_id) && $role_id >= User::ROLE_ADMINISTRATOR) {

@@ -16,7 +16,7 @@ namespace Eventum\Event\Subscriber;
 use Date_Helper;
 use DB_Helper;
 use Eventum\Event\SystemEvents;
-use Setup;
+use Eventum\ServiceContainer;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
@@ -73,9 +73,9 @@ class IrcSubscriber implements EventSubscriberInterface
         DB_Helper::getInstance()->query($stmt, $params);
     }
 
-    private function notificationEnabled()
+    private function notificationEnabled(): bool
     {
-        $setup = Setup::get();
+        $setup = ServiceContainer::getConfig();
 
         return $setup['irc_notification'] === 'enabled';
     }

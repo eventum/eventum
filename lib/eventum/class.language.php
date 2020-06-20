@@ -37,7 +37,7 @@ class Language
      */
     public static function setup(): void
     {
-        self::set(Setup::get()['default_locale']);
+        self::set(Setup::getDefaultLocale());
         self::initEncoding();
     }
 
@@ -133,7 +133,7 @@ class Language
         if ($lang == null) {
             // fall back to system default
             // we don't need to set language again as APP_DEFAULT_LOCALE was set by self::setup()
-            self::$currentLocale = Setup::get()['default_locale'];
+            self::$currentLocale = Setup::getDefaultLocale();
         } else {
             self::$currentLocale = $lang;
         }
@@ -177,7 +177,7 @@ class Language
 
     public static function restore(): void
     {
-        $locale = self::$currentLocale ?: Setup::get()['default_locale'];
+        $locale = self::$currentLocale ?: Setup::getDefaultLocale();
         self::set($locale);
     }
 }

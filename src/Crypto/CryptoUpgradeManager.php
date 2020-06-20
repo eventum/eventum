@@ -16,6 +16,7 @@ namespace Eventum\Crypto;
 use Eventum\Event\ConfigUpdateEvent;
 use Eventum\Event\SystemEvents;
 use Eventum\EventDispatcher\EventManager;
+use Eventum\ServiceContainer;
 use Setup;
 use Zend\Config\Config;
 
@@ -26,7 +27,7 @@ class CryptoUpgradeManager
 
     public function __construct()
     {
-        $this->config = Setup::get();
+        $this->config = ServiceContainer::getConfig();
     }
 
     /**

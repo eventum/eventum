@@ -15,6 +15,7 @@ namespace Eventum\Test\Mail;
 
 use Eventum\Mail\MailMessage;
 use Eventum\Mail\MailTransport;
+use Eventum\ServiceContainer;
 use Eventum\Test\TestCase;
 use Setup;
 
@@ -43,7 +44,7 @@ class GmailTransportTest extends TestCase
 
     private function configureSmtp(): void
     {
-        $smtpSetup = Setup::get()['tests.smtp'];
+        $smtpSetup = ServiceContainer::getConfig()['tests.smtp'];
         if (!$smtpSetup) {
             $this->markTestSkipped('configure tests.smtp for test');
         }

@@ -14,7 +14,7 @@
 namespace Eventum\Model\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Setup;
+use Eventum\ServiceContainer;
 
 /**
  * @ORM\Table(name="user_project_preference")
@@ -62,7 +62,7 @@ class UserProjectPreference
         $this->userPreference = $upr;
         $this->projectId = $projectId;
 
-        $config = Setup::get();
+        $config = ServiceContainer::getConfig();
         $this->receiveNewIssueEmail = $config['default_new_emails'];
         $this->receiveAssignedEmail = $config['default_assigned_emails'];
         $this->receiveCopyOfOwnAction = $config['default_copy_of_own_action'];

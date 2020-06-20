@@ -22,8 +22,8 @@ namespace Monolog\Handler {
 namespace Eventum\Test\Mail {
 
     use Eventum\Monolog\Logger;
+    use Eventum\ServiceContainer;
     use Eventum\Test\TestCase;
-    use Setup;
 
     /**
      * @group mail
@@ -53,7 +53,7 @@ namespace Eventum\Test\Mail {
             global $mail;
             $mail = [];
 
-            $setup = Setup::get();
+            $setup = ServiceContainer::getConfig();
             $setup['email_error']['status'] = $status;
             $setup['email_error']['addresses'] = 'root@localhost';
             $setup['smtp']['from'] = 'root@locahost';

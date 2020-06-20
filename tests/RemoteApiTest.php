@@ -15,8 +15,8 @@ namespace Eventum\Test;
 
 use Eventum\RPC\EventumXmlRpcClient;
 use Eventum\RPC\RemoteApi;
+use Eventum\ServiceContainer;
 use Exception;
-use Setup;
 
 /**
  * @group api
@@ -33,7 +33,7 @@ class RemoteApiTest extends TestCase
 
     public static function setupBeforeClass(): void
     {
-        $setup = Setup::get();
+        $setup = ServiceContainer::getConfig();
         if (!isset($setup['tests.xmlrpc_url'])) {
             self::markTestSkipped('tests.xmlrpc_url not set in setup');
         }

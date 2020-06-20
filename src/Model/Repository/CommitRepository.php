@@ -68,7 +68,7 @@ class CommitRepository extends EntityRepository
     {
         Issue::markAsUpdated($issue_id, 'scm checkin');
 
-        $usr_id = $commit->getUserId() ?: Setup::get()['system_user_id'];
+        $usr_id = $commit->getUserId() ?: Setup::getSystemUserId();
 
         // need to save a history entry for this
         // TRANSLATORS: %1: scm username

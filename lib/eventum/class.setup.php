@@ -15,6 +15,7 @@ use Eventum\Config\Config;
 use Eventum\Config\ConfigPersistence;
 use Eventum\Config\Paths;
 use Eventum\Monolog\Logger;
+use Eventum\ServiceContainer;
 use Symfony\Component\Filesystem\Exception\IOException;
 
 /**
@@ -136,6 +137,14 @@ class Setup
     }
 
     /**
+     * @since 3.8.17
+     */
+    public static function getSmtpFrom(): ?string
+    {
+        return self::get()['smtp']['from'];
+    }
+
+    /**
      * Get the application default timezone.
      *
      * @return string The default timezone
@@ -144,6 +153,14 @@ class Setup
     public static function getDefaultTimezone(): string
     {
         return self::get()['default_timezone'] ?? 'UTC';
+    }
+
+    /**
+     * @since 3.8.17
+     */
+    public static function getDefaultLocale(): string
+    {
+        return self::get()['default_locale'] ?? 'en_US';
     }
 
     /**
@@ -158,6 +175,14 @@ class Setup
     }
 
     /**
+     * @since 3.8.17
+     */
+    public static function getDefaultPagerSize(): int
+    {
+        return self::get()['default_pager_size'];
+    }
+
+    /**
      * @return array
      * @since 3.8.0
      */
@@ -169,6 +194,13 @@ class Setup
             $localPath . '/templates',
             Paths::APP_TPL_PATH,
         ];
+    }
+    /**
+     * @since 3.8.17
+     */
+    public static function isMaintenance(): bool
+    {
+        return self::get()['maintenance'];
     }
 
     /**

@@ -107,7 +107,7 @@ class Search
             $custom_field = json_decode(urldecode($custom_field), true);
         }
         $cookie = [
-            'rows' => Misc::escapeString($rows ? $rows : Setup::get()['default_pager_size']),
+            'rows' => Misc::escapeString($rows ? $rows : ServiceContainer::getConfig()['default_pager_size']),
             'pagerRow' => Misc::escapeInteger(self::getParam('pagerRow', $request_only)),
             'hide_closed' => $hide_closed,
             'show_all_projects' => $show_all_projects,
@@ -591,7 +591,7 @@ class Search
         }
         if (!empty($options['keywords'])) {
             $stmt .= " AND (\n";
-            if (($options['search_type'] === 'all_text') && Setup::get()['enable_fulltext']) {
+            if (($options['search_type'] === 'all_text') && ServiceContainer::getConfig()['enable_fulltext']) {
                 $stmt .= 'iss_id IN(' . implode(', ', self::getFullTextIssues($options)) . ')';
             } elseif (($options['search_type'] === 'customer') && (CRM::hasCustomerIntegration($prj_id))) {
                 // check if the user is trying to search by customer name / email
@@ -736,7 +736,7 @@ class Search
         $stmt .= Access::getListingSQL($prj_id);
 
         // clear cached full-text values if we are not searching fulltext anymore
-        if (@$options['search_type'] !== 'all_text' && Setup::get()['enable_fulltext']) {
+        if (@$options['search_type'] !== 'all_text' && ServiceContainer::getConfig()['enable_fulltext']) {
             Session::set('fulltext_string', '');
             Session::set('fulltext_issues', '');
             Session::set('fulltext_excerpts', '');
@@ -778,7 +778,7 @@ class Search
      */
     private static function getFullTextExcerpts(array $options): array
     {
-        if (empty($options['keywords']) || !Setup::get()['enable_fulltext']) {
+        if (empty($options['keywords']) || !ServiceContainer::getConfig()['enable_fulltext']) {
             return [];
         }
 

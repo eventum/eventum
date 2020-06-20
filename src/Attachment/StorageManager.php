@@ -16,6 +16,7 @@ namespace Eventum\Attachment;
 use DB_Helper;
 use Eventum\Attachment\Exceptions\AttachmentException;
 use Eventum\Config\Paths;
+use Eventum\ServiceContainer;
 use League\Flysystem\Adapter\Local;
 use League\Flysystem\Config;
 use League\Flysystem\Filesystem;
@@ -52,8 +53,8 @@ class StorageManager
      */
     private function __construct()
     {
-        $setup = Setup::get()['attachments'];
-        $this->default_adapter = $setup['default_adapter'];
+        $config = ServiceContainer::getConfig()['attachments'];
+        $this->default_adapter = $config['default_adapter'];
 
         $mount_config = [
             'pdo' => $this->getPdoAdapter(),
@@ -61,7 +62,7 @@ class StorageManager
             'local' => new Filesystem(new Local(self::STORAGE_PATH)),
         ];
 
-        foreach ($setup['adapters'] as $adapter_name => $adapter_config) {
+        foreach ($config['adapters'] as $adapter_name => $adapter_config) {
             $mount_config[$adapter_name] = new Filesystem(new $adapter_config['class'](...$adapter_config['options']));
         }
 

@@ -16,6 +16,7 @@ namespace Eventum\Controller;
 use APIAuthToken;
 use Auth;
 use AuthCookie;
+use Eventum\ServiceContainer;
 use Filter;
 use InvalidArgumentException;
 use Issue;
@@ -196,7 +197,7 @@ class RssController extends BaseController
             [
                 'charset' => 'UTF-8',
                 'project_title' => Project::getName($filter['cst_prj_id']),
-                'setup' => Setup::get(),
+                'setup' => ServiceContainer::getConfig(),
                 'filter' => $filter,
                 'issues' => $issues,
             ]

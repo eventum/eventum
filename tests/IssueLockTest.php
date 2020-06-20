@@ -13,8 +13,8 @@
 
 namespace Eventum\Test;
 
+use Eventum\ServiceContainer;
 use Issue_Lock;
-use Setup;
 
 class IssueLockTest extends TestCase
 {
@@ -27,7 +27,7 @@ class IssueLockTest extends TestCase
         $locker = 'admin';
         $locker2 = 'user';
 
-        $setup = Setup::get();
+        $setup = ServiceContainer::getConfig();
         $setup['issue_lock'] = 2;
 
         $res = Issue_Lock::acquire($issue_id, $locker);

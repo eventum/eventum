@@ -12,13 +12,14 @@
  */
 
 use Eventum\Db\AbstractMigration;
+use Eventum\ServiceContainer;
 
 class EventumMarkdownPreference extends AbstractMigration
 {
     public function change(): void
     {
-        $setup = Setup::get();
-        $default = (int) ($setup['markdown'] === 'enabled');
+        $config = ServiceContainer::getConfig();
+        $default = (int) ($config['markdown'] === 'enabled');
 
         $this->table('user_preference')
             ->addColumn('upr_markdown', 'boolean', ['default' => $default, 'null' => true])
