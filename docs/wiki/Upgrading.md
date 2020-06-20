@@ -26,7 +26,10 @@ When upgrading to a new version of Eventum, please follow these instructions:
 -   Rename your current Eventum dir to `eventum.old`
 -   Extract Eventum release tarball and rename it to `eventum` directory.
 -   Copy all config files from old version to new version: `eventum.old/config` to `eventum/config`
--   If your workflow API, customer API or custom field files to were in `lib/eventum` copy them to `config/`: - `eventum.old/lib/eventum/workflow/` -> `eventum/config/workflow/` - `eventum.old/lib/eventum/customer/` -> `eventum/config/customer/` - `eventum.old/lib/eventum/custom_field/` -> `eventum/config/custom_field/`
+-   If your workflow API, customer API or custom field files to were in `lib/eventum` copy them to `config/`:
+    - `eventum.old/lib/eventum/workflow/` -> `eventum/config/workflow/`
+    - `eventum.old/lib/eventum/customer/` -> `eventum/config/customer/`
+    - `eventum.old/lib/eventum/custom_field/` -> `eventum/config/custom_field/`
 -   Ensure your database database partition has enough disk space and run upgrade script: `php bin/upgrade.php` (`upgrade/update-database.php` in older versions)
 -   Modify your workflow/customer classes not to require any Eventum core classes, they are autoloaded now. So you can just remove such lines:
 
@@ -35,7 +38,7 @@ require_once(APP_INC_PATH."workflow/class.abstract_workflow_backend.php");
 require_once(APP_INC_PATH."customer/class.abstract_customer_backend.php");
 ```
 
--   Update your cron jobs to point to the scripts in the new location (see [INSTALL](System-Admin%3A-Doing-a-fresh-install)).
+-   Update your cron jobs to point to the scripts in the new location (see [INSTALL](System-Admin/Doing-a-fresh-install.md)).
     Previously the scripts were in 'crons', now in 'bin', eg:
 
 ```
@@ -52,9 +55,13 @@ require_once(APP_INC_PATH."customer/class.abstract_customer_backend.php");
 
 -   Since 3.2.0 MySQL extension was changed from mysql/mysqli to [PDO_MySQL](https://github.com/eventum/eventum/pull/252):
 
+## Upgrading from versions before 3.5
+
+You need to upgrade to 3.5.0 first before you can upgrade to versions 3.5.x and above
+
 ## Upgrading from versions before 3.2
 
-You need to upgrade to 3.2.0 first before you can upgrade to 3.2.x versions. [#270](https://github.com/eventum/eventum/pull/270)
+You need to upgrade to 3.2.0 first before you can upgrade to versions 3.2.x and above. [#270](https://github.com/eventum/eventum/pull/270)
 
 ## Upgrading from versions before 3.0
 
