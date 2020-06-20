@@ -43,7 +43,7 @@ class MessageIdGenerator
 
     private function format(string $first, string $second): string
     {
-        return '<eventum.md5.' . $this->convert($first) . '.' . $this->convert($second) . '@' . $this->hostname . '>';
+        return '<eventum.' . $this->convert($first) . '.' . $this->convert($second) . '@' . $this->hostname . '>';
     }
 
     private function convert(string $input): string
