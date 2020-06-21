@@ -32,6 +32,7 @@ use Misc;
  * @method static Repository\CustomFieldRepository getCustomFieldRepository()
  * @method static Repository\EmailAccountRepository getEmailAccountRepository()
  * @method static Repository\IssueAssociationRepository getIssueAssociationRepository()
+ * @method static Repository\IssueHistoryRepository getIssueHistoryRepository()
  * @method static Repository\IssuePartnerRepository getIssuePartnerRepository()
  * @method static Repository\IssueRepository getIssueRepository()
  * @method static Repository\PartnerProjectRepository getPartnerProjectRepository()

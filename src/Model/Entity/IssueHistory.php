@@ -18,7 +18,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Table(name="issue_history")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Eventum\Model\Repository\IssueHistoryRepository")
  */
 class IssueHistory
 {
