@@ -17,8 +17,13 @@ use Doctrine\ORM\EntityRepository;
 use Eventum\Model\Entity;
 use LogicException;
 
+/**
+ * @method Entity\IssueHistory findById(int $prj_id)
+ */
 class IssueHistoryRepository extends EntityRepository
 {
+    use Traits\FindByIdTrait;
+
     /**
      * Returns the last person to close the issue
      *

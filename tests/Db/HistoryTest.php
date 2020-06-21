@@ -19,6 +19,7 @@ use Eventum\Model\Repository\IssueHistoryRepository;
 use Eventum\Test\TestCase;
 use Eventum\Test\Traits\DoctrineTrait;
 use History;
+use IssueSeeder;
 use Setup;
 use User;
 
@@ -54,6 +55,9 @@ class HistoryTest extends TestCase
         $his->setMinRole(User::ROLE_ADMINISTRATOR);
 
         $this->persistAndFlush($his);
+
+        $res = $this->repo->findById($his->getId());
+        $this->assertSame($his, $res);
     }
 
     public function testHistoryType(): void
@@ -63,14 +67,12 @@ class HistoryTest extends TestCase
         $htt->setName($htt_name);
         $htt->setRoleId(0);
         $this->persistAndFlush($htt);
+        $this->assertGreaterThan(0, $htt->getId());
         $this->removeAndFlush($htt);
     }
     public function testGetIssueCloser(): void
     {
-        $usr_id = $this->repo->getIssueCloser(1);
-        dump($usr_id);
-
-        $usr_id = $this->repo->getIssueCloser(64);
-        dump($usr_id);
+        $usr_id = $this->repo->getIssueCloser(IssueSeeder::ISSUE_2);
+        $this->assertNull($usr_id);
     }
 }
