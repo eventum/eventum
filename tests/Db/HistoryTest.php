@@ -63,11 +63,7 @@ class HistoryTest extends TestCase
         $htt->setName($htt_name);
         $htt->setRoleId(0);
         $this->persistAndFlush($htt);
-
-        // cleanup
-        $em = $this->getEntityManager();
-        $em->remove($htt);
-        $em->flush();
+        $this->removeAndFlush($htt);
     }
     public function testGetIssueCloser(): void
     {
