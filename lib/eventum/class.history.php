@@ -307,6 +307,6 @@ class History
      */
     public static function getIssueCloser(int $issue_id): int
     {
-        return Doctrine::getIssueHistoryRepository()->getIssueCloser($issue_id);
+        return Doctrine::getIssueHistoryRepository()->getIssueCloser($issue_id) ?: 0;
     }
 }

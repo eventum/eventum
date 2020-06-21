@@ -25,12 +25,12 @@ class IssueHistoryRepository extends EntityRepository
      * @param int $issue_id The ID of the issue
      * @return int usr_id
      */
-    public function getIssueCloser(int $issue_id): int
+    public function getIssueCloser(int $issue_id): ?int
     {
         $typeId = $this->getTypeId('issue_closed');
         $htt = $this->findOneBy(['issueId' => $issue_id, 'typeId' => $typeId], ['createdDate' => 'DESC']);
         if (!$htt) {
-            return 0;
+            return null;
         }
 
         return $htt->getUserId();
