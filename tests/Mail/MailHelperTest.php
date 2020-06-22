@@ -68,7 +68,7 @@ class MailHelperTest extends TestCase
         // <eventum.md5.54hebbwge.myyt4c@eventum.example.org>
         // <eventum.md5.741zcol.2ib1drbh4bqcc@eventum.example.org>
         // 741zcol = 1548267006.9 = Wed Jan 23 20:10:06 2019 +0200
-        $exp = '<eventum\.[0-9a-z]{7,64}\.[0-9a-z]{8,64}@' . Setup::getHostname() . '>';
+        $exp = '<eventum\.[0-9a-z]{7,64}\.[0-9a-z]{6,64}@' . Setup::getHostname() . '>';
         $this->assertRegExp($exp, $msgid, 'Missing msg-id header');
     }
 
