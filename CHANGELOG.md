@@ -5,6 +5,7 @@
 See [Upgrading] for details how to upgrade.
 
 - Update PHP requirement to 7.2, #868
+- Add `MessageIdGenerator` class, #870
 
 [3.9.0]: https://github.com/eventum/eventum/compare/v3.9.0...master
 
