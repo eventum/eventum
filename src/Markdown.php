@@ -13,7 +13,7 @@
 
 namespace Eventum;
 
-use Eventum\CommonMark\MentionExtension;
+use Eventum\CommonMark\UserMentionGenerator;
 use Eventum\Config\Paths;
 use Eventum\EventDispatcher\EventManager;
 use HTMLPurifier;
@@ -26,10 +26,12 @@ use League\CommonMark\Extension\CommonMarkCoreExtension;
 use League\CommonMark\Extension\Footnote\FootnoteExtension;
 use League\CommonMark\Extension\HeadingPermalink\HeadingPermalinkExtension;
 use League\CommonMark\Extension\InlinesOnly\InlinesOnlyExtension;
+use League\CommonMark\Extension\Mention\MentionExtension;
 use League\CommonMark\Extension\Table\TableExtension;
 use League\CommonMark\Extension\TaskList\TaskListExtension;
 use League\CommonMark\MarkdownConverterInterface;
 use Misc;
+use Setup;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
 final class Markdown
@@ -101,6 +103,15 @@ final class Markdown
                 'inner_contents' => '¶',
                 'insert' => 'after',
             ],
+
+            // https://commonmark.thephpleague.com/1.5/extensions/mentions/
+            'mentions' => [
+                'eventum_handle' => [
+                    'symbol' => '@',
+                    'regex' => '/^[A-Za-z0-9_]+(?!\w)/',
+                    'generator' => new UserMentionGenerator(Setup::getBaseUrl()),
+                ],
+            ],
         ];
 
         $environment = new Environment($config);
@@ -148,11 +159,11 @@ final class Markdown
     {
         $environment->addExtension(new AutolinkExtension());
         $environment->addExtension(new TaskListExtension());
-        $environment->addExtension(new MentionExtension());
         $environment->addExtension(new TableExtension());
         $environment->addExtension(new HeadingPermalinkExtension());
         $environment->addExtension(new AttributesExtension());
         $environment->addExtension(new FootnoteExtension());
+        $environment->addExtension(new MentionExtension());
 
         // allow extensions to apply behaviour
         $event = new GenericEvent($environment);
