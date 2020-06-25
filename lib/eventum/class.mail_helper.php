@@ -14,6 +14,7 @@
 use Eventum\Mail\Helper\AddressHeader;
 use Eventum\Mail\MailMessage;
 use Eventum\Mail\MailTransport;
+use Eventum\Mail\MessageIdGenerator;
 use Eventum\ServiceContainer;
 use Zend\Mail\Address;
 
@@ -266,26 +267,16 @@ class Mail_Helper
      * @param string $body
      * @return  string The Message-ID header
      */
-    public static function generateMessageID($headers = null, $body = null): string
+    public static function generateMessageID(?string $headers = null, ?string $body = null): string
     {
-        if ($headers) {
-            // calculate hash to make fake message ID
-            // NOTE: note the base_convert "10" should be "16" really here
-            // but can't fix this because need to generate same message-id for same headers+body.
-            // TODO: this can be fixed once we store the generated message-id in database,
-            // TODO: i.e work on ZF-MAIL devel branch gets merged
-            $first = base_convert(preg_replace('/[^0-9]+/', '', md5($headers)), 10, 36);
-            $second = base_convert(preg_replace('/[^0-9]+/', '', md5($body)), 10, 36);
-        } else {
-            // generate random one
-            // first part is time based
-            $first = base_convert(microtime(true), 10, 36);
+        /** @var MessageIdGenerator $generator */
+        $generator = ServiceContainer::get(MessageIdGenerator::class);
 
-            // second part is random string
-            $second = base_convert(bin2hex(Misc::generateRandom(8)), 16, 36);
+        if ($headers) {
+            return $generator->generateWithSeed(sha1($headers), sha1($body));
         }
 
-        return '<eventum.md5.' . $first . '.' . $second . '@' . Setup::getHostname() . '>';
+        return $generator->generate();
     }
 
     /**
