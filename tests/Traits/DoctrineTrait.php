@@ -35,6 +35,13 @@ trait DoctrineTrait
         $em->flush($object);
     }
 
+    protected function removeAndFlush($object): void
+    {
+        $em = $this->getEntityManager();
+        $em->remove($object);
+        $em->flush();
+    }
+
     /**
      * Solution to set Id Explicitly  when using "AUTO" strategy.
      * @see https://stackoverflow.com/q/5301285/2314626

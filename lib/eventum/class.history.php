@@ -12,6 +12,7 @@
  */
 
 use Eventum\Db\DatabaseException;
+use Eventum\Db\Doctrine;
 use Eventum\Event;
 use Eventum\EventDispatcher\EventManager;
 use Symfony\Component\EventDispatcher\GenericEvent;
@@ -302,25 +303,10 @@ class History
      *
      * @param   int $issue_id The ID of the issue
      * @return  int usr_id
+     * @deprecated
      */
-    public static function getIssueCloser($issue_id)
+    public static function getIssueCloser(int $issue_id): int
     {
-        $sql = 'SELECT
-                    his_usr_id
-                FROM
-                    `issue_history`
-                WHERE
-                    his_iss_id = ? AND
-                    his_htt_id = ?
-                ORDER BY
-                    his_created_date DESC
-                LIMIT 1';
-        try {
-            $res = DB_Helper::getInstance()->getOne($sql, [$issue_id, self::getTypeID('issue_closed')]);
-        } catch (DatabaseException $e) {
-            return 0;
-        }
-
-        return $res;
+        return Doctrine::getIssueHistoryRepository()->getIssueCloser($issue_id) ?: 0;
     }
 }
