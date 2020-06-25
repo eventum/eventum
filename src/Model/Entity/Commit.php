@@ -204,7 +204,7 @@ class Commit
 
     public function getAuthorName(): string
     {
-        return $this->com_author_name;
+        return $this->com_author_name ?: '';
     }
 
     public function setCommitDate(DateTime $commitDate): self
