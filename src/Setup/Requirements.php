@@ -82,9 +82,6 @@ class Requirements
         if (!empty($error)) {
             $errors[] = $error;
         }
-        $error = $this->checkPermissions(
-            $configPath . '/config.php', "File '" . $configPath . '/config.php' . "'"
-        );
         if (!empty($error)) {
             $errors[] = $error;
         }
