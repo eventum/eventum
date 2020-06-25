@@ -36,7 +36,7 @@ class MessageIdGenerator
         $first = microtime(true);
 
         // second part is random string
-        $second = bin2hex(Misc::generateRandom(8));
+        $second = bin2hex(Misc::generateRandom(16));
 
         return $this->format($first, $second);
     }
