@@ -108,7 +108,7 @@ final class Markdown
             'mentions' => [
                 'eventum_handle' => [
                     'symbol' => '@',
-                    'regex' => '/^[A-Za-z0-9_]+(?!\w)/',
+                    'regex' => '/^[A-Za-z0-9_]{1,255}(?!\w)/',
                     'generator' => new UserMentionGenerator(Setup::getBaseUrl()),
                 ],
             ],
