@@ -20,6 +20,7 @@ use HTMLPurifier;
 use HTMLPurifier_HTML5Config;
 use League\CommonMark\CommonMarkConverter;
 use League\CommonMark\Environment;
+use League\CommonMark\Extension\Attributes\AttributesExtension;
 use League\CommonMark\Extension\Autolink\AutolinkExtension;
 use League\CommonMark\Extension\CommonMarkCoreExtension;
 use League\CommonMark\Extension\HeadingPermalink\HeadingPermalinkExtension;
@@ -149,6 +150,7 @@ final class Markdown
         $environment->addExtension(new MentionExtension());
         $environment->addExtension(new TableExtension());
         $environment->addExtension(new HeadingPermalinkExtension());
+        $environment->addExtension(new AttributesExtension());
 
         // allow extensions to apply behaviour
         $event = new GenericEvent($environment);
