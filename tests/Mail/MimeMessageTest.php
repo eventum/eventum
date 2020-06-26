@@ -17,8 +17,8 @@ use Eventum\Attachment\Attachment;
 use Eventum\Mail\MailBuilder;
 use Eventum\Mail\MailMessage;
 use Eventum\Test\TestCase;
+use Laminas\Mail\Header\MessageId;
 use ReflectionProperty;
-use Zend\Mail\Header\MessageId;
 
 class MimeMessageTest extends TestCase
 {

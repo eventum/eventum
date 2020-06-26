@@ -14,7 +14,7 @@
 				<exclude name=".idea/**"/>
 				<exclude name="releases/**"/>
 				<exclude name="var/**"/>
-				<exclude name="vendor/zendframework/zend-mail/src/Transport/Null.php"/>
+				<exclude name="vendor/laminas/laminas-mail/src/Transport/Null.php"/>
 			</fileset>
 		</phplint>
 	</target>
@@ -122,14 +122,14 @@
 				<exclude name="Exception/**"/>
 			</fileset>
 
-			<fileset dir="${vendor}/zendframework/zend-validator/src">
+			<fileset dir="${vendor}/laminas/laminas-validator/src">
 				<include name="Barcode*/**"/>
 				<include name="Db/**"/>
 				<include name="File/**"/>
 				<include name="Sitemap/**"/>
 			</fileset>
 
-			<fileset dir="${vendor}/zendframework/zend-mail/src">
+			<fileset dir="${vendor}/laminas/laminas-mail/src">
 				<!-- NULL is reserved keyword in php 7.0 -->
 				<include name="Transport/Null.php"/>
 			</fileset>

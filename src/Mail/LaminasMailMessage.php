@@ -13,15 +13,15 @@
 
 namespace Eventum\Mail;
 
-use Zend\Mail\Headers;
-use Zend\Mail\Message;
+use Laminas\Mail\Headers;
+use Laminas\Mail\Message;
 
 /**
  * See MailMessage::toMessage for long story
  *
  * @internal
  */
-class ZendMailMessage extends Message
+class LaminasMailMessage extends Message
 {
     public function forceHeaders(Headers $headers): void
     {

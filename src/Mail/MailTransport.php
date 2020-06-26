@@ -17,8 +17,8 @@ use Eventum\Config\Paths;
 use Eventum\Logger\LoggerTrait;
 use Eventum\ServiceContainer;
 use Exception;
+use Laminas\Mail\Transport;
 use Mail_Helper;
-use Zend\Mail\Transport;
 
 class MailTransport
 {
@@ -112,7 +112,7 @@ class MailTransport
             $ssl = $options['port'] === 587 ? 'tls' : 'ssl';
 
             $options['connection_config'] = [
-                /** @see \Zend\Mail\Protocol\Smtp */
+                /** @see \Laminas\Mail\Protocol\Smtp */
                 // possible values: tls, ssl
                 'ssl' => $setup['ssl'] ?: $ssl,
             ];
@@ -126,7 +126,7 @@ class MailTransport
 
         $spec = [
             /**
-             * @see \Zend\Mail\Transport\Factory::$classMap
+             * @see \Laminas\Mail\Transport\Factory::$classMap
              */
             'type' => $setup['type'] ?: 'smtp',
             'options' => $options,

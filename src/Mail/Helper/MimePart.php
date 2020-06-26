@@ -13,7 +13,7 @@
 
 namespace Eventum\Mail\Helper;
 
-use Zend\Mime;
+use Laminas\Mime;
 
 class MimePart extends Mime\Part
 {

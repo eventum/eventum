@@ -14,9 +14,9 @@
 namespace Eventum\Mail\Helper;
 
 use Horde_Text_Flowed;
+use Laminas\Mail\Storage\Part\PartInterface;
 use LogicException;
 use Mime_Helper;
-use Zend\Mail\Storage\Part\PartInterface;
 
 /**
  * Creates textual representation of the message body.

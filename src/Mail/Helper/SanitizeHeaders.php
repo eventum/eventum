@@ -15,18 +15,18 @@ namespace Eventum\Mail\Helper;
 
 use DomainException;
 use Eventum\Mail\MailMessage;
+use Laminas\Mail\Header\AbstractAddressList;
+use Laminas\Mail\Header\HeaderInterface;
+use Laminas\Mail\Header\MessageId;
+use Laminas\Mail\Headers;
 use Mail_Helper;
-use Zend\Mail\Header\AbstractAddressList;
-use Zend\Mail\Header\HeaderInterface;
-use Zend\Mail\Header\MessageId;
-use Zend\Mail\Headers;
 
 class SanitizeHeaders
 {
     /**
      * Namespace for Header classes
      */
-    const HEADER_NS = '\\Zend\\Mail\\Header\\';
+    const HEADER_NS = '\\Laminas\\Mail\\Header\\';
 
     /**
      * Sanitize Mail headers:

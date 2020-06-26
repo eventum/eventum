@@ -138,7 +138,7 @@ class Sphinx_Fulltext_Search extends Abstract_Fulltext_Search
                         $documents = [$email['sup_subject'] . "\n" . $email['message']];
                         $res = $this->sphinx->BuildExcerpts($documents, 'email_stemmed', $this->keywords, $excerpt_options);
                         $excerpt['email'][Support::getSequenceByID($match['match_id'])] = $this->cleanUpExcerpt($res[0]);
-                    } catch (Zend\Mail\Header\Exception\InvalidArgumentException $e) {
+                    } catch (Laminas\Mail\Header\Exception\InvalidArgumentException $e) {
                         $this->error("Error loading email {$match['match_id']}", $match);
                     }
                 } elseif ($match['index'] === 'phone') {

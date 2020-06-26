@@ -15,8 +15,8 @@ namespace Example\Subscriber;
 
 use Eventum\Event\ResultableEvent;
 use Eventum\Event\SystemEvents;
+use Laminas\Mail\Address;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Zend\Mail\Address;
 
 class ShouldEmailAddressSubscriber implements EventSubscriberInterface
 {

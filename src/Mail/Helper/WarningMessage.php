@@ -17,10 +17,10 @@ use Closure;
 use Eventum\Mail\MailMessage;
 use Eventum\ServiceContainer;
 use Issue;
+use Laminas\Mail\Exception\InvalidArgumentException;
+use Laminas\Mime;
 use Support;
 use User;
-use Zend\Mail\Exception\InvalidArgumentException;
-use Zend\Mime;
 
 class WarningMessage
 {

@@ -45,7 +45,7 @@ class AttachmentTest extends TestCase
     /**
      * Ensure email with text/plain attachment does not throw InvalidArgumentException
      *
-     * Uncaught Exception Zend\Mail\Storage\Exception\InvalidArgumentException:
+     * Uncaught Exception Laminas\Mail\Storage\Exception\InvalidArgumentException:
      * "Header with Name Content-Disposition or content-disposition not found"
      */
     public function testHasAttachmentPlain(): void

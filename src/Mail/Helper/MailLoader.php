@@ -13,11 +13,11 @@
 
 namespace Eventum\Mail\Helper;
 
+use Laminas\Mail;
+use Laminas\Mail\Header;
+use Laminas\Mail\Headers;
+use Laminas\Mime;
 use Mime_Helper;
-use Zend\Mail;
-use Zend\Mail\Header;
-use Zend\Mail\Headers;
-use Zend\Mime;
 
 class MailLoader
 {
@@ -25,7 +25,7 @@ class MailLoader
     {
         // do our own header-body splitting.
         //
-        // \Zend\Mail\Storage\Message is unable to process mails that contain \n\n in text body
+        // \Laminas\Mail\Storage\Message is unable to process mails that contain \n\n in text body
         // because it has heuristic which headers separator to use
         // and that gets out of control
         // https://github.com/zendframework/zend-mail/pull/159
@@ -55,7 +55,7 @@ class MailLoader
     public static function encodeHeaders(array &$headers): void
     {
         foreach ($headers as $k => $v) {
-            // Zend\Mail does not like empty headers, "Cc:" for example
+            // Laminas\Mail does not like empty headers, "Cc:" for example
             if ($v === '') {
                 unset($headers[$k]);
             }

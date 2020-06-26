@@ -14,10 +14,10 @@
 namespace Eventum\Mail;
 
 use Eventum\Mail\Helper\DecodePart;
-use Zend\Mail;
-use Zend\Mail\Header\ContentType;
-use Zend\Mail\Storage;
-use Zend\Mime\Part;
+use Laminas\Mail;
+use Laminas\Mail\Header\ContentType;
+use Laminas\Mail\Storage;
+use Laminas\Mime\Part;
 
 class MailAttachment
 {

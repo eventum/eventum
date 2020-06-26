@@ -13,9 +13,9 @@
 
 namespace Eventum\Mail\Helper;
 
+use Laminas\Mail\Header\ContentTransferEncoding;
+use Laminas\Mail\Storage\Part\PartInterface;
 use LogicException;
-use Zend\Mail\Header\ContentTransferEncoding;
-use Zend\Mail\Storage\Part\PartInterface;
 
 class DecodePart
 {

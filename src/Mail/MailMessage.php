@@ -22,24 +22,24 @@ use Eventum\Mail\Helper\MailLoader;
 use Eventum\Mail\Helper\SanitizeHeaders;
 use Eventum\Mail\Helper\TextMessage;
 use InvalidArgumentException;
-use Zend\Mail;
-use Zend\Mail\Address;
-use Zend\Mail\AddressList;
-use Zend\Mail\Header\AbstractAddressList;
-use Zend\Mail\Header\Cc;
-use Zend\Mail\Header\Date;
-use Zend\Mail\Header\From;
-use Zend\Mail\Header\GenericHeader;
-use Zend\Mail\Header\HeaderInterface;
-use Zend\Mail\Header\InReplyTo;
-use Zend\Mail\Header\MessageId;
-use Zend\Mail\Header\MultipleHeadersInterface;
-use Zend\Mail\Header\References;
-use Zend\Mail\Header\Subject;
-use Zend\Mail\Header\To;
-use Zend\Mail\Headers;
-use Zend\Mail\Storage;
-use Zend\Mail\Storage\Message;
+use Laminas\Mail;
+use Laminas\Mail\Address;
+use Laminas\Mail\AddressList;
+use Laminas\Mail\Header\AbstractAddressList;
+use Laminas\Mail\Header\Cc;
+use Laminas\Mail\Header\Date;
+use Laminas\Mail\Header\From;
+use Laminas\Mail\Header\GenericHeader;
+use Laminas\Mail\Header\HeaderInterface;
+use Laminas\Mail\Header\InReplyTo;
+use Laminas\Mail\Header\MessageId;
+use Laminas\Mail\Header\MultipleHeadersInterface;
+use Laminas\Mail\Header\References;
+use Laminas\Mail\Header\Subject;
+use Laminas\Mail\Header\To;
+use Laminas\Mail\Headers;
+use Laminas\Mail\Storage;
+use Laminas\Mail\Storage\Message;
 
 /**
  * Class MailMessage
@@ -141,7 +141,7 @@ class MailMessage extends Message
     }
 
     /**
-     * Create from Zend\Mail\Message object
+     * Create from Mail\Message object
      *
      * @param Mail\Message $message
      * @return MailMessage
@@ -181,7 +181,7 @@ class MailMessage extends Message
          *   Create wrapper for Mail\Message to set Headers without re-encoding them.
          */
 
-        $message = new ZendMailMessage();
+        $message = new LaminasMailMessage();
         $message->forceHeaders($this->getHeaders());
         $message->setBody($this->getContent());
 
@@ -397,7 +397,7 @@ class MailMessage extends Message
      * Access the address list of the To header
      *
      * @return AddressList
-     * @see \Zend\Mail\Message::getTo
+     * @see \Laminas\Mail\Message::getTo
      */
     public function getTo()
     {
@@ -408,7 +408,7 @@ class MailMessage extends Message
      * Retrieve list of CC recipients
      *
      * @return AddressList
-     * @see \Zend\Mail\Message::getCc
+     * @see \Laminas\Mail\Message::getCc
      */
     public function getCc()
     {
@@ -703,7 +703,7 @@ class MailMessage extends Message
      * @param string $headerName
      * @param string $headerClass Header Class name, defaults to GenericHeader
      * @return HeaderInterface|\ArrayIterator header instance or collection of headers
-     * @see \Zend\Mail\Message::getHeaderByName
+     * @see \Laminas\Mail\Message::getHeaderByName
      */
     public function getHeaderByName($headerName, $headerClass = GenericHeader::class)
     {
@@ -761,7 +761,7 @@ class MailMessage extends Message
      * @param  string $headerClass
      * @throws DomainException
      * @return AddressList
-     * @see \Zend\Mail\Message::getAddressListFromHeader
+     * @see \Laminas\Mail\Message::getAddressListFromHeader
      */
     protected function getAddressListFromHeader($headerName, $headerClass)
     {

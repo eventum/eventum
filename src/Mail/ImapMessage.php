@@ -20,10 +20,10 @@ use Eventum\EventDispatcher\EventManager;
 use Eventum\Mail\Helper\MailLoader;
 use Eventum\Mail\Imap\ImapResource;
 use InvalidArgumentException;
+use Laminas\Mail\Header\GenericHeader;
+use Laminas\Mail\Storage;
 use RuntimeException;
 use Symfony\Component\EventDispatcher\GenericEvent;
-use Zend\Mail\Header\GenericHeader;
-use Zend\Mail\Storage as ZendMailStorage;
 
 /**
  * Class ImapMessage
@@ -46,12 +46,12 @@ class ImapMessage extends MailMessage
     {
         // fill with "\Seen", "\Deleted", "\Answered", ... etc
         $knownFlags = [
-            'recent' => ZendMailStorage::FLAG_RECENT,
-            'flagged' => ZendMailStorage::FLAG_FLAGGED,
-            'answered' => ZendMailStorage::FLAG_ANSWERED,
-            'deleted' => ZendMailStorage::FLAG_DELETED,
-            'seen' => ZendMailStorage::FLAG_SEEN,
-            'draft' => ZendMailStorage::FLAG_DRAFT,
+            'recent' => Storage::FLAG_RECENT,
+            'flagged' => Storage::FLAG_FLAGGED,
+            'answered' => Storage::FLAG_ANSWERED,
+            'deleted' => Storage::FLAG_DELETED,
+            'seen' => Storage::FLAG_SEEN,
+            'draft' => Storage::FLAG_DRAFT,
         ];
         $flags = [];
         foreach ($knownFlags as $flag => $value) {

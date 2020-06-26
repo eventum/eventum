@@ -14,8 +14,8 @@
 use Eventum\Db\AbstractMigration;
 use Eventum\Mail\MailMessage;
 use Eventum\Monolog\Logger;
+use Laminas\Mail\Headers;
 use Psr\Log\LoggerInterface;
-use Zend\Mail\Headers;
 
 class EventumMaqMessageId extends AbstractMigration
 {
@@ -120,7 +120,7 @@ class EventumMaqMessageId extends AbstractMigration
     private function setMessageId($maq_id, $messageId): void
     {
         // NOTE: no method to quote from phinx,
-        // but $messageId should be sql safe after it came from Zend\Mail
+        // but $messageId should be sql safe after it came from Laminas\Mail
         $this->query("UPDATE `mail_queue` SET maq_message_id='{$messageId}' WHERE maq_id={$maq_id}");
     }
 }

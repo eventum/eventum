@@ -15,9 +15,9 @@ namespace Eventum\Mail\Exception;
 
 use Eventum\Mail\Helper\MailLoader;
 use Exception;
+use Laminas\Mail;
+use Laminas\Mail\Header\HeaderInterface;
 use RuntimeException;
-use Zend\Mail;
-use Zend\Mail\Header\HeaderInterface;
 
 class InvalidMessageException extends RuntimeException
 {

@@ -4,6 +4,8 @@
 
 See [Upgrading] for details how to upgrade.
 
+- Switch to use `laminas/laminas-mail` instead of `zendframework/zend-mail`, #876
+
 [3.9.2]: https://github.com/eventum/eventum/compare/v3.9.1...master
 
 ## [3.9.1] - 2020-07-13
