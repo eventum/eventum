@@ -22,7 +22,6 @@ use Eventum\Mail\Imap\ImapResource;
 use InvalidArgumentException;
 use Laminas\Mail\Header\GenericHeader;
 use Laminas\Mail\Storage;
-use RuntimeException;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
 /**
@@ -74,14 +73,6 @@ class ImapMessage extends MailMessage
         EventManager::dispatch(SystemEvents::MAIL_LOADED_IMAP, $event);
 
         return $message;
-    }
-
-    /**
-     * @deprecated removed in 3.8.12
-     */
-    public static function createFromImap($mbox, $num, $info): ImapMessage
-    {
-        throw new RuntimeException('This method no longer exists');
     }
 
     /**

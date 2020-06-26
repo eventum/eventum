@@ -89,7 +89,6 @@ final class SystemEvents
      * Event Fired when MailMessage was created from IMAP Connection.
      *
      * @since 3.4.0
-     * @see ImapMessage::createFromImap
      * @see ImapMessage::createFromImapResource
      */
     public const MAIL_LOADED_IMAP = 'mail.loaded.imap';
