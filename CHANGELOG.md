@@ -10,6 +10,7 @@ See [Upgrading] for details how to upgrade.
 - Drop deprecated `config/config.php`, #704
 - Add attributes and footnotes support to markdown rendering, #871
 - Move Markdown code to own namespace, #874
+- Switch to use `laminas/laminas-config` instead of `zendframework/zend-config`, #875
 
 [3.9.0]: https://github.com/eventum/eventum/compare/v3.9.0...master
 

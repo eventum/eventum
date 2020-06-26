@@ -63,7 +63,6 @@ class Logger extends Registry
     private static function getConfig(): array
     {
         // load $setup, so required files could use $setup variable
-        /** @var \Zend\Config\Config $setup */
         $setup = ServiceContainer::getConfig();
 
         $configPath = Setup::getConfigPath();

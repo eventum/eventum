@@ -117,11 +117,7 @@
 				<include name="src/autoload.php"/>
 			</fileset>
 
-			<fileset dir="${vendor}/zendframework/zend-stdlib/src">
-				<include name="compatibility/autoload.php"/>
-			</fileset>
-
-			<fileset dir="${vendor}/zendframework/zend-config/src">
+			<fileset dir="${vendor}/laminas/laminas-config/src">
 				<exclude name="Config.php"/>
 				<exclude name="Exception/**"/>
 			</fileset>

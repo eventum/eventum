@@ -16,7 +16,6 @@ namespace Example\Subscriber;
 use Eventum\Event\ConfigUpdateEvent;
 use Eventum\Event\SystemEvents;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Zend\Config\Config;
 
 class CryptoSubscriber implements EventSubscriberInterface
 {
