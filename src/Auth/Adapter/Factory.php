@@ -15,10 +15,7 @@ namespace Eventum\Auth\Adapter;
 
 use Eventum\Extension\ExtensionManager;
 use Eventum\ServiceContainer;
-use InvalidArgumentException;
 use ReflectionClass;
-use Traversable;
-use Zend\Stdlib\ArrayUtils;
 
 abstract class Factory
 {
@@ -28,20 +25,8 @@ abstract class Factory
      * @param array $spec
      * @return AdapterInterface
      */
-    public static function create($spec = []): AdapterInterface
+    public static function create(array $spec = []): AdapterInterface
     {
-        if ($spec instanceof Traversable) {
-            $spec = ArrayUtils::iteratorToArray($spec);
-        }
-
-        if (!is_array($spec)) {
-            throw new InvalidArgumentException(sprintf(
-                '%s expects an array or Traversable argument; received "%s"',
-                __METHOD__,
-                (is_object($spec) ? get_class($spec) : gettype($spec))
-            ));
-        }
-
         $className = $spec['adapter'] ?? self::DEFAULT_ADAPTER;
         $arguments = $spec['options'][$className] ?? [];
         $reflection = new ReflectionClass($className);
