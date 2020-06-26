@@ -16,7 +16,7 @@ use Eventum\Db\Adapter\AdapterInterface;
 use Eventum\Db\DatabaseException;
 use Eventum\LinkFilter\IssueLinkFilter;
 use Eventum\LinkFilter\LinkFilter;
-use Eventum\Markdown\Markdown;
+use Eventum\Markdown\MarkdownRenderer;
 
 /**
  * Class to handle parsing content for links.
@@ -257,7 +257,7 @@ class Link_Filter
         static $parser;
 
         if (!$parser) {
-            $parser = new Markdown();
+            $parser = new MarkdownRenderer();
         }
 
         if ($inline) {

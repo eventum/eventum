@@ -35,7 +35,7 @@ use Misc;
 use Setup;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
-final class Markdown
+final class MarkdownRenderer implements MarkdownRendererInterface
 {
     private const PURIFIER_CACHE_DIR = Paths::APP_CACHE_PATH . '/purifier';
     /**

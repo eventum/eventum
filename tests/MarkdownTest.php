@@ -13,7 +13,7 @@
 
 namespace Eventum\Test;
 
-use Eventum\Markdown\Markdown;
+use Eventum\Markdown\MarkdownRenderer;
 use Generator;
 
 /**
@@ -21,14 +21,14 @@ use Generator;
  */
 class MarkdownTest extends TestCase
 {
-    /** @var Markdown */
+    /** @var MarkdownRenderer */
     private $renderer;
 
-    private function getRenderer(): Markdown
+    private function getRenderer(): MarkdownRenderer
     {
         static $renderer;
 
-        return $renderer ?: $renderer = new Markdown();
+        return $renderer ?: $renderer = new MarkdownRenderer();
     }
 
     public function setUp(): void
