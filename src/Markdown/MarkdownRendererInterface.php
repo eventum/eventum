@@ -15,7 +15,8 @@ namespace Eventum\Markdown;
 
 interface MarkdownRendererInterface
 {
-    public function render(string $text): string;
+    public const RENDER_BLOCK = self::class . '::block';
+    public const RENDER_INLINE = self::class . '::inline';
 
-    public function renderInline(string $text): string;
+    public function render(string $text): string;
 }

@@ -255,17 +255,13 @@ class Link_Filter
 
     public static function markdownFormat(string $text, bool $inline = false): string
     {
-        static $parser;
-
-        if (!$parser) {
-            $parser = ServiceContainer::get(MarkdownRendererInterface::class);
-        }
-
         if ($inline) {
-            return $parser->renderInline($text);
+            $renderer = ServiceContainer::get(MarkdownRendererInterface::RENDER_INLINE);
+        } else {
+            $renderer = ServiceContainer::get(MarkdownRendererInterface::RENDER_BLOCK);
         }
 
-        return $parser->render($text);
+        return $renderer->render($text);
     }
 
     /**

@@ -397,7 +397,7 @@ final class SystemEvents
      * Event to allow configuring markdown renderer.
      *
      * @since 3.6.3
-     * @see \Eventum\Markdown\MarkdownRenderer::applyExtensions
+     * @see \Eventum\ServiceProvider\MarkdownServiceProvider::applyExtensions
      */
     public const MARKDOWN_ENVIRONMENT_CONFIGURE = 'markdown.environment.configure';
 
