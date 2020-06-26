@@ -13,12 +13,12 @@
 
 namespace Eventum\Crypto;
 
+use Eventum\Config\Config;
 use Eventum\Event\ConfigUpdateEvent;
 use Eventum\Event\SystemEvents;
 use Eventum\EventDispatcher\EventManager;
 use Eventum\ServiceContainer;
 use Setup;
-use Zend\Config\Config;
 
 class CryptoUpgradeManager
 {

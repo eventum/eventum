@@ -13,10 +13,10 @@
 
 namespace Eventum\Auth\Ldap;
 
+use Eventum\Config\Config;
 use InvalidArgumentException;
 use Misc;
 use Symfony\Component\Ldap\Entry;
-use Zend\Config\Config;
 
 class UserEntry
 {
@@ -37,7 +37,7 @@ class UserEntry
      * @param Entry $entry
      * @param Config $config
      */
-    public function __construct(Entry $entry, $config)
+    public function __construct(Entry $entry, Config $config)
     {
         $customer_id = $this->getAttributeValue($entry, $config['customer_id_attribute']);
         $contact_id = $this->getAttributeValue($entry, $config['contact_id_attribute']);

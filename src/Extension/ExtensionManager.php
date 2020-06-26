@@ -14,15 +14,14 @@
 namespace Eventum\Extension;
 
 use ArrayIterator;
+use Eventum\Config\Config;
 use Eventum\Logger\LoggerTrait;
 use Eventum\ServiceContainer;
 use Generator;
 use InvalidArgumentException;
 use RuntimeException;
-use Setup;
 use Symfony\Component\Routing\RouteCollectionBuilder;
 use Throwable;
-use Zend\Config\Config;
 
 class ExtensionManager implements Provider\RouteProvider
 {

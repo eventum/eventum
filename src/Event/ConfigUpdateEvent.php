@@ -13,10 +13,10 @@
 
 namespace Eventum\Event;
 
+use Eventum\Config\Config;
 use Eventum\Crypto\CryptoException;
 use Eventum\Crypto\EncryptedValue;
 use Symfony\Component\EventDispatcher\Event;
-use Zend\Config\Config;
 
 final class ConfigUpdateEvent extends Event
 {

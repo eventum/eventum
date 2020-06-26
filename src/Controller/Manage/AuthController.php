@@ -19,7 +19,6 @@ use Eventum\ServiceContainer;
 use ReflectionClass;
 use Setup;
 use User;
-use Zend\Config\Config;
 
 class AuthController extends ManageBaseController
 {
