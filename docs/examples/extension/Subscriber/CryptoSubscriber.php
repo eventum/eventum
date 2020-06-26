@@ -13,7 +13,6 @@
 
 namespace Example\Subscriber;
 
-use Eventum\Crypto\EncryptedValue;
 use Eventum\Event\ConfigUpdateEvent;
 use Eventum\Event\SystemEvents;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
