@@ -88,6 +88,7 @@
     },
     "replace": {
         "laminas/laminas-stdlib": "3.2.1",
+        "laminas/laminas-zendframework-bridge": "1.0.4",
         "paragonie/random_compat": "9.99.99",
         "symfony/polyfill-ctype": "1.99",
         "symfony/polyfill-intl-idn": "1.99",
