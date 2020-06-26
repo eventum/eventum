@@ -22,7 +22,7 @@ When upgrading to a new version of Eventum, please follow these instructions:
 
 ## Upgrading to latest version
 
-**PLEASE NOTE: If you are upgrading from a version older than 3.2.0 please read the version specific notes at the bottom of this page.**
+**PLEASE NOTE: If you are upgrading from a version older than 3.5.0 please read the version specific notes at the bottom of this page.**
 
 -   Rename your current Eventum dir to `eventum.old`
 -   Extract Eventum release tarball and rename it to `eventum` directory.
