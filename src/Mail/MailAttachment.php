@@ -36,10 +36,8 @@ class MailAttachment
      * TODO: handle application/pgp-signature, application/ms-tnef?
      *
      * @see https://github.com/eventum/eventum/blob/v3.2.1/lib/eventum/class.mime_helper.php#L740-L753
-     *
-     * @return  bool
      */
-    public function hasAttachments()
+    public function hasAttachments(): bool
     {
         $have_multipart = $this->message->isMultipart() && $this->message->countParts() > 0;
         if (!$have_multipart) {
@@ -60,7 +58,7 @@ class MailAttachment
      *
      * @return array
      */
-    public function getAttachments()
+    public function getAttachments(): array
     {
         $attachments = [];
 
@@ -132,7 +130,7 @@ class MailAttachment
      * @param MailMessage $part
      * @return bool
      */
-    private function isAttachment(MailMessage $part)
+    private function isAttachment(MailMessage $part): bool
     {
         $is_attachment = false;
         $disposition = $filename = null;

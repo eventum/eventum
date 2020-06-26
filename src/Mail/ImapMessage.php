@@ -89,7 +89,7 @@ class ImapMessage extends MailMessage
      * @param array $flags
      * @return array
      */
-    public static function createParameters($raw, $flags = [])
+    public static function createParameters($raw, array $flags = []): array
     {
         MailLoader::splitMessage($raw, $headers, $content);
 

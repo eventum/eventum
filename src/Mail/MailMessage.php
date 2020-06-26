@@ -344,7 +344,7 @@ class MailMessage extends Message
      * @param array $headers
      * @return string[]
      */
-    public function getAddresses($headers = ['To', 'Cc'])
+    public function getAddresses($headers = ['To', 'Cc']): array
     {
         if (!$headers) {
             throw new InvalidArgumentException('No header field specified');
@@ -396,10 +396,9 @@ class MailMessage extends Message
     /**
      * Access the address list of the To header
      *
-     * @return AddressList
      * @see \Laminas\Mail\Message::getTo
      */
-    public function getTo()
+    public function getTo(): AddressList
     {
         return $this->getAddressListFromHeader('to', To::class);
     }
@@ -407,30 +406,25 @@ class MailMessage extends Message
     /**
      * Retrieve list of CC recipients
      *
-     * @return AddressList
      * @see \Laminas\Mail\Message::getCc
      */
-    public function getCc()
+    public function getCc(): AddressList
     {
         return $this->getAddressListFromHeader('cc', Cc::class);
     }
 
     /**
      * Get Date as DateTime object
-     *
-     * @return DateTime
      */
-    public function getDate()
+    public function getDate(): DateTime
     {
         return new DateTime($this->date);
     }
 
     /**
      * Get the message Subject header object
-     *
-     * @return Subject
      */
-    protected function getSubject()
+    protected function getSubject(): Subject
     {
         // NOTE: Subject header is always present,
         // so it's safe to call this without checking for header presence
@@ -444,9 +438,8 @@ class MailMessage extends Message
      * Set the message subject header value
      *
      * @param string $subject
-     * @return $this
      */
-    public function setSubject($subject)
+    public function setSubject(string $subject): self
     {
         $this->getSubject()->setSubject($subject);
 
@@ -457,9 +450,8 @@ class MailMessage extends Message
      * Set To: header
      *
      * @param string|AddressList $value
-     * @return $this
      */
-    public function setTo($value)
+    public function setTo($value): self
     {
         $this->setAddressListHeader('To', $value);
 
@@ -470,9 +462,8 @@ class MailMessage extends Message
      * Set From: header
      *
      * @param string|AddressList $value
-     * @return $this
      */
-    public function setFrom($value)
+    public function setFrom($value): self
     {
         $this->setAddressListHeader('From', $value);
 
@@ -483,9 +474,8 @@ class MailMessage extends Message
      * Set Date: header
      *
      * @param string $value
-     * @return $this
      */
-    public function setDate($value = null)
+    public function setDate($value = null): self
     {
         $value = $value ?: Date_Helper::getRFC822Date(time());
 
@@ -506,7 +496,7 @@ class MailMessage extends Message
      * @param string $name
      * @param string|AddressList $value
      */
-    public function setAddressListHeader($name, $value): void
+    public function setAddressListHeader(string $name, $value): void
     {
         /** @var AbstractAddressList $header */
         $header = $this->getHeader($name);
@@ -554,9 +544,8 @@ class MailMessage extends Message
      *
      * @param string $header a header name, like 'To', or 'Cc'
      * @param string $address An email address to remove
-     * @return bool
      */
-    public function removeFromAddressList($header, $address)
+    public function removeFromAddressList(string $header, string $address): bool
     {
         if (!$this->headers->has($header)) {
             return false;
@@ -586,7 +575,7 @@ class MailMessage extends Message
      *
      * @return bool
      */
-    public function isVacationAutoResponder()
+    public function isVacationAutoResponder(): bool
     {
         // has 'auto-submitted' header?
         if ($this->headers->has('auto-submitted')) {
@@ -598,7 +587,7 @@ class MailMessage extends Message
             return false;
         }
 
-        return $this->headers->get('x-vacationmessage') != '';
+        return $this->headers->get('x-vacationmessage') !== '';
     }
 
     /**
@@ -607,7 +596,7 @@ class MailMessage extends Message
      *
      * @return bool
      */
-    public function isBounceMessage()
+    public function isBounceMessage(): bool
     {
         $email = $this->getSender();
 
@@ -644,8 +633,7 @@ class MailMessage extends Message
         // process patterns
         $array = $headers->toArray();
         array_walk(
-            $array,
-            function ($value, $name) use ($headers): void {
+            $array, static function ($value, $name) use ($headers): void {
                 if (preg_match('/^resent.*/i', $name)) {
                     $headers->removeHeader($name);
                 }
@@ -659,9 +647,8 @@ class MailMessage extends Message
      * NOTE: if you have multiparts, you should look into MailBuilder.
      *
      * @param string $content
-     * @return $this
      */
-    public function setContent($content)
+    public function setContent($content): self
     {
         $this->content = $content;
 
@@ -670,10 +657,8 @@ class MailMessage extends Message
 
     /**
      * Returns true if message content has been set
-     *
-     * @return bool
      */
-    public function hasContent()
+    public function hasContent(): bool
     {
         return $this->content !== null;
     }
@@ -757,13 +742,10 @@ class MailMessage extends Message
      * Used with To, From, Cc, Bcc, and ReplyTo headers. If the header does not
      * exist, instantiates it.
      *
-     * @param  string $headerName
-     * @param  string $headerClass
      * @throws DomainException
-     * @return AddressList
      * @see \Laminas\Mail\Message::getAddressListFromHeader
      */
-    protected function getAddressListFromHeader($headerName, $headerClass)
+    private function getAddressListFromHeader(string $headerName, string $headerClass): AddressList
     {
         $header = $this->getHeaderByName($headerName, $headerClass);
         if (!$header instanceof AbstractAddressList) {
