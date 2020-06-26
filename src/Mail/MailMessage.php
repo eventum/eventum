@@ -33,7 +33,6 @@ use Laminas\Mail\Header\GenericHeader;
 use Laminas\Mail\Header\HeaderInterface;
 use Laminas\Mail\Header\InReplyTo;
 use Laminas\Mail\Header\MessageId;
-use Laminas\Mail\Header\MultipleHeadersInterface;
 use Laminas\Mail\Header\References;
 use Laminas\Mail\Header\Subject;
 use Laminas\Mail\Header\To;
@@ -716,24 +715,11 @@ class MailMessage extends Message
      * @return array
      * @see Headers::toArray
      * @see https://github.com/zendframework/zend-mail/pull/61
+     * @deprecated use Headers::toArray(HeaderInterface::FORMAT_ENCODED)
      */
-    public function getHeadersArray($format = HeaderInterface::FORMAT_ENCODED)
+    public function getHeadersArray($format = HeaderInterface::FORMAT_ENCODED): array
     {
-        $headers = [];
-        /* @var $header HeaderInterface */
-        foreach ($this->getHeaders() as $header) {
-            if ($header instanceof MultipleHeadersInterface) {
-                $name = $header->getFieldName();
-                if (!isset($headers[$name])) {
-                    $headers[$name] = [];
-                }
-                $headers[$name][] = $header->getFieldValue($format);
-            } else {
-                $headers[$header->getFieldName()] = $header->getFieldValue($format);
-            }
-        }
-
-        return $headers;
+        return $this->getHeaders()->toArray($format);
     }
 
     /**
