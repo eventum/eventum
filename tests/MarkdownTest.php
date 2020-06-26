@@ -13,23 +13,18 @@
 
 namespace Eventum\Test;
 
-use Eventum\Markdown\MarkdownRenderer;
+use Eventum\Markdown\MarkdownRendererInterface;
+use Eventum\ServiceProvider\MarkdownServiceProvider;
 use Generator;
+use Pimple\Container;
 
 /**
  * @group db
  */
 class MarkdownTest extends TestCase
 {
-    /** @var MarkdownRenderer */
+    /** @var MarkdownRendererInterface */
     private $renderer;
-
-    private function getRenderer(): MarkdownRenderer
-    {
-        static $renderer;
-
-        return $renderer ?: $renderer = new MarkdownRenderer();
-    }
 
     public function setUp(): void
     {
@@ -73,5 +68,13 @@ class MarkdownTest extends TestCase
                 $this->readDataFile("markdown/$testName.html"),
             ];
         }
+    }
+
+    private function getRenderer(): MarkdownRendererInterface
+    {
+        $container = new Container();
+        $container->register(new MarkdownServiceProvider());
+
+        return $container[MarkdownRendererInterface::RENDER_BLOCK];
     }
 }
