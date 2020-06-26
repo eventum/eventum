@@ -13,7 +13,7 @@
 
 namespace Eventum\Test;
 
-use Eventum\Markdown;
+use Eventum\Markdown\Markdown;
 use Generator;
 
 /**

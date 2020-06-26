@@ -11,7 +11,7 @@
  * that were distributed with this source code.
  */
 
-namespace Eventum\CommonMark;
+namespace Eventum\Markdown\CommonMark;
 
 use Eventum\Db\Doctrine;
 use Eventum\Model\Entity\User;

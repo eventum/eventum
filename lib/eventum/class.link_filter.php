@@ -16,7 +16,7 @@ use Eventum\Db\Adapter\AdapterInterface;
 use Eventum\Db\DatabaseException;
 use Eventum\LinkFilter\IssueLinkFilter;
 use Eventum\LinkFilter\LinkFilter;
-use Eventum\Markdown;
+use Eventum\Markdown\Markdown;
 
 /**
  * Class to handle parsing content for links.
