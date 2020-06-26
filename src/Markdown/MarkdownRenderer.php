@@ -13,12 +13,10 @@
 
 namespace Eventum\Markdown;
 
-use Eventum\Config\Paths;
 use Eventum\Event;
 use Eventum\EventDispatcher\EventManager;
 use Eventum\Markdown\CommonMark\UserMentionGenerator;
 use HTMLPurifier;
-use HTMLPurifier_HTML5Config;
 use League\CommonMark\CommonMarkConverter;
 use League\CommonMark\Environment;
 use League\CommonMark\Extension\Attributes\AttributesExtension;
@@ -31,13 +29,11 @@ use League\CommonMark\Extension\Mention\MentionExtension;
 use League\CommonMark\Extension\Table\TableExtension;
 use League\CommonMark\Extension\TaskList\TaskListExtension;
 use League\CommonMark\MarkdownConverterInterface;
-use Misc;
 use Setup;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
 final class MarkdownRenderer implements MarkdownRendererInterface
 {
-    private const PURIFIER_CACHE_DIR = Paths::APP_CACHE_PATH . '/purifier';
     /**
      * Use moderately sane value
      *
@@ -50,9 +46,9 @@ final class MarkdownRenderer implements MarkdownRendererInterface
     /** @var MarkdownConverterInterface[] */
     private $converter = [];
 
-    public function __construct()
+    public function __construct(HTMLPurifier $purifier)
     {
-        $this->purifier = $this->createPurifier();
+        $this->purifier = $purifier;
     }
 
     public function render(string $text): string
@@ -62,7 +58,7 @@ final class MarkdownRenderer implements MarkdownRendererInterface
         }
 
         $html = $this->getConverter(false)->convertToHtml($text);
-        $html = $this->getPurifier()->purify($html);
+        $html = $this->purifier->purify($html);
 
         return $html;
     }
@@ -74,7 +70,7 @@ final class MarkdownRenderer implements MarkdownRendererInterface
         }
 
         $html = $this->getConverter(true)->convertToHtml($text);
-        $html = $this->getPurifier()->purify($html);
+        $html = $this->purifier->purify($html);
 
         return $html;
     }
@@ -82,11 +78,6 @@ final class MarkdownRenderer implements MarkdownRendererInterface
     private function getConverter(bool $inline): MarkdownConverterInterface
     {
         return $this->converter[(int)$inline] ?? $this->converter[(int)$inline] = $this->createConverter($inline);
-    }
-
-    private function getPurifier(): HTMLPurifier
-    {
-        return $this->purifier ?? $this->purifier = $this->createPurifier();
     }
 
     private function createConverter(bool $inline): MarkdownConverterInterface
@@ -125,35 +116,6 @@ final class MarkdownRenderer implements MarkdownRendererInterface
         $this->applyExtensions($environment);
 
         return new CommonMarkConverter([], $environment);
-    }
-
-    private function createPurifier(): HTMLPurifier
-    {
-        $config = HTMLPurifier_HTML5Config::createDefault();
-
-        $config->set('AutoFormat.AutoParagraph', true);
-        // remove empty tag pairs
-        $config->set('AutoFormat.RemoveEmpty', true);
-        // remove empty, even if it contains an &nbsp;
-        $config->set('AutoFormat.RemoveEmpty.RemoveNbsp', true);
-        // preserve html comments
-        $config->set('HTML.AllowedCommentsRegexp', '/.+/');
-
-        // disable tidy processing, even if extension present
-        $config->set('Output.TidyFormat', false);
-
-        // disable useless normalizer we do not need
-        $config->set('Core.NormalizeNewlines', false);
-
-        // allow tasklist <input> checkboxes
-        // https://github.com/ezyang/htmlpurifier/issues/213#issuecomment-487206892
-        $config->set('HTML.Trusted', true);
-        $config->set('HTML.ForbiddenElements', ['script', 'noscript']);
-
-        // Absolute path with no trailing slash to store serialized definitions in.
-        $config->set('Cache.SerializerPath', Misc::ensureDir(self::PURIFIER_CACHE_DIR));
-
-        return new HTMLPurifier($config);
     }
 
     private function applyExtensions(Environment $environment): void

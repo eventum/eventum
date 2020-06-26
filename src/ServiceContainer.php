@@ -28,6 +28,7 @@ class ServiceContainer
             $container = new Container();
             $container->register(new ServiceProvider\ServiceProvider());
             $container->register(new ServiceProvider\FulltextSearchService());
+            $container->register(new ServiceProvider\MarkdownServiceProvider());
             $container->register(new ServiceProvider\ConsoleCommandsService());
         }
 
