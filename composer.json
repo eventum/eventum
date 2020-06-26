@@ -44,7 +44,7 @@
         "horde/text-flowed": "dev-patch-1 as 2.0.3",
         "horde/util": "dev-patch-1 as 2.5.8",
         "ircmaxell/random-lib": "^1.2",
-        "league/commonmark": "^1.4",
+        "league/commonmark": "^1.5",
         "league/flysystem": "^1.0",
         "league/html-to-markdown": "^4.8",
         "malkusch/lock": "^2.1",
