@@ -11,20 +11,12 @@
  * that were distributed with this source code.
  */
 
-namespace Eventum\CommonMark;
+namespace Eventum\Markdown;
 
-use Eventum\Db\Doctrine;
-use Eventum\Model\Entity\User;
-
-class UserLookup
+interface MarkdownRendererInterface
 {
-    public function findUser(?string $handle): ?User
-    {
-        if (!$handle) {
-            return null;
-        }
-        $repo = Doctrine::getUserRepository();
+    public const RENDER_BLOCK = self::class . '::block';
+    public const RENDER_INLINE = self::class . '::inline';
 
-        return $repo->findOneByExternalId($handle);
-    }
+    public function render(string $text): string;
 }

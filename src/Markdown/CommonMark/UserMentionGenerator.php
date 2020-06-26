@@ -11,7 +11,7 @@
  * that were distributed with this source code.
  */
 
-namespace Eventum\CommonMark;
+namespace Eventum\Markdown\CommonMark;
 
 use League\CommonMark\Extension\Mention\Generator\MentionGeneratorInterface;
 use League\CommonMark\Extension\Mention\Mention;

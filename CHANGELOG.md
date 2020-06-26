@@ -9,6 +9,7 @@ See [Upgrading] for details how to upgrade.
 - Implement `getIssueCloser` in Doctrine, #869
 - Drop deprecated `config/config.php`, #704
 - Add attributes and footnotes support to markdown rendering, #871
+- Move Markdown code to own namespace, #874
 
 [3.9.0]: https://github.com/eventum/eventum/compare/v3.9.0...master
 

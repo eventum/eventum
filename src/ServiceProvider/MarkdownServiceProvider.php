@@ -11,11 +11,13 @@
  * that were distributed with this source code.
  */
 
-namespace Eventum;
+namespace Eventum\ServiceProvider;
 
-use Eventum\CommonMark\UserMentionGenerator;
 use Eventum\Config\Paths;
+use Eventum\Event;
 use Eventum\EventDispatcher\EventManager;
+use Eventum\Markdown;
+use Eventum\Markdown\CommonMark\UserMentionGenerator;
 use HTMLPurifier;
 use HTMLPurifier_HTML5Config;
 use League\CommonMark\CommonMarkConverter;
@@ -31,12 +33,15 @@ use League\CommonMark\Extension\Table\TableExtension;
 use League\CommonMark\Extension\TaskList\TaskListExtension;
 use League\CommonMark\MarkdownConverterInterface;
 use Misc;
+use Pimple\Container;
+use Pimple\ServiceProviderInterface;
 use Setup;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
-final class Markdown
+class MarkdownServiceProvider implements ServiceProviderInterface
 {
     private const PURIFIER_CACHE_DIR = Paths::APP_CACHE_PATH . '/purifier';
+
     /**
      * Use moderately sane value
      *
@@ -44,48 +49,18 @@ final class Markdown
      */
     private const MAX_NESTING_LEVEL = 500;
 
-    /** @var HTMLPurifier */
-    private $purifier;
-    /** @var MarkdownConverterInterface[] */
-    private $converter = [];
-
-    public function __construct()
+    public function register(Container $app): void
     {
-        $this->purifier = $this->createPurifier();
-    }
+        $app[Markdown\MarkdownRendererInterface::RENDER_BLOCK] = function ($app) {
+            return new Markdown\MarkdownRenderer($this->createConverter(false), $app[HTMLPurifier::class]);
+        };
+        $app[Markdown\MarkdownRendererInterface::RENDER_INLINE] = function ($app) {
+            return new Markdown\MarkdownRenderer($this->createConverter(true), $app[HTMLPurifier::class]);
+        };
 
-    public function render(string $text): string
-    {
-        if (!$text) {
-            return $text;
-        }
-
-        $html = $this->getConverter(false)->convertToHtml($text);
-        $html = $this->getPurifier()->purify($html);
-
-        return $html;
-    }
-
-    public function renderInline(string $text): string
-    {
-        if (!$text) {
-            return $text;
-        }
-
-        $html = $this->getConverter(true)->convertToHtml($text);
-        $html = $this->getPurifier()->purify($html);
-
-        return $html;
-    }
-
-    private function getConverter(bool $inline): MarkdownConverterInterface
-    {
-        return $this->converter[(int)$inline] ?? $this->converter[(int)$inline] = $this->createConverter($inline);
-    }
-
-    private function getPurifier(): HTMLPurifier
-    {
-        return $this->purifier ?? $this->purifier = $this->createPurifier();
+        $app[HTMLPurifier::class] = static function () {
+            return self::createPurifier();
+        };
     }
 
     private function createConverter(bool $inline): MarkdownConverterInterface
@@ -126,7 +101,22 @@ final class Markdown
         return new CommonMarkConverter([], $environment);
     }
 
-    private function createPurifier(): HTMLPurifier
+    private function applyExtensions(Environment $environment): void
+    {
+        $environment->addExtension(new AutolinkExtension());
+        $environment->addExtension(new TaskListExtension());
+        $environment->addExtension(new TableExtension());
+        $environment->addExtension(new HeadingPermalinkExtension());
+        $environment->addExtension(new AttributesExtension());
+        $environment->addExtension(new FootnoteExtension());
+        $environment->addExtension(new MentionExtension());
+
+        // allow extensions to apply behaviour
+        $event = new GenericEvent($environment);
+        EventManager::dispatch(Event\SystemEvents::MARKDOWN_ENVIRONMENT_CONFIGURE, $event);
+    }
+
+    private static function createPurifier(): HTMLPurifier
     {
         $config = HTMLPurifier_HTML5Config::createDefault();
 
@@ -153,20 +143,5 @@ final class Markdown
         $config->set('Cache.SerializerPath', Misc::ensureDir(self::PURIFIER_CACHE_DIR));
 
         return new HTMLPurifier($config);
-    }
-
-    private function applyExtensions(Environment $environment): void
-    {
-        $environment->addExtension(new AutolinkExtension());
-        $environment->addExtension(new TaskListExtension());
-        $environment->addExtension(new TableExtension());
-        $environment->addExtension(new HeadingPermalinkExtension());
-        $environment->addExtension(new AttributesExtension());
-        $environment->addExtension(new FootnoteExtension());
-        $environment->addExtension(new MentionExtension());
-
-        // allow extensions to apply behaviour
-        $event = new GenericEvent($environment);
-        EventManager::dispatch(Event\SystemEvents::MARKDOWN_ENVIRONMENT_CONFIGURE, $event);
     }
 }
