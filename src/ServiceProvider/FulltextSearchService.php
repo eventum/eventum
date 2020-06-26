@@ -52,9 +52,9 @@ class FulltextSearchService implements ServiceProviderInterface
 
             // legacy: handle lowercased classname
             if ($className === 'mysql_fulltext_search') {
-                $className = 'MySQL_Fulltext_Search';
+                $className = MySQL_Fulltext_Search::class;
             } elseif ($className === 'sphinx_fulltext_search') {
-                $className = 'Sphinx_Fulltext_Search';
+                $className = Sphinx_Fulltext_Search::class;
             }
 
             return $app[$className];
