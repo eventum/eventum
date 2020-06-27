@@ -49,4 +49,20 @@ front:
     path: /front
     controller: Eventum\Controller\FrontController::indexAction
 
-# vim:ts=4:sw=4:et
+ajax_dynamic_custom_field.js:
+  path: /ajax/dynamic_custom_field.js.php
+  controller: Eventum\Controller\Ajax\DynamicCustomFieldController::indexAction
+
+ajax_get_custom_field_dynamic_options:
+  path: /ajax/get_custom_field_dynamic_options.php
+  controller: Eventum\Controller\Ajax\DynamicCustomFieldOptionsController::indexAction
+
+ajax_update:
+  path: /ajax/update.php
+  controller: Eventum\Controller\Ajax\UpdateController::indexAction
+
+ajax_upload:
+  path: /ajax/upload.php
+  controller: Eventum\Controller\Ajax\UploadController::indexAction
+
+# vim:ts=2:sw=2:et
