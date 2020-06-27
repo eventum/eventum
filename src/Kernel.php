@@ -114,6 +114,7 @@ class Kernel extends BaseKernel
 
     protected function configureRoutes(RouteCollectionBuilder $routes): void
     {
+        $routes->import("{$this->resourceDir}/routes_reports.yml");
         $routes->import("{$this->resourceDir}/routes_manage.yml");
         $routes->import("{$this->resourceDir}/routes.yml");
         // optional routes by local install
