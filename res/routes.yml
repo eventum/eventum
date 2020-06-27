@@ -37,8 +37,8 @@ logout:
 
 select_project:
     path: /select_project.php
-    methods: GET
-    controller: Eventum\Controller\SelectProjectController::defaultAction
+    methods: GET|POST
+    controller: Eventum\Controller\SelectProjectController::indexAction
 
 setup:
     path: /setup
