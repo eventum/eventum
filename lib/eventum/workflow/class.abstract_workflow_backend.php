@@ -97,7 +97,7 @@ abstract class Abstract_Workflow_Backend
         // save back to config tree
         $setup['workflow'][$name] = $config;
 
-        // assign again to get Zend\Config instance
+        // assign again to get Laminas\Config instance
         $this->config = $setup['workflow'][$name];
     }
 

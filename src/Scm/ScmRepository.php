@@ -13,11 +13,11 @@
 
 namespace Eventum\Scm;
 
+use Eventum\Config\Config;
 use Eventum\Logger\LoggerTrait;
 use Eventum\Model\Entity\Commit;
 use Eventum\Model\Entity\CommitFile;
 use Eventum\ServiceContainer;
-use Zend\Config\Config;
 
 class ScmRepository
 {

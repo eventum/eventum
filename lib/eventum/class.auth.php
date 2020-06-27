@@ -461,10 +461,10 @@ class Auth
         static $adapter = false;
 
         if ($adapter === false) {
-            $spec = ServiceContainer::getConfig()['auth'] ?? [];
+            $spec = ServiceContainer::getConfig()['auth'];
 
             try {
-                $adapter = Eventum\Auth\Adapter\Factory::create($spec);
+                $adapter = Eventum\Auth\Adapter\Factory::create($spec ? $spec->toArray() : []);
             } catch (Throwable $e) {
                 $message = 'Unable to instantiate auth adapter';
                 Logger::app()->critical($message, ['exception' => $e]);

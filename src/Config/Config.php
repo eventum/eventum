@@ -13,9 +13,9 @@
 
 namespace Eventum\Config;
 
-use Zend\Config\Config as ZendConfig;
+use Laminas\Config\Config as LaminasConfig;
 
-class Config extends ZendConfig
+class Config extends LaminasConfig
 {
     /**
      * Override to have reference access

@@ -14,6 +14,7 @@
 namespace Eventum\Auth\Ldap;
 
 use Eventum\Auth\AuthException;
+use Eventum\Config\Config;
 use Generator;
 use Symfony\Component\Ldap\Adapter\CollectionInterface;
 use Symfony\Component\Ldap\Adapter\ExtLdap\Adapter;
@@ -21,7 +22,6 @@ use Symfony\Component\Ldap\Adapter\ExtLdap\Collection;
 use Symfony\Component\Ldap\Entry;
 use Symfony\Component\Ldap\Exception\ConnectionException;
 use Symfony\Component\Ldap\LdapInterface;
-use Zend\Config\Config;
 
 class LdapConnection
 {
