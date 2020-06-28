@@ -6,6 +6,7 @@
 set -e
 
 repo_url=git@github.com:eventum/eventum.git
+travis_opts="--no-interactive --skip-version-check --skip-completion-check"
 
 have() {
 	type -p "$1" >/dev/null 2>&1
@@ -55,13 +56,19 @@ travis_help() {
 	EOF
 }
 
+travis_branch_history() {
+	local branch="$1"
+
+	travis history $travis_opts --committer --date --branch "$branch" --limit 10
+}
+
 # find last build id from specified branch
 # needs to be status "started"
 travis_build_id() {
 	local branch="$1" out bid
 
 	while [ -z "$bid" ]; do
-		out=$(travis history --no-interactive --skip-version-check --skip-completion-check -cdb "$branch" -l 10)
+		out=$(travis_branch_history "$branch")
 		# not yet             #3307 created: snapshot Elan Ruusamäe travis: poll for build id
 		# 2017-09-09 01:18:33 #3305 started: snapshot Elan Ruusamäe snapshot: follow travis logs if possible
 		bid=$(echo "$out" | sed -rne 's/.+#([0-9]+) (created|started):.+/\1/p')
@@ -86,7 +93,7 @@ travis_log() {
 	# ignore error from `travis logs`
 	# https://github.com/travis-ci/travis.rb/issues/541
 	# https://github.com/pusher-community/pusher-websocket-ruby/issues/51
-	travis logs --no-interactive --skip-version-check --skip-completion-check $build_id.$job_id || :
+	travis logs $travis_opts $build_id.$job_id || :
 }
 
 create_snapshot_tag
