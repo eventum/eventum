@@ -11,12 +11,11 @@ services:
 
 # https://docs.travis-ci.com/user/languages/php/#choosing-php-versions-to-test-against
 jobs:
-  # NOTE: when adding/removing jobs, update bin/releng/snapshot.sh travis_log job_id
   allow_failures:
     - php: "7.4"
     - php: "nightly"
+  # NOTE: when adding/removing jobs, update bin/releng/snapshot.sh travis_log job_id
   include:
-    - php: "7.1"
     - php: "7.2"
     - php: "7.3"
     - php: "7.4"
