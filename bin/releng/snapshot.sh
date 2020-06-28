@@ -61,7 +61,7 @@ travis_build_id() {
 	local branch="$1" out bid
 
 	while [ -z "$bid" ]; do
-		out=$(travis history --no-interactive -cdb "$branch" -l 10)
+		out=$(travis history --no-interactive --skip-version-check --skip-completion-check -cdb "$branch" -l 10)
 		# not yet             #3307 created: snapshot Elan Ruusamäe travis: poll for build id
 		# 2017-09-09 01:18:33 #3305 started: snapshot Elan Ruusamäe snapshot: follow travis logs if possible
 		bid=$(echo "$out" | sed -rne 's/.+#([0-9]+) (created|started):.+/\1/p')
@@ -86,7 +86,7 @@ travis_log() {
 	# ignore error from `travis logs`
 	# https://github.com/travis-ci/travis.rb/issues/541
 	# https://github.com/pusher-community/pusher-websocket-ruby/issues/51
-	travis logs --no-interactive $build_id.$job_id || :
+	travis logs --no-interactive --skip-version-check --skip-completion-check $build_id.$job_id || :
 }
 
 create_snapshot_tag
