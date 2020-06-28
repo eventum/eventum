@@ -7,6 +7,7 @@ set -e
 
 repo_url=git@github.com:eventum/eventum.git
 travis_opts="--no-interactive --skip-version-check --skip-completion-check"
+repo=eventum/eventum
 
 have() {
 	type -p "$1" >/dev/null 2>&1
@@ -46,6 +47,12 @@ create_snapshot_tag() {
 	git tag -d snapshot
 }
 
+travis_cmd() {
+	local cmd="$1"; shift
+
+	travis "$cmd" $travis_opts --repo "$repo" "$@" | tee -a .travis.log
+}
+
 # suggest to install travis cli tool
 travis_help() {
 	cat <<-EOF
@@ -56,10 +63,11 @@ travis_help() {
 	EOF
 }
 
-travis_branch_history() {
+travis_branch_build_id() {
 	local branch="$1"
 
-	travis history $travis_opts --committer --date --branch "$branch" --limit 10
+	# snapshot: #6057 started    Move travis options to environment, use long options
+	travis_cmd branches | sed -rne "s/^$branch:.+#([0-9]+) (created|started|errored|passed|failed) .+/\1/p" | head -n1
 }
 
 # find last build id from specified branch
@@ -68,16 +76,16 @@ travis_build_id() {
 	local branch="$1" out bid
 
 	while [ -z "$bid" ]; do
-		out=$(travis_branch_history "$branch")
-		# not yet             #3307 created: snapshot Elan Ruusamäe travis: poll for build id
-		# 2017-09-09 01:18:33 #3305 started: snapshot Elan Ruusamäe snapshot: follow travis logs if possible
-		bid=$(echo "$out" | sed -rne 's/.+#([0-9]+) (created|started):.+/\1/p')
-		test -n "$bid" && break
 		# sleep not to hammer, altho the travis command itself is slow
 		printf >&2 "."
 		sleep 1
+
+		bid=$(travis_branch_build_id "$branch")
+		test -n "$bid" || continue
+		test -n "$before_id" || break
+		test "$bid" -gt "$before_id" && break
 	done
-	echo "$bid" | head -n 1
+	echo "$bid"
 }
 
 # show build log of travis build
@@ -85,7 +93,7 @@ travis_log() {
 	# ".5" is the "deploy" job
 	local branch="snapshot" job_id=5 build_id
 
-	printf >&2 "travis: figuring out build id..."
+	printf >&2 "travis: figuring out build id for $branch after #$before_id..."
 	build_id=$(travis_build_id "$branch")
 	printf >&2 " #$build_id\n"
 
@@ -93,8 +101,11 @@ travis_log() {
 	# ignore error from `travis logs`
 	# https://github.com/travis-ci/travis.rb/issues/541
 	# https://github.com/pusher-community/pusher-websocket-ruby/issues/51
-	travis logs $travis_opts $build_id.$job_id || :
+	travis_cmd logs $build_id.$job_id || :
 }
+
+> .travis.log
+have travis && before_id=$(travis_branch_build_id snapshot)
 
 create_snapshot_tag
 
