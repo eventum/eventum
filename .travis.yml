@@ -27,6 +27,9 @@ jobs:
       script:
         - node --version
         - php --version
+        # Switch to composer 2
+        - composer self-update --preview
+        - composer --version
         - bin/releng/dist.sh
 
       # https://docs.travis-ci.com/user/deployment/releases
