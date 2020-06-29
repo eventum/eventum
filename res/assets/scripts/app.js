@@ -46,7 +46,9 @@ $(document).ready(function () {
 
     window.onbeforeunload = Eventum.handleClose;
 
-    $('form.validate').submit(Validation.callback);
+    $('form.validate').submit(function(e) {
+        Validation.callback(e);
+    });
 
     ExpandableCell.ready();
 
@@ -54,7 +56,9 @@ $(document).ready(function () {
         $(this).find("form").submit();
     });
 
-    $('#change_clock_status').click(Eventum.changeClockStatus);
+    $('#change_clock_status').click(function() {
+        return Eventum.changeClockStatus();
+    });
 
     $(".date_picker").datepicker({
         dateFormat: "yy-mm-dd",

@@ -14,7 +14,11 @@
  */
 export default class {
     ready() {
-        $('#product').bind('change', this.display_product_version_howto).change();
+        const page = this;
+
+        $('#product').bind('change', function() {
+            page.display_product_version_howto();
+        }).change();
     };
 
     display_product_version_howto() {

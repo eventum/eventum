@@ -42,31 +42,71 @@ export default class {
         });
 
         $('#issue_description_link')
-            .click(page.toggle_issue_description)
-            .ready(page.display_description_collapse_message);
+            .click(function() {
+                page.toggle_issue_description();
+            })
+            .ready(function() {
+                page.display_description_collapse_message();
+            });
 
         /* Main Issue actions */
-        $('.open_history').click(page.openHistory);
-        $('.open_nl').click(page.openNotificationList);
-        $('.open_ar').click(page.openAuthorizedReplier);
-        $('.self_assign').click(page.selfAssign);
-        $('.unassign').click(page.unassign);
-        $('.self_notification').click(page.selfNotification);
-        $('.self_authorized_replier').click(page.signupAsAuthorizedReplier);
-        $('.change_status').click(page.changeIssueStatus);
-        $('.change_access').click(page.changeAccess);
-
-        $('.remove_quarantine').click(page.removeQuarantine);
-        $('.clear_duplicate').click(page.clearDuplicateStatus);
-        $('.reply_issue').click(page.replyIssue);
-        $('.reply_issue_note').click(page.replyIssueNote);
-        $('.reply_email').click(page.reply);
-        $('.reply_email_note').click(page.replyAsNote);
-        $('.edit_incident_redemption').click(page.editIncidentRedemption);
-        $('a.edit_time_entry').click(page.editTimeEntry);
-        $('a.delete_time_entry').click(page.deleteTimeEntry);
-        $('.add_time_entry').click(page.addTimeEntry);
-
+        $('.open_history').click(function() {
+            return page.openHistory();
+        });
+        $('.open_nl').click(function() {
+            return page.openNotificationList();
+        });
+        $('.open_ar').click(function() {
+            return page.openAuthorizedReplier();
+        });
+        $('.self_assign').click(function() {
+            page.selfAssign();
+        });
+        $('.unassign').click(function() {
+            page.unassign();
+        });
+        $('.self_notification').click(function() {
+            page.selfNotification();
+        });
+        $('.self_authorized_replier').click(function() {
+            page.signupAsAuthorizedReplier();
+        });
+        $('.change_status').click(function(e) {
+            page.changeIssueStatus(e);
+        });
+        $('.change_access').click(function() {
+            return page.changeAccess();
+        });
+        $('.remove_quarantine').click(function() {
+            page.removeQuarantine();
+        });
+        $('.clear_duplicate').click(function() {
+            page.clearDuplicateStatus();
+        });
+        $('.reply_issue').click(function() {
+            page.replyIssue();
+        });
+        $('.reply_issue_note').click(function() {
+            page.replyIssueNote();
+        });
+        $('.reply_email').click(function() {
+            page.reply();
+        });
+        $('.reply_email_note').click(function() {
+            page.replyAsNote();
+        });
+        $('.edit_incident_redemption').click(function() {
+            page.editIncidentRedemption();
+        });
+        $('a.edit_time_entry').click(function(e) {
+            return page.editTimeEntry(e);
+        });
+        $('a.delete_time_entry').click(function(e) {
+            return page.deleteTimeEntry(e);
+        });
+        $('.add_time_entry').click(function() {
+            page.addTimeEntry();
+        });
         $('.mark_duplicate').click(function () {
             window.location.href = 'close.php?cat=duplicate&id=' + page.get_issue_id();
         });
@@ -81,9 +121,15 @@ export default class {
         $('#toggle_attachments').click(function () {
             page.toggle_issue_section('attachments');
         });
-        $('#upload_file').click(page.upload_file);
-        $('#attachments .delete_attachment').click(page.delete_attachment);
-        $('#attachments .delete_file').click(page.delete_file);
+        $('#upload_file').click(function(e) {
+            page.upload_file(e);
+        });
+        $('#attachments .delete_attachment').click(function() {
+            return page.delete_attachment();
+        });
+        $('#attachments .delete_file').click(function(e) {
+            return page.delete_file(e);
+        });
     }
 
     get_issue_id() {

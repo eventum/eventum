@@ -35,11 +35,19 @@ export default class {
 
         Eventum.setupShowSelections($('#assignments'));
 
-        $('.open_history').click(issue_view.openHistory);
-        $('.open_nl').click(issue_view.openNotificationList);
-        $('.open_ar').click(issue_view.openAuthorizedReplier);
+        $('.open_history').click(function() {
+            return issue_view.openHistory();
+        });
+        $('.open_nl').click(function() {
+            return issue_view.openNotificationList();
+        });
+        $('.open_ar').click(function() {
+            return issue_view.openAuthorizedReplier();
+        });
 
-        $('#severity').bind('change', page.display_severity_description).change();
+        $('#severity').bind('change', function() {
+            page.display_severity_description();
+        }).change();
     }
 
     validateForm() {
