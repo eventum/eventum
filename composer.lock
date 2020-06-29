@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "effb1ba512e516a954a75a17aa8921b6",
+    "content-hash": "d35100105eb8e250cc67d96141400935",
     "packages": [
         {
             "name": "cakephp/cache",
@@ -3566,11 +3566,11 @@
         },
         {
             "name": "sphinx/php-sphinxapi",
-            "version": "2.0.1",
+            "version": "2.2.11",
             "dist": {
                 "type": "file",
-                "url": "https://raw.githubusercontent.com/sphinxsearch/sphinx/3b4cbb2b20e03e4d04db0695947441c62034aeec/api/sphinxapi.php",
-                "shasum": "2b1274cbbc4b2be2aba2cb90dc5daf2036df0f49"
+                "url": "https://raw.githubusercontent.com/sphinxsearch/sphinx/e6985ad8842baa68b99e3d1c5f6636a38c97194b/api/sphinxapi.php",
+                "shasum": "f36b1f28efe9ac1a53da046ac9526424aadb8bf6"
             },
             "type": "library",
             "autoload": {
