@@ -24,6 +24,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 class User implements UserInterface
 {
     public const STATUS_ACTIVE = 'active';
+    public const STATUS_INACTIVE = 'inactive';
     public const STATUS_PENDING = 'pending';
 
     /**
