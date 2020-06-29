@@ -130,6 +130,11 @@ class Issue
         return $this->status->getId();
     }
 
+    public function getStatusTitle(): string
+    {
+        return $this->status->getTitle();
+    }
+
     /**
      * Method used to check whether an issue was already closed or not.
      */
