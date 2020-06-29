@@ -17,11 +17,11 @@ use Doctrine\ORM\EntityRepository;
 use Eventum\Model\Entity;
 
 /**
- * Class UserRepository
- *
+ * @method Entity\User findById(int $usr_id)
  * @method Entity\User|null findOneByCustomerContactId(int $customerContactId)
  * @method Entity\User|null findOneByExternalId(string $externalId)
  */
 class UserRepository extends EntityRepository
 {
+    use Traits\FindByIdTrait;
 }
