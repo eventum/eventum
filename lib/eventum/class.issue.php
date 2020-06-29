@@ -2545,7 +2545,12 @@ class Issue
         $remoteLinkRepo = Doctrine::getRemoteLinkRepository();
         $res['remote_links'] = $remoteLinkRepo->getRemoteLinks($res['iss_id']);
 
-        $res['reporter'] = User::getFullName($res['iss_usr_id']);
+        $userRepo = Doctrine::getUserRepository();
+        $reporter = $userRepo->findById($res['iss_usr_id']);
+
+        $res['reporter'] = $reporter->getFullName();
+        $res['reporter_status'] = $reporter->getStatus();
+        $res['reporter_status_active'] = $reporter->isActive();
         if (empty($res['iss_updated_date'])) {
             $res['iss_updated_date'] = $res['iss_created_date'];
         }
