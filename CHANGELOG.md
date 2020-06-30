@@ -13,6 +13,7 @@ See [Upgrading] for details how to upgrade.
 - Switch to use `laminas/laminas-config` instead of `zendframework/zend-config`, #875
 - Define all controllers in Symfony routes, #878
 - Fix getPassword to return EncryptedValue object, #883
+- Add Symfony Deprecation contracts to mark deprecations, #881
 
 [3.9.0]: https://github.com/eventum/eventum/compare/v3.9.0...master
 

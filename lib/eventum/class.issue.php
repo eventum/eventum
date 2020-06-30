@@ -289,8 +289,11 @@ class Issue
      * @param   bool $notify if a notification should be sent about this change
      * @return  int 1 if the update worked, -2 if no change is made, -1 on error
      */
-    public static function setStatus(int $issue_id, int $status_id, bool $notify = false)
+    public static function setStatus(int $issue_id, ?int $status_id, bool $notify = false)
     {
+        trigger_deprecation('eventum/eventum', '3.9.0', 'Passing $status_id as non-integer is deprecated. Got "%s"', $status_id);
+        $status_id = (int)$status_id;
+
         $prj_id = self::getProjectID($issue_id);
         $workflow = Workflow::preStatusChange($prj_id, $issue_id, $status_id, $notify);
         if ($workflow !== true) {
