@@ -70,7 +70,7 @@ class UsersController extends ManageBaseController
                 $this->unlockAction();
                 break;
             default:
-                $this->indexAction();
+                $this->fallbackAction();
         }
     }
 
@@ -178,7 +178,7 @@ class UsersController extends ManageBaseController
         $this->tpl->assign('info', $this->user_details);
     }
 
-    private function indexAction(): void
+    private function fallbackAction(): void
     {
         $get = $this->getRequest()->query;
 

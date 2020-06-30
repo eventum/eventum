@@ -1,0 +1,55 @@
+# Routes for reports
+
+reports_category_statuses:
+  path: /reports/category_statuses.php
+  controller: Eventum\Controller\Report\CategoryStatusController::indexAction
+
+reports_custom_fields:
+  path: /reports/custom_fields.php
+  controller: Eventum\Controller\Report\CustomFieldsController::indexAction
+
+reports_custom_fields_weekly:
+  path: /reports/custom_fields_weekly.php
+  controller: Eventum\Controller\Report\CustomFieldsWeeklyController::indexAction
+
+reports_estimated_dev_time:
+  path: /reports/estimated_dev_time.php
+  controller: Eventum\Controller\Report\EstimatedDevTimeController::indexAction
+
+reports_graph:
+  path: /reports/graph.php
+  controller: Eventum\Controller\Report\GraphController::indexAction
+
+reports_index:
+  path: /reports/index.php
+  controller: Eventum\Controller\Report\IndexController::indexAction
+
+reports_issue:
+  path: /reports/issue.php
+  controller: Eventum\Controller\Report\IssueController::indexAction
+
+reports_open_issues:
+  path: /reports/open_issues.php
+  controller: Eventum\Controller\Report\OpenIssuesController::indexAction
+
+reports_recent_activity:
+  path: /reports/recent_activity.php
+  controller: Eventum\Controller\Report\RecentActivityController::indexAction
+
+reports_stalled_issues:
+  path: /reports/stalled_issues.php
+  controller: Eventum\Controller\Report\StalledIssuesController::indexAction
+
+reports_weekly:
+  path: /reports/weekly.php
+  controller: Eventum\Controller\Report\WeeklyController::indexAction
+
+reports_workload_date_range:
+  path: /reports/workload_date_range.php
+  controller: Eventum\Controller\Report\WorkloadDateRangeController::indexAction
+
+reports_workload_time_period:
+  path: /reports/workload_time_period.php
+  controller: Eventum\Controller\Report\WorkloadTimePeriodController::indexAction
+
+# vim:ts=4:sw=4:et

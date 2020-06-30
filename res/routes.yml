@@ -1,52 +1,264 @@
 root:
-    path: /
-    controller: Eventum\Controller\IndexController::defaultAction
-
-index:
-    path: /index.php
-    controller: Eventum\Controller\IndexController::defaultAction
-
-confirm:
-    path: /confirm.php
-    methods: GET
-    controller: Eventum\Controller\ConfirmController::defaultAction
-
-scm_ping:
-    path: /scm_ping.php
-    methods: POST
-    controller: Eventum\Controller\ScmPingController::defaultAction
-
-searchbar:
-    path: /searchbar.php
-    methods: GET
-    controller: Eventum\Controller\SearchbarController::defaultAction
-
-forgot_password:
-    path: /forgot_password.php
-    methods: GET|POST
-    controller: Eventum\Controller\ForgotPasswordController::defaultAction
-
-login:
-    path: /login.php
-    controller: Eventum\Controller\SecurityController::login
-
-logout:
-    path: /logout.php
-    methods: GET
-    # NB: controller is not needed
-
-select_project:
-    path: /select_project.php
-    methods: GET
-    controller: Eventum\Controller\SelectProjectController::defaultAction
-
-setup:
-    path: /setup
-    methods: GET|POST
-    controller: Eventum\Controller\Setup\SetupController::defaultAction
+  path: /
+  controller: Eventum\Controller\IndexController::defaultAction
 
 front:
-    path: /front
-    controller: Eventum\Controller\FrontController::indexAction
+  path: /front
+  controller: Eventum\Controller\FrontController::indexAction
 
-# vim:ts=4:sw=4:et
+access:
+  path: /access.php
+  controller: Eventum\Controller\AccessController::indexAction
+
+adv_search:
+  path: /adv_search.php
+  controller: Eventum\Controller\AdvSearchController::indexAction
+
+associate:
+  path: /associate.php
+  controller: Eventum\Controller\AssociateController::indexAction
+
+authorized_replier:
+  path: /authorized_replier.php
+  controller: Eventum\Controller\AuthorizedReplierController::indexAction
+
+clock_status:
+  path: /clock_status.php
+  controller: Eventum\Controller\ClockStatusController::indexAction
+
+close:
+  path: /close.php
+  controller: Eventum\Controller\CloseController::indexAction
+
+confirm:
+  path: /confirm.php
+  methods: GET
+  controller: Eventum\Controller\ConfirmController::defaultAction
+
+convert_note:
+  path: /convert_note.php
+  controller: Eventum\Controller\ConvertNoteController::indexAction
+
+csv:
+  path: /csv.php
+  controller: Eventum\Controller\CsvController::indexAction
+
+custom_fields:
+  path: /custom_fields.php
+  controller: Eventum\Controller\CustomFieldsController::indexAction
+
+download:
+  path: /download.php
+  controller: Eventum\Controller\DownloadController::indexAction
+
+duplicate:
+  path: /duplicate.php
+  controller: Eventum\Controller\DuplicateController::indexAction
+
+edit_reporter:
+  path: /edit_reporter.php
+  controller: Eventum\Controller\EditReporterController::indexAction
+
+emails:
+  path: /emails.php
+  controller: Eventum\Controller\EmailsController::indexAction
+
+faq:
+  path: /faq.php
+  controller: Eventum\Controller\FaqController::indexAction
+
+file_upload:
+  path: /file_upload.php
+  controller: Eventum\Controller\FileUploadController::indexAction
+
+forgot_password:
+  path: /forgot_password.php
+  methods: GET|POST
+  controller: Eventum\Controller\ForgotPasswordController::defaultAction
+
+get_attachment:
+  path: /get_attachment.php
+  controller: Eventum\Controller\GetAttachmentController::indexAction
+
+get_remote_data:
+  path: /get_remote_data.php
+  controller: Eventum\Controller\RemoteDataController::indexAction
+
+help:
+  path: /help.php
+  controller: Eventum\Controller\HelpController::indexAction
+
+history:
+  path: /history.php
+  controller: Eventum\Controller\HistoryController::indexAction
+
+index:
+  path: /index.php
+  controller: Eventum\Controller\IndexController::defaultAction
+
+list:
+  path: /list.php
+  controller: Eventum\Controller\ListController::indexAction
+
+login:
+  path: /login.php
+  controller: Eventum\Controller\SecurityController::login
+
+logout:
+  path: /logout.php
+  methods: GET
+  # NB: controller is not needed
+
+mail_queue:
+  path: /mail_queue.php
+  controller: Eventum\Controller\MailQueueController::indexAction
+
+main:
+  path: /main.php
+  controller: Eventum\Controller\MainController::indexAction
+
+new:
+  path: /new.php
+  controller: Eventum\Controller\NewController::indexAction
+
+news:
+  path: /news.php
+  controller: Eventum\Controller\NewsController::indexAction
+
+notification:
+  path: /notification.php
+  controller: Eventum\Controller\NotificationController::indexAction
+
+opensearch:
+  path: /opensearch.php
+  controller: Eventum\Controller\OpenSearchController::indexAction
+
+partners:
+  path: /partners.php
+  controller: Eventum\Controller\PartnersController::indexAction
+
+phone_calls:
+  path: /phone_calls.php
+  controller: Eventum\Controller\PhoneCallsController::indexAction
+
+popup:
+  path: /popup.php
+  controller: Eventum\Controller\PopupController::indexAction
+
+post:
+  path: /post.php
+  controller: Eventum\Controller\PostController::indexAction
+
+post_note:
+  path: /post_note.php
+  controller: Eventum\Controller\PostNoteController::indexAction
+
+preferences:
+  path: /preferences.php
+  controller: Eventum\Controller\PreferencesController::indexAction
+
+redeem_incident:
+  path: /redeem_incident.php
+  controller: Eventum\Controller\RedeemIncidentController::indexAction
+
+removed_emails:
+  path: /removed_emails.php
+  controller: Eventum\Controller\RemovedEmailsController::indexAction
+
+rss:
+  path: /rss.php
+  controller: Eventum\Controller\RssController::indexAction
+
+scm_ping:
+  path: /scm_ping.php
+  methods: POST
+  controller: Eventum\Controller\ScmPingController::defaultAction
+
+searchbar:
+  path: /searchbar.php
+  methods: GET
+  controller: Eventum\Controller\SearchbarController::defaultAction
+
+select_customer:
+  path: /select_customer.php
+  controller: Eventum\Controller\SelectCustomerController::indexAction
+
+select_project:
+  path: /select_project.php
+  methods: GET|POST
+  controller: Eventum\Controller\SelectProjectController::indexAction
+
+self_assign:
+  path: /self_assign.php
+  controller: Eventum\Controller\SelfAssignController::indexAction
+
+send:
+  path: /send.php
+  controller: Eventum\Controller\SendController::indexAction
+
+signup:
+  path: /signup.php
+  controller: Eventum\Controller\SignupController::indexAction
+
+spell_check:
+  path: /spell_check.php
+  controller: Eventum\Controller\SpellCheckController::indexAction
+
+stats_chart:
+  path: /stats_chart.php
+  controller: Eventum\Controller\StatsChartController::indexAction
+
+switch:
+  path: /switch.php
+  controller: Eventum\Controller\SwitchController::indexAction
+
+time_tracking:
+  path: /time_tracking.php
+  controller: Eventum\Controller\TimeTrackingController::indexAction
+
+update:
+  path: /update.php
+  controller: Eventum\Controller\UpdateController::indexAction
+
+validate:
+  path: /validate.php
+  controller: Eventum\Controller\ValidateController::indexAction
+
+view:
+  path: /view.php
+  controller: Eventum\Controller\ViewController::indexAction
+
+view_email:
+  path: /view_email.php
+  controller: Eventum\Controller\ViewEmailController::indexAction
+
+view_headers:
+  path: /view_headers.php
+  controller: Eventum\Controller\ViewHeadersController::indexAction
+
+view_note:
+  path: /view_note.php
+  controller: Eventum\Controller\ViewNoteController::indexAction
+
+setup:
+  path: /setup
+  methods: GET|POST
+  controller: Eventum\Controller\Setup\SetupController::defaultAction
+
+ajax_dynamic_custom_field.js:
+  path: /ajax/dynamic_custom_field.js.php
+  controller: Eventum\Controller\Ajax\DynamicCustomFieldController::indexAction
+
+ajax_get_custom_field_dynamic_options:
+  path: /ajax/get_custom_field_dynamic_options.php
+  controller: Eventum\Controller\Ajax\DynamicCustomFieldOptionsController::indexAction
+
+ajax_update:
+  path: /ajax/update.php
+  controller: Eventum\Controller\Ajax\UpdateController::indexAction
+
+ajax_upload:
+  path: /ajax/upload.php
+  controller: Eventum\Controller\Ajax\UploadController::indexAction
+
+# vim:ts=2:sw=2:et

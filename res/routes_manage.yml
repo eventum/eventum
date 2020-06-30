@@ -1,0 +1,171 @@
+# Routes for management interface
+
+manage_account_managers:
+  path: /manage/account_managers.php
+  controller: Eventum\Controller\Manage\AccountManagersController::indexAction
+
+manage_anonymous:
+  path: /manage/anonymous.php
+  controller: Eventum\Controller\Manage\AnonymousController::indexAction
+
+manage_auth:
+  path: /manage/auth.php
+  controller: Eventum\Controller\Manage\AuthController::indexAction
+
+manage_categories:
+  path: /manage/categories.php
+  controller: Eventum\Controller\Manage\CategoriesController::indexAction
+
+manage_check_email_settings:
+  path: /manage/check_email_settings.php
+  controller: Eventum\Controller\Manage\CheckEmailSettingsController::indexAction
+
+manage_column_display:
+  path: /manage/column_display.php
+  controller: Eventum\Controller\Manage\ColumnDisplayController::indexAction
+
+manage_custom_field_options:
+  path: /manage/custom_field_options.php
+  controller: Eventum\Controller\Manage\CustomFieldOptionsController::indexAction
+
+manage_custom_fields:
+  path: /manage/custom_fields.php
+  controller: Eventum\Controller\Manage\CustomFieldsController::indexAction
+
+manage_customer_notes:
+  path: /manage/customer_notes.php
+  controller: Eventum\Controller\Manage\CustomerNotesController::indexAction
+
+manage_email_accounts:
+  path: /manage/email_accounts.php
+  controller: Eventum\Controller\Manage\EmailAccountsController::indexAction
+
+manage_email_alias:
+  path: /manage/email_alias.php
+  controller: Eventum\Controller\Manage\EmailAliasController::indexAction
+
+manage_email_responses:
+  path: /manage/email_responses.php
+  controller: Eventum\Controller\Manage\EmailResponsesController::indexAction
+
+manage_encryption:
+  path: /manage/encryption.php
+  controller: Eventum\Controller\Manage\EncryptionController::indexAction
+
+manage_faq:
+  path: /manage/faq.php
+  controller: Eventum\Controller\Manage\FaqController::indexAction
+
+manage_field_display:
+  path: /manage/field_display.php
+  controller: Eventum\Controller\Manage\FieldDisplayController::indexAction
+
+manage_general:
+  path: /manage/general.php
+  controller: Eventum\Controller\Manage\GeneralController::indexAction
+
+manage_groups:
+  path: /manage/groups.php
+  controller: Eventum\Controller\Manage\GroupsController::indexAction
+
+manage_index:
+  path: /manage/index.php
+  controller: Eventum\Controller\Manage\ProjectsController::indexAction
+
+manage_issue_auto_creation:
+  path: /manage/issue_auto_creation.php
+  controller: Eventum\Controller\Manage\IssueAutoCreationController::indexAction
+
+manage_ldap:
+  path: /manage/ldap.php
+  controller: Eventum\Controller\Manage\LdapController::indexAction
+
+manage_link_filters:
+  path: /manage/link_filters.php
+  controller: Eventum\Controller\Manage\LinkFiltersController::indexAction
+
+manage_monitor:
+  path: /manage/monitor.php
+  controller: Eventum\Controller\Manage\MonitorController::indexAction
+
+manage_news:
+  path: /manage/news.php
+  controller: Eventum\Controller\Manage\NewsController::indexAction
+
+manage_partners:
+  path: /manage/partners.php
+  controller: Eventum\Controller\Manage\PartnersController::indexAction
+
+manage_phone_categories:
+  path: /manage/phone_categories.php
+  controller: Eventum\Controller\Manage\PhoneCategoriesController::indexAction
+
+manage_priorities:
+  path: /manage/priorities.php
+  controller: Eventum\Controller\Manage\PrioritiesController::indexAction
+
+manage_private_key:
+  path: /manage/private_key.php
+  controller: Eventum\Controller\Manage\PrivateKeyController::indexAction
+
+manage_products:
+  path: /manage/products.php
+  controller: Eventum\Controller\Manage\ProductsController::indexAction
+
+manage_projects:
+  path: /manage/projects.php
+  controller: Eventum\Controller\Manage\ProjectsController::indexAction
+
+manage_releases:
+  path: /manage/releases.php
+  controller: Eventum\Controller\Manage\ReleasesController::indexAction
+
+manage_reminder_actions:
+  path: /manage/reminder_actions.php
+  controller: Eventum\Controller\Manage\ReminderActionsController::indexAction
+
+manage_reminder_conditions:
+  path: /manage/reminder_conditions.php
+  controller: Eventum\Controller\Manage\ReminderConditionsController::indexAction
+
+manage_reminder_review:
+  path: /manage/reminder_review.php
+  controller: Eventum\Controller\Manage\ReminderReviewController::indexAction
+
+manage_reminders:
+  path: /manage/reminders.php
+  controller: Eventum\Controller\Manage\RemindersController::indexAction
+
+manage_resolution:
+  path: /manage/resolution.php
+  controller: Eventum\Controller\Manage\ResolutionController::indexAction
+
+manage_round_robin:
+  path: /manage/round_robin.php
+  controller: Eventum\Controller\Manage\RoundRobinController::indexAction
+
+manage_scm:
+  path: /manage/scm.php
+  controller: Eventum\Controller\Manage\ScmController::indexAction
+
+manage_severities:
+  path: /manage/severities.php
+  controller: Eventum\Controller\Manage\SeveritiesController::indexAction
+
+manage_status_action_date:
+  path: /manage/status_action_date.php
+  controller: Eventum\Controller\Manage\StatusActionDateController::indexAction
+
+manage_statuses:
+  path: /manage/statuses.php
+  controller: Eventum\Controller\Manage\StatusesController::indexAction
+
+manage_time_tracking:
+  path: /manage/time_tracking.php
+  controller: Eventum\Controller\Manage\TimeTrackingController::indexAction
+
+manage_users:
+  path: /manage/users.php
+  controller: Eventum\Controller\Manage\UsersController::indexAction
+
+# vim:ts=4:sw=4:et

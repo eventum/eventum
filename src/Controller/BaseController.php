@@ -18,6 +18,7 @@ use Enrise\Uri;
 use InvalidArgumentException;
 use ReflectionClass;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Template_Helper;
 
 /**
@@ -87,6 +88,17 @@ abstract class BaseController
         }
 
         $this->displayTemplate();
+    }
+
+    /**
+     * A dumb wrapper to return defaultAction as Response object to be used from symfony router
+     */
+    public function indexAction(): Response
+    {
+        ob_start();
+        $this->run();
+
+        return new Response(ob_get_clean());
     }
 
     protected function getRequest(): Request
