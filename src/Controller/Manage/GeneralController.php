@@ -82,9 +82,7 @@ class GeneralController extends ManageBaseController
             'relative_date' => $post->get('relative_date'),
             'markdown' => $post->get('markdown'),
             'audit_trail' => $post->get('audit_trail'),
-            'sentry' => [
-                'status' => $post->get('sentry'),
-            ],
+            'sentry' => $post->get('sentry'),
         ];
         $res = Setup::save($setup);
 
