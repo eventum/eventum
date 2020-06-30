@@ -15,6 +15,7 @@ See [Upgrading] for details how to upgrade.
 - Fix getPassword to return EncryptedValue object, #883
 - Add Symfony Deprecation contracts to mark deprecations, #881
 - Fix JavaScript `this.` context regressions, #884
+- Add support for Sentry JavaScript monitoring, #882
 
 [3.9.0]: https://github.com/eventum/eventum/compare/v3.9.0...master
 
