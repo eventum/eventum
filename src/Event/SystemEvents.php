@@ -417,6 +417,13 @@ final class SystemEvents
     public const PHINX_CONFIG = 'phinx.config';
 
     /**
+     * Allow to hook into Smarty template processing.
+     *
+     * @since 3.9.0
+     */
+    public const SMARTY_PROCESS = 'smarty.process';
+
+    /**
      * Event emitted when eventum shuts down.
      * You can listen to this event to do cleanup on request end.
      *

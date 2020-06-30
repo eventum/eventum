@@ -14,8 +14,11 @@
 use Eventum\AppInfo;
 use Eventum\Config\Paths;
 use Eventum\DebugBarManager;
+use Eventum\Event\SystemEvents;
+use Eventum\EventDispatcher\EventManager;
 use Eventum\ServiceContainer;
 use Eventum\Templating;
+use Symfony\Component\EventDispatcher\GenericEvent;
 
 /**
  * Class used to abstract the backend template system used by the site. This
@@ -203,6 +206,9 @@ class Template_Helper
             ];
         }
         $this->assign('core', $core);
+
+        $event = new GenericEvent($this->smarty);
+        EventManager::dispatch(SystemEvents::SMARTY_PROCESS, $event);
 
         $userFile = new Templating\UserFile($this->smarty, ServiceContainer::getConfig()['local_path']);
         $userFile();
