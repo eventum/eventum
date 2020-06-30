@@ -393,6 +393,10 @@ class Setup
 
             'sentry' => [
                 'status' => 'enabled',
+                // dsn consists of: 'https://<key>@<domain>/<project>'
+                'key' => '',
+                'project' => '',
+                'domain' => '',
             ],
 
             'handle_clock_in' => 'enabled',
