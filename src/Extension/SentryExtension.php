@@ -14,6 +14,7 @@
 namespace Eventum\Extension;
 
 use Eventum\Config\Config;
+use Eventum\Event\ConfigUpdateEvent;
 use Eventum\Event\SystemEvents;
 use Eventum\Extension\Provider\SubscriberProvider;
 use Eventum\Logger\LoggerTrait;
@@ -48,6 +49,8 @@ class SentryExtension implements SubscriberProvider, EventSubscriberInterface
     {
         return [
             SystemEvents::SMARTY_PROCESS => 'smartyProcess',
+            SystemEvents::CONFIG_CRYPTO_UPGRADE => 'configUpgrade',
+            SystemEvents::CONFIG_CRYPTO_DOWNGRADE => 'configDowngrade',
         ];
     }
 
@@ -64,5 +67,19 @@ class SentryExtension implements SubscriberProvider, EventSubscriberInterface
 
         $smarty->assign('sentry', $config);
         $smarty->addHeaderTemplate('sentry');
+    }
+
+    public function configUpgrade(ConfigUpdateEvent $event): void
+    {
+        $config = $event->getConfig();
+
+        $event->encrypt($config['sentry']['key']);
+    }
+
+    public function configDowngrade(ConfigUpdateEvent $event): void
+    {
+        $config = $event->getConfig();
+
+        $event->decrypt($config['sentry']['key']);
     }
 }
