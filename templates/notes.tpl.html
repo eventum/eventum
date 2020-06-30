@@ -92,6 +92,10 @@ function replyAsEmail(el)
             <td>{$notes[i].not_created_date|timeago}</td>
             <td>
               {$notes[i].usr_full_name|escape:"html"}
+              {if $notes[i].not_usr_id && !$notes[i].not_usr_status_active}
+                <i class="user-status">({$notes[i].not_usr_status})</i>
+              {/if}
+
               {if $core.user.usr_id == $notes[i].not_usr_id OR $core.current_role >= $core.roles.manager}[ <a href="popup.php?cat=delete_note&id={$notes[i].not_id}" onClick="return deleteNote(this)">{t}delete{/t}</a> ]{/if}
             </td>
             <td>
