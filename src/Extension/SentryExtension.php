@@ -19,7 +19,6 @@ use Eventum\Extension\Provider\SubscriberProvider;
 use Eventum\Logger\LoggerTrait;
 use Eventum\ServiceContainer;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Symfony\Component\EventDispatcher\GenericEvent;
 use Template_Helper;
 
 class SentryExtension implements SubscriberProvider, EventSubscriberInterface
@@ -52,11 +51,8 @@ class SentryExtension implements SubscriberProvider, EventSubscriberInterface
         ];
     }
 
-    public function smartyProcess(GenericEvent $event): void
+    public function smartyProcess(Template_Helper $smarty): void
     {
-        /** @var Template_Helper $smarty */
-        $smarty = $event->getSubject();
-
         // dsn consists of: 'https://<key>@<organization>.ingest.sentry.io/<project>'
         $config = [
             'dsn' => sprintf('https://%s@%s/%s',

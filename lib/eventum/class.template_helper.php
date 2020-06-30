@@ -18,7 +18,6 @@ use Eventum\Event\SystemEvents;
 use Eventum\EventDispatcher\EventManager;
 use Eventum\ServiceContainer;
 use Eventum\Templating;
-use Symfony\Component\EventDispatcher\GenericEvent;
 
 /**
  * Class used to abstract the backend template system used by the site. This
@@ -212,8 +211,7 @@ class Template_Helper
         }
         $this->assign('core', $core);
 
-        $event = new GenericEvent($this);
-        EventManager::dispatch(SystemEvents::SMARTY_PROCESS, $event);
+        EventManager::dispatch(SystemEvents::SMARTY_PROCESS, $this);
 
         $this->assign('header_templates', $this->headerTemplates);
 
