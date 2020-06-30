@@ -36,7 +36,7 @@ class SentryExtension implements SubscriberProvider, EventSubscriberInterface
 
     public function getSubscribers(): array
     {
-        if ($this->config['status'] !== 'enabled') {
+        if ($this->config['status'] !== 'enabled' || !$this->config['project']) {
             return [];
         }
 
