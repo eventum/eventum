@@ -37,6 +37,11 @@ class Template_Helper
     private $debugBarEnabled = false;
 
     /**
+     * Templates to inject to header
+     */
+    private $headerTemplates = [];
+
+    /**
      * @param string $templateName
      * @throws SmartyException
      */
@@ -207,8 +212,10 @@ class Template_Helper
         }
         $this->assign('core', $core);
 
-        $event = new GenericEvent($this->smarty);
+        $event = new GenericEvent($this);
         EventManager::dispatch(SystemEvents::SMARTY_PROCESS, $event);
+
+        $this->assign('header_templates', $this->headerTemplates);
 
         $userFile = new Templating\UserFile($this->smarty, ServiceContainer::getConfig()['local_path']);
         $userFile();
@@ -218,6 +225,11 @@ class Template_Helper
         }
 
         return $this;
+    }
+
+    public function addHeaderTemplate(string $template): void
+    {
+        $this->headerTemplates[] = $template;
     }
 
     public function enableDebugBar(bool $enable): void

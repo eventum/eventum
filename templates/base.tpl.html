@@ -63,9 +63,9 @@
   {* local directory can add overrides *}
   {include file="extra_header.tpl.html"}
 
-  {if $sentry.dsn}
-    {include file="sentry.tpl.html"}
-  {/if}
+  {foreach from=$header_templates item=template}
+    {include file="$template.tpl.html"}
+  {/foreach}
 </head>
 <!--[if lt IE 7 ]> <body class="ie6 {block page_classes}{/block}" id="{$core.template_id}"> <![endif]-->
 <!--[if IE 7 ]> <body class="ie7 {block page_classes}{/block}" id="{$core.template_id}"> <![endif]-->
