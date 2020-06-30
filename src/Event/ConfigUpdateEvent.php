@@ -15,6 +15,7 @@ namespace Eventum\Event;
 
 use Eventum\Config\Config;
 use Eventum\Crypto\CryptoException;
+use Eventum\Crypto\CryptoManager;
 use Eventum\Crypto\EncryptedValue;
 use Symfony\Component\EventDispatcher\Event;
 
@@ -34,6 +35,16 @@ final class ConfigUpdateEvent extends Event
     public function getConfig(): Config
     {
         return $this->config;
+    }
+
+    /**
+     * Return true if encryption is enabled
+     *
+     * @see CryptoManager::encryptionEnabled()
+     */
+    public function hasEncryption(): bool
+    {
+        return $this->config['encryption'] === 'enabled';
     }
 
     /**

@@ -65,6 +65,13 @@ final class SystemEvents
     public const CONFIG_CRYPTO_DOWNGRADE = 'config.crypto.downgrade';
 
     /**
+     * Fired prior saving config to disk.
+     *
+     * @since 3.9.0
+     */
+    public const CONFIG_SAVE = 'config.save';
+
+    /**
      * @since 3.4.0
      * @see CommitRepository::preCommit
      */
