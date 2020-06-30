@@ -12,7 +12,6 @@
  */
 
 use Eventum\Crypto\CryptoManager;
-use Eventum\Crypto\EncryptedValue;
 use Eventum\Db\DatabaseException;
 use Eventum\Db\Doctrine;
 
@@ -86,9 +85,7 @@ class Email_Account
         $res = $account->toArray();
 
         if ($include_password) {
-            $res['ema_password'] = new EncryptedValue($res['ema_password']);
-        } else {
-            unset($res['ema_password']);
+            $res['ema_password'] = $account->getPassword();
         }
 
         return $res;
