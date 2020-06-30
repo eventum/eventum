@@ -51,6 +51,7 @@ class SentryExtension implements SubscriberProvider, EventSubscriberInterface
             SystemEvents::SMARTY_PROCESS => 'smartyProcess',
             SystemEvents::CONFIG_CRYPTO_UPGRADE => 'configUpgrade',
             SystemEvents::CONFIG_CRYPTO_DOWNGRADE => 'configDowngrade',
+            SystemEvents::CONFIG_SAVE => 'configSave',
         ];
     }
 
@@ -81,5 +82,14 @@ class SentryExtension implements SubscriberProvider, EventSubscriberInterface
         $config = $event->getConfig();
 
         $event->decrypt($config['sentry']['key']);
+    }
+
+    public function configSave(ConfigUpdateEvent $event): void
+    {
+        if ($event->hasEncryption()) {
+            $this->configUpgrade($event);
+        } else {
+            $this->configDowngrade($event);
+        }
     }
 }
