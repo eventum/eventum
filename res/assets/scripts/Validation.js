@@ -249,9 +249,9 @@ export class Validation {
     };
 
     callback(e) {
-        const f = $(e.target);
+        const $target = $(e.target);
 
-        return this.checkFormSubmission(f, $(e.target).attr('data-validation-function'))
+        return this.checkFormSubmission($target, $target.attr('data-validation-function'))
     };
 
     isDigit(c) {

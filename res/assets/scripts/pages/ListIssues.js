@@ -82,7 +82,7 @@ export default class {
         }
     }
 
-    reset_bulk_update(e) {
+    reset_bulk_update() {
         Eventum.clearSelectedOptions('users[]');
         Eventum.clearSelectedOptions('status');
         Eventum.clearSelectedOptions('release');
@@ -91,7 +91,7 @@ export default class {
         Eventum.clearSelectedOptions('closed_status');
     }
 
-    bulk_update(e) {
+    bulk_update() {
         const $form = $('#list_form');
 
         if (!Validation.hasOneChecked('item[]')) {
@@ -234,8 +234,8 @@ export default class {
     }
 
     updateCustomFields(e) {
-        const target = $(e.target);
-        const issue_id = target.parents('tr').attr('data-issue-id');
+        const $target = $(e.target);
+        const issue_id = $target.parents('tr').attr('data-issue-id');
         const features = 'width=560,height=460,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
         const customWin = window.open('custom_fields.php?issue_id=' + issue_id, '_custom_fields', features);
 

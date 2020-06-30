@@ -13,7 +13,7 @@
  * View Issue Page
  */
 export default class {
-    ready(page_id) {
+    ready() {
         const page = this;
 
         $('#toggle_time_tracking').click(function () {
@@ -222,7 +222,8 @@ export default class {
     }
 
     changeIssueStatus(e) {
-        const current_status_id = $(e.target).attr('data-status-id');
+        const $target = $(e.target);
+        const current_status_id = $target.attr('data-status-id');
         const $newStatus = $('#new_status');
         const new_status = $newStatus.val();
 
@@ -250,7 +251,8 @@ export default class {
     }
 
     upload_file(e) {
-        const issue_id = $(e.target).attr('data-issue-id');
+        const $target = $(e.target);
+        const issue_id = $target.attr('data-issue-id');
         const features = 'width=600,height=350,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
         const url = `file_upload.php?iss_id=${issue_id}`;
         const popupWin = window.open(url, 'file_upload_' + issue_id, features);
@@ -272,7 +274,8 @@ export default class {
     }
 
     delete_file(e) {
-        const iaf_id = $(e.target).attr('data-iaf-id');
+        const $target = $(e.target);
+        const iaf_id = $target.attr('data-iaf-id');
         if (!confirm('This action will permanently delete the selected file.')) {
             return false;
         }
@@ -365,9 +368,9 @@ export default class {
     }
 
     deleteTimeEntry(e) {
-        const target = $(e.target);
-        const ttr_id = target.data('ttr-id');
-        const warning_msg = target.closest('form').data('delete-warning');
+        const $target = $(e.target);
+        const ttr_id = $target.data('ttr-id');
+        const warning_msg = $target.closest('form').data('delete-warning');
         if (!confirm(warning_msg)) {
             return false;
         }
@@ -390,10 +393,10 @@ export default class {
     };
 
     editTimeEntry(e) {
-        const target = $(e.target);
+        const $target = $(e.target);
         const features = 'width=550,height=250,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
 
-        const ttr_id = target.data('ttr-id');
+        const ttr_id = $target.data('ttr-id');
         const url = `time_tracking.php?ttr_id=${ttr_id}`;
         const popupWin = window.open(url, 'time_tracking_edit_' + ttr_id, features);
 

@@ -19,7 +19,7 @@ export default class {
 
     display_product_version_howto() {
         const howto = $('#product :selected').attr('data-desc');
-        if (howto == undefined || howto == '') {
+        if (!howto) {
             $('#product_version_howto').hide();
         } else {
             $('#product_version_howto').text(howto).show();

@@ -62,8 +62,8 @@ $(document).ready(function () {
     });
 
     $('#shortcut_form').submit(function (e) {
-        var target = $("#shortcut");
-        var value = target.val().replace(/\D/g, '');
+        const target = $("#shortcut");
+        const value = target.val().replace(/\D/g, '');
         if (Validation.isWhitespace(value)) {
             alert("Please enter a valid Issue ID");
             return false;
@@ -71,13 +71,17 @@ $(document).ready(function () {
         target.val(value);
     });
 
-    $("a.help").click(Eventum.openHelp);
+    $("a.help").click(function() {
+        return Eventum.openHelp();
+    });
 
-    $("input.issue_field").blur(Validation.validateIssueNumberField);
+    $("input.issue_field").blur(function() {
+        Validation.validateIssueNumberField();
+    });
 
     // % complete progressbar
     $("div.iss_percent_complete").each(function () {
-        var $e = $(this);
+        const $e = $(this);
         $e.progressbar({value: $e.data("percent")});
     });
 
