@@ -110,6 +110,7 @@ class GeneralController extends ManageBaseController
             ), MessagesHelper::MSG_NOTE_BOX],
         ];
         $this->messages->mapMessages($res, $map);
+        $this->redirect('general.php');
     }
 
     /**
