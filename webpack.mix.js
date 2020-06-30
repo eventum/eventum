@@ -112,6 +112,10 @@ mix.scripts([
     'node_modules/cmd-ctrl-enter/src/cmd-ctrl-enter.js',
 ], 'htdocs/js/components.js');
 
+mix.scripts([
+    'node_modules/raven-js/dist/raven.min.js',
+], 'htdocs/js/raven.js');
+
 mix.styles([
     'node_modules/datatables/media/css/jquery.dataTables.css',
 ], 'htdocs/css/datatables.css');

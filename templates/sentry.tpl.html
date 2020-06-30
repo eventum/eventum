@@ -1,6 +1,5 @@
-<script src="https://cdn.ravenjs.com/3.26.2/raven.min.js" crossorigin="anonymous"></script>
-
 {block "javascripts" append}
+<script type="text/javascript" src="{asset path='js/raven.js'}"></script>
 <script type="text/javascript">
   Raven.config('{$sentry.dsn}', {
     release: 'eventum@{$core.app_version}',
