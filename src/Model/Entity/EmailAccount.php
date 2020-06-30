@@ -14,6 +14,8 @@
 namespace Eventum\Model\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Eventum\Crypto\CryptoManager;
+use Eventum\Crypto\EncryptedValue;
 
 /**
  * @ORM\Table(name="email_account", uniqueConstraints={@ORM\UniqueConstraint(name="ema_username", columns={"ema_username", "ema_hostname", "ema_folder"})}, indexes={@ORM\Index(name="ema_prj_id", columns={"ema_prj_id"})})
@@ -182,14 +184,14 @@ class EmailAccount
 
     public function setPassword(string $password): self
     {
-        $this->password = $password;
+        $this->password = CryptoManager::encrypt($password);
 
         return $this;
     }
 
-    public function getPassword(): string
+    public function getPassword(): EncryptedValue
     {
-        return $this->password;
+        return new EncryptedValue($this->password);
     }
 
     public function setOnlyNew(bool $onlyNew): self
@@ -262,7 +264,6 @@ class EmailAccount
             'ema_hostname' => $this->getHostname(),
             'ema_port' => $this->getPort(),
             'ema_username' => $this->getUsername(),
-            'ema_password' => $this->getPassword(),
             'ema_get_only_new' => $this->getOnlyNew(),
             'ema_leave_copy' => $this->getLeaveCopy(),
             'ema_issue_auto_creation' => $this->hasIssueAutoCreationEnabled() ? 'enabled' : 'disabled',

@@ -18,6 +18,7 @@ use Eventum\Crypto\EncryptedValue;
 use Eventum\Db\Doctrine;
 use Eventum\Event\ConfigUpdateEvent;
 use Eventum\Event\SystemEvents;
+use Eventum\Model\Entity;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class CryptoSubscriber implements EventSubscriberInterface
@@ -83,6 +84,9 @@ class CryptoSubscriber implements EventSubscriberInterface
         $config['encryption'] = $state;
     }
 
+    /**
+     * @return Entity\EmailAccount[]
+     */
     private function getEmailAccounts(): array
     {
         return Doctrine::getEmailAccountRepository()->findAll();
