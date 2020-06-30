@@ -391,6 +391,10 @@ class Setup
                 'status' => 'enabled',
             ],
 
+            'sentry' => [
+                'status' => 'enabled',
+            ],
+
             'handle_clock_in' => 'enabled',
 
             // default expiry: 5 minutes
