@@ -82,13 +82,17 @@ class GeneralController extends ManageBaseController
             'relative_date' => $post->get('relative_date'),
             'markdown' => $post->get('markdown'),
             'audit_trail' => $post->get('audit_trail'),
+            'sentry' => [
+                'status' => $post->get('sentry'),
+            ],
         ];
         $res = Setup::save($setup);
 
-        // enable/disable features that have been moved to extensions
+        // enable/disable features that are controlled by extensions
         $register = new RegisterExtension();
         $register->enable(Extension\AuditTrailExtension::class, $setup['audit_trail'] === 'enabled');
         $register->enable(Extension\IrcNotifyExtension::class, $setup['irc_notification'] === 'enabled');
+        $register->enable(Extension\SentryExtension::class, $setup['sentry']['status'] === 'enabled');
 
         $this->tpl->assign('result', $res);
 
