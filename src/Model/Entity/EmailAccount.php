@@ -14,6 +14,7 @@
 namespace Eventum\Model\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Eventum\Crypto\CryptoManager;
 use Eventum\Crypto\EncryptedValue;
 
 /**
@@ -183,7 +184,7 @@ class EmailAccount
 
     public function setPassword(string $password): self
     {
-        $this->password = $password;
+        $this->password = CryptoManager::encrypt($password);
 
         return $this;
     }

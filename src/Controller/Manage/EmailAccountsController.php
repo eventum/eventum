@@ -14,7 +14,6 @@
 namespace Eventum\Controller\Manage;
 
 use Email_Account;
-use Eventum\Crypto\CryptoManager;
 use Eventum\Db\DatabaseException;
 use Eventum\Db\Doctrine;
 use Eventum\Model\Entity;
@@ -149,7 +148,7 @@ class EmailAccountsController extends ManageBaseController
 
         // password is not updated, if left empty
         if ($post->get('password')) {
-            $account->setPassword(CryptoManager::encrypt($post->get('password')));
+            $account->setPassword($post->get('password'));
         }
 
         // if an account will be used for routing, you can't leave the message on the server
