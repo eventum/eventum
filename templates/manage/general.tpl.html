@@ -743,21 +743,7 @@ $().ready(function() {
             </td>
           </tr>
 
-          <tr>
-            <th width="120">
-              {t}Sentry Monitoring{/t}
-            </th>
-            <td>
-              <label>
-                <input type="radio" name="sentry" value="enabled" {if $setup.sentry.status == 'enabled'}checked{/if}>
-                {t}Enabled{/t}
-              </label>
-              <label>
-                <input type="radio" name="sentry" value="disabled" {if $setup.sentry.status != 'enabled'}checked{/if}>
-                {t}Disabled{/t}
-              </label>
-            </td>
-          </tr>
+          {include file="manage/general/sentry.tpl.html"}
 
           <tr>
             <th width="120">
