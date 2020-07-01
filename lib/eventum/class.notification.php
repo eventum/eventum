@@ -13,6 +13,7 @@
 
 use Eventum\Attachment\AttachmentManager;
 use Eventum\Db\DatabaseException;
+use Eventum\Db\Doctrine;
 use Eventum\Diff\Differ;
 use Eventum\Event\SystemEvents;
 use Eventum\EventDispatcher\EventManager;
@@ -1707,15 +1708,17 @@ class Notification
                     `subscription`
                  WHERE
                     sub_iss_id=?';
-        try {
-            $res = DB_Helper::getInstance()->getAll($stmt, [$issue_id]);
-        } catch (DatabaseException $e) {
-            return '';
-        }
 
+        $res = DB_Helper::getInstance()->getAll($stmt, [$issue_id]);
+
+        $userRepo = Doctrine::getUserRepository();
         foreach ($res as &$row) {
-            if ($row['sub_usr_id'] != 0) {
+            if ($row['sub_usr_id']) {
                 $row['sub_email'] = User::getFromHeader($row['sub_usr_id']);
+
+                $user = $userRepo->findById($row['sub_usr_id']);
+                $row['sub_usr_status'] = $user->getStatus();
+                $row['sub_usr_status_active'] = $user->isActive();
             }
 
             // need to get the list of subscribed actions now

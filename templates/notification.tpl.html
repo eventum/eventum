@@ -120,6 +120,9 @@
             <td width="4" nowrap><input type="checkbox" name="items[]" value="{$list[i].sub_id}"></td>
             <td width="60%">
               <a href="{$core.rel_url}notification.php?cat=edit&iss_id={$list[i].sub_iss_id}&id={$list[i].sub_id}" title="{t}update this entry{/t}">{$list[i].sub_email|escape:"html"}</a>
+              {if $list[i].sub_usr_id && !$list[i].sub_usr_status_active}
+                <i class="user-status">({$list[i].sub_usr_status})</i>
+              {/if}
             </td>
             <td width="40%">
               {$list[i].actions}

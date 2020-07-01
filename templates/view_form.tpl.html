@@ -71,6 +71,9 @@
                             {$row.data|escape:"html"}
                         {elseif $row.field|default:'' == 'reporter'}
                             <a href="list.php?reporter={$issue.iss_usr_id}&hide_closed=1">{$issue.reporter|escape:html}</a>
+                            {if !$issue.reporter_status_active}
+                              <i class="user-status">({$issue.reporter_status})</i>
+                            {/if}
                         {elseif $row.field|default:'' == 'product'}
                             {if $issue.products|@count > 0}
                                 {$issue.products[0].product}

@@ -13,6 +13,7 @@
 
 use Eventum\Attachment\AttachmentManager;
 use Eventum\Db\DatabaseException;
+use Eventum\Db\Doctrine;
 use Eventum\Mail\MailMessage;
 
 /**
@@ -477,11 +478,9 @@ class Note
                     not_removed = 0
                  ORDER BY
                     not_created_date ASC';
-        try {
-            $res = DB_Helper::getInstance()->getAll($stmt, [$issue_id]);
-        } catch (DatabaseException $e) {
-            return '';
-        }
+
+        $res = DB_Helper::getInstance()->getAll($stmt, [$issue_id]);
+        $userRepo = Doctrine::getUserRepository();
 
         // only show the internal notes for users with the appropriate permission level
         $role_id = Auth::getCurrentRole();
@@ -496,6 +495,12 @@ class Note
             // This is so the original sender of a blocked email is displayed on the note.
             if (!empty($row['not_unknown_user'])) {
                 $row['usr_full_name'] = $row['not_unknown_user'];
+            }
+
+            if ($row['not_usr_id']) {
+                $user = $userRepo->findById($row['not_usr_id']);
+                $row['not_usr_status'] = $user->getStatus();
+                $row['not_usr_status_active'] = $user->isActive();
             }
 
             $t[] = $row;
