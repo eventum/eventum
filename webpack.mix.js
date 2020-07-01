@@ -128,17 +128,7 @@ mix.scripts([
     'res/assets/scripts/dynamic_custom_field.js',
 ], 'htdocs/js/dynamic_custom_field.js');
 
-mix.version([
-    'htdocs/css/app.css',
-    'htdocs/css/components.css',
-    'htdocs/css/datatables.css',
-    'htdocs/css/jquery-ui.css',
-    'htdocs/js/app.js',
-    'htdocs/js/components.js',
-    'htdocs/js/datatables.js',
-    'htdocs/js/jquery-ui.js',
-    'htdocs/js/dynamic_custom_field.js',
-]);
+mix.version();
 
 if (mix.inProduction()) {
     mix.disableNotifications();
