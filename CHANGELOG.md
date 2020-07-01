@@ -1,6 +1,6 @@
 # Eventum Issue Tracking System
 
-## [3.9.0]
+## [3.9.0] - 2020-07-01
 
 See [Upgrading] for details how to upgrade.
 
@@ -18,7 +18,7 @@ See [Upgrading] for details how to upgrade.
 - Add support for Sentry JavaScript monitoring, #882
 - Show user inactive status, #880
 
-[3.9.0]: https://github.com/eventum/eventum/compare/v3.9.0...master
+[3.9.0]: https://github.com/eventum/eventum/compare/v3.9.0...v3.9.0
 
 ## [3.8.17] - 2020-06-20
 
