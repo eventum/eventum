@@ -1,0 +1,14 @@
+{block "javascripts" append}
+<script type="text/javascript" src="{asset path='js/raven.js'}"></script>
+<script type="text/javascript">
+  Raven.config('{$sentry.dsn}', {
+    release: 'eventum@{$core.app_version}',
+  }).install()
+
+  Raven.setUserContext({
+    name: '{$core.user.usr_full_name|escape:quotes}',
+    email: '{$core.user.usr_email|escape:quotes}',
+    id: {$core.user.usr_id},
+  })
+</script>
+{/block}

@@ -14,6 +14,9 @@
 use Eventum\Config\Config;
 use Eventum\Config\ConfigPersistence;
 use Eventum\Config\Paths;
+use Eventum\Event\ConfigUpdateEvent;
+use Eventum\Event\SystemEvents;
+use Eventum\EventDispatcher\EventManager;
 use Eventum\Monolog\Logger;
 use Eventum\ServiceContainer;
 use Symfony\Component\Filesystem\Exception\IOException;
@@ -250,6 +253,10 @@ class Setup
     public static function save($options = [])
     {
         $config = self::set($options);
+
+        $event = new ConfigUpdateEvent($config);
+        EventManager::dispatch(SystemEvents::CONFIG_SAVE, $event);
+
         try {
             self::saveConfig(self::getSetupFile(), $config);
         } catch (Exception $e) {
@@ -389,6 +396,14 @@ class Setup
             'xhgui_profiler' => [
                 // https://github.com/eventum/eventum/pull/519
                 'status' => 'enabled',
+            ],
+
+            'sentry' => [
+                'status' => 'enabled',
+                // dsn consists of: 'https://<key>@<domain>/<project>'
+                'key' => '',
+                'project' => '',
+                'domain' => '',
             ],
 
             'handle_clock_in' => 'enabled',

@@ -153,6 +153,20 @@
       Eventum.getField('email_routing[warning][status]').attr('disabled', bool).css('backgroundColor', bgcolor);
       Eventum.getField('email_routing[warning][status]').attr('disabled', bool).css('backgroundColor', bgcolor);
   }
+
+  function toggleSentryFields()
+  {
+      var bool = !Eventum.getField('sentry[status]').first().is(':checked');
+      if (bool) {
+          var bgcolor = '#CCCCCC';
+      } else {
+          var bgcolor = '#FFFFFF';
+      }
+      Eventum.getField('sentry[key]').attr('disabled', bool).css('backgroundColor', bgcolor);
+      Eventum.getField('sentry[project]').attr('disabled', bool).css('backgroundColor', bgcolor);
+      Eventum.getField('sentry[domain]').attr('disabled', bool).css('backgroundColor', bgcolor);
+  }
+
   function toggleNoteRoutingFields()
   {
       var bool = !Eventum.getField('note_routing[status]').first().is(':checked');
@@ -207,6 +221,7 @@ $().ready(function() {
     Eventum.getField('email_reminder[status]').change(toggleReminderEmailFields);
     Eventum.getField('email_error[status]').change(toggleErrorEmailFields);
     Eventum.getField('smtp[save_outgoing_email]').change(checkDebugField);
+    Eventum.getField('sentry[status]').change(toggleSentryFields);
 
     toggleAuthFields();
     checkDebugField();
@@ -217,6 +232,7 @@ $().ready(function() {
     toggleSubjectBasedRouting();
     toggleReminderEmailFields();
     toggleErrorEmailFields();
+    toggleSentryFields();
 });
   //-->
   </script>
@@ -742,6 +758,9 @@ $().ready(function() {
                 </div>
             </td>
           </tr>
+
+          {include file="manage/general/sentry.tpl.html"}
+
           <tr>
             <th width="120">
               {t}Default Options for Notifications{/t}

@@ -1,0 +1,50 @@
+<tr>
+  <th width="120">
+    {t}Sentry Monitoring{/t}
+  </th>
+  <td>
+    <table>
+      <tr>
+        <td colspan="2">
+          <label>
+            <input type="radio" name="sentry[status]" value="enabled" {if $setup.sentry.status == 'enabled'}checked{/if}>
+            {t}Enabled{/t}
+          </label>
+          <label>
+            <input type="radio" name="sentry[status]" value="disabled" {if $setup.sentry.status != 'enabled'}checked{/if}>
+            {t}Disabled{/t}
+          </label>
+        </td>
+      </tr>
+
+      <tr>
+        <td width="10%" align="right" nowrap>
+          {t}Sentry key{/t}
+        </td>
+        <td width="90%">
+          <input type="text" name="sentry[key]" value="{$setup.sentry.key}" size="40" maxlength="32">
+          <span>{t escape=no 1="'https://<strong>1ba03f57b85fd4e568833e922c609770</strong>@sentry.io/42"}(e.g. %1){/t}</span>
+        </td>
+      </tr>
+      <tr>
+        <td width="10%" align="right" nowrap>
+          {t}Sentry Domain{/t}
+        </td>
+        <td width="90%">
+          <input type="text" name="sentry[domain]" value="{$setup.sentry.domain}" size="40">
+          <span>{t escape=no 1="'https://1ba03f57b85fd4e568833e922c609770@<strong>sentry.io</strong>/42"}(e.g. %1){/t}</span>
+        </td>
+      </tr>
+      <tr>
+        <td width="10%" align="right" nowrap>
+          {t}Sentry project{/t}
+        </td>
+        <td width="90%">
+          <input type="text" name="sentry[project]" value="{$setup.sentry.project}" size="40">
+          <span>{t escape=no 1="'https://1ba03f57b85fd4e568833e922c609770@sentry.io/<strong>42</strong>"}(e.g. %1){/t}</span>
+        </td>
+      </tr>
+
+    </table>
+  </td>
+</tr>

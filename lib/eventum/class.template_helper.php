@@ -14,6 +14,8 @@
 use Eventum\AppInfo;
 use Eventum\Config\Paths;
 use Eventum\DebugBarManager;
+use Eventum\Event\SystemEvents;
+use Eventum\EventDispatcher\EventManager;
 use Eventum\ServiceContainer;
 use Eventum\Templating;
 
@@ -32,6 +34,11 @@ class Template_Helper
     private $tpl_name;
     /** @var bool */
     private $debugBarEnabled = false;
+
+    /**
+     * Templates to inject to header
+     */
+    private $headerTemplates = [];
 
     /**
      * @param string $templateName
@@ -204,6 +211,10 @@ class Template_Helper
         }
         $this->assign('core', $core);
 
+        EventManager::dispatch(SystemEvents::SMARTY_PROCESS, $this);
+
+        $this->assign('header_templates', $this->headerTemplates);
+
         $userFile = new Templating\UserFile($this->smarty, ServiceContainer::getConfig()['local_path']);
         $userFile();
 
@@ -212,6 +223,11 @@ class Template_Helper
         }
 
         return $this;
+    }
+
+    public function addHeaderTemplate(string $template): void
+    {
+        $this->headerTemplates[] = $template;
     }
 
     public function enableDebugBar(bool $enable): void
