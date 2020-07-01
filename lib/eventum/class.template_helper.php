@@ -13,7 +13,6 @@
 
 use Eventum\AppInfo;
 use Eventum\Config\Paths;
-use Eventum\DebugBarManager;
 use Eventum\Event\SystemEvents;
 use Eventum\EventDispatcher\EventManager;
 use Eventum\ServiceContainer;
@@ -32,6 +31,8 @@ class Template_Helper
 
     /** @var string */
     private $tpl_name;
+    /** @var int */
+    private $role_id;
     /** @var bool */
     private $debugBarEnabled = false;
 
@@ -165,7 +166,7 @@ class Template_Helper
             $core['user'] = User::getDetails($usr_id);
             $prj_id = Auth::getCurrentProject();
             if (!empty($prj_id)) {
-                $role_id = User::getRoleByUser($usr_id, $prj_id);
+                $this->role_id = $role_id = User::getRoleByUser($usr_id, $prj_id);
                 $has_crm = CRM::hasCustomerIntegration($prj_id);
                 $core += [
                     'project_id' => $prj_id,
@@ -218,10 +219,6 @@ class Template_Helper
         $userFile = new Templating\UserFile($this->smarty, ServiceContainer::getConfig()['local_path']);
         $userFile();
 
-        if ($this->debugBarEnabled && isset($role_id) && $role_id >= User::ROLE_ADMINISTRATOR) {
-            DebugBarManager::getDebugBarManager()->registerSmarty($this->smarty);
-        }
-
         return $this;
     }
 
@@ -233,5 +230,19 @@ class Template_Helper
     public function enableDebugBar(bool $enable): void
     {
         $this->debugBarEnabled = $enable;
+    }
+
+    public function getSmarty(): Smarty
+    {
+        return $this->smarty;
+    }
+
+    public function isDebugbarEnabled(): bool
+    {
+        if (!isset($this->role_id) || $this->role_id < User::ROLE_ADMINISTRATOR) {
+            return false;
+        }
+
+        return $this->debugBarEnabled;
     }
 }
