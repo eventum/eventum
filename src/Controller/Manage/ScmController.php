@@ -64,11 +64,13 @@ class ScmController extends ManageBaseController
             1 => [ev_gettext('Thank you, the setup information was saved successfully.'), MessagesHelper::MSG_INFO],
             -1 => [ev_gettext(
                 "ERROR: The system doesn't have the appropriate permissions to create the configuration file in the setup directory (%1\$s). " .
-                'Please contact your local system administrator and ask for write privileges on the provided path.', $configPath
+                'Please contact your local system administrator and ask for write privileges on the provided path.',
+                $configPath
             ), MessagesHelper::MSG_NOTE_BOX],
             -2 => [ev_gettext(
                 "ERROR: The system doesn't have the appropriate permissions to update the configuration file in the setup directory (%1\$s). " .
-                'Please contact your local system administrator and ask for write privileges on the provided filename.', $setupFile
+                'Please contact your local system administrator and ask for write privileges on the provided filename.',
+                $setupFile
             ), MessagesHelper::MSG_NOTE_BOX],
         ];
         $this->messages->mapMessages($res, $map);

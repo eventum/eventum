@@ -82,7 +82,13 @@ class GraphController extends ReportBaseController
         $type = $get->get('type');
 
         return $this->plot->CustomFieldGraph(
-            $type, $custom_field, $custom_options, $group_by, $start_date, $end_date, $interval
+            $type,
+            $custom_field,
+            $custom_options,
+            $group_by,
+            $start_date,
+            $end_date,
+            $interval
         );
     }
 

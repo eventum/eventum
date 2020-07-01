@@ -124,7 +124,11 @@ class CustomFieldsWeeklyController extends ReportBaseController
             }
 
             $data = Report::getCustomFieldWeeklyReport(
-                $this->custom_field, $this->custom_options, $dates[0], $dates[1], $this->per_user
+                $this->custom_field,
+                $this->custom_options,
+                $dates[0],
+                $dates[1],
+                $this->per_user
             );
             $this->tpl->assign(
                 [

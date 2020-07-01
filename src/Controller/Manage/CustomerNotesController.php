@@ -91,7 +91,8 @@ class CustomerNotesController extends ManageBaseController
 
         $res = CRM::updateNote($post->get('id'), $post->get('project'), $post->get('customer'), $post->get('note'));
         $this->messages->mapMessages(
-            $res, [
+            $res,
+            [
                 1 => [ev_gettext('Thank you, the note was updated successfully.'), MessagesHelper::MSG_INFO],
                 -1 => [ev_gettext('An error occurred while trying to update the note.'), MessagesHelper::MSG_ERROR],
             ]

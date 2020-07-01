@@ -81,7 +81,8 @@ class WorkloadDateRangeController extends ReportBaseController
 
         if ($this->interval) {
             $data = Report::getWorkloadByDateRange(
-                $this->interval, $this->type,
+                $this->interval,
+                $this->type,
                 $start_date,
                 date('Y-m-d', strtotime($end_date) + Date_Helper::DAY),
                 $this->category

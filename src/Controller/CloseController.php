@@ -131,8 +131,13 @@ class CloseController extends BaseController
         Custom_Field::updateFromPost();
         $usr_id = Auth::getUserID();
         $res = Issue::close(
-            $usr_id, $this->issue_id, $request->get('send_notification'), $request->get('resolution'),
-            $request->get('status'), $request->get('reason'), $request->get('notification_list')
+            $usr_id,
+            $this->issue_id,
+            $request->get('send_notification'),
+            $request->get('resolution'),
+            $request->get('status'),
+            $request->get('reason'),
+            $request->get('notification_list')
         );
 
         if ($post->get('time_spent')) {

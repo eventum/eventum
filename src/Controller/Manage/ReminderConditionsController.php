@@ -177,7 +177,8 @@ class ReminderConditionsController extends ManageBaseController
 
             if ($this->cat != 'edit') {
                 $this->tpl->assign(
-                    'info', [
+                    'info',
+                    [
                         'rlc_rmf_id' => $this->field,
                         'rlc_rmo_id' => '',
                         'rlc_value' => '',

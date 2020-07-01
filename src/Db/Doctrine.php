@@ -104,9 +104,12 @@ class Doctrine
             return null;
         }
 
-        return sprintf('mysql://%s:%s@%s:%d/%s',
-            $config['username'], $config['password'],
-            $config['hostname'], $config['port'],
+        return sprintf(
+            'mysql://%s:%s@%s:%d/%s',
+            $config['username'],
+            $config['password'],
+            $config['hostname'],
+            $config['port'],
             $config['database']
         );
     }

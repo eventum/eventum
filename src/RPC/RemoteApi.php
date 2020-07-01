@@ -1268,11 +1268,16 @@ class RemoteApi
         }
 
         // record history entry
-        History::add($issue_id, $usr_id, 'remote_status_change',
-            "Status remotely changed to '{status}' by {user}", [
+        History::add(
+            $issue_id,
+            $usr_id,
+            'remote_status_change',
+            "Status remotely changed to '{status}' by {user}",
+            [
             'status' => $new_status,
             'user' => User::getFullName($usr_id),
-        ]);
+        ]
+        );
     }
 
     /**

@@ -97,7 +97,12 @@ class StalledIssuesController extends ReportBaseController
         $after = $this->after ?: date('Y-m-d', $now - Date_Helper::YEAR);
 
         $data = Report::getStalledIssuesByUser(
-            $this->prj_id, $this->developers, $this->status, $before, $after, $this->sort_order
+            $this->prj_id,
+            $this->developers,
+            $this->status,
+            $before,
+            $after,
+            $this->sort_order
         );
 
         $this->tpl->assign(

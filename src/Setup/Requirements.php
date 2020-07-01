@@ -77,7 +77,8 @@ class Requirements
             $errors[] = $error;
         }
         $error = $this->checkPermissions(
-            $configPath . '/private_key.php', "File '" . $configPath . '/private_key.php' . "'"
+            $configPath . '/private_key.php',
+            "File '" . $configPath . '/private_key.php' . "'"
         );
         if (!empty($error)) {
             $errors[] = $error;

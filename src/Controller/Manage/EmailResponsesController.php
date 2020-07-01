@@ -61,7 +61,9 @@ class EmailResponsesController extends ManageBaseController
             -1 => [ev_gettext('An error occurred while trying to add the new email response.'), MessagesHelper::MSG_INFO],
             -2 => [ev_gettext('Please enter the title for this new issue resolution.'), MessagesHelper::MSG_ERROR],
         ];
-        $this->messages->mapMessages($res, $map
+        $this->messages->mapMessages(
+            $res,
+            $map
         );
     }
 

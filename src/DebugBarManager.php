@@ -155,14 +155,16 @@ class DebugBarManager
         );
 
         $renderer->addControl(
-            'Smarty', [
+            'Smarty',
+            [
                 'widget' => 'PhpDebugBar.Widgets.VariableListWidget',
                 'map' => 'Smarty',
                 'default' => '[]',
             ]
         );
         $renderer->addControl(
-            'Config', [
+            'Config',
+            [
                 'widget' => 'PhpDebugBar.Widgets.VariableListWidget',
                 'map' => 'Config',
                 'default' => '[]',

@@ -115,7 +115,11 @@ class IssueAssociationRepository extends EntityRepository
         $em->flush();
 
         History::add(
-            $issue_id, $usr_id, 'issue_associated', 'Issue associated to Issue #{associated_id} by {user}', [
+            $issue_id,
+            $usr_id,
+            'issue_associated',
+            'Issue associated to Issue #{associated_id} by {user}',
+            [
                 'associated_id' => $associated_issue_id,
                 'user' => User::getFullName($usr_id),
             ]
@@ -152,8 +156,11 @@ class IssueAssociationRepository extends EntityRepository
                 'user' => $full_name,
             ];
             History::add(
-                $issue_id, $usr_id, 'issue_unassociated',
-                'Issue association to Issue #{issue_id} removed by {user}', $params
+                $issue_id,
+                $usr_id,
+                'issue_unassociated',
+                'Issue association to Issue #{issue_id} removed by {user}',
+                $params
             );
         }
     }
@@ -266,7 +273,8 @@ class IssueAssociationRepository extends EntityRepository
     private function getInvalidIssueError($issue_id)
     {
         return ev_gettext(
-            '"%s" was not valid Issue Id and was removed.', $issue_id
+            '"%s" was not valid Issue Id and was removed.',
+            $issue_id
         );
     }
 
@@ -277,7 +285,8 @@ class IssueAssociationRepository extends EntityRepository
     private function getIssueRemovedError($issue_id)
     {
         return ev_gettext(
-            'Issue #%s does not exist and was removed from the list of associated issues.', $issue_id
+            'Issue #%s does not exist and was removed from the list of associated issues.',
+            $issue_id
         );
     }
 }

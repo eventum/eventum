@@ -86,7 +86,10 @@ class MainController extends BaseController
 
             Auth::setCookie($cookie_name, $hide_closed, time() + Date_Helper::YEAR);
             Search_Profile::save(
-                $this->usr_id, $this->prj_id, 'stats', ['hide_closed' => $hide_closed]
+                $this->usr_id,
+                $this->prj_id,
+                'stats',
+                ['hide_closed' => $hide_closed]
             );
         }
 

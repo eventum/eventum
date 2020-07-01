@@ -255,7 +255,8 @@ class PreferencesController extends BaseController
         $upr = $this->repo->findOrCreate($this->usr_id);
         $projects = Project::getAssocList($this->usr_id, false, true);
 
-        $this->tpl->assign([
+        $this->tpl->assign(
+            [
                 'timezone' => $upr->getTimezone(),
                 'relative_date' => $this->html->radioYesNoButtons($upr->useRelativeDate()),
                 'collapsed_emails' => $this->html->radioYesNoButtons($upr->collapsedEmails()),

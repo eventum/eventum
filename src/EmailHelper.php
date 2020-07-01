@@ -55,7 +55,8 @@ class EmailHelper
                 }
 
                 return Link_Filter::markdownFormat((string)$fragment);
-            }, $email->getFragments()
+            },
+            $email->getFragments()
         );
         $text = rtrim(implode("\n", $blocks));
 

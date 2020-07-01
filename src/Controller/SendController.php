@@ -198,8 +198,11 @@ class SendController extends BaseController
             if ($res == 1) {
                 $status_title = Status::getStatusTitle($new_status);
                 History::add(
-                    $this->issue_id, $this->usr_id, 'status_changed',
-                    "Status changed to '{status}' by {user} when sending an email", [
+                    $this->issue_id,
+                    $this->usr_id,
+                    'status_changed',
+                    "Status changed to '{status}' by {user} when sending an email",
+                    [
                         'status' => $status_title,
                         'user' => User::getFullName($this->usr_id),
                     ]
@@ -226,7 +229,10 @@ class SendController extends BaseController
 
         $res = Draft::saveEmail(
             $this->issue_id,
-            $post->get('to'), $post->get('cc'), Mail_Helper::cleanSubject($post->get('subject')), $post->get('message'),
+            $post->get('to'),
+            $post->get('cc'),
+            Mail_Helper::cleanSubject($post->get('subject')),
+            $post->get('message'),
             $post->get('parent_id')
         );
         $this->tpl->assign('draft_result', $res);
@@ -240,7 +246,11 @@ class SendController extends BaseController
         $post = $this->getRequest()->request;
         $res = Draft::update(
             $this->issue_id,
-            $post->get('draft_id'), $post->get('to'), $post->get('cc'), $post->get('subject'), $post->get('message'),
+            $post->get('draft_id'),
+            $post->get('to'),
+            $post->get('cc'),
+            $post->get('subject'),
+            $post->get('message'),
             $post->get('parent_id')
         );
         $this->tpl->assign('draft_result', $res);

@@ -55,7 +55,8 @@ class RoutingException extends Exception
     public static function noIssuePermission($issue_id)
     {
         $message = ev_gettext(
-            'Error: The sender of this email is not allowed in the project associated with issue #%d.', $issue_id
+            'Error: The sender of this email is not allowed in the project associated with issue #%d.',
+            $issue_id
         );
 
         return new self($message, self::EX_NOPERM);

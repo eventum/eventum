@@ -62,8 +62,11 @@ class ProductsController extends ManageBaseController
         $post = $this->getRequest()->request;
 
         $res = Product::insert(
-            $post->get('title'), $post->get('version_howto'), $post->get('rank'),
-            $post->get('removed'), $post->get('email')
+            $post->get('title'),
+            $post->get('version_howto'),
+            $post->get('rank'),
+            $post->get('removed'),
+            $post->get('email')
         );
         $map = [
             1 => ['Thank you, the product was added successfully.', MessagesHelper::MSG_INFO],
@@ -77,8 +80,12 @@ class ProductsController extends ManageBaseController
         $post = $this->getRequest()->request;
 
         $res = Product::update(
-            $post->get('id'), $post->get('title'), $post->get('version_howto'),
-            $post->get('rank'), $post->get('removed'), $post->get('email')
+            $post->get('id'),
+            $post->get('title'),
+            $post->get('version_howto'),
+            $post->get('rank'),
+            $post->get('removed'),
+            $post->get('email')
         );
         $map = [
             1 => ['Thank you, the product was updated successfully.', MessagesHelper::MSG_INFO],

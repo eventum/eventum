@@ -73,7 +73,11 @@ class CommitRepository extends EntityRepository
         // need to save a history entry for this
         // TRANSLATORS: %1: scm username
         History::add(
-            $issue_id, $usr_id, 'scm_checkin_associated', "SCM Checkins associated by SCM user '{user}'", [
+            $issue_id,
+            $usr_id,
+            'scm_checkin_associated',
+            "SCM Checkins associated by SCM user '{user}'",
+            [
                 'user' => $commit->getAuthor(),
             ]
         );

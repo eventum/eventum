@@ -201,7 +201,8 @@ class PostNoteController extends BaseController
         }
 
         $this->redirect(
-            'post_note.php', [
+            'post_note.php',
+            [
                 'cat' => 'post_result',
                 'issue_id' => $this->issue_id,
                 'post_result' => $res,
@@ -222,8 +223,11 @@ class PostNoteController extends BaseController
 
         $status_title = Status::getStatusTitle($status);
         History::add(
-            $this->issue_id, $this->usr_id, 'status_changed',
-            "Status changed to '{status}' by {user} when sending a note", [
+            $this->issue_id,
+            $this->usr_id,
+            'status_changed',
+            "Status changed to '{status}' by {user} when sending a note",
+            [
                 'status' => $status_title,
                 'user' => User::getFullName($this->usr_id),
             ]

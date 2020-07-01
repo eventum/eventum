@@ -226,7 +226,8 @@ class MonitorCommand extends SymfonyCommand
         if ($free_percentage < $high_limit) {
             $this->error(
                 ev_gettext(
-                    'ERROR: Free disk space left is getting very low (percentage left: %.2f%%)', $free_percentage
+                    'ERROR: Free disk space left is getting very low (percentage left: %.2f%%)',
+                    $free_percentage
                 )
             );
 
@@ -252,15 +253,19 @@ class MonitorCommand extends SymfonyCommand
             [$owner, $group] = self::getOwnerAndGroup($file_path);
             if (!empty($options['check_owner']) && $options['owner'] != $owner) {
                 $message = ev_gettext(
-                    'ERROR: File owner mismatch (path: %1$s; current owner: %2$s; correct owner: %3$s)', $file_path,
-                    $owner, $options['owner']
+                    'ERROR: File owner mismatch (path: %1$s; current owner: %2$s; correct owner: %3$s)',
+                    $file_path,
+                    $owner,
+                    $options['owner']
                 );
                 $this->error($message);
             }
             if (!empty($options['check_group']) && $options['group'] != $group) {
                 $message = ev_gettext(
-                    'ERROR: File group mismatch (path: %1$s; current group: %2$s; correct group: %3$s)', $file_path,
-                    $group, $options['group']
+                    'ERROR: File group mismatch (path: %1$s; current group: %2$s; correct group: %3$s)',
+                    $file_path,
+                    $group,
+                    $options['group']
                 );
                 $this->error($message);
             }
@@ -268,8 +273,10 @@ class MonitorCommand extends SymfonyCommand
             $perm = self::getOctalPerms($file_path);
             if (!empty($options['check_permission']) && $options['permission'] != $perm) {
                 $message = ev_gettext(
-                    'ERROR: File permission mismatch (path: %1$s; current perm: %2$s; correct perm: %3$s)', $file_path,
-                    $perm, $options['permission']
+                    'ERROR: File permission mismatch (path: %1$s; current perm: %2$s; correct perm: %3$s)',
+                    $file_path,
+                    $perm,
+                    $options['permission']
                 );
                 $this->error($message);
             }
@@ -277,7 +284,9 @@ class MonitorCommand extends SymfonyCommand
             // check filesize
             if (!empty($options['check_filesize']) && filesize($file_path) < $options['filesize']) {
                 $message = ev_gettext(
-                    'ERROR: File size mismatch (path: %1$s; current filesize: %2$s)', $file_path, filesize($file_path)
+                    'ERROR: File size mismatch (path: %1$s; current filesize: %2$s)',
+                    $file_path,
+                    filesize($file_path)
                 );
                 $this->error($message);
             }
@@ -303,7 +312,9 @@ class MonitorCommand extends SymfonyCommand
                 $this->error(
                     ev_gettext(
                         'ERROR: Directory permission mismatch (path: %1$s; current perm: %2$s; correct perm: %3$s)',
-                        $dir_path, $perm, $options['permission']
+                        $dir_path,
+                        $perm,
+                        $options['permission']
                     )
                 );
             }

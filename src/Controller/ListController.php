@@ -272,7 +272,8 @@ class ListController extends BaseController
     {
         $profile = $this->resetProfile('issue');
         $this->redirect(
-            'list.php', [
+            'list.php',
+            [
                 'users' => $this->usr_id,
                 'hide_closed' => 1,
                 'rows' => $this->rows,
@@ -320,7 +321,8 @@ class ListController extends BaseController
 
         $profile = $this->resetProfile('issue');
         $this->redirect(
-            'list.php', [
+            'list.php',
+            [
                 'customer_id' => $customer_id,
                 'hide_closed' => 1,
                 'rows' => $this->rows,
@@ -340,7 +342,8 @@ class ListController extends BaseController
 
         $profile = $this->profile->getIssueProfile($this->usr_id, $this->prj_id);
         $this->redirect(
-            'list.php', [
+            'list.php',
+            [
                 'reporter' => $reporter_id,
                 'hide_closed' => 1,
                 'rows' => $this->rows,

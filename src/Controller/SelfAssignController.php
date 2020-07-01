@@ -94,7 +94,12 @@ class SelfAssignController extends BaseController
 
         $assigned_usr_ids = Issue::getAssignedUserIDs($this->issue_id);
         Workflow::handleAssignmentChange(
-            $this->prj_id, $this->issue_id, $this->usr_id, $issue_details, $assigned_usr_ids, false
+            $this->prj_id,
+            $this->issue_id,
+            $this->usr_id,
+            $issue_details,
+            $assigned_usr_ids,
+            false
         );
 
         Notification::notifyAssignmentChange($this->issue_id, $issue_details['assigned_users'], $assigned_usr_ids);

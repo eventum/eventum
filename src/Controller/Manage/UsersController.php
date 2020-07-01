@@ -219,7 +219,8 @@ class UsersController extends ManageBaseController
                 }
 
                 return !empty($usr[$field]);
-            }, $list
+            },
+            $list
         );
     }
 

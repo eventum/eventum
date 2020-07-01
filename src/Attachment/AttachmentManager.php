@@ -448,8 +448,10 @@ class AttachmentManager
         }
 
         $group = new AttachmentGroup(
-            $res['iat_iss_id'], $res['iat_usr_id'],
-            $res['iat_description'], $res['iat_min_role']
+            $res['iat_iss_id'],
+            $res['iat_usr_id'],
+            $res['iat_description'],
+            $res['iat_min_role']
         );
 
         $group->id = $iat_id;

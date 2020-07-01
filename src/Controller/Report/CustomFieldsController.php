@@ -105,7 +105,12 @@ class CustomFieldsController extends ReportBaseController
         $this->tpl->assign('field_info', Custom_Field::getDetails($this->custom_field));
 
         return Report::getCustomFieldReport(
-            $this->custom_field, $this->custom_options, $this->group_by, $this->start, $this->end, true,
+            $this->custom_field,
+            $this->custom_options,
+            $this->group_by,
+            $this->start,
+            $this->end,
+            true,
             $this->interval,
             $this->assignee
         );

@@ -143,7 +143,11 @@ class PopupController extends BaseController
                 $res = Issue::deleteUserAssociation($this->issue_id, $this->usr_id);
                 $assigned_usr_ids = Issue::getAssignedUserIDs($this->issue_id);
                 Workflow::handleAssignmentChange(
-                    $this->prj_id, $this->issue_id, $this->usr_id, $details, $assigned_usr_ids
+                    $this->prj_id,
+                    $this->issue_id,
+                    $this->usr_id,
+                    $details,
+                    $assigned_usr_ids
                 );
                 Notification::notifyAssignmentChange($this->issue_id, $details['assigned_users'], $assigned_usr_ids);
                 $this->tpl->assign('unassign_result', $res);
@@ -168,8 +172,11 @@ class PopupController extends BaseController
                 $res = Issue::setStatus($this->issue_id, $this->status_id, true);
                 if ($res == 1) {
                     History::add(
-                        $this->issue_id, $this->usr_id, 'status_changed',
-                        "Issue manually set to status '{status}' by {user}", [
+                        $this->issue_id,
+                        $this->usr_id,
+                        'status_changed',
+                        "Issue manually set to status '{status}' by {user}",
+                        [
                             'status' => Status::getStatusTitle($this->status_id),
                             'user' => User::getFullName($this->usr_id),
                         ]

@@ -88,7 +88,8 @@ class ConvertNoteController extends BaseController
         $res = Note::convertNote($post->get('note_id'), $post->get('target'), $authorize_sender);
 
         $this->tpl->assign(
-            'convert_result', $res
+            'convert_result',
+            $res
         );
     }
 

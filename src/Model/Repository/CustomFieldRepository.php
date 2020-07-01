@@ -53,7 +53,9 @@ class CustomFieldRepository extends EntityRepository
     private function filterIssue(QueryBuilder $qb, int $issueId): self
     {
         $qb
-            ->leftJoin(Entity\IssueCustomField::class, 'icf',
+            ->leftJoin(
+                Entity\IssueCustomField::class,
+                'icf',
                 Join::WITH,
                 'cf.id=icf.fieldId AND icf.issueId=:issue_id'
             )

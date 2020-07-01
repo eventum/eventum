@@ -68,7 +68,10 @@ class StatusActionDateController extends ManageBaseController
         $post = $this->getRequest()->request;
 
         $res = Status::insertCustomization(
-            $post->get('project'), $post->get('status'), $post->get('date_field'), $post->get('label')
+            $post->get('project'),
+            $post->get('status'),
+            $post->get('date_field'),
+            $post->get('label')
         );
         $map = [
             1 => [ev_gettext('Thank you, the customization was added successfully.'), MessagesHelper::MSG_INFO],
@@ -83,7 +86,11 @@ class StatusActionDateController extends ManageBaseController
         $post = $this->getRequest()->request;
 
         $res = Status::updateCustomization(
-            $post->get('id'), $post->get('project'), $post->get('status'), $post->get('date_field'), $post->get('label')
+            $post->get('id'),
+            $post->get('project'),
+            $post->get('status'),
+            $post->get('date_field'),
+            $post->get('label')
         );
         $map = [
             1 => [ev_gettext('Thank you, the customization was updated successfully.'), MessagesHelper::MSG_INFO],
@@ -99,7 +106,8 @@ class StatusActionDateController extends ManageBaseController
 
         $res = Status::removeCustomization($post->get('items'));
         $this->messages->mapMessages(
-            $res, [
+            $res,
+            [
                 true => [ev_gettext('Thank you, the customization was deleted successfully.'), MessagesHelper::MSG_INFO],
                 false => [ev_gettext('An error occurred while trying to delete the customization information.'), MessagesHelper::MSG_ERROR],
             ]
