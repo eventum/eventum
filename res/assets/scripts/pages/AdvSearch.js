@@ -18,7 +18,7 @@ export default class {
         });
 
         $('.date_filter_type').change(function (e) {
-            var target = $(e.target);
+            const target = $(e.target);
             page.checkDateFilterType(target.attr('name').replace("[filter_type]", ""));
         });
 

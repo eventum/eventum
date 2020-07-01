@@ -36,41 +36,61 @@ export default class {
         $('#toggle_bulk_update').click(function () {
             Eventum.toggle_section_visibility('bulk_update');
         });
-
-        $('#reset_bulk_update').click(page.reset_bulk_update);
-        $('#bulk_update_button').click(page.bulk_update);
-        $('#clear_filters').click(page.clearFilters);
-        $('#hide_closed').click(page.hideClosed);
-        $('#show_all_projects').click(page.showAllProjects);
-        $('#page_size').change(page.resizePager);
-        $('#resize_page').click(page.resizePager);
-        $('#custom_filter').change(page.runCustomFilter);
-
+        $('#reset_bulk_update').click(function() {
+            page.reset_bulk_update();
+        });
+        $('#bulk_update_button').click(function() {
+            return page.bulk_update();
+        });
+        $('#clear_filters').click(function() {
+            page.clearFilters();
+        });
+        $('#hide_closed').click(function() {
+            page.hideClosed();
+        });
+        $('#show_all_projects').click(function() {
+            page.showAllProjects();
+        });
+        $('#page_size').change(function() {
+            page.resizePager();
+        });
+        $('#resize_page').click(function() {
+            page.resizePager();
+        });
+        $('#custom_filter').change(function() {
+            return page.runCustomFilter();
+        });
         $('.select_all').click(function () {
             Eventum.toggleCheckAll('item[]');
         });
 
         Eventum.getField('first').click(function () {
-            page.setPage(0);
+            return page.setPage(0);
         });
         Eventum.getField('previous').click(function () {
-            page.setPage(page.page - 1);
+            return page.setPage(page.page - 1);
         });
         Eventum.getField('next').click(function () {
-            page.setPage(page.current_page + 1);
+            return page.setPage(page.current_page + 1);
         });
         Eventum.getField('last').click(function () {
-            page.setPage(page.last_page);
+            return page.setPage(page.last_page);
         });
-        Eventum.getField('go').click(page.goPage);
+        Eventum.getField('go').click(function() {
+            return page.goPage();
+        });
         Eventum.getField('page').keydown(function (e) {
             if (e.which === 13) {
                 page.goPage();
             }
         });
 
-        $('#export_csv').click(page.downloadCSV);
-        $('.custom_field').click(page.updateCustomFields);
+        $('#export_csv').click(function() {
+            return page.downloadCSV();
+        });
+        $('.custom_field').click(function(e) {
+            return page.updateCustomFields(e);
+        });
 
         page.disableFields();
 
@@ -82,7 +102,7 @@ export default class {
         }
     }
 
-    reset_bulk_update(e) {
+    reset_bulk_update() {
         Eventum.clearSelectedOptions('users[]');
         Eventum.clearSelectedOptions('status');
         Eventum.clearSelectedOptions('release');
@@ -91,7 +111,7 @@ export default class {
         Eventum.clearSelectedOptions('closed_status');
     }
 
-    bulk_update(e) {
+    bulk_update() {
         const $form = $('#list_form');
 
         if (!Validation.hasOneChecked('item[]')) {
@@ -234,8 +254,8 @@ export default class {
     }
 
     updateCustomFields(e) {
-        const target = $(e.target);
-        const issue_id = target.parents('tr').attr('data-issue-id');
+        const $target = $(e.target);
+        const issue_id = $target.parents('tr').attr('data-issue-id');
         const features = 'width=560,height=460,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
         const customWin = window.open('custom_fields.php?issue_id=' + issue_id, '_custom_fields', features);
 

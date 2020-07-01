@@ -20,7 +20,9 @@ export default class {
             return Validation.checkFormSubmission($form, page.validateForm)
         });
 
-        $('#severity').bind('change', page.display_severity_description).change();
+        $('#severity').bind('change', function () {
+            page.display_severity_description();
+        }).change();
         product.ready();
     };
 

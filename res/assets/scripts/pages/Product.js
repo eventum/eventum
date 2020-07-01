@@ -14,12 +14,16 @@
  */
 export default class {
     ready() {
-        $('#product').bind('change', this.display_product_version_howto).change();
+        const page = this;
+
+        $('#product').bind('change', function() {
+            page.display_product_version_howto();
+        }).change();
     };
 
     display_product_version_howto() {
         const howto = $('#product :selected').attr('data-desc');
-        if (howto == undefined || howto == '') {
+        if (!howto) {
             $('#product_version_howto').hide();
         } else {
             $('#product_version_howto').text(howto).show();

@@ -11,10 +11,14 @@
 
 export default class {
     ready() {
+        let page = this;
+
         $('#sortable').sortable();
         this.bind_actions();
 
-        $('#add_option').click(this.add_option);
+        $('#add_option').click(function() {
+            page.add_option();
+        });
         this.add_option();
     }
 

@@ -14,8 +14,12 @@ export default class {
         const page = this;
 
         page.toggleNotificationList();
-        $('input[name=notification_list]').change(page.toggleNotificationList);
-        $('input[name=add_email_signature]').change(page.toggleEmailSignature);
+        $('input[name=notification_list]').change(function() {
+            page.toggleNotificationList();
+        });
+        $('input[name=add_email_signature]').change(function() {
+            page.toggleEmailSignature();
+        });
 
         $('form[name=close_form]').submit(function () {
             return Validation.checkFormSubmission($('form[name=close_form]'), page.validateForm);

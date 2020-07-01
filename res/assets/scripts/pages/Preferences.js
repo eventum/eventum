@@ -11,15 +11,23 @@
 
 export default class {
     ready() {
+        const page = this;
+
         $('#show_revoked').click(function () {
             $('body#preferences .api_token .revoked').show();
         });
-
-        $('form#api_token_form').submit(this.confirmRegenerateToken);
-
-        $('form.update_name_form').submit(this.validateName);
-        $('form.update_email_form').submit(this.validateEmail);
-        $('form.update_password_form').submit(this.validatePassword);
+        $('form#api_token_form').submit(function() {
+            return page.confirmRegenerateToken();
+        });
+        $('form.update_name_form').submit(function() {
+            return page.validateName();
+        });
+        $('form.update_email_form').submit(function() {
+            return page.validateEmail();
+        });
+        $('form.update_password_form').submit(function() {
+            return page.validatePassword();
+        });
         $('input.api_token').focus(function () {
             const $this = $(this);
             $this.select();
