@@ -19,6 +19,7 @@ use Eventum\Event\SystemEvents;
 use Eventum\Extension\Provider\SubscriberProvider;
 use Eventum\ServiceContainer;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Template_Helper;
 
 class PhpDebugBarExtension implements SubscriberProvider, EventSubscriberInterface
 {
@@ -33,12 +34,20 @@ class PhpDebugBarExtension implements SubscriberProvider, EventSubscriberInterfa
     {
         return [
             SystemEvents::BOOT => 'boot',
+            SystemEvents::SMARTY_PROCESS => 'registerSmarty',
         ];
     }
 
     public function boot(): void
     {
         DebugBarManager::getDebugBarManager($this->isEnabled());
+    }
+
+    public function registerSmarty(Template_Helper $tpl): void
+    {
+        if ($tpl->isDebugbarEnabled()) {
+            DebugBarManager::getDebugBarManager()->registerSmarty($tpl->getSmarty());
+        }
     }
 
     private function isEnabled(): bool
