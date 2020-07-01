@@ -3,7 +3,7 @@
 You will need:
 
 -   A Webserver that is capable of handling PHP scripts (i.e [Apache HTTPD Server](https://httpd.apache.org/))
--   [PHP](https://php.net) 7.1.x with the following extensions
+-   [PHP](https://php.net) 7.2.x with the following extensions
     -   ctype
     -   date (builtin)
     -   pcre (builtin)
