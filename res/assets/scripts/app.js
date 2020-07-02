@@ -79,8 +79,8 @@ $(document).ready(function () {
         return Eventum.openHelp();
     });
 
-    $("input.issue_field").blur(function() {
-        Validation.validateIssueNumberField();
+    $("input.issue_field").blur(function(e) {
+        Validation.validateIssueNumberField(e);
     });
 
     // % complete progressbar
