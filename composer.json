@@ -61,7 +61,7 @@
         "portphp/csv": "^1.1",
         "portphp/doctrine": "^1.1",
         "portphp/steps": "^1.2",
-        "robmorgan/phinx": "^0.11.1",
+        "robmorgan/phinx": "^0.12.3",
         "sebastian/diff": "^3.0",
         "smarty-gettext/smarty-gettext": "~1.0",
         "smarty/smarty": "~3.1.12",

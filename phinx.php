@@ -48,7 +48,7 @@ $phinx = [
 
     'environments' => [
         'default_migration_table' => 'phinxlog',
-        'default_database' => 'production',
+        'default_environment' => 'production',
         'production' => [
             'adapter' => 'mysql',
             'host' => $config['hostname'],
