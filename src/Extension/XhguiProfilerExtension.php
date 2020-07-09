@@ -32,7 +32,7 @@ class XhguiProfilerExtension implements SubscriberProvider, EventSubscriberInter
 
     public function __construct()
     {
-        $this->config = ServiceContainer::getConfig()['xhgui_profiler'];
+        $this->config = ServiceContainer::getConfig()['xhgui'];
     }
 
     public function getSubscribers(): array
