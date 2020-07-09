@@ -37,6 +37,10 @@ class XhguiProfilerExtension implements SubscriberProvider, EventSubscriberInter
 
     public function getSubscribers(): array
     {
+        if ($this->config['status'] !== 'enabled') {
+            return [];
+        }
+
         return [
             self::class,
         ];
@@ -51,10 +55,6 @@ class XhguiProfilerExtension implements SubscriberProvider, EventSubscriberInter
 
     public function boot(): void
     {
-        if ($this->config['status'] !== 'enabled') {
-            return;
-        }
-
         try {
             $profiler = new Profiler($this->getProfilerConfig());
         } catch (Throwable $e) {
