@@ -169,6 +169,9 @@
         "public-dir": "htdocs",
         "symfony": {
             "require": "4.4.*"
+        },
+        "bamarni-bin": {
+            "target-directory": "vendor/vendor-bin"
         }
     },
     "support": {
