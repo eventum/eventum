@@ -14,6 +14,8 @@
 namespace Eventum\Controller\Manage;
 
 use Eventum\Controller\Helper\MessagesHelper;
+use Eventum\Extension\RegisterExtension;
+use Eventum\Extension\ScmExtension;
 use Eventum\ServiceContainer;
 use Setup;
 use User;
@@ -55,6 +57,10 @@ class ScmController extends ManageBaseController
 
         $setup = ['scm_integration' => $post->get('scm_integration')];
         $res = Setup::save($setup);
+
+        $register = new RegisterExtension();
+        $register->enable(ScmExtension::class, $setup['scm_integration'] === 'enabled');
+
         $this->tpl->assign('result', $res);
 
         $setupFile = Setup::getSetupFile();
