@@ -81,6 +81,9 @@ class XhguiProfilerExtension implements SubscriberProvider, EventSubscriberInter
             ],
             'profiler.options' => [
             ],
+
+            'save.handler' => 'upload',
+            'save.handler.upload.uri' => $this->config['upload_url'],
         ];
 
         return array_merge($defaultConfig, $this->config->toArray());

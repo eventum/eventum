@@ -167,6 +167,17 @@
       Eventum.getField('sentry[domain]').attr('disabled', bool).css('backgroundColor', bgcolor);
   }
 
+  function toggleXHGuiFields()
+  {
+      var bool = !Eventum.getField('xhgui[status]').first().is(':checked');
+      if (bool) {
+          var bgcolor = '#CCCCCC';
+      } else {
+          var bgcolor = '#FFFFFF';
+      }
+      Eventum.getField('xhgui[upload_url]').attr('disabled', bool).css('backgroundColor', bgcolor);
+  }
+
   function toggleNoteRoutingFields()
   {
       var bool = !Eventum.getField('note_routing[status]').first().is(':checked');
@@ -222,6 +233,7 @@ $().ready(function() {
     Eventum.getField('email_error[status]').change(toggleErrorEmailFields);
     Eventum.getField('smtp[save_outgoing_email]').change(checkDebugField);
     Eventum.getField('sentry[status]').change(toggleSentryFields);
+    Eventum.getField('xhgui[status]').change(toggleXHGuiFields);
 
     toggleAuthFields();
     checkDebugField();
@@ -233,6 +245,7 @@ $().ready(function() {
     toggleReminderEmailFields();
     toggleErrorEmailFields();
     toggleSentryFields();
+    toggleXHGuiFields();
 });
   //-->
   </script>
