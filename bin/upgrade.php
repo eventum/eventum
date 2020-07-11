@@ -12,6 +12,9 @@
  * that were distributed with this source code.
  */
 
+use Eventum\Kernel;
+use Symfony\Bundle\FrameworkBundle\Console\Application;
+
 define('INSTALL_PATH', __DIR__ . '/..');
 define('CONFIG_PATH', INSTALL_PATH . '/config');
 
@@ -27,9 +30,19 @@ if (!file_exists($setup_path) || !filesize($setup_path) || !is_readable($setup_p
 
 require_once INSTALL_PATH . '/init.php';
 
-// run phinx based updater
 chdir(__DIR__ . '/..');
+
+/**
+ * Clear Symfony cache and run phing upgrade
+ */
+
+$kernel = new Kernel($_SERVER['APP_ENV'], (bool)$_SERVER['APP_DEBUG']);
+$app = new Application($kernel);
+$app->setDefaultCommand('cache:clear', true);
+$app->setAutoExit(false);
+$app->run();
 
 $app = new Phinx\Console\PhinxApplication();
 $app->setDefaultCommand('migrate');
+$app->setAutoExit(false);
 $app->run();
