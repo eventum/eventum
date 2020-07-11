@@ -5,7 +5,7 @@
     release: 'eventum@{$core.app_version}',
   }).install()
 
-  {if $core.user}
+  {if !empty($core.user)}
   Raven.setUserContext({
     name: '{$core.user.usr_full_name|escape:quotes}',
     email: '{$core.user.usr_email|escape:quotes}',
