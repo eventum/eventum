@@ -393,13 +393,13 @@ class Setup
 
             'extensions' => [],
 
-            'xhgui_profiler' => [
+            'xhgui' => [
                 // https://github.com/eventum/eventum/pull/519
-                'status' => 'enabled',
+                'status' => 'disabled',
             ],
 
             'sentry' => [
-                'status' => 'enabled',
+                'status' => 'disabled',
                 // dsn consists of: 'https://<key>@<domain>/<project>'
                 'key' => '',
                 'project' => '',

@@ -32,11 +32,15 @@ class XhguiProfilerExtension implements SubscriberProvider, EventSubscriberInter
 
     public function __construct()
     {
-        $this->config = ServiceContainer::getConfig()['xhgui_profiler'];
+        $this->config = ServiceContainer::getConfig()['xhgui'];
     }
 
     public function getSubscribers(): array
     {
+        if ($this->config['status'] !== 'enabled') {
+            return [];
+        }
+
         return [
             self::class,
         ];
@@ -51,10 +55,6 @@ class XhguiProfilerExtension implements SubscriberProvider, EventSubscriberInter
 
     public function boot(): void
     {
-        if ($this->config['status'] !== 'enabled') {
-            return;
-        }
-
         try {
             $profiler = new Profiler($this->getProfilerConfig());
         } catch (Throwable $e) {
@@ -80,6 +80,12 @@ class XhguiProfilerExtension implements SubscriberProvider, EventSubscriberInter
                 ProfilingFlags::NO_SPANS,
             ],
             'profiler.options' => [
+            ],
+
+            'save.handler' => Profiler::SAVER_UPLOAD,
+            'save.handler.upload' => [
+                'uri' => $this->config['upload_url'],
+                'token' => $this->config['upload_token'],
             ],
         ];
 

@@ -83,6 +83,7 @@ class GeneralController extends ManageBaseController
             'markdown' => $post->get('markdown'),
             'audit_trail' => $post->get('audit_trail'),
             'sentry' => $post->get('sentry'),
+            'xhgui' => $post->get('xhgui'),
         ];
         $res = Setup::save($setup);
 
@@ -91,6 +92,7 @@ class GeneralController extends ManageBaseController
         $register->enable(Extension\AuditTrailExtension::class, $setup['audit_trail'] === 'enabled');
         $register->enable(Extension\IrcNotifyExtension::class, $setup['irc_notification'] === 'enabled');
         $register->enable(Extension\SentryExtension::class, $setup['sentry']['status'] === 'enabled');
+        $register->enable(Extension\XhguiProfilerExtension::class, $setup['xhgui']['status'] === 'enabled');
 
         $this->tpl->assign('result', $res);
 
