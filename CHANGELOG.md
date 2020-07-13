@@ -5,6 +5,8 @@
 See [Upgrading] for details how to upgrade.
 
 - Update Phinx to 0.12, #877
+- Allow configuring XHGui profiler from admin interface, #887
+- Use `APP_ENV=prod` by default, #886
 
 [3.9.1]: https://github.com/eventum/eventum/compare/v3.9.0...master
 
