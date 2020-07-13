@@ -1,6 +1,6 @@
 # Eventum Issue Tracking System
 
-## [3.9.1]
+## [3.9.1] - 2020-07-13
 
 See [Upgrading] for details how to upgrade.
 
@@ -8,7 +8,7 @@ See [Upgrading] for details how to upgrade.
 - Allow configuring XHGui profiler from admin interface, #887
 - Use `APP_ENV=prod` by default, #886
 
-[3.9.1]: https://github.com/eventum/eventum/compare/v3.9.0...master
+[3.9.1]: https://github.com/eventum/eventum/compare/v3.9.0...v3.9.1
 
 ## [3.9.0] - 2020-07-01
 
