@@ -228,7 +228,10 @@ $().ready(function() {
             <input type="text" name="to" size="50" value="{$email.sup_from|escape:"html"}">
             {include file="error_icon.tpl.html" field="to"}
         {else}
-            <span>{t}Issue{/t} #{$issue_id} {t}Notification List{/t} ({t}Members{/t}: {$subscribers.staff|replace:"<":"&lt;"|replace:">":"&gt;"}{if $subscribers.customers != ''}, {$subscribers.customers|replace:"<":"&lt;"|replace:">":"&gt;"}{/if})</span>
+            <span>
+              {t}Issue{/t} #{$issue_id} {t}Notification List{/t}
+              ({t 1=$subscribers.all}Members: %1{/t})
+            </span>
         {/if}
       </td>
     </tr>
