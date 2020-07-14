@@ -229,7 +229,11 @@ $().ready(function() {
             {include file="error_icon.tpl.html" field="to"}
         {else}
             <span>
-              {t}Issue{/t} #{$issue_id} {t}Notification List{/t}
+              {t escape=no
+                1=$issue_id
+                2="{$core.rel_url}view.php?id={$issue_id}"
+              }Issue <a href="%2" target="_blank">#%1</a> Notification List{/t}
+
               ({t 1=$subscribers.all}Members: %1{/t})
             </span>
         {/if}
