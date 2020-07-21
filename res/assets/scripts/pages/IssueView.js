@@ -92,8 +92,8 @@ export default class {
         $('.reply_email').click(function() {
             page.reply();
         });
-        $('.reply_email_note').click(function() {
-            page.replyAsNote();
+        $('.reply_email_note').click(function(e) {
+            page.replyAsNote(e);
         });
         $('.edit_incident_redemption').click(function() {
             page.editIncidentRedemption();
@@ -361,9 +361,9 @@ export default class {
         popupWin.focus();
     }
 
-    replyAsNote() {
-        const $this = $(this);
-        const email_id = $this.data('sup_id');
+    replyAsNote(e) {
+        const $target = $(e.target);
+        const email_id = $target.data('sup_id');
         const iss_id = this.get_issue_id();
         const account_id = this.get_ema_id();
 
@@ -375,8 +375,8 @@ export default class {
     }
 
     reply() {
-        const $this = $(this);
-        const email_id = $this.data('sup_id');
+        const $target = $(e.target);
+        const email_id = $target.data('sup_id');
         const iss_id = this.get_issue_id();
         const account_id = this.get_ema_id();
 
