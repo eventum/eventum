@@ -47,6 +47,11 @@ to go in there and mess with your configuration.
 
 **IMPORTANT:** By default, the admin user login is set to to admin@example.com during installation. **Be sure to change this to a valid email address with a new password immediately**. Note that eventum will attempt to send the new password to the specified address, which should be valid to prevent the password from being exposed if the email is bounced.
 
+## Install with docker
+
+There's also docker compose based setup available:
+- https://github.com/eventum/docker
+
 ## Scheduled Tasks
 
 Regular maintenance in Eventum is accomplished by running scheduled tasks or cron jobs. Alternatively, some of these tasks may be performed with a GET request to a URL, if administrative access is not available on the host machine to run the scripts directly from the filesystem. It may be desirable to limit access to these URLs, in such a case.
