@@ -266,10 +266,9 @@ prepare_source() {
 }
 
 # download tools
-make phpcompatinfo.phar box.phar phing.phar
+make phpcompatinfo.phar phing.phar
 
 composer=$(find_prog composer)
-box=$(find_prog box)
 phpcompatinfo=$(find_prog phpcompatinfo)
 phing=$(find_prog phing)
 
