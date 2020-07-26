@@ -11,6 +11,8 @@
  * that were distributed with this source code.
  */
 
+use Eventum\Kernel;
+
 $autoload = null;
 foreach ([__DIR__ . '/vendor/autoload.php', __DIR__ . '/../../../vendor/autoload.php'] as $autoload) {
     if (file_exists($autoload)) {
@@ -31,3 +33,7 @@ EOF;
 }
 
 require $autoload;
+
+$_SERVER['APP_ENV'] = $_ENV['APP_ENV'] = ($_SERVER['APP_ENV'] ?? $_ENV['APP_ENV'] ?? null) ?: Kernel::DEFAULT_ENVIRONMENT;
+$_SERVER['APP_DEBUG'] = $_SERVER['APP_DEBUG'] ?? $_ENV['APP_DEBUG'] ?? 'prod' !== $_SERVER['APP_ENV'];
+$_SERVER['APP_DEBUG'] = $_ENV['APP_DEBUG'] = (int)$_SERVER['APP_DEBUG'] || filter_var($_SERVER['APP_DEBUG'], FILTER_VALIDATE_BOOLEAN) ? '1' : '0';
