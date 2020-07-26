@@ -111,6 +111,8 @@ install_dependencies() {
 
 	# clean distribution and dump autoloader again
 	clean_vendor
+	# call "composer install" to workaround for flex not placing the version check
+	$composer install --prefer-dist --no-dev --no-suggest
 	$composer dump-autoload
 }
 
