@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "be631626bccd4d161ece19a028b80346",
+    "content-hash": "c8b240fadb7418ec4cc30c004f9a62c0",
     "packages": [
         {
             "name": "cakephp/collection",
@@ -2950,6 +2950,104 @@
             ],
             "description": "Composer plugin that provides efficient querying for installed package versions (no runtime IO)",
             "time": "2019-11-15T16:17:10+00:00"
+        },
+        {
+            "name": "perftools/php-profiler",
+            "version": "0.7.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/perftools/php-profiler.git",
+                "reference": "e56e6676b35a5507094558db45c60c8ed0329bc1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/perftools/php-profiler/zipball/e56e6676b35a5507094558db45c60c8ed0329bc1",
+                "reference": "e56e6676b35a5507094558db45c60c8ed0329bc1",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "perftools/xhgui-collector": "^1.8",
+                "php": "^5.3.0 || ^7.0 || ^8.0"
+            },
+            "require-dev": {
+                "alcaeus/mongo-php-adapter": "^1.1",
+                "ext-json": "*"
+            },
+            "suggest": {
+                "alcaeus/mongo-php-adapter": "Adapter to provide ext-mongo interface on top of mongo-php-libary (PHP>=5.6)",
+                "ext-curl": "cURL extension for upload saver",
+                "ext-mongo": "mongo extension (PHP>=5.3,<7.0)",
+                "ext-mongodb": "mongodb extension (PHP>=5.4,<7.3)"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Xhgui\\Profiler\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Lauri Piisang",
+                    "email": "lauri.piisang@eesti.ee"
+                },
+                {
+                    "name": "Elan Ruusamäe",
+                    "email": "glen@pld-linux.org"
+                }
+            ],
+            "description": "PHP Profiling based on XHGUI",
+            "time": "2020-07-25T18:36:40+00:00"
+        },
+        {
+            "name": "perftools/xhgui-collector",
+            "version": "1.8.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/perftools/xhgui-collector.git",
+                "reference": "41428d12cc6bfeefdd9bb65c4af9769733b69a1e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/perftools/xhgui-collector/zipball/41428d12cc6bfeefdd9bb65c4af9769733b69a1e",
+                "reference": "41428d12cc6bfeefdd9bb65c4af9769733b69a1e",
+                "shasum": ""
+            },
+            "require": {
+                "paragonie/random_compat": ">=2.0",
+                "php": ">=5.3.0"
+            },
+            "suggest": {
+                "alcaeus/mongo-php-adapter": "Mongo PHP Adapter is required for PHP >7 (when using ext-mongodb)",
+                "ext-curl": "You need to install the curl extension to upload saved files",
+                "ext-mongo": "Mongo is needed to store profiler results for PHP < 7.",
+                "ext-mongodb": "Mongo is needed to store profiler results for PHP > 7.",
+                "ext-pdo": "You need to install the pdo extension to store profiler results to a relational database",
+                "ext-uprofiler": "You need to install either xhprof or uprofiler to use XHGui.",
+                "ext-xhprof": "You need to install either xhprof or uprofiler to use XHGui."
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Xhgui_": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Lauri Piisang",
+                    "email": "lauri.piisang@eesti.ee"
+                }
+            ],
+            "description": "Library for collecting and storing XHProf results for later use by XHGUI.",
+            "time": "2019-12-04T18:39:08+00:00"
         },
         {
             "name": "phlib/flysystem-pdo",
@@ -7729,101 +7827,6 @@
                 "persistence"
             ],
             "time": "2019-07-02T18:04:14+00:00"
-        },
-        {
-            "name": "perftools/php-profiler",
-            "version": "v0.5.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/perftools/php-profiler.git",
-                "reference": "fbd32649bc9207ce895f2cd9c2b94840beaf3258"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/perftools/php-profiler/zipball/fbd32649bc9207ce895f2cd9c2b94840beaf3258",
-                "reference": "fbd32649bc9207ce895f2cd9c2b94840beaf3258",
-                "shasum": ""
-            },
-            "require": {
-                "perftools/xhgui-collector": "^1.8",
-                "php": "^5.3.0 || ^7.0 || ^8.0"
-            },
-            "require-dev": {
-                "ext-json": "*"
-            },
-            "suggest": {
-                "alcaeus/mongo-php-adapter": "Adapter to provide ext-mongo interface on top of mongo-php-libary (PHP>=5.6)",
-                "ext-mongo": "mongo extension (PHP>=5.3,<7.0)",
-                "ext-mongodb": "mongodb extension (PHP>=5.4,<7.3)"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Xhgui\\Profiler\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Lauri Piisang",
-                    "email": "lauri.piisang@eesti.ee"
-                },
-                {
-                    "name": "Elan Ruusamäe",
-                    "email": "glen@pld-linux.org"
-                }
-            ],
-            "description": "PHP Profiling based on XHGUI",
-            "time": "2020-07-11T12:16:34+00:00"
-        },
-        {
-            "name": "perftools/xhgui-collector",
-            "version": "1.8.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/perftools/xhgui-collector.git",
-                "reference": "41428d12cc6bfeefdd9bb65c4af9769733b69a1e"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/perftools/xhgui-collector/zipball/41428d12cc6bfeefdd9bb65c4af9769733b69a1e",
-                "reference": "41428d12cc6bfeefdd9bb65c4af9769733b69a1e",
-                "shasum": ""
-            },
-            "require": {
-                "paragonie/random_compat": ">=2.0",
-                "php": ">=5.3.0"
-            },
-            "suggest": {
-                "alcaeus/mongo-php-adapter": "Mongo PHP Adapter is required for PHP >7 (when using ext-mongodb)",
-                "ext-curl": "You need to install the curl extension to upload saved files",
-                "ext-mongo": "Mongo is needed to store profiler results for PHP < 7.",
-                "ext-mongodb": "Mongo is needed to store profiler results for PHP > 7.",
-                "ext-pdo": "You need to install the pdo extension to store profiler results to a relational database",
-                "ext-uprofiler": "You need to install either xhprof or uprofiler to use XHGui.",
-                "ext-xhprof": "You need to install either xhprof or uprofiler to use XHGui."
-            },
-            "type": "library",
-            "autoload": {
-                "psr-0": {
-                    "Xhgui_": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Lauri Piisang",
-                    "email": "lauri.piisang@eesti.ee"
-                }
-            ],
-            "description": "Library for collecting and storing XHProf results for later use by XHGUI.",
-            "time": "2019-12-04T18:39:08+00:00"
         },
         {
             "name": "sentry/sentry",

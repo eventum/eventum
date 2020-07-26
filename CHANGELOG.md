@@ -6,6 +6,7 @@ See [Upgrading] for details how to upgrade.
 
 - Switch to use `laminas/laminas-mail` instead of `zendframework/zend-mail`, #876
 - Fix event context passing of click handlers, #891
+- Include xhgui profiler in release package, #892
 
 [3.9.2]: https://github.com/eventum/eventum/compare/v3.9.1...master
 
