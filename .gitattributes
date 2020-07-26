@@ -14,6 +14,7 @@
 /.travis.yml export-ignore
 /phpcompatinfo.json export-ignore
 /build.xml export-ignore
+/symfony.lock export-ignore
 /bin/releng/ export-ignore
 
 /config/phpxref.cfg export-ignore
