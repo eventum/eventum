@@ -14,12 +14,12 @@
 namespace Eventum\Mail\Helper;
 
 use InvalidArgumentException;
+use Laminas\Mail\Address;
+use Laminas\Mail\AddressList;
+use Laminas\Mail\Header\AbstractAddressList;
+use Laminas\Mail\Header\HeaderInterface;
+use Laminas\Mail\Header\To;
 use Mime_Helper;
-use Zend\Mail\Address;
-use Zend\Mail\AddressList;
-use Zend\Mail\Header\AbstractAddressList;
-use Zend\Mail\Header\HeaderInterface;
-use Zend\Mail\Header\To;
 
 /**
  * Helper to parse any address list type header (to, from, cc, bcc, reply-to) into Header object
@@ -36,7 +36,7 @@ class AddressHeader
 
     /**
      * @param string $addresses
-     * @throws \Zend\Mail\Header\Exception\InvalidArgumentException
+     * @throws \Laminas\Mail\Header\Exception\InvalidArgumentException
      * @return AddressHeader
      */
     public static function fromString($addresses): self

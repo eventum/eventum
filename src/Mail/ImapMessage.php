@@ -20,10 +20,9 @@ use Eventum\EventDispatcher\EventManager;
 use Eventum\Mail\Helper\MailLoader;
 use Eventum\Mail\Imap\ImapResource;
 use InvalidArgumentException;
-use RuntimeException;
+use Laminas\Mail\Header\GenericHeader;
+use Laminas\Mail\Storage;
 use Symfony\Component\EventDispatcher\GenericEvent;
-use Zend\Mail\Header\GenericHeader;
-use Zend\Mail\Storage as ZendMailStorage;
 
 /**
  * Class ImapMessage
@@ -46,12 +45,12 @@ class ImapMessage extends MailMessage
     {
         // fill with "\Seen", "\Deleted", "\Answered", ... etc
         $knownFlags = [
-            'recent' => ZendMailStorage::FLAG_RECENT,
-            'flagged' => ZendMailStorage::FLAG_FLAGGED,
-            'answered' => ZendMailStorage::FLAG_ANSWERED,
-            'deleted' => ZendMailStorage::FLAG_DELETED,
-            'seen' => ZendMailStorage::FLAG_SEEN,
-            'draft' => ZendMailStorage::FLAG_DRAFT,
+            'recent' => Storage::FLAG_RECENT,
+            'flagged' => Storage::FLAG_FLAGGED,
+            'answered' => Storage::FLAG_ANSWERED,
+            'deleted' => Storage::FLAG_DELETED,
+            'seen' => Storage::FLAG_SEEN,
+            'draft' => Storage::FLAG_DRAFT,
         ];
         $flags = [];
         foreach ($knownFlags as $flag => $value) {
@@ -77,19 +76,11 @@ class ImapMessage extends MailMessage
     }
 
     /**
-     * @deprecated removed in 3.8.12
-     */
-    public static function createFromImap($mbox, $num, $info): ImapMessage
-    {
-        throw new RuntimeException('This method no longer exists');
-    }
-
-    /**
      * @param string $raw
      * @param array $flags
      * @return array
      */
-    public static function createParameters($raw, $flags = [])
+    public static function createParameters($raw, array $flags = []): array
     {
         MailLoader::splitMessage($raw, $headers, $content);
 

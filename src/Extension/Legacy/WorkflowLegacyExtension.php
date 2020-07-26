@@ -27,9 +27,9 @@ use Eventum\Mail\ImapMessage;
 use Eventum\Mail\MailMessage;
 use Eventum\Model\Repository\ProjectRepository;
 use InvalidArgumentException;
+use Laminas\Mail\Address;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Workflow;
-use Zend\Mail\Address;
 
 /**
  * Extension that adds integration of legacy workflow classes to Extension events

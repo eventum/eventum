@@ -24,7 +24,7 @@ use Eventum\Mail\Helper\AddressHeader;
 use Eventum\Mail\ImapMessage;
 use Eventum\Mail\MailMessage;
 use Eventum\ServiceContainer;
-use Zend\Mail\Address;
+use Laminas\Mail\Address;
 
 /**
  * @deprecated workflow backend concept is deprecated, use event subscribers

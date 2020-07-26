@@ -16,7 +16,7 @@ use Eventum\Mail\MailMessage;
 use Eventum\Mail\MailTransport;
 use Eventum\Mail\MessageIdGenerator;
 use Eventum\ServiceContainer;
-use Zend\Mail\Address;
+use Laminas\Mail\Address;
 
 class Mail_Helper
 {
@@ -115,7 +115,7 @@ class Mail_Helper
      *
      * @param Address|string $address The email address(es) value
      * @param   bool $multiple If multiple addresses should be returned
-     * @throws \Zend\Mail\Header\Exception\InvalidArgumentException
+     * @throws \Laminas\Mail\Header\Exception\InvalidArgumentException
      * @return string[]|string The name or an array of names if multiple is true
      */
     public static function getName($address, $multiple = false)

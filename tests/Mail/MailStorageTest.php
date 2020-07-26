@@ -16,10 +16,10 @@ namespace Eventum\Test\Mail;
 use Eventum\Mail\MailStorage;
 use Eventum\ServiceContainer;
 use Eventum\Test\TestCase;
+use Laminas\Mail;
+use Laminas\Mail\Storage;
 use Setup;
 use Support;
-use Zend;
-use Zend\Mail;
 
 /**
  * @group mail
@@ -56,7 +56,7 @@ class MailStorageTest extends TestCase
     {
         $mbox = new MailStorage($this->account);
         $flags = [
-            Mail\Storage::FLAG_UNSEEN,
+            Storage::FLAG_UNSEEN,
         ];
         $count = $mbox->countMessages($flags);
         $this->assertEquals(0, $count);
@@ -107,7 +107,7 @@ class MailStorageTest extends TestCase
         $storage = new MailStorage($this->account);
         $message2 = $storage->getStorage()->getMessage(1);
 
-        var_dump($message1->hasFlag(Zend\Mail\Storage::FLAG_SEEN));
+        var_dump($message1->hasFlag(Storage::FLAG_SEEN));
 //        $a = ; if (($overview->seen) || ($overview->deleted) || ($overview->answered)) {
 //                        return;
 //                    }
@@ -125,12 +125,12 @@ class MailStorageTest extends TestCase
 
         // fill with "\Seen", "\Deleted", "\Answered", ... etc
         $knownFlags = [
-            'recent' => Zend\Mail\Storage::FLAG_RECENT,
-            'flagged' => Zend\Mail\Storage::FLAG_FLAGGED,
-            'answered' => Zend\Mail\Storage::FLAG_ANSWERED,
-            'deleted' => Zend\Mail\Storage::FLAG_DELETED,
-            'seen' => Zend\Mail\Storage::FLAG_SEEN,
-            'draft' => Zend\Mail\Storage::FLAG_DRAFT,
+            'recent' => Storage::FLAG_RECENT,
+            'flagged' => Storage::FLAG_FLAGGED,
+            'answered' => Storage::FLAG_ANSWERED,
+            'deleted' => Storage::FLAG_DELETED,
+            'seen' => Storage::FLAG_SEEN,
+            'draft' => Storage::FLAG_DRAFT,
         ];
         $flags = [];
         foreach ($knownFlags as $flag => $value) {

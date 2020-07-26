@@ -16,10 +16,10 @@ namespace Eventum\Test\Mail;
 use Eventum\Mail\MailMessage;
 use Eventum\Mail\MailTransport;
 use Eventum\Test\TestCase;
+use Laminas\Mail\Headers;
+use Laminas\Mail\Protocol;
+use Laminas\Mail\Transport;
 use stdClass;
-use Zend\Mail\Headers;
-use Zend\Mail\Protocol;
-use Zend\Mail\Transport;
 
 /**
  * Class MailTransportTest
@@ -41,7 +41,7 @@ class MailTransportTest extends TestCase
 
         // this logic is from Smtp::send
         // $headers = $this->prepareHeaders($message);
-        /** @see \Zend\Mail\Transport\Smtp::send() */
+        /** @see \Laminas\Mail\Transport\Smtp::send() */
 
         $headers = clone $message->getHeaders();
         $headers->removeHeader('Bcc');

@@ -15,8 +15,8 @@ namespace Eventum\Mail;
 
 use Eventum\Attachment\Attachment;
 use Eventum\Mail\Helper\MimePart;
-use Zend\Mail;
-use Zend\Mime;
+use Laminas\Mail;
+use Laminas\Mime;
 
 /**
  * Helper to combine of Mail\Message, Mime\Message and MailMessage

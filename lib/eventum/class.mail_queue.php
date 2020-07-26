@@ -16,8 +16,8 @@ use Eventum\EventDispatcher\EventManager;
 use Eventum\Mail\MailBuilder;
 use Eventum\Mail\MailMessage;
 use Eventum\Mail\MailTransport;
+use Laminas\Mail\Address;
 use Symfony\Component\EventDispatcher\GenericEvent;
-use Zend\Mail\Address;
 
 class Mail_Queue
 {

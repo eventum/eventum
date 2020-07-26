@@ -16,9 +16,9 @@ namespace Eventum\Test\Mail;
 use Eventum\Mail\Helper\AddressHeader;
 use Eventum\Mail\MailMessage;
 use Eventum\Test\TestCase;
+use Laminas\Mail\Header\HeaderInterface;
 use Mail_Helper;
 use Setup;
-use Zend\Mail\Header\HeaderInterface;
 
 /**
  * Test class for Mail_Helper.

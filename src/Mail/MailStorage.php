@@ -13,8 +13,8 @@
 
 namespace Eventum\Mail;
 
-use Zend\Mail\Protocol;
-use Zend\Mail\Storage;
+use Laminas\Mail\Protocol;
+use Laminas\Mail\Storage;
 
 /**
  * Class MailStorage
@@ -103,8 +103,8 @@ class MailStorage
         $type = explode('/', $params['ema_type']);
 
         $classname = ucfirst($type[0]);
-        $res['storage_class'] = '\\Zend\\Mail\\Storage\\' . $classname;
-        $res['protocol_class'] = '\\Zend\\Mail\\Protocol\\' . $classname;
+        $res['storage_class'] = '\\Laminas\\Mail\\Storage\\' . $classname;
+        $res['protocol_class'] = '\\Laminas\\Mail\\Protocol\\' . $classname;
         $res['ssl'] = in_array($type[1], ['ssl', 'tls']) ? $type[1] : false;
 
         // NOTE: novalidate and notls are not supported

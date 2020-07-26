@@ -17,14 +17,14 @@ use Date_Helper;
 use Eventum\Mail\MailBuilder;
 use Eventum\Mail\MailMessage;
 use Eventum\Test\TestCase;
+use Laminas\Mail\AddressList;
+use Laminas\Mail\Headers;
 use Mail_Helper;
 use Mail_Queue;
 use Mime_Helper;
 use Routing;
 use Setup;
 use Zend;
-use Zend\Mail\AddressList;
-use Zend\Mail\Headers;
 
 /**
  * @group mail
@@ -138,7 +138,7 @@ class MailMessageTest extends TestCase
 
         $exp = '<issue-73358@eventum.example.org>';
         $res = array_map(
-            function (\Zend\Mail\Address $a) {
+            function (\Laminas\Mail\Address $a) {
                 return $a->toString();
             }, iterator_to_array($message->getTo())
         );
@@ -150,12 +150,12 @@ class MailMessageTest extends TestCase
         $message = MailMessage::createFromFile(__DIR__ . '/../data/duplicate-from.txt');
 
         $to = $message->getTo();
-        $this->assertInstanceOf('Zend\Mail\AddressList', $to);
+        $this->assertInstanceOf('Laminas\Mail\AddressList', $to);
         $this->assertEquals('issue-73358@eventum.example.org', $message->to);
 
         $message = MailMessage::createFromFile(__DIR__ . '/../data/duplicate-msgid.txt');
         $to = $message->getTo();
-        $this->assertInstanceOf('Zend\Mail\AddressList', $to);
+        $this->assertInstanceOf('Laminas\Mail\AddressList', $to);
         $this->assertEquals("support@example.org,\r\n support-2@example.org", $message->to);
     }
 
@@ -291,7 +291,7 @@ class MailMessageTest extends TestCase
         $this->assertEquals('IT <help@localhost>', $from);
 
         $address = $message->getFrom();
-        $this->assertInstanceOf('Zend\Mail\Address', $address);
+        $this->assertInstanceOf('Laminas\Mail\Address', $address);
         $this->assertEquals('IT <help@localhost>', $address->toString());
         $this->assertEquals('help@localhost', $address->getEmail());
         $this->assertEquals('IT', $address->getName());
@@ -586,14 +586,14 @@ class MailMessageTest extends TestCase
         ];
         Mail_Queue::queue($mail, $to, $options);
 
-        $mail = new \Zend\Mail\Message();
+        $mail = new \Laminas\Mail\Message();
         $mail->setBody('This is the text of the email.');
         $mail->setFrom($from);
         $mail->setTo($to);
         $mail->setSubject($subject);
         $mail->setEncoding('UTF-8');
 
-        $transport = new \Zend\Mail\Transport\Sendmail();
+        $transport = new \Laminas\Mail\Transport\Sendmail();
         $transport->setCallable(
             function ($to, $subject, $body, $headers, $params): void {
                 //error_log("to[$to] subject[$subject] body[$body] headers[$headers] params[$params]");
@@ -651,8 +651,8 @@ class MailMessageTest extends TestCase
     public function testParseHeaders(): void
     {
         $header = "Subject: [#77675] New Issue:xxxxxxxxx xxxxxxx xxxxxxxx xxxxxxxxxxxxx xxxxxxxxxx xxxxxxxx=2C =?utf-8?b?dMOkaHRhZWc=?= xx.xx, xxxx\r\n";
-        /** @see \Zend\Mail\Header\HeaderWrap::canBeEncoded */
-        $v0 = \Zend\Mail\Headers::fromString($header);
+        /** @see \Laminas\Mail\Header\HeaderWrap::canBeEncoded */
+        $v0 = \Laminas\Mail\Headers::fromString($header);
         $folding = Headers::FOLDING;
         $eol = Headers::EOL;
 
@@ -669,7 +669,7 @@ class MailMessageTest extends TestCase
         $this->assertEqualsIgnoringCase('x-test: =?UTF-8?Q?[#77675]=20New=20Issue:xxxxxxxxx=20xxxxxxx=20xxxxxxxx=20?=  =?UTF-8?Q?xxxxxxxxxxxxx=20xxxxxxxxxx=20xxxxxxxx,=20t=C3=A4htaeg=20xx.xx,?=  =?UTF-8?Q?=20xxxx?=', $v);
 
         // this works too
-        $v2 = \Zend\Mail\Header\HeaderWrap::mimeEncodeValue($value, 'UTF-8');
+        $v2 = \Laminas\Mail\Header\HeaderWrap::mimeEncodeValue($value, 'UTF-8');
         $this->assertEquals('=?UTF-8?Q?[#77675]=20New=20Issue:xxxxxxxxx=20xxxxxxx=20xxxxxxxx=20xxxxxxxxxxxxx=20xxxxxxxxxx=20xxxxxxxx=2C=20t=C3=A4htaeg=20xx.xx=2C=20xxxx?=', $v2);
     }
 
