@@ -51,6 +51,7 @@ class SetupController
         $this->request = $request;
         $params = [
             'is_imap_enabled' => function_exists('imap_open'),
+            'header_templates' => [],
             '_process' => false,
         ];
 
