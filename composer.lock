@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e486528b5813562d642f45e0e9e3ee4b",
+    "content-hash": "32be946d208b4ccc671a0221441be586",
     "packages": [
         {
             "name": "cakephp/collection",
@@ -2953,16 +2953,16 @@
         },
         {
             "name": "perftools/php-profiler",
-            "version": "0.7.1",
+            "version": "0.7.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/perftools/php-profiler.git",
-                "reference": "e56e6676b35a5507094558db45c60c8ed0329bc1"
+                "reference": "433e1d152789562a3cd9d28da5078407cbb484ed"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/perftools/php-profiler/zipball/e56e6676b35a5507094558db45c60c8ed0329bc1",
-                "reference": "e56e6676b35a5507094558db45c60c8ed0329bc1",
+                "url": "https://api.github.com/repos/perftools/php-profiler/zipball/433e1d152789562a3cd9d28da5078407cbb484ed",
+                "reference": "433e1d152789562a3cd9d28da5078407cbb484ed",
                 "shasum": ""
             },
             "require": {
@@ -3001,7 +3001,7 @@
                 }
             ],
             "description": "PHP Profiling based on XHGUI",
-            "time": "2020-07-25T18:36:40+00:00"
+            "time": "2020-07-26T19:51:47+00:00"
         },
         {
             "name": "perftools/xhgui-collector",

@@ -55,7 +55,7 @@
         "monolog/monolog": "^1.22.0",
         "ocramius/lazy-property": "^1.0",
         "ocramius/package-versions": "^1.4",
-        "perftools/php-profiler": "^0.7.1",
+        "perftools/php-profiler": "^0.7.2",
         "phlib/flysystem-pdo": "^1.1",
         "php-ds/php-ds": "^1.2",
         "phplot/phplot": "~6.1.0",
