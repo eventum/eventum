@@ -13,5 +13,8 @@
         "files": [
             ".env"
         ]
+    },
+    "symfony/inflector": {
+        "version": "v4.4.11"
     }
 }

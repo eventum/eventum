@@ -105,6 +105,7 @@
         "maximebf/debugbar": "1.*",
         "sentry/sentry": "^1.7",
         "symfony/browser-kit": "^4.2",
+        "symfony/inflector": "^4.2",
         "symfony/phpunit-bridge": "^5.0",
         "symfony/thanks": "^1.0"
     },
