@@ -159,6 +159,9 @@
         ],
         "test": "simple-phpunit"
     },
+    "extra": {
+        "config-dir": "res"
+    },
     "support": {
         "issues": "https://github.com/eventum/eventum/issues",
         "irc": "irc://irc.freenode.org/eventum"
