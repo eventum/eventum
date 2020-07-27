@@ -160,7 +160,8 @@
         "test": "simple-phpunit"
     },
     "extra": {
-        "config-dir": "res"
+        "config-dir": "res",
+        "public-dir": "htdocs"
     },
     "support": {
         "issues": "https://github.com/eventum/eventum/issues",
