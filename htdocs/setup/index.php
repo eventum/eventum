@@ -31,8 +31,6 @@ ini_set('display_errors', 1);
 error_reporting(E_ALL & ~E_STRICT);
 set_time_limit(0);
 
-require_once __DIR__ . '/../../globals.php';
-
 // set default timezone to utc to avoid default timezone not set warnings
 date_default_timezone_set(@date_default_timezone_get());
 
