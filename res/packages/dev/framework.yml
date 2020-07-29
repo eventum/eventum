@@ -1,0 +1,7 @@
+framework:
+  test: true
+
+  profiler:
+    collect: true
+
+# vim:ts=2:sw=2:et
