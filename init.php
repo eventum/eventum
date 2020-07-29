@@ -16,7 +16,6 @@ use Eventum\Extension\ExtensionManager;
 use Eventum\ServiceContainer;
 
 require_once __DIR__ . '/autoload.php';
-require_once __DIR__ . '/globals.php';
 
 if (Setup::needsSetup()) {
     // redirect to setup

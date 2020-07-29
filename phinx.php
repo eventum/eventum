@@ -23,7 +23,6 @@ use Symfony\Component\EventDispatcher\GenericEvent;
  */
 
 require_once __DIR__ . '/autoload.php';
-require_once __DIR__ . '/globals.php';
 
 // workflow may use this in constructor
 Eventum\Monolog\Logger::initialize();

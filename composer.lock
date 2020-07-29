@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "410c975ca843f63b217473592b3a3fe3",
+    "content-hash": "342e36754acec5390a4701b219b6e825",
     "packages": [
         {
             "name": "cakephp/collection",
@@ -5572,7 +5572,7 @@
         },
         {
             "name": "symfony/inflector",
-            "version": "v4.4.10",
+            "version": "v4.4.11",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/inflector.git",

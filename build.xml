@@ -89,6 +89,7 @@
 				<include name="**/phpstan.neon"/>
 				<include name="**/phpunit.xml*"/>
 				<include name="**/psalm.xml"/>
+				<include name="**/symfony.lock"/>
 				<include name="**/travis.ini"/>
 				<exclude name="robmorgan/phinx/composer.json"/>
 			</fileset>
