@@ -118,6 +118,11 @@ class Kernel extends BaseKernel
         $routes->import("{$this->resourceDir}/routes_reports.yml");
         $routes->import("{$this->resourceDir}/routes_manage.yml");
         $routes->import("{$this->resourceDir}/routes.yml");
+
+        if (file_exists($filename = "{$this->resourceDir}/routes_{$this->environment}.yml")) {
+            $routes->import($filename);
+        }
+
         // optional routes by local install
         if (file_exists("{$this->configDir}/routes.yml")) {
             $routes->import("{$this->configDir}/routes.yml");
