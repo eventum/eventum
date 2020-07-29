@@ -804,7 +804,7 @@ class Workflow
      * @since 3.8.13 workflow integration is done by WorkflowLegacyExtension
      * @since 3.8.13 emits NOTIFICATION_ACTIONS event
      */
-    public static function getNotificationActions(int $prj_id, ?int $issue_id, ?string $email, ?string $source): ?array
+    public static function getNotificationActions(?int $prj_id, ?int $issue_id, ?string $email, ?string $source): ?array
     {
         $arguments = [
             'email' => $email,
