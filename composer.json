@@ -101,6 +101,7 @@
         "alcaeus/mongo-php-adapter": "^1.1",
         "balbuf/composer-git-merge-driver": "^1.1",
         "eventum/rpc": "^4.3.0",
+        "itsgoingd/clockwork": "^4.1",
         "jasig/phpcas": "~1.3.3",
         "maximebf/debugbar": "1.*",
         "sentry/sentry": "^1.7",
