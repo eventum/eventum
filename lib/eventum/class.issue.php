@@ -2000,7 +2000,7 @@ class Issue
         }
 
         // handle associated issues
-        if (isset($data['associated_issues'])) {
+        if (isset($data['associated_issues']) && $data['associated_issues']) {
             $associated_issues = explode(',', $data['associated_issues']);
             if ($clone_iss_id) {
                 $associated_issues[] = $clone_iss_id;
