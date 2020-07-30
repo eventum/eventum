@@ -1847,17 +1847,6 @@ class Issue
         $event = new EventContext($prj_id, null, $usr_id, $data);
         ServiceContainer::dispatch(SystemEvents::ISSUE_CREATE_PARAMS, $event);
 
-        // if we are creating an issue for a customer, put the
-        // main customer contact as the reporter for it
-        if (CRM::hasCustomerIntegration($prj_id)) {
-            $crm = CRM::getInstance($prj_id);
-            $contact_usr_id = User::getUserIDByContactID($data['contact']);
-            if (empty($contact_usr_id)) {
-                $contact_usr_id = $usr_id;
-            }
-            $data['reporter'] = $contact_usr_id;
-        }
-
         $issue_id = self::insertIssue($prj_id, $event);
         if ($issue_id == -1) {
             return -1;
