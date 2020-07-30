@@ -227,6 +227,12 @@ final class SystemEvents
     public const ISSUE_MARK_DUPLICATE = 'issue.mark_duplicate';
 
     /**
+     * @since 3.10.3
+     * @see Issue::createFromPost
+     */
+    public const ISSUE_CREATE_PARAMS = 'issue.create';
+
+    /**
      * @since 3.5.0
      * @see Workflow::handleNewIssue
      */
