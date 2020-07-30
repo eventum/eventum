@@ -1928,7 +1928,7 @@ class Issue
         } else {
             // only use the round-robin feature if this new issue was not
             // already assigned to a customer account manager
-            if (@count($managers) < 1) {
+            if (empty($managers) || count($managers) < 1) {
                 $assignee = Round_Robin::getNextAssignee($prj_id);
                 // assign the issue to the round robin person
                 if (!empty($assignee)) {
