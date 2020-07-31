@@ -18,6 +18,7 @@ use Eventum\Config\Paths;
 use Eventum\Db\Doctrine;
 use Eventum\Extension\ExtensionManager;
 use Psr\Log\LoggerInterface;
+use Setup;
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\Config\Resource\FileResource;
@@ -109,7 +110,9 @@ class Kernel extends BaseKernel implements CompilerPassInterface
 
         $container->setParameter('kernel.secret', Auth::privateKey());
 
+        $container->addResource(new FileResource(Setup::getPrivateKeyPath()));
         $container->addResource(new FileResource("{$resourceDir}/bundles.php"));
+
         $container->setParameter('container.dumper.inline_class_loader', true);
 
         $loader->load($resourceDir . '/{packages}/*.yml', 'glob');
