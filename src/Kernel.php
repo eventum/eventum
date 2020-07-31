@@ -17,15 +17,17 @@ use Auth;
 use Eventum\Config\Paths;
 use Eventum\Db\Doctrine;
 use Eventum\Extension\ExtensionManager;
+use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\Config\Resource\FileResource;
+use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Kernel as BaseKernel;
 use Symfony\Component\Routing\RouteCollectionBuilder;
 
-class Kernel extends BaseKernel
+class Kernel extends BaseKernel implements CompilerPassInterface
 {
     use MicroKernelTrait;
 
@@ -91,6 +93,14 @@ class Kernel extends BaseKernel
                 yield new $class();
             }
         }
+    }
+
+    public function process(ContainerBuilder $container): void
+    {
+        // Make LoggerInterface public to be able to get it from container
+        // https://stackoverflow.com/a/55045727/2314626
+        $logger = $container->getAlias(LoggerInterface::class);
+        $logger->setPublic(true);
     }
 
     protected function configureContainer(ContainerBuilder $container, LoaderInterface $loader): void
