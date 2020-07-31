@@ -467,7 +467,7 @@ class Auth
                 $adapter = Eventum\Auth\Adapter\Factory::create($spec ? $spec->toArray() : []);
             } catch (Throwable $e) {
                 $message = 'Unable to instantiate auth adapter';
-                Logger::app()->critical($message, ['exception' => $e]);
+                ServiceContainer::getLogger()->critical($message, ['exception' => $e]);
 
                 $tpl = new Template_Helper();
                 $tpl->setTemplate('authentication_error.tpl.html');

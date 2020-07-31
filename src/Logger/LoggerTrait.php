@@ -13,7 +13,7 @@
 
 namespace Eventum\Logger;
 
-use Eventum\Monolog\Logger;
+use Eventum\ServiceContainer;
 use Psr\Log\LoggerInterface;
 use Psr\Log\LoggerTrait as PsrLoggerTrait;
 
@@ -32,7 +32,7 @@ trait LoggerTrait
     protected function getLogger(): LoggerInterface
     {
         if ($this->logger === null) {
-            $this->logger = Logger::app();
+            $this->logger = ServiceContainer::getLogger();
         }
 
         return $this->logger;

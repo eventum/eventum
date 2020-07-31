@@ -17,6 +17,7 @@ use Eventum\Config\Config;
 use Pimple\Container;
 use Pimple\Psr11\Container as PsrContainer;
 use Psr\Container\ContainerInterface;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpKernel\KernelInterface;
 
 class ServiceContainer
@@ -55,6 +56,11 @@ class ServiceContainer
     public static function getConfig(): Config
     {
         return static::get('config');
+    }
+
+    public static function getLogger(): LoggerInterface
+    {
+        return static::get(LoggerInterface::class);
     }
 
     public static function getKernel(): KernelInterface

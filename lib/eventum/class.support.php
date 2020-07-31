@@ -22,7 +22,6 @@ use Eventum\Mail\Helper\WarningMessage;
 use Eventum\Mail\ImapMessage;
 use Eventum\Mail\MailBuilder;
 use Eventum\Mail\MailMessage;
-use Eventum\Monolog\Logger;
 use Eventum\ServiceContainer;
 
 /**
@@ -336,7 +335,7 @@ class Support
         $mbox = @imap_open(self::getServerURI($info), $info['ema_username'], $info['ema_password']);
         if ($mbox === false) {
             $error = @imap_last_error();
-            Logger::app()->error("Error while connecting to the email server - {$error}");
+            ServiceContainer::getLogger()->error("Error while connecting to the email server - {$error}");
         }
 
         return $mbox;
@@ -1622,7 +1621,7 @@ class Support
     {
         if ($to === null) {
             // BTW, $to = '' is ok
-            Logger::app()->error('"To:" can not be NULL');
+            ServiceContainer::getLogger()->error('"To:" can not be NULL');
 
             return -1;
         }
