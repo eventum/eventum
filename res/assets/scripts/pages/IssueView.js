@@ -89,8 +89,8 @@ export default class {
         $('.reply_issue_note').click(function() {
             page.replyIssueNote();
         });
-        $('.reply_email').click(function() {
-            page.reply();
+        $('.reply_email').click(function(e) {
+            page.reply(e);
         });
         $('.reply_email_note').click(function(e) {
             page.replyAsNote(e);
@@ -374,7 +374,7 @@ export default class {
         emailWin.focus();
     }
 
-    reply() {
+    reply(e) {
         const $target = $(e.target);
         const email_id = $target.data('sup_id');
         const iss_id = this.get_issue_id();
