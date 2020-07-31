@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "18fa26f8b4a4c34b5e5f0a367da39f60",
+    "content-hash": "8df89ca8483fba88b01032fe2a8b337b",
     "packages": [
         {
             "name": "cakephp/collection",
@@ -1984,55 +1984,6 @@
                 "laminas"
             ],
             "time": "2019-12-31T16:30:11+00:00"
-        },
-        {
-            "name": "laminas/laminas-loader",
-            "version": "2.6.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/laminas/laminas-loader.git",
-                "reference": "5d01c2c237ae9e68bec262f339947e2ea18979bc"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/laminas/laminas-loader/zipball/5d01c2c237ae9e68bec262f339947e2ea18979bc",
-                "reference": "5d01c2c237ae9e68bec262f339947e2ea18979bc",
-                "shasum": ""
-            },
-            "require": {
-                "laminas/laminas-zendframework-bridge": "^1.0",
-                "php": "^5.6 || ^7.0"
-            },
-            "replace": {
-                "zendframework/zend-loader": "self.version"
-            },
-            "require-dev": {
-                "laminas/laminas-coding-standard": "~1.0.0",
-                "phpunit/phpunit": "^5.7.27 || ^6.5.8 || ^7.1.4"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "2.6.x-dev",
-                    "dev-develop": "2.7.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Laminas\\Loader\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-3-Clause"
-            ],
-            "description": "Autoloading and plugin loading strategies",
-            "homepage": "https://laminas.dev",
-            "keywords": [
-                "laminas",
-                "loader"
-            ],
-            "time": "2019-12-31T17:18:27+00:00"
         },
         {
             "name": "laminas/laminas-mail",
