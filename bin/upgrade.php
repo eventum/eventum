@@ -12,7 +12,7 @@
  * that were distributed with this source code.
  */
 
-use Eventum\Kernel;
+use Eventum\ServiceContainer;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 
 define('INSTALL_PATH', __DIR__ . '/..');
@@ -36,7 +36,7 @@ chdir(__DIR__ . '/..');
  * Clear Symfony cache and run phing upgrade
  */
 
-$kernel = new Kernel($_SERVER['APP_ENV'], (bool)$_SERVER['APP_DEBUG']);
+$kernel = ServiceContainer::getKernel();
 $app = new Application($kernel);
 $app->setDefaultCommand('cache:clear', true);
 $app->setAutoExit(false);

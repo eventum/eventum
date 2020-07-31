@@ -77,7 +77,7 @@ class Kernel extends BaseKernel implements CompilerPassInterface
             $_SERVER['REQUEST_URI'] = $requestUri . rtrim($_SERVER['REQUEST_URI'], '/');
         }
 
-        $kernel = new Kernel($_SERVER['APP_ENV'], (bool)$_SERVER['APP_DEBUG']);
+        $kernel = ServiceContainer::getKernel();
         $request = Request::createFromGlobals();
         $response = $kernel->handle($request);
         $response->send();

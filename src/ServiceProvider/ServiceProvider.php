@@ -19,6 +19,7 @@ use Doctrine\ORM\EntityManager;
 use Eventum\Db\Doctrine;
 use Eventum\EventDispatcher\EventManager;
 use Eventum\Extension\ExtensionManager;
+use Eventum\Kernel;
 use Eventum\Mail\MessageIdGenerator;
 use Eventum\Monolog\Logger;
 use Pimple\Container;
@@ -26,6 +27,7 @@ use Pimple\ServiceProviderInterface;
 use Psr\Log\LoggerInterface;
 use Setup;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\HttpKernel\KernelInterface;
 
 class ServiceProvider implements ServiceProviderInterface
 {
@@ -49,6 +51,10 @@ class ServiceProvider implements ServiceProviderInterface
 
         $app[Connection::class] = static function ($app) {
             return $app[EntityManager::class]->getConnection();
+        };
+
+        $app[KernelInterface::class] = static function () {
+            return new Kernel($_SERVER['APP_ENV'], (bool)$_SERVER['APP_DEBUG']);
         };
 
         $app[LoggerInterface::class] = static function () {
