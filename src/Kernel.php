@@ -63,6 +63,17 @@ class Kernel extends BaseKernel implements CompilerPassInterface
         return $this;
     }
 
+    private static function isRewrite(): bool
+    {
+        if (isset($_SERVER['PATH_INFO'])) {
+            return true;
+        }
+
+        $scriptName = substr($_SERVER['SCRIPT_FILENAME'], -1 - strlen($_SERVER['SCRIPT_NAME']));
+
+        return $scriptName !== "/{$_SERVER['SCRIPT_NAME']}";
+    }
+
     public static function handleRequest(): void
     {
         /**
@@ -71,7 +82,8 @@ class Kernel extends BaseKernel implements CompilerPassInterface
          *
          * @see \Symfony\Component\HttpFoundation\Request::prepareBaseUrl
          */
-        if (!isset($_SERVER['PATH_INFO'])) {
+        // Skip this if already using rewrite (or index.php request)
+        if (!self::isRewrite()) {
             if (isset($_SERVER['REDIRECT_URI'])) {
                 /*
                  * handle mod_rewrite, example:
