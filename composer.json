@@ -108,6 +108,7 @@
         "symfony/browser-kit": "^4.2",
         "symfony/inflector": "^4.2",
         "symfony/phpunit-bridge": "^4.2",
+        "symfony/stopwatch": "^4.2",
         "symfony/thanks": "^1.0",
         "symfony/web-profiler-bundle": "^4.2"
     },
