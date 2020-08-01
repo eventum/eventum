@@ -306,28 +306,6 @@ class Setup
         $config = new Config(self::getDefaults(), true);
         $config->merge(new Config($loader->load(self::getSetupFile())));
 
-        // some subtrees are saved to different files
-        $extra_configs = [
-            // @deprecated
-            'ldap' => self::getConfigPath() . '/ldap.php',
-        ];
-
-        foreach ($extra_configs as $section => $filename) {
-            // skip if already present in main config
-            if (isset($config[$section]) && $config[$section]->toArray()) {
-                continue;
-            }
-
-            if (!file_exists($filename)) {
-                continue;
-            }
-
-            $subConfig = $loader->load($filename);
-            if ($subConfig) {
-                $config->merge(new Config([$section => $subConfig]));
-            }
-        }
-
         return $config;
     }
 
