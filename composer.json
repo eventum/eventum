@@ -91,6 +91,7 @@
     },
     "replace": {
         "laminas/laminas-zendframework-bridge": "1.0.4",
+        "laminas/laminas-loader": "2.6.1",
         "paragonie/random_compat": "9.99.99",
         "symfony/polyfill-ctype": "1.99",
         "symfony/polyfill-intl-idn": "1.99",

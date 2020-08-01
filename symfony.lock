@@ -122,9 +122,6 @@
     "laminas/laminas-config": {
         "version": "3.3.0"
     },
-    "laminas/laminas-loader": {
-        "version": "2.6.1"
-    },
     "laminas/laminas-mail": {
         "version": "2.11.0"
     },
