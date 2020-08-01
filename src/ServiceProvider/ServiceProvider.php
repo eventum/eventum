@@ -14,6 +14,8 @@
 namespace Eventum\ServiceProvider;
 
 use DB_Helper;
+use Doctrine\DBAL\Driver\Connection;
+use Eventum\Db\Doctrine;
 use Eventum\EventDispatcher\EventManager;
 use Eventum\Extension\ExtensionManager;
 use Eventum\Mail\MessageIdGenerator;
@@ -38,6 +40,12 @@ class ServiceProvider implements ServiceProviderInterface
 
         $app['db'] = static function () {
             return DB_Helper::getInstance();
+        };
+
+        $app[Connection::class] = static function () {
+            $em = Doctrine::getEntityManager();
+
+            return $em->getConnection();
         };
 
         $app[LoggerInterface::class] = static function () {

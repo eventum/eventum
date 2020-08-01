@@ -15,8 +15,10 @@ namespace Eventum\Db\Adapter;
 
 use BadMethodCallException;
 use DebugBar\DebugBarException;
+use Doctrine\DBAL\Driver\Connection;
 use Eventum;
 use Eventum\Db\DatabaseException;
+use Eventum\ServiceContainer;
 use PDO;
 use PDOException;
 use UnexpectedValueException;
@@ -29,7 +31,7 @@ class PdoAdapter implements AdapterInterface
 
     const PDO_DRIVER_MISSING_ERROR = 'The %s driver is not currently installed';
 
-    /** @var PDO */
+    /** @var Connection */
     private $db;
 
     /**
@@ -39,21 +41,10 @@ class PdoAdapter implements AdapterInterface
      */
     public function __construct(array $config)
     {
-        $dsn = $this->getDsn($config);
+        /** @var Connection $conn */
+        $conn = ServiceContainer::get(Connection::class);
 
-        $options = [
-            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-
-            // http://dev.mysql.com/doc/refman/5.7/en/sql-mode.html
-            PDO::MYSQL_ATTR_INIT_COMMAND => "SET SQL_MODE = ''",
-        ];
-
-        try {
-            $pdo = new PDO($dsn, $config['username'], $config['password'], $options);
-        } catch (PDOException $e) {
-            throw new DatabaseException("{$e->getMessage()}; dsn=$dsn", $e->getCode(), $e);
-        }
-
+        $pdo = $conn->getWrappedConnection();
         $pdo = Eventum\DebugBarManager::getDebugBarManager()->registerPdo($pdo);
 
         $this->db = $pdo;
