@@ -10,6 +10,7 @@ See [Upgrading] for details how to upgrade.
 - Use `Symfony\Contracts\EventDispatcher\Event` instead of deprecated `Symfony\Component`, #902
 - Configure Symfony logger: Processors, MailHandler, #904
 - Use Doctrine from Symfony in Doctrine::getEntityManager, #905
+- Setup Symfony Web Profiler Bundle, #900
 
 [3.9.3]: https://github.com/eventum/eventum/compare/v3.9.2...master
 
