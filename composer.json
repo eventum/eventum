@@ -107,7 +107,7 @@
         "sentry/sentry": "^1.7",
         "symfony/browser-kit": "^4.2",
         "symfony/inflector": "^4.2",
-        "symfony/phpunit-bridge": "^5.0",
+        "symfony/phpunit-bridge": "^4.2",
         "symfony/thanks": "^1.0"
     },
     "suggest": {
@@ -162,7 +162,10 @@
     },
     "extra": {
         "config-dir": "res",
-        "public-dir": "htdocs"
+        "public-dir": "htdocs",
+        "symfony": {
+            "require": "4.4.*"
+        }
     },
     "support": {
         "issues": "https://github.com/eventum/eventum/issues",
