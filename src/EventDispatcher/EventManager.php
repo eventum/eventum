@@ -16,9 +16,9 @@ namespace Eventum\EventDispatcher;
 use Eventum\Event\Subscriber;
 use Eventum\Extension\ExtensionManager;
 use Eventum\ServiceContainer;
-use Symfony\Component\EventDispatcher\Event;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Contracts\EventDispatcher\Event;
 
 class EventManager
 {
@@ -51,7 +51,7 @@ class EventManager
      * Helper to dispatch events
      *
      * @param string $eventName
-     * @param Event|\Symfony\Contracts\EventDispatcher\Event $event
+     * @param Event|\Symfony\Component\EventDispatcher\Event $event
      * @return Event|object
      * @see EventDispatcherInterface::dispatch()
      */

@@ -15,9 +15,9 @@ namespace Eventum\Test\Dispatcher;
 
 use Eventum\Extension\Provider;
 use Eventum\Test\TestCase;
-use Symfony\Component\EventDispatcher\Event;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Contracts\EventDispatcher\Event;
 
 class ExtensionSubscribeTest extends TestCase
 {
