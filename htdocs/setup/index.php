@@ -34,7 +34,7 @@ set_time_limit(0);
 // set default timezone to utc to avoid default timezone not set warnings
 date_default_timezone_set(@date_default_timezone_get());
 
-if (!file_exists($privateKeyFile = Setup::getConfigPath() . '/private_key.php') || !filesize($privateKeyFile)) {
+if (!file_exists($privateKeyFile = Setup::getPrivateKeyPath()) || !filesize($privateKeyFile)) {
     Auth::generatePrivateKey();
 }
 

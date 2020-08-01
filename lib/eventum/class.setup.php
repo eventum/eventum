@@ -286,6 +286,14 @@ class Setup
     }
 
     /**
+     * @since 3.9.3
+     */
+    public static function getPrivateKeyPath(): string
+    {
+        return self::getConfigPath() . '/private_key.php';
+    }
+
+    /**
      * @since 3.8.0
      * @return bool
      */

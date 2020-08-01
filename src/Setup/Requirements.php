@@ -66,6 +66,7 @@ class Requirements
         }
 
         $configPath = Setup::getConfigPath();
+        $privateKeyPath = Setup::getPrivateKeyPath();
         $setupFile = Setup::getSetupFile();
 
         $error = $this->checkPermissions($configPath, "Directory '" . $configPath . "'", true);
@@ -77,8 +78,8 @@ class Requirements
             $errors[] = $error;
         }
         $error = $this->checkPermissions(
-            $configPath . '/private_key.php',
-            "File '" . $configPath . '/private_key.php' . "'"
+            $privateKeyPath,
+            "File '" . $privateKeyPath . "'"
         );
         if (!empty($error)) {
             $errors[] = $error;
