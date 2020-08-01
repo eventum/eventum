@@ -29,5 +29,8 @@ monolog:
       handler: deprecation
       max_level: info
       channels: ["php"]
+    error_mailer:
+      type: service
+      id: Eventum\Monolog\MailHandler
 
 # vim:ts=2:sw=2:et
