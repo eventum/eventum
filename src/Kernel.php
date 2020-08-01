@@ -141,7 +141,9 @@ class Kernel extends BaseKernel implements CompilerPassInterface
 
     protected function configureRoutes(RouteCollectionBuilder $routes): void
     {
-        $routes->import("{$this->resourceDir}/routes/{$this->environment}/*.yml", '/', 'glob');
+        if ($this->environment === 'dev') {
+            $routes->import("{$this->resourceDir}/{routes}/{$this->environment}/*.yml", '/', 'glob');
+        }
         $routes->import("{$this->resourceDir}/{routes}/*.yml", '/', 'glob');
 
         $routes->import("{$this->resourceDir}/routes_reports.yml");
