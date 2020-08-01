@@ -21,8 +21,6 @@ monolog:
       # optionally configure the mapping between verbosity levels and log levels
       # verbosity_levels:
       #     VERBOSITY_NORMAL: NOTICE
-
-    # Uncomment to log deprecations
     deprecation:
       type: stream
       path: "%kernel.logs_dir%/%kernel.environment%.deprecations.log"
