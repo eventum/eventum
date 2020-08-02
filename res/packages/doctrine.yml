@@ -7,15 +7,16 @@ parameters:
 
 doctrine:
   dbal:
-    # configure these for your database server
     driver: 'pdo_mysql'
     server_version: '5.7'
     charset: utf8
     default_table_options:
       charset: utf8
       collate: utf8_general_ci
-
+    types:
+      datetime: Eventum\Db\Types\UTCDateTimeType
     url: '%env(resolve:DATABASE_URL)%'
+
   orm:
     auto_generate_proxy_classes: true
     naming_strategy: doctrine.orm.naming_strategy.underscore

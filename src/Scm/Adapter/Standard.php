@@ -15,6 +15,7 @@ namespace Eventum\Scm\Adapter;
 
 use Eventum\Db\Doctrine;
 use Eventum\Scm\Payload\StandardPayload;
+use Eventum\ServiceContainer;
 use InvalidArgumentException;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -58,7 +59,7 @@ class Standard extends AbstractAdapter
 
         $ci->setChangeset($payload->getCommitId());
 
-        $em = Doctrine::getEntityManager();
+        $em = ServiceContainer::getEntityManager();
         $cr = Doctrine::getCommitRepository();
 
         $cr->preCommit($ci, $payload);

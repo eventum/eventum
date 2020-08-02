@@ -16,6 +16,7 @@ namespace Eventum\Test;
 use Doctrine\ORM\EntityManager;
 use Eventum\Db\Doctrine;
 use Eventum\Model\Repository\UserPreferenceRepository;
+use Eventum\ServiceContainer;
 use ProjectSeeder;
 
 /**
@@ -30,7 +31,7 @@ class UserPreferenceTest extends TestCase
 
     public function setUp(): void
     {
-        $this->em = Doctrine::getEntityManager();
+        $this->em = ServiceContainer::getEntityManager();
         $this->repo = Doctrine::getUserPreferenceRepository();
     }
 

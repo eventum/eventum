@@ -24,6 +24,7 @@ use DebugBar\DebugBarException;
 use DebugBar\JavascriptRenderer;
 use DebugBar\StandardDebugBar;
 use Doctrine\DBAL\Logging\DebugStack;
+use Doctrine\DBAL\Logging\LoggerChain;
 use Doctrine\ORM\EntityManager;
 use Eventum\Logger\LoggerTrait;
 use Monolog\Logger as MonologLogger;
@@ -77,7 +78,13 @@ class DebugBarManager
 
         $debugBar = $this->debugBar;
         $debugStack = new DebugStack();
-        $entityManager->getConnection()->getConfiguration()->setSQLLogger($debugStack);
+        $configuration = $entityManager->getConnection()->getConfiguration();
+        $logger = $configuration->getSQLLogger();
+        if ($logger instanceof LoggerChain) {
+            $logger->addLogger($debugStack);
+        } else {
+            $configuration->setSQLLogger($debugStack);
+        }
 
         $debugBar->addCollector(new AggregatedCollector('doctrine'));
         $debugBar['doctrine']->addCollector(new DoctrineCollector($debugStack));

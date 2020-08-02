@@ -13,9 +13,9 @@
 
 use Eventum\Db\Adapter\AdapterInterface;
 use Eventum\Db\DatabaseException;
-use Eventum\Db\Doctrine;
 use Eventum\Model\Entity;
 use Eventum\Model\Repository;
+use Eventum\ServiceContainer;
 
 /**
  * Class to handle the business logic related to the administration
@@ -931,7 +931,7 @@ class Project
         static $repo;
 
         return $repo
-            ?: $repo = Doctrine::getEntityManager()
+            ?: $repo = ServiceContainer::getEntityManager()
                 ->getRepository(Entity\Project::class);
     }
 }
