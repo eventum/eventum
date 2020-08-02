@@ -25,6 +25,7 @@ use Eventum\Db\Types\UTCDateTimeType;
 use Eventum\DebugBarManager;
 use Eventum\Model\Repository;
 use Misc;
+use PDO;
 
 /**
  * @method static Repository\CommitFileRepository getCommitFileRepository()
@@ -69,6 +70,10 @@ class Doctrine
             'port' => $config['port'],
             'unix_socket' => $config['socket'] ?? null,
             'charset' => $config['charset'],
+            'driverOptions' => [
+                // http://dev.mysql.com/doc/refman/5.7/en/sql-mode.html
+                PDO::MYSQL_ATTR_INIT_COMMAND => "SET SQL_MODE = ''",
+            ],
         ];
 
         $cacheDriver = new Cache\ArrayCache();
