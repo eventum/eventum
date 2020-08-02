@@ -13,6 +13,10 @@ doctrine:
     default_table_options:
       charset: utf8
       collate: utf8_general_ci
+    options:
+      # PDO::MYSQL_ATTR_INIT_COMMAND
+      # https://dev.mysql.com/doc/refman/5.7/en/sql-mode.html
+      1002: "SET sql_mode=''"
     types:
       datetime: Eventum\Db\Types\UTCDateTimeType
     url: '%env(resolve:DATABASE_URL)%'
