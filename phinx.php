@@ -17,7 +17,7 @@ use Eventum\EventDispatcher\EventManager;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
 /**
- * Configuration proxy for sphix
+ * Configuration proxy for phinx
  *
  * @see http://docs.phinx.org/en/latest/commands.html#configuration-file-parameter
  */
@@ -26,6 +26,11 @@ require_once __DIR__ . '/autoload.php';
 
 // workflow may use this in constructor
 Eventum\Monolog\Logger::initialize();
+
+// Private key used on Symfony Kernel
+if (!file_exists($privateKeyFile = Setup::getPrivateKeyPath()) || !filesize($privateKeyFile)) {
+    Auth::generatePrivateKey();
+}
 
 // TODO: use "connection" => $pdo_instance once PEAR DB support is dropped
 // http://docs.phinx.org/en/latest/commands.html#configuration-file-parameter
