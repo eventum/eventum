@@ -17,15 +17,18 @@ use Auth;
 use Eventum\Config\Paths;
 use Eventum\Db\Doctrine;
 use Eventum\Extension\ExtensionManager;
+use Psr\Log\LoggerInterface;
+use Setup;
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\Config\Resource\FileResource;
+use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Kernel as BaseKernel;
 use Symfony\Component\Routing\RouteCollectionBuilder;
 
-class Kernel extends BaseKernel
+class Kernel extends BaseKernel implements CompilerPassInterface
 {
     use MicroKernelTrait;
 
@@ -48,6 +51,15 @@ class Kernel extends BaseKernel
         $this->configDir = "{$this->rootDir}/config";
         $this->resourceDir = "{$this->rootDir}/res";
         $this->name = $this->getName(false);
+    }
+
+    public function ensureBooted(): self
+    {
+        if (!$this->booted) {
+            $this->boot();
+        }
+
+        return $this;
     }
 
     public static function handleRequest(): void
@@ -75,7 +87,7 @@ class Kernel extends BaseKernel
             $_SERVER['REQUEST_URI'] = $requestUri . rtrim($_SERVER['REQUEST_URI'], '/');
         }
 
-        $kernel = new Kernel($_SERVER['APP_ENV'], (bool)$_SERVER['APP_DEBUG']);
+        $kernel = ServiceContainer::getKernel();
         $request = Request::createFromGlobals();
         $response = $kernel->handle($request);
         $response->send();
@@ -93,13 +105,23 @@ class Kernel extends BaseKernel
         }
     }
 
+    public function process(ContainerBuilder $container): void
+    {
+        // Make LoggerInterface public to be able to get it from container
+        // https://stackoverflow.com/a/55045727/2314626
+        $logger = $container->getAlias(LoggerInterface::class);
+        $logger->setPublic(true);
+    }
+
     protected function configureContainer(ContainerBuilder $container, LoaderInterface $loader): void
     {
         $resourceDir = $this->resourceDir;
 
         $container->setParameter('kernel.secret', Auth::privateKey());
 
+        $container->addResource(new FileResource(Setup::getPrivateKeyPath()));
         $container->addResource(new FileResource("{$resourceDir}/bundles.php"));
+
         $container->setParameter('container.dumper.inline_class_loader', true);
 
         $loader->load($resourceDir . '/{packages}/*.yml', 'glob');

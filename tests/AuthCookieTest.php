@@ -26,7 +26,7 @@ class AuthCookieTest extends TestCase
 {
     public static function setupBeforeClass(): void
     {
-        if (file_exists(Setup::getConfigPath() . '/private_key.php')) {
+        if (file_exists(Setup::getPrivateKeyPath())) {
             return;
         }
         Auth::generatePrivateKey();

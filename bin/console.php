@@ -12,7 +12,7 @@
  * that were distributed with this source code.
  */
 
-use Eventum\Kernel;
+use Eventum\ServiceContainer;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\ErrorHandler\Debug;
@@ -38,6 +38,6 @@ if ($_SERVER['APP_DEBUG']) {
     }
 }
 
-$kernel = new Kernel($_SERVER['APP_ENV'], (bool)$_SERVER['APP_DEBUG']);
+$kernel = ServiceContainer::getKernel();
 $application = new Application($kernel);
 $application->run($input);

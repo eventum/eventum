@@ -34,7 +34,7 @@ class Auth
     {
         static $private_key;
         if ($private_key === null) {
-            require_once Setup::getConfigPath() . '/private_key.php';
+            require_once Setup::getPrivateKeyPath();
         }
 
         return $private_key;
@@ -47,7 +47,7 @@ class Auth
      */
     public static function generatePrivateKey(): void
     {
-        $path = Setup::getConfigPath() . '/private_key.php';
+        $path = Setup::getPrivateKeyPath();
         $private_key = md5(Misc::generateRandom(32));
 
         $contents = '<' . "?php\n\$private_key = " . var_export($private_key, 1) . ";\n";
