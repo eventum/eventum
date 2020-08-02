@@ -16,6 +16,7 @@ namespace Eventum\ServiceProvider;
 use DB_Helper;
 use Doctrine\DBAL\Driver\Connection;
 use Doctrine\ORM\EntityManagerInterface;
+use Eventum\DebugBarManager;
 use Eventum\EventDispatcher\EventManager;
 use Eventum\Extension\ExtensionManager;
 use Eventum\Kernel;
@@ -49,7 +50,10 @@ class ServiceProvider implements ServiceProviderInterface
             /** @var ContainerInterface $container */
             $container = $app[ContainerInterface::class];
 
-            return $container->get(EntityManagerInterface::class);
+            $em = $container->get(EntityManagerInterface::class);
+            DebugBarManager::getDebugBarManager()->registerDoctrine($em);
+
+            return $em;
         };
 
         $app[Connection::class] = static function ($app) {
