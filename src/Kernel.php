@@ -14,6 +14,7 @@
 namespace Eventum;
 
 use Auth;
+use Doctrine\ORM\EntityManagerInterface;
 use Eventum\Config\Paths;
 use Eventum\Db\Doctrine;
 use Eventum\Extension\ExtensionManager;
@@ -107,10 +108,12 @@ class Kernel extends BaseKernel implements CompilerPassInterface
 
     public function process(ContainerBuilder $container): void
     {
-        // Make LoggerInterface public to be able to get it from container
+        // Make some services public to be able to get them from container
         // https://stackoverflow.com/a/55045727/2314626
         $logger = $container->getAlias(LoggerInterface::class);
         $logger->setPublic(true);
+        $em = $container->getAlias(EntityManagerInterface::class);
+        $em->setPublic(true);
     }
 
     protected function configureContainer(ContainerBuilder $container, LoaderInterface $loader): void

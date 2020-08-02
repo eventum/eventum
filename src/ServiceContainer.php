@@ -13,6 +13,7 @@
 
 namespace Eventum;
 
+use Doctrine\ORM\EntityManagerInterface;
 use Eventum\Config\Config;
 use Pimple\Container;
 use Pimple\Psr11\Container as PsrContainer;
@@ -66,5 +67,10 @@ class ServiceContainer
     public static function getKernel(): KernelInterface
     {
         return static::get(KernelInterface::class);
+    }
+
+    public static function getEntityManager(): EntityManagerInterface
+    {
+        return static::get(EntityManagerInterface::class);
     }
 }
