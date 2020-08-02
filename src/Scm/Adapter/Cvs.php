@@ -16,6 +16,7 @@ namespace Eventum\Scm\Adapter;
 use Eventum\Db\Doctrine;
 use Eventum\Model\Entity;
 use Eventum\Scm\Payload\StandardPayload;
+use Eventum\ServiceContainer;
 use InvalidArgumentException;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -47,7 +48,7 @@ class Cvs extends AbstractAdapter
             throw new InvalidArgumentException('No issues provided');
         }
 
-        $em = Doctrine::getEntityManager();
+        $em = ServiceContainer::getEntityManager();
         $cr = Doctrine::getCommitRepository();
 
         $commitId = $payload->getCommitId();

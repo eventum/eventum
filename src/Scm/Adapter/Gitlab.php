@@ -18,6 +18,7 @@ use Eventum\Event\SystemEvents;
 use Eventum\EventDispatcher\EventManager;
 use Eventum\Scm\Payload\GitlabPayload;
 use Eventum\Scm\ScmRepository;
+use Eventum\ServiceContainer;
 use Eventum\TextMatcher\GroupMatcher;
 use Eventum\TextMatcher\TextMatchInterface;
 use InvalidArgumentException;
@@ -147,7 +148,7 @@ class Gitlab extends AbstractAdapter
             throw new InvalidArgumentException("SCM repo not identified from {$repo_url}");
         }
 
-        $em = Doctrine::getEntityManager();
+        $em = ServiceContainer::getEntityManager();
         $cr = Doctrine::getCommitRepository();
         $matcher = GroupMatcher::create();
 

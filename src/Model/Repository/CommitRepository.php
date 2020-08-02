@@ -91,7 +91,7 @@ class CommitRepository extends EntityRepository
      */
     public function addCommitFiles(Entity\Commit $ci, $commit): void
     {
-        $em = Doctrine::getEntityManager();
+        $em = $this->getEntityManager();
 
         foreach ($commit['added'] as $filename) {
             $cf = (new Entity\CommitFile())
@@ -145,7 +145,7 @@ class CommitRepository extends EntityRepository
      */
     public function addIssues(Entity\Commit $ci, $issues): void
     {
-        $em = Doctrine::getEntityManager();
+        $em = $this->getEntityManager();
         $ir = Doctrine::getIssueRepository();
 
         // add issue association

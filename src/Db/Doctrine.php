@@ -73,7 +73,7 @@ class Doctrine
         if (preg_match('/get(\w+)Repository/', $method, $m)) {
             $class = '\\Eventum\\Model\\Entity\\' . $m[1];
 
-            return $repos[$class] ?? $repos[$class] = self::getEntityManager()
+            return $repos[$class] ?? $repos[$class] = ServiceContainer::getEntityManager()
                     ->getRepository($class);
         }
 
