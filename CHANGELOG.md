@@ -7,6 +7,7 @@ See [Upgrading] for details how to upgrade.
 - Drop loading deprecated `ldap.php`, #899
 - Update `laminas/laminas-mail` (2.11.0 => 2.12.0), #896
 - Use Doctrine PDO connection for legacy PdoAdapter, #901
+- Use `Symfony\Contracts\EventDispatcher\Event` instead of deprecated `Symfony\Component`, #902
 
 [3.9.3]: https://github.com/eventum/eventum/compare/v3.9.2...master
 

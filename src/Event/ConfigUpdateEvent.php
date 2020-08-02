@@ -17,7 +17,7 @@ use Eventum\Config\Config;
 use Eventum\Crypto\CryptoException;
 use Eventum\Crypto\CryptoManager;
 use Eventum\Crypto\EncryptedValue;
-use Symfony\Component\EventDispatcher\Event;
+use Symfony\Contracts\EventDispatcher\Event;
 
 final class ConfigUpdateEvent extends Event
 {
