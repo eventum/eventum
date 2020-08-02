@@ -4,6 +4,7 @@
 #
 
 cachedir=$(pwd)/cache
+install -d $cachedir
 
 # copy tool from cache
 # or download and put it to cache
