@@ -53,6 +53,15 @@ class Kernel extends BaseKernel implements CompilerPassInterface
         $this->name = $this->getName(false);
     }
 
+    public function ensureBooted(): self
+    {
+        if (!$this->booted) {
+            $this->boot();
+        }
+
+        return $this;
+    }
+
     public static function handleRequest(): void
     {
         /**
