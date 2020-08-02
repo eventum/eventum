@@ -17,7 +17,6 @@ use Eventum\Config\Paths;
 use Eventum\Event\ConfigUpdateEvent;
 use Eventum\Event\SystemEvents;
 use Eventum\EventDispatcher\EventManager;
-use Eventum\Monolog\Logger;
 use Eventum\ServiceContainer;
 use Symfony\Component\Filesystem\Exception\IOException;
 
@@ -261,7 +260,7 @@ class Setup
             self::saveConfig(self::getSetupFile(), $config);
         } catch (Exception $e) {
             $code = $e->getCode();
-            Logger::app()->error($e);
+            ServiceContainer::getLogger()->error($e);
 
             return $code ?: -1;
         }

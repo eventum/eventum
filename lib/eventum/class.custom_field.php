@@ -18,7 +18,6 @@ use Eventum\Db\Doctrine;
 use Eventum\Diff;
 use Eventum\Extension\ExtensionLoader;
 use Eventum\Model\Entity\CustomField;
-use Eventum\Monolog\Logger;
 use Eventum\ServiceContainer;
 
 /**
@@ -406,7 +405,7 @@ class Custom_Field
         try {
             self::updateCustomFieldValues($issue_id, $role_id, $custom_fields);
         } catch (Throwable $e) {
-            Logger::app()->error($e->getMessage(), ['exception' => $e]);
+            ServiceContainer::getLogger()->error($e->getMessage(), ['exception' => $e]);
 
             return false;
         }

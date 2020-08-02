@@ -15,7 +15,6 @@ use Eventum\Db\DatabaseException;
 use Eventum\Event;
 use Eventum\EventDispatcher\EventManager;
 use Eventum\Mail\MailBuilder;
-use Eventum\Monolog\Logger;
 use Eventum\ServiceContainer;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
@@ -325,7 +324,7 @@ class User
         try {
             self::updatePassword($usr_id, $passwd);
         } catch (Exception $e) {
-            Logger::app()->error($e);
+            ServiceContainer::getLogger()->error($e);
 
             return -1;
         }
@@ -433,7 +432,7 @@ class User
         static $returns;
 
         if (!is_string($email)) {
-            Logger::app()->error('$email parameter is not a string', ['type' => gettype($email), 'value' => $email]);
+            ServiceContainer::getLogger()->error('$email parameter is not a string', ['type' => gettype($email), 'value' => $email]);
 
             return null;
         }
