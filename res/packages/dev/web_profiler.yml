@@ -1,0 +1,8 @@
+web_profiler:
+  toolbar: true
+  intercept_redirects: false
+
+framework:
+  profiler: { only_exceptions: false }
+
+# vim:ts=2:sw=2:et
