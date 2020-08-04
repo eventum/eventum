@@ -3,6 +3,10 @@ monolog:
     error_mailer:
       type: service
       id: Eventum\Monolog\MailHandler
+    doctrine:
+      type: stream
+      path: "%kernel.logs_dir%/%kernel.environment%.doctrine.log"
+      channels: ["doctrine"]
     deprecation:
       type: stream
       path: "%kernel.logs_dir%/%kernel.environment%.deprecations.log"
