@@ -1,3 +1,17 @@
+monolog:
+  handlers:
+    error_mailer:
+      type: service
+      id: Eventum\Monolog\MailHandler
+    deprecation:
+      type: stream
+      path: "%kernel.logs_dir%/%kernel.environment%.deprecations.log"
+    deprecation_filter:
+      type: filter
+      handler: deprecation
+      max_level: info
+      channels: ["php"]
+
 services:
   Eventum\Monolog\AppInfoProcessor:
     tags:

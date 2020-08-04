@@ -21,16 +21,5 @@ monolog:
       # optionally configure the mapping between verbosity levels and log levels
       # verbosity_levels:
       #     VERBOSITY_NORMAL: NOTICE
-    deprecation:
-      type: stream
-      path: "%kernel.logs_dir%/%kernel.environment%.deprecations.log"
-    deprecation_filter:
-      type: filter
-      handler: deprecation
-      max_level: info
-      channels: ["php"]
-    error_mailer:
-      type: service
-      id: Eventum\Monolog\MailHandler
 
 # vim:ts=2:sw=2:et
