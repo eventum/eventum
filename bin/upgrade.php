@@ -13,7 +13,7 @@
  */
 
 use Eventum\ServiceContainer;
-use Symfony\Component\Console\Input\ArgvInput;
+use Symfony\Component\Console\Input\StringInput;
 
 define('INSTALL_PATH', __DIR__ . '/..');
 define('CONFIG_PATH', INSTALL_PATH . '/config');
@@ -42,4 +42,4 @@ $phinx->setAutoExit(false);
 $phinx->run();
 
 $app = ServiceContainer::getApplication();
-$app->run(new ArgvInput(['', 'cache:clear']));
+$app->run(new StringInput('cache:clear'));

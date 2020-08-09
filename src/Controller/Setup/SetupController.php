@@ -27,7 +27,7 @@ use Eventum\Setup\SetupException;
 use IntlCalendar;
 use Misc;
 use Setup;
-use Symfony\Component\Console\Input\ArgvInput;
+use Symfony\Component\Console\Input\StringInput;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -200,7 +200,7 @@ class SetupController
     private function clearCache(): void
     {
         $app = ServiceContainer::getApplication();
-        $app->run(new ArgvInput(['', 'cache:clear']));
+        $app->run(new StringInput('cache:clear'));
     }
 
     private function boot(Request $request): void
