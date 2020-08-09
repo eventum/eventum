@@ -13,7 +13,6 @@
  */
 
 use Eventum\ServiceContainer;
-use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Component\Console\Input\ArgvInput;
 
 define('INSTALL_PATH', __DIR__ . '/..');
@@ -42,7 +41,6 @@ $phinx->setDefaultCommand('migrate');
 $phinx->setAutoExit(false);
 $phinx->run();
 
-$kernel = ServiceContainer::getKernel();
-$app = new Application($kernel);
+$app = ServiceContainer::getApplication();
 $app->setAutoExit(false);
 $app->run(new ArgvInput(['', 'cache:clear']));

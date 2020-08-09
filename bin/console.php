@@ -13,7 +13,6 @@
  */
 
 use Eventum\ServiceContainer;
-use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\ErrorHandler\Debug;
 
@@ -38,6 +37,5 @@ if ($_SERVER['APP_DEBUG']) {
     }
 }
 
-$kernel = ServiceContainer::getKernel();
-$application = new Application($kernel);
+$application = ServiceContainer::getApplication();
 $application->run($input);

@@ -26,6 +26,7 @@ use Pimple\Container;
 use Pimple\ServiceProviderInterface;
 use Psr\Log\LoggerInterface;
 use Setup;
+use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpKernel\KernelInterface;
@@ -62,6 +63,12 @@ class ServiceProvider implements ServiceProviderInterface
 
         $app[KernelInterface::class] = static function () {
             return new Kernel($_SERVER['APP_ENV'], (bool)$_SERVER['APP_DEBUG']);
+        };
+
+        $app[Application::class] = static function ($app) {
+            $kernel = $app[KernelInterface::class];
+
+            return new Application($kernel);
         };
 
         $app[ContainerInterface::class] = static function ($app) {
