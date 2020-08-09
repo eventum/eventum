@@ -200,7 +200,6 @@ class SetupController
     private function clearCache(): void
     {
         $app = ServiceContainer::getApplication();
-        $app->setAutoExit(false);
         $app->run(new ArgvInput(['', 'cache:clear']));
     }
 

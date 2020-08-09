@@ -42,5 +42,4 @@ $phinx->setAutoExit(false);
 $phinx->run();
 
 $app = ServiceContainer::getApplication();
-$app->setAutoExit(false);
 $app->run(new ArgvInput(['', 'cache:clear']));

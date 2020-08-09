@@ -68,7 +68,10 @@ class ServiceProvider implements ServiceProviderInterface
         $app[Application::class] = static function ($app) {
             $kernel = $app[KernelInterface::class];
 
-            return new Application($kernel);
+            $application = new Application($kernel);
+            $application->setAutoExit(false);
+
+            return $application;
         };
 
         $app[ContainerInterface::class] = static function ($app) {
