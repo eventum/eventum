@@ -1,6 +1,6 @@
 # Eventum Issue Tracking System
 
-## [3.9.3]
+## [3.9.3] - 2020-08-10
 
 See [Upgrading] for details how to upgrade.
 
@@ -12,7 +12,7 @@ See [Upgrading] for details how to upgrade.
 - Use Doctrine from Symfony in Doctrine::getEntityManager, #905
 - Setup Symfony Web Profiler Bundle, #900
 
-[3.9.3]: https://github.com/eventum/eventum/compare/v3.9.2...master
+[3.9.3]: https://github.com/eventum/eventum/compare/v3.9.2...v3.9.3
 
 ## [3.9.2] - 2020-07-26
 
