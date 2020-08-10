@@ -19,6 +19,7 @@ use Pimple\Container;
 use Pimple\Psr11\Container as PsrContainer;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
+use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Component\HttpKernel\KernelInterface;
 
 class ServiceContainer
@@ -67,6 +68,11 @@ class ServiceContainer
     public static function getKernel(): KernelInterface
     {
         return static::get(KernelInterface::class);
+    }
+
+    public static function getApplication(): Application
+    {
+        return static::get(Application::class);
     }
 
     public static function getEntityManager(): EntityManagerInterface

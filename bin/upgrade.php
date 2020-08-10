@@ -13,7 +13,7 @@
  */
 
 use Eventum\ServiceContainer;
-use Symfony\Bundle\FrameworkBundle\Console\Application;
+use Symfony\Component\Console\Input\StringInput;
 
 define('INSTALL_PATH', __DIR__ . '/..');
 define('CONFIG_PATH', INSTALL_PATH . '/config');
@@ -33,16 +33,13 @@ require_once INSTALL_PATH . '/init.php';
 chdir(__DIR__ . '/..');
 
 /**
- * Clear Symfony cache and run phing upgrade
+ * Run phing upgrade and clear clear Symfony cache.
  */
 
-$kernel = ServiceContainer::getKernel();
-$app = new Application($kernel);
-$app->setDefaultCommand('cache:clear', true);
-$app->setAutoExit(false);
-$app->run();
+$phinx = new Phinx\Console\PhinxApplication();
+$phinx->setDefaultCommand('migrate');
+$phinx->setAutoExit(false);
+$phinx->run();
 
-$app = new Phinx\Console\PhinxApplication();
-$app->setDefaultCommand('migrate');
-$app->setAutoExit(false);
-$app->run();
+$app = ServiceContainer::getApplication();
+$app->run(new StringInput('cache:clear'));

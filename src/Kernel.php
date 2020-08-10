@@ -122,6 +122,7 @@ class Kernel extends BaseKernel implements CompilerPassInterface
 
         $container->setParameter('kernel.secret', Auth::privateKey());
 
+        $container->addResource(new FileResource(Setup::getConfigPath()));
         $container->addResource(new FileResource(Setup::getPrivateKeyPath()));
         $container->addResource(new FileResource(Setup::getSetupFile()));
         $container->addResource(new FileResource("{$resourceDir}/bundles.php"));

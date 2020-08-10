@@ -27,6 +27,7 @@ use Eventum\Setup\SetupException;
 use IntlCalendar;
 use Misc;
 use Setup;
+use Symfony\Component\Console\Input\StringInput;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -193,6 +194,13 @@ class SetupController
         Auth::generatePrivateKey();
         $this->writeSetup();
         $this->setupDatabase();
+        $this->clearCache();
+    }
+
+    private function clearCache(): void
+    {
+        $app = ServiceContainer::getApplication();
+        $app->run(new StringInput('cache:clear'));
     }
 
     private function boot(Request $request): void
