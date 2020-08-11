@@ -4,6 +4,8 @@
 
 See [Upgrading] for details how to upgrade.
 
+- Replace symfony/polyfill-php72, #911
+
 [3.9.4]: https://github.com/eventum/eventum/compare/v3.9.3...master
 
 ## [3.9.3] - 2020-08-10
