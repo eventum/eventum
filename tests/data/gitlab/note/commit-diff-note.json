@@ -1,0 +1,102 @@
+{
+	"object_kind": "note",
+	"event_type": "note",
+	"user": {
+		"name": "Elan Ruusamäe",
+		"username": "glensc",
+		"avatar_url": "https://secure.gravatar.com/avatar/00756b6c4989540e24c627c904dd461f?s=80&d=identicon",
+		"email": "glen@pld-linux.org"
+	},
+	"project_id": 15322558,
+	"project": {
+		"id": 15322558,
+		"name": "playground",
+		"description": "A place to test various things.",
+		"web_url": "https://gitlab.com/glensc/playground",
+		"avatar_url": null,
+		"git_ssh_url": "git@gitlab.com:glensc/playground.git",
+		"git_http_url": "https://gitlab.com/glensc/playground.git",
+		"namespace": "Elan Ruusamäe",
+		"visibility_level": 20,
+		"path_with_namespace": "glensc/playground",
+		"default_branch": "development",
+		"ci_config_path": null,
+		"homepage": "https://gitlab.com/glensc/playground",
+		"url": "git@gitlab.com:glensc/playground.git",
+		"ssh_url": "git@gitlab.com:glensc/playground.git",
+		"http_url": "https://gitlab.com/glensc/playground.git"
+	},
+	"object_attributes": {
+		"attachment": null,
+		"author_id": 163557,
+		"change_position": {
+			"base_sha": null,
+			"start_sha": null,
+			"head_sha": null,
+			"old_path": null,
+			"new_path": null,
+			"position_type": "text",
+			"old_line": null,
+			"new_line": null,
+			"line_range": null
+		},
+		"commit_id": "1c33438638ae02624ff0115ac798cbc85d0ac91c",
+		"created_at": "2020-08-11 18:32:42 UTC",
+		"discussion_id": "327acc7b27634817a4a82b917d30d4a2a4cf85a8",
+		"id": 394294527,
+		"line_code": "8ec9a00bfd09b3190ac6b22251dbb1aa95a0579d_12_9",
+		"note": "Kielbasa drumstick jerky laboris eu irure chicken minim lorem chislic mollit reprehenderit. Shankle velit sunt sausage anim pork belly doner incididunt in irure. Rump officia tempor beef t-bone kielbasa pork belly. Labore pancetta exercitation flank ball tip mollit.",
+		"noteable_id": null,
+		"noteable_type": "Commit",
+		"original_position": {
+			"base_sha": "76a59c8d9f20674e1f211da9ab1ecfa404ccca11",
+			"start_sha": "76a59c8d9f20674e1f211da9ab1ecfa404ccca11",
+			"head_sha": "1c33438638ae02624ff0115ac798cbc85d0ac91c",
+			"old_path": "README.md",
+			"new_path": "README.md",
+			"position_type": "text",
+			"old_line": null,
+			"new_line": 9,
+			"line_range": null
+		},
+		"position": {
+			"base_sha": "76a59c8d9f20674e1f211da9ab1ecfa404ccca11",
+			"start_sha": "76a59c8d9f20674e1f211da9ab1ecfa404ccca11",
+			"head_sha": "1c33438638ae02624ff0115ac798cbc85d0ac91c",
+			"old_path": "README.md",
+			"new_path": "README.md",
+			"position_type": "text",
+			"old_line": null,
+			"new_line": 9,
+			"line_range": null
+		},
+		"project_id": 15322558,
+		"resolved_at": null,
+		"resolved_by_id": null,
+		"resolved_by_push": null,
+		"st_diff": null,
+		"system": false,
+		"type": "DiffNote",
+		"updated_at": "2020-08-11 18:32:42 UTC",
+		"updated_by_id": null,
+		"description": "Kielbasa drumstick jerky laboris eu irure chicken minim lorem chislic mollit reprehenderit. Shankle velit sunt sausage anim pork belly doner incididunt in irure. Rump officia tempor beef t-bone kielbasa pork belly. Labore pancetta exercitation flank ball tip mollit.",
+		"url": "https://gitlab.com/glensc/playground/-/commit/1c33438638ae02624ff0115ac798cbc85d0ac91c#note_394294527"
+	},
+	"repository": {
+		"name": "playground",
+		"url": "git@gitlab.com:glensc/playground.git",
+		"description": "A place to test various things.",
+		"homepage": "https://gitlab.com/glensc/playground"
+	},
+	"commit": {
+		"id": "1c33438638ae02624ff0115ac798cbc85d0ac91c",
+		"message": "Update links to new repository location\n",
+		"title": "Update links to new repository location",
+		"timestamp": "2020-05-07T09:38:31+03:00",
+		"url": "https://gitlab.com/glensc/playground/-/commit/1c33438638ae02624ff0115ac798cbc85d0ac91c",
+		"author": {
+			"name": "Elan Ruusamäe",
+			"email": "glen@delfi.ee"
+		}
+	}
+}
