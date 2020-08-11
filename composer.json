@@ -96,7 +96,8 @@
         "symfony/polyfill-ctype": "1.99",
         "symfony/polyfill-intl-idn": "1.99",
         "symfony/polyfill-intl-normalizer": "1.99",
-        "symfony/polyfill-mbstring": "1.99"
+        "symfony/polyfill-mbstring": "1.99",
+        "symfony/polyfill-php72": "1.99"
     },
     "require-dev": {
         "alcaeus/mongo-php-adapter": "^1.1",
