@@ -127,7 +127,7 @@ class Gitlab extends AbstractAdapter
 
         $matcher = GroupMatcher::create();
         $data = iterator_to_array($fn($matcher, $payload));
-        if (!$data) {
+        if (!$data || !$data['issues']) {
             return;
         }
         $data['url'] = $payload->getUrl();
