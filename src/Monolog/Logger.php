@@ -30,6 +30,9 @@ use Setup;
  */
 class Logger extends Registry
 {
+    /** @var bool */
+    private static $initialized;
+
     /**
      * Configure logging for Eventum application.
      *
@@ -40,6 +43,10 @@ class Logger extends Registry
      */
     public static function initialize(): void
     {
+        if (self::$initialized) {
+            return;
+        }
+
         // Configure it use Eventum timezone
         Monolog\Logger::setTimezone(new DateTimeZone(Setup::getDefaultTimezone()));
 
@@ -53,6 +60,21 @@ class Logger extends Registry
 
         // attach php errorhandler to app logger
         Monolog\ErrorHandler::register(self::getInstance('app'));
+
+        self::$initialized = true;
+    }
+
+    public static function __callStatic($name, $arguments)
+    {
+        if ($name === 'app') {
+            return ServiceContainer::getLogger();
+        }
+
+        trigger_deprecation('eventum/eventum', '3.10.0', 'Calling "%s::%s" is deprecated', self::class, $name);
+
+        self::initialize();
+
+        return parent::getInstance($name);
     }
 
     /**
