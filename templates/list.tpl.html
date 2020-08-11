@@ -188,7 +188,7 @@
                   <nobr>
                   <input name="first" type="button" value="|&lt;">
                   <input name="previous" type="button" value="&lt;&lt;"">
-                  <input type="text" name="page" size="3" maxlength="3" value="{if $list_info.current_page == ''}1{else}{math equation="x + 1" x=$list_info.current_page}{/if}"  class="paging_input" onKeyPress="return checkPageField(event);">
+                  <input type="text" name="page" size="3" maxlength="3" value="{if $list_info.current_page == ''}1{else}{math equation="x + 1" x=$list_info.current_page}{/if}"  class="paging_input">
                   <input name="go" type="button" value="{t}Go{/t}">
                   <input name="next" type="button" value="&gt;&gt;">
                   <input name="last" type="button" value="&gt;|">
