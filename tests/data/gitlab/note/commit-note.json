@@ -1,0 +1,72 @@
+{
+	"object_kind": "note",
+	"event_type": "note",
+	"user": {
+		"name": "Elan Ruusamäe",
+		"username": "glensc",
+		"avatar_url": "https://secure.gravatar.com/avatar/00756b6c4989540e24c627c904dd461f?s=80&d=identicon",
+		"email": "glen@pld-linux.org"
+	},
+	"project_id": 15322558,
+	"project": {
+		"id": 15322558,
+		"name": "playground",
+		"description": "A place to test various things.",
+		"web_url": "https://gitlab.com/glensc/playground",
+		"avatar_url": null,
+		"git_ssh_url": "git@gitlab.com:glensc/playground.git",
+		"git_http_url": "https://gitlab.com/glensc/playground.git",
+		"namespace": "Elan Ruusamäe",
+		"visibility_level": 20,
+		"path_with_namespace": "glensc/playground",
+		"default_branch": "development",
+		"ci_config_path": null,
+		"homepage": "https://gitlab.com/glensc/playground",
+		"url": "git@gitlab.com:glensc/playground.git",
+		"ssh_url": "git@gitlab.com:glensc/playground.git",
+		"http_url": "https://gitlab.com/glensc/playground.git"
+	},
+	"object_attributes": {
+		"attachment": null,
+		"author_id": 163557,
+		"change_position": null,
+		"commit_id": "1c33438638ae02624ff0115ac798cbc85d0ac91c",
+		"created_at": "2020-08-11 18:28:51 UTC",
+		"discussion_id": "41df1438f3d7b4718145f8e10563d92e82549a21",
+		"id": 394293252,
+		"line_code": null,
+		"note": "Ham shankle short ribs swine. Qui porchetta culpa, irure shank ground round id mollit. Short loin porchetta aute velit cupidatat sed eiusmod pork chop chislic landjaeger anim beef ribs. Nostrud eu meatloaf tongue buffalo.",
+		"noteable_id": null,
+		"noteable_type": "Commit",
+		"original_position": null,
+		"position": null,
+		"project_id": 15322558,
+		"resolved_at": null,
+		"resolved_by_id": null,
+		"resolved_by_push": null,
+		"st_diff": null,
+		"system": false,
+		"type": null,
+		"updated_at": "2020-08-11 18:28:51 UTC",
+		"updated_by_id": null,
+		"description": "Ham shankle short ribs swine. Qui porchetta culpa, irure shank ground round id mollit. Short loin porchetta aute velit cupidatat sed eiusmod pork chop chislic landjaeger anim beef ribs. Nostrud eu meatloaf tongue buffalo.",
+		"url": "https://gitlab.com/glensc/playground/-/commit/1c33438638ae02624ff0115ac798cbc85d0ac91c#note_394293252"
+	},
+	"repository": {
+		"name": "playground",
+		"url": "git@gitlab.com:glensc/playground.git",
+		"description": "A place to test various things.",
+		"homepage": "https://gitlab.com/glensc/playground"
+	},
+	"commit": {
+		"id": "1c33438638ae02624ff0115ac798cbc85d0ac91c",
+		"message": "Update links to new repository location\n",
+		"title": "Update links to new repository location",
+		"timestamp": "2020-05-07T09:38:31+03:00",
+		"url": "https://gitlab.com/glensc/playground/-/commit/1c33438638ae02624ff0115ac798cbc85d0ac91c",
+		"author": {
+			"name": "Elan Ruusamäe",
+			"email": "glen@delfi.ee"
+		}
+	}
+}
