@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "1d82f6db0f9f7086eb659260e7d161f4",
+    "content-hash": "374c025b24442c5a6a93aef9501b502d",
     "packages": [
         {
             "name": "cakephp/collection",
@@ -2901,16 +2901,16 @@
         },
         {
             "name": "perftools/php-profiler",
-            "version": "0.7.2",
+            "version": "0.9.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/perftools/php-profiler.git",
-                "reference": "433e1d152789562a3cd9d28da5078407cbb484ed"
+                "reference": "275e115e92df574d1fb398f89d50378e18ab5b20"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/perftools/php-profiler/zipball/433e1d152789562a3cd9d28da5078407cbb484ed",
-                "reference": "433e1d152789562a3cd9d28da5078407cbb484ed",
+                "url": "https://api.github.com/repos/perftools/php-profiler/zipball/275e115e92df574d1fb398f89d50378e18ab5b20",
+                "reference": "275e115e92df574d1fb398f89d50378e18ab5b20",
                 "shasum": ""
             },
             "require": {
@@ -2926,7 +2926,10 @@
                 "alcaeus/mongo-php-adapter": "Adapter to provide ext-mongo interface on top of mongo-php-libary (PHP>=5.6)",
                 "ext-curl": "cURL extension for upload saver",
                 "ext-mongo": "mongo extension (PHP>=5.3,<7.0)",
-                "ext-mongodb": "mongodb extension (PHP>=5.4,<7.3)"
+                "ext-mongodb": "mongodb extension (PHP>=5.4)",
+                "ext-tideways": "Use tideways to profile",
+                "ext-uprofiler": "Use uprofiler to profile",
+                "ext-xhprof": "Use xhprof to profile"
             },
             "type": "library",
             "autoload": {
@@ -2949,7 +2952,7 @@
                 }
             ],
             "description": "PHP Profiling based on XHGUI",
-            "time": "2020-07-26T19:51:47+00:00"
+            "time": "2020-08-16T12:25:19+00:00"
         },
         {
             "name": "perftools/xhgui-collector",
