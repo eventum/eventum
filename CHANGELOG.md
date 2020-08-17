@@ -5,6 +5,7 @@
 See [Upgrading] for details how to upgrade.
 
 - Replace symfony/polyfill-php72, #911
+- Add support for GitLab noteable type `Commit`, #912
 
 [3.9.4]: https://github.com/eventum/eventum/compare/v3.9.3...master
 

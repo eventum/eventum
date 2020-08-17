@@ -24,9 +24,11 @@ class GitlabPayload implements PayloadInterface
 
     public const NOTEABLE_TYPE_MERGE_REQUEST = 'MergeRequest';
     public const NOTEABLE_TYPE_ISSUE = 'Issue';
+    public const NOTEABLE_TYPE_COMMIT = 'Commit';
 
     private const OBJECT_TYPE_ISSUE = 'issue';
     private const OBJECT_TYPE_MERGE_REQUEST = 'merge_request';
+    private const OBJECT_TYPE_COMMIT = 'commit';
 
     /** @var array */
     private $payload = [];
@@ -127,7 +129,7 @@ class GitlabPayload implements PayloadInterface
 
     public function getTitle(): ?string
     {
-        return $this->getIssueTitle() ?: $this->getMergeRequestTitle() ?: null;
+        return $this->getIssueTitle() ?: $this->getMergeRequestTitle() ?: $this->getCommitTitle() ?: null;
     }
 
     public function getIssueTitle(): ?string
@@ -138,6 +140,22 @@ class GitlabPayload implements PayloadInterface
     public function getMergeRequestTitle(): ?string
     {
         return $this->getObjectAttribute(self::OBJECT_TYPE_MERGE_REQUEST, 'title');
+    }
+
+    /**
+     * @since 3.9.4
+     */
+    public function getCommitTitle(): ?string
+    {
+        return $this->getObjectAttribute(self::OBJECT_TYPE_COMMIT, 'title');
+    }
+
+    /**
+     * @since 3.9.4
+     */
+    public function getCommitHash(): ?string
+    {
+        return $this->getObjectAttribute(self::OBJECT_TYPE_COMMIT, 'id');
     }
 
     /**

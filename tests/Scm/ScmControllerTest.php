@@ -13,6 +13,8 @@
 
 namespace Eventum\Test\Scm;
 
+use Eventum\Event\SystemEvents;
+use Eventum\EventDispatcher\EventManager;
 use Eventum\Test\Traits\DataFileTrait;
 
 class ScmControllerTest extends TestCase
@@ -38,6 +40,33 @@ class ScmControllerTest extends TestCase
         $this->assertEquals("#1 - Issue Summary #1 (discovery)\n", $json['message']);
 
         $this->assertEquals(['bla'], $files);
+    }
+
+    /**
+     * @dataProvider GitlabCommitNoteData
+     */
+    public function testGitlabCommitNote(string $input): void
+    {
+        $payload = $this->readDataFile($input);
+
+        $invoked = false;
+        $listener = static function () use (&$invoked): void {
+            $invoked = true;
+        };
+
+        $dispatcher = EventManager::getEventDispatcher();
+        $dispatcher->addListener(SystemEvents::RPC_GITLAB_MATCH_ISSUE, $listener);
+
+        $json = $this->makeRequest($payload, ['HTTP_X-Gitlab-Event' => 'Note Hook']);
+        $expected = ['code' => 0, 'message' => ''];
+        $this->assertEquals($expected, $json);
+        $this->assertFalse($invoked);
+    }
+
+    public function GitlabCommitNoteData(): iterable
+    {
+        yield ['gitlab/note/commit-note.json'];
+        yield ['gitlab/note/commit-diff-note.json'];
     }
 
     public function testCvs(): void
