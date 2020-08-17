@@ -55,16 +55,13 @@ class XhguiProfilerExtension implements SubscriberProvider, EventSubscriberInter
 
     public function boot(): void
     {
+        $profiler = new Profiler($this->getProfilerConfig());
+
         try {
-            $profiler = new Profiler($this->getProfilerConfig());
+            $profiler->start();
         } catch (Throwable $e) {
             $this->debug($e->getMessage(), ['exception' => $e]);
-
-            return;
         }
-
-        $profiler->enable();
-        $profiler->registerShutdownHandler();
     }
 
     private function getProfilerConfig(): array
