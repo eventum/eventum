@@ -734,7 +734,7 @@ class Workflow
      * @since 3.8.13 emits MAIL_QUEUE_MODIFY event
      * @since 3.8.13 workflow integration is done by WorkflowLegacyExtension
      */
-    public static function modifyMailQueue(int $prj_id, $email, MailMessage $mail, array $options): void
+    public static function modifyMailQueue(?int $prj_id, $email, MailMessage $mail, array $options): void
     {
         $address = $email instanceof Address ? $email : AddressHeader::fromString($email)->getAddress();
         $arguments = [
