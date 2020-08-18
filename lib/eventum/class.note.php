@@ -93,7 +93,7 @@ class Note
         } else {
             $res['not_from'] = User::getFullName($res['not_usr_id']);
         }
-        if ($res['not_has_attachment']) {
+        if ($res['not_has_attachment'] && $res['not_full_message'] !== null) {
             $mail = MailMessage::createFromString($res['not_full_message']);
             $res['attachments'] = $mail->getAttachment()->getAttachments();
         }
