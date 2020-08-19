@@ -344,6 +344,9 @@ class Setup
         // at minimum should define top level array elements
         // so that fluent access works without errors and notices
         $defaults = [
+            'short_name' => 'Eventum',
+            'tool_caption' => 'Eventum',
+            'cookie' => 'eventum',
             'relative_url' => '/',
             'monitor' => [
                 'diskcheck' => [
