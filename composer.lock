@@ -4,66 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "374c025b24442c5a6a93aef9501b502d",
+    "content-hash": "57889f7ca134f0b14ba1cb556555980c",
     "packages": [
         {
-            "name": "cakephp/collection",
-            "version": "4.1.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/cakephp/collection.git",
-                "reference": "9193891f0e657f97bae94678275232132f858c96"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/cakephp/collection/zipball/9193891f0e657f97bae94678275232132f858c96",
-                "reference": "9193891f0e657f97bae94678275232132f858c96",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=7.2.0"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Cake\\Collection\\": "."
-                },
-                "files": [
-                    "functions.php"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "CakePHP Community",
-                    "homepage": "https://github.com/cakephp/collection/graphs/contributors"
-                }
-            ],
-            "description": "Work easily with arrays and iterators by having a battery of utility traversal methods",
-            "homepage": "https://cakephp.org",
-            "keywords": [
-                "arrays",
-                "cakephp",
-                "collections",
-                "iterators"
-            ],
-            "time": "2020-07-16T19:40:36+00:00"
-        },
-        {
             "name": "cakephp/core",
-            "version": "4.1.1",
+            "version": "4.1.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/cakephp/core.git",
-                "reference": "d988765de7ff5f7c3588fb236001712e4bd8fe2e"
+                "reference": "c7e88f1cd6dfe17065e71f1af305d415f155e97e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cakephp/core/zipball/d988765de7ff5f7c3588fb236001712e4bd8fe2e",
-                "reference": "d988765de7ff5f7c3588fb236001712e4bd8fe2e",
+                "url": "https://api.github.com/repos/cakephp/core/zipball/c7e88f1cd6dfe17065e71f1af305d415f155e97e",
+                "reference": "c7e88f1cd6dfe17065e71f1af305d415f155e97e",
                 "shasum": ""
             },
             "require": {
@@ -100,20 +54,20 @@
                 "core",
                 "framework"
             ],
-            "time": "2020-06-14T20:03:17+00:00"
+            "time": "2020-08-13T23:43:58+00:00"
         },
         {
             "name": "cakephp/database",
-            "version": "4.1.1",
+            "version": "4.1.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/cakephp/database.git",
-                "reference": "ef40f24b00acd4f14bc5fc59a9ab3a54ca2199fc"
+                "reference": "b5342110aca5dea9c902c2e12d2077ea2c11eecb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cakephp/database/zipball/ef40f24b00acd4f14bc5fc59a9ab3a54ca2199fc",
-                "reference": "ef40f24b00acd4f14bc5fc59a9ab3a54ca2199fc",
+                "url": "https://api.github.com/repos/cakephp/database/zipball/b5342110aca5dea9c902c2e12d2077ea2c11eecb",
+                "reference": "b5342110aca5dea9c902c2e12d2077ea2c11eecb",
                 "shasum": ""
             },
             "require": {
@@ -149,20 +103,20 @@
                 "database abstraction",
                 "pdo"
             ],
-            "time": "2020-07-17T17:29:56+00:00"
+            "time": "2020-08-14T17:56:57+00:00"
         },
         {
             "name": "cakephp/datasource",
-            "version": "4.1.1",
+            "version": "4.1.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/cakephp/datasource.git",
-                "reference": "dce9c84f504c034a12c3ff4cc5963c63ef2f5dd0"
+                "reference": "4514e256c3da3c88c0cb4754218a217f9f20ec1d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cakephp/datasource/zipball/dce9c84f504c034a12c3ff4cc5963c63ef2f5dd0",
-                "reference": "dce9c84f504c034a12c3ff4cc5963c63ef2f5dd0",
+                "url": "https://api.github.com/repos/cakephp/datasource/zipball/4514e256c3da3c88c0cb4754218a217f9f20ec1d",
+                "reference": "4514e256c3da3c88c0cb4754218a217f9f20ec1d",
                 "shasum": ""
             },
             "require": {
@@ -201,20 +155,20 @@
                 "entity",
                 "query"
             ],
-            "time": "2020-06-13T02:24:58+00:00"
+            "time": "2020-07-21T05:44:43+00:00"
         },
         {
             "name": "cakephp/utility",
-            "version": "4.1.1",
+            "version": "4.1.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/cakephp/utility.git",
-                "reference": "263d25a8b2f6d054a9164ba49f58dbdd1a011513"
+                "reference": "c65a5a169077c561b6e850e6d0ee85d9a54b6f5a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cakephp/utility/zipball/263d25a8b2f6d054a9164ba49f58dbdd1a011513",
-                "reference": "263d25a8b2f6d054a9164ba49f58dbdd1a011513",
+                "url": "https://api.github.com/repos/cakephp/utility/zipball/c65a5a169077c561b6e850e6d0ee85d9a54b6f5a",
+                "reference": "c65a5a169077c561b6e850e6d0ee85d9a54b6f5a",
                 "shasum": ""
             },
             "require": {
@@ -254,7 +208,7 @@
                 "string",
                 "utility"
             ],
-            "time": "2020-06-22T08:33:27+00:00"
+            "time": "2020-08-12T08:25:29+00:00"
         },
         {
             "name": "container-interop/container-interop",
@@ -353,16 +307,16 @@
         },
         {
             "name": "doctrine/annotations",
-            "version": "1.10.3",
+            "version": "1.10.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/annotations.git",
-                "reference": "5db60a4969eba0e0c197a19c077780aadbc43c5d"
+                "reference": "bfe91e31984e2ba76df1c1339681770401ec262f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/annotations/zipball/5db60a4969eba0e0c197a19c077780aadbc43c5d",
-                "reference": "5db60a4969eba0e0c197a19c077780aadbc43c5d",
+                "url": "https://api.github.com/repos/doctrine/annotations/zipball/bfe91e31984e2ba76df1c1339681770401ec262f",
+                "reference": "bfe91e31984e2ba76df1c1339681770401ec262f",
                 "shasum": ""
             },
             "require": {
@@ -372,7 +326,8 @@
             },
             "require-dev": {
                 "doctrine/cache": "1.*",
-                "phpunit/phpunit": "^7.5"
+                "phpstan/phpstan": "^0.12.20",
+                "phpunit/phpunit": "^7.5 || ^9.1.5"
             },
             "type": "library",
             "extra": {
@@ -418,7 +373,7 @@
                 "docblock",
                 "parser"
             ],
-            "time": "2020-05-25T17:24:27+00:00"
+            "time": "2020-08-10T19:35:50+00:00"
         },
         {
             "name": "doctrine/cache",
@@ -1988,16 +1943,16 @@
         },
         {
             "name": "laminas/laminas-mail",
-            "version": "2.12.1",
+            "version": "2.12.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laminas/laminas-mail.git",
-                "reference": "77b4ea7c3d58f5f8858e638a6f809cc6cfdd7f9e"
+                "reference": "c154a733b122539ac2c894561996c770db289f70"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laminas/laminas-mail/zipball/77b4ea7c3d58f5f8858e638a6f809cc6cfdd7f9e",
-                "reference": "77b4ea7c3d58f5f8858e638a6f809cc6cfdd7f9e",
+                "url": "https://api.github.com/repos/laminas/laminas-mail/zipball/c154a733b122539ac2c894561996c770db289f70",
+                "reference": "c154a733b122539ac2c894561996c770db289f70",
                 "shasum": ""
             },
             "require": {
@@ -2052,7 +2007,7 @@
                     "type": "community_bridge"
                 }
             ],
-            "time": "2020-08-05T15:27:27+00:00"
+            "time": "2020-08-12T14:51:33+00:00"
         },
         {
             "name": "laminas/laminas-mime",
@@ -2412,28 +2367,29 @@
         },
         {
             "name": "league/flysystem",
-            "version": "1.0.70",
+            "version": "1.1.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/flysystem.git",
-                "reference": "585824702f534f8d3cf7fab7225e8466cc4b7493"
+                "reference": "63cd8c14708b9544d3f61d3c15b747fda1c95c6e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/585824702f534f8d3cf7fab7225e8466cc4b7493",
-                "reference": "585824702f534f8d3cf7fab7225e8466cc4b7493",
+                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/63cd8c14708b9544d3f61d3c15b747fda1c95c6e",
+                "reference": "63cd8c14708b9544d3f61d3c15b747fda1c95c6e",
                 "shasum": ""
             },
             "require": {
                 "ext-fileinfo": "*",
-                "php": ">=5.5.9"
+                "league/mime-type-detection": "^1.3",
+                "php": "^7.2.5 || ^8.0"
             },
             "conflict": {
                 "league/flysystem-sftp": "<1.0.6"
             },
             "require-dev": {
-                "phpspec/phpspec": "^3.4 || ^4.0 || ^5.0 || ^6.0",
-                "phpunit/phpunit": "^5.7.26"
+                "phpspec/prophecy": "^1.11.1",
+                "phpunit/phpunit": "^8.5.8"
             },
             "suggest": {
                 "ext-fileinfo": "Required for MimeType",
@@ -2498,7 +2454,7 @@
                     "type": "other"
                 }
             ],
-            "time": "2020-07-26T07:20:36+00:00"
+            "time": "2020-08-18T10:57:55+00:00"
         },
         {
             "name": "league/html-to-markdown",
@@ -2581,6 +2537,57 @@
                 }
             ],
             "time": "2020-07-01T00:34:03+00:00"
+        },
+        {
+            "name": "league/mime-type-detection",
+            "version": "1.4.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/thephpleague/mime-type-detection.git",
+                "reference": "fda190b62b962d96a069fcc414d781db66d65b69"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/thephpleague/mime-type-detection/zipball/fda190b62b962d96a069fcc414d781db66d65b69",
+                "reference": "fda190b62b962d96a069fcc414d781db66d65b69",
+                "shasum": ""
+            },
+            "require": {
+                "ext-fileinfo": "*",
+                "php": "^7.2 || ^8.0"
+            },
+            "require-dev": {
+                "phpstan/phpstan": "^0.12.36",
+                "phpunit/phpunit": "^8.5.8"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "League\\MimeTypeDetection\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Frank de Jonge",
+                    "email": "info@frankdejonge.nl"
+                }
+            ],
+            "description": "Mime-type detection for Flysystem",
+            "funding": [
+                {
+                    "url": "https://github.com/frankdejonge",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/league/flysystem",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2020-08-09T10:34:01+00:00"
         },
         {
             "name": "malkusch/lock",
@@ -3703,20 +3710,19 @@
         },
         {
             "name": "robmorgan/phinx",
-            "version": "0.12.3",
+            "version": "0.12.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/cakephp/phinx.git",
-                "reference": "c63dcecbad83ae5723498e8b78163a4988d118f6"
+                "reference": "05902f4a90790ce9db195954e608d5a43d4d6a7d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cakephp/phinx/zipball/c63dcecbad83ae5723498e8b78163a4988d118f6",
-                "reference": "c63dcecbad83ae5723498e8b78163a4988d118f6",
+                "url": "https://api.github.com/repos/cakephp/phinx/zipball/05902f4a90790ce9db195954e608d5a43d4d6a7d",
+                "reference": "05902f4a90790ce9db195954e608d5a43d4d6a7d",
                 "shasum": ""
             },
             "require": {
-                "cakephp/collection": "^4.0",
                 "cakephp/database": "^4.0",
                 "php": ">=7.2",
                 "psr/container": "^1.0",
@@ -3782,7 +3788,7 @@
                 "migrations",
                 "phinx"
             ],
-            "time": "2020-06-25T23:01:19+00:00"
+            "time": "2020-08-15T07:42:40+00:00"
         },
         {
             "name": "sebastian/diff",
