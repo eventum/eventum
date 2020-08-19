@@ -111,7 +111,7 @@ class MailDownloadCommand extends SymfonyCommand
             try {
                 $processor->process($resource);
             } catch (Throwable $e) {
-                $this->error($e->getMessage(), ['resource' => $resource, 'e' => $e]);
+                $this->error($e->getMessage(), ['account' => (string)$mbox, 'resource' => $resource, 'class' => get_class($e), 'e' => $e]);
                 continue;
             }
         }
