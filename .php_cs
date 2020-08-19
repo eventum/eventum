@@ -35,6 +35,10 @@ $finder = $config->getFinder()
     ->in(__DIR__)
     ->ignoreDotFiles(false)
     ->name('.php_cs')
+    ->exclude('node_modules')
+    ->exclude('po')
+    ->exclude('release')
+    ->exclude('var')
     ->notPath('localization/LINGUAS.php')
     // this filter would accept only files that are present in Git
     ->filter(function (SplFileInfo $file) use (&$files, $quiet) {
