@@ -8,6 +8,7 @@ See [Upgrading] for details how to upgrade.
 - Add support for GitLab noteable type `Commit`, #912
 - Detect rewrite module (nginx), #910
 - Fix creating mail message on null note, #914
+- Fix Time Tracking edit popup not working, #859, #917
 
 [3.9.4]: https://github.com/eventum/eventum/compare/v3.9.3...master
 

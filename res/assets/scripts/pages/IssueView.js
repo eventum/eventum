@@ -442,7 +442,7 @@ export default class {
         const $target = $(e.target);
         const features = 'width=550,height=250,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
 
-        const ttr_id = $target.data('ttr-id');
+        const ttr_id = $target.closest('a').data('ttr-id');
         const url = `time_tracking.php?ttr_id=${ttr_id}`;
         const popupWin = window.open(url, 'time_tracking_edit_' + ttr_id, features);
 
