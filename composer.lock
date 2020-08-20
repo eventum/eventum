@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "57889f7ca134f0b14ba1cb556555980c",
+    "content-hash": "00eff03df252b0f5bf31aed27b03173e",
     "packages": [
         {
             "name": "cakephp/core",
@@ -3169,6 +3169,57 @@
                 "chart",
                 "phplot"
             ]
+        },
+        {
+            "name": "phpmyadmin/motranslator",
+            "version": "5.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/phpmyadmin/motranslator.git",
+                "reference": "d1982c7e468df332b6ff0d73fb599519140d393f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/phpmyadmin/motranslator/zipball/d1982c7e468df332b6ff0d73fb599519140d393f",
+                "reference": "d1982c7e468df332b6ff0d73fb599519140d393f",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.1",
+                "symfony/expression-language": "^4.0 || ^5.0"
+            },
+            "require-dev": {
+                "phpmyadmin/coding-standard": "^1.0",
+                "phpunit/php-code-coverage": "*",
+                "phpunit/phpunit": "^7.4 || ^8",
+                "sami/sami": "^4.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "PhpMyAdmin\\MoTranslator\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "The phpMyAdmin Team",
+                    "email": "developers@phpmyadmin.net",
+                    "homepage": "https://www.phpmyadmin.net/team/"
+                }
+            ],
+            "description": "Translation API for PHP using Gettext MO files",
+            "homepage": "https://github.com/phpmyadmin/motranslator",
+            "keywords": [
+                "gettext",
+                "i18n",
+                "mo",
+                "translator"
+            ],
+            "time": "2020-02-28T13:01:56+00:00"
         },
         {
             "name": "phpxmlrpc/phpxmlrpc",
