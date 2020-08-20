@@ -124,8 +124,8 @@ export default class {
         $('#upload_file').click(function(e) {
             page.upload_file(e);
         });
-        $('#attachments .delete_attachment').click(function() {
-            return page.delete_attachment();
+        $('#attachments .delete_attachment').click(function(e) {
+            return page.delete_attachment(e);
         });
         $('#attachments .delete_file').click(function(e) {
             return page.delete_file(e);
