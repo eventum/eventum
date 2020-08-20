@@ -6,11 +6,15 @@ about: Report errors and problems
 
 **Version(s) affected**: x.y.z
 
-<!-- This is important if you are not using latest version, as the problem may be resolved in newer version. -->
+<!-- This is important if you are not using latest version, as the problem may be resolved in newer version -->
 
 **PHP Version**: x.y.z
 
-<!-- The problem may be php version related, check the documentation of php version supported for Eventum version . -->
+<!-- The problem may be php version related, check the documentation of php version supported for Eventum version -->
+
+**Browser and Version**: Browser x.y.z
+
+<!-- If the problem is in JavaScript or CSS, the problem may be browser related -->
 
 **Description**  
 <!-- A clear and concise description of the problem. -->
