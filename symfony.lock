@@ -188,6 +188,9 @@
     "phplot/phplot": {
         "version": "v6.1.0"
     },
+    "phpmyadmin/motranslator": {
+        "version": "5.0.0"
+    },
     "phpxmlrpc/phpxmlrpc": {
         "version": "4.4.2"
     },
