@@ -14,6 +14,9 @@
 namespace Eventum\Controller;
 
 use Auth;
+use Eventum\Config\Paths;
+use Eventum\Markdown\MarkdownRendererInterface;
+use Eventum\ServiceContainer;
 use Help;
 
 class HelpController extends BaseController
@@ -48,7 +51,7 @@ class HelpController extends BaseController
     /**
      * @return string
      */
-    private function getTopic()
+    private function getTopic(): string
     {
         $get = $this->getRequest()->query;
         $topic = $get->get('topic');
@@ -65,16 +68,45 @@ class HelpController extends BaseController
      */
     protected function prepareTemplate(): void
     {
-        $topic = $this->getTopic();
+        $topic = $this->getRequest()->query->get('topic', 'index');
+        $topicPath = $this->getTopicPath($topic);
+        if (!file_exists($topicPath)) {
+            $topicPath = $this->getTopicPath('index');
+        }
+
+        $markdown = file_get_contents($topicPath);
+        $help = $this->renderTemplate($markdown);
+
+        $topic = 'main'; // backward compat
         $this->tpl->assign(
             [
+                'help' => $help,
                 'topic' => $topic,
                 'links' => Help::getNavigationLinks($topic),
             ]
         );
 
-        if ($topic != 'main') {
+        if ($topic !== 'main') {
             $this->tpl->assign('child_links', Help::getChildLinks($topic));
         }
+    }
+
+    private function renderTemplate(string $markdown): string
+    {
+        $renderer = ServiceContainer::get(MarkdownRendererInterface::RENDER_BLOCK);
+
+        return $renderer->render($markdown);
+    }
+
+    private function getTopicPath(string $topic): string
+    {
+        if (!$topic || $topic === 'main') {
+            $topic = 'index';
+        } else {
+            // avoid path traversal
+            $topic = basename($topic);
+        }
+
+        return sprintf('%s/%s.md', Paths::APP_HELP_PATH, $topic);
     }
 }
