@@ -520,7 +520,7 @@ class RemoteApiTest extends TestCase
         $redeemed_only = false;
 
         try {
-            $res = self::$client->getIncidentTypes($issue_id, $redeemed_only);
+            self::$client->getIncidentTypes($issue_id, $redeemed_only);
         } catch (Exception $e) {
             $this->assertEquals('No customer integration for issue #1', $e->getMessage());
         }

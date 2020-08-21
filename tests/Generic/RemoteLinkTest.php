@@ -22,7 +22,7 @@ use Eventum\Test\TestCase;
  */
 class RemoteLinkTest extends TestCase
 {
-    /** @var \Doctrine\ORM\EntityRepository|RemoteLinkRepository */
+    /** @var RemoteLinkRepository */
     private $repo;
 
     public function setUp(): void

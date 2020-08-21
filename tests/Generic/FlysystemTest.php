@@ -44,7 +44,6 @@ class FlysystemTest extends TestCase
      */
     public function testPhlibFlysystemPdo(): void
     {
-        /** @var PdoAdapter $db */
         $db = DB_Helper::getInstance();
         $pdo = $db->getPdo();
 

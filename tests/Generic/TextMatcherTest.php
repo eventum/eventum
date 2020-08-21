@@ -28,7 +28,7 @@ class TextMatcherTest extends TestCase
     /**
      * @dataProvider dataProvider
      */
-    public function testIssueMatch(TextMatchInterface $matcher, $text, $expected): void
+    public function testIssueMatch(TextMatchInterface $matcher, string $text, array $expected): void
     {
         $result = iterator_to_array($matcher->match($text), false);
         $this->assertEquals($expected, $result);

@@ -75,7 +75,7 @@ class MiscTest extends TestCase
             ],
             // some emoji
             [
-                ['a' => self::unichr(0x1F6B2) . self::unichr(0x1F4A8)],
+                ['a' => $this->unichr(0x1F6B2) . $this->unichr(0x1F4A8)],
                 ['a' => ''],
             ],
         ];
@@ -102,8 +102,8 @@ class MiscTest extends TestCase
      * @param int $u
      * @return string
      */
-    private function unichr($u): string
+    private function unichr(int $u): string
     {
-        return mb_convert_encoding('&#' . intval($u) . ';', 'UTF-8', 'HTML-ENTITIES');
+        return mb_convert_encoding('&#' . $u . ';', 'UTF-8', 'HTML-ENTITIES');
     }
 }

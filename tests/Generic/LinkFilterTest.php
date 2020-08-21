@@ -34,7 +34,7 @@ class LinkFilterTest extends TestCase
      * @dataProvider dataTestIssueLinking
      * @see          Link_Filter::proccessText
      */
-    public function testIssueLinking($text, $exp): void
+    public function testIssueLinking(string $text, string $exp): void
     {
         $text = self::$linkFilter->replace($text);
         $this->assertRegExp($exp, $text);

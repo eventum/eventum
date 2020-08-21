@@ -22,8 +22,7 @@ class VersionTest extends TestCase
     /**
      * @dataProvider dataProvider
      */
-
-    public function testVersions($versionString, $parsed)
+    public function testVersions(string $versionString, array $parsed): void
     {
         $version = new Version($versionString);
         $this->assertEquals($parsed, (array)$version);
