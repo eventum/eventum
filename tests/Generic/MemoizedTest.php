@@ -11,11 +11,12 @@
  * that were distributed with this source code.
  */
 
-namespace Eventum\Test;
+namespace Eventum\Test\Generic;
 
 use Eventum\MemoizeDecorator;
+use Eventum\Test\TestCase;
 
-class MemoizeTest extends TestCase
+class MemoizedTest extends TestCase
 {
     public function test1(): void
     {

@@ -11,9 +11,10 @@
  * that were distributed with this source code.
  */
 
-namespace Eventum\Test;
+namespace Eventum\Test\Generic;
 
 use DB_Helper;
+use Eventum\Test\TestCase;
 use League\Flysystem\Adapter\Local;
 use League\Flysystem\Config;
 use League\Flysystem\Filesystem;

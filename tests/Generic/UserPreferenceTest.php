@@ -11,12 +11,13 @@
  * that were distributed with this source code.
  */
 
-namespace Eventum\Test;
+namespace Eventum\Test\Generic;
 
 use Doctrine\ORM\EntityManager;
 use Eventum\Db\Doctrine;
 use Eventum\Model\Repository\UserPreferenceRepository;
 use Eventum\ServiceContainer;
+use Eventum\Test\TestCase;
 use ProjectSeeder;
 
 /**

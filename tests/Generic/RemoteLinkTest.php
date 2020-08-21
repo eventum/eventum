@@ -11,10 +11,11 @@
  * that were distributed with this source code.
  */
 
-namespace Eventum\Test;
+namespace Eventum\Test\Generic;
 
 use Eventum\Db\Doctrine;
 use Eventum\Model\Repository\RemoteLinkRepository;
+use Eventum\Test\TestCase;
 
 /**
  * @group db

@@ -11,8 +11,9 @@
  * that were distributed with this source code.
  */
 
-namespace Eventum\Test;
+namespace Eventum\Test\Generic;
 
+use Eventum\Test\TestCase;
 use Eventum\Version;
 use Generator;
 

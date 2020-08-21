@@ -11,10 +11,11 @@
  * that were distributed with this source code.
  */
 
-namespace Eventum\Test;
+namespace Eventum\Test\Generic;
 
 use Auth;
 use AuthCookie;
+use Eventum\Test\TestCase;
 use ProjectSeeder;
 use Setup;
 use UserSeeder;

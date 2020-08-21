@@ -11,9 +11,10 @@
  * that were distributed with this source code.
  */
 
-namespace Eventum\Test;
+namespace Eventum\Test\Generic;
 
 use Eventum\Templating\Asset;
+use Eventum\Test\TestCase;
 
 class AssetTest extends TestCase
 {

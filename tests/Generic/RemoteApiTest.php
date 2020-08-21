@@ -11,11 +11,12 @@
  * that were distributed with this source code.
  */
 
-namespace Eventum\Test;
+namespace Eventum\Test\Generic;
 
 use Eventum\RPC\EventumXmlRpcClient;
 use Eventum\RPC\RemoteApi;
 use Eventum\ServiceContainer;
+use Eventum\Test\TestCase;
 use Exception;
 
 /**

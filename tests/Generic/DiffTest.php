@@ -11,9 +11,10 @@
  * that were distributed with this source code.
  */
 
-namespace Eventum\Test;
+namespace Eventum\Test\Generic;
 
 use Eventum\Diff\Differ;
+use Eventum\Test\TestCase;
 
 class DiffTest extends TestCase
 {

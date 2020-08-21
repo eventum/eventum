@@ -11,9 +11,10 @@
  * that were distributed with this source code.
  */
 
-namespace Eventum\Test;
+namespace Eventum\Test\Generic;
 
 use Eventum\LinkFilter\LinkFilter;
+use Eventum\Test\TestCase;
 use Link_Filter;
 
 /**
