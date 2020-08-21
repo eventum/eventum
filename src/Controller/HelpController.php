@@ -18,6 +18,8 @@ use Eventum\Config\Paths;
 use Eventum\Markdown\MarkdownRendererInterface;
 use Eventum\ServiceContainer;
 use Help;
+use League\CommonMark\Event\DocumentParsedEvent;
+use League\CommonMark\Inline\Element\Link;
 
 class HelpController extends BaseController
 {
@@ -93,7 +95,28 @@ class HelpController extends BaseController
 
     private function renderTemplate(string $markdown): string
     {
+        /** @var MarkdownRendererInterface $renderer */
         $renderer = ServiceContainer::get(MarkdownRendererInterface::RENDER_BLOCK);
+
+        $environment = $renderer->getEnvironment();
+        // convert markdown links to help
+        $environment->addEventListener(DocumentParsedEvent::class, static function (DocumentParsedEvent $e) {
+            $walker = $e->getDocument()->walker();
+
+            while ($event = $walker->next()) {
+                $node = $event->getNode();
+                if (!$node instanceof Link) {
+                    continue;
+                }
+
+                // match relative link with .md extension
+                if (!preg_match('#^([^/]+)\.md$#', $node->getUrl(), $m)) {
+                    continue;
+                }
+                $topic = $m[1];
+                $node->setUrl('help.php?topic=' . $topic);
+            }
+        });
 
         return $renderer->render($markdown);
     }
