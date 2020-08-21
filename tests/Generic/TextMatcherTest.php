@@ -11,8 +11,9 @@
  * that were distributed with this source code.
  */
 
-namespace Eventum\Test;
+namespace Eventum\Test\Generic;
 
+use Eventum\Test\TestCase;
 use Eventum\TextMatcher\GroupMatcher;
 use Eventum\TextMatcher\IssueMatcher;
 use Eventum\TextMatcher\NoteMatcher;
@@ -27,7 +28,7 @@ class TextMatcherTest extends TestCase
     /**
      * @dataProvider dataProvider
      */
-    public function testIssueMatch(TextMatchInterface $matcher, $text, $expected): void
+    public function testIssueMatch(TextMatchInterface $matcher, string $text, array $expected): void
     {
         $result = iterator_to_array($matcher->match($text), false);
         $this->assertEquals($expected, $result);

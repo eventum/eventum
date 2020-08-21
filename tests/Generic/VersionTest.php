@@ -11,8 +11,9 @@
  * that were distributed with this source code.
  */
 
-namespace Eventum\Test;
+namespace Eventum\Test\Generic;
 
+use Eventum\Test\TestCase;
 use Eventum\Version;
 use Generator;
 
@@ -21,8 +22,7 @@ class VersionTest extends TestCase
     /**
      * @dataProvider dataProvider
      */
-
-    public function testVersions($versionString, $parsed)
+    public function testVersions(string $versionString, array $parsed): void
     {
         $version = new Version($versionString);
         $this->assertEquals($parsed, (array)$version);

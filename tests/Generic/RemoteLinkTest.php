@@ -11,17 +11,18 @@
  * that were distributed with this source code.
  */
 
-namespace Eventum\Test;
+namespace Eventum\Test\Generic;
 
 use Eventum\Db\Doctrine;
 use Eventum\Model\Repository\RemoteLinkRepository;
+use Eventum\Test\TestCase;
 
 /**
  * @group db
  */
 class RemoteLinkTest extends TestCase
 {
-    /** @var \Doctrine\ORM\EntityRepository|RemoteLinkRepository */
+    /** @var RemoteLinkRepository */
     private $repo;
 
     public function setUp(): void

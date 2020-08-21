@@ -11,10 +11,11 @@
  * that were distributed with this source code.
  */
 
-namespace Eventum\Test;
+namespace Eventum\Test\Generic;
 
 use Eventum\Db\Doctrine;
 use Eventum\Model\Repository\IssueAssociationRepository;
+use Eventum\Test\TestCase;
 use Eventum\Test\Traits\DoctrineTrait;
 use InvalidArgumentException;
 use IssueSeeder;

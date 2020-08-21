@@ -11,11 +11,12 @@
  * that were distributed with this source code.
  */
 
-namespace Eventum\Test;
+namespace Eventum\Test\Generic;
 
 use Eventum\RPC\EventumXmlRpcClient;
 use Eventum\RPC\RemoteApi;
 use Eventum\ServiceContainer;
+use Eventum\Test\TestCase;
 use Exception;
 
 /**
@@ -519,7 +520,7 @@ class RemoteApiTest extends TestCase
         $redeemed_only = false;
 
         try {
-            $res = self::$client->getIncidentTypes($issue_id, $redeemed_only);
+            self::$client->getIncidentTypes($issue_id, $redeemed_only);
         } catch (Exception $e) {
             $this->assertEquals('No customer integration for issue #1', $e->getMessage());
         }

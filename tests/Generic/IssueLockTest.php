@@ -11,9 +11,10 @@
  * that were distributed with this source code.
  */
 
-namespace Eventum\Test;
+namespace Eventum\Test\Generic;
 
 use Eventum\ServiceContainer;
+use Eventum\Test\TestCase;
 use Issue_Lock;
 
 class IssueLockTest extends TestCase

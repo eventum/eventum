@@ -11,10 +11,11 @@
  * that were distributed with this source code.
  */
 
-namespace Eventum\Test;
+namespace Eventum\Test\Generic;
 
 use Eventum\Markdown\MarkdownRendererInterface;
 use Eventum\ServiceProvider\MarkdownServiceProvider;
+use Eventum\Test\TestCase;
 use Generator;
 use Pimple\Container;
 

@@ -11,9 +11,10 @@
  * that were distributed with this source code.
  */
 
-namespace Eventum\Test;
+namespace Eventum\Test\Generic;
 
 use Eventum\Config\Paths;
+use Eventum\Test\TestCase;
 use Language;
 use RuntimeException;
 
@@ -49,21 +50,18 @@ class LocaleTest extends TestCase
      * @dataProvider availableLanguages
      * @group locale
      */
-    public function testLocales($code, $language): void
+    public function testLocales(string $code, string $language): void
     {
         $enabled = Language::set($code);
         $this->assertTrue($enabled, "Language '$language' ($code) is valid");
     }
 
-    public function availableLanguages(): array
+    public function availableLanguages(): iterable
     {
         $langs = Language::getAvailableLanguages(false);
 
-        $res = [];
         foreach ($langs as $code => $language) {
-            $res[] = [$code, $language];
+            yield [$code, $language];
         }
-
-        return $res;
     }
 }
