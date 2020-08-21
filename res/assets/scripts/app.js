@@ -75,8 +75,8 @@ $(document).ready(function () {
         target.val(value);
     });
 
-    $("a.help").click(function() {
-        return Eventum.openHelp();
+    $("a.help").click(function(e) {
+        return Eventum.openHelp(e);
     });
 
     $("input.issue_field").blur(function(e) {
