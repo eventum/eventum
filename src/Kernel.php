@@ -69,9 +69,14 @@ class Kernel extends BaseKernel implements CompilerPassInterface
             return true;
         }
 
-        $scriptName = substr($_SERVER['SCRIPT_FILENAME'], -1 - strlen($_SERVER['SCRIPT_NAME']));
+        // extract base name of the script
+        $index = strrpos($_SERVER['SCRIPT_NAME'], '/');
+        $scriptName = $index >= 0 ? substr($_SERVER['SCRIPT_NAME'], $index + 1) : $_SERVER['SCRIPT_NAME'];
 
-        return $scriptName !== "/{$_SERVER['SCRIPT_NAME']}";
+        // SCRIPT_NAME must be different at the end of SCRIPT_FILENAME for rewrite to be active
+        $scriptFilename = substr($_SERVER['SCRIPT_FILENAME'], -1 - strlen($scriptName));
+
+        return $scriptFilename !== "/{$scriptName}";
     }
 
     public static function handleRequest(): void
