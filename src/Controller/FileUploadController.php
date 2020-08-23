@@ -75,7 +75,7 @@ class FileUploadController extends BaseController
         $file_description = $post->get('file_description');
 
         try {
-            $attachment_group = AttachmentManager::attachFiles($this->issue_id, $usr_id, $iaf_ids, $minimum_role, $file_description);
+            AttachmentManager::attachFiles($this->issue_id, $usr_id, $iaf_ids, $minimum_role, $file_description);
             $res = 1;
         } catch (Exception $e) {
             $this->logger->error($e);
