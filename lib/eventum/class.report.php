@@ -1074,15 +1074,8 @@ class Report
         $data['emails']['points'] = $res;
 
         if (count($res) > 0) {
-            $stats = new Math_Stats();
-            $stats->setData($res);
-
-            $data['emails']['stats'] = [
-                'total' => $stats->sum(),
-                'avg' => $stats->mean(),
-                'median' => $stats->median(),
-                'max' => $stats->max(),
-            ];
+            $stats = new Stats();
+            $data['emails']['stats'] = $stats->getStats($res);
         } else {
             $data['emails']['stats'] = [
                 'total' => 0,
