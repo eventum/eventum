@@ -16,7 +16,7 @@ function smarty_function_get_display_label($params, &$smarty)
     $print_result = true;
     $show = ev_gettext('show');
     $hide = ev_gettext('hide');
-    extract($params);
+    extract($params, EXTR_SKIP);
 
     $cookie_name = 'visibility_' . $element_name;
     if (!empty($_COOKIE[$cookie_name])) {

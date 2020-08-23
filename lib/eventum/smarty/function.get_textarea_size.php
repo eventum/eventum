@@ -15,7 +15,7 @@
 function smarty_function_get_textarea_size($params, &$smarty)
 {
     $print_result = true;
-    extract($params);
+    extract($params, EXTR_SKIP);
 
     $cookie_name = 'textarea_' . $page . '_' . $field;
     if (!empty($_COOKIE[$cookie_name])) {
