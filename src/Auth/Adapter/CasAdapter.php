@@ -33,12 +33,10 @@ class CasAdapter implements AdapterInterface
 {
     public const displayName = 'CAS authentication adapter';
 
-    protected $client;
-
     public function __construct()
     {
         $setup = self::loadSetup();
-        $this->client = phpCAS::client(CAS_VERSION_2_0, $setup['host'], $setup['port'], $setup['context']);
+        phpCAS::client(CAS_VERSION_2_0, $setup['host'], $setup['port'], $setup['context']);
 
         // For simplicities sake at the moment we are not validating the server auth.
         phpCAS::setNoCasServerValidation();
