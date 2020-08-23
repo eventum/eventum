@@ -5,6 +5,9 @@
     "balbuf/composer-git-merge-driver": {
         "version": "v1.1.0"
     },
+    "bamarni/composer-bin-plugin": {
+        "version": "1.4.1"
+    },
     "cakephp/core": {
         "version": "4.1.0"
     },

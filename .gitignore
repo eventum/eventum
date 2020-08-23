@@ -31,7 +31,9 @@ Session.vim
 /phpunit.phar
 
 /node_modules/
-/vendor/
+/vendor/*
+!/vendor/vendor-bin
+/vendor/vendor-bin/*/vendor
 /package-lock.json
 /yarn-error.log
 
