@@ -16,6 +16,7 @@ namespace Eventum\Controller;
 use Auth;
 use Date_Helper;
 use DateInterval;
+use Eventum\Db\DatabaseException;
 use Issue;
 use Time_Tracking;
 use User;
