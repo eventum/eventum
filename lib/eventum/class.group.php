@@ -167,7 +167,7 @@ class Group
      * @param   int $grp_id The ID of the group
      * @return int
      */
-    private function removeProjectsByGroup($grp_id)
+    private static function removeProjectsByGroup($grp_id)
     {
         // delete all current associations
         $stmt = 'DELETE FROM

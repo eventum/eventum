@@ -378,7 +378,7 @@ class FAQ
      *
      * @return  array The list of faq entries
      */
-    private function _getRanking()
+    private static function _getRanking()
     {
         $stmt = 'SELECT
                     faq_id,

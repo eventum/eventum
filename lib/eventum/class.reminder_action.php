@@ -81,7 +81,7 @@ class Reminder_Action
      * @param   int $rem_id The reminder ID
      * @return  array The list of reminder actions
      */
-    private function _getRanking($rem_id)
+    private static function _getRanking($rem_id)
     {
         $stmt = 'SELECT
                     rma_id,
