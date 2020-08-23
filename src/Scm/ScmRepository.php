@@ -19,7 +19,7 @@ use Eventum\Model\Entity\Commit;
 use Eventum\Model\Entity\CommitFile;
 use Eventum\ServiceContainer;
 
-class ScmRepository
+final class ScmRepository
 {
     use LoggerTrait;
 
