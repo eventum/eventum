@@ -78,7 +78,7 @@ class Priority
      * @param   int $prj_id The ID of the project
      * @return  array The list of reminders
      */
-    private function _getRanking($prj_id)
+    private static function _getRanking($prj_id)
     {
         $stmt = 'SELECT
                     pri_id,

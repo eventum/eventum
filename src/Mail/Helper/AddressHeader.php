@@ -24,7 +24,7 @@ use Mime_Helper;
 /**
  * Helper to parse any address list type header (to, from, cc, bcc, reply-to) into Header object
  */
-class AddressHeader
+final class AddressHeader
 {
     /** @var To */
     private $header;

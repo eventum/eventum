@@ -15,7 +15,7 @@ namespace Eventum\RPC;
 
 use RuntimeException;
 
-class RemoteApiException extends RuntimeException
+final class RemoteApiException extends RuntimeException
 {
     private const AUTHENTICATION_FAILED = 'Authentication failed for %s. Your login/password/api key is invalid or you do not have the proper role.';
 

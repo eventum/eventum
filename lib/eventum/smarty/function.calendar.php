@@ -13,7 +13,7 @@
 
 function _get_month_view($params)
 {
-    extract($params);
+    extract($params, EXTR_SKIP);
 
     // $values[1-31] -> values to be printed in each cell
     // $month -> month
@@ -91,7 +91,7 @@ function _get_month_view($params)
 
 function _get_week_view($params)
 {
-    extract($params);
+    extract($params, EXTR_SKIP);
     // $values[1-31] -> values to be printed in each cell
     // $week -> 1 - 5
     // $month -> month
@@ -187,7 +187,7 @@ function _get_week_view($params)
 function smarty_function_calendar($params, &$smarty)
 {
     $print_result = true;
-    extract($params);
+    extract($params, EXTR_SKIP);
 
     if ($view == 'month') {
         $html_result = _get_month_view($params);
