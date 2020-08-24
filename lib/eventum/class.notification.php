@@ -30,6 +30,9 @@ use Symfony\Component\EventDispatcher\GenericEvent;
  */
 class Notification
 {
+    public const NOTIFY_INTERNAL = 'internal';
+    public const NOTIFY_ALL = 'all';
+
     /**
      * Method used to check whether a given email address is subscribed to
      * email notifications for a given issue.
