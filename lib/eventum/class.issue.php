@@ -1070,7 +1070,7 @@ class Issue
      * @return  int 1 if the update worked, -1 otherwise
      */
     public static function close(int $usr_id, int $issue_id, $send_notification, int $resolution_id, int $status_id, $reason,
-                                 $send_notification_to = 'internal')
+                                 $send_notification_to = Notification::NOTIFY_INTERNAL)
     {
         $params = [
             'iss_updated_date' => Date_Helper::getCurrentDateGMT(),
@@ -1097,7 +1097,7 @@ class Issue
             'user' => User::getFullName($usr_id),
         ]);
 
-        if ($send_notification_to === 'all') {
+        if ($send_notification_to === Notification::NOTIFY_ALL) {
             $from = User::getFromHeader($usr_id);
             $mail = Support::buildMail($issue_id, $from,
                 '', '', ev_gettext('Issue closed comments'), $reason, '');
@@ -1145,7 +1145,7 @@ class Issue
                 }
             }
             // send notifications for the issue being closed
-            $internal_only = $send_notification_to !== 'all';
+            $internal_only = $send_notification_to !== Notification::NOTIFY_ALL;
             Notification::notify($issue_id, 'closed', $ids, $internal_only);
         }
 
@@ -2142,7 +2142,7 @@ class Issue
         $role_id = Auth::getCurrentRole();
         $customer_role_id = User::ROLE_CUSTOMER;
         foreach ($result as &$row) {
-            if ($row['action_type'] == 'internal' && $role_id > $customer_role_id) {
+            if ($row['action_type'] === Notification::NOTIFY_INTERNAL && $role_id > $customer_role_id) {
                 $label = $row['iss_last_internal_action_type'];
                 $last_date = $row['iss_last_internal_action_date'];
             } else {
