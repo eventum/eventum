@@ -1,6 +1,6 @@
 # Eventum Issue Tracking System
 
-## [3.9.4]
+## [3.9.4] - 2020-08-24
 
 See [Upgrading] for details how to upgrade.
 
@@ -11,7 +11,7 @@ See [Upgrading] for details how to upgrade.
 - Fix Time Tracking edit popup not working, #859, #917
 - Fix call to missing `Math_Stats` class, #922, #509
 
-[3.9.4]: https://github.com/eventum/eventum/compare/v3.9.3...master
+[3.9.4]: https://github.com/eventum/eventum/compare/v3.9.3...v3.9.4
 
 ## [3.9.3] - 2020-08-10
 
