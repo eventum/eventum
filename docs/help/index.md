@@ -5,6 +5,13 @@ parts of the application:
 
 - [Listing / Searching for Issues](list.md)
 - [Reporting New Issues](report.md)
+  - [Category Field](report_category.md)
+  - [Priority Field](report_priority.md)
+  - [Assignment Field](report_assignment.md)
+  - [Scheduled Release Field](report_release.md)
+  - [Summary Field](report_summary.md)
+  - [Description Field](report_description.md)
+  - [Estimated Development Time Field](report_estimated_dev_time.md)
 - [Advanced Search / Creating Custom Queries](adv_search.md)
 - [Associate Emails](support_emails.md)
 - [Account Preferences](preferences.md)

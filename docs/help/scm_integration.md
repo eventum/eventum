@@ -25,3 +25,8 @@ With that information in mind, the appropriate value to be entered in the
 `Checkout page` input field is:
 
 - **`http://example.com/chora/diff.php/{MODULE}/{FILE}?r1={OLD_VERSION}&r2={NEW_VERSION}&ty=h`**
+
+# Available Related Topics
+
+- [Usage Examples](scm_integration_usage.md)
+- [Installation Instructions](scm_integration_installation.md)
