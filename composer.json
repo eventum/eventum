@@ -118,8 +118,7 @@
     "config": {
         "autoloader-suffix": "EventumCore",
         "platform": {
-            "php": "7.2.5",
-            "ext-mongodb": "1.5.0"
+            "php": "7.2.5"
         },
         "sort-packages": true
     },
