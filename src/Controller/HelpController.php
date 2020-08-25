@@ -17,7 +17,6 @@ use Auth;
 use Eventum\Config\Paths;
 use Eventum\Markdown\MarkdownRendererInterface;
 use Eventum\ServiceContainer;
-use Help;
 use League\CommonMark\Event\DocumentParsedEvent;
 use League\CommonMark\Inline\Element\Link;
 
@@ -51,21 +50,6 @@ class HelpController extends BaseController
     }
 
     /**
-     * @return string
-     */
-    private function getTopic(): string
-    {
-        $get = $this->getRequest()->query;
-        $topic = $get->get('topic');
-
-        if (!$topic || !Help::topicExists($topic)) {
-            $topic = 'main';
-        }
-
-        return $topic;
-    }
-
-    /**
      * {@inheritdoc}
      */
     protected function prepareTemplate(): void
@@ -79,18 +63,11 @@ class HelpController extends BaseController
         $markdown = file_get_contents($topicPath);
         $help = $this->renderTemplate($markdown);
 
-        $topic = 'main'; // backward compat
         $this->tpl->assign(
             [
                 'help' => $help,
-                'topic' => $topic,
-                'links' => Help::getNavigationLinks($topic),
             ]
         );
-
-        if ($topic !== 'main') {
-            $this->tpl->assign('child_links', Help::getChildLinks($topic));
-        }
     }
 
     private function renderTemplate(string $markdown): string
