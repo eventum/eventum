@@ -68,7 +68,7 @@ class XhguiProfilerExtension implements SubscriberProvider, EventSubscriberInter
     {
         $defaultConfig = [
             'profiler.enable' => static function () {
-                $url = $_SERVER['REQUEST_URI'];
+                $url = $_SERVER['REQUEST_URI'] ?? '';
                 // Skip profiling Web Profiler
                 return strpos($url, '/_wdt') !== 0;
             },
