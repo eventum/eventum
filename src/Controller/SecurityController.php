@@ -16,7 +16,7 @@ namespace Eventum\Controller;
 use Auth;
 use Eventum\Controller\Traits\SmartyResponseTrait;
 use Project;
-use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class SecurityController
@@ -24,9 +24,9 @@ class SecurityController
     use SmartyResponseTrait;
 
     /** @var string */
-    protected $tpl_name = 'index.tpl.html';
+    private $tpl_name = 'index.tpl.html';
 
-    public function login(Request $request, AuthenticationUtils $authenticationUtils)
+    public function login(AuthenticationUtils $authenticationUtils): Response
     {
         // get the login error if there is one
         $error = $authenticationUtils->getLastAuthenticationError();
