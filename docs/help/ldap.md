@@ -1,6 +1,7 @@
 # LDAP Authentication
 
-Eventum can be used with an LDAP directory service for centralized authentication.
+Eventum can be used with an LDAP directory service for centralized
+authentication.
 
 The following parameters need to be configured to enable LDAP integration:
 
@@ -39,7 +40,8 @@ The following parameters need to be configured to enable LDAP integration:
 
 # Integration with Microsoft Active Directory
 
-Active Directory uses a few non-standard attribute names, so it requires some special configuration:
+Active Directory uses a few non-standard attribute names, so it requires some
+special configuration:
 
 <table>
   <tr> <td><b>Port</b></td> <td>389 (local domain) or 3268 (global catalog)</td> </tr>

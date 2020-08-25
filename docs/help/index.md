@@ -1,6 +1,7 @@
 # Available Help Topics
 
-Please refer to the following help sections for more information on specific parts of the application:
+Please refer to the following help sections for more information on specific
+parts of the application:
 
 - [Listing / Searching for Issues](list.md)
 - [Reporting New Issues](report.md)

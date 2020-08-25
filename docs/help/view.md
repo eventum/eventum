@@ -8,5 +8,5 @@ The Issue Details page will also show `<< Previous Issue` and `Next Issue >>`
 links that are related to the previous and next issues for the current active
 filter, if appropriate.
 
-The full history of changes related to the current issue is available by
-clickin on the `History of Changes` link.
+The full history of changes related to the current issue is available by clickin
+on the `History of Changes` link.

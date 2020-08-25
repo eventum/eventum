@@ -10,6 +10,6 @@ notifications are:
 - Emails are associated to existing issues
 - Files are attached to existing issues
 
-System users may subscribe to the actions above for specific issues when
-they report new issues or by visiting the issue details screen and subscribing
+System users may subscribe to the actions above for specific issues when they
+report new issues or by visiting the issue details screen and subscribing
 manually by using the 'Edit Notification List' link.
