@@ -1,7 +1,4 @@
 {
-    "alcaeus/mongo-php-adapter": {
-        "version": "1.1.11"
-    },
     "balbuf/composer-git-merge-driver": {
         "version": "v1.1.0"
     },
@@ -155,9 +152,6 @@
     "mnapoli/silly": {
         "version": "1.7.2"
     },
-    "mongodb/mongodb": {
-        "version": "1.4.3"
-    },
     "monolog/monolog": {
         "version": "1.25.4"
     },
@@ -169,9 +163,6 @@
     },
     "perftools/php-profiler": {
         "version": "0.7.2"
-    },
-    "perftools/xhgui-collector": {
-        "version": "1.8.0"
     },
     "phlib/flysystem-pdo": {
         "version": "1.1.0"
