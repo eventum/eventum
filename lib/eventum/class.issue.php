@@ -2860,9 +2860,9 @@ class Issue
      * Returns the status of a quarantine.
      *
      * @param   int $issue_id The issue ID
-     * @return  int indicates what the current state of quarantine is
+     * @return  array indicates what the current state of quarantine is
      */
-    public static function getQuarantineInfo($issue_id)
+    public static function getQuarantineInfo($issue_id): ?array
     {
         $stmt = 'SELECT
                     iqu_status,
@@ -2874,6 +2874,9 @@ class Issue
                         (iqu_expiration > ? OR
                         iqu_expiration IS NULL)';
         $res = DB_Helper::getInstance()->getRow($stmt, [$issue_id, Date_Helper::getCurrentDateGMT()]);
+        if (!$res) {
+            return null;
+        }
 
         if (!empty($res['iqu_expiration'])) {
             $expiration_ts = Date_Helper::getUnixTimestamp($res['iqu_expiration'], Setup::getDefaultTimezone());

@@ -10,7 +10,7 @@
 </div>
 {/if}
 
-{if $quarantine.iqu_status > 0}
+{if $quarantine && $quarantine.iqu_status > 0}
 <div class="note_box">
     {t}This Issue is Currently Quarantined{/t}
     {include file="customer/$customer_backend_name/quarantine.tpl.html"}<br />
