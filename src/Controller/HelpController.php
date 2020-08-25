@@ -23,7 +23,7 @@ use League\CommonMark\Inline\Element\Link;
 class HelpController extends BaseController
 {
     /** @var string */
-    protected $tpl_name = 'help/index.tpl.html';
+    protected $tpl_name = 'help.tpl.html';
 
     /**
      * {@inheritdoc}
