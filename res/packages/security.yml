@@ -53,6 +53,7 @@ security:
   access_control:
     - { path: ^/setup, roles: IS_AUTHENTICATED_ANONYMOUSLY }
     - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+    - { path: ^/forgot_password, roles: IS_AUTHENTICATED_ANONYMOUSLY }
     - { path: ^/scm_ping, roles: IS_AUTHENTICATED_ANONYMOUSLY }
     - { path: ^/$, roles: IS_AUTHENTICATED_ANONYMOUSLY }
     - { path: ^/, roles: ROLE_USER }
