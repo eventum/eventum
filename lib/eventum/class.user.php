@@ -1157,7 +1157,7 @@ class User
      * @param array $options
      * @return  array The list of users
      */
-    public static function getList($options = [])
+    public static function getList(array $options = []): array
     {
         $system_user_id = Setup::getSystemUserId();
         // FIXME: what about other statuses like "pending"?
@@ -1180,11 +1180,8 @@ class User
                 ORDER BY
                     usr_status ASC,
                     usr_full_name ASC';
-        try {
-            $usr_ids = DB_Helper::getInstance()->getColumn($stmt, $params);
-        } catch (DatabaseException $e) {
-            return null;
-        }
+
+        $usr_ids = DB_Helper::getInstance()->getColumn($stmt, $params);
 
         $prj_id = Auth::getCurrentProject();
         $data = [];

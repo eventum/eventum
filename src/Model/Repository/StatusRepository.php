@@ -31,7 +31,7 @@ class StatusRepository extends EntityRepository
         if (!$status) {
             $type = get_class($this);
 
-            throw new EntityNotFoundException("$type '$title not found");
+            throw new EntityNotFoundException("$type '$title' not found");
         }
 
         return $status;
