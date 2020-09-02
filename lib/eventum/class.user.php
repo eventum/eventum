@@ -1198,12 +1198,17 @@ class User
         $res = self::getDetailsAssoc($usr_ids, $options);
         foreach ($res as $row) {
             // handle show_customers = false
-            if ($show_customers == false) {
+            if (!$show_customers) {
                 $roles = $row['roles'];
-                $role = current($roles);
-                $role = $role['pru_role'];
-                if ((@$roles[$prj_id]['pru_role'] == self::ROLE_CUSTOMER)
-                    || (count($roles) == 1 && $role == self::ROLE_CUSTOMER)) {
+                if (count($roles) === 1) {
+                    $role = current($roles);
+                    if ($role['pru_role'] == self::ROLE_CUSTOMER) {
+                        continue;
+                    }
+                }
+
+                $pru_role = $roles[$prj_id]['pru_role'] ?? 0;
+                if ($pru_role == self::ROLE_CUSTOMER) {
                     continue;
                 }
             }
