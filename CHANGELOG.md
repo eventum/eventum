@@ -1,6 +1,6 @@
 # Eventum Issue Tracking System
 
-## [3.9.5]
+## [3.9.5] - 2020-09-02
 
 See [Upgrading] for details how to upgrade.
 
@@ -8,7 +8,7 @@ See [Upgrading] for details how to upgrade.
 - Update Xhgui profiler 0.10, #927
 - Add workaround for Manage users dataTable error, #930
 
-[3.9.5]: https://github.com/eventum/eventum/compare/v3.9.4...master
+[3.9.5]: https://github.com/eventum/eventum/compare/v3.9.4...v3.9.5
 
 ## [3.9.4] - 2020-08-24
 
