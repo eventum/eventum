@@ -6,6 +6,7 @@ See [Upgrading] for details how to upgrade.
 
 - Fix notices with php 7.4 when user has no roles, #929
 - Update Xhgui profiler 0.10, #927
+- Add workaround for Manage users dataTable error, #930
 
 [3.9.5]: https://github.com/eventum/eventum/compare/v3.9.4...master
 
