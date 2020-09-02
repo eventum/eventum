@@ -4,6 +4,9 @@
 
 See [Upgrading] for details how to upgrade.
 
+- Fix notices with php 7.4 when user has no roles, #929
+- Update Xhgui profiler 0.10, #927
+
 [3.9.5]: https://github.com/eventum/eventum/compare/v3.9.4...master
 
 ## [3.9.4] - 2020-08-24
