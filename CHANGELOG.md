@@ -1,5 +1,11 @@
 # Eventum Issue Tracking System
 
+## [3.9.6]
+
+See [Upgrading] for details how to upgrade.
+
+[3.9.6]: https://github.com/eventum/eventum/compare/v3.9.5...master
+
 ## [3.9.5] - 2020-09-02
 
 See [Upgrading] for details how to upgrade.
