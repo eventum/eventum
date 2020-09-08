@@ -4,6 +4,8 @@
 
 See [Upgrading] for details how to upgrade.
 
+- Move inline documentation to docs/help and convert to markdown, #921
+
 [3.9.6]: https://github.com/eventum/eventum/compare/v3.9.5...master
 
 ## [3.9.5] - 2020-09-02

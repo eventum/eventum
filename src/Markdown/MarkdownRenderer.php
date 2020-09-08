@@ -14,16 +14,17 @@
 namespace Eventum\Markdown;
 
 use HTMLPurifier;
-use League\CommonMark\MarkdownConverterInterface;
+use League\CommonMark\CommonMarkConverter;
+use League\CommonMark\EnvironmentInterface;
 
 final class MarkdownRenderer implements MarkdownRendererInterface
 {
     /** @var HTMLPurifier */
     private $purifier;
-    /** @var MarkdownConverterInterface */
+    /** @var CommonMarkConverter */
     private $converter;
 
-    public function __construct(MarkdownConverterInterface $converter, HTMLPurifier $purifier)
+    public function __construct(CommonMarkConverter $converter, HTMLPurifier $purifier)
     {
         $this->converter = $converter;
         $this->purifier = $purifier;
@@ -39,5 +40,10 @@ final class MarkdownRenderer implements MarkdownRendererInterface
         $html = $this->purifier->purify($html);
 
         return $html;
+    }
+
+    public function getEnvironment(): EnvironmentInterface
+    {
+        return $this->converter->getEnvironment();
     }
 }

@@ -31,7 +31,6 @@ use League\CommonMark\Extension\InlinesOnly\InlinesOnlyExtension;
 use League\CommonMark\Extension\Mention\MentionExtension;
 use League\CommonMark\Extension\Table\TableExtension;
 use League\CommonMark\Extension\TaskList\TaskListExtension;
-use League\CommonMark\MarkdownConverterInterface;
 use Misc;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
@@ -63,7 +62,7 @@ class MarkdownServiceProvider implements ServiceProviderInterface
         };
     }
 
-    private function createConverter(bool $inline): MarkdownConverterInterface
+    private function createConverter(bool $inline): CommonMarkConverter
     {
         $config = [
             'renderer' => [

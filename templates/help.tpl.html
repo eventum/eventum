@@ -1,0 +1,23 @@
+{extends "base.tpl.html"}
+{block "title"}Help{/block}
+
+{block "content"}
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td>
+      <table width="100%" border="0" cellspacing="0" cellpadding="4">
+        <tr>
+          <td>
+            <b><a href="help.php?topic=index">{t}Help Topics{/t}</a></b>
+          </td>
+        </tr>
+        <tr>
+          <td bgcolor="#FFFFFF">
+            {$help}
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+{/block}

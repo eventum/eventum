@@ -36,4 +36,5 @@ final class Paths
 
     // fonts directory for phplot
     public const APP_FONTS_PATH = APP_PATH . '/vendor/fonts/liberation';
+    public const APP_HELP_PATH = APP_PATH . '/docs/help';
 }

@@ -13,10 +13,13 @@
 
 namespace Eventum\Markdown;
 
+use League\CommonMark\EnvironmentInterface;
+
 interface MarkdownRendererInterface
 {
     public const RENDER_BLOCK = self::class . '::block';
     public const RENDER_INLINE = self::class . '::inline';
 
     public function render(string $text): string;
+    public function getEnvironment(): EnvironmentInterface;
 }

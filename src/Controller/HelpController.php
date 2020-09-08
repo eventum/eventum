@@ -14,12 +14,16 @@
 namespace Eventum\Controller;
 
 use Auth;
-use Help;
+use Eventum\Config\Paths;
+use Eventum\Markdown\MarkdownRendererInterface;
+use Eventum\ServiceContainer;
+use League\CommonMark\Event\DocumentParsedEvent;
+use League\CommonMark\Inline\Element\Link;
 
 class HelpController extends BaseController
 {
     /** @var string */
-    protected $tpl_name = 'help/index.tpl.html';
+    protected $tpl_name = 'help.tpl.html';
 
     /**
      * {@inheritdoc}
@@ -46,35 +50,63 @@ class HelpController extends BaseController
     }
 
     /**
-     * @return string
-     */
-    private function getTopic()
-    {
-        $get = $this->getRequest()->query;
-        $topic = $get->get('topic');
-
-        if (!$topic || !Help::topicExists($topic)) {
-            $topic = 'main';
-        }
-
-        return $topic;
-    }
-
-    /**
      * {@inheritdoc}
      */
     protected function prepareTemplate(): void
     {
-        $topic = $this->getTopic();
+        $topic = $this->getRequest()->query->get('topic', 'index');
+        $topicPath = $this->getTopicPath($topic);
+        if (!file_exists($topicPath)) {
+            $topicPath = $this->getTopicPath('index');
+        }
+
+        $markdown = file_get_contents($topicPath);
+        $help = $this->renderTemplate($markdown);
+
         $this->tpl->assign(
             [
-                'topic' => $topic,
-                'links' => Help::getNavigationLinks($topic),
+                'help' => $help,
             ]
         );
+    }
 
-        if ($topic != 'main') {
-            $this->tpl->assign('child_links', Help::getChildLinks($topic));
+    private function renderTemplate(string $markdown): string
+    {
+        /** @var MarkdownRendererInterface $renderer */
+        $renderer = ServiceContainer::get(MarkdownRendererInterface::RENDER_BLOCK);
+
+        $environment = $renderer->getEnvironment();
+        // convert markdown links to help
+        $environment->addEventListener(DocumentParsedEvent::class, static function (DocumentParsedEvent $e) {
+            $walker = $e->getDocument()->walker();
+
+            while ($event = $walker->next()) {
+                $node = $event->getNode();
+                if (!$node instanceof Link) {
+                    continue;
+                }
+
+                // match relative link with .md extension
+                if (!preg_match('#^([^/]+)\.md$#', $node->getUrl(), $m)) {
+                    continue;
+                }
+                $topic = $m[1];
+                $node->setUrl('help.php?topic=' . $topic);
+            }
+        });
+
+        return $renderer->render($markdown);
+    }
+
+    private function getTopicPath(string $topic): string
+    {
+        if (!$topic || $topic === 'main') {
+            $topic = 'index';
+        } else {
+            // avoid path traversal
+            $topic = basename($topic);
         }
+
+        return sprintf('%s/%s.md', Paths::APP_HELP_PATH, $topic);
     }
 }
