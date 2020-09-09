@@ -47,7 +47,7 @@
         "laminas/laminas-config": "^3.3",
         "laminas/laminas-mail": "^2.11",
         "laminas/laminas-servicemanager": "^3.4",
-        "league/commonmark": "^1.5",
+        "league/commonmark": "^1.5.4",
         "league/flysystem": "^1.0",
         "league/html-to-markdown": "^4.8",
         "malkusch/lock": "^2.1",
