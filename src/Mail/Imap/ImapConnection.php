@@ -137,9 +137,10 @@ class ImapConnection
             );
         }
 
-        $mbox = Support::connectEmailServer($this->account);
+        $uri = Support::getServerURI($this->account);
+        $mbox = @imap_open($uri, $this->account['ema_username'], $this->account['ema_password']);
+
         if ($mbox === false) {
-            $uri = Support::getServerURI($this->account);
             $login = $this->account['ema_username'];
             $error = imap_last_error();
 

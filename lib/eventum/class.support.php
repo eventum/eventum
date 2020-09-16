@@ -297,23 +297,6 @@ class Support
     }
 
     /**
-     * Method used to connect to the provided email server.
-     *
-     * @param   array $info The email server information
-     * @return  resource The email server connection
-     */
-    public static function connectEmailServer($info)
-    {
-        $mbox = @imap_open(self::getServerURI($info), $info['ema_username'], $info['ema_password']);
-        if ($mbox === false) {
-            $error = @imap_last_error();
-            ServiceContainer::getLogger()->error("Error while connecting to the email server - {$error}");
-        }
-
-        return $mbox;
-    }
-
-    /**
      * Bounce message to sender.
      *
      * @param ImapMessage $mail
