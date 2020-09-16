@@ -35,12 +35,6 @@ class CheckEmailSettingsController extends ManageBaseController
         $post = $this->getRequest()->request;
         $hostname = $post->get('hostname');
 
-        if (!$this->resolveAddress($hostname)) {
-            $this->tpl->assign('error', 'hostname_resolv_error');
-
-            return;
-        }
-
         $account = [
             'ema_hostname' => $hostname,
             'ema_port' => $post->get('port'),
@@ -58,19 +52,6 @@ class CheckEmailSettingsController extends ManageBaseController
         }
 
         $this->tpl->assign('error', 'no_error');
-    }
-
-    /**
-     * check if the hostname is just an IP based one
-     *
-     * @param $hostname
-     * @return bool
-     */
-    private function resolveAddress($hostname)
-    {
-        $regex = "/[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}/";
-
-        return !(!preg_match($regex, $hostname) && gethostbyname($hostname) == $hostname);
     }
 
     /**
