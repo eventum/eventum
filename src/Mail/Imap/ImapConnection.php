@@ -53,6 +53,15 @@ class ImapConnection
         $this->closeConnection();
     }
 
+    public function isConnected(): bool
+    {
+        try {
+            return $this->connection !== null;
+        } catch (RuntimeException $e) {
+            return false;
+        }
+    }
+
     public function getOptions(): array
     {
         return $this->account;

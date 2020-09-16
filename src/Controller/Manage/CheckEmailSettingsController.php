@@ -13,7 +13,7 @@
 
 namespace Eventum\Controller\Manage;
 
-use Support;
+use Eventum\Mail\Imap\ImapConnection;
 
 class CheckEmailSettingsController extends ManageBaseController
 {
@@ -56,8 +56,9 @@ class CheckEmailSettingsController extends ManageBaseController
             'ema_username' => $post->get('username'),
             'ema_password' => $post->get('password'),
         ];
-        $mbox = Support::connectEmailServer($account);
-        if (!$mbox) {
+
+        $connection = new ImapConnection($account);
+        if (!$connection->isConnected()) {
             $this->tpl->assign('error', 'could_not_connect');
 
             return;
