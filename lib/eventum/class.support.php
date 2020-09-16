@@ -279,24 +279,6 @@ class Support
     }
 
     /**
-     * Method used to build the server URI to connect to.
-     *
-     * @param   array $info The email server information
-     * @return  string The server URI to connect to
-     */
-    public static function getServerURI($info)
-    {
-        $server_uri = $info['ema_hostname'] . ':' . $info['ema_port'] . '/' . strtolower($info['ema_type']);
-        if (stripos($info['ema_type'], 'imap') !== false) {
-            $folder = $info['ema_folder'];
-        } else {
-            $folder = 'INBOX';
-        }
-
-        return '{' . $server_uri . '}' . $folder;
-    }
-
-    /**
      * Bounce message to sender.
      *
      * @param ImapMessage $mail

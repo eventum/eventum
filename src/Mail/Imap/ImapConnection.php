@@ -16,7 +16,6 @@ namespace Eventum\Mail\Imap;
 use Eventum\Mail\ImapMessage;
 use LazyProperty\LazyPropertiesTrait;
 use RuntimeException;
-use Support;
 
 class ImapConnection
 {
@@ -26,11 +25,13 @@ class ImapConnection
     private $account;
     /** @var resource */
     private $connection;
+    /** @var string */
+    private $uri;
 
     public function __construct(array $account)
     {
         $this->account = $account;
-        $this->initLazyProperties(['connection']);
+        $this->initLazyProperties(['connection', 'uri']);
     }
 
     public function __toString()
@@ -137,8 +138,7 @@ class ImapConnection
             );
         }
 
-        $uri = Support::getServerURI($this->account);
-        $mbox = @imap_open($uri, $this->account['ema_username'], $this->account['ema_password']);
+        $mbox = @imap_open($this->uri, $this->account['ema_username'], $this->account['ema_password']);
 
         if ($mbox === false) {
             $login = $this->account['ema_username'];
@@ -146,12 +146,27 @@ class ImapConnection
 
             throw new RuntimeException(
                 "$error\n" .
-                "Could not connect to the email server '$uri' with login: '$login'." .
+                "Could not connect to the email server '{$this->uri}' with login: '$login'." .
                 'Please verify your email account settings and try again.'
             );
         }
 
         return $mbox;
+    }
+
+    /**
+     * Method used to build the server URI to connect to.
+     */
+    protected function getUri(): string
+    {
+        $uri = $this->account['ema_hostname'] . ':' . $this->account['ema_port'] . '/' . strtolower($this->account['ema_type']);
+        if (stripos($this->account['ema_type'], 'imap') !== false) {
+            $folder = $this->account['ema_folder'];
+        } else {
+            $folder = 'INBOX';
+        }
+
+        return '{' . $uri . '}' . $folder;
     }
 
     private function closeConnection(): void
