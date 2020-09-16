@@ -29,14 +29,6 @@ class ImapConnection
 
     public function __construct(array $account)
     {
-        if (!function_exists('imap_open')) {
-            throw new RuntimeException(
-                "Eventum requires the IMAP extension in order to download messages saved on a IMAP/POP3 mailbox.\n" .
-                "See Prerequisites on the Wiki https://github.com/eventum/eventum/wiki/Prerequisites\n" .
-                'Please refer to the PHP manual for more details about how to install and enable the IMAP extension.'
-            );
-        }
-
         $this->account = $account;
         $this->initLazyProperties(['connection']);
     }
@@ -113,6 +105,14 @@ class ImapConnection
      */
     protected function getConnection()
     {
+        if (!function_exists('imap_open')) {
+            throw new RuntimeException(
+                "Eventum requires the IMAP extension in order to download messages saved on a IMAP/POP3 mailbox.\n" .
+                "See Prerequisites on the Wiki https://github.com/eventum/eventum/wiki/Prerequisites\n" .
+                'Please refer to the PHP manual for more details about how to install and enable the IMAP extension.'
+            );
+        }
+
         $mbox = Support::connectEmailServer($this->account);
         if ($mbox === false) {
             $uri = Support::getServerURI($this->account);
