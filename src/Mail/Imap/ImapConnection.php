@@ -14,15 +14,18 @@
 namespace Eventum\Mail\Imap;
 
 use Eventum\Mail\ImapMessage;
+use LazyProperty\LazyPropertiesTrait;
 use RuntimeException;
 use Support;
 
 class ImapConnection
 {
+    use LazyPropertiesTrait;
+
     /** @var array */
     private $account;
     /** @var resource */
-    private $mbox;
+    private $connection;
 
     public function __construct(array $account)
     {
@@ -35,7 +38,7 @@ class ImapConnection
         }
 
         $this->account = $account;
-        $this->mbox = $this->getConnection();
+        $this->initLazyProperties(['connection']);
     }
 
     public function __toString()
@@ -57,7 +60,7 @@ class ImapConnection
 
     public function getMessage(int $num): ImapResource
     {
-        return new ImapResource($this->mbox, $num);
+        return new ImapResource($this->connection, $num);
     }
 
     /**
@@ -67,7 +70,7 @@ class ImapConnection
      */
     public function getNewEmails(): array
     {
-        return imap_search($this->mbox, 'UNSEEN UNDELETED UNANSWERED') ?: [];
+        return imap_search($this->connection, 'UNSEEN UNDELETED UNANSWERED') ?: [];
     }
 
     /**
@@ -78,7 +81,7 @@ class ImapConnection
      */
     public function getTotalEmails(): int
     {
-        return imap_num_msg($this->mbox);
+        return imap_num_msg($this->connection);
     }
 
     /**
@@ -90,10 +93,10 @@ class ImapConnection
         $index = $mail->num;
         // need to delete the message from the server?
         if (!$this->account['ema_leave_copy']) {
-            imap_delete($this->mbox, $index);
+            imap_delete($this->connection, $index);
         } else {
             // mark the message as already read
-            imap_setflag_full($this->mbox, $index, '\\Seen');
+            imap_setflag_full($this->connection, $index, '\\Seen');
         }
     }
 
@@ -103,7 +106,7 @@ class ImapConnection
      * @throws RuntimeException
      * @return resource
      */
-    private function getConnection()
+    protected function getConnection()
     {
         $mbox = Support::connectEmailServer($this->account);
         if ($mbox === false) {
@@ -133,8 +136,9 @@ class ImapConnection
      */
     private function closeEmailServer(): void
     {
-        imap_expunge($this->mbox);
-        imap_close($this->mbox);
+        imap_expunge($this->connection);
+        imap_close($this->connection);
+        unset($this->connection);
     }
 
     /**
