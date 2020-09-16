@@ -84,10 +84,17 @@ class ImapConnection
     /**
      * Deletes the specified message from the IMAP/POP server
      * NOTE: YOU STILL MUST call imap_expunge($mbox) to permanently delete the message.
+     *
+     * @param ImapMessage|ImapResource $mail
      */
-    public function deleteMessage(ImapMessage $mail): void
+    public function deleteMessage($mail): void
     {
-        $index = $mail->num;
+        if ($mail instanceof ImapMessage || $mail instanceof ImapResource) {
+            $index = $mail->num;
+        } else {
+            throw new RuntimeException('Invalid type:' . get_class($mail));
+        }
+
         // need to delete the message from the server?
         if (!$this->account['ema_leave_copy']) {
             imap_delete($this->connection, $index);
