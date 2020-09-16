@@ -16,6 +16,7 @@ use Eventum\Attachment\AttachmentManager;
 use Eventum\Attachment\Exceptions\AttachmentException;
 use Eventum\Db\DatabaseException;
 use Eventum\Mail\Exception\RoutingException;
+use Eventum\Mail\ExpungeEmails;
 use Eventum\Mail\Helper\AddressHeader;
 use Eventum\Mail\Helper\TextMessage;
 use Eventum\Mail\Helper\WarningMessage;
@@ -41,8 +42,6 @@ class Support
      */
     public static function expungeEmails($sup_ids)
     {
-        $accounts = [];
-
         $stmt = 'SELECT
                     sup_id,
                     sup_message_id,
@@ -57,35 +56,8 @@ class Support
             return -1;
         }
 
-        foreach ($res as $row) {
-            // don't remove emails from the imap/pop3 server if the email
-            // account is set to leave a copy of the messages on the server
-            $account_details = Email_Account::getDetails($row['sup_ema_id']);
-            if (!$account_details['leave_copy']) {
-                // try to re-use an open connection to the imap server
-                if (!in_array($row['sup_ema_id'], array_keys($accounts))) {
-                    $accounts[$row['sup_ema_id']] = self::connectEmailServer(Email_Account::getDetails($row['sup_ema_id'], true));
-                }
-                $mbox = $accounts[$row['sup_ema_id']];
-                if ($mbox !== false) {
-                    // now try to find the UID of the current message-id
-                    $matches = @imap_search($mbox, 'TEXT "' . $row['sup_message_id'] . '"');
-                    if (count($matches) > 0) {
-                        foreach ($matches as $match) {
-                            $headers = imap_headerinfo($mbox, $match);
-                            // if the current message also matches the message-id header, then remove it!
-                            if ($headers->message_id == $row['sup_message_id']) {
-                                @imap_delete($mbox, $match);
-                                break;
-                            }
-                        }
-                    }
-                }
-            }
-
-            // remove the email record from the table
-            self::removeEmail($row['sup_id']);
-        }
+        $expunge = new ExpungeEmails();
+        $expunge->expunge($res);
 
         return 1;
     }
