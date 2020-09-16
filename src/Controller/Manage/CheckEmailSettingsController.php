@@ -32,13 +32,6 @@ class CheckEmailSettingsController extends ManageBaseController
      */
     protected function defaultAction(): void
     {
-        // we need the IMAP extension for this to work
-        if (!function_exists('imap_open')) {
-            $this->tpl->assign('error', 'imap_extension_missing');
-
-            return;
-        }
-
         $post = $this->getRequest()->request;
         $hostname = $post->get('hostname');
 
