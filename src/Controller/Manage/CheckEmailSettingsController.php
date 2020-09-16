@@ -14,6 +14,7 @@
 namespace Eventum\Controller\Manage;
 
 use Eventum\Mail\Imap\ImapConnection;
+use RuntimeException;
 
 class CheckEmailSettingsController extends ManageBaseController
 {
@@ -44,14 +45,12 @@ class CheckEmailSettingsController extends ManageBaseController
             'ema_password' => $post->get('password'),
         ];
 
-        $connection = new ImapConnection($account);
-        if (!$connection->isConnected()) {
-            $this->tpl->assign('error', 'could_not_connect');
-
-            return;
+        try {
+            $connection = new ImapConnection($account);
+            $connection->isConnected();
+        } catch (RuntimeException $e) {
+            $this->tpl->assign('error', $e->getMessage());
         }
-
-        $this->tpl->assign('error', 'no_error');
     }
 
     /**

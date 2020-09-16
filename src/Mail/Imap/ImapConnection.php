@@ -55,11 +55,7 @@ class ImapConnection
 
     public function isConnected(): bool
     {
-        try {
-            return $this->connection !== null;
-        } catch (RuntimeException $e) {
-            return false;
-        }
+        return $this->connection !== null;
     }
 
     public function getOptions(): array

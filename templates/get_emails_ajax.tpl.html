@@ -1,9 +1,10 @@
 {* AJAX response message *}
 <span class="default">
 
-  {if $error == "could_not_connect"}
-    <b>Could not connect to the server with the provided information.</b>
+  {if $error}
+    <b>{t}Could not connect to the server with the provided information:{/t}</b>
+    <div>{$error}</div>
   {else}
-    <b>Thank you, the connection to the email server was created successfully.</b>
+    <b>{t}Thank you, the connection to the email server was created successfully.{/t}</b>
   {/if}
 </span>
