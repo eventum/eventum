@@ -105,6 +105,23 @@ class ImapConnection
     }
 
     /**
+     * @param string $text
+     * @return iterable|ImapResource[]
+     */
+    public function searchText(string $text): iterable
+    {
+        // now try to find the UID of the current message-id
+        $matches = imap_search($this->connection, sprintf('TEXT "%s"', $text));
+        if (count($matches) <= 0) {
+            return;
+        }
+
+        foreach ($matches as $num) {
+            yield new ImapResource($this->connection, $num);
+        }
+    }
+
+    /**
      * Get IMAP connection handle
      *
      * @throws RuntimeException
