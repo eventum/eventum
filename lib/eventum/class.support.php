@@ -16,6 +16,7 @@ use Eventum\Attachment\AttachmentManager;
 use Eventum\Attachment\Exceptions\AttachmentException;
 use Eventum\Db\DatabaseException;
 use Eventum\Mail\Exception\RoutingException;
+use Eventum\Mail\ExpungeEmails;
 use Eventum\Mail\Helper\AddressHeader;
 use Eventum\Mail\Helper\TextMessage;
 use Eventum\Mail\Helper\WarningMessage;
@@ -41,8 +42,6 @@ class Support
      */
     public static function expungeEmails($sup_ids)
     {
-        $accounts = [];
-
         $stmt = 'SELECT
                     sup_id,
                     sup_message_id,
@@ -57,35 +56,8 @@ class Support
             return -1;
         }
 
-        foreach ($res as $row) {
-            // don't remove emails from the imap/pop3 server if the email
-            // account is set to leave a copy of the messages on the server
-            $account_details = Email_Account::getDetails($row['sup_ema_id']);
-            if (!$account_details['leave_copy']) {
-                // try to re-use an open connection to the imap server
-                if (!in_array($row['sup_ema_id'], array_keys($accounts))) {
-                    $accounts[$row['sup_ema_id']] = self::connectEmailServer(Email_Account::getDetails($row['sup_ema_id'], true));
-                }
-                $mbox = $accounts[$row['sup_ema_id']];
-                if ($mbox !== false) {
-                    // now try to find the UID of the current message-id
-                    $matches = @imap_search($mbox, 'TEXT "' . $row['sup_message_id'] . '"');
-                    if (count($matches) > 0) {
-                        foreach ($matches as $match) {
-                            $headers = imap_headerinfo($mbox, $match);
-                            // if the current message also matches the message-id header, then remove it!
-                            if ($headers->message_id == $row['sup_message_id']) {
-                                @imap_delete($mbox, $match);
-                                break;
-                            }
-                        }
-                    }
-                }
-            }
-
-            // remove the email record from the table
-            self::removeEmail($row['sup_id']);
-        }
+        $expunge = new ExpungeEmails();
+        $expunge->expunge($res);
 
         return 1;
     }
@@ -304,41 +276,6 @@ class Support
         }
 
         return $res;
-    }
-
-    /**
-     * Method used to build the server URI to connect to.
-     *
-     * @param   array $info The email server information
-     * @return  string The server URI to connect to
-     */
-    public static function getServerURI($info)
-    {
-        $server_uri = $info['ema_hostname'] . ':' . $info['ema_port'] . '/' . strtolower($info['ema_type']);
-        if (stripos($info['ema_type'], 'imap') !== false) {
-            $folder = $info['ema_folder'];
-        } else {
-            $folder = 'INBOX';
-        }
-
-        return '{' . $server_uri . '}' . $folder;
-    }
-
-    /**
-     * Method used to connect to the provided email server.
-     *
-     * @param   array $info The email server information
-     * @return  resource The email server connection
-     */
-    public static function connectEmailServer($info)
-    {
-        $mbox = @imap_open(self::getServerURI($info), $info['ema_username'], $info['ema_password']);
-        if ($mbox === false) {
-            $error = @imap_last_error();
-            ServiceContainer::getLogger()->error("Error while connecting to the email server - {$error}");
-        }
-
-        return $mbox;
     }
 
     /**

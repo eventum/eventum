@@ -5,6 +5,7 @@
 See [Upgrading] for details how to upgrade.
 
 - Move inline documentation to docs/help and convert to markdown, #921
+- Move imap related methods to ImapConnection class, #937
 
 [3.9.6]: https://github.com/eventum/eventum/compare/v3.9.5...master
 

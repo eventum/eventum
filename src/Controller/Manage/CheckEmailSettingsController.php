@@ -13,7 +13,8 @@
 
 namespace Eventum\Controller\Manage;
 
-use Support;
+use Eventum\Mail\Imap\ImapConnection;
+use RuntimeException;
 
 class CheckEmailSettingsController extends ManageBaseController
 {
@@ -32,21 +33,8 @@ class CheckEmailSettingsController extends ManageBaseController
      */
     protected function defaultAction(): void
     {
-        // we need the IMAP extension for this to work
-        if (!function_exists('imap_open')) {
-            $this->tpl->assign('error', 'imap_extension_missing');
-
-            return;
-        }
-
         $post = $this->getRequest()->request;
         $hostname = $post->get('hostname');
-
-        if (!$this->resolveAddress($hostname)) {
-            $this->tpl->assign('error', 'hostname_resolv_error');
-
-            return;
-        }
 
         $account = [
             'ema_hostname' => $hostname,
@@ -56,27 +44,13 @@ class CheckEmailSettingsController extends ManageBaseController
             'ema_username' => $post->get('username'),
             'ema_password' => $post->get('password'),
         ];
-        $mbox = Support::connectEmailServer($account);
-        if (!$mbox) {
-            $this->tpl->assign('error', 'could_not_connect');
 
-            return;
+        try {
+            $connection = new ImapConnection($account);
+            $connection->isConnected();
+        } catch (RuntimeException $e) {
+            $this->tpl->assign('error', $e->getMessage());
         }
-
-        $this->tpl->assign('error', 'no_error');
-    }
-
-    /**
-     * check if the hostname is just an IP based one
-     *
-     * @param $hostname
-     * @return bool
-     */
-    private function resolveAddress($hostname)
-    {
-        $regex = "/[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}/";
-
-        return !(!preg_match($regex, $hostname) && gethostbyname($hostname) == $hostname);
     }
 
     /**

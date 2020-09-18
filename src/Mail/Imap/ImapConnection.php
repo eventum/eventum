@@ -14,28 +14,24 @@
 namespace Eventum\Mail\Imap;
 
 use Eventum\Mail\ImapMessage;
+use LazyProperty\LazyPropertiesTrait;
 use RuntimeException;
-use Support;
 
 class ImapConnection
 {
+    use LazyPropertiesTrait;
+
     /** @var array */
     private $account;
     /** @var resource */
-    private $mbox;
+    private $connection;
+    /** @var string */
+    private $uri;
 
     public function __construct(array $account)
     {
-        if (!function_exists('imap_open')) {
-            throw new RuntimeException(
-                "Eventum requires the IMAP extension in order to download messages saved on a IMAP/POP3 mailbox.\n" .
-                "See Prerequisites on the Wiki https://github.com/eventum/eventum/wiki/Prerequisites\n" .
-                'Please refer to the PHP manual for more details about how to install and enable the IMAP extension.'
-            );
-        }
-
         $this->account = $account;
-        $this->mbox = $this->getConnection();
+        $this->initLazyProperties(['connection', 'uri']);
     }
 
     public function __toString()
@@ -50,6 +46,11 @@ class ImapConnection
         $this->closeConnection();
     }
 
+    public function isConnected(): bool
+    {
+        return $this->connection !== null;
+    }
+
     public function getOptions(): array
     {
         return $this->account;
@@ -57,7 +58,7 @@ class ImapConnection
 
     public function getMessage(int $num): ImapResource
     {
-        return new ImapResource($this->mbox, $num);
+        return new ImapResource($this->connection, $num);
     }
 
     /**
@@ -67,7 +68,7 @@ class ImapConnection
      */
     public function getNewEmails(): array
     {
-        return imap_search($this->mbox, 'UNSEEN UNDELETED UNANSWERED') ?: [];
+        return imap_search($this->connection, 'UNSEEN UNDELETED UNANSWERED') ?: [];
     }
 
     /**
@@ -78,22 +79,46 @@ class ImapConnection
      */
     public function getTotalEmails(): int
     {
-        return imap_num_msg($this->mbox);
+        return imap_num_msg($this->connection);
     }
 
     /**
      * Deletes the specified message from the IMAP/POP server
      * NOTE: YOU STILL MUST call imap_expunge($mbox) to permanently delete the message.
+     *
+     * @param ImapMessage|ImapResource $mail
      */
-    public function deleteMessage(ImapMessage $mail): void
+    public function deleteMessage($mail): void
     {
-        $index = $mail->num;
+        if ($mail instanceof ImapMessage || $mail instanceof ImapResource) {
+            $index = $mail->num;
+        } else {
+            throw new RuntimeException('Invalid type:' . get_class($mail));
+        }
+
         // need to delete the message from the server?
         if (!$this->account['ema_leave_copy']) {
-            imap_delete($this->mbox, $index);
+            imap_delete($this->connection, $index);
         } else {
             // mark the message as already read
-            imap_setflag_full($this->mbox, $index, '\\Seen');
+            imap_setflag_full($this->connection, $index, '\\Seen');
+        }
+    }
+
+    /**
+     * @param string $text
+     * @return iterable|ImapResource[]
+     */
+    public function searchText(string $text): iterable
+    {
+        // now try to find the UID of the current message-id
+        $matches = imap_search($this->connection, sprintf('TEXT "%s"', $text));
+        if (count($matches) <= 0) {
+            return;
+        }
+
+        foreach ($matches as $num) {
+            yield new ImapResource($this->connection, $num);
         }
     }
 
@@ -103,22 +128,45 @@ class ImapConnection
      * @throws RuntimeException
      * @return resource
      */
-    private function getConnection()
+    protected function getConnection()
     {
-        $mbox = Support::connectEmailServer($this->account);
+        if (!function_exists('imap_open')) {
+            throw new RuntimeException(
+                "Eventum requires the IMAP extension in order to download messages saved on a IMAP/POP3 mailbox.\n" .
+                "See Prerequisites on the Wiki https://github.com/eventum/eventum/wiki/Prerequisites\n" .
+                'Please refer to the PHP manual for more details about how to install and enable the IMAP extension.'
+            );
+        }
+
+        $mbox = @imap_open($this->uri, $this->account['ema_username'], $this->account['ema_password']);
+
         if ($mbox === false) {
-            $uri = Support::getServerURI($this->account);
             $login = $this->account['ema_username'];
             $error = imap_last_error();
 
             throw new RuntimeException(
                 "$error\n" .
-                "Could not connect to the email server '$uri' with login: '$login'." .
+                "Could not connect to the email server '{$this->uri}' with login: '$login'." .
                 'Please verify your email account settings and try again.'
             );
         }
 
         return $mbox;
+    }
+
+    /**
+     * Method used to build the server URI to connect to.
+     */
+    protected function getUri(): string
+    {
+        $uri = $this->account['ema_hostname'] . ':' . $this->account['ema_port'] . '/' . strtolower($this->account['ema_type']);
+        if (stripos($this->account['ema_type'], 'imap') !== false) {
+            $folder = $this->account['ema_folder'];
+        } else {
+            $folder = 'INBOX';
+        }
+
+        return '{' . $uri . '}' . $folder;
     }
 
     private function closeConnection(): void
@@ -133,8 +181,9 @@ class ImapConnection
      */
     private function closeEmailServer(): void
     {
-        imap_expunge($this->mbox);
-        imap_close($this->mbox);
+        imap_expunge($this->connection);
+        imap_close($this->connection);
+        unset($this->connection);
     }
 
     /**
