@@ -427,6 +427,14 @@ table.grid {
     }
 }
 
+// fix over overly long note text
+div.issue_section {
+    table.grid td {
+        max-width: 95vw;
+        overflow-y: auto;
+    }
+}
+
 /* if issue description is too wide */
 #issue_description {
     display: inline-block;
