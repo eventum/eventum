@@ -408,8 +408,6 @@ table.grid {
 
     td {
         padding: .3em;
-        max-width: 95vw;
-        overflow-y: auto;
     }
 
     tr {
@@ -426,6 +424,14 @@ table.grid {
             text-align: center;
             font-style: italic;
         }
+    }
+}
+
+// fix over overly long note text
+div.issue_section {
+    table.grid td {
+        max-width: 95vw;
+        overflow-y: auto;
     }
 }
 
