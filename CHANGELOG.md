@@ -1,6 +1,6 @@
 # Eventum Issue Tracking System
 
-## [3.9.6]
+## [3.9.6] - 2020-09-30
 
 See [Upgrading] for details how to upgrade.
 
@@ -8,7 +8,7 @@ See [Upgrading] for details how to upgrade.
 - Move imap related methods to ImapConnection class, #937
 - Fix assignment field and quick search dropdowns, #943, #916, #942
 
-[3.9.6]: https://github.com/eventum/eventum/compare/v3.9.5...master
+[3.9.6]: https://github.com/eventum/eventum/compare/v3.9.5...v3.9.6
 
 ## [3.9.5] - 2020-09-02
 
