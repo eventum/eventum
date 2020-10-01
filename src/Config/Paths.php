@@ -24,6 +24,7 @@ final class Paths
 
     // "/var" path for writable data
     private const APP_VAR_PATH = APP_PATH . '/var';
+    public const APP_SPOOL_PATH = self::APP_VAR_PATH . '/spool';
     public const APP_CACHE_PATH = self::APP_VAR_PATH . '/cache';
 
     // define other paths
