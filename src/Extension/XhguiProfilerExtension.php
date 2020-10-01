@@ -14,10 +14,12 @@
 namespace Eventum\Extension;
 
 use Eventum\Config\Config;
+use Eventum\Config\Paths;
 use Eventum\Event\SystemEvents;
 use Eventum\Extension\Provider\SubscriberProvider;
 use Eventum\Logger\LoggerTrait;
 use Eventum\ServiceContainer;
+use RuntimeException;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Throwable;
 use Xhgui\Profiler\Profiler;
@@ -81,7 +83,17 @@ class XhguiProfilerExtension implements SubscriberProvider, EventSubscriberInter
             'profiler.options' => [
             ],
 
-            'save.handler' => Profiler::SAVER_UPLOAD,
+            'save.handler' => Profiler::SAVER_STACK,
+            'save.handler.stack' => [
+                'savers' => [
+                    Profiler::SAVER_UPLOAD,
+                    Profiler::SAVER_FILE,
+                ],
+                'saveAll' => false,
+            ],
+            'save.handler.file' => [
+                'filename' => $this->getFileSaverPath(),
+            ],
             'save.handler.upload' => [
                 'uri' => $this->config['upload_url'],
                 'token' => $this->config['upload_token'],
@@ -89,5 +101,15 @@ class XhguiProfilerExtension implements SubscriberProvider, EventSubscriberInter
         ];
 
         return array_merge($defaultConfig, $this->config->toArray());
+    }
+
+    private function getFileSaverPath(): string
+    {
+        $spoolPath = Paths::APP_SPOOL_PATH . '/xhgui';
+        if (!is_dir($spoolPath) && !mkdir($spoolPath, 0755, true) && !is_dir($spoolPath)) {
+            throw new RuntimeException(sprintf('Directory "%s" was not created', $spoolPath));
+        }
+
+        return "$spoolPath/xhgui_upload.jsonl";
     }
 }
