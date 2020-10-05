@@ -5,6 +5,7 @@
 See [Upgrading] for details how to upgrade.
 
 - Fix sorting links when searching for custom fields, #947
+- Fix `NOTIFICATION_NOTIFY_ADDRESS` event arguments, #950, #949
 
 [3.9.7]: https://github.com/eventum/eventum/compare/v3.9.6...master
 
