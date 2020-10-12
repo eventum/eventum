@@ -56,8 +56,8 @@ $avail_langs = array(
 	'pl' => _('Polish'),
 	// TRANSLATORS: Translation of Portuguese language in preferences dropdown
 	'pt' => _('Portuguese'),
-	// TRANSLATORS: Translation of Brasiliant Portugese language in preferences dropdown
-	'pt_BR' => _('Brasiliant Portugese'),
+	// TRANSLATORS: Translation of Brazilian Portuguese language in preferences dropdown
+	'pt_BR' => _('Brazilian Portuguese'),
 	// TRANSLATORS: Translation of Russian language in preferences dropdown
 	'ru' => _('Russian'),
 	// TRANSLATORS: Translation of Sinhalese language in preferences dropdown

@@ -1264,9 +1264,9 @@ msgstr ""
 msgid "Boilerplate"
 msgstr ""
 
-#. TRANSLATORS: Translation of Brasiliant Portugese language in preferences dropdown
+#. TRANSLATORS: Translation of Brazilian Portuguese language in preferences dropdown
 #: localization/LINGUAS.php:60
-msgid "Brasiliant Portugese"
+msgid "Brazilian Portuguese"
 msgstr ""
 
 #. TRANSLATORS: Translation of Breton language in preferences dropdown
