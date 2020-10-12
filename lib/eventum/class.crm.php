@@ -529,7 +529,7 @@ abstract class CRM
      * Returns any notes for for the specified customer.
      *
      * @param   int $customer_id The customer ID
-     * @return  array an array containg the note details
+     * @return  array an array containing the note details
      */
     public static function getNoteDetailsByCustomer($customer_id)
     {
@@ -555,7 +555,7 @@ abstract class CRM
      * Returns any note details for for the specified id.
      *
      * @param $cno_id
-     * @return  array an array containg the note details
+     * @return  array an array containing the note details
      */
     public static function getNoteDetailsByID($cno_id)
     {

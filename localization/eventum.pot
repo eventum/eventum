@@ -1264,9 +1264,9 @@ msgstr ""
 msgid "Boilerplate"
 msgstr ""
 
-#. TRANSLATORS: Translation of Brasiliant Portugese language in preferences dropdown
+#. TRANSLATORS: Translation of Brazilian Portuguese language in preferences dropdown
 #: localization/LINGUAS.php:60
-msgid "Brasiliant Portugese"
+msgid "Brazilian Portuguese"
 msgstr ""
 
 #. TRANSLATORS: Translation of Breton language in preferences dropdown
@@ -4689,7 +4689,7 @@ msgstr ""
 #: templates/help/report_category.tpl.html:6
 msgid ""
 "Note: The values in this field can be changed by going in the administration "
-"section of this application and editing the appropriate atributes of a "
+"section of this application and editing the appropriate attributes of a "
 "project. If you do not have the needed permissions to do so, please contact "
 "your local Eventum administrator."
 msgstr ""

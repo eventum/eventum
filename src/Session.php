@@ -39,7 +39,7 @@ class Session
      * Returns the session variable specified by $name
      *
      * @param   string $name the name of variable to be returned
-     * @param   mixed $default What should be returned if the named variabe is not set
+     * @param   mixed $default What should be returned if the named variable is not set
      * @return  mixed the session variable
      */
     public static function get($name, $default = null)

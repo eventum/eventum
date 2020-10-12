@@ -105,7 +105,7 @@ class MailMessageTest extends TestCase
         $from = $message->from;
         $this->assertEquals('Some Guy <abcd@origin.com>', $from);
 
-        // or simplier variants:
+        // or simpler variants:
         $this->assertEquals('Some Guy <abcd@origin.com>', $message->from);
         $this->assertEquals('Us <our@email.com>', $message->to);
         $this->assertEquals('', $message->cc);
@@ -662,7 +662,7 @@ class MailMessageTest extends TestCase
         // "iconv_mime_encode(): Unknown error (7)"
         // because it iconv_mime_encode fails:
         $value = '[#77675] New Issue:xxxxxxxxx xxxxxxx xxxxxxxx xxxxxxxxxxxxx xxxxxxxxxx xxxxxxxx, tähtaeg xx.xx, xxxx';
-        // it fails with line length exactly 76, but suceeds with anything else, like 75 or 77
+        // it fails with line length exactly 76, but succeeds with anything else, like 75 or 77
         $v = iconv_mime_encode(
             'x-test', $value, ['scheme' => 'Q', 'line-length' => '76', 'line-break-chars' => ' ']
         );

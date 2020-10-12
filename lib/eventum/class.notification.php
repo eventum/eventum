@@ -936,7 +936,7 @@ class Notification
      * Method used to get list of addresses that were email sent to.
      *
      * @param   int $issue_id The issue ID
-     * @return  array   list of addresse
+     * @return  array   list of address
      */
     public static function getLastNotifiedAddresses($issue_id = null)
     {

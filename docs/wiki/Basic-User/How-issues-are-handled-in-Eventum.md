@@ -6,7 +6,7 @@ This Chapter is intended to be a basic guidline for new users. One of my problem
 
 Somebody says: hmm I see this way:
 
-1.  beta tester reports bug/requires enhancment, he/she creates new issue with status discovery
+1.  beta tester reports bug/requires enhancement, he/she creates new issue with status discovery
 2.  moderator/admin/project leader get email about new bug report, he evaluates on what area/department bug is connected, assigns task to the people responsible for that area.
 3.  developer gets email notification about issue, set bug status to "evaluating"
 4.  when bug is confirmed set status to confirmed/working on it and estimates time and release in which bug will be solved
@@ -66,9 +66,9 @@ _Feature Request:_
 
 _Bug report:_
 
-    discovery - killed(not a bug, wont fix, cant fix, duplicate, can't reproduce)
+    discovery - killed(not a bug, won't fix, cant fix, duplicate, can't reproduce)
     |
-    requirements - killed(wont fix)
+    requirements - killed(won't fix)
     |
     implementation
     |

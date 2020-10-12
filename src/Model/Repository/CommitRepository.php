@@ -168,7 +168,7 @@ class CommitRepository extends EntityRepository
 
             EventManager::dispatch(SystemEvents::SCM_COMMIT_ASSOCIATED, $event);
 
-            // print report to stdout of commits so hook could report status back to commiter
+            // print report to stdout of commits so hook could report status back to committer
             echo "#$issue_id - {$issue->getSummary()} ({$issue->getStatusTitle()})\n";
         }
     }

@@ -554,7 +554,7 @@ Upgrading to 3.5.x versions requires that you upgrade to 3.2.0 version first.
 
 - Fix for reports date picker (@hueyplong, #380)
 - Make mail queue monitoring useful: monitor pending state (@glensc, #381)
-- Fix issue with associating emails to exising tickets. (@spoollord, #387, #341)
+- Fix issue with associating emails to existing tickets. (@spoollord, #387, #341)
 
 [3.5.1]: https://github.com/eventum/eventum/compare/v3.5.0...v3.5.1
 
@@ -1287,7 +1287,7 @@ This release uses Composer for PHP Class autoloader.
 - Make time tracking categories project specific (Elan Ruusamäe)
 - API: Misc::escapeString can add quotes around strings (Elan Ruusamäe)
 - fix bug for adding time entries is broken at the end of month Edit (#1186330)
-- Add Back-Off functionallity (Petter Sandholdt) (GH#4)
+- Add Back-Off functionality (Petter Sandholdt) (GH#4)
 - Redirect to issues listing when signing in (Elan Ruusamäe)
 - Change downloading attachments encoding to urlencode (Elan Ruusamäe) (#1251335)
 - Save eventum setup.php as PHP code, not base64 encoded data (Elan Ruusamäe)
@@ -1333,7 +1333,7 @@ This release uses Composer for PHP Class autoloader.
 - Added new workflow method formatIRCMessage (Bryan Alsdorf)
 - Port expandable cell to jQuery (Elan Ruusamäe)
 - Updated PEAR packages to latest versions (Elan Ruusamäe)
-- Added interface for Workflow classes to store arbitary workflow configuration in Setup (Elan Ruusamäe)
+- Added interface for Workflow classes to store arbitrary workflow configuration in Setup (Elan Ruusamäe)
 - Added sphinx fulltext search backend (Bryan Alsdorf, Elan Ruusamäe)
 
 ## 2.3.1 - 2011-02-10
@@ -1346,13 +1346,13 @@ This release uses Composer for PHP Class autoloader.
 - Fix problem with custom field validation (Bryan) [LP#628862]
 - Allow using GET parameters in reports/weekly.php (Elan Ruusamäe)
 - Added workflow method to supply custom Link_Filter rules. Supports also callbacks (Elan Ruusamäe)
-- Changed 'recieved' to 'received' (Robbert-Jan Roos)
+- Changed 'received' to 'received' (Robbert-Jan Roos)
 - XSS Fix: escape issue_id in templates accessing it directly via {$smarty.get.id} (Elan Ruusamäe)
 - Fix bug with ajax dynamic custom fields not honoring "hideWhenNoOptions" (Bryan Alsdorf) [LP#641133]
 - Make attachment names linked in issue Initial Description (Elan Ruusamäe)
 - Set memory limit to ~2GiB to be able to download 10MiB emails (Elan Ruusamäe)
 - Use KiB, MiB keywords for filesizes (Elan Ruusamäe)
-- Rework Mail_Queue code to be memory efficent by fetching only one email a time to memory (Elan Ruusamäe)
+- Rework Mail_Queue code to be memory efficient by fetching only one email a time to memory (Elan Ruusamäe)
 - Fix xmlrpc server missing global $XML_RPC_erruser (Elan Ruusamäe)
 - Add better xmlrpc client class and sample (Elan Ruusamäe)
 - Rewritten monitor script and class with modern code and flexible (Elan Ruusamäe)
@@ -1374,7 +1374,7 @@ This release uses Composer for PHP Class autoloader.
 ## 2.3 - 2010-08-19
 
 - Removed reference to dynCalendar.css (Bryan, #42301)
-- Get default actions individualy for each address being added to notification list (Bryan)
+- Get default actions individually for each address being added to notification list (Bryan)
 - Fixed case sensitivity problem when excluding project aliases from being added to notification list (Bryan)
 - Always allow issue reporter to email the issue (Bryan)
 - Added manage aliases interface (Dave Anderson)
@@ -1557,7 +1557,7 @@ This release uses Composer for PHP Class autoloader.
 
 ## 2.0 - 2007-04-12
 
-- Fixed bug with user recieving an update email when they updated the issue (Bryan)
+- Fixed bug with user receiving an update email when they updated the issue (Bryan)
 - Fixed bug with inserting attachment from email with an apostrophe in the email name (Bryan)
 - Changed support_email table to not truncate long to and cc lists (Bryan)
 - Changed status graph colors to actually match the status colors (Bryan)

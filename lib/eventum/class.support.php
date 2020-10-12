@@ -1637,7 +1637,7 @@ class Support
             // functionality.
             if ($issue_id) {
                 // send direct emails only to the unknown addresses, and leave the rest to be
-                // catched by the notification list
+                // caught by the notification list
                 $fixed_from = Notification::getFixedFromHeader($issue_id, $mail->from, 'issue');
 
                 // build the list of unknown recipients

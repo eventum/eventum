@@ -18,7 +18,7 @@ can add methods to that class to handle specific events. You can copy the
 method signatures from `lib/eventum/customer/class.abstract_customer_backend.php` to get started.  An
 example customer implementation is in
 `docs/examples/customer/class.example_customer.php`. If you want to use this
-example implemenation, follow the steps below to enable customer integration
+example implementation, follow the steps below to enable customer integration
 and run `doc/examples/customer/create_customers.php`.
 
 Once you have your class created you must set your project to use it.

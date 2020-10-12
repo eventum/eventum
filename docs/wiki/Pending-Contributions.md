@@ -7,7 +7,7 @@ The recommended way of adding contributions is to submit [Pull Request in GitHub
 -   [Subject AND header based routing](System-Advanced/Subject-AND-header-based-routing.md) - fall back to header based routing if no issue \# found in subject
 -   [Hide_closed_issues_from_stats](<System-Advanced/Hide-Closed-Issues-on-Stats-(Main)-Page.md>) - Pie charts only show issues with open status. <small>link may not be correct</small>
 -   [Add a timeout for outgoing smtp connections 171](System-Admin/Add-a-timeout-for-outgoing-smtp-connections-171.md) - This adds an admin configurable timeout for smtp connections. It helps preventing the php script that processes the outgoing mail queue from getting stalled and never releasing its lock
--   [Defaulting Assigned Emails to Yes](System-Advanced/Defaulting-Assigned-Emails-to-Yes.md) - This fixes the fact users assigned to projects after being created do not get the proper defaults in reference to recieving emails when it is assigned to them
+-   [Defaulting Assigned Emails to Yes](System-Advanced/Defaulting-Assigned-Emails-to-Yes.md) - This fixes the fact users assigned to projects after being created do not get the proper defaults in reference to receiving emails when it is assigned to them
 
 ## Patches for Eventum 2.0.1
 
