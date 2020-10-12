@@ -86,19 +86,19 @@ class Issue
     public $locked;
 
     /**
-     * @var string Formated as YYYY-MM-DD
+     * @var string Formatted as YYYY-MM-DD
      * @Column(name="Due Date", type="string")
      */
     public $dueDate;
 
     /**
-     * @var string Formated as YYYY-MM-DD HH:MM:SS
+     * @var string Formatted as YYYY-MM-DD HH:MM:SS
      * @Column(name="Created At (UTC)", type="string")
      */
     public $createdAt;
 
     /**
-     * @var string Formated as YYYY-MM-DD HH:MM:SS
+     * @var string Formatted as YYYY-MM-DD HH:MM:SS
      * @Column(name="Updated At (UTC)", type="string")
      */
     public $updatedAt;

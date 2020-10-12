@@ -2300,7 +2300,7 @@ class Issue
      * Method used to see if a user is assigned to an issue.
      *
      * @param   int $issue_id The issue ID
-     * @param   int $usr_id an integer containg the ID of the user
+     * @param   int $usr_id an integer containing the ID of the user
      * @return  bool true if the user(s) are assigned to the issue
      */
     public static function isAssignedToUser($issue_id, $usr_id)

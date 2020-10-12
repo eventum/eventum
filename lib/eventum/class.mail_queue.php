@@ -244,7 +244,7 @@ class Mail_Queue
     /**
      * Returns the mail queue entry based on ID.
      *
-     * @acess   public
+     * @access   public
      * @param   int $maq_id the id of the mail queue entry
      * @return  array An array of information
      */

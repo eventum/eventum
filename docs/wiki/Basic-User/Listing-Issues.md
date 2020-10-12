@@ -4,7 +4,7 @@ All these sections except for "Search Results" can be toggled on/off by a link i
 
 ## Quick Search
 
-The quick search tool contains fields to allow filtering of issues by parameters such as Assigment, Category, Status etc. You need to enter your search parameters, then click "Search" to apply the filters. At the bottom of the Quick Search tool is a section that links to the Advanced Search page and a dropdown list that allows you to run your saved searches.
+The quick search tool contains fields to allow filtering of issues by parameters such as Assignment, Category, Status etc. You need to enter your search parameters, then click "Search" to apply the filters. At the bottom of the Quick Search tool is a section that links to the Advanced Search page and a dropdown list that allows you to run your saved searches.
 
 ## Current Filters
 

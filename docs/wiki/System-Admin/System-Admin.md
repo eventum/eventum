@@ -10,7 +10,7 @@
  * [[General Setup|System-Admin:-General-Setup]]
  * [[Adding Users|System-Admin:-Users]]
  * [[Adding cron entries|System-Admin:-Adding-a-cron-entry]]
- * [[SCM Intergration|System-Admin:-SCM-integration]]
+ * [[SCM Integration|System-Admin:-SCM-integration]]
  * [[Add Timeout - Outgoing SMTP (171)|System-Admin:-Add-a-timeout-for-outgoing-smtp-connections-171]]
  * [[Add Timeout - Outgoing SMTP|System-Admin:-Add-a-timeout-for-outgoing-smtp-connections]]
  * [[Become Super Administrator|System-Admin:-Become-Super-Administrator]]

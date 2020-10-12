@@ -6,6 +6,6 @@ should be for this new issue, leave the field as 'un-scheduled', and a project
 manager will set it appropriately.
 
 Note: The values in this field can be changed by going in the administration
-section of this application and editing the appropriate atributes of a project.
+section of this application and editing the appropriate attributes of a project.
 If you do not have the needed permissions to do so, please contact your local
 Eventum administrator.

@@ -21,7 +21,7 @@ If you already have cron scripts running you don't need this - just add another 
 
 you should see your crontab entry listed (and only that one). Email should now be sent.
 
-In f.ex. Debian GNU/Linux when runing PHP5, /usr/bin/php is a (soft) link to /etc/alternatives/php which in turn is a link to /usr/bin/php5.
+In f.ex. Debian GNU/Linux when running PHP5, /usr/bin/php is a (soft) link to /etc/alternatives/php which in turn is a link to /usr/bin/php5.
 
 ```
  $ l /usr/bin/|grep php

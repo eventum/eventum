@@ -9,7 +9,7 @@ I now have Eventum running on a NetWare 6.5 box. More extensive testing needs to
 
 1.  NetWare 6.5 with Service Pack4a installs PHP 5.0.4. I downgraded it to 4.2.4 from <http://developer.novell.com/wiki/index.php/Php>.
 2.  Installed the GD extension from <http://developer.novell.com/wiki/index.php/Php_gd>
-3.  Added the line, extension=php_gd.nlm, to the NetWare Extentions section of PHP.INI.
+3.  Added the line, extension=php_gd.nlm, to the NetWare Extensions section of PHP.INI.
 4.  In the PHP.INI file, commented out the, Open basedir=".;sys:\\tmp", line.
 5.  Changed the following code in the setup/config.inc.php...
 

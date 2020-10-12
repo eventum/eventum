@@ -78,6 +78,6 @@ export default class {
     }
 
     confirmRegenerateToken() {
-        return confirm("Regenerating your API Key will revoke all previous keys. Do you want to procede?");
+        return confirm("Regenerating your API Key will revoke all previous keys. Do you want to proceed?");
     }
 }

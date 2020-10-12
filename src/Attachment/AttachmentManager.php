@@ -248,7 +248,7 @@ class AttachmentManager
      * issue in the database.
      *
      * @param   int $issue_id The issue ID
-     * @param   int|null $max_role Don't return attachments with a role greater then this
+     * @param   int|null $max_role Don't return attachments with a role greater than this
      * @param   int|null $not_id The ID of the related note
      * @return array The full list of attachments
      */

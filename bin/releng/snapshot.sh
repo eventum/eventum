@@ -76,7 +76,7 @@ travis_build_id() {
 	local branch="$1" out bid
 
 	while [ -z "$bid" ]; do
-		# sleep not to hammer, altho the travis command itself is slow
+		# sleep not to hammer, although the travis command itself is slow
 		printf >&2 "."
 		sleep 1
 

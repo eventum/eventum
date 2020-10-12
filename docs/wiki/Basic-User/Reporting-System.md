@@ -40,7 +40,7 @@ This report will be available only if the current project has customer integrati
 
 ## Recent Activity
 
-Displays a form to filter by Activity Type (Phone Calls, Notes, Email, Drafts, Time Tracking, Reminders), date and developer, to generate a table for each Selected Activity for wich exists available data.
+Displays a form to filter by Activity Type (Phone Calls, Notes, Email, Drafts, Time Tracking, Reminders), date and developer, to generate a table for each Selected Activity for which exists available data.
 
 ## Workload By Date Range
 
