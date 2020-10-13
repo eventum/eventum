@@ -29,3 +29,4 @@ parts of the application:
   - [User Permission Levels](permission_levels.md)
   - [LDAP Authentication](ldap.md)
   - [Edit Columns to Display](column_display.md)
+  - [XHGui Profiling](xhgui.md)
