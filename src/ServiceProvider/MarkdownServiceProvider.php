@@ -126,6 +126,8 @@ class MarkdownServiceProvider implements ServiceProviderInterface
         $config->set('AutoFormat.RemoveEmpty.RemoveNbsp', true);
         // preserve html comments
         $config->set('HTML.AllowedCommentsRegexp', '/.+/');
+        // Add target="_blank" to all outgoing links
+        $config->set('HTML.TargetBlank', true);
 
         // disable tidy processing, even if extension present
         $config->set('Output.TidyFormat', false);
