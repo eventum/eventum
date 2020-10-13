@@ -47,7 +47,7 @@ $(document).ready(function () {
     window.onbeforeunload = Eventum.handleClose;
 
     $('form.validate').submit(function(e) {
-        Validation.callback(e);
+        return Validation.callback(e);
     });
 
     ExpandableCell.ready();
