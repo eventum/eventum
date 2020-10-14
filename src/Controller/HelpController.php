@@ -76,6 +76,15 @@ class HelpController extends BaseController
         $renderer = ServiceContainer::get(MarkdownRendererInterface::RENDER_BLOCK);
 
         $environment = $renderer->getEnvironment();
+
+        // enable soft breaks in this renderer
+        $environment->mergeConfig([
+                'renderer' => [
+                    'soft_break' => "\n",
+                ],
+            ]
+        );
+
         // convert markdown links to help
         $environment->addEventListener(DocumentParsedEvent::class, static function (DocumentParsedEvent $e) {
             $walker = $e->getDocument()->walker();

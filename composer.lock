@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "8865215965e8383b457cab363a86737a",
+    "content-hash": "233664158bc85d060357150b4b3c74b3",
     "packages": [
         {
             "name": "cakephp/core",
@@ -2909,16 +2909,16 @@
         },
         {
             "name": "perftools/php-profiler",
-            "version": "0.10.0",
+            "version": "0.14.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/perftools/php-profiler.git",
-                "reference": "dc0afb52a89a35ff7ddb6383f3803307d7acdeda"
+                "reference": "c594b43b6005f92f40d2fef1ea6c742273c9cc21"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/perftools/php-profiler/zipball/dc0afb52a89a35ff7ddb6383f3803307d7acdeda",
-                "reference": "dc0afb52a89a35ff7ddb6383f3803307d7acdeda",
+                "url": "https://api.github.com/repos/perftools/php-profiler/zipball/c594b43b6005f92f40d2fef1ea6c742273c9cc21",
+                "reference": "c594b43b6005f92f40d2fef1ea6c742273c9cc21",
                 "shasum": ""
             },
             "require": {
@@ -2932,7 +2932,7 @@
                 "perftools/xhgui-collector": "^1.8"
             },
             "suggest": {
-                "alcaeus/mongo-php-adapter": "Adapter to provide ext-mongo interface on top of mongo-php-libary (PHP>=5.6)",
+                "alcaeus/mongo-php-adapter": "Adapter to provide ext-mongo interface on top of mongo-php-library (PHP>=5.6)",
                 "ext-curl": "cURL extension for upload saver",
                 "ext-mongo": "mongo extension (PHP>=5.3,<7.0)",
                 "ext-mongodb": "mongodb extension (PHP>=5.4)",
@@ -2962,7 +2962,7 @@
                 }
             ],
             "description": "PHP Profiling based on XHGUI",
-            "time": "2020-08-25T04:36:47+00:00"
+            "time": "2020-10-13T13:28:36+00:00"
         },
         {
             "name": "phlib/flysystem-pdo",

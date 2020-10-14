@@ -7,6 +7,7 @@ See [Upgrading] for details how to upgrade.
 - Fix sorting links when searching for custom fields, #947
 - Fix `NOTIFICATION_NOTIFY_ADDRESS` event arguments, #950, #949
 - Restore return value of form.validate submit action, #954, #953
+- Update xhgui profiler to 0.14, #955
 
 [3.9.7]: https://github.com/eventum/eventum/compare/v3.9.6...master
 
