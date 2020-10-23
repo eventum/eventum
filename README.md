@@ -3,6 +3,7 @@ Eventum Issue Tracking System
 
 [![Build Status][travis-badge]][travis-url]
 [![Join the Chat][gitter-badge]][gitter-url]
+[![Maintainers Wanted][maintainers-wanted-badge]][maintainers-wanted-url]
 
 Eventum is a user friendly and very flexible issue tracking system, that can
 be used by a support department to track incoming technical support requests,
@@ -25,3 +26,6 @@ The Eventum Team
 [travis-url]: https://travis-ci.org/eventum/eventum
 [gitter-badge]: https://badges.gitter.im/Join%20Chat.svg
 [gitter-url]: https://gitter.im/eventum/eventum
+[maintainers-wanted-badge]: https://img.shields.io/badge/maintainers-wanted-red.svg
+[maintainers-wanted-url]: https://github.com/pickhardt/maintainers-wanted
+
