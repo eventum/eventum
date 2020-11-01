@@ -14,11 +14,11 @@
 return [
     'database' => [
         'driver' => 'mysql',
-        'hostname' => 'localhost',
-        'database' => 'e_test',
-        'username' => 'root',
-        'password' => '',
+        'hostname' => getenv('MYSQL_HOST') ?: 'localhost',
+        'database' => getenv('MYSQL_DATABASE') ?: 'e_test',
+        'username' => getenv('MYSQL_USER') ?: 'root',
+        'password' => getenv('MYSQL_PASSWORD') ?: '',
+        'port' => getenv('MYSQL_PORT') ?: 3306,
         'charset' => 'utf8',
-        'port' => 3306,
     ],
 ];

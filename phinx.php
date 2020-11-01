@@ -81,7 +81,7 @@ $phinx = [
 
 // create "test" environment
 $phinx['environments']['test'] = $phinx['environments']['production'];
-$phinx['environments']['test']['name'] = 'e_test';
+$phinx['environments']['test']['name'] = getenv('MYSQL_DATABASE') ?: 'e_test';
 
 $event = new GenericEvent(null, $phinx);
 EventManager::dispatch(SystemEvents::PHINX_CONFIG, $event);
