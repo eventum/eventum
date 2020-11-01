@@ -42,8 +42,10 @@ When upgrading to a new version of Eventum, please follow these instructions:
 
 1.  Check the [requirements](Prerequisites.md) for the version
 1.  Backup your copy of Eventum - files and data.
-2.  Extract your new Eventum copy over your existing folder structure
-3.  Run the upgrade scripts described in below
+1.  Rename eventum folder to "old".
+1.  Extract new Eventum version
+1.  Restore config and workflow files from previous version
+1.  Run the upgrade script
 
 ## Upgrading to latest version
 
@@ -52,6 +54,7 @@ When upgrading to a new version of Eventum, please follow these instructions:
 -   Rename your current Eventum dir to `eventum.old`
 -   Extract Eventum release tarball and rename it to `eventum` directory.
 -   Copy all config files from old version to new version: `eventum.old/config` to `eventum/config`
+-   Restore `var` directory: `eventum.old/var` to `eventum/var`
 -   If your workflow API, customer API or custom field files to were in `lib/eventum` copy them to `config/`:
     - `eventum.old/lib/eventum/workflow/` -> `eventum/config/workflow/`
     - `eventum.old/lib/eventum/customer/` -> `eventum/config/customer/`
