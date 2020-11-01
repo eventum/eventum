@@ -84,18 +84,6 @@ require_once(APP_INC_PATH."customer/class.abstract_customer_backend.php");
 
 -   Since 3.2.0 MySQL extension was changed from mysql/mysqli to [PDO_MySQL](https://github.com/eventum/eventum/pull/252):
 
-## Upgrading from versions before 3.5
-
-You need to upgrade to 3.5.0 first before you can upgrade to versions 3.5.x and above
-
-## Upgrading from versions before 3.2
-
-You need to upgrade to 3.2.0 first before you can upgrade to versions 3.2.x and above. [#270](https://github.com/eventum/eventum/pull/270)
-
-## Upgrading from versions before 3.0
-
-Upgrading directly to 3.1/3.2 from versions before 3.0 does not work, you have to upgrade to 3.0 series first.
-
 ## Upgrading from versions before 2.2
 
 Upgrading from these versions not supported, you have to go back and upgrade to 2.2 version first.
