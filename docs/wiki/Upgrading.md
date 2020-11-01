@@ -1,8 +1,33 @@
-# Upgrade Process
+# Updating Eventum versions
 
 One of our objectives is to make upgrading from an earlier release as
 painless as possible, and we provide scripts that should bring your
 existing Eventum installation up-to-date.
+
+Eventum supports sequential upgrade path using released minor versions.
+
+In other words, upgrade to minor version separately, you can skip patch
+versions in minor versions.
+
+This table lists upgrade path from SOURCE to TARGET version, the third column
+shows PHP version required for the update.
+
+| SOURCE | TARGET | PHP |
+|--------|--------|-----|
+| 2.2   | 2.3   | 5.1 |
+| 2.3.x | 2.4.0 | 5.1 |
+| 2.4.x | 3.0.0 | 5.1 |
+| 3.0.x | 3.1.0 | 5.3 |
+| 3.1.x | 3.2.0 | 5.5 |
+| 3.2.x | 3.3.0 | 5.6 |
+| 3.3.x | 3.4.0 | 5.6 |
+| 3.4.x | 3.5.0 | 5.6 |
+| 3.5.x | 3.6.0 | 7.1 |
+| 3.6.x | 3.7.0 | 7.1 |
+| 3.7.x | 3.8.0 | 7.1 |
+| 3.8.x | 3.9.0 | 7.2 |
+
+## UTF-8 is required
 
 Please note that if your database encoding is not UTF-8, you may encounter various bugs:
 
@@ -11,7 +36,7 @@ Please note that if your database encoding is not UTF-8, you may encounter vario
 
 See 2.2 upgrade instructions how to convert database to UTF-8.
 
-## IMPORTANT
+## Upgrade Process
 
 When upgrading to a new version of Eventum, please follow these instructions:
 
