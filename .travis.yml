@@ -10,7 +10,7 @@ services:
   - mysql
 
 env:
-  - PHPUNIT_EXCLUDE_GROUP=ldap,imap,logger,mail,api,locale,date,crypto
+  - PHPUNIT_EXCLUDE_GROUP=ldap,imap,logger,mail,api,locale,date,crypto,flaky
 
 # https://docs.travis-ci.com/user/languages/php/#choosing-php-versions-to-test-against
 jobs:
