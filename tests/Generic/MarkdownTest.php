@@ -34,6 +34,7 @@ class MarkdownTest extends TestCase
 
     /**
      * @dataProvider dataProvider
+     * @group flaky
      */
     public function testMarkdown(string $input, string $expected): void
     {
