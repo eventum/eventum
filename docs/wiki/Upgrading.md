@@ -6,8 +6,8 @@ existing Eventum installation up-to-date.
 
 Eventum supports sequential upgrade path using released minor versions.
 
-In other words, upgrade to minor version separately, you can skip patch
-versions in minor versions.
+To explain more clearly: you may skip all patch versions and upgrade to the
+next minor version.
 
 This table lists upgrade path from SOURCE to TARGET version, the third column
 shows PHP version required for the update.
