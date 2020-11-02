@@ -39,7 +39,7 @@ jobs:
         with:
           php-version: ${{ matrix.php }}
           tools: composer:v1
-          extensions: pdo, pdo_mysql, gd, ldap
+          extensions: pdo, pdo_mysql, gd, ldap, tidy
 
       - name: Validate composer.json and composer.lock
         run: composer validate
