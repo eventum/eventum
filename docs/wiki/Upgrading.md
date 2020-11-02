@@ -41,25 +41,27 @@ See 2.2 upgrade instructions how to convert database to UTF-8.
 When upgrading to a new version of Eventum, please follow these instructions:
 
 1.  Check the [requirements](Prerequisites.md) for the version
-1.  Backup your copy of Eventum - files and data.
-1.  Rename eventum folder to "old".
-1.  Extract new Eventum version
-1.  Restore config and workflow files from previous version
+1.  Backup your copy of Eventum - files and data
+1.  Rename the current Eventum folder out of the way (`eventum.old`)
+1.  Extract new Eventum version to existing installation path (`eventum`)
+1.  Restore config and workflow files from the previous version
 1.  Run the upgrade script
 
-## Upgrading to latest version
+This way of installing will get rid of files that got removed from newer Eventum version.
 
-**PLEASE NOTE: If you are upgrading from a version older than 3.5.0 please read the version specific notes at the bottom of this page.**
+NOTE: If you change the installation path, you need to change config files to a new path value.
+
+## Step by step instructions
 
 -   Rename your current Eventum dir to `eventum.old`
 -   Extract Eventum release tarball and rename it to `eventum` directory.
 -   Copy all config files from old version to new version: `eventum.old/config` to `eventum/config`
 -   Restore `var` directory: `eventum.old/var` to `eventum/var`
--   If your workflow API, customer API or custom field files to were in `lib/eventum` copy them to `config/`:
+-   If your workflow API, customer API, or custom field files were in `lib/eventum` copy them to `config/`:
     - `eventum.old/lib/eventum/workflow/` -> `eventum/config/workflow/`
     - `eventum.old/lib/eventum/customer/` -> `eventum/config/customer/`
     - `eventum.old/lib/eventum/custom_field/` -> `eventum/config/custom_field/`
--   Ensure your database database partition has enough disk space and run upgrade script: `php bin/upgrade.php` (`upgrade/update-database.php` in older versions)
+-   Ensure your database partition has enough disk space and run upgrade script: `php bin/upgrade.php` (`upgrade/update-database.php` in older versions)
 -   Modify your workflow/customer classes not to require any Eventum core classes, they are autoloaded now. So you can just remove such lines:
 
 ```php
@@ -86,17 +88,17 @@ require_once(APP_INC_PATH."customer/class.abstract_customer_backend.php");
 
 ## Upgrading from versions before 2.2
 
-Upgrading from these versions not supported, you have to go back and upgrade to 2.2 version first.
+Upgrading from these versions not supported, you have to go back and upgrade to the 2.2 version first.
 
 Since version 2.2 the database is assumed to be in UTF-8 encoding, it includes [scripts](https://github.com/eventum/eventum/tree/v2.4.0-pre1/upgrade/v2.1.1_to_v2.2) to convert.
 
-The charset convert scripts exists up to 2.4.0 version and are removed in 3.x series.
+The charset convert scripts exist up to 2.4.0 version and are removed in 3.x series.
 
 While it may work to use other encodings than UTF-8,
 then be aware that such configuration is not tested and you may encounter various problems.
 
--   use `convert-utf8.php` script to update database to utf8 if the former encoding was proper
--   use `fix-charset.php` script to update database to utf8 if the former encoding was improper.
+-   use `convert-utf8.php` script to update the database to utf8 if the former encoding was proper
+-   use `fix-charset.php` script to update the database to utf8 if the former encoding was improper.
 
 you may also find this tool useful: https://packagist.org/packages/mremi/database-encoder
 
