@@ -9,6 +9,9 @@ git:
 services:
   - mysql
 
+env:
+  - PHPUNIT_EXCLUDE_GROUP=ldap,imap,logger,mail,api,locale,date,crypto
+
 # https://docs.travis-ci.com/user/languages/php/#choosing-php-versions-to-test-against
 jobs:
   allow_failures:
@@ -71,7 +74,7 @@ install:
 
 script:
   - PATH=vendor/bin:$HOME/.composer/vendor/bin:$PATH
-  - simple-phpunit --verbose --exclude-group ldap,imap,logger,mail,api,locale,date,crypto
+  - composer test
 
 notifications:
   irc:
