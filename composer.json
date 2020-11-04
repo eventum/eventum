@@ -159,7 +159,7 @@
             "yarn",
             "yarn run assets:development"
         ],
-        "test": "simple-phpunit"
+        "test": "simple-phpunit --exclude-group=$PHPUNIT_EXCLUDE_GROUP"
     },
     "extra": {
         "config-dir": "res",

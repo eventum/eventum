@@ -34,18 +34,11 @@ class MarkdownTest extends TestCase
 
     /**
      * @dataProvider dataProvider
+     * @group flaky
      */
     public function testMarkdown(string $input, string $expected): void
     {
         $rendered = $this->renderer->render($input);
-
-        // XXX: strip newlines, somewhy tests on travis produce different newline placements
-        // https://travis-ci.org/glensc/eventum/jobs/521628232
-        if (getenv('TRAVIS')) {
-            $expected = str_replace("\n", '', $expected);
-            $rendered = str_replace("\n", '', $rendered);
-        }
-
         $this->assertEquals($expected, $rendered);
     }
 

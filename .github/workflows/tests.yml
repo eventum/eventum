@@ -1,0 +1,79 @@
+name: "Tests"
+
+on:
+  - pull_request
+
+jobs:
+  test:
+    name: PHP ${{ matrix.php }}
+    runs-on: ubuntu-20.04
+    strategy:
+      matrix:
+        php:
+          - "7.2"
+          - "7.3"
+          - "7.4"
+
+    env:
+      MYSQL_USER: "eventum"
+      MYSQL_PASSWORD: "password"
+      MYSQL_DATABASE: "eventum"
+      MYSQL_HOST: "127.0.0.1"
+
+    services:
+      mysql:
+        image: percona/percona-server:5.7
+        ports:
+          - 3306:3306
+        env:
+          MYSQL_USER: "eventum"
+          MYSQL_PASSWORD: "password"
+          MYSQL_DATABASE: "eventum"
+          MYSQL_ALLOW_EMPTY_PASSWORD: "1"
+        options: --health-cmd="mysqladmin ping" --health-interval=5s --health-timeout=2s --health-retries=3
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+
+      - name: Setup PHP ${{ matrix.php }}
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          tools: composer:v1
+          extensions: pdo, pdo_mysql, gd, ldap, tidy
+
+      - name: Validate composer.json and composer.lock
+        run: composer validate
+
+      - name: Cache Composer packages
+        id: composer-cache
+        uses: actions/cache@v2
+        with:
+          path: vendor
+          key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-php-
+
+      - name: Install dependencies
+        if: steps.composer-cache.outputs.cache-hit != 'true'
+        run: composer install --prefer-dist --no-progress --no-suggest
+
+      - name: Seed database
+        run: |
+          cp -p tests/travis/*.php config
+          vendor/bin/phinx migrate -e test
+          cat config/setup.php
+          vendor/bin/phinx seed:run -e test
+
+      - name: Run PHPUnit tests
+        run: composer test
+        env:
+          # comma separated @group names to exclude
+          PHPUNIT_EXCLUDE_GROUP: "ldap,imap,logger,mail,api,locale,date,crypto,flaky"
+
+      - name: MySQL Service logs
+        run: docker logs ${{ job.services.mysql.id }}
+        if: always()
+
+# vim:ft=yaml:et:ts=2:sw=2
