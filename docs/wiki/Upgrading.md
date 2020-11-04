@@ -1,4 +1,4 @@
-# Updating Eventum versions
+# Updating Eventum
 
 One of our objectives is to make upgrading from an earlier release as
 painless as possible, and we provide scripts that should bring your
@@ -36,7 +36,7 @@ Please note that if your database encoding is not UTF-8, you may encounter vario
 
 See 2.2 upgrade instructions how to convert database to UTF-8.
 
-## Upgrade Process
+## Upgrade overview
 
 When upgrading to a new version of Eventum, please follow these instructions:
 
