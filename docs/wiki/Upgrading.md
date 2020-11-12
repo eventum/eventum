@@ -1,8 +1,33 @@
-# Upgrade Process
+# Updating Eventum
 
 One of our objectives is to make upgrading from an earlier release as
 painless as possible, and we provide scripts that should bring your
 existing Eventum installation up-to-date.
+
+Eventum supports sequential upgrade path using released minor versions.
+
+To explain more clearly: you may skip all patch versions and upgrade to the
+next minor version.
+
+This table lists upgrade path from SOURCE to TARGET version, the third column
+shows PHP version required for the update.
+
+| SOURCE | TARGET | PHP |
+|--------|--------|-----|
+| 2.2   | 2.3   | 5.1 |
+| 2.3.x | 2.4.0 | 5.1 |
+| 2.4.x | 3.0.0 | 5.1 |
+| 3.0.x | 3.1.0 | 5.3 |
+| 3.1.x | 3.2.0 | 5.5 |
+| 3.2.x | 3.3.0 | 5.6 |
+| 3.3.x | 3.4.0 | 5.6 |
+| 3.4.x | 3.5.0 | 5.6 |
+| 3.5.x | 3.6.0 | 7.1 |
+| 3.6.x | 3.7.0 | 7.1 |
+| 3.7.x | 3.8.0 | 7.1 |
+| 3.8.x | 3.9.0 | 7.2 |
+
+## UTF-8 is required
 
 Please note that if your database encoding is not UTF-8, you may encounter various bugs:
 
@@ -11,27 +36,32 @@ Please note that if your database encoding is not UTF-8, you may encounter vario
 
 See 2.2 upgrade instructions how to convert database to UTF-8.
 
-## IMPORTANT
+## Upgrade overview
 
 When upgrading to a new version of Eventum, please follow these instructions:
 
 1.  Check the [requirements](Prerequisites.md) for the version
-1.  Backup your copy of Eventum - files and data.
-2.  Extract your new Eventum copy over your existing folder structure
-3.  Run the upgrade scripts described in below
+1.  Backup your copy of Eventum - files and data
+1.  Rename the current Eventum directory out of the way (`eventum.old`)
+1.  Extract new Eventum version to existing installation direcory (`eventum`)
+1.  Restore config and workflow files from the previous version
+1.  Run the upgrade script
 
-## Upgrading to latest version
+This way of installing will get rid of files that got removed from newer Eventum version.
 
-**PLEASE NOTE: If you are upgrading from a version older than 3.5.0 please read the version specific notes at the bottom of this page.**
+NOTE: If you change the installation direcory, you need to change config files to the new direcory value.
 
--   Rename your current Eventum dir to `eventum.old`
+## Step by step instructions
+
+-   Rename your current Eventum directory to `eventum.old`
 -   Extract Eventum release tarball and rename it to `eventum` directory.
--   Copy all config files from old version to new version: `eventum.old/config` to `eventum/config`
--   If your workflow API, customer API or custom field files to were in `lib/eventum` copy them to `config/`:
+-   Copy all config files from the old version to the new version: `eventum.old/config` to `eventum/config`
+-   Restore `var` directory: `eventum.old/var` to `eventum/var`
+-   If your workflow API, customer API, or custom field files were in `lib/eventum` copy them to `config/`:
     - `eventum.old/lib/eventum/workflow/` -> `eventum/config/workflow/`
     - `eventum.old/lib/eventum/customer/` -> `eventum/config/customer/`
     - `eventum.old/lib/eventum/custom_field/` -> `eventum/config/custom_field/`
--   Ensure your database database partition has enough disk space and run upgrade script: `php bin/upgrade.php` (`upgrade/update-database.php` in older versions)
+-   Ensure your database partition has enough disk space and run upgrade script: `php bin/upgrade.php` (`upgrade/update-database.php` in older versions)
 -   Modify your workflow/customer classes not to require any Eventum core classes, they are autoloaded now. So you can just remove such lines:
 
 ```php
@@ -56,31 +86,19 @@ require_once(APP_INC_PATH."customer/class.abstract_customer_backend.php");
 
 -   Since 3.2.0 MySQL extension was changed from mysql/mysqli to [PDO_MySQL](https://github.com/eventum/eventum/pull/252):
 
-## Upgrading from versions before 3.5
-
-You need to upgrade to 3.5.0 first before you can upgrade to versions 3.5.x and above
-
-## Upgrading from versions before 3.2
-
-You need to upgrade to 3.2.0 first before you can upgrade to versions 3.2.x and above. [#270](https://github.com/eventum/eventum/pull/270)
-
-## Upgrading from versions before 3.0
-
-Upgrading directly to 3.1/3.2 from versions before 3.0 does not work, you have to upgrade to 3.0 series first.
-
 ## Upgrading from versions before 2.2
 
-Upgrading from these versions not supported, you have to go back and upgrade to 2.2 version first.
+Upgrading from these versions not supported, you have to go back and upgrade to the 2.2 version first.
 
 Since version 2.2 the database is assumed to be in UTF-8 encoding, it includes [scripts](https://github.com/eventum/eventum/tree/v2.4.0-pre1/upgrade/v2.1.1_to_v2.2) to convert.
 
-The charset convert scripts exists up to 2.4.0 version and are removed in 3.x series.
+The charset convert scripts exist up to 2.4.0 version and are removed in 3.x series.
 
 While it may work to use other encodings than UTF-8,
 then be aware that such configuration is not tested and you may encounter various problems.
 
--   use `convert-utf8.php` script to update database to utf8 if the former encoding was proper
--   use `fix-charset.php` script to update database to utf8 if the former encoding was improper.
+-   use `convert-utf8.php` script to update the database to utf8 if the former encoding was proper
+-   use `fix-charset.php` script to update the database to utf8 if the former encoding was improper.
 
 you may also find this tool useful: https://packagist.org/packages/mremi/database-encoder
 
