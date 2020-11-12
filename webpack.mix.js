@@ -109,6 +109,7 @@ mix.scripts([
     'node_modules/file-reader-wrapper/filereader.js',
     'node_modules/drmonty-garlicjs/js/garlic.min.js',
     'node_modules/cmd-ctrl-enter/src/cmd-ctrl-enter.js',
+    'node_modules/mermaid/dist/mermaid.js',
 ], 'htdocs/js/components.js');
 
 mix.scripts([

@@ -20,8 +20,10 @@ use Eventum\Markdown;
 use Eventum\Markdown\CommonMark\UserMentionGenerator;
 use HTMLPurifier;
 use HTMLPurifier_HTML5Config;
+use League\CommonMark\Block\Element\FencedCode;
 use League\CommonMark\CommonMarkConverter;
 use League\CommonMark\Environment;
+use League\CommonMark\Event\DocumentParsedEvent;
 use League\CommonMark\Extension\Attributes\AttributesExtension;
 use League\CommonMark\Extension\Autolink\AutolinkExtension;
 use League\CommonMark\Extension\CommonMarkCoreExtension;
@@ -93,6 +95,21 @@ class MarkdownServiceProvider implements ServiceProviderInterface
             $environment->addExtension(new InlinesOnlyExtension());
         } else {
             $environment->addExtension(new CommonMarkCoreExtension());
+
+            // Add mermaid integration
+            $environment->addEventListener(DocumentParsedEvent::class, static function (DocumentParsedEvent $e) {
+                $walker = $e->getDocument()->walker();
+
+                while ($event = $walker->next()) {
+                    $node = $event->getNode();
+                    if (!$event->isEntering() || !($node instanceof FencedCode) || $node->getInfo() !== 'mermaid') {
+                        continue;
+                    }
+
+                    $node->data['attributes']['class'] = 'mermaid';
+                    $node->data['attributes']['title'] = 'mermaid diagram';
+                }
+            });
         }
 
         $this->applyExtensions($environment);
