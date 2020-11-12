@@ -124,5 +124,7 @@ $(document).ready(function () {
         });
     }
 
-    Eventum.setupTrimmedEmailToggle();
+    $(document).on("ec_expand.eventum", function() {
+        Eventum.setupTrimmedEmailToggle();
+    });
 });
