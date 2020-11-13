@@ -1,6 +1,6 @@
 # Eventum Issue Tracking System
 
-## [3.9.7]
+## [3.9.7] - 2020-11-13
 
 See [Upgrading] for details how to upgrade.
 
@@ -10,7 +10,7 @@ See [Upgrading] for details how to upgrade.
 - Update xhgui profiler to 0.14, #955
 - Add Mermaid diagrams rendering support, #964
 
-[3.9.7]: https://github.com/eventum/eventum/compare/v3.9.6...master
+[3.9.7]: https://github.com/eventum/eventum/compare/v3.9.6...v3.9.7
 
 ## [3.9.6] - 2020-09-30
 
