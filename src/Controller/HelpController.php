@@ -91,7 +91,7 @@ class HelpController extends BaseController
 
             while ($event = $walker->next()) {
                 $node = $event->getNode();
-                if (!$node instanceof Link) {
+                if (!$node instanceof Link || !$event->isEntering()) {
                     continue;
                 }
 

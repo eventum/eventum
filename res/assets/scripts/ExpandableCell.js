@@ -48,7 +48,7 @@ export class ExpandableCell {
         if ($cell.html() === '') {
             $cell.load(Eventum.rel_url + 'get_remote_data.php?action=' + expand_type + '&ec_id=' + expand_type +
                 '&list_id=' + list_id, function () {
-                Eventum.setupTrimmedEmailToggle();
+                $(document).trigger("ec_expand.eventum", [$row, expand_type, list_id]);
             });
         }
         $row.show();

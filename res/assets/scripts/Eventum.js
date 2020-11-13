@@ -385,7 +385,9 @@ export class Eventum {
         $input.hide();
 
         const $preview = $(preview_id);
-        $preview.load(this.rel_url + 'get_remote_data.php?action=preview', { source: $input.val() });
+        $preview.load(this.rel_url + 'get_remote_data.php?action=preview', { source: $input.val() }, function () {
+            $(document).trigger("md_preview.eventum", [$preview, preview_id]);
+        });
         $preview.show();
     }
 

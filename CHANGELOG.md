@@ -8,6 +8,7 @@ See [Upgrading] for details how to upgrade.
 - Fix `NOTIFICATION_NOTIFY_ADDRESS` event arguments, #950, #949
 - Restore return value of form.validate submit action, #954, #953
 - Update xhgui profiler to 0.14, #955
+- Add Mermaid diagrams rendering support, #964
 
 [3.9.7]: https://github.com/eventum/eventum/compare/v3.9.6...master
 

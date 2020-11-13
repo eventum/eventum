@@ -100,6 +100,9 @@ $(document).ready(function () {
     // https://github.com/widernet/cmd-ctrl-enter
     $textarea.cmdCtrlEnter();
 
+    // https://mermaid-js.github.io/mermaid/#/usage
+    mermaid.initialize({startOnLoad:true});
+
     // jquery timeago
     const $timeago = $("time.timeago");
     // on click toggle between views
@@ -124,5 +127,11 @@ $(document).ready(function () {
         });
     }
 
-    Eventum.setupTrimmedEmailToggle();
+    $(document).on("ec_expand.eventum", function() {
+        Eventum.setupTrimmedEmailToggle();
+        mermaid.init();
+    });
+    $(document).on("md_preview.eventum", function() {
+        mermaid.init();
+    });
 });
