@@ -4,6 +4,8 @@
 
 See [Upgrading] for details on how to upgrade.
 
+- Switch to symfony/lock implementation, #815
+
 [3.9.8]: https://github.com/eventum/eventum/compare/v3.9.7...master
 
 ## [3.9.7] - 2020-11-13

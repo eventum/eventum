@@ -143,9 +143,6 @@
     "league/mime-type-detection": {
         "version": "1.4.0"
     },
-    "malkusch/lock": {
-        "version": "v2.1"
-    },
     "maximebf/debugbar": {
         "version": "v1.16.3"
     },
@@ -337,6 +334,9 @@
     },
     "symfony/ldap": {
         "version": "v4.4.10"
+    },
+    "symfony/lock": {
+        "version": "v4.4.7"
     },
     "symfony/mime": {
         "version": "v4.4.10"

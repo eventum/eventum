@@ -14,27 +14,35 @@
 namespace Eventum;
 
 use Eventum\Config\Paths;
-use malkusch\lock\mutex\FlockMutex;
-use RuntimeException;
+use Symfony\Component\Lock\Exception\LockStorageException;
+use Symfony\Component\Lock\LockFactory;
+use Symfony\Component\Lock\LockInterface;
+use Symfony\Component\Lock\Store\FlockStore;
 
 class ConcurrentLock
 {
-    private $mutex;
+    /** @var LockInterface */
+    private $lock;
 
-    public function __construct($lockname)
+    /**
+     * @param string $lockName
+     * @param float $ttl Maximum expected lock duration in seconds
+     * @throws LockStorageException
+     */
+    public function __construct($lockName, $ttl = null)
     {
-        $lockfile = Paths::APP_LOCKS_PATH . '/' . $lockname . '.lck';
-
-        $fh = fopen($lockfile, 'cb');
-        if (!$fh) {
-            throw new RuntimeException("Unable to create lock file: $lockfile");
-        }
-
-        $this->mutex = new FlockMutex($fh);
+        $store = new FlockStore(Paths::APP_LOCKS_PATH);
+        $this->lock = (new LockFactory($store))->createLock($lockName, $ttl);
     }
 
     public function synchronized(callable $code): void
     {
-        $this->mutex->synchronized($code);
+        $this->lock->acquire(true);
+
+        try {
+            $code();
+        } finally {
+            $this->lock->release();
+        }
     }
 }
