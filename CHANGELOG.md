@@ -4,6 +4,8 @@
 
 See [Upgrading] for details on how to upgrade.
 
+- Use `underscore_number_aware` naming_strategy for Doctrine, #965
+
 [3.9.9]: https://github.com/eventum/eventum/compare/v3.9.8...master
 
 ## [3.9.8] - 2020-11-30
