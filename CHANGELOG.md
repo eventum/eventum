@@ -2,13 +2,13 @@
 
 ## [3.9.8]
 
-See [Upgrading] for details how to upgrade.
+See [Upgrading] for details on how to upgrade.
 
 [3.9.8]: https://github.com/eventum/eventum/compare/v3.9.7...master
 
 ## [3.9.7] - 2020-11-13
 
-See [Upgrading] for details how to upgrade.
+See [Upgrading] for details on how to upgrade.
 
 - Fix sorting links when searching for custom fields, #947
 - Fix `NOTIFICATION_NOTIFY_ADDRESS` event arguments, #950, #949
@@ -20,7 +20,7 @@ See [Upgrading] for details how to upgrade.
 
 ## [3.9.6] - 2020-09-30
 
-See [Upgrading] for details how to upgrade.
+See [Upgrading] for details on how to upgrade.
 
 - Move inline documentation to docs/help and convert to markdown, #921
 - Move imap related methods to ImapConnection class, #937
@@ -30,7 +30,7 @@ See [Upgrading] for details how to upgrade.
 
 ## [3.9.5] - 2020-09-02
 
-See [Upgrading] for details how to upgrade.
+See [Upgrading] for details on how to upgrade.
 
 - Fix notices with php 7.4 when user has no roles, #929
 - Update Xhgui profiler 0.10, #927
@@ -40,7 +40,7 @@ See [Upgrading] for details how to upgrade.
 
 ## [3.9.4] - 2020-08-24
 
-See [Upgrading] for details how to upgrade.
+See [Upgrading] for details on how to upgrade.
 
 - Replace symfony/polyfill-php72, #911
 - Add support for GitLab noteable type `Commit`, #912
@@ -53,7 +53,7 @@ See [Upgrading] for details how to upgrade.
 
 ## [3.9.3] - 2020-08-10
 
-See [Upgrading] for details how to upgrade.
+See [Upgrading] for details on how to upgrade.
 
 - Drop loading deprecated `ldap.php`, #899
 - Update `laminas/laminas-mail` (2.11.0 => 2.12.0), #896
@@ -67,7 +67,7 @@ See [Upgrading] for details how to upgrade.
 
 ## [3.9.2] - 2020-07-26
 
-See [Upgrading] for details how to upgrade.
+See [Upgrading] for details on how to upgrade.
 
 - Switch to use `laminas/laminas-mail` instead of `zendframework/zend-mail`, #876
 - Fix event context passing of click handlers, #891
@@ -78,7 +78,7 @@ See [Upgrading] for details how to upgrade.
 
 ## [3.9.1] - 2020-07-13
 
-See [Upgrading] for details how to upgrade.
+See [Upgrading] for details on how to upgrade.
 
 - Update Phinx to 0.12, #877
 - Allow configuring XHGui profiler from admin interface, #887
@@ -88,7 +88,7 @@ See [Upgrading] for details how to upgrade.
 
 ## [3.9.0] - 2020-07-01
 
-See [Upgrading] for details how to upgrade.
+See [Upgrading] for details on how to upgrade.
 
 - Update PHP requirement to 7.2, #868
 - Add `MessageIdGenerator` class, #870

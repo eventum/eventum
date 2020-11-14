@@ -14,7 +14,7 @@ cat <<EOF | patch -p1
  
 +## [$new]
 +
-+See [Upgrading] for details how to upgrade.
++See [Upgrading] for details on how to upgrade.
 +
 +[$new]: https://github.com/eventum/eventum/compare/v$old...master
 +
