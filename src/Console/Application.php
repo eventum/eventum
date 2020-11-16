@@ -13,7 +13,6 @@
 
 namespace Eventum\Console;
 
-use Eventum\EventDispatcher\EventManager;
 use Eventum\ServiceContainer;
 use Silly\Application as BaseApplication;
 use Symfony\Component\Console\Input\ArgvInput;
@@ -24,7 +23,7 @@ class Application extends BaseApplication
     public function __construct($name = 'UNKNOWN', $version = 'UNKNOWN')
     {
         parent::__construct($name, $version);
-        $this->setDispatcher(EventManager::getEventDispatcher());
+        $this->setDispatcher(ServiceContainer::getEventDispatcher());
         $this->useContainer(ServiceContainer::getContainer());
     }
 

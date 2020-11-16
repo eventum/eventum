@@ -23,8 +23,9 @@ class EventManager
 {
     /**
      * Singleton for Event Dispatcher
+     * @deprecated since 3.10.2, use ServiceContainer::getEventDispatcher();
      */
-    public static function getEventDispatcher(): EventDispatcherInterface
+    public static function getEventDispatcher($notifyDeprecated = true): EventDispatcherInterface
     {
         static $dispatcher;
         if (!$dispatcher) {
@@ -41,6 +42,9 @@ class EventManager
             // load builtin event subscribers
             $dispatcher->addSubscriber(new Subscriber\MailQueueListener());
             $dispatcher->addSubscriber(new Subscriber\CryptoSubscriber());
+            if ($notifyDeprecated) {
+                trigger_deprecation('eventum/eventum', '3.10.2', 'Method "%s::%s" is deprecated', __CLASS__, __METHOD__);
+            }
         }
 
         return $dispatcher;
@@ -59,6 +63,6 @@ class EventManager
     {
         trigger_deprecation('eventum/eventum', '3.10.2', 'Method "%s::%s" is deprecated, use ServiceContainer::dispatch', __CLASS__, __METHOD__);
 
-        return self::getEventDispatcher()->dispatch($event ?? new Event(), $eventName);
+        return self::getEventDispatcher(false)->dispatch($event ?? new Event(), $eventName);
     }
 }

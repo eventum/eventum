@@ -124,7 +124,7 @@ class ServiceContainer
      */
     public static function getEventDispatcher(): EventDispatcherInterface
     {
-        return EventManager::getEventDispatcher();
+        return EventManager::getEventDispatcher(false);
     }
 
     /**
