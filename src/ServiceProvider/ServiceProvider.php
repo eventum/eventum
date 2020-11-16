@@ -75,6 +75,7 @@ class ServiceProvider implements ServiceProviderInterface
         };
 
         $app[ContainerInterface::class] = static function ($app) {
+            /** @var KernelInterface $kernel */
             $kernel = $app[KernelInterface::class];
 
             return $kernel->ensureBooted()->getContainer();
