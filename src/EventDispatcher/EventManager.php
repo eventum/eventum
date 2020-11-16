@@ -49,6 +49,6 @@ class EventManager
     {
         trigger_deprecation('eventum/eventum', '3.10.2', 'Method "%s::%s" is deprecated, use ServiceContainer::dispatch', __CLASS__, __METHOD__);
 
-        return ServiceContainer::getEventDispatcher()->dispatch($event ?? new Event(), $eventName);
+        return ServiceContainer::dispatch($eventName, $event);
     }
 }
