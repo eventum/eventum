@@ -181,9 +181,11 @@ class ImapConnection
      */
     private function closeEmailServer(): void
     {
-        imap_expunge($this->connection);
-        imap_close($this->connection);
-        unset($this->connection);
+        if ($this->connection) {
+            imap_expunge($this->connection);
+            imap_close($this->connection);
+            unset($this->connection);
+        }
     }
 
     /**
