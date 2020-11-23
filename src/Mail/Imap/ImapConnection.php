@@ -43,7 +43,13 @@ class ImapConnection
 
     public function __destruct()
     {
-        $this->closeConnection();
+        if ($this->connection) {
+            imap_expunge($this->connection);
+            imap_close($this->connection);
+            unset($this->connection);
+        }
+
+        imap_errors();
     }
 
     public function isConnected(): bool
@@ -167,30 +173,5 @@ class ImapConnection
         }
 
         return '{' . $uri . '}' . $folder;
-    }
-
-    private function closeConnection(): void
-    {
-        $this->closeEmailServer();
-        $this->clearErrors();
-    }
-
-    /**
-     * Method used to close the existing connection to the email
-     * server.
-     */
-    private function closeEmailServer(): void
-    {
-        imap_expunge($this->connection);
-        imap_close($this->connection);
-        unset($this->connection);
-    }
-
-    /**
-     * Method used to clear the error stack as required by the IMAP PHP extension.
-     */
-    private function clearErrors(): void
-    {
-        imap_errors();
     }
 }

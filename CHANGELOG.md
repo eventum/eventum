@@ -5,6 +5,7 @@
 See [Upgrading] for details on how to upgrade.
 
 - Switch to symfony/lock implementation, #815
+- Avoid calling imap methods on null, #968
 
 [3.9.8]: https://github.com/eventum/eventum/compare/v3.9.7...master
 
