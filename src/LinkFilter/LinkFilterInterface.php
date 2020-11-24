@@ -13,6 +13,8 @@
 
 namespace Eventum\LinkFilter;
 
+use Symfony\Component\HttpFoundation\Request;
+
 interface LinkFilterInterface
 {
     public function getPatterns(): array;
@@ -22,7 +24,10 @@ interface LinkFilterInterface
      * text and creates links to other issues.
      *
      * @param   array $matches Regular expression matches
+     * @param Request $request
      * @return  string The link to the appropriate issue
+     * @since 3.9.8 Adds $request parameter
+     * @since 3.10.0 The $request parameter will be mandatory
      */
-    public function __invoke(array $matches): string;
+    public function __invoke(array $matches/*, Request $request*/): string;
 }
