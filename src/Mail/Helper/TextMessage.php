@@ -13,6 +13,7 @@
 
 namespace Eventum\Mail\Helper;
 
+use Eventum\HtmlConverter;
 use Horde_Text_Flowed;
 use Laminas\Mail\Storage\Part\PartInterface;
 use LogicException;
@@ -151,16 +152,9 @@ class TextMessage
 
     private function getHtml(): string
     {
+        $converter = new HtmlConverter();
         $str = implode("\n\n", $this->html);
 
-        // hack for inotes to prevent content from being displayed all on one line.
-        $str = str_replace(['</DIV><DIV>', '<br>', '<br />', '<BR>', '<BR />'], "\n", $str);
-        // XXX: do we also need to do something here about base64 encoding?
-        $str = strip_tags($str);
-
-        // convert html entities. this should be done after strip tags
-        $str = html_entity_decode($str, ENT_QUOTES, 'UTF-8');
-
-        return trim($str);
+        return $converter->convert($str);
     }
 }

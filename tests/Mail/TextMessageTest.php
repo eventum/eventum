@@ -36,7 +36,7 @@ class TextMessageTest extends TestCase
         return [
             'Test that HTML entities used in text/html part get decoded' => [
                 'encoding.txt',
-                "pöördumise töötaja.\n<b>Võtame</b> töösse võimalusel.\npöördumisele süsteemis",
+                "  \npöördumise töötaja.  \n<b>Võtame</b> töösse võimalusel.  \npöördumisele süsteemis",
             ],
             'testBug684922' => [
                 'bug684922.txt',
@@ -57,7 +57,7 @@ class TextMessageTest extends TestCase
             ],
             'test downloading html emails extracts body from source' => [
                 'htmltext_emailsource.eml',
-                "This is a sample email to test Eventum html parsing.\n\n" . self::UNICODE_NBSP,
+                'This is a sample email to test ***Eventum*** html parsing.',
             ],
             'mail with no mime headers, should be plain text' => [
                 'email-106251.txt',
