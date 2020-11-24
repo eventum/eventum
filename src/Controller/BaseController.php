@@ -15,6 +15,7 @@ namespace Eventum\Controller;
 
 use Auth;
 use Enrise\Uri;
+use Eventum\ServiceContainer;
 use InvalidArgumentException;
 use ReflectionClass;
 use Symfony\Component\HttpFoundation\Request;
@@ -105,7 +106,7 @@ abstract class BaseController
     {
         static $request;
         if (!$request) {
-            $request = Request::createFromGlobals();
+            $request = ServiceContainer::getRequest();
         }
 
         return $request;

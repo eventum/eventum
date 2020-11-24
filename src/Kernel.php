@@ -106,7 +106,7 @@ class Kernel extends BaseKernel implements CompilerPassInterface
         }
 
         $kernel = ServiceContainer::getKernel();
-        $request = Request::createFromGlobals();
+        $request = ServiceContainer::getRequest();
         $response = $kernel->handle($request);
         $response->send();
         $kernel->terminate($request, $response);
