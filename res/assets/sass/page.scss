@@ -551,6 +551,10 @@ option.select_icon_priority {
     }
 }
 
+td#email_message code {
+    white-space: break-spaces;
+}
+
 /* Font Awesome override */
 .expandable_buttons .fa {
     font-size: 1.1em;
