@@ -29,6 +29,7 @@ use Setup;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\KernelInterface;
 
 class ServiceProvider implements ServiceProviderInterface
@@ -63,6 +64,10 @@ class ServiceProvider implements ServiceProviderInterface
 
         $app[KernelInterface::class] = static function () {
             return new Kernel($_SERVER['APP_ENV'], (bool)$_SERVER['APP_DEBUG']);
+        };
+
+        $app[Request::class] = static function () {
+            return Request::createFromGlobals();
         };
 
         $app[Application::class] = static function ($app) {

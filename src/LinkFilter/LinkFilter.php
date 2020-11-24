@@ -14,15 +14,19 @@
 namespace Eventum\LinkFilter;
 
 use Ds\Set;
+use Symfony\Component\HttpFoundation\Request;
 
 class LinkFilter
 {
     /** @var Set */
     private $rules;
+    /** @var Request */
+    private $request;
 
-    public function __construct()
+    public function __construct(Request $request)
     {
         $this->rules = new Set();
+        $this->request = $request;
     }
 
     public function addFilter(LinkFilterInterface $handler): self
@@ -56,7 +60,9 @@ class LinkFilter
         foreach ($this->rules as $rule) {
             [$pattern, $handler] = $rule;
             if (is_callable($handler)) {
-                $text = preg_replace_callback($pattern, $handler, $text);
+                $text = (string)preg_replace_callback($pattern, function ($text) use ($handler) {
+                    return $handler($text, $this->request);
+                }, $text);
             } else {
                 $text = preg_replace($pattern, $handler, $text);
             }
