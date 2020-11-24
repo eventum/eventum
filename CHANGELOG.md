@@ -7,6 +7,7 @@ See [Upgrading] for details on how to upgrade.
 - Switch to symfony/lock implementation, #815
 - Avoid calling imap methods on null, #968
 - Wrap large code blocks in note and email view, #969
+- Add Request context to LinkFilter callbacks, #970
 
 [3.9.8]: https://github.com/eventum/eventum/compare/v3.9.7...master
 
