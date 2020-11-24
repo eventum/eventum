@@ -380,12 +380,12 @@ export class Eventum {
         }
     }
 
-    showPreview(input_id, preview_id) {
+    showPreview(input_id, preview_id, params) {
         const $input = $(input_id);
         $input.hide();
 
         const $preview = $(preview_id);
-        $preview.load(this.rel_url + 'get_remote_data.php?action=preview', { source: $input.val() }, function () {
+        $preview.load(this.rel_url + 'get_remote_data.php?action=preview', { ...params, source: $input.val() }, function () {
             $(document).trigger("md_preview.eventum", [$preview, preview_id]);
         });
         $preview.show();
