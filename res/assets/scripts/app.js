@@ -104,6 +104,8 @@ $(document).ready(function () {
     mermaid.initialize({startOnLoad:true});
 
     // jquery timeago
+    jQuery.timeago.settings.allowFuture = true;
+
     const $timeago = $("time.timeago");
     // on click toggle between views
     const timeago_toggle = function () {
