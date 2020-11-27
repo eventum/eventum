@@ -8,6 +8,7 @@ See [Upgrading] for details on how to upgrade.
 - Avoid calling imap methods on null, #968
 - Wrap large code blocks in note and email view, #969
 - Add Request context to LinkFilter callbacks, #970
+- Allow timeago to have future timestamps, #971
 
 [3.9.8]: https://github.com/eventum/eventum/compare/v3.9.7...master
 
