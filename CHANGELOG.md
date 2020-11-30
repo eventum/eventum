@@ -1,6 +1,6 @@
 # Eventum Issue Tracking System
 
-## [3.9.8]
+## [3.9.8] - 2020-11-30
 
 See [Upgrading] for details on how to upgrade.
 
@@ -10,7 +10,7 @@ See [Upgrading] for details on how to upgrade.
 - Add Request context to LinkFilter callbacks, #970
 - Allow timeago to have future timestamps, #971
 
-[3.9.8]: https://github.com/eventum/eventum/compare/v3.9.7...master
+[3.9.8]: https://github.com/eventum/eventum/compare/v3.9.7...v3.9.8
 
 ## [3.9.7] - 2020-11-13
 
