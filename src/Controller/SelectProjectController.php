@@ -132,9 +132,7 @@ class SelectProjectController extends BaseController
 
         // choose project if the list of active projects consists of just one project
         if (count($this->projects) === 1) {
-            [$prj_id] = each($this->projects);
-
-            return $prj_id;
+            return key($this->projects);
         }
 
         // try from URL
