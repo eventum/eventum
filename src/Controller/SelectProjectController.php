@@ -159,7 +159,7 @@ class SelectProjectController extends BaseController
      * check if url is directly linking to an issue, and if it is, don't prompt for project
      * @param string $url
      */
-    private function getProjectFromUrl($url)
+    private function getProjectFromUrl(?string $url): ?int
     {
         if (!$url) {
             return null;
