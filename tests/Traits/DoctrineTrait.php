@@ -32,7 +32,7 @@ trait DoctrineTrait
     {
         $em = $this->getEntityManager();
         $em->persist($object);
-        $em->flush($object);
+        $em->flush();
     }
 
     protected function removeAndFlush($object): void

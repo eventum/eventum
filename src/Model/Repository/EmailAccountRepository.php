@@ -85,6 +85,6 @@ class EmailAccountRepository extends EntityRepository
     {
         $em = $this->getEntityManager();
         $em->persist($account);
-        $em->flush($account);
+        $em->flush();
     }
 }

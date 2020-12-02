@@ -52,7 +52,7 @@ class DateHelperUserTest extends TestCase
         $prefs->setTimezone($timezone);
         $em = ServiceContainer::getEntityManager();
         $em->persist($prefs);
-        $em->flush($prefs);
+        $em->flush();
     }
 
     /**

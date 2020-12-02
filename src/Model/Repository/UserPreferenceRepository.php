@@ -27,7 +27,7 @@ class UserPreferenceRepository extends EntityRepository
     {
         $em = $this->getEntityManager();
         $em->persist($entity);
-        $em->flush($entity);
+        $em->flush();
     }
 
     public function findOrCreate(int $usr_id): UserPreference

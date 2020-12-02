@@ -32,7 +32,7 @@ class CustomFieldRepository extends EntityRepository
     {
         $em = $this->getEntityManager();
         $em->persist($cf);
-        $em->flush($cf);
+        $em->flush();
     }
 
     public function findOrCreate(int $id): Entity\CustomField
