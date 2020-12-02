@@ -1210,17 +1210,6 @@ class RemoteApi
     }
 
     /**
-     * @param string $command
-     * @return string
-     * @access protected
-     * @deprecated since 3.3.0 this method does nothing
-     */
-    public function logCommand($command)
-    {
-        return 'OK';
-    }
-
-    /**
      * Method used to remotely set the status of a given issue.
      *
      * @param   int $issue_id The issue ID
