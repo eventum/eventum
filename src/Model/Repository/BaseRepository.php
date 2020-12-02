@@ -14,13 +14,20 @@
 namespace Eventum\Model\Repository;
 
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\OptimisticLockException;
+use Doctrine\ORM\ORMException;
+use Eventum\Db\DatabaseException;
 
 abstract class BaseRepository extends EntityRepository
 {
     public function persistAndFlush($entity): void
     {
         $em = $this->getEntityManager();
-        $em->persist($entity);
-        $em->flush();
+        try {
+            $em->persist($entity);
+            $em->flush();
+        } catch (ORMException | OptimisticLockException $e) {
+            throw new DatabaseException($e->getMessage(), $e->getCode(), $e);
+        }
     }
 }

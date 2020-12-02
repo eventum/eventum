@@ -13,10 +13,7 @@
 
 namespace Eventum\Model\Repository;
 
-use Doctrine\ORM\OptimisticLockException;
-use Doctrine\ORM\ORMException;
 use Doctrine\ORM\QueryBuilder;
-use Eventum\Db\DatabaseException;
 use Eventum\Model\Entity;
 
 /**
@@ -55,13 +52,7 @@ class ProjectRepository extends BaseRepository
 
     public function updateProject(Entity\Project $project): void
     {
-        $em = $this->getEntityManager();
-        try {
-            $em->persist($project);
-            $em->flush();
-        } catch (ORMException | OptimisticLockException $e) {
-            throw new DatabaseException($e->getMessage(), $e->getCode(), $e);
-        }
+        $this->persistAndFlush($project);
     }
 
     private function getQueryBuilder(): QueryBuilder
