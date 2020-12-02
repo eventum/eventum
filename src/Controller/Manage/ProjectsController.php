@@ -82,7 +82,7 @@ class ProjectsController extends ManageBaseController
         $project->setAnonymousPost('disabled');
 
         try {
-            $this->repo->updateProject($project);
+            $this->repo->persistAndFlush($project);
         } catch (DatabaseException $e) {
             $this->messages->addErrorMessage(ev_gettext('An error occurred while trying to add the new project.'));
 
@@ -128,7 +128,7 @@ class ProjectsController extends ManageBaseController
         $prj_id = $post->getInt('id');
         $project = $this->updateFromRequest($this->repo->findOrCreate($prj_id), $post);
         try {
-            $this->repo->updateProject($project);
+            $this->repo->persistAndFlush($project);
         } catch (DatabaseException $e) {
             $this->messages->addErrorMessage(ev_gettext('An error occurred while trying to update the project information.'));
 

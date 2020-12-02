@@ -50,8 +50,13 @@ class ProjectRepository extends BaseRepository
         return $qb->getQuery()->getResult();
     }
 
+    /**
+     * @deprecated since 3.9.9
+     */
     public function updateProject(Entity\Project $project): void
     {
+        trigger_deprecation('eventum/eventum', '3.9.9', '%s() is deprecated, use "persistAndFlush()" instead.', __METHOD__);
+
         $this->persistAndFlush($project);
     }
 
