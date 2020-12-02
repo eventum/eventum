@@ -489,7 +489,6 @@ class Workflow
     public static function getAdditionalEmailAddresses(int $prj_id, int $issue_id, string $eventName, $extra = null): array
     {
         $arguments = [
-            'address' => $eventName, // @deprecated. bogus key
             'eventName' => $eventName,
             'extra' => $extra ?: [],
         ];
