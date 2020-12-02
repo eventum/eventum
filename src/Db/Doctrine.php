@@ -43,6 +43,8 @@ class Doctrine
      */
     public static function getEntityManager(): EntityManager
     {
+        trigger_deprecation('eventum/eventum', '3.9.3', '%s::%s() is deprecated, use "ServiceContainer::getEntityManager()" instead.', __CLASS__, __METHOD__);
+
         return ServiceContainer::getEntityManager();
     }
 
