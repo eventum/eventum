@@ -22,17 +22,11 @@ use RuntimeException;
 
 /**
  * @method Entity\CustomField findById(int $fld_id)
+ * @method persistAndFlush(Entity\CustomField $entity)
  */
 class CustomFieldRepository extends BaseRepository
 {
     use Traits\FindByIdTrait;
-
-    public function persistAndFlush(Entity\CustomField $cf): void
-    {
-        $em = $this->getEntityManager();
-        $em->persist($cf);
-        $em->flush();
-    }
 
     public function findOrCreate(int $id): Entity\CustomField
     {

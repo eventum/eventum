@@ -17,4 +17,10 @@ use Doctrine\ORM\EntityRepository;
 
 abstract class BaseRepository extends EntityRepository
 {
+    public function persistAndFlush($entity): void
+    {
+        $em = $this->getEntityManager();
+        $em->persist($entity);
+        $em->flush();
+    }
 }

@@ -21,6 +21,7 @@ use Eventum\Model\Entity;
 
 /**
  * @method Entity\EmailAccount findById(int $iss_id)
+ * @method persistAndFlush(Entity\EmailAccount $entity)
  */
 class EmailAccountRepository extends BaseRepository
 {
@@ -77,13 +78,6 @@ class EmailAccountRepository extends BaseRepository
     {
         $em = $this->getEntityManager();
         $em->remove($account);
-        $em->flush();
-    }
-
-    public function persistAndFlush(Entity\EmailAccount $account): void
-    {
-        $em = $this->getEntityManager();
-        $em->persist($account);
         $em->flush();
     }
 }
