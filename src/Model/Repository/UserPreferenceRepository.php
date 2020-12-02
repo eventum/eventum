@@ -48,7 +48,6 @@ class UserPreferenceRepository extends BaseRepository
             $em->persist($upp);
         }
 
-        $em->persist($upr);
-        $em->flush();
+        $this->persistAndFlush($upr);
     }
 }

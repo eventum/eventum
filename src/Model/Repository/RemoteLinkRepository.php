@@ -16,6 +16,9 @@ namespace Eventum\Model\Repository;
 use DateTime;
 use Eventum\Model\Entity;
 
+/**
+ * @method persistAndFlush(Entity\RemoteLink $entity)
+ */
 class RemoteLinkRepository extends BaseRepository
 {
     public const DEFAULT_RELATION = 'mentioned in';
@@ -49,9 +52,7 @@ class RemoteLinkRepository extends BaseRepository
             ->setUrl($url)
             ->setTitle($title);
 
-        $em = $this->getEntityManager();
-        $em->persist($entity);
-        $em->flush();
+        $this->persistAndFlush($entity);
 
         return $entity;
     }
