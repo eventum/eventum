@@ -13,7 +13,6 @@
 
 namespace Eventum\Model\Repository;
 
-use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 use Doctrine\ORM\QueryBuilder;
@@ -23,7 +22,7 @@ use Eventum\Model\Entity;
 /**
  * @method Entity\Project findById(int $prj_id)
  */
-class ProjectRepository extends EntityRepository
+class ProjectRepository extends BaseRepository
 {
     use Traits\FindByIdTrait;
 

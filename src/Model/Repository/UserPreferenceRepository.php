@@ -13,13 +13,12 @@
 
 namespace Eventum\Model\Repository;
 
-use Doctrine\ORM\EntityRepository;
 use Eventum\Model\Entity\UserPreference;
 
 /**
  * @method UserPreference findById(int $usr_id)
  */
-class UserPreferenceRepository extends EntityRepository
+class UserPreferenceRepository extends BaseRepository
 {
     use Traits\FindByIdTrait;
 

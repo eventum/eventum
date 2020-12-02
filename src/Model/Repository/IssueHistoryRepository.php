@@ -13,14 +13,13 @@
 
 namespace Eventum\Model\Repository;
 
-use Doctrine\ORM\EntityRepository;
 use Eventum\Model\Entity;
 use LogicException;
 
 /**
  * @method Entity\IssueHistory findById(int $prj_id)
  */
-class IssueHistoryRepository extends EntityRepository
+class IssueHistoryRepository extends BaseRepository
 {
     use Traits\FindByIdTrait;
 

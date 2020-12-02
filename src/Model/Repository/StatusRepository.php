@@ -14,13 +14,12 @@
 namespace Eventum\Model\Repository;
 
 use Doctrine\ORM\EntityNotFoundException;
-use Doctrine\ORM\EntityRepository;
 use Eventum\Model\Entity;
 
 /**
  * @method Entity\Status findById(int $sta_id)
  */
-class StatusRepository extends EntityRepository
+class StatusRepository extends BaseRepository
 {
     use Traits\FindByIdTrait;
 

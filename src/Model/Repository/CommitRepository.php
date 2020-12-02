@@ -13,7 +13,6 @@
 
 namespace Eventum\Model\Repository;
 
-use Doctrine\ORM\EntityRepository;
 use Eventum\Db\Doctrine;
 use Eventum\Event\SystemEvents;
 use Eventum\EventDispatcher\EventManager;
@@ -26,7 +25,7 @@ use Setup;
 use Symfony\Component\EventDispatcher\GenericEvent;
 use Workflow;
 
-class CommitRepository extends EntityRepository
+class CommitRepository extends BaseRepository
 {
     /**
      * @param int $id

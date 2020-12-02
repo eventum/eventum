@@ -14,10 +14,9 @@
 namespace Eventum\Model\Repository;
 
 use DateTime;
-use Doctrine\ORM\EntityRepository;
 use Eventum\Model\Entity;
 
-class RemoteLinkRepository extends EntityRepository
+class RemoteLinkRepository extends BaseRepository
 {
     public const DEFAULT_RELATION = 'mentioned in';
 

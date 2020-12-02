@@ -14,7 +14,6 @@
 namespace Eventum\Model\Repository;
 
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\ORM\QueryBuilder;
 use Eventum\Model\Entity;
@@ -24,7 +23,7 @@ use RuntimeException;
 /**
  * @method Entity\CustomField findById(int $fld_id)
  */
-class CustomFieldRepository extends EntityRepository
+class CustomFieldRepository extends BaseRepository
 {
     use Traits\FindByIdTrait;
 

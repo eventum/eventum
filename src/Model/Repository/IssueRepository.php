@@ -13,13 +13,12 @@
 
 namespace Eventum\Model\Repository;
 
-use Doctrine\ORM\EntityRepository;
 use Eventum\Model\Entity;
 
 /**
  * @method Entity\Issue findById(int $iss_id)
  */
-class IssueRepository extends EntityRepository
+class IssueRepository extends BaseRepository
 {
     use Traits\FindByIdTrait;
 

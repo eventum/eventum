@@ -13,7 +13,6 @@
 
 namespace Eventum\Model\Repository;
 
-use Doctrine\ORM\EntityRepository;
 use Eventum\Model\Entity;
 
 /**
@@ -21,7 +20,7 @@ use Eventum\Model\Entity;
  * @method Entity\User|null findOneByCustomerContactId(int $customerContactId)
  * @method Entity\User|null findOneByExternalId(string $externalId)
  */
-class UserRepository extends EntityRepository
+class UserRepository extends BaseRepository
 {
     use Traits\FindByIdTrait;
 }

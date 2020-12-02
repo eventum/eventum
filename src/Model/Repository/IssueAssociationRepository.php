@@ -14,7 +14,6 @@
 namespace Eventum\Model\Repository;
 
 use DB_Helper;
-use Doctrine\ORM\EntityRepository;
 use Ds\Set;
 use Eventum\Model\Entity;
 use History;
@@ -24,7 +23,7 @@ use Misc;
 use PDO;
 use User;
 
-class IssueAssociationRepository extends EntityRepository
+class IssueAssociationRepository extends BaseRepository
 {
     /**
      * Method used to get the list of issues associated to a specific issue.
