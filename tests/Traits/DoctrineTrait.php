@@ -13,19 +13,19 @@
 
 namespace Eventum\Test\Traits;
 
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Id\AssignedGenerator;
 use Doctrine\ORM\Mapping\ClassMetadata;
-use Eventum\Db\Doctrine;
+use Eventum\ServiceContainer;
 use ReflectionClass;
 use ReflectionException;
 use ReflectionProperty;
 
 trait DoctrineTrait
 {
-    protected function getEntityManager(): EntityManager
+    protected function getEntityManager(): EntityManagerInterface
     {
-        return Doctrine::getEntityManager();
+        return ServiceContainer::getEntityManager();
     }
 
     protected function persistAndFlush($object): void
