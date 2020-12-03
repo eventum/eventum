@@ -5,6 +5,7 @@
 See [Upgrading] for details on how to upgrade.
 
 - Use `underscore_number_aware` naming_strategy for Doctrine, #965
+- Remove internal uses of deprecated `Doctrine::getEntityManager` method, #975
 
 [3.9.9]: https://github.com/eventum/eventum/compare/v3.9.8...master
 
