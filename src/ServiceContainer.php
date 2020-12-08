@@ -84,6 +84,9 @@ class ServiceContainer
         return static::get(Application::class);
     }
 
+    /**
+     * @since 3.9.3
+     */
     public static function getEntityManager(): EntityManagerInterface
     {
         return static::get(EntityManagerInterface::class);
