@@ -14,7 +14,6 @@
 namespace Eventum\Model\Repository;
 
 use Doctrine\ORM\EntityNotFoundException;
-use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 use Eventum\Db\DatabaseException;
@@ -22,8 +21,9 @@ use Eventum\Model\Entity;
 
 /**
  * @method Entity\EmailAccount findById(int $iss_id)
+ * @method persistAndFlush(Entity\EmailAccount $entity)
  */
-class EmailAccountRepository extends EntityRepository
+class EmailAccountRepository extends BaseRepository
 {
     use Traits\FindByIdTrait;
 
@@ -79,12 +79,5 @@ class EmailAccountRepository extends EntityRepository
         $em = $this->getEntityManager();
         $em->remove($account);
         $em->flush();
-    }
-
-    public function persistAndFlush(Entity\EmailAccount $account): void
-    {
-        $em = $this->getEntityManager();
-        $em->persist($account);
-        $em->flush($account);
     }
 }

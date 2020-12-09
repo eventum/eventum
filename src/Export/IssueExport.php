@@ -15,6 +15,7 @@ namespace Eventum\Export;
 
 use Eventum\Db\Doctrine;
 use Eventum\Model\Entity\Issue;
+use Eventum\ServiceContainer;
 use Port\Csv\CsvWriter;
 use Port\Doctrine\DoctrineReader;
 use Port\Reader;
@@ -72,7 +73,7 @@ class IssueExport
 
     private function createReader(Issue $issue): Reader
     {
-        $objectManager = Doctrine::getEntityManager();
+        $objectManager = ServiceContainer::getEntityManager();
         $repo = Doctrine::getIssueRepository();
 
         $reader = new DoctrineReader($objectManager, Issue::class);

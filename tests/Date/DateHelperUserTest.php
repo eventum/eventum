@@ -50,9 +50,9 @@ class DateHelperUserTest extends TestCase
         $repo = Doctrine::getUserPreferenceRepository();
         $prefs = $repo->findOrCreate($usr_id);
         $prefs->setTimezone($timezone);
-        $em = Doctrine::getEntityManager();
+        $em = ServiceContainer::getEntityManager();
         $em->persist($prefs);
-        $em->flush($prefs);
+        $em->flush();
     }
 
     /**

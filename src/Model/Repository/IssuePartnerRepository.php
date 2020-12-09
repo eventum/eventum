@@ -15,7 +15,6 @@ namespace Eventum\Model\Repository;
 
 use Auth;
 use DB_Helper;
-use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 use Eventum\Db\DatabaseException;
@@ -27,7 +26,7 @@ use User;
 /**
  * @method Entity\IssuePartner findById(int $prj_id)
  */
-class IssuePartnerRepository extends EntityRepository
+class IssuePartnerRepository extends BaseRepository
 {
     use Traits\FindByIdTrait;
 

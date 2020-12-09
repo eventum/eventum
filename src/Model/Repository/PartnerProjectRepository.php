@@ -14,14 +14,13 @@
 namespace Eventum\Model\Repository;
 
 use DB_Helper;
-use Doctrine\ORM\EntityRepository;
 use Eventum\Model\Entity;
 
 /**
  * @method Entity\PartnerProject findById(int $prj_id)
  * @method Entity\PartnerProject findOneByCode(string $code)
  */
-class PartnerProjectRepository extends EntityRepository
+class PartnerProjectRepository extends BaseRepository
 {
     use Traits\FindByIdTrait;
 

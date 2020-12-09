@@ -13,10 +13,9 @@
 
 namespace Eventum\Model\Repository;
 
-use Doctrine\ORM\EntityRepository;
 use Eventum\Model\Entity;
 
-class CommitFileRepository extends EntityRepository
+class CommitFileRepository extends BaseRepository
 {
     /**
      * @param int $cid

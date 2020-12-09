@@ -13,10 +13,9 @@
 
 namespace Eventum\Model\Repository;
 
-use Doctrine\ORM\EntityRepository;
 use Eventum\Model\Entity\SearchProfile;
 
-class SearchProfileRepository extends EntityRepository
+class SearchProfileRepository extends BaseRepository
 {
     public function getIssueProfile(int $usr_id, int $prj_id): ?array
     {

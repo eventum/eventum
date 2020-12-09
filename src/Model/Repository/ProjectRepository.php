@@ -13,17 +13,13 @@
 
 namespace Eventum\Model\Repository;
 
-use Doctrine\ORM\EntityRepository;
-use Doctrine\ORM\OptimisticLockException;
-use Doctrine\ORM\ORMException;
 use Doctrine\ORM\QueryBuilder;
-use Eventum\Db\DatabaseException;
 use Eventum\Model\Entity;
 
 /**
  * @method Entity\Project findById(int $prj_id)
  */
-class ProjectRepository extends EntityRepository
+class ProjectRepository extends BaseRepository
 {
     use Traits\FindByIdTrait;
 
@@ -54,15 +50,14 @@ class ProjectRepository extends EntityRepository
         return $qb->getQuery()->getResult();
     }
 
+    /**
+     * @deprecated since 3.9.9
+     */
     public function updateProject(Entity\Project $project): void
     {
-        $em = $this->getEntityManager();
-        try {
-            $em->persist($project);
-            $em->flush();
-        } catch (ORMException | OptimisticLockException $e) {
-            throw new DatabaseException($e->getMessage(), $e->getCode(), $e);
-        }
+        trigger_deprecation('eventum/eventum', '3.9.9', '%s() is deprecated, use "persistAndFlush()" instead.', __METHOD__);
+
+        $this->persistAndFlush($project);
     }
 
     private function getQueryBuilder(): QueryBuilder

@@ -14,7 +14,6 @@
 namespace Eventum\Model\Repository;
 
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\ORM\QueryBuilder;
 use Eventum\Model\Entity;
@@ -23,17 +22,11 @@ use RuntimeException;
 
 /**
  * @method Entity\CustomField findById(int $fld_id)
+ * @method persistAndFlush(Entity\CustomField $entity)
  */
-class CustomFieldRepository extends EntityRepository
+class CustomFieldRepository extends BaseRepository
 {
     use Traits\FindByIdTrait;
-
-    public function persistAndFlush(Entity\CustomField $cf): void
-    {
-        $em = $this->getEntityManager();
-        $em->persist($cf);
-        $em->flush($cf);
-    }
 
     public function findOrCreate(int $id): Entity\CustomField
     {

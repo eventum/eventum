@@ -13,22 +13,16 @@
 
 namespace Eventum\Model\Repository;
 
-use Doctrine\ORM\EntityRepository;
+use Eventum\Model\Entity;
 use Eventum\Model\Entity\UserPreference;
 
 /**
  * @method UserPreference findById(int $usr_id)
+ * @method persistAndFlush(Entity\UserPreference $entity)
  */
-class UserPreferenceRepository extends EntityRepository
+class UserPreferenceRepository extends BaseRepository
 {
     use Traits\FindByIdTrait;
-
-    public function persistAndFlush(UserPreference $entity): void
-    {
-        $em = $this->getEntityManager();
-        $em->persist($entity);
-        $em->flush($entity);
-    }
 
     public function findOrCreate(int $usr_id): UserPreference
     {
@@ -54,7 +48,6 @@ class UserPreferenceRepository extends EntityRepository
             $em->persist($upp);
         }
 
-        $em->persist($upr);
-        $em->flush();
+        $this->persistAndFlush($upr);
     }
 }
