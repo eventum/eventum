@@ -40,6 +40,9 @@ class ServiceContainer
         return $container;
     }
 
+    /**
+     * @since 3.8.13
+     */
     public static function getContainer(): ContainerInterface
     {
         static $container;
@@ -51,16 +54,25 @@ class ServiceContainer
         return $container;
     }
 
+    /**
+     * @since 3.8.11
+     */
     public static function get(string $className)
     {
         return static::getInstance()[$className];
     }
 
+    /**
+     * @since 3.8.11
+     */
     public static function getConfig(): Config
     {
         return static::get('config');
     }
 
+    /**
+     * @since 3.9.3
+     */
     public static function getLogger(): LoggerInterface
     {
         return static::get(LoggerInterface::class);
@@ -74,11 +86,17 @@ class ServiceContainer
         return static::get(Request::class);
     }
 
+    /**
+     * @since 3.9.3
+     */
     public static function getKernel(): KernelInterface
     {
         return static::get(KernelInterface::class);
     }
 
+    /**
+     * @since 3.9.3
+     */
     public static function getApplication(): Application
     {
         return static::get(Application::class);
