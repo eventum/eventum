@@ -1,6 +1,6 @@
 # Eventum Issue Tracking System
 
-## [3.9.9]
+## [3.9.9] - 2020-12-31
 
 See [Upgrading] for details on how to upgrade.
 
@@ -8,7 +8,7 @@ See [Upgrading] for details on how to upgrade.
 - Remove internal uses of deprecated `Doctrine::getEntityManager` method, #975
 - Update laminas-mail dependency: Fix Invalid header line for Content-Disposition string, #980
 
-[3.9.9]: https://github.com/eventum/eventum/compare/v3.9.8...master
+[3.9.9]: https://github.com/eventum/eventum/compare/v3.9.8...v3.9.9
 
 ## [3.9.8] - 2020-11-30
 
