@@ -6,6 +6,7 @@ See [Upgrading] for details on how to upgrade.
 
 - Use `underscore_number_aware` naming_strategy for Doctrine, #965
 - Remove internal uses of deprecated `Doctrine::getEntityManager` method, #975
+- Update laminas-mail dependency: Fix Invalid header line for Content-Disposition string, #980
 
 [3.9.9]: https://github.com/eventum/eventum/compare/v3.9.8...master
 
