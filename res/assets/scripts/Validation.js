@@ -152,7 +152,7 @@ export class Validation {
         selected_date.setDate(Eventum.getField(field_prefix + '[Day]').val());
         selected_date.setYear(Eventum.getField(field_prefix + '[Year]').val());
 
-        return selected_date.getDate() === Eventum.getField(field_prefix + '[Day]').val();
+        return selected_date.getDate() === Number(Eventum.getField(field_prefix + '[Day]').val());
     };
 
     checkFormSubmission(form, callback_func) {
