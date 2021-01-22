@@ -1,0 +1,29 @@
+From: Jane Doe <jane.doe@example.net>
+Subject: HTML multipart message with different encodings
+Date: Mon, 25 Jan 2021 10:31:01 +0200
+Message-ID: <4d632ea627db02fb882a482ec4e6f32f@example.net>
+In-Reply-To: <67763e6d78db80457e7a4bc97b64cdc3@example.net>
+References: <67763e6d78db80457e7a4bc97b64cdc3@example.net>
+To: Fo Support <support@lists.example.com>
+Content-Type: multipart/mixed; boundary="BOUNDARY-03c6a3a8a06c91e9c35690693cf8efb2"
+
+--BOUNDARY-03c6a3a8a06c91e9c35690693cf8efb2
+Content-Type: text/html
+
+<p>no encoding</p>
+--BOUNDARY-03c6a3a8a06c91e9c35690693cf8efb2
+Content-Transfer-Encoding: 8bit
+Content-Type: text/html
+
+<p>plain encoding</p>
+--BOUNDARY-03c6a3a8a06c91e9c35690693cf8efb2
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/html
+
+<p>qu=C3=B8ted-pr=C3=AFnt=C3=A2ble</p>
+--BOUNDARY-03c6a3a8a06c91e9c35690693cf8efb2
+Content-Transfer-Encoding: base64
+Content-Type: text/html
+
+PHA+YmFzZTY0PC9wPg==
+--BOUNDARY-03c6a3a8a06c91e9c35690693cf8efb2--

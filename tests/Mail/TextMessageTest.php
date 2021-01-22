@@ -71,6 +71,10 @@ class TextMessageTest extends TestCase
                 'message-chopped.eml',
                 $this->readDataFile('message-chopped.txt'),
             ],
+            'html-part-encoding' => [
+                'html-part-encoding.txt',
+                "no encoding\n\n\nplain encoding\n\n\nquøted-prïntâble\n\n\nbase64"
+            ],
         ];
     }
 }
