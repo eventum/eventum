@@ -88,6 +88,7 @@ class TextMessage
         $filename = $hasDisposition ? $part->getHeaderField('Content-Disposition', 'filename') : null;
         $is_attachment = $disposition === 'attachment' || $filename;
         $charset = $hasContentType ? $part->getHeaderField('Content-Type', 'charset') : null;
+        $content = (new DecodePart($part))->decode();
 
         switch ($contentType) {
             case 'multipart/related':
@@ -107,7 +108,7 @@ class TextMessage
                 if (!$is_attachment) {
                     $format = $part->getHeaderField('Content-Type', 'format');
 
-                    $content = Mime_Helper::convertString((new DecodePart($part))->decode(), $charset);
+                    $content = Mime_Helper::convertString($content, $charset);
                     if ($format === 'flowed') {
                         $delsp = $part->getHeaderField('Content-Type', 'delsp');
                         $flowed = new Horde_Text_Flowed($content, 'UTF-8');
@@ -120,14 +121,14 @@ class TextMessage
 
             case 'text/html':
                 if (!$is_attachment) {
-                    $this->html[] = Mime_Helper::convertString($part->getContent(), $charset);
+                    $this->html[] = Mime_Helper::convertString($content, $charset);
                 }
                 break;
 
             // special case for Apple Mail
             case 'text/enriched':
                 if (!$is_attachment) {
-                    $this->html[] = Mime_Helper::convertString($part->getContent(), $charset);
+                    $this->html[] = Mime_Helper::convertString($content, $charset);
                 }
                 break;
 
@@ -139,7 +140,7 @@ class TextMessage
                 $is_attachment |= $type === 'image';
 
                 if (!$is_attachment) {
-                    $this->text[] = $part->getContent();
+                    $this->text[] = $content;
                 }
         }
     }
@@ -155,7 +156,6 @@ class TextMessage
 
         // hack for inotes to prevent content from being displayed all on one line.
         $str = str_replace(['</DIV><DIV>', '<br>', '<br />', '<BR>', '<BR />'], "\n", $str);
-        // XXX: do we also need to do something here about base64 encoding?
         $str = strip_tags($str);
 
         // convert html entities. this should be done after strip tags
