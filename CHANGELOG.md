@@ -1,13 +1,13 @@
 # Eventum Issue Tracking System
 
-## [3.9.10]
+## [3.9.10] - 2021-01-25
 
 See [Upgrading] for details on how to upgrade.
 
 - Fix Time tracking: date validation gives error "Please select a valid date of work", #984, #963
 - Fix decoding of non-plaintext parts in multipart mails, #986
 
-[3.9.10]: https://github.com/eventum/eventum/compare/v3.9.9...master
+[3.9.10]: https://github.com/eventum/eventum/compare/v3.9.9...v3.9.10
 
 ## [3.9.9] - 2020-12-31
 
