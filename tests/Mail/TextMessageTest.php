@@ -73,7 +73,7 @@ class TextMessageTest extends TestCase
             ],
             'html-part-encoding' => [
                 'html-part-encoding.txt',
-                "no encoding\n\n\nplain encoding\n\n\nquøted-prïntâble\n\n\nbase64"
+                "no encoding\n\n\nplain encoding\n\n\nquøted-prïntâble\n\n\nbase64",
             ],
         ];
     }
