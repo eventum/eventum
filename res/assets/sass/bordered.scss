@@ -1,0 +1,188 @@
+/*
+ * This file is part of the Eventum (Issue Tracking System) package.
+ *
+ * @copyright (c) Eventum Team
+ * @license GNU General Public License, version 2 or later (GPL-2+)
+ *
+ * For the full copyright and license information,
+ * please see the COPYING and AUTHORS files
+ * that were distributed with this source code.
+ */
+
+/* Bordered Table & div */
+
+.bordered {
+    width: 100%;
+    border: 1px solid #255282;
+    border-radius: 0.5em;
+    -webkit-border-radius: 0.5em;
+    -moz-border-radius: 0.5em;
+    margin-bottom: 1em;
+    border-spacing: 1px;
+}
+
+table.bordered tr {
+    &:first-child > td {
+        &:first-child {
+            border-top-left-radius: 0.5em;
+            -webkit-border-top-left-radius: 0.5em;
+            -moz-border-radius-topleft: 0.5em;
+        }
+
+        &:last-child {
+            border-top-right-radius: 0.5em;
+            -webkit-border-top-right-radius: 0.5em;
+            -moz-border-radius-topright: 0.5em;
+        }
+    }
+
+    &:last-child > td {
+        &:first-child {
+            border-bottom-left-radius: 0.5em;
+            -webkit-border-bottom-left-radius: 0.5em;
+            -moz-border-radius-bottomleft: 0.5em;
+        }
+
+        &:last-child {
+            border-bottom-right-radius: 0.5em;
+            -webkit-border-bottom-right-radius: 0.5em;
+            -moz-border-radius-bottomright: 0.5em;
+        }
+    }
+}
+
+.bordered .title {
+    font-weight: bold;
+    text-align: left;
+    color: #000000;
+    padding: .3em;
+
+    th {
+        background: #FFFFFF;
+        color: #000000;
+        font-weight: bold;
+
+        a {
+            color: #000000;
+        }
+    }
+
+    span.menu {
+        float: right;
+        font-weight: normal;
+    }
+}
+
+table.bordered {
+    th {
+        background: #255282;
+        color: white;
+        text-align: left;
+        padding-left: .3em;
+    }
+
+    tr.buttons th {
+        text-align: center;
+    }
+
+    th.internal, td.internal {
+        background: #9c494b;
+        color: #FFFFFF;
+    }
+
+    &.internal {
+        border-color: #9c494b;
+
+        th {
+            background: #9c494b;
+            color: #FFFFFF;
+        }
+    }
+
+    .internal th {
+        background: #9c494b;
+        color: #FFFFFF;
+    }
+
+    &.internal .title th {
+        background: #FFFFFF;
+        color: #000000;
+    }
+
+    th a {
+        color: white;
+    }
+
+    td {
+        background: #dddddd;
+        padding: .3em;
+    }
+}
+
+.bordered {
+    .buttons {
+        background: #255282;
+        color: #FFFFFF;
+        padding: .3em;
+        text-align: center;
+
+        td {
+            background: #255282;
+            color: #FFFFFF;
+            padding: .3em;
+            text-align: center;
+
+            a {
+                background: #255282;
+                color: #FFFFFF;
+                padding: .3em;
+                text-align: center;
+            }
+        }
+    }
+
+    &.white .buttons td {
+        background: #255282;
+        color: #FFFFFF;
+        padding: .3em;
+        text-align: center;
+    }
+
+    &.internal .buttons {
+        background: #9c494b;
+        color: #FFFFFF;
+
+        td {
+            background: #9c494b;
+            color: #FFFFFF;
+        }
+    }
+
+    .buttons.internal td {
+        background: #9c494b;
+        color: #FFFFFF;
+    }
+
+    &.white td {
+        background: #ffffff;
+    }
+
+    &.filters, &.narrow {
+        width: 400px;
+        margin: 0 auto;
+    }
+
+    &.medium {
+        width: 600px;
+        margin: 0 auto;
+    }
+
+    &.large {
+        width: 800px;
+        margin: 0 auto;
+    }
+
+    &.left {
+        margin: 0;
+    }
+}
