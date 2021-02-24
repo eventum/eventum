@@ -207,47 +207,6 @@ div {
     }
 }
 
-/* Grid table */
-table.grid {
-    border-spacing: 1px;
-
-    th {
-        background: #255282;
-        text-align: left;
-        color: #FFFFFF;
-        font-weight: bold;
-        padding-left: .3em;
-
-        &.initial_description {
-            vertical-align: top;
-        }
-    }
-
-    &.internal th, th.internal {
-        background: #9c494b;
-    }
-
-    td {
-        padding: .3em;
-    }
-
-    tr {
-        &.odd {
-            background: #cacaca;
-        }
-
-        &.even {
-            background: #dddddd;
-        }
-
-        &.no_results td {
-            background: #dddddd;
-            text-align: center;
-            font-style: italic;
-        }
-    }
-}
-
 // fix over overly long note text
 div.issue_section {
     table.grid td {
