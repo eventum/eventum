@@ -1,7 +1,13 @@
 export class MarkdownView {
     constructor(source, target, content) {
-        this.textarea = target.appendChild(document.createElement("textarea"));
-        this.textarea.value = content;
+        const textarea = document.createElement("textarea");
+        textarea.value = content;
+        // copy width and rows/cols from source element
+        textarea.style.width = source.style.width;
+        textarea.rows = source.rows;
+        textarea.cols = source.cols;
+        textarea.tabIndex = source.tabIndex;
+        this.textarea = target.appendChild(textarea);
     }
 
     get content() {
