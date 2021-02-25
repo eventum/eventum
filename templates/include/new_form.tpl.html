@@ -191,7 +191,7 @@
           {assign var='issue_description' value=$defaults.description|default:''}
         {/if}
 
-        {include file="include/md_textarea.tpl.html"
+        {include file="include/textarea.tpl.html"
           content=$issue_description|default:''
           id="description"
           rows="10"
