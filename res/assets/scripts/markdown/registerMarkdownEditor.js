@@ -2,13 +2,25 @@ import { MarkdownView } from "./MarkdownView";
 import { ProseMirrorView } from "./ProseMirrorView";
 
 /**
- * @param Document document
+ * @param {HTMLTextAreaElement} textarea
  */
-const register = (document) => {
-    const place = document.querySelector("#editor");
-    let view = new MarkdownView(place, document.querySelector("#content").value);
+const register = (textarea) => {
+    // Create container zone
+    const container = document.createElement("div");
+    container.classList = textarea.classList;
+    if (textarea.nextSibling) {
+        textarea.parentElement.insertBefore(container, textarea.nextSibling);
+    } else {
+        textarea.parentElement.appendChild(container);
+    }
 
-    document.querySelectorAll("input[type=radio]").forEach(button => {
+    // Hide textarea
+    textarea.style.display = "none";
+
+    const editor_id = textarea.getAttribute("data-editor-id");
+    let view = new MarkdownView(textarea, container, textarea.value);
+
+    $(`.md-radio-${editor_id}`).each(function (index, button) {
         button.addEventListener("change", () => {
             if (!button.checked) {
                 return;
@@ -21,10 +33,19 @@ const register = (document) => {
 
             const content = view.content;
             view.destroy();
-            view = new View(place, content);
+            view = new View(textarea, container, content);
             view.focus();
         });
     });
 };
 
-export default register;
+/**
+ * @param {jQuery} $elements
+ */
+const registerElements = ($elements) => {
+    $elements.each(function (index, textarea) {
+        register(textarea);
+    });
+};
+
+export default registerElements;

@@ -1,5 +1,5 @@
 export class MarkdownView {
-    constructor(target, content) {
+    constructor(source, target, content) {
         this.textarea = target.appendChild(document.createElement("textarea"));
         this.textarea.value = content;
     }

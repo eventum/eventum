@@ -4,7 +4,7 @@ import { defaultMarkdownParser, defaultMarkdownSerializer, schema } from "prosem
 import { exampleSetup } from "prosemirror-example-setup";
 
 export class ProseMirrorView {
-    constructor(target, content) {
+    constructor(source, target, content) {
         this.view = new EditorView(target, {
             state: EditorState.create({
                 doc: defaultMarkdownParser.parse(content),
