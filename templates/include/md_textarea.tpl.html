@@ -3,7 +3,7 @@ Parameters:
   $content: The initial value for textarea
   $issue_id: The issue id
   $id: The id attribute to textarea
-  $name: The name attribute to textarea
+  $name: The name attribute to textarea (defaults to value of id)
   $rows: The rows attribute to textarea
   $cols: The cols attribute to textarea
   $tabindex: The tabindex attribute to textarea
@@ -18,7 +18,7 @@ Parameters:
 <br>
 <textarea
   id="{$id}"
-  name="{$name}"
+  name="{$name|default:$id}"
   rows="{$rows|default:''}"
   cols="{$cols|default:''}"
   tabindex="{$tabindex|default:''}"
