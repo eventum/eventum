@@ -24,4 +24,7 @@ Parameters:
   tabindex="{$tabindex|default:''}"
   style="{$style|default:''}"
 >{$content|escape:"html"}</textarea>
+
+{include file="error_icon.tpl.html" field="$id"}
+
 <div id="preview" style="width: 97%"></div>
