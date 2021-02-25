@@ -5,6 +5,7 @@
 See [Upgrading] for details on how to upgrade.
 
 - Add `md_textarea.tpl.html` include to handle markdown enabled text areas, #989
+- Move "bordered" and "grid" css to separate file, #990
 
 [3.9.11]: https://github.com/eventum/eventum/compare/v3.9.10...master
 
