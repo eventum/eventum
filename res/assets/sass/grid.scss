@@ -1,0 +1,51 @@
+/*
+ * This file is part of the Eventum (Issue Tracking System) package.
+ *
+ * @copyright (c) Eventum Team
+ * @license GNU General Public License, version 2 or later (GPL-2+)
+ *
+ * For the full copyright and license information,
+ * please see the COPYING and AUTHORS files
+ * that were distributed with this source code.
+ */
+
+/* Grid table */
+table.grid {
+    border-spacing: 1px;
+
+    th {
+        background: #255282;
+        text-align: left;
+        color: #FFFFFF;
+        font-weight: bold;
+        padding-left: .3em;
+
+        &.initial_description {
+            vertical-align: top;
+        }
+    }
+
+    &.internal th, th.internal {
+        background: #9c494b;
+    }
+
+    td {
+        padding: .3em;
+    }
+
+    tr {
+        &.odd {
+            background: #cacaca;
+        }
+
+        &.even {
+            background: #dddddd;
+        }
+
+        &.no_results td {
+            background: #dddddd;
+            text-align: center;
+            font-style: italic;
+        }
+    }
+}
