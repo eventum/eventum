@@ -76,4 +76,14 @@ jobs:
         run: docker logs ${{ job.services.mysql.id }}
         if: always()
 
+  # https://github.com/fastify/github-action-merge-dependabot
+  automerge:
+    needs: test
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: fastify/github-action-merge-dependabot@v1
+        if: ${{ github.actor == 'dependabot[bot]' && github.event_name == 'pull_request' }}
+        with:
+          github-token: ${{secrets.GITHUB_TOKEN}}
+
 # vim:ft=yaml:et:ts=2:sw=2
