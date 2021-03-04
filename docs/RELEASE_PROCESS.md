@@ -27,6 +27,8 @@ $ make snapshot
 # Test before release
 
 - Create PR to update composer dependencies. [example](https://github.com/eventum/eventum/pull/360)
+- Review that there are no Pull Requests without milestone
+  - https://github.com/eventum/eventum/pulls?q=is%3Apr+sort%3Aupdated-desc+is%3Amerged+no%3Amilestone
 - Make sure [src/Db/Table.php](src/Db/Table.php) lists all created tables in install process (even ones no longer used)
 - Create and download snapshot tarball
 - Install twice to same database, second time select drop tables, install must not fail
