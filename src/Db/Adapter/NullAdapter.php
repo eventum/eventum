@@ -20,10 +20,6 @@ namespace Eventum\Db\Adapter;
  */
 class NullAdapter implements AdapterInterface
 {
-    public function __construct(array $config)
-    {
-    }
-
     public function getAll($query, $params = [], $fetchMode = AdapterInterface::DB_FETCHMODE_ASSOC)
     {
     }
