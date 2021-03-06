@@ -55,7 +55,7 @@ class RegisterExtension
         foreach ($extensions as $className) {
             $extension = $this->getExtensionClass($className);
             if ($this->hasExtension($extension)) {
-                throw new LogicException('Extension already enabled');
+                continue;
             }
             $this->config[$extension->getName()] = $extension->getFileName();
         }
