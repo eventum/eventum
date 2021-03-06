@@ -112,6 +112,15 @@
         "symfony/thanks": "^1.0",
         "symfony/web-profiler-bundle": "^4.2"
     },
+    "conflict": {
+        "symfony/cache": ">=5",
+        "symfony/config": ">=5",
+        "symfony/dependency-injection": ">=5",
+        "symfony/dom-crawler": ">=5",
+        "symfony/finder": ">=5",
+        "symfony/routing": ">=5",
+        "symfony/twig-bridge": ">=5"
+    },
     "suggest": {
         "ext-imap": "Support for fetching mail over IMAP/POP3"
     },
