@@ -151,10 +151,11 @@ class Setup
      *
      * @return string The default timezone
      * @since 3.8.0
+     * @since 3.9.11 Add default to date_default_timezone_get()
      */
     public static function getDefaultTimezone(): string
     {
-        return self::get()['default_timezone'] ?? 'UTC';
+        return self::get()['default_timezone'] ?? @date_default_timezone_get() ?: 'UTC';
     }
 
     /**
