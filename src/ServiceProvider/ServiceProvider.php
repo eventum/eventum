@@ -49,7 +49,13 @@ class ServiceProvider implements ServiceProviderInterface
         };
 
         $app[PdoAdapter::class] = static function ($app) {
-            return new PdoAdapter();
+            /** @var Connection $conn */
+            $conn = $app[Connection::class];
+
+            $pdo = $conn->getWrappedConnection();
+            $pdo = DebugBarManager::getDebugBarManager()->registerPdo($pdo);
+
+            return new PdoAdapter($pdo);
         };
 
         $app[EntityManagerInterface::class] = static function ($app) {

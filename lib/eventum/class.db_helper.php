@@ -20,8 +20,6 @@ use Eventum\ServiceContainer;
 
 class DB_Helper
 {
-    private const DEFAULT_ADAPTER = 'PdoAdapter';
-
     /**
      * @param bool $fallback
      * @throws DatabaseException
@@ -37,11 +35,8 @@ class DB_Helper
         // initialize value to avoid recursion
         $instance = false;
 
-        $config = self::getConfig();
-        $className = self::getAdapterClass($config);
-
         try {
-            $instance = new $className($config);
+            $instance = ServiceContainer::get('db');
 
             return $instance;
         } catch (DatabaseException $e) {
@@ -49,7 +44,7 @@ class DB_Helper
         }
 
         // set dummy provider in as offline.php uses db methods
-        $instance = new NullAdapter($config);
+        $instance = new NullAdapter();
 
         if (!$fallback) {
             throw $e;
@@ -65,13 +60,6 @@ class DB_Helper
         $error_type = 'db';
         require Paths::APP_PATH . '/htdocs/offline.php';
         exit(2);
-    }
-
-    private static function getAdapterClass($config): string
-    {
-        $classname = $config['adapter'] ?? self::DEFAULT_ADAPTER;
-
-        return 'Eventum\\Db\\Adapter\\' . $classname;
     }
 
     /**

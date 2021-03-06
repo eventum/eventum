@@ -14,11 +14,9 @@
 namespace Eventum\Db\Adapter;
 
 use BadMethodCallException;
-use DebugBar\DebugBarException;
 use Doctrine\DBAL\Driver\Connection;
 use Eventum;
 use Eventum\Db\DatabaseException;
-use Eventum\ServiceContainer;
 use PDO;
 use PDOException;
 use UnexpectedValueException;
@@ -35,18 +33,10 @@ class PdoAdapter implements AdapterInterface
     private $db;
 
     /**
-     * @param array $config
-     * @throws DatabaseException
-     * @throws DebugBarException
+     * @param PDO $pdo
      */
-    public function __construct(array $config)
+    public function __construct(PDO $pdo)
     {
-        /** @var Connection $conn */
-        $conn = ServiceContainer::get(Connection::class);
-
-        $pdo = $conn->getWrappedConnection();
-        $pdo = Eventum\DebugBarManager::getDebugBarManager()->registerPdo($pdo);
-
         $this->db = $pdo;
     }
 
