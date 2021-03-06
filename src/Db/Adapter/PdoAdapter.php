@@ -13,7 +13,6 @@
 
 namespace Eventum\Db\Adapter;
 
-use BadMethodCallException;
 use Doctrine\DBAL\Driver\Connection;
 use Eventum;
 use Eventum\Db\DatabaseException;
@@ -23,12 +22,6 @@ use UnexpectedValueException;
 
 class PdoAdapter implements AdapterInterface
 {
-    const DEFAULT_DRIVER = 'mysql';
-
-    const PDO_EXT_MISSING_ERROR = 'The PDO extension is required for this adapter but the extension is not loaded';
-
-    const PDO_DRIVER_MISSING_ERROR = 'The %s driver is not currently installed';
-
     /** @var Connection */
     private $db;
 
@@ -183,60 +176,6 @@ class PdoAdapter implements AdapterInterface
     private function convertParams(&$params): void
     {
         $params = array_values($params);
-    }
-
-    /**
-     * Get connect DSN for PDO
-     *
-     * @param array $config
-     * @throws BadMethodCallException
-     * @return string
-     */
-    private function getDsn($config)
-    {
-        $driver = $this->getDriverName($config);
-
-        $dsn = "{$driver}:host={$config['hostname']};dbname={$config['database']};charset={$config['charset']}";
-
-        // if we are using some non-standard mysql port, pass that value in the dsn
-        if ($driver === 'mysql' && $config['port'] != 3306) {
-            $dsn .= ";port={$config['port']}";
-        }
-
-        if (isset($config['socket'])) {
-            // use socket connection
-            $dsn .= ';unix_socket=' . $config['socket'];
-        }
-
-        return $dsn;
-    }
-
-    /**
-     * Get PDO driver name.
-     *
-     * @param array $config
-     * @throws BadMethodCallException
-     * @return string
-     */
-    private function getDriverName($config)
-    {
-        // check for PDO extension
-        if (!extension_loaded('pdo')) {
-            throw new BadMethodCallException(self::PDO_EXT_MISSING_ERROR);
-        }
-
-        $driver = $config['driver'] ?? self::DEFAULT_DRIVER;
-        if ($driver === 'mysqli') {
-            $driver = 'mysql';
-        }
-
-        // check the PDO driver is available
-        if (!in_array($driver, PDO::getAvailableDrivers(), true)) {
-            $msg = sprintf(self::PDO_DRIVER_MISSING_ERROR, $driver);
-            throw new BadMethodCallException($msg);
-        }
-
-        return $driver;
     }
 
     /**
