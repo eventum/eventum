@@ -73,16 +73,18 @@ class Setup
 
     /**
      * @since 3.8.0
+     * @since 3.9.11 nullable
      */
-    public static function getBaseUrl(): string
+    public static function getBaseUrl(): ?string
     {
         return self::get()['base_url'];
     }
 
     /**
      * @since 3.8.0
+     * @since 3.9.11 nullable
      */
-    public static function getRelativeUrl(): string
+    public static function getRelativeUrl(): ?string
     {
         return self::get()['relative_url'];
     }

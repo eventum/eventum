@@ -15,6 +15,7 @@ namespace Eventum\Event\EventListener;
 
 use Setup;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
 
 /**
@@ -35,11 +36,21 @@ class NeedsSetupListener
             return;
         }
 
-        $baseUrl = $request->getBaseUrl();
-        $relativeUrl = rtrim(dirname($baseUrl), '/');
-
-        $url = "$relativeUrl/setup/";
+        $url = $this->getSetupUrl($request);
         $response = new RedirectResponse($url);
         $event->setResponse($response);
+    }
+
+    private function getSetupUrl(Request $request): string
+    {
+        $relativeUrl = Setup::getRelativeUrl();
+        if ($relativeUrl !== null) {
+            $relativeUrl = rtrim($relativeUrl, '/');
+        } else {
+            $baseUrl = $request->getBaseUrl();
+            $relativeUrl = rtrim(dirname($baseUrl), '/');
+        }
+
+        return "$relativeUrl/setup/";
     }
 }
