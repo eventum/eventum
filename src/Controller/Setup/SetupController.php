@@ -19,6 +19,7 @@ use Eventum\AppInfo;
 use Eventum\Controller\Traits\RedirectResponseTrait;
 use Eventum\Controller\Traits\RequestTrait;
 use Eventum\Controller\Traits\SmartyResponseTrait;
+use Eventum\Db\Doctrine;
 use Eventum\Monolog\Logger;
 use Eventum\ServiceContainer;
 use Eventum\Setup\DatabaseSetup;
@@ -165,7 +166,11 @@ class SetupController
             'create_user' => $post->get('create_user') === 'yes',
         ];
 
-        $dbs = new DatabaseSetup($dsn);
+        Setup::save(['database' => $dsn]);
+        $dsn = Doctrine::getUrl();
+        putenv('DATABASE_URL=' . $dsn);
+
+        $dbs = new DatabaseSetup();
         $db_result = $dbs->run($config);
         $this->params['db_result'] = $db_result;
     }
