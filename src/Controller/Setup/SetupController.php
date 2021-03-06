@@ -16,6 +16,7 @@ namespace Eventum\Controller\Setup;
 use Auth;
 use Date_Helper;
 use Eventum\AppInfo;
+use Eventum\Controller\Traits\RedirectResponseTrait;
 use Eventum\Controller\Traits\RequestTrait;
 use Eventum\Controller\Traits\SmartyResponseTrait;
 use Eventum\Monolog\Logger;
@@ -35,6 +36,7 @@ class SetupController
 {
     use SmartyResponseTrait;
     use RequestTrait;
+    use RedirectResponseTrait;
 
     /** @var string */
     protected $tpl_name = 'setup.tpl.html';
@@ -48,6 +50,12 @@ class SetupController
     public function defaultAction(Request $request): Response
     {
         $this->boot($request);
+
+        // get out if already configured
+        if (!$this->needsSetup()) {
+            return $this->redirect(Setup::getRelativeUrl());
+        }
+
         $this->cat = $request->request->get('cat');
         $this->request = $request;
         $params = [
@@ -186,6 +194,9 @@ class SetupController
         $setup['relative_url'] = $relativeUrl;
         $setup['hostname'] = $post->get('hostname');
 
+        // Special key indicating setup is not complete
+        $setup['__installing'] = true;
+
         Setup::save($setup);
     }
 
@@ -195,6 +206,7 @@ class SetupController
         $this->writeSetup();
         $this->setupDatabase();
         $this->clearCache();
+        $this->finishSetup();
     }
 
     private function clearCache(): void
@@ -211,5 +223,24 @@ class SetupController
         $relative_url = rtrim(dirname($baseUrl, 2), '/') . '/';
 
         $setup['relative_url'] = $relative_url;
+    }
+
+    private function needsSetup(): bool
+    {
+        if (Setup::needsSetup()) {
+            return true;
+        }
+
+        $setup = ServiceContainer::getConfig();
+
+        return $setup['__installing'] ? true : false;
+    }
+
+    private function finishSetup(): void
+    {
+        $setup = ServiceContainer::getConfig();
+        unset($setup['__installing']);
+
+        Setup::save();
     }
 }
