@@ -48,22 +48,22 @@ class DbHelper implements AdapterInterface
 
     public function getColumn($query, $params = [])
     {
-        return $this->db->fetchAssoc($query, $params);
+        return $this->db->getColumn($query, $params);
     }
 
     public function getOne($query, $params = [])
     {
-        return $this->db->fetchAssoc($query, $params);
+        return $this->db->getOne($query, $params);
     }
 
     public function getPair($query, $params = [])
     {
-        return $this->db->fetchAssoc($query, $params);
+        return $this->db->getPair($query, $params);
     }
 
     public function getRow($query, $params = [], $fetchMode = self::DB_FETCHMODE_ASSOC)
     {
-        return $this->db->fetchAssoc($query, $params, $fetchMode);
+        return $this->db->getRow($query, $params, $fetchMode);
     }
 
     public function query($query, $params = [])
