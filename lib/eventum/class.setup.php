@@ -202,7 +202,7 @@ class Setup
      */
     public static function isMaintenance(): bool
     {
-        return self::get()['maintenance'];
+        return self::get()['maintenance'] ?? false;
     }
 
     /**
