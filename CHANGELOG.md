@@ -8,6 +8,7 @@ See [Upgrading] for details on how to upgrade.
 - Move "bordered" and "grid" css to separate file, #990
 - With this release, we reached [1000th] Pull Request! 💯
 - Fix setup for initial install, #1007
+- Instantiate PdoAdapter directly without layers of wrappers, #1006
 
 [3.9.11]: https://github.com/eventum/eventum/compare/v3.9.10...master
 [1000th]: https://github.com/eventum/eventum/pull/1000
