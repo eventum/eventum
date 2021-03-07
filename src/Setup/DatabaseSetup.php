@@ -34,10 +34,8 @@ class DatabaseSetup
     private const ERR_DB_DROP_ACCESS_FAILURE = 'db_drop_access';
     private const ERR_DB_PHINX_FAILURE = 'db_phinx_failure';
 
-    public function __construct(array $dsn)
+    public function __construct()
     {
-        Setup::save(['database' => $dsn]);
-
         $this->conn = $this->getDb();
     }
 

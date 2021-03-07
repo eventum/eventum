@@ -30,10 +30,14 @@ class Auth
      *
      * @return  string  the private_key hash
      */
-    public static function privateKey()
+    public static function privateKey(): string
     {
         static $private_key;
         if ($private_key === null) {
+            if (!file_exists($privateKeyFile = Setup::getPrivateKeyPath()) || !filesize($privateKeyFile)) {
+                Auth::generatePrivateKey();
+            }
+
             require_once Setup::getPrivateKeyPath();
         }
 

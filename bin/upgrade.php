@@ -12,34 +12,33 @@
  * that were distributed with this source code.
  */
 
-use Eventum\ServiceContainer;
-use Symfony\Component\Console\Input\StringInput;
-
-define('INSTALL_PATH', __DIR__ . '/..');
-define('CONFIG_PATH', INSTALL_PATH . '/config');
-
-// avoid init.php redirecting us to setup if not configured yet
-$setup_path = CONFIG_PATH . '/setup.php';
-if (!file_exists($setup_path) || !filesize($setup_path) || !is_readable($setup_path)) {
-    // make path absolute first for readable error messages
-    $setup_path = realpath($setup_path);
-    error_log("ERROR: $setup_path does not exist, is not readable, or is an empty file.");
-    error_log('Did you forgot to copy config from old install?');
-    exit(1);
-}
-
-require_once INSTALL_PATH . '/init.php';
-
-chdir(__DIR__ . '/..');
-
 /**
  * Run phing upgrade and clear clear Symfony cache.
  */
 
-$phinx = new Phinx\Console\PhinxApplication();
-$phinx->setDefaultCommand('migrate');
-$phinx->setAutoExit(false);
-$phinx->run();
+use Eventum\ServiceContainer;
+use Symfony\Component\Console\Input\StringInput;
+
+require_once __DIR__ . '/../autoload.php';
+
+function msg(string $msg): void
+{
+    echo "\n* $msg\n";
+}
+
+chdir(__DIR__ . '/..');
+
+if (Setup::needsSetup()) {
+    msg('Skipping Phinx migrate, as setup not complete.');
+} else {
+    msg('Running Phinx migrate...');
+    $phinx = new Phinx\Console\PhinxApplication();
+    $phinx->setDefaultCommand('migrate');
+    $phinx->setAutoExit(false);
+    $phinx->run();
+}
+
+msg('Running "cache:clear". This may take a while...');
 
 $app = ServiceContainer::getApplication();
 $app->run(new StringInput('cache:clear'));

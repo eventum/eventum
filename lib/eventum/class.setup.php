@@ -73,16 +73,18 @@ class Setup
 
     /**
      * @since 3.8.0
+     * @since 3.9.11 nullable
      */
-    public static function getBaseUrl(): string
+    public static function getBaseUrl(): ?string
     {
         return self::get()['base_url'];
     }
 
     /**
      * @since 3.8.0
+     * @since 3.9.11 nullable
      */
-    public static function getRelativeUrl(): string
+    public static function getRelativeUrl(): ?string
     {
         return self::get()['relative_url'];
     }
@@ -151,10 +153,11 @@ class Setup
      *
      * @return string The default timezone
      * @since 3.8.0
+     * @since 3.9.11 Add default to date_default_timezone_get()
      */
     public static function getDefaultTimezone(): string
     {
-        return self::get()['default_timezone'] ?? 'UTC';
+        return self::get()['default_timezone'] ?? @date_default_timezone_get() ?: 'UTC';
     }
 
     /**
@@ -202,7 +205,7 @@ class Setup
      */
     public static function isMaintenance(): bool
     {
-        return self::get()['maintenance'];
+        return self::get()['maintenance'] ?? false;
     }
 
     /**

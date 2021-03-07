@@ -16,8 +16,10 @@ namespace Eventum\Controller\Setup;
 use Auth;
 use Date_Helper;
 use Eventum\AppInfo;
+use Eventum\Controller\Traits\RedirectResponseTrait;
 use Eventum\Controller\Traits\RequestTrait;
 use Eventum\Controller\Traits\SmartyResponseTrait;
+use Eventum\Db\Doctrine;
 use Eventum\Monolog\Logger;
 use Eventum\ServiceContainer;
 use Eventum\Setup\DatabaseSetup;
@@ -35,6 +37,7 @@ class SetupController
 {
     use SmartyResponseTrait;
     use RequestTrait;
+    use RedirectResponseTrait;
 
     /** @var string */
     protected $tpl_name = 'setup.tpl.html';
@@ -48,6 +51,12 @@ class SetupController
     public function defaultAction(Request $request): Response
     {
         $this->boot($request);
+
+        // get out if already configured
+        if (!$this->needsSetup()) {
+            return $this->redirect(Setup::getRelativeUrl());
+        }
+
         $this->cat = $request->request->get('cat');
         $this->request = $request;
         $params = [
@@ -83,6 +92,7 @@ class SetupController
         $params += [
             'core' => [
                 'rel_url' => Setup::getRelativeUrl(),
+                'base_url' => Setup::getBaseUrl(),
                 'app_title' => 'Eventum',
                 'app_version' => $appInfo->getVersion(),
                 'php_version' => PHP_VERSION,
@@ -157,7 +167,11 @@ class SetupController
             'create_user' => $post->get('create_user') === 'yes',
         ];
 
-        $dbs = new DatabaseSetup($dsn);
+        Setup::save(['database' => $dsn]);
+        $dsn = Doctrine::getUrl();
+        putenv('DATABASE_URL=' . $dsn);
+
+        $dbs = new DatabaseSetup();
         $db_result = $dbs->run($config);
         $this->params['db_result'] = $db_result;
     }
@@ -186,6 +200,9 @@ class SetupController
         $setup['relative_url'] = $relativeUrl;
         $setup['hostname'] = $post->get('hostname');
 
+        // Special key indicating setup is not complete
+        $setup['__installing'] = true;
+
         Setup::save($setup);
     }
 
@@ -195,12 +212,13 @@ class SetupController
         $this->writeSetup();
         $this->setupDatabase();
         $this->clearCache();
+        $this->finishSetup();
     }
 
     private function clearCache(): void
     {
         $app = ServiceContainer::getApplication();
-        $app->run(new StringInput('cache:clear'));
+        $app->run(new StringInput('cache:clear --no-warmup'));
     }
 
     private function boot(Request $request): void
@@ -211,5 +229,24 @@ class SetupController
         $relative_url = rtrim(dirname($baseUrl, 2), '/') . '/';
 
         $setup['relative_url'] = $relative_url;
+    }
+
+    private function needsSetup(): bool
+    {
+        if (Setup::needsSetup()) {
+            return true;
+        }
+
+        $setup = ServiceContainer::getConfig();
+
+        return $setup['__installing'] ? true : false;
+    }
+
+    private function finishSetup(): void
+    {
+        $setup = ServiceContainer::getConfig();
+        unset($setup['__installing']);
+
+        Setup::save();
     }
 }

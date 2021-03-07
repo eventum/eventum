@@ -17,13 +17,8 @@ use Eventum\ServiceContainer;
 
 require_once __DIR__ . '/autoload.php';
 
-if (Setup::needsSetup()) {
-    // redirect to setup
-    if (PHP_SAPI === 'cli') {
-        throw new RuntimeException('Eventum is not configured, setup file is missing');
-    }
-    header('Location: setup/');
-    exit(0);
+if (PHP_SAPI === 'cli' && Setup::needsSetup()) {
+    throw new RuntimeException('Eventum is not configured, setup file is missing');
 }
 
 // setup change some PHP settings
