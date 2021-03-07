@@ -92,6 +92,7 @@ class SetupController
         $params += [
             'core' => [
                 'rel_url' => Setup::getRelativeUrl(),
+                'base_url' => Setup::getBaseUrl(),
                 'app_title' => 'Eventum',
                 'app_version' => $appInfo->getVersion(),
                 'php_version' => PHP_VERSION,
