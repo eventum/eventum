@@ -246,8 +246,8 @@ $(function(){
             <br />
               <a href="{$core.base_url}">{$core.base_url}</a>
             <br /><br />
-            {t}Email Address{/t}: admin@example.com {t}(literally){/t}<br />
-            {t}Password{/t}: admin<br />
+            {t escape=no 1="admin@example.com"}Email Address: <b>%1</b> (literally){/t}<br />
+            {t escape=no 1="admin"}Password: <b>%1</b>{/t}<br />
             <br />
             <b>{t}NOTE: For security reasons it is highly recommended that the default password be changed as soon as possible.{/t}
             <br /><br />
