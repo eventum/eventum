@@ -217,7 +217,7 @@ class SetupController
     private function clearCache(): void
     {
         $app = ServiceContainer::getApplication();
-        $app->run(new StringInput('cache:clear'));
+        $app->run(new StringInput('cache:clear --no-warmup'));
     }
 
     private function boot(Request $request): void
