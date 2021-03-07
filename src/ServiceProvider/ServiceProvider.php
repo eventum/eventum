@@ -13,9 +13,9 @@
 
 namespace Eventum\ServiceProvider;
 
-use DB_Helper;
 use Doctrine\DBAL\Driver\Connection;
 use Doctrine\ORM\EntityManagerInterface;
+use Eventum\Db\Adapter\PdoAdapter;
 use Eventum\DebugBarManager;
 use Eventum\EventDispatcher\EventManager;
 use Eventum\Extension\ExtensionManager;
@@ -44,8 +44,18 @@ class ServiceProvider implements ServiceProviderInterface
             return Setup::get();
         };
 
-        $app['db'] = static function () {
-            return DB_Helper::getInstance();
+        $app['db'] = static function ($app) {
+            return $app[PdoAdapter::class];
+        };
+
+        $app[PdoAdapter::class] = static function ($app) {
+            /** @var Connection $conn */
+            $conn = $app[Connection::class];
+
+            $pdo = $conn->getWrappedConnection();
+            $pdo = DebugBarManager::getDebugBarManager()->registerPdo($pdo);
+
+            return new PdoAdapter($pdo);
         };
 
         $app[EntityManagerInterface::class] = static function ($app) {

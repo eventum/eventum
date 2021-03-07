@@ -112,7 +112,7 @@ class Kernel extends BaseKernel implements CompilerPassInterface
         $kernel->terminate($request, $response);
     }
 
-    public function registerBundles()
+    public function registerBundles(): iterable
     {
         $contents = require "{$this->resourceDir}/bundles.php";
 
