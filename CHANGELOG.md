@@ -1,6 +1,6 @@
 # Eventum Issue Tracking System
 
-## [3.9.11]
+## [3.9.11] - 2021-03-07
 
 See [Upgrading] for details on how to upgrade.
 
@@ -10,7 +10,7 @@ See [Upgrading] for details on how to upgrade.
 - Fix setup for initial install, #1007
 - Instantiate PdoAdapter directly without layers of wrappers, #1006
 
-[3.9.11]: https://github.com/eventum/eventum/compare/v3.9.10...master
+[3.9.11]: https://github.com/eventum/eventum/compare/v3.9.10...v3.9.11
 [1000th]: https://github.com/eventum/eventum/pull/1000
 
 ## [3.9.10] - 2021-01-25
