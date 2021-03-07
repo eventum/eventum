@@ -1,5 +1,5 @@
 #!/bin/sh
-set -xeu
+set -eu
 
 get_version() {
 	local oldver newver version="${1:-}"

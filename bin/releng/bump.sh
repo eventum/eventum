@@ -1,5 +1,5 @@
 #!/bin/sh
-set -xeu
+set -eu
 
 topdir=$(git rev-parse --show-toplevel)
 tag=$(git describe --tags --abbrev=0)
