@@ -4,6 +4,8 @@
 
 See [Upgrading] for details on how to upgrade.
 
+- Fix: Remove post note debug, #1009
+
 [3.9.12]: https://github.com/eventum/eventum/compare/v3.9.11...master
 
 ## [3.9.11] - 2021-03-07
