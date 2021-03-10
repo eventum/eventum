@@ -95,6 +95,12 @@
     "fonts/liberation": {
         "version": "2.00.1"
     },
+    "giberti/commonmark-emoji-extension": {
+        "version": "0.2"
+    },
+    "giberti/emoji-data": {
+        "version": "v0.1"
+    },
     "glen/filename-normalizer": {
         "version": "2.0.1"
     },
