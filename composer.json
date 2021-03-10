@@ -40,6 +40,7 @@
         "enrise/urihelper": "^1.0",
         "ezyang/htmlpurifier": "^4.10",
         "fonts/liberation": "*",
+        "giberti/commonmark-emoji-extension": "^0.2.0",
         "glen/filename-normalizer": "^2.0",
         "horde/text-flowed": "dev-patch-1 as 2.0.3",
         "horde/util": "dev-patch-1 as 2.5.8",

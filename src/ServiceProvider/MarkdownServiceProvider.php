@@ -18,6 +18,7 @@ use Eventum\Event;
 use Eventum\EventDispatcher\EventManager;
 use Eventum\Markdown;
 use Eventum\Markdown\CommonMark\UserMentionGenerator;
+use Giberti\EmojiExtension\EmojiExtension;
 use HTMLPurifier;
 use HTMLPurifier_HTML5Config;
 use League\CommonMark\Block\Element\FencedCode;
@@ -126,6 +127,7 @@ class MarkdownServiceProvider implements ServiceProviderInterface
         $environment->addExtension(new AttributesExtension());
         $environment->addExtension(new FootnoteExtension());
         $environment->addExtension(new MentionExtension());
+        $environment->addExtension(new EmojiExtension());
 
         // allow extensions to apply behaviour
         $event = new GenericEvent($environment);

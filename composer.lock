@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "19ec563d1c719b2fc7f0dbf1a6b267a1",
+    "content-hash": "54909bd2602876793a655c613bdc681e",
     "packages": [
         {
             "name": "cakephp/core",
@@ -1605,6 +1605,66 @@
             "license": [
                 "OFL-1.1"
             ]
+        },
+        {
+            "name": "giberti/commonmark-emoji-extension",
+            "version": "0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/giberti/commonmark-emoji-extension.git",
+                "reference": "5be21de92f78227df3c65409b20b530feaf14397"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/giberti/commonmark-emoji-extension/zipball/5be21de92f78227df3c65409b20b530feaf14397",
+                "reference": "5be21de92f78227df3c65409b20b530feaf14397",
+                "shasum": ""
+            },
+            "require": {
+                "giberti/emoji-data": "^0.1",
+                "php": "^7.2"
+            },
+            "require-dev": {
+                "league/commonmark": "^1.5",
+                "phpunit/phpunit": "^8.5"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Giberti\\EmojiExtension\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "time": "2020-10-27T11:09:10+00:00"
+        },
+        {
+            "name": "giberti/emoji-data",
+            "version": "v0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/giberti/emoji-data.git",
+                "reference": "f07a1d0dee6453d076bbc8ce89c68856d8cabdde"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/giberti/emoji-data/zipball/f07a1d0dee6453d076bbc8ce89c68856d8cabdde",
+                "reference": "f07a1d0dee6453d076bbc8ce89c68856d8cabdde",
+                "shasum": ""
+            },
+            "require-dev": {
+                "nicmart/tree": "^0.3.0",
+                "php": "^7.3",
+                "phpunit/phpunit": "^9.3",
+                "twig/twig": "^3.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Giberti\\EmojiData\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "time": "2020-09-26T21:23:18+00:00"
         },
         {
             "name": "glen/filename-normalizer",
