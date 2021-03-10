@@ -130,9 +130,9 @@
         </tr>
         <tr>
             <td colspan="2">
-              {capture assign=note}{$note.not_body|default:"asd"}{if not $core.current_user_prefs.auto_append_note_sig}[
+              {capture assign=note}{$note.not_body|default:""}{if not $core.current_user_prefs.auto_append_note_sig}
 
-{$core.current_user_prefs.email_signature}]{/if}{/capture}
+{$core.current_user_prefs.email_signature}{/if}{/capture}
 
               {include file="include/md_textarea.tpl.html"
                 content="$note"
