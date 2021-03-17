@@ -22,7 +22,7 @@ jobs:
       language:
         - node_js
         - php
-      php: "7.2"
+      php: "7.3"
       node_js: "10"
       script:
         - docker --version
