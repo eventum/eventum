@@ -1,16 +1,10 @@
-language: php
+language: minimal
 sudo: required
 dist: xenial
 
 # disable the default submodule logic
 git:
   submodules: false
-
-services:
-  - mysql
-
-env:
-  - PHPUNIT_EXCLUDE_GROUP=ldap,imap,logger,mail,api,locale,date,crypto,flaky
 
 # https://docs.travis-ci.com/user/languages/php/#choosing-php-versions-to-test-against
 jobs:
@@ -19,11 +13,6 @@ jobs:
     # TODO: would be nice to have two separate stages, one for build, and other for actually publishing
     - stage: release
       name: GitHub Release
-      language:
-        - node_js
-        - php
-      php: "7.3"
-      node_js: "10"
       script:
         - docker --version
         - docker build . -f bin/releng/Dockerfile -t releng --target=releng
@@ -57,17 +46,6 @@ cache:
     - $HOME/.composer/vendor
     - cache
     - vendor
-
-before_install:
-  - bin/releng/configure.sh
-
-install:
-  - composer install --no-interaction --prefer-dist --no-suggest
-  - bin/releng/seed.sh
-
-script:
-  - PATH=vendor/bin:$HOME/.composer/vendor/bin:$PATH
-  - composer test
 
 notifications:
   irc:
