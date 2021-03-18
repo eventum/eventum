@@ -4,7 +4,7 @@
 #
 
 # Image for building release
-FROM ubuntu:bionic AS base
+FROM ubuntu:focal AS base
 
 FROM base AS deps
 RUN set -x \
@@ -32,9 +32,7 @@ RUN set -x \
     sudo \
     unzip \
     xz-utils \
-    && curl -sS https://deb.nodesource.com/gpgkey/nodesource.gpg.key | apt-key add - \
     && curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add - \
-    && echo "deb https://deb.nodesource.com/node_10.x bionic main" > /etc/apt/sources.list.d/nodesource.list \
     && echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list \
     && apt update && apt install -y --no-install-recommends nodejs yarn \
 	&& exit 0
