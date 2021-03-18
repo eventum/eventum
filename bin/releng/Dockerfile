@@ -24,6 +24,7 @@ RUN apt update && DEBIAN_FRONTEND=noninteractive apt install -y \
     php-ldap \
     php-mbstring \
     php-pdo-mysql \
+    php-pdo-sqlite \
     php-xml \
     php-zip \
     sudo \
