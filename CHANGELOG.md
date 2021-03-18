@@ -4,6 +4,8 @@
 
 See [Upgrading] for details on how to upgrade.
 
+- Update PHP requirement to 7.3, #1012
+
 [3.10.0]: https://github.com/eventum/eventum/compare/v3.9.12...master
 
 ## [3.9.12] - 2021-03-10
