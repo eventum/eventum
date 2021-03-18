@@ -75,6 +75,19 @@ jobs:
         run: docker logs ${{ job.services.mysql.id }}
         if: always()
 
+  release:
+    name: Build release
+    runs-on: ubuntu-20.04
+    needs: test
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+
+      - name: Build release tarball
+        run: |
+          docker build . -f bin/releng/Dockerfile -t releng --target=releng
+          docker run -v $(pwd):/app releng bin/releng/dist.sh
+
   # https://github.com/fastify/github-action-merge-dependabot
   automerge:
     needs: test
