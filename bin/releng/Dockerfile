@@ -7,7 +7,9 @@
 FROM ubuntu:bionic AS base
 
 FROM base AS deps
-RUN apt update && DEBIAN_FRONTEND=noninteractive apt install -y \
+RUN set -x \
+    && export DEBIAN_FRONTEND=noninteractive \
+    && apt update && apt install -y \
     bash \
     bzr \
     composer \
@@ -31,7 +33,9 @@ RUN apt update && DEBIAN_FRONTEND=noninteractive apt install -y \
     sudo \
     unzip \
     xz-utils \
-    && npm install --global yarn \
+    && curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add - \
+    && echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list \
+    && apt update && apt install -y yarn \
 	&& exit 0
 
 FROM deps AS releng
