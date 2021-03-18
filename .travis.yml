@@ -25,9 +25,10 @@ jobs:
       php: "7.2"
       node_js: "10"
       script:
-        - node --version
-        - php --version
-        - bin/releng/dist.sh
+        - docker --version
+        - docker build . -f bin/releng/Dockerfile -t releng --target=releng
+        - export -p > env.sh
+        - docker run -v $(pwd):/app -e DOCKER_ENV_LOAD=./env.sh releng bin/releng/dist.sh
 
       # https://docs.travis-ci.com/user/deployment/releases
       # https://docs.travis-ci.com/user/build-stages/deploy-github-releases/
