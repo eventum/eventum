@@ -1,5 +1,11 @@
-#!/bin/sh
+#!/bin/bash
 set -xe
+
+: ${DOCKER_ENV_LOAD:=}
+
+if [ -f "$DOCKER_ENV_LOAD" ]; then
+	. "$DOCKER_ENV_LOAD"
+fi
 
 bin/releng/tools.sh
 bin/releng/locales.sh

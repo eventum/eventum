@@ -27,7 +27,8 @@ jobs:
       script:
         - docker --version
         - docker build . -f bin/releng/Dockerfile -t releng --target=releng
-        - docker run -v $(pwd):/app releng bin/releng/dist.sh
+        - export -p > env.sh
+        - docker run -v $(pwd):/app -e DOCKER_ENV_LOAD=./env.sh releng bin/releng/dist.sh
 
       # https://docs.travis-ci.com/user/deployment/releases
       # https://docs.travis-ci.com/user/build-stages/deploy-github-releases/
