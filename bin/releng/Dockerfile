@@ -9,7 +9,7 @@ FROM ubuntu:bionic AS base
 FROM base AS deps
 RUN set -x \
     && export DEBIAN_FRONTEND=noninteractive \
-    && apt update && apt install -y \
+    && apt update && apt install -y --no-install-recommends \
     bash \
     bzr \
     composer \
@@ -17,6 +17,7 @@ RUN set -x \
     curl \
     gettext \
     git \
+    gnupg \
     make \
     nodejs \
     npm \
@@ -35,7 +36,7 @@ RUN set -x \
     xz-utils \
     && curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add - \
     && echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list \
-    && apt update && apt install -y yarn \
+    && apt update && apt install -y --no-install-recommends yarn \
 	&& exit 0
 
 FROM deps AS releng
