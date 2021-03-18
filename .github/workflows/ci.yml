@@ -88,6 +88,14 @@ jobs:
           docker build . -f bin/releng/Dockerfile -t releng --target=releng
           docker run -v $(pwd):/app releng bin/releng/dist.sh
 
+      # https://github.com/actions/upload-artifact
+      - uses: actions/upload-artifact@v2
+        with:
+          name: release
+          path: eventum-*.tar.xz
+          # 'warn' or 'ignore' are also available, defaults to `warn`
+          if-no-files-found: error
+
   # https://github.com/fastify/github-action-merge-dependabot
   automerge:
     needs: test
