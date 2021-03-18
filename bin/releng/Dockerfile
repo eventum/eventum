@@ -17,6 +17,7 @@ RUN apt update && DEBIAN_FRONTEND=noninteractive apt install -y \
     git \
     make \
     nodejs \
+    npm \
     php-curl \
     php-dom \
     php-gd \
@@ -30,7 +31,7 @@ RUN apt update && DEBIAN_FRONTEND=noninteractive apt install -y \
     sudo \
     unzip \
     xz-utils \
-    yarn \
+    && npm install --global yarn \
 	&& exit 0
 
 FROM deps AS releng
