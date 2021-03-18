@@ -39,3 +39,13 @@ COPY bin/releng ./bin/releng
 
 RUN bin/releng/tools.sh
 RUN bin/releng/locales.sh
+
+# docker build . -f bin/releng/Dockerfile -t app --target=stage-release
+FROM releng AS stage-release
+COPY . .
+
+# docker build . -f bin/releng/Dockerfile -t app --target=build-release
+FROM stage-release AS build-release
+RUN bin/releng/build-release.sh
+
+FROM releng AS release
