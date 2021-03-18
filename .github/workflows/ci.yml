@@ -80,7 +80,7 @@ jobs:
     runs-on: ubuntu-20.04
     needs: test
     steps:
-      - name: Checkout Code
+      - name: Checkout eventum/eventum code
         uses: actions/checkout@v2
 
       - name: Build release tarball
@@ -95,6 +95,12 @@ jobs:
           path: eventum-*.tar.xz
           # 'warn' or 'ignore' are also available, defaults to `warn`
           if-no-files-found: error
+
+      - name: Checkout eventum/docker code
+        uses: actions/checkout@v2
+        with:
+         repository: eventum/docker
+         path: docker
 
   # https://github.com/fastify/github-action-merge-dependabot
   automerge:
