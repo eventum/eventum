@@ -37,23 +37,5 @@ WORKDIR /app
 COPY Makefile .
 COPY bin/releng ./bin/releng
 
-FROM releng AS tools
 RUN bin/releng/tools.sh
-
-FROM releng AS locales
 RUN bin/releng/locales.sh
-COPY localization ./localization
-RUN make -C localization install clean
-
-FROM releng AS composer
-COPY composer.json .
-COPY composer.lock .
-COPY vendor ./vendor
-RUN composer install --no-scripts --no-autoloader
-
-#FROM releng AS release
-#RUN bin/releng/build-release.sh
-
-FROM releng AS release
-COPY --from=composer /app .
-COPY --from=locales /app .
