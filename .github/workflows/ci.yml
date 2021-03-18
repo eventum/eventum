@@ -102,6 +102,18 @@ jobs:
          repository: eventum/docker
          path: docker
 
+      - name: Build docker image
+        env:
+          DOCKER_BUILDKIT: "1"
+          IMAGE_TAG: eventum/eventum:latest
+          CACHE_TAG: eventum/eventum:latest
+        working-directory: docker
+        run: |
+          docker build \
+            --build-arg=BUILDKIT_INLINE_CACHE=1 \
+            --tag=$IMAGE_TAG \
+            --cache-from=$CACHE_TAG \
+            .
   # https://github.com/fastify/github-action-merge-dependabot
   automerge:
     needs: test
