@@ -109,8 +109,10 @@ jobs:
           CACHE_TAG: eventum/eventum:latest
         working-directory: docker
         run: |
+          mv ../eventum-*.tar.xz .
           docker build \
             --build-arg=BUILDKIT_INLINE_CACHE=1 \
+            --build-arg=BUILDTYPE=local \
             --tag=$IMAGE_TAG \
             --cache-from=$CACHE_TAG \
             .
