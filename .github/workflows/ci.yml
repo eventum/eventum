@@ -116,6 +116,8 @@ jobs:
             --tag=$IMAGE_TAG \
             --cache-from=$CACHE_TAG \
             .
+          docker history --human=false $IMAGE_TAG
+
   # https://github.com/fastify/github-action-merge-dependabot
   automerge:
     needs: test
