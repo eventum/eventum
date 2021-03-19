@@ -26,6 +26,7 @@ shows PHP version required for the update.
 | 3.6.x | 3.7.0 | 7.1 |
 | 3.7.x | 3.8.0 | 7.1 |
 | 3.8.x | 3.9.0 | 7.2 |
+| 3.9.x | 3.10.0 | 7.3 |
 
 ## UTF-8 is required
 

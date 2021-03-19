@@ -39,11 +39,12 @@ RUN set -x \
 
 FROM deps AS releng
 WORKDIR /app
-COPY Makefile .
-COPY bin/releng ./bin/releng
-
-RUN bin/releng/tools.sh
+COPY bin/releng/locales.sh ./bin/releng/locales.sh
 RUN bin/releng/locales.sh
+
+COPY Makefile .
+COPY bin/releng/tools.sh ./bin/releng/tools.sh
+RUN bin/releng/tools.sh
 
 # docker build . -f bin/releng/Dockerfile -t app --target=stage-release
 FROM releng AS stage-release
