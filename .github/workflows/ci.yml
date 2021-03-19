@@ -75,6 +75,57 @@ jobs:
         run: docker logs ${{ job.services.mysql.id }}
         if: always()
 
+  release:
+    name: Build release
+    runs-on: ubuntu-20.04
+    needs: test
+    steps:
+      - name: Checkout eventum/eventum code
+        uses: actions/checkout@v2
+
+      - name: Build release tarball
+        run: |
+          docker build . -f bin/releng/Dockerfile -t releng --target=releng
+          docker run -v $(pwd):/app releng bin/releng/dist.sh
+
+      # https://github.com/actions/upload-artifact
+      - uses: actions/upload-artifact@v2
+        with:
+          name: release
+          path: eventum-*.tar.xz
+          # 'warn' or 'ignore' are also available, defaults to `warn`
+          if-no-files-found: error
+
+      - name: Checkout eventum/docker code
+        uses: actions/checkout@v2
+        with:
+         repository: eventum/docker
+         path: docker
+
+      - name: Build docker image
+        env:
+          DOCKER_BUILDKIT: "1"
+          IMAGE_TAG: eventum/eventum:latest
+          CACHE_TAG: eventum/eventum:latest
+        working-directory: docker
+        run: |
+          mv ../eventum-*.tar.xz .
+          docker version
+          docker build \
+            --build-arg=BUILDKIT_INLINE_CACHE=1 \
+            --build-arg=BUILDTYPE=local \
+            --tag=$IMAGE_TAG \
+            --cache-from=$CACHE_TAG \
+            .
+          docker history --human=false $IMAGE_TAG
+          docker save $IMAGE_TAG -o ../eventum-docker.tar
+
+      - uses: actions/upload-artifact@v2
+        with:
+          name: docker
+          path: eventum-docker.tar
+          if-no-files-found: error
+
   # https://github.com/fastify/github-action-merge-dependabot
   automerge:
     needs: test
