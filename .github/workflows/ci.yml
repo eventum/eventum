@@ -110,6 +110,7 @@ jobs:
         working-directory: docker
         run: |
           mv ../eventum-*.tar.xz .
+          docker version
           docker build \
             --build-arg=BUILDKIT_INLINE_CACHE=1 \
             --build-arg=BUILDTYPE=local \
@@ -117,6 +118,13 @@ jobs:
             --cache-from=$CACHE_TAG \
             .
           docker history --human=false $IMAGE_TAG
+          docker save $IMAGE_TAG -o ../eventum-docker.tar
+
+      - uses: actions/upload-artifact@v2
+        with:
+          name: docker
+          path: eventum-docker.tar
+          if-no-files-found: error
 
   # https://github.com/fastify/github-action-merge-dependabot
   automerge:
