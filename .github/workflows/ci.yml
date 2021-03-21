@@ -1,7 +1,15 @@
 name: "Tests"
 
 on:
-  - pull_request
+  push:
+    paths-ignore:
+      - "docs/**"
+    branches:
+      - master
+    tags:
+      - snapshot
+      - v*
+  pull_request:
 
 jobs:
   test:
