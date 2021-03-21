@@ -78,13 +78,13 @@ class DownloadController extends BaseController
     {
         $file = AttachmentManager::getAttachment($this->iaf_id);
         if (!$file) {
-            $this->error(ev_gettext('No such attachment'));
+            $this->errorMessage(ev_gettext('No such attachment'));
         }
 
         $group = $file->getGroup();
         if (!Issue::canAccess($group->issue_id, $this->usr_id) ||
                 User::getRoleByUser($this->usr_id, Issue::getProjectID($group->issue_id)) < $group->minimum_role) {
-            $this->error(ev_gettext('No access to requested attachment'));
+            $this->errorMessage(ev_gettext('No access to requested attachment'));
         }
 
         $file->outputDownload($this->force_inline);

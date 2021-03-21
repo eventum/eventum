@@ -66,7 +66,7 @@ class SignupController extends BaseController
 
         if ($setup['open_signup'] !== 'enabled') {
             $error = ev_gettext('Sorry, but this feature has been disabled by the administrator.');
-            $this->error($error);
+            $this->errorMessage($error);
         }
 
         $res = User::createVisitorAccount($setup['accounts_role'], $setup['accounts_projects']);

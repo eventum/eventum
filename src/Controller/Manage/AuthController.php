@@ -73,7 +73,7 @@ class AuthController extends ManageBaseController
             // validate the setup before saving
             Factory::create($config->toArray());
         } catch (AuthException $e) {
-            $this->error('Invalid authentication configuration: ' . $e->getMessage());
+            $this->errorMessage('Invalid authentication configuration: ' . $e->getMessage());
         }
 
         Setup::save();

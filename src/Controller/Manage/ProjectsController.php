@@ -68,7 +68,7 @@ class ProjectsController extends ManageBaseController
     {
         $post = $this->getRequest()->request;
         if (!$this->csrf->isValid('manage-projects', $post->get('token'))) {
-            $this->error('Invalid CSRF Token');
+            $this->errorMessage('Invalid CSRF Token');
         }
 
         if (Validation::isWhitespace($post->get('title'))) {
@@ -116,7 +116,7 @@ class ProjectsController extends ManageBaseController
         $post = $this->getRequest()->request;
 
         if (!$this->csrf->isValid('manage-projects', $post->get('token'))) {
-            $this->error('Invalid CSRF Token');
+            $this->errorMessage('Invalid CSRF Token');
         }
 
         if (Validation::isWhitespace($post->get('title'))) {

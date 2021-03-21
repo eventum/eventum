@@ -107,14 +107,14 @@ class UsersController extends ManageBaseController
             // don't let managers edit any users that have a role of administrator
             foreach ($this->user_details['roles'] as $prj_id => $role) {
                 if ($role['pru_role'] == User::ROLE_ADMINISTRATOR) {
-                    $this->error(ev_gettext('Sorry, you are not allowed to access this page.'));
+                    $this->errorMessage(ev_gettext('Sorry, you are not allowed to access this page.'));
                 }
             }
 
             // don't let manager elevate the role of any user to administrator
             foreach ($post->get('role') as $prj_id => $role) {
                 if ($role >= User::ROLE_ADMINISTRATOR) {
-                    $this->error(ev_gettext('Sorry, you cannot perform that action.'));
+                    $this->errorMessage(ev_gettext('Sorry, you cannot perform that action.'));
                 }
             }
         }
@@ -170,7 +170,7 @@ class UsersController extends ManageBaseController
         if ($this->role_id !== User::ROLE_ADMINISTRATOR) {
             foreach ($this->user_details['roles'] as $prj_id => $role) {
                 if ($role['pru_role'] == User::ROLE_ADMINISTRATOR) {
-                    $this->error(ev_gettext('Sorry, you are not allowed to access this page.'));
+                    $this->errorMessage(ev_gettext('Sorry, you are not allowed to access this page.'));
                 }
             }
         }
@@ -308,7 +308,7 @@ class UsersController extends ManageBaseController
     {
         $token = $this->getRequest()->request->get('token');
         if (!$this->csrf->isValid(self::CSRF_TOKEN_NAME, $token)) {
-            $this->error('Invalid CSRF Token');
+            $this->errorMessage('Invalid CSRF Token');
         }
     }
 }

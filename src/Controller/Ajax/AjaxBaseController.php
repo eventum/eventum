@@ -42,7 +42,7 @@ abstract class AjaxBaseController extends BaseController
 
     abstract protected function ajaxAction(): void;
 
-    protected function error(string $msg): void
+    protected function errorMessage(string $msg): void
     {
         echo json_encode([
             'error' => $msg,

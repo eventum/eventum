@@ -49,7 +49,7 @@ class SwitchController extends BaseController
     protected function defaultAction(): void
     {
         if (!Project::exists($this->prj_id)) {
-            $this->error('The specified project does not exist');
+            $this->errorMessage('The specified project does not exist');
         }
 
         AuthCookie::setProjectCookie($this->prj_id);
