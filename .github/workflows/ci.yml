@@ -4,6 +4,9 @@ on:
   push:
     branches:
       - master
+    tags:
+      - snapshot
+      - v*
   pull_request:
 
 jobs:
