@@ -5,6 +5,7 @@
 See [Upgrading] for details on how to upgrade.
 
 - Update laminas/laminas-mail (2.12.5 => 2.14.0), #1016
+- Remove deprecated features for 3.10, #974
 
 [3.10.1]: https://github.com/eventum/eventum/compare/v3.10.0...master
 
