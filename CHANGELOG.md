@@ -5,6 +5,7 @@
 See [Upgrading] for details on how to upgrade.
 
 - Add prosemirror rendered markdown for textareas (disabled), #991
+- Use logger from Symfony Framework, #898
 
 [3.10.2]: https://github.com/eventum/eventum/compare/v3.10.1...master
 
