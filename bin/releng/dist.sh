@@ -11,7 +11,7 @@ bin/releng/tools.sh
 bin/releng/locales.sh
 
 # need to fetch tags first for release process
-git fetch --tags --unshallow
+git fetch origin --unshallow "+refs/tags/v*:refs/tags/v*"
 
 # drop 'snapshot' tag, so that tarball created from snapshot gets identified better
 # but before that, store result for later use
