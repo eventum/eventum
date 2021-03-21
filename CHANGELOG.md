@@ -1,12 +1,12 @@
 # Eventum Issue Tracking System
 
-## [3.10.0]
+## [3.10.0] - 2021-03-21
 
 See [Upgrading] for details on how to upgrade.
 
 - Update PHP requirement to 7.3, #1012
 
-[3.10.0]: https://github.com/eventum/eventum/compare/v3.9.12...master
+[3.10.0]: https://github.com/eventum/eventum/compare/v3.9.12...v3.10.0
 
 ## [3.9.12] - 2021-03-10
 
