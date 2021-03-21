@@ -4,6 +4,8 @@
 
 See [Upgrading] for details on how to upgrade.
 
+- Update laminas/laminas-mail (2.12.5 => 2.14.0), #1016
+
 [3.10.1]: https://github.com/eventum/eventum/compare/v3.10.0...master
 
 ## [3.10.0] - 2021-03-21

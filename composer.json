@@ -46,7 +46,7 @@
         "horde/util": "dev-patch-1 as 2.5.8",
         "ircmaxell/random-lib": "^1.2",
         "laminas/laminas-config": "^3.3",
-        "laminas/laminas-mail": "^2.11",
+        "laminas/laminas-mail": "^2.14",
         "laminas/laminas-servicemanager": "^3.4",
         "league/commonmark": "^1.5.4",
         "league/flysystem": "^1.0",
