@@ -31,8 +31,6 @@ final class Paths
     public const APP_TPL_PATH = APP_PATH . '/templates';
     public const APP_TPL_COMPILE_PATH = self::APP_CACHE_PATH . '/smarty';
     public const APP_LOG_PATH = self::APP_VAR_PATH . '/log';
-    /** @deprecated */
-    public const APP_ERROR_LOG = self::APP_LOG_PATH . '/errors.log';
     public const APP_LOCKS_PATH = self::APP_VAR_PATH . '/lock';
 
     // fonts directory for phplot
