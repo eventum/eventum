@@ -10,6 +10,7 @@
  */
 
 require('./bootstrap');
+import registerMarkdownEditor from "./markdown/registerMarkdownEditor";
 
 $(document).ready(function () {
     // see http://api.jquery.com/jQuery.param/
@@ -99,6 +100,9 @@ $(document).ready(function () {
 
     // https://github.com/widernet/cmd-ctrl-enter
     $textarea.cmdCtrlEnter();
+
+    // https://prosemirror.net/examples/markdown/
+    registerMarkdownEditor($('.md-textarea'));
 
     // https://mermaid-js.github.io/mermaid/#/usage
     mermaid.initialize({startOnLoad:true});

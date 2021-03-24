@@ -26,6 +26,8 @@ mix.styles([
     'node_modules/font-awesome/css/font-awesome.css',
     'node_modules/chosen-js/chosen.css',
     'node_modules/dropzone/dist/basic.css',
+    'node_modules/prosemirror-view/style/prosemirror.css',
+    'node_modules/prosemirror-menu/style/menu.css',
 ], 'htdocs/css/components.css');
 
 mix.copy('node_modules/chosen-js/*.png', 'htdocs/css');
