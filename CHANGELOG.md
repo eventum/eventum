@@ -4,6 +4,8 @@
 
 See [Upgrading] for details on how to upgrade.
 
+- Add prosemirror rendered markdown for textareas (disabled), #991
+
 [3.10.2]: https://github.com/eventum/eventum/compare/v3.10.1...master
 
 ## [3.10.1] - 2021-03-24
