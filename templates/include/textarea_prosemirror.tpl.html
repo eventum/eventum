@@ -1,0 +1,41 @@
+{*
+Parameters:
+  $content: The initial value for textarea
+  $issue_id: The issue id
+  $id: The id attribute to textarea
+  $name: The name attribute to textarea (defaults to value of id)
+  $rows: The rows attribute to textarea
+  $cols: The cols attribute to textarea
+  $tabindex: The tabindex attribute to textarea
+  $style: The style attribute to textarea
+*}
+
+{counter assign="editor_id"}
+
+<div style="text-align: left; padding: 0.5em;">
+  <label style="padding-left: 2em">
+    Markdown
+    <input type=radio name=inputformat value=markdown class="md-radio-{$editor_id}" checked>
+    &nbsp;
+  </label>
+  <label style="border-left: 1px solid silver; border-right: 1px solid silver; right: 20em;">
+    &nbsp;
+    <input type=radio name=inputformat value=prosemirror class="md-radio-{$editor_id}">
+    WYSIWYM
+  </label>
+  &nbsp;
+  <a class="white_link" href="https://commonmark.org/help/" target="_blank">{t}[Markdown Help]{/t}</a>
+</div>
+
+<textarea
+  data-editor-id="{$editor_id}"
+  id="{$id}"
+  name="{$name|default:$id}"
+  rows="{$rows|default:''}"
+  cols="{$cols|default:''}"
+  tabindex="{$tabindex|default:''}"
+  class="md-textarea"
+  style="{$style|default:''}"
+>{$content|escape:"html"}</textarea>
+
+{include file="error_icon.tpl.html" field="$id"}
