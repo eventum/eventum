@@ -78,7 +78,7 @@ class NewController extends BaseController
             // Switch the project back
             $assigned_projects = Project::getAssocList($this->usr_id);
             if (!isset($assigned_projects[$issue_prj_id])) {
-                $this->error(ev_gettext('There was an error creating your issue.'));
+                $this->errorMessage(ev_gettext('There was an error creating your issue.'));
 //                $tpl->assign('error_msg', '1');
             }
 

@@ -3,6 +3,10 @@ monolog:
     error_mailer:
       type: service
       id: Eventum\Monolog\MailHandler
+    error:
+      type: error_log
+      level: error
+      channels: ["!event", "!doctrine", "!console"]
     doctrine:
       type: stream
       path: "%kernel.logs_dir%/%kernel.environment%.doctrine.log"

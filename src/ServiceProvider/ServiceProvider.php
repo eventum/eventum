@@ -21,7 +21,6 @@ use Eventum\EventDispatcher\EventManager;
 use Eventum\Extension\ExtensionManager;
 use Eventum\Kernel;
 use Eventum\Mail\MessageIdGenerator;
-use Eventum\Monolog\Logger;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
 use Psr\Log\LoggerInterface;
@@ -96,8 +95,10 @@ class ServiceProvider implements ServiceProviderInterface
             return $kernel->ensureBooted()->getContainer();
         };
 
-        $app[LoggerInterface::class] = static function () {
-            return Logger::app();
+        $app[LoggerInterface::class] = static function ($app) {
+            $container = $app[ContainerInterface::class];
+
+            return $container->get(LoggerInterface::class);
         };
 
         $app[EventDispatcherInterface::class] = static function () {

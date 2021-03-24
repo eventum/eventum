@@ -104,7 +104,7 @@ class ViewController extends BaseController
         // check if the requested issue is a part of one of the projects
         // associated with this user
         if (!in_array($iss_prj_id, $associated_projects)) {
-            $this->error(ev_gettext('Sorry, you do not have the required privileges to view this issue.'));
+            $this->errorMessage(ev_gettext('Sorry, you do not have the required privileges to view this issue.'));
         }
 
         if ($auto_switched_from) {
@@ -126,12 +126,12 @@ class ViewController extends BaseController
 
         $this->details = $details = Issue::getDetails($this->issue_id);
         if (!$details) {
-            $this->error(ev_gettext('Error: The issue #%1$s could not be found.', $this->issue_id));
+            $this->errorMessage(ev_gettext('Error: The issue #%1$s could not be found.', $this->issue_id));
         }
 
         // in the case of a customer user, also need to check if that customer has access to this issue
         if (!Issue::canAccess($this->issue_id, $this->usr_id)) {
-            $this->error(ev_gettext('Sorry, you do not have the required privileges to view this issue.'));
+            $this->errorMessage(ev_gettext('Sorry, you do not have the required privileges to view this issue.'));
         }
 
         // if the issue has a different customer then the currently selected one, switch customers
@@ -146,7 +146,7 @@ class ViewController extends BaseController
         }
 
         if ($details['iss_prj_id'] != $this->prj_id) {
-            $this->error(ev_gettext('Error: The issue #%1$s could not be found.', $this->issue_id));
+            $this->errorMessage(ev_gettext('Error: The issue #%1$s could not be found.', $this->issue_id));
         }
     }
 

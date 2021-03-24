@@ -82,7 +82,7 @@ class CustomFieldOptionsController extends ManageBaseController
     {
         $field_info = Custom_Field::getDetails($this->fld_id);
         if (empty($field_info)) {
-            $this->error(ev_gettext('Invalid custom field ID'));
+            $this->errorMessage(ev_gettext('Invalid custom field ID'));
         }
 
         $this->tpl->assign([

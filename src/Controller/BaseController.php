@@ -78,7 +78,7 @@ abstract class BaseController
     {
         // NOTE: canAccess needs $issue_id for the template
         if (!$this->canRoleAccess() || !$this->canAccess()) {
-            $this->error(ev_gettext('Sorry, you are not allowed to access this page.'));
+            $this->errorMessage(ev_gettext('Sorry, you are not allowed to access this page.'));
         }
 
         $this->defaultAction();
@@ -159,7 +159,7 @@ abstract class BaseController
     /**
      * Display error message $msg and exit
      */
-    protected function error(string $msg): void
+    protected function errorMessage(string $msg): void
     {
         $this->messages->addErrorMessage($msg);
         $this->displayTemplate('error_message.tpl.html');
@@ -186,7 +186,7 @@ abstract class BaseController
 
         $uri = new Uri($url);
         if (!$allow_external && !$uri->isRelative()) {
-            $this->error('Redirecting to the specified URL is not allowed');
+            $this->errorMessage('Redirecting to the specified URL is not allowed');
         }
 
         // TODO: drop Auth::redirect once this is only place Auth::redirect is used

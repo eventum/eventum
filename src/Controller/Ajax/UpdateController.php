@@ -48,7 +48,7 @@ class UpdateController extends AjaxBaseController
         Auth::checkAuthentication();
 
         if (!$this->issue_id || !Issue::exists($this->issue_id)) {
-            $this->error('Invalid issue_id');
+            $this->errorMessage('Invalid issue_id');
         }
 
         $this->usr_id = Auth::getUserID();
@@ -76,7 +76,7 @@ class UpdateController extends AjaxBaseController
                 break;
 
             default:
-                $this->error("Object type '$this->field_name' not supported");
+                $this->errorMessage("Object type '$this->field_name' not supported");
                 break;
         }
     }
@@ -98,7 +98,7 @@ class UpdateController extends AjaxBaseController
 
         $res = Issue::setExpectedResolutionDate($this->issue_id, $date);
         if ($res === -1) {
-            $this->error('Update failed');
+            $this->errorMessage('Update failed');
         }
 
         if ($date !== null) {

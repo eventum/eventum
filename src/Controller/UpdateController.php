@@ -82,7 +82,7 @@ class UpdateController extends BaseController
 
         $this->details = $details = Issue::getDetails($this->issue_id);
         if (!$details) {
-            $this->error(ev_gettext('Error: The issue #%1$s could not be found.', $this->issue_id));
+            $this->errorMessage(ev_gettext('Error: The issue #%1$s could not be found.', $this->issue_id));
         }
 
         $associated_projects = array_keys(Project::getAssocList($this->usr_id));
@@ -108,7 +108,7 @@ class UpdateController extends BaseController
             || !($this->role_id > User::ROLE_REPORTER)
             || !Access::canUpdateIssue($this->issue_id, $this->usr_id)
         ) {
-            $this->error(ev_gettext('Sorry, you do not have the required privileges to update this issue.'));
+            $this->errorMessage(ev_gettext('Sorry, you do not have the required privileges to update this issue.'));
         }
 
         return true;
@@ -144,7 +144,7 @@ class UpdateController extends BaseController
 
         if ($this->cat === 'update') {
             if ($issue_lock) {
-                $this->error(ev_gettext("Sorry, you can't update issue if it's locked by another user"));
+                $this->errorMessage(ev_gettext("Sorry, you can't update issue if it's locked by another user"));
             }
 
             $this->updateAction();
@@ -157,7 +157,7 @@ class UpdateController extends BaseController
         Issue_Lock::release($this->issue_id);
 
         if ($res == -1) {
-            $this->error(ev_gettext('Sorry, an error happened while trying to update this issue.'));
+            $this->errorMessage(ev_gettext('Sorry, an error happened while trying to update this issue.'));
         }
 
         if ($res == 1) {
