@@ -1,6 +1,6 @@
 # Eventum Issue Tracking System
 
-## [3.10.1]
+## [3.10.1] - 2021-03-24
 
 See [Upgrading] for details on how to upgrade.
 
@@ -8,7 +8,7 @@ See [Upgrading] for details on how to upgrade.
 - Remove deprecated features for 3.10, #974
 - Update dependencies, #1022, #1021, #1020, #1019, #1018
 
-[3.10.1]: https://github.com/eventum/eventum/compare/v3.10.0...master
+[3.10.1]: https://github.com/eventum/eventum/compare/v3.10.0...v3.10.1
 
 ## [3.10.0] - 2021-03-21
 
