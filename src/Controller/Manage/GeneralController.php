@@ -83,6 +83,7 @@ class GeneralController extends ManageBaseController
             'markdown' => $post->get('markdown'),
             'audit_trail' => $post->get('audit_trail'),
             'sentry' => $post->get('sentry'),
+            'slack' => $post->get('slack'),
             'xhgui' => $post->get('xhgui'),
         ];
         $res = Setup::save($setup);

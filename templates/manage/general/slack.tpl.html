@@ -1,0 +1,61 @@
+<tr>
+  <th width="120">
+    {t}Slack Reporting{/t}
+  </th>
+  <td>
+    <table>
+      <tr>
+        <td colspan="2">
+          <label>
+            <input type="radio" name="slack[status]" value="enabled" {if $setup.slack.status == 'enabled'}checked{/if}>
+            {t}Enabled{/t}
+          </label>
+          <label>
+            <input type="radio" name="slack[status]" value="disabled" {if $setup.slack.status != 'enabled'}checked{/if}>
+            {t}Disabled{/t}
+          </label>
+        </td>
+      </tr>
+
+      <tr>
+        <td width="10%" align="right" nowrap>
+          {t}Slack Webhook URL{/t}
+        </td>
+        <td width="90%">
+          <input type="text" name="slack[webhook_url]" value="{$setup.slack.webhook_url}" size="40">
+          <span>
+            {t 1="https://hooks.slack.com/services/xxx/xxx/xxx"}e.g. %1{/t}
+          </span>
+        </td>
+      </tr>
+      <tr>
+        <td width="10%" align="right" nowrap>
+          {t}Slack channel (encoded ID or name){/t}
+        </td>
+        <td width="90%">
+          <input type="text" name="slack[channel]" value="{$setup.slack.channel}" size="40">
+          <span>{t 1="#general"}e.g. %1{/t}</span>
+        </td>
+      </tr>
+      <tr>
+        <td width="10%" align="right" nowrap>
+          {t}Name of a bot{/t}
+        </td>
+        <td width="90%">
+          <input type="text" name="slack[bot_name]" value="{$setup.slack.bot_name}" size="40">
+          <span>{t 1="Eventum Bot"}e.g. %1. Leave empty to use webhook default username{/t}</span>
+        </td>
+      </tr>
+      <tr>
+        <td width="10%" align="right" nowrap>
+          {t}Icon moji{/t}
+        </td>
+        <td width="90%">
+          <input type="text" name="slack[icon_emoji]" value="{$setup.slack.icon_emoji}" size="40">
+          <span>{t 1="boom"}e.g. %1. Leave empty to use webhook default icon{/t}</span>
+        </td>
+      </tr>
+
+    </table>
+  </td>
+</tr>

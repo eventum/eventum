@@ -167,6 +167,21 @@
       Eventum.getField('sentry[domain]').attr('disabled', bool).css('backgroundColor', bgcolor);
   }
 
+  function toggleSlackFields()
+  {
+      var bgcolor;
+      var bool = !Eventum.getField('slack[status]').first().is(':checked');
+      if (bool) {
+          bgcolor = '#CCCCCC';
+      } else {
+          bgcolor = "#FFFFFF";
+      }
+      Eventum.getField('slack[webhook_url]').attr('disabled', bool).css('backgroundColor', bgcolor);
+      Eventum.getField('slack[channel]').attr('disabled', bool).css('backgroundColor', bgcolor);
+      Eventum.getField('slack[bot_name]').attr('disabled', bool).css('backgroundColor', bgcolor);
+      Eventum.getField('slack[icon_emoji]').attr('disabled', bool).css('backgroundColor', bgcolor);
+  }
+
   function toggleXHGuiFields()
   {
       var bool = !Eventum.getField('xhgui[status]').first().is(':checked');
@@ -233,6 +248,7 @@ $().ready(function() {
     Eventum.getField('email_error[status]').change(toggleErrorEmailFields);
     Eventum.getField('smtp[save_outgoing_email]').change(checkDebugField);
     Eventum.getField('sentry[status]').change(toggleSentryFields);
+    Eventum.getField('slack[status]').change(toggleSlackFields);
     Eventum.getField('xhgui[status]').change(toggleXHGuiFields);
 
     toggleAuthFields();
@@ -245,6 +261,7 @@ $().ready(function() {
     toggleReminderEmailFields();
     toggleErrorEmailFields();
     toggleSentryFields();
+    toggleSlackFields();
     toggleXHGuiFields();
 });
   //-->
@@ -773,6 +790,7 @@ $().ready(function() {
           </tr>
 
           {include file="manage/general/sentry.tpl.html"}
+          {include file="manage/general/slack.tpl.html"}
           {include file="manage/general/xhgui.tpl.html"}
 
           <tr>
