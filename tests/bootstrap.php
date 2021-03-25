@@ -41,3 +41,5 @@ if (!file_exists($privateKeyFile = Setup::getPrivateKeyPath()) || !filesize($pri
 // this setups ev_gettext wrappers
 Language::setup();
 Logger::initialize();
+ServiceContainer::getKernel()->boot();
+ServiceContainer::getExtensionManager()->boot();
