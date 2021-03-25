@@ -105,8 +105,10 @@ class ServiceProvider implements ServiceProviderInterface
             return EventManager::getEventDispatcher();
         };
 
-        $app[ExtensionManager::class] = static function () {
-            $manager = new ExtensionManager();
+        $app[ExtensionManager::class] = static function ($app) {
+            $extensions = $app['config']['extensions'] ?: [];
+
+            $manager = new ExtensionManager($extensions);
             $manager->boot();
 
             return $manager;

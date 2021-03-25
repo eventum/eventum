@@ -14,7 +14,6 @@
 namespace Eventum\Extension;
 
 use ArrayIterator;
-use Eventum\Config\Config;
 use Eventum\Logger\LoggerTrait;
 use Eventum\ServiceContainer;
 use Generator;
@@ -36,7 +35,9 @@ final class ExtensionManager implements
     use LazyPropertiesTrait;
 
     /** @var Provider\ExtensionProvider[] */
-    private $extensions = [];
+    private $extensions;
+    /** @var array */
+    private $extensionFiles;
 
     /**
      * Singleton Extension Manager
@@ -54,8 +55,9 @@ final class ExtensionManager implements
         return $manager;
     }
 
-    public function __construct()
+    public function __construct(iterable $extensions)
     {
+        $this->extensionFiles = $extensions;
         $this->initLazyProperties([
             'extensions',
         ]);
@@ -70,6 +72,8 @@ final class ExtensionManager implements
             if ($extension instanceof Provider\AutoloadProvider) {
                 $extension->registerAutoloader($loader);
             }
+        }
+        foreach ($this->extensions as $extension) {
             if ($extension instanceof Provider\ServiceProvider) {
                 $extension->register($container);
             }
@@ -257,7 +261,7 @@ final class ExtensionManager implements
     protected function getExtensions(): array
     {
         $extensions = [];
-        foreach ($this->getExtensionFiles() as $classname => $filename) {
+        foreach ($this->extensionFiles as $classname => $filename) {
             try {
                 $extension = $this->loadExtension($classname, $filename);
             } catch (Throwable $e) {
@@ -292,16 +296,6 @@ final class ExtensionManager implements
         }
 
         return new $classname();
-    }
-
-    /**
-     * Get configured extensions from setup.php
-     *
-     * @return Config|\Traversable|array
-     */
-    protected function getExtensionFiles()
-    {
-        return ServiceContainer::getConfig()['extensions'] ?: [];
     }
 
     /**
