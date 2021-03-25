@@ -156,6 +156,10 @@ class Kernel extends BaseKernel implements CompilerPassInterface
         if ($dsn) {
             $container->setParameter('env(DATABASE_URL)', $dsn);
         }
+
+        /** @var ExtensionManager $em */
+        $em = ServiceContainer::get(ExtensionManager::class);
+        $em->configureContainer($container, $loader);
     }
 
     protected function configureRoutes(RouteCollectionBuilder $routes): void

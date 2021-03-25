@@ -20,6 +20,8 @@ use Eventum\ServiceContainer;
 use Generator;
 use InvalidArgumentException;
 use RuntimeException;
+use Symfony\Component\Config\Loader\LoaderInterface;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Routing\RouteCollectionBuilder;
 use Throwable;
 
@@ -127,6 +129,18 @@ class ExtensionManager implements Provider\RouteProvider
 
         foreach ($extensions as $extension) {
             $extension->configureRoutes($routes);
+        }
+    }
+
+    public function configureContainer(ContainerBuilder $container, LoaderInterface $loader): void
+    {
+        /** @var Provider\ConfigureContainerProvider[] $extensions */
+        $extensions = $this->filterExtensions(static function (Provider\ExtensionProvider $extension) {
+            return $extension instanceof Provider\ConfigureContainerProvider;
+        });
+
+        foreach ($extensions as $extension) {
+            $extension->configureContainer($container, $loader);
         }
     }
 
