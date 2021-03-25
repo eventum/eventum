@@ -27,7 +27,10 @@ use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigura
 use Symfony\Component\Routing\RouteCollectionBuilder;
 use Throwable;
 
-final class ExtensionManager implements Provider\RouteProvider
+final class ExtensionManager implements
+    Provider\ContainerConfiguratorProvider,
+    Provider\ConfigureContainerProvider,
+    Provider\RouteProvider
 {
     use LoggerTrait;
     use LazyPropertiesTrait;
