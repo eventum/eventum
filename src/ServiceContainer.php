@@ -16,6 +16,7 @@ namespace Eventum;
 use Doctrine\ORM\EntityManagerInterface;
 use Eventum\Config\Config;
 use Eventum\Extension\ExtensionManager;
+use LogicException;
 use Pimple\Container;
 use Pimple\Psr11\Container as PsrContainer;
 use Psr\Container\ContainerInterface;
@@ -108,6 +109,10 @@ class ServiceContainer
      */
     public static function getEntityManager(): EntityManagerInterface
     {
+        if (static::isBooting()) {
+            throw new LogicException('Access to EntityManagerInterface forbidden when Kernel is booting');
+        }
+
         return static::get(EntityManagerInterface::class);
     }
 
@@ -117,5 +122,13 @@ class ServiceContainer
     public static function getExtensionManager(): ExtensionManager
     {
         return static::get(ExtensionManager::class);
+    }
+
+    /**
+     * @since 3.10.2
+     */
+    private static function isBooting(): bool
+    {
+        return static::getKernel()->isBooting();
     }
 }

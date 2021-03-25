@@ -62,6 +62,11 @@ class Kernel extends BaseKernel implements CompilerPassInterface
         return $this;
     }
 
+    public function isBooting(): bool
+    {
+        return !$this->booted;
+    }
+
     private static function isRewrite(): bool
     {
         if (isset($_SERVER['PATH_INFO'])) {
