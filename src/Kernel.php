@@ -150,12 +150,17 @@ class Kernel extends BaseKernel implements CompilerPassInterface
         $loader->load($resourceDir . '/{packages}/*.yml', 'glob');
         $loader->load($resourceDir . '/{packages}/' . $this->environment . '/**/*.yml', 'glob');
         $loader->load($resourceDir . '/{services}.yml', 'glob');
+        $loader->load($resourceDir . '/{services}.php', 'glob');
         $loader->load($resourceDir . '/{services}_' . $this->environment . '.yml', 'glob');
 
         $dsn = Doctrine::getUrl();
         if ($dsn) {
             $container->setParameter('env(DATABASE_URL)', $dsn);
         }
+
+        /** @var ExtensionManager $em */
+        $em = ServiceContainer::get(ExtensionManager::class);
+        $em->configureContainer($container, $loader);
     }
 
     protected function configureRoutes(RouteCollectionBuilder $routes): void
