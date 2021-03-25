@@ -15,6 +15,7 @@ namespace Eventum;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Eventum\Config\Config;
+use Eventum\Extension\ExtensionManager;
 use Pimple\Container;
 use Pimple\Psr11\Container as PsrContainer;
 use Psr\Container\ContainerInterface;
@@ -108,5 +109,13 @@ class ServiceContainer
     public static function getEntityManager(): EntityManagerInterface
     {
         return static::get(EntityManagerInterface::class);
+    }
+
+    /**
+     * @since 3.10.2
+     */
+    public static function getExtensionManager(): ExtensionManager
+    {
+        return static::get(ExtensionManager::class);
     }
 }

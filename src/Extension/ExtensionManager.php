@@ -43,13 +43,13 @@ final class ExtensionManager implements
      * Singleton Extension Manager
      *
      * @return ExtensionManager
-     * @deprecated since 3.8.11, use ServiceContainer::get(ExtensionManager::class) instead
+     * @deprecated since 3.8.11, use ServiceContainer::getExtensionManager() instead
      */
     public static function getManager(): self
     {
         static $manager;
         if (!$manager) {
-            $manager = ServiceContainer::get(ExtensionManager::class);
+            $manager = ServiceContainer::getExtensionManager();
         }
 
         return $manager;

@@ -12,7 +12,6 @@
  */
 
 use Eventum\Event\SystemEvents;
-use Eventum\Extension\ExtensionManager;
 use Eventum\ServiceContainer;
 
 require_once __DIR__ . '/autoload.php';
@@ -49,5 +48,5 @@ if (Setup::isMaintenance()) {
 }
 
 Eventum\DebugBarManager::getDebugBarManager();
-ServiceContainer::get(ExtensionManager::class);
+ServiceContainer::getExtensionManager();
 Eventum\EventDispatcher\EventManager::dispatch(SystemEvents::BOOT);

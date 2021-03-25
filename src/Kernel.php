@@ -17,7 +17,6 @@ use Auth;
 use Doctrine\ORM\EntityManagerInterface;
 use Eventum\Config\Paths;
 use Eventum\Db\Doctrine;
-use Eventum\Extension\ExtensionManager;
 use Psr\Log\LoggerInterface;
 use Setup;
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
@@ -158,8 +157,7 @@ class Kernel extends BaseKernel implements CompilerPassInterface
             $container->setParameter('env(DATABASE_URL)', $dsn);
         }
 
-        /** @var ExtensionManager $em */
-        $em = ServiceContainer::get(ExtensionManager::class);
+        $em = ServiceContainer::getExtensionManager();
         $em->configureContainer($container, $loader);
     }
 
@@ -179,8 +177,7 @@ class Kernel extends BaseKernel implements CompilerPassInterface
             $routes->import("{$this->configDir}/routes.yml");
         }
 
-        /** @var ExtensionManager $em */
-        $em = ServiceContainer::get(ExtensionManager::class);
+        $em = ServiceContainer::getExtensionManager();
         $em->configureRoutes($routes);
     }
 

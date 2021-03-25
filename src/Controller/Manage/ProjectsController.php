@@ -18,7 +18,6 @@ use DateTime;
 use Display_Column;
 use Eventum\Db\DatabaseException;
 use Eventum\Db\Doctrine;
-use Eventum\Extension\ExtensionManager;
 use Eventum\Extension\Legacy\WorkflowLegacyExtension;
 use Eventum\Extension\RegisterExtension;
 use Eventum\Model\Entity;
@@ -194,8 +193,7 @@ class ProjectsController extends ManageBaseController
     private function getWorkflowBackends(): array
     {
         // load classes from extension manager
-        /** @var ExtensionManager $em */
-        $em = ServiceContainer::get(ExtensionManager::class);
+        $em = ServiceContainer::getExtensionManager();
         $backends = $em->getWorkflowClasses();
 
         return $this->filterValues($backends);
@@ -204,8 +202,7 @@ class ProjectsController extends ManageBaseController
     private function getCustomerBackends(): array
     {
         // load classes from extension manager
-        /** @var ExtensionManager $em */
-        $em = ServiceContainer::get(ExtensionManager::class);
+        $em = ServiceContainer::getExtensionManager();
         $backends = $em->getCustomerClasses();
 
         return $this->filterValues($backends);

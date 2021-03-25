@@ -17,7 +17,6 @@ use Auth;
 use CRM;
 use Custom_Field;
 use Eventum\Db\Doctrine;
-use Eventum\Extension\ExtensionManager;
 use Eventum\Model\Entity\CustomField;
 use Eventum\Model\Repository\CustomFieldRepository;
 use Eventum\ServiceContainer;
@@ -208,8 +207,7 @@ class CustomFieldsController extends ManageBaseController
     private function getBackends(): array
     {
         // load classes from extension manager
-        /** @var ExtensionManager $manager */
-        $manager = ServiceContainer::get(ExtensionManager::class);
+        $manager = ServiceContainer::getExtensionManager();
         $backends = $manager->getCustomFieldClasses();
 
         return $this->filterValues($backends);

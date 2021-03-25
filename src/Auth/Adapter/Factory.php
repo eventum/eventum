@@ -13,7 +13,6 @@
 
 namespace Eventum\Auth\Adapter;
 
-use Eventum\Extension\ExtensionManager;
 use Eventum\ServiceContainer;
 use ReflectionClass;
 
@@ -56,8 +55,7 @@ abstract class Factory
             ],
         ];
 
-        /** @var ExtensionManager $em */
-        $em = ServiceContainer::get(ExtensionManager::class);
+        $em = ServiceContainer::getExtensionManager();
         foreach ($em->getAvailableAuthAdapters() as $className => $options) {
             if (is_numeric($className)) {
                 $className = $options;
