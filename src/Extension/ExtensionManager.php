@@ -22,6 +22,7 @@ use InvalidArgumentException;
 use RuntimeException;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symfony\Component\Routing\RouteCollectionBuilder;
 use Throwable;
 
@@ -141,6 +142,18 @@ class ExtensionManager implements Provider\RouteProvider
 
         foreach ($extensions as $extension) {
             $extension->configureContainer($container, $loader);
+        }
+    }
+
+    public function containerConfigurator(ContainerConfigurator $configurator): void
+    {
+        /** @var Provider\ContainerConfiguratorProvider[] $extensions */
+        $extensions = $this->filterExtensions(static function (Provider\ExtensionProvider $extension) {
+            return $extension instanceof Provider\ContainerConfiguratorProvider;
+        });
+
+        foreach ($extensions as $extension) {
+            $extension->containerConfigurator($configurator);
         }
     }
 

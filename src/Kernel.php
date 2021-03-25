@@ -150,6 +150,7 @@ class Kernel extends BaseKernel implements CompilerPassInterface
         $loader->load($resourceDir . '/{packages}/*.yml', 'glob');
         $loader->load($resourceDir . '/{packages}/' . $this->environment . '/**/*.yml', 'glob');
         $loader->load($resourceDir . '/{services}.yml', 'glob');
+        $loader->load($resourceDir . '/{services}.php', 'glob');
         $loader->load($resourceDir . '/{services}_' . $this->environment . '.yml', 'glob');
 
         $dsn = Doctrine::getUrl();
