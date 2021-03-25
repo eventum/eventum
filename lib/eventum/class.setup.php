@@ -389,6 +389,13 @@ class Setup
                 'status' => 'disabled',
             ],
 
+            // https://github.com/eventum/eventum/pull/1024
+            'slack' => [
+                'status' => 'disabled',
+                'bot_name' => 'Eventum Bot',
+                'icon_emoji' => 'boom',
+            ],
+
             'sentry' => [
                 'status' => 'disabled',
                 // dsn consists of: 'https://<key>@<domain>/<project>'
