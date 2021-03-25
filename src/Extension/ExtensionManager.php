@@ -19,6 +19,7 @@ use Eventum\Logger\LoggerTrait;
 use Eventum\ServiceContainer;
 use Generator;
 use InvalidArgumentException;
+use LazyProperty\LazyPropertiesTrait;
 use RuntimeException;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -26,12 +27,13 @@ use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigura
 use Symfony\Component\Routing\RouteCollectionBuilder;
 use Throwable;
 
-class ExtensionManager implements Provider\RouteProvider
+final class ExtensionManager implements Provider\RouteProvider
 {
     use LoggerTrait;
+    use LazyPropertiesTrait;
 
     /** @var Provider\ExtensionProvider[] */
-    protected $extensions;
+    private $extensions = [];
 
     /**
      * Singleton Extension Manager
@@ -44,6 +46,7 @@ class ExtensionManager implements Provider\RouteProvider
         static $manager;
         if (!$manager) {
             $manager = new self();
+            $manager->boot();
         }
 
         return $manager;
@@ -51,7 +54,24 @@ class ExtensionManager implements Provider\RouteProvider
 
     public function __construct()
     {
-        $this->extensions = $this->loadExtensions();
+        $this->initLazyProperties([
+            'extensions',
+        ]);
+    }
+
+    public function boot(): void
+    {
+        $loader = $this->getAutoloader();
+        $container = ServiceContainer::getInstance();
+
+        foreach ($this->extensions as $extension) {
+            if ($extension instanceof Provider\AutoloadProvider) {
+                $extension->registerAutoloader($loader);
+            }
+            if ($extension instanceof Provider\ServiceProvider) {
+                $extension->register($container);
+            }
+        }
     }
 
     /**
@@ -232,25 +252,16 @@ class ExtensionManager implements Provider\RouteProvider
      *
      * @return Provider\ExtensionProvider[]
      */
-    protected function loadExtensions(): array
+    protected function getExtensions(): array
     {
         $extensions = [];
-        $loader = $this->getAutoloader();
-        $container = ServiceContainer::getInstance();
-
         foreach ($this->getExtensionFiles() as $classname => $filename) {
             try {
                 $extension = $this->loadExtension($classname, $filename);
             } catch (Throwable $e) {
+                error_log($e);
                 $this->error("Unable to load $classname: {$e->getMessage()}", ['exception' => $e]);
                 continue;
-            }
-
-            if ($extension instanceof Provider\AutoloadProvider) {
-                $extension->registerAutoloader($loader);
-            }
-            if ($extension instanceof Provider\ServiceProvider) {
-                $extension->register($container);
             }
             $extensions[$classname] = $extension;
         }
