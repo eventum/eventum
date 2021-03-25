@@ -106,7 +106,10 @@ class ServiceProvider implements ServiceProviderInterface
         };
 
         $app[ExtensionManager::class] = static function () {
-            return ExtensionManager::getManager();
+            $manager = new ExtensionManager();
+            $manager->boot();
+
+            return $manager;
         };
 
         $app[MessageIdGenerator::class] = static function () {

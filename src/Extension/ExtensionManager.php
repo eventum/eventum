@@ -48,8 +48,7 @@ final class ExtensionManager implements
     {
         static $manager;
         if (!$manager) {
-            $manager = new self();
-            $manager->boot();
+            $manager = ServiceContainer::get(ExtensionManager::class);
         }
 
         return $manager;
