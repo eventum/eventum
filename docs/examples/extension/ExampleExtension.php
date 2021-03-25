@@ -16,6 +16,8 @@ namespace Example;
 use Eventum\Extension\ClassLoader;
 use Eventum\Extension\Provider;
 use Example\Auth\NullAuthAdapter;
+use Symfony\Component\Config\Loader\LoaderInterface;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
 /**
@@ -34,6 +36,7 @@ class ExampleExtension implements
     Provider\CrmProvider,
     Provider\CustomFieldProvider,
     Provider\PartnerProvider,
+    Provider\ConfigureContainerProvider,
     Provider\SubscriberProvider,
     Provider\WorkflowProvider
 {
@@ -181,5 +184,10 @@ class ExampleExtension implements
     public function containerConfigurator(ContainerConfigurator $configurator): void
     {
         $services = $configurator->services();
+    }
+
+    public function configureContainer(ContainerBuilder $container, LoaderInterface $loader): void
+    {
+        $loader->load(__DIR__ . '/config/{services}.yml', 'glob');
     }
 }
