@@ -93,6 +93,7 @@ class GeneralController extends ManageBaseController
         $register->enable(Extension\AuditTrailExtension::class, $setup['audit_trail'] === 'enabled');
         $register->enable(Extension\IrcNotifyExtension::class, $setup['irc_notification'] === 'enabled');
         $register->enable(Extension\SentryExtension::class, $setup['sentry']['status'] === 'enabled');
+        $register->enable(Extension\SlackExtension::class, $setup['slack']['status'] === 'enabled');
         $register->enable(Extension\XhguiProfilerExtension::class, $setup['xhgui']['status'] === 'enabled');
 
         $this->tpl->assign('result', $res);
