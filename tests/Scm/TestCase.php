@@ -38,7 +38,7 @@ abstract class TestCase extends WebTestCase
 
         // Boot ExtensionManager
         // current test touches parts that would require workflow to be called
-        ServiceContainer::getExtensionManager();
+        ServiceContainer::getExtensionManager()->boot();
     }
 
     /**

@@ -38,6 +38,8 @@ final class ExtensionManager implements
     private $extensions;
     /** @var array */
     private $extensionFiles;
+    /** @var bool */
+    private $booted = false;
 
     /**
      * Singleton Extension Manager
@@ -65,6 +67,10 @@ final class ExtensionManager implements
 
     public function boot(): void
     {
+        if ($this->booted) {
+            return;
+        }
+
         $loader = $this->getAutoloader();
         $container = ServiceContainer::getInstance();
 
@@ -78,6 +84,7 @@ final class ExtensionManager implements
                 $extension->register($container);
             }
         }
+        $this->booted = true;
     }
 
     /**
@@ -185,7 +192,7 @@ final class ExtensionManager implements
 
     private function filterExtensions(callable $filter): Generator
     {
-        foreach ($this->extensions as $extension) {
+        foreach ($this->extensions ?? [] as $extension) {
             if (!$filter($extension)) {
                 continue;
             }
@@ -254,7 +261,7 @@ final class ExtensionManager implements
     }
 
     /**
-     * Create all extensions, initialize autoloader on them.
+     * Load all extensions. This does not initialize them.
      *
      * @return Provider\ExtensionProvider[]
      */
