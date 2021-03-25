@@ -13,7 +13,6 @@
 
 namespace Eventum\Controller\Manage;
 
-use Eventum\Extension\ExtensionManager;
 use Eventum\ServiceContainer;
 use Exception;
 use Group;
@@ -272,8 +271,7 @@ class UsersController extends ManageBaseController
     private function getPartnersList(): array
     {
         $partners = [];
-        /** @var ExtensionManager $em */
-        $em = ServiceContainer::get(ExtensionManager::class);
+        $em = ServiceContainer::getExtensionManager();
         $backends = $em->getPartnerClasses();
         foreach ($backends as $par_code => $backend) {
             $partners[$par_code] = $backend->getName();

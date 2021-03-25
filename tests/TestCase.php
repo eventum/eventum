@@ -27,19 +27,9 @@ class TestCase extends \PHPUnit\Framework\TestCase
      */
     protected function getExtensionManager(array $config): ExtensionManager
     {
-        /** @var ExtensionManager $stub */
-        $stub = $this->getMockBuilder(ExtensionManager::class)
-            ->disableOriginalConstructor()
-            ->setMethods(['getExtensionFiles'])
-            ->getMock();
+        $em = new ExtensionManager($config);
+        $em->boot();
 
-        $stub->method('getExtensionFiles')
-            ->willReturn($config);
-
-        // as ->getMock() calls original constructor before method mocks is setup
-        // we disabled original constructor and call it out now.
-        $stub->__construct();
-
-        return $stub;
+        return $em;
     }
 }

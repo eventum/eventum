@@ -28,6 +28,7 @@ use Eventum\Mail\MailMessage;
 use Eventum\Model\Repository\ProjectRepository;
 use InvalidArgumentException;
 use Laminas\Mail\Address;
+use LazyProperty\LazyPropertiesTrait;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Workflow;
 
@@ -37,6 +38,7 @@ use Workflow;
 class WorkflowLegacyExtension implements Provider\SubscriberProvider, EventSubscriberInterface
 {
     use LoggerTrait;
+    use LazyPropertiesTrait;
 
     /** @var ExtensionLoader */
     private $extensionLoader;
@@ -45,7 +47,9 @@ class WorkflowLegacyExtension implements Provider\SubscriberProvider, EventSubsc
 
     public function __construct()
     {
-        $this->projectRepository = Doctrine::getProjectRepository();
+        $this->initLazyProperties([
+            'projectRepository',
+        ]);
         $this->extensionLoader = Workflow::getExtensionLoader();
     }
 
@@ -854,5 +858,13 @@ class WorkflowLegacyExtension implements Provider\SubscriberProvider, EventSubsc
         }
 
         return $backend;
+    }
+
+    /**
+     * @return ProjectRepository
+     */
+    protected function getProjectRepository(): ProjectRepository
+    {
+        return Doctrine::getProjectRepository();
     }
 }

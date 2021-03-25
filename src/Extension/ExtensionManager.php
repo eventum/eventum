@@ -14,7 +14,6 @@
 namespace Eventum\Extension;
 
 use ArrayIterator;
-use Eventum\Config\Config;
 use Eventum\Logger\LoggerTrait;
 use Eventum\ServiceContainer;
 use Generator;
@@ -36,27 +35,31 @@ final class ExtensionManager implements
     use LazyPropertiesTrait;
 
     /** @var Provider\ExtensionProvider[] */
-    private $extensions = [];
+    private $extensions;
+    /** @var array */
+    private $extensionFiles;
+    /** @var bool */
+    private $booted = false;
 
     /**
      * Singleton Extension Manager
      *
      * @return ExtensionManager
-     * @deprecated since 3.8.11, use ServiceContainer::get(ExtensionManager::class) instead
+     * @deprecated since 3.8.11, use ServiceContainer::getExtensionManager() instead
      */
     public static function getManager(): self
     {
         static $manager;
         if (!$manager) {
-            $manager = new self();
-            $manager->boot();
+            $manager = ServiceContainer::getExtensionManager();
         }
 
         return $manager;
     }
 
-    public function __construct()
+    public function __construct(iterable $extensions)
     {
+        $this->extensionFiles = $extensions;
         $this->initLazyProperties([
             'extensions',
         ]);
@@ -64,6 +67,10 @@ final class ExtensionManager implements
 
     public function boot(): void
     {
+        if ($this->booted) {
+            return;
+        }
+
         $loader = $this->getAutoloader();
         $container = ServiceContainer::getInstance();
 
@@ -71,10 +78,13 @@ final class ExtensionManager implements
             if ($extension instanceof Provider\AutoloadProvider) {
                 $extension->registerAutoloader($loader);
             }
+        }
+        foreach ($this->extensions as $extension) {
             if ($extension instanceof Provider\ServiceProvider) {
                 $extension->register($container);
             }
         }
+        $this->booted = true;
     }
 
     /**
@@ -182,7 +192,7 @@ final class ExtensionManager implements
 
     private function filterExtensions(callable $filter): Generator
     {
-        foreach ($this->extensions as $extension) {
+        foreach ($this->extensions ?? [] as $extension) {
             if (!$filter($extension)) {
                 continue;
             }
@@ -251,14 +261,14 @@ final class ExtensionManager implements
     }
 
     /**
-     * Create all extensions, initialize autoloader on them.
+     * Load all extensions. This does not initialize them.
      *
      * @return Provider\ExtensionProvider[]
      */
     protected function getExtensions(): array
     {
         $extensions = [];
-        foreach ($this->getExtensionFiles() as $classname => $filename) {
+        foreach ($this->extensionFiles as $classname => $filename) {
             try {
                 $extension = $this->loadExtension($classname, $filename);
             } catch (Throwable $e) {
@@ -293,16 +303,6 @@ final class ExtensionManager implements
         }
 
         return new $classname();
-    }
-
-    /**
-     * Get configured extensions from setup.php
-     *
-     * @return Config|\Traversable|array
-     */
-    protected function getExtensionFiles()
-    {
-        return ServiceContainer::getConfig()['extensions'] ?: [];
     }
 
     /**

@@ -13,14 +13,12 @@
 
 namespace Symfony\Component\DependencyInjection\Loader\Configurator;
 
-use Eventum\Extension\ExtensionManager;
 use Eventum\ServiceContainer;
 
 /**
  * https://symfony.com/doc/4.4/components/dependency_injection.html
  */
 return static function (ContainerConfigurator $configurator) {
-    /** @var ExtensionManager $em */
-    $em = ServiceContainer::get(ExtensionManager::class);
+    $em = ServiceContainer::getExtensionManager();
     $em->containerConfigurator($configurator);
 };

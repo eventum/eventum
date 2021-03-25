@@ -15,7 +15,6 @@ namespace Eventum\Controller\Manage;
 
 use Eventum\Db\DatabaseException;
 use Eventum\Db\Doctrine;
-use Eventum\Extension\ExtensionManager;
 use Eventum\ServiceContainer;
 use Partner;
 use Project;
@@ -111,8 +110,7 @@ class PartnersController extends ManageBaseController
     private function getPartnersList(): array
     {
         $partners = [];
-        /** @var ExtensionManager $em */
-        $em = ServiceContainer::get(ExtensionManager::class);
+        $em = ServiceContainer::getExtensionManager();
         $backends = $em->getPartnerClasses();
         foreach ($backends as $par_code => $backend) {
             $partners[] = [
