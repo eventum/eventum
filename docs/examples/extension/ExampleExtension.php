@@ -16,6 +16,7 @@ namespace Example;
 use Eventum\Extension\ClassLoader;
 use Eventum\Extension\Provider;
 use Example\Auth\NullAuthAdapter;
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
 /**
  * Example Eventum Extension.
@@ -27,10 +28,11 @@ use Example\Auth\NullAuthAdapter;
  * ],
  */
 class ExampleExtension implements
+    Provider\AuthAdapterProvider,
     Provider\AutoloadProvider,
+    Provider\ContainerConfiguratorProvider,
     Provider\CrmProvider,
     Provider\CustomFieldProvider,
-    Provider\AuthAdapterProvider,
     Provider\PartnerProvider,
     Provider\SubscriberProvider,
     Provider\WorkflowProvider
@@ -171,5 +173,13 @@ class ExampleExtension implements
         return [
             NullAuthAdapter::class,
         ];
+    }
+
+    /**
+     * https://symfony.com/doc/4.4/components/dependency_injection.html
+     */
+    public function containerConfigurator(ContainerConfigurator $configurator): void
+    {
+        $services = $configurator->services();
     }
 }
