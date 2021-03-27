@@ -77,9 +77,18 @@ class ServiceContainer
 
     /**
      * @since 3.9.3
+     * @since 3.10.2 Add support for $name
      */
-    public static function getLogger(): LoggerInterface
+    public static function getLogger($name = null): LoggerInterface
     {
+        if ($name !== null) {
+            $container = static::getKernel()->getContainer();
+            /** @var LoggerInterface $logger */
+            $logger = $container->get("monolog.logger.$name");
+
+            return $logger;
+        }
+
         return static::get(LoggerInterface::class);
     }
 
