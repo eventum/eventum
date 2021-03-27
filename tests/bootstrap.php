@@ -34,10 +34,6 @@ if (!getenv('TRAVIS')) {
     }
 }
 
-if (!file_exists($privateKeyFile = Setup::getPrivateKeyPath()) || !filesize($privateKeyFile)) {
-    Auth::generatePrivateKey();
-}
-
 // this setups ev_gettext wrappers
 Language::setup();
 Logger::initialize();

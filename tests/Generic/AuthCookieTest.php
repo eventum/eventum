@@ -17,7 +17,6 @@ use Auth;
 use AuthCookie;
 use Eventum\Test\TestCase;
 use ProjectSeeder;
-use Setup;
 use UserSeeder;
 
 /**
@@ -25,14 +24,6 @@ use UserSeeder;
  */
 class AuthCookieTest extends TestCase
 {
-    public static function setupBeforeClass(): void
-    {
-        if (file_exists(Setup::getPrivateKeyPath())) {
-            return;
-        }
-        Auth::generatePrivateKey();
-    }
-
     public function testAuthCookie(): void
     {
         $usr_id = UserSeeder::ACTIVE_ACCOUNT;
