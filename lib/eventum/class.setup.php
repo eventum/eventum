@@ -35,6 +35,8 @@ class Setup
      */
     public static function get(): Config
     {
+        trigger_deprecation('eventum/eventum', '3.10.2', 'Calling "%s::%s" is deprecated', self::class, __METHOD__);
+
         static $config;
         if (!$config) {
             $config = self::initialize();
