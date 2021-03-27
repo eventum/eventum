@@ -13,7 +13,7 @@
 
 use Eventum\Db\AbstractMigration;
 use Eventum\Mail\MailMessage;
-use Eventum\Monolog\Logger;
+use Eventum\ServiceContainer;
 use Laminas\Mail\Headers;
 use Psr\Log\LoggerInterface;
 
@@ -24,7 +24,7 @@ class EventumMaqMessageId extends AbstractMigration
 
     public function up(): void
     {
-        $this->logger = Logger::getInstance('db');
+        $this->logger = ServiceContainer::getLogger();
 
         $maq_ids = $this->getQueueIds();
         $total = count($maq_ids);
