@@ -21,9 +21,12 @@ namespace Monolog\Handler {
 
 namespace Eventum\Test\Mail {
 
-    use Eventum\Monolog\Logger;
+    use Ds\Set;
+    use Eventum\Monolog\MailHandler;
     use Eventum\ServiceContainer;
     use Eventum\Test\TestCase;
+    use Monolog\Handler\HandlerInterface;
+    use Psr\Log\LoggerInterface;
 
     /**
      * @group mail
@@ -48,7 +51,7 @@ namespace Eventum\Test\Mail {
             $this->assertCount(0, $mail);
         }
 
-        private function configureMailHandler($status)
+        private function configureMailHandler(string $status): LoggerInterface
         {
             global $mail;
             $mail = [];
@@ -58,9 +61,18 @@ namespace Eventum\Test\Mail {
             $setup['email_error']['addresses'] = 'root@localhost';
             $setup['smtp']['from'] = 'root@locahost';
 
-            Logger::initialize();
+            $container = ServiceContainer::getKernel()->getContainer();
+            $logger = $container->get(LoggerInterface::class);
 
-            return Logger::app();
+            $handlers = new Set($logger->getHandlers());
+            /** @var MailHandler $handler */
+            $handler = $handlers->filter(function (HandlerInterface $handler): bool {
+                return $handler instanceof MailHandler;
+            })->first();
+
+            $handler->setTo($setup['email_error']['addresses']);
+
+            return $logger;
         }
     }
 }
