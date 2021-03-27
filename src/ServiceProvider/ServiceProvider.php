@@ -40,7 +40,7 @@ class ServiceProvider implements ServiceProviderInterface
         };
 
         $app['config'] = static function () {
-            return Setup::get();
+            return Setup::initialize();
         };
 
         $app['db'] = static function ($app) {
