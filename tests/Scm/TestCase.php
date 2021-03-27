@@ -16,12 +16,11 @@ namespace Eventum\Test\Scm;
 use Date_Helper;
 use Eventum\Event\SystemEvents;
 use Eventum\EventDispatcher\EventManager;
-use Eventum\Extension\ExtensionManager;
+use Eventum\Extension\ScmExtension;
 use Eventum\Model\Entity;
 use Eventum\Model\Repository\StatusRepository;
 use Eventum\ServiceContainer;
 use Eventum\Test\Traits\DoctrineTrait;
-
 use ProjectSeeder;
 use Setup;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
@@ -35,10 +34,9 @@ abstract class TestCase extends WebTestCase
     public static function setUpBeforeClass(): void
     {
         self::setUpConfig();
-
-        // Boot ExtensionManager
-        // current test touches parts that would require workflow to be called
-        ServiceContainer::getExtensionManager()->boot();
+        $em = ServiceContainer::getExtensionManager();
+        $em->add(ScmExtension::class);
+        $em->boot();
     }
 
     /**
