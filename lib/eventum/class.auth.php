@@ -14,7 +14,6 @@
 use Eventum\Auth\Adapter\AdapterInterface;
 use Eventum\Auth\AuthException;
 use Eventum\Model\Entity;
-use Eventum\Monolog\Logger;
 use Eventum\ServiceContainer;
 use Eventum\Session;
 use Symfony\Component\Filesystem\Exception\IOException;
@@ -81,7 +80,9 @@ class Auth
         } else {
             $msg .= "not successful because of '$extra'.";
         }
-        Logger::auth()->info($msg, ['user' => $email, 'type' => $type, 'extra' => $extra]);
+
+        $logger = ServiceContainer::getLogger('auth');
+        $logger->info($msg, ['user' => $email, 'type' => $type, 'extra' => $extra]);
     }
 
     /**

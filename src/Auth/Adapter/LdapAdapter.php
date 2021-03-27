@@ -17,7 +17,6 @@ use Auth;
 use Eventum\Auth\AuthException;
 use Eventum\Auth\Ldap\LdapConnection;
 use Eventum\Auth\Ldap\UserEntry;
-use Eventum\Monolog\Logger;
 use Eventum\ServiceContainer;
 use Generator;
 use Symfony\Component\Ldap\Exception\ConnectionException;
@@ -66,7 +65,7 @@ class LdapAdapter implements AdapterInterface
     public function __construct()
     {
         $config = ServiceContainer::getConfig()['ldap'];
-        $this->logger = Logger::auth();
+        $this->logger = ServiceContainer::getLogger('auth');
         $this->ldap = new LdapConnection($config);
         $this->active_dn = $config['active_dn'];
         $this->inactive_dn = $config['inactive_dn'];
