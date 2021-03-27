@@ -40,7 +40,7 @@ class ListCommand extends \Symfony\Component\Console\Command\ListCommand
     /**
      * Show only commands from eventum namespace
      *
-     * @see https://symfony.com/doc/current/console/hide_commands.html
+     * @see https://symfony.com/doc/4.4/console/hide_commands.html
      */
     private function hideCommands(): void
     {

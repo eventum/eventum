@@ -33,7 +33,7 @@ class IndexController
 
     public function defaultAction(Request $request, Security $security, UrlGeneratorInterface $urlGenerator): Response
     {
-        // https://symfony.com/doc/current/security.html#a-configuring-how-your-users-will-authenticate
+        // https://symfony.com/doc/4.0/security.html#a-configuring-how-your-users-will-authenticate
         $user = $security->getUser();
         $isUser = $user instanceof UserInterface;
 

@@ -130,7 +130,7 @@ final class ExtensionManager implements
     /**
      * Get classes implementing EventSubscriberInterface.
      *
-     * @see http://symfony.com/doc/current/components/event_dispatcher.html#using-event-subscribers
+     * @see https://symfony.com/doc/4.4/components/event_dispatcher.html#using-event-subscribers
      */
     public function getSubscribers(): Generator
     {

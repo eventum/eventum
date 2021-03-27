@@ -18,7 +18,7 @@ interface SubscriberProvider extends ExtensionProvider
     /**
      * Get classes implementing EventSubscriberInterface.
      *
-     * @see http://symfony.com/doc/current/components/event_dispatcher.html#using-event-subscribers
+     * @see https://symfony.com/doc/4.4/components/event_dispatcher.html#using-event-subscribers
      * @see \Symfony\Component\EventDispatcher\EventSubscriberInterface
      * @return string[]
      * @since 3.6.6
