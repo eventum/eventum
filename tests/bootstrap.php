@@ -13,7 +13,6 @@
 
 use Eventum\Config\Config;
 use Eventum\Config\ConfigPersistence;
-use Eventum\Monolog\Logger;
 use Eventum\ServiceContainer;
 
 $_ENV['APP_ENV'] = 'test';
@@ -36,6 +35,5 @@ if (!getenv('TRAVIS')) {
 
 // this setups ev_gettext wrappers
 Language::setup();
-Logger::initialize();
 ServiceContainer::getKernel()->boot();
 ServiceContainer::getExtensionManager()->boot();
