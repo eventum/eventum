@@ -8,6 +8,7 @@ See [Upgrading] for details on how to upgrade.
 - Use logger from Symfony Framework, #898
 - Add extension support to be able to configure container, #1025, #1026
 - Add Extension to report errors to Slack channel, #1024
+- Avoid using deprecated Setup::get(), #1030
 
 [3.10.2]: https://github.com/eventum/eventum/compare/v3.10.1...master
 
