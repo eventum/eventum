@@ -13,11 +13,16 @@
 
 namespace Eventum\Extension;
 
+use Eventum\Controller\ScmPingController;
 use Eventum\Extension\Provider\ExtensionProvider;
+use Eventum\Extension\Provider\RouteProvider;
 use Eventum\Logger\LoggerTrait;
 use Eventum\ServiceContainer;
+use Symfony\Component\Routing\RouteCollectionBuilder;
 
-class ScmExtension implements ExtensionProvider
+class ScmExtension implements
+    ExtensionProvider,
+    RouteProvider
 {
     use LoggerTrait;
 
@@ -28,5 +33,12 @@ class ScmExtension implements ExtensionProvider
     {
         $config = ServiceContainer::getConfig();
         $this->enabled = $config['scm_integration'] === 'enabled';
+    }
+
+    public function configureRoutes(RouteCollectionBuilder $routes): void
+    {
+        $routes
+            ->add('/scm_ping.php', ScmPingController::class . '::defaultAction', 'scm_ping')
+            ->setMethods('POST');
     }
 }
