@@ -9,6 +9,7 @@ See [Upgrading] for details on how to upgrade.
 - Add extension support to be able to configure container, #1025, #1026
 - Add Extension to report errors to Slack channel, #1024
 - Avoid using deprecated Setup::get(), #1030
+- Move SCM setup to Extension, #890
 
 [3.10.2]: https://github.com/eventum/eventum/compare/v3.10.1...master
 
