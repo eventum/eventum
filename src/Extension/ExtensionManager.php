@@ -26,7 +26,6 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symfony\Component\Routing\RouteCollectionBuilder;
 use Throwable;
-use UnexpectedValueException;
 
 final class ExtensionManager implements
     Provider\ContainerConfiguratorProvider,
@@ -275,7 +274,7 @@ final class ExtensionManager implements
 
         $class = new ReflectionClass($extension);
         if (isset($this->extensions[$class->getName()])) {
-            throw new UnexpectedValueException(sprintf('Extension %s already added', $class->getName()));
+            return;
         }
         $this->extensions[$class->getName()] = $extension;
     }
