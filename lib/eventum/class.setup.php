@@ -35,6 +35,8 @@ class Setup
      */
     public static function get(): Config
     {
+        trigger_deprecation('eventum/eventum', '3.10.2', 'Calling "%s::%s" is deprecated', self::class, __METHOD__);
+
         static $config;
         if (!$config) {
             $config = self::initialize();
@@ -49,7 +51,7 @@ class Setup
      */
     public static function getAuthCookie(): array
     {
-        $config = self::get();
+        $config = ServiceContainer::getConfig();
 
         return [
             'name' => $config['cookie'],
@@ -63,7 +65,7 @@ class Setup
      */
     public static function getProjectCookie(): array
     {
-        $config = self::get();
+        $config = ServiceContainer::getConfig();
 
         return [
             'name' => $config['project_cookie'],
@@ -77,7 +79,7 @@ class Setup
      */
     public static function getBaseUrl(): ?string
     {
-        return self::get()['base_url'];
+        return ServiceContainer::getConfig()['base_url'];
     }
 
     /**
@@ -86,7 +88,7 @@ class Setup
      */
     public static function getRelativeUrl(): ?string
     {
-        return self::get()['relative_url'];
+        return ServiceContainer::getConfig()['relative_url'];
     }
 
     /**
@@ -94,7 +96,7 @@ class Setup
      */
     public static function getHostname(): string
     {
-        return self::get()['hostname'];
+        return ServiceContainer::getConfig()['hostname'];
     }
 
     /**
@@ -102,7 +104,7 @@ class Setup
      */
     public static function getAppName(): string
     {
-        return self::get()['name'];
+        return ServiceContainer::getConfig()['name'];
     }
 
     /**
@@ -110,7 +112,7 @@ class Setup
      */
     public static function getShortName(): string
     {
-        return self::get()['short_name'];
+        return ServiceContainer::getConfig()['short_name'];
     }
 
     /**
@@ -121,7 +123,7 @@ class Setup
      */
     public static function getToolCaption(): string
     {
-        return self::get()['tool_caption'];
+        return ServiceContainer::getConfig()['tool_caption'];
     }
 
     /**
@@ -129,7 +131,7 @@ class Setup
      */
     public static function getAnonymousUser(): ?string
     {
-        return self::get()['anonymous_user'];
+        return ServiceContainer::getConfig()['anonymous_user'];
     }
 
     /**
@@ -137,7 +139,7 @@ class Setup
      */
     public static function getSystemUserId(): int
     {
-        return self::get()['system_user_id'] ?? (defined('APP_SYSTEM_USER_ID') ? APP_SYSTEM_USER_ID : 1);
+        return ServiceContainer::getConfig()['system_user_id'] ?? (defined('APP_SYSTEM_USER_ID') ? APP_SYSTEM_USER_ID : 1);
     }
 
     /**
@@ -145,7 +147,7 @@ class Setup
      */
     public static function getSmtpFrom(): ?string
     {
-        return self::get()['smtp']['from'];
+        return ServiceContainer::getConfig()['smtp']['from'];
     }
 
     /**
@@ -157,7 +159,7 @@ class Setup
      */
     public static function getDefaultTimezone(): string
     {
-        return self::get()['default_timezone'] ?? @date_default_timezone_get() ?: 'UTC';
+        return ServiceContainer::getConfig()['default_timezone'] ?? @date_default_timezone_get() ?: 'UTC';
     }
 
     /**
@@ -165,7 +167,7 @@ class Setup
      */
     public static function getDefaultLocale(): string
     {
-        return self::get()['default_locale'] ?? 'en_US';
+        return ServiceContainer::getConfig()['default_locale'] ?? 'en_US';
     }
 
     /**
@@ -176,7 +178,7 @@ class Setup
      */
     public static function getDefaultWeekday(): int
     {
-        return self::get()['default_weekday'];
+        return ServiceContainer::getConfig()['default_weekday'];
     }
 
     /**
@@ -184,7 +186,7 @@ class Setup
      */
     public static function getDefaultPagerSize(): int
     {
-        return self::get()['default_pager_size'];
+        return ServiceContainer::getConfig()['default_pager_size'];
     }
 
     /**
@@ -193,7 +195,7 @@ class Setup
      */
     public static function getTemplatePaths(): array
     {
-        $localPath = self::get()['local_path'];
+        $localPath = ServiceContainer::getConfig()['local_path'];
 
         return [
             $localPath . '/templates',
@@ -205,7 +207,7 @@ class Setup
      */
     public static function isMaintenance(): bool
     {
-        return self::get()['maintenance'] ?? false;
+        return ServiceContainer::getConfig()['maintenance'] ?? false;
     }
 
     /**
@@ -217,7 +219,7 @@ class Setup
      */
     public static function set($options): Config
     {
-        $config = self::get();
+        $config = ServiceContainer::getConfig();
         $config->merge(new Config($options));
 
         return $config;
@@ -232,7 +234,7 @@ class Setup
      */
     public static function setDefaults($section, array $defaults): Config
     {
-        $config = self::get();
+        $config = ServiceContainer::getConfig();
         $existing = isset($config[$section]) ? $config[$section]->toArray() : null;
 
         // add defaults
@@ -308,8 +310,10 @@ class Setup
 
     /**
      * Initialize config object, load it from setup files, merge defaults.
+     *
+     * @internal
      */
-    private static function initialize(): Config
+    public static function initialize(): Config
     {
         $loader = new ConfigPersistence();
 
