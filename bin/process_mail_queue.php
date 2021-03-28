@@ -18,7 +18,7 @@ require_once __DIR__ . '/../init.php';
 use Eventum\Console\Application;
 use Eventum\Console\Command\MailQueueProcessCommand as Command;
 
+array_splice($argv, 1, 0, ['eventum:' . Command::DEFAULT_COMMAND]);
+
 $app = new Application();
-$app->command(Command::USAGE, Command::class);
-$app->setDefaultCommand(Command::DEFAULT_COMMAND, true);
-$app->run();
+$app->routeDeprecatedCommand($argv);
