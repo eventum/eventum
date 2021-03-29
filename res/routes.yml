@@ -169,11 +169,6 @@ rss:
   path: /rss.php
   controller: Eventum\Controller\RssController::indexAction
 
-scm_ping:
-  path: /scm_ping.php
-  methods: POST
-  controller: Eventum\Controller\ScmPingController::defaultAction
-
 searchbar:
   path: /searchbar.php
   methods: GET

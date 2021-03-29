@@ -19,6 +19,7 @@ use Eventum\ServiceContainer;
 use Generator;
 use InvalidArgumentException;
 use LazyProperty\LazyPropertiesTrait;
+use ReflectionClass;
 use RuntimeException;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -258,6 +259,24 @@ final class ExtensionManager implements
         }
 
         return new $className();
+    }
+
+    /**
+     * @since 3.10.2
+     */
+    public function add(string $className): void
+    {
+        $extension = new $className();
+        if (!$extension instanceof Provider\ExtensionProvider) {
+            $error = sprintf('Extension must be a string or instance of %s', Provider\ExtensionProvider::class);
+            throw new InvalidArgumentException($error);
+        }
+
+        $class = new ReflectionClass($extension);
+        if (isset($this->extensions[$class->getName()])) {
+            return;
+        }
+        $this->extensions[$class->getName()] = $extension;
     }
 
     /**
