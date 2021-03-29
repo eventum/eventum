@@ -32,6 +32,7 @@ class EventManager
 
             // register subscribers from extensions
             $em = ServiceContainer::getExtensionManager();
+            $em->boot();
             $subscribers = $em->getSubscribers();
             foreach ($subscribers as $subscriber) {
                 $dispatcher->addSubscriber($subscriber);
