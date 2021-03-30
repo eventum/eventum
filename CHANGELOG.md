@@ -11,6 +11,7 @@ See [Upgrading] for details on how to upgrade.
 - Avoid using deprecated Setup::get(), #1030
 - Move SCM setup to Extension, #890
 - Deprecate bin scripts over excuting via bin/console.php, #1031
+- Deprecate EventManager class, #1033
 
 [3.10.2]: https://github.com/eventum/eventum/compare/v3.10.1...master
 
