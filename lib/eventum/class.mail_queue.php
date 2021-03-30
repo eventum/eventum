@@ -12,10 +12,10 @@
  */
 
 use Eventum\Event\SystemEvents;
-use Eventum\EventDispatcher\EventManager;
 use Eventum\Mail\MailBuilder;
 use Eventum\Mail\MailMessage;
 use Eventum\Mail\MailTransport;
+use Eventum\ServiceContainer;
 use Laminas\Mail\Address;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
@@ -151,15 +151,15 @@ class Mail_Queue
 
                 unset($entry['headers'], $entry['body']);
                 $event = new GenericEvent($mail, $entry);
-                EventManager::dispatch(SystemEvents::MAIL_QUEUE_SEND, $event);
+                ServiceContainer::dispatch(SystemEvents::MAIL_QUEUE_SEND, $event);
 
                 $transport = new MailTransport();
                 $transport->send($entry['recipient'], $mail);
 
-                EventManager::dispatch(SystemEvents::MAIL_QUEUE_SENT, $event);
+                ServiceContainer::dispatch(SystemEvents::MAIL_QUEUE_SENT, $event);
             } catch (Exception $e) {
                 $event = new GenericEvent($e, $entry);
-                EventManager::dispatch(SystemEvents::MAIL_QUEUE_ERROR, $event);
+                ServiceContainer::dispatch(SystemEvents::MAIL_QUEUE_ERROR, $event);
             }
         }
     }

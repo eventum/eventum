@@ -15,9 +15,9 @@ namespace Eventum\Model\Repository;
 
 use Eventum\Db\Doctrine;
 use Eventum\Event\SystemEvents;
-use Eventum\EventDispatcher\EventManager;
 use Eventum\Model\Entity;
 use Eventum\Scm\Payload;
+use Eventum\ServiceContainer;
 use History;
 use InvalidArgumentException;
 use Issue;
@@ -56,7 +56,7 @@ class CommitRepository extends BaseRepository
     public function preCommit(Entity\Commit $ci, Payload\PayloadInterface $payload): void
     {
         $event = new GenericEvent($ci, ['payload' => $payload]);
-        EventManager::dispatch(SystemEvents::SCM_COMMIT_BEFORE, $event);
+        ServiceContainer::dispatch(SystemEvents::SCM_COMMIT_BEFORE, $event);
     }
 
     /**
@@ -165,7 +165,7 @@ class CommitRepository extends BaseRepository
             ];
             $event = new GenericEvent($ci, $arguments);
 
-            EventManager::dispatch(SystemEvents::SCM_COMMIT_ASSOCIATED, $event);
+            ServiceContainer::dispatch(SystemEvents::SCM_COMMIT_ASSOCIATED, $event);
 
             // print report to stdout of commits so hook could report status back to committer
             echo "#$issue_id - {$issue->getSummary()} ({$issue->getStatusTitle()})\n";

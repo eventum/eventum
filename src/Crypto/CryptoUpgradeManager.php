@@ -16,7 +16,6 @@ namespace Eventum\Crypto;
 use Eventum\Config\Config;
 use Eventum\Event\ConfigUpdateEvent;
 use Eventum\Event\SystemEvents;
-use Eventum\EventDispatcher\EventManager;
 use Eventum\ServiceContainer;
 use Setup;
 
@@ -72,7 +71,7 @@ class CryptoUpgradeManager
         }
 
         $event = new ConfigUpdateEvent($this->config);
-        EventManager::dispatch(SystemEvents::CONFIG_CRYPTO_UPGRADE, $event);
+        ServiceContainer::dispatch(SystemEvents::CONFIG_CRYPTO_UPGRADE, $event);
 
         Setup::save();
     }
@@ -85,7 +84,7 @@ class CryptoUpgradeManager
         $this->canPerform(false);
 
         $event = new ConfigUpdateEvent($this->config);
-        EventManager::dispatch(SystemEvents::CONFIG_CRYPTO_DOWNGRADE, $event);
+        ServiceContainer::dispatch(SystemEvents::CONFIG_CRYPTO_DOWNGRADE, $event);
 
         $this->config['encryption'] = 'disabled';
         if (CryptoManager::encryptionEnabled()) {

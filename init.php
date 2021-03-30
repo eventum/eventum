@@ -49,4 +49,4 @@ if (Setup::isMaintenance()) {
 
 Eventum\DebugBarManager::getDebugBarManager();
 ServiceContainer::getExtensionManager()->boot();
-Eventum\EventDispatcher\EventManager::dispatch(SystemEvents::BOOT);
+ServiceContainer::dispatch(SystemEvents::BOOT);

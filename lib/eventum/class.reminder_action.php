@@ -13,7 +13,6 @@
 
 use Eventum\Db\DatabaseException;
 use Eventum\Event\SystemEvents;
-use Eventum\EventDispatcher\EventManager;
 use Eventum\ServiceContainer;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
@@ -666,7 +665,7 @@ class Reminder_Action
             'to' => $to,
         ];
         $event = new GenericEvent(null, $arguments);
-        EventManager::dispatch(SystemEvents::REMINDER_ACTION_PERFORM, $event);
+        ServiceContainer::dispatch(SystemEvents::REMINDER_ACTION_PERFORM, $event);
 
         $setup = ServiceContainer::getConfig();
         // if there are no recipients, then just skip to the next action

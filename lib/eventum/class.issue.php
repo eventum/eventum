@@ -15,8 +15,8 @@ use Eventum\Attachment\AttachmentManager;
 use Eventum\Db\DatabaseException;
 use Eventum\Db\Doctrine;
 use Eventum\Event\SystemEvents;
-use Eventum\EventDispatcher\EventManager;
 use Eventum\Mail\MailMessage;
+use Eventum\ServiceContainer;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
 /**
@@ -909,7 +909,7 @@ class Issue
             'duplicate_iss_id' => (int)$dup_iss_id,
         ];
         $event = new GenericEvent($arguments);
-        EventManager::dispatch(SystemEvents::ISSUE_MARK_DUPLICATE, $event);
+        ServiceContainer::dispatch(SystemEvents::ISSUE_MARK_DUPLICATE, $event);
 
         // record the change
         History::add($issue_id, $usr_id, 'duplicate_added', 'Issue marked as a duplicate of issue #{issue_id} by {user}', [
