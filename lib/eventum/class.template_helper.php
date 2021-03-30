@@ -15,7 +15,6 @@ use Eventum\AppInfo;
 use Eventum\Config\Paths;
 use Eventum\DebugBarManager;
 use Eventum\Event\SystemEvents;
-use Eventum\EventDispatcher\EventManager;
 use Eventum\ServiceContainer;
 use Eventum\Templating;
 
@@ -211,7 +210,7 @@ class Template_Helper
         }
         $this->assign('core', $core);
 
-        EventManager::dispatch(SystemEvents::SMARTY_PROCESS, $this);
+        ServiceContainer::dispatch(SystemEvents::SMARTY_PROCESS, $this);
 
         $this->assign('header_templates', $this->headerTemplates);
 

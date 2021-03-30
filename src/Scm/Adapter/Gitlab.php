@@ -15,7 +15,6 @@ namespace Eventum\Scm\Adapter;
 
 use Eventum\Db\Doctrine;
 use Eventum\Event\SystemEvents;
-use Eventum\EventDispatcher\EventManager;
 use Eventum\Scm\Payload\GitlabPayload;
 use Eventum\Scm\ScmRepository;
 use Eventum\ServiceContainer;
@@ -134,7 +133,7 @@ class Gitlab extends AbstractAdapter
 
         // dispatch matches as event
         $event = new GenericEvent($payload, $data);
-        EventManager::dispatch(SystemEvents::RPC_GITLAB_MATCH_ISSUE, $event);
+        ServiceContainer::dispatch(SystemEvents::RPC_GITLAB_MATCH_ISSUE, $event);
     }
 
     /**

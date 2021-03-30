@@ -13,7 +13,6 @@
 
 use Eventum\Db\DatabaseException;
 use Eventum\Event;
-use Eventum\EventDispatcher\EventManager;
 use Eventum\Mail\MailBuilder;
 use Eventum\ServiceContainer;
 use Symfony\Component\EventDispatcher\GenericEvent;
@@ -1073,7 +1072,7 @@ class User
         unset($user['password']);
 
         $event = new GenericEvent(null, $user);
-        EventManager::dispatch(Event\SystemEvents::USER_UPDATE, $event);
+        ServiceContainer::dispatch(Event\SystemEvents::USER_UPDATE, $event);
 
         return true;
     }
@@ -1141,7 +1140,7 @@ class User
         unset($user['password']);
 
         $event = new GenericEvent(null, $user);
-        EventManager::dispatch(Event\SystemEvents::USER_CREATE, $event);
+        ServiceContainer::dispatch(Event\SystemEvents::USER_CREATE, $event);
 
         return $usr_id;
     }

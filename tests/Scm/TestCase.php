@@ -15,7 +15,6 @@ namespace Eventum\Test\Scm;
 
 use Date_Helper;
 use Eventum\Event\SystemEvents;
-use Eventum\EventDispatcher\EventManager;
 use Eventum\Extension\ScmExtension;
 use Eventum\Model\Entity;
 use Eventum\Model\Repository\StatusRepository;
@@ -107,7 +106,7 @@ abstract class TestCase extends WebTestCase
             }
         };
 
-        $dispatcher = EventManager::getEventDispatcher();
+        $dispatcher = ServiceContainer::getEventDispatcher();
         $dispatcher->addListener(SystemEvents::SCM_COMMIT_ASSOCIATED, $listener);
     }
 

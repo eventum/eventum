@@ -15,9 +15,9 @@ namespace Eventum\ServiceProvider;
 
 use Eventum\Config\Paths;
 use Eventum\Event;
-use Eventum\EventDispatcher\EventManager;
 use Eventum\Markdown;
 use Eventum\Markdown\CommonMark\UserMentionGenerator;
+use Eventum\ServiceContainer;
 use Giberti\EmojiExtension\EmojiExtension;
 use HTMLPurifier;
 use HTMLPurifier_HTML5Config;
@@ -131,7 +131,7 @@ class MarkdownServiceProvider implements ServiceProviderInterface
 
         // allow extensions to apply behaviour
         $event = new GenericEvent($environment);
-        EventManager::dispatch(Event\SystemEvents::MARKDOWN_ENVIRONMENT_CONFIGURE, $event);
+        ServiceContainer::dispatch(Event\SystemEvents::MARKDOWN_ENVIRONMENT_CONFIGURE, $event);
     }
 
     private static function createPurifier(): HTMLPurifier

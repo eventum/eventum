@@ -14,7 +14,7 @@
 namespace Eventum\Test\Scm;
 
 use Eventum\Event\SystemEvents;
-use Eventum\EventDispatcher\EventManager;
+use Eventum\ServiceContainer;
 use Eventum\Test\Traits\DataFileTrait;
 
 class ScmControllerTest extends TestCase
@@ -54,7 +54,7 @@ class ScmControllerTest extends TestCase
             $invoked = true;
         };
 
-        $dispatcher = EventManager::getEventDispatcher();
+        $dispatcher = ServiceContainer::getEventDispatcher();
         $dispatcher->addListener(SystemEvents::RPC_GITLAB_MATCH_ISSUE, $listener);
 
         $json = $this->makeRequest($payload, ['HTTP_X-Gitlab-Event' => 'Note Hook']);

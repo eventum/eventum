@@ -16,9 +16,9 @@ namespace Eventum\Mail;
 use Date_Helper;
 use DateTime;
 use Eventum\Event\SystemEvents;
-use Eventum\EventDispatcher\EventManager;
 use Eventum\Mail\Helper\MailLoader;
 use Eventum\Mail\Imap\ImapResource;
+use Eventum\ServiceContainer;
 use InvalidArgumentException;
 use Laminas\Mail\Header\GenericHeader;
 use Laminas\Mail\Storage;
@@ -70,7 +70,7 @@ class ImapMessage extends MailMessage
         $message->num = $resource->num;
 
         $event = new GenericEvent($message, $parameters);
-        EventManager::dispatch(SystemEvents::MAIL_LOADED_IMAP, $event);
+        ServiceContainer::dispatch(SystemEvents::MAIL_LOADED_IMAP, $event);
 
         return $message;
     }

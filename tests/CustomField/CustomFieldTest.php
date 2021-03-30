@@ -15,8 +15,8 @@ namespace Eventum\Test\CustomField;
 
 use CustomFieldSeeder;
 use Eventum\CustomField\Converter;
-use Eventum\EventDispatcher\EventManager;
 use Eventum\Model\Entity\CustomField;
+use Eventum\ServiceContainer;
 use IssueSeeder;
 use ProjectSeeder;
 use User;
@@ -47,7 +47,7 @@ class CustomFieldTest extends TestCase
         $this->assertCount(0, $customFields);
 
         // trigger setup of extensions
-        EventManager::getEventDispatcher();
+        ServiceContainer::getEventDispatcher();
 
         $converter = new Converter();
         $fields = $converter->convertIssueCustomFields($customFields, $iss_id, $formType);

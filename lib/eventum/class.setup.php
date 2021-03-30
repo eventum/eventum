@@ -16,7 +16,6 @@ use Eventum\Config\ConfigPersistence;
 use Eventum\Config\Paths;
 use Eventum\Event\ConfigUpdateEvent;
 use Eventum\Event\SystemEvents;
-use Eventum\EventDispatcher\EventManager;
 use Eventum\ServiceContainer;
 use Symfony\Component\Filesystem\Exception\IOException;
 
@@ -259,7 +258,7 @@ class Setup
         $config = self::set($options);
 
         $event = new ConfigUpdateEvent($config);
-        EventManager::dispatch(SystemEvents::CONFIG_SAVE, $event);
+        ServiceContainer::dispatch(SystemEvents::CONFIG_SAVE, $event);
 
         try {
             self::saveConfig(self::getSetupFile(), $config);

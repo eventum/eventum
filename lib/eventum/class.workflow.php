@@ -17,7 +17,6 @@ use Eventum\Db\Doctrine;
 use Eventum\Event\EventContext;
 use Eventum\Event\ResultableEvent;
 use Eventum\Event\SystemEvents;
-use Eventum\EventDispatcher\EventManager;
 use Eventum\Extension\ExtensionLoader;
 use Eventum\LinkFilter\LinkFilter;
 use Eventum\Mail\Helper\AddressHeader;
@@ -56,7 +55,7 @@ class Workflow
             'raw_post' => $raw_post,
         ];
         $event = new EventContext($prj_id, $issue_id, $usr_id, $arguments);
-        EventManager::dispatch(SystemEvents::ISSUE_UPDATED, $event);
+        ServiceContainer::dispatch(SystemEvents::ISSUE_UPDATED, $event);
     }
 
     /**
@@ -83,7 +82,7 @@ class Workflow
         ];
 
         $event = new EventContext($prj_id, $issue_id, $usr_id, $arguments);
-        EventManager::dispatch(SystemEvents::ISSUE_UPDATED_BEFORE, $event);
+        ServiceContainer::dispatch(SystemEvents::ISSUE_UPDATED_BEFORE, $event);
 
         if ($event['bubble'] !== true) {
             return $event['bubble'];
@@ -109,7 +108,7 @@ class Workflow
     public static function handleAttachment(int $prj_id, int $issue_id, int $usr_id, AttachmentGroup $attachment_group): void
     {
         $event = new EventContext($prj_id, $issue_id, $usr_id, [], $attachment_group);
-        EventManager::dispatch(SystemEvents::ATTACHMENT_ATTACHMENT_GROUP, $event);
+        ServiceContainer::dispatch(SystemEvents::ATTACHMENT_ATTACHMENT_GROUP, $event);
     }
 
     /**
@@ -127,7 +126,7 @@ class Workflow
     {
         $event = new ResultableEvent($prj_id, $issue_id, $usr_id, [], $attachment);
         $event->setResult(true);
-        EventManager::dispatch(SystemEvents::ATTACHMENT_ATTACH_FILE, $event);
+        ServiceContainer::dispatch(SystemEvents::ATTACHMENT_ATTACH_FILE, $event);
 
         return $event->getResult();
     }
@@ -150,7 +149,7 @@ class Workflow
             'changes' => $changes,
         ];
         $event = new EventContext($prj_id, $issue_id, $usr_id, $arguments);
-        EventManager::dispatch(SystemEvents::ISSUE_UPDATED_PRIORITY, $event);
+        ServiceContainer::dispatch(SystemEvents::ISSUE_UPDATED_PRIORITY, $event);
     }
 
     /**
@@ -171,7 +170,7 @@ class Workflow
             'changes' => $changes,
         ];
         $event = new EventContext($prj_id, $issue_id, $usr_id, $arguments);
-        EventManager::dispatch(SystemEvents::ISSUE_UPDATED_SEVERITY, $event);
+        ServiceContainer::dispatch(SystemEvents::ISSUE_UPDATED_SEVERITY, $event);
     }
 
     /**
@@ -195,7 +194,7 @@ class Workflow
             'mail' => $mail,
         ];
         $event = new EventContext($prj_id, $issue_id, null, $arguments, $mail);
-        EventManager::dispatch(SystemEvents::EMAIL_BLOCKED, $event);
+        ServiceContainer::dispatch(SystemEvents::EMAIL_BLOCKED, $event);
     }
 
     /**
@@ -220,7 +219,7 @@ class Workflow
         ];
 
         $event = new EventContext($prj_id, $issue_id, $usr_id, $arguments);
-        EventManager::dispatch(SystemEvents::ISSUE_ASSIGNMENT_CHANGE, $event);
+        ServiceContainer::dispatch(SystemEvents::ISSUE_ASSIGNMENT_CHANGE, $event);
     }
 
     /**
@@ -244,7 +243,7 @@ class Workflow
         ];
         $event = new EventContext($prj_id, $issue_id, $usr_id, $arguments);
 
-        EventManager::dispatch(SystemEvents::ISSUE_CREATED, $event);
+        ServiceContainer::dispatch(SystemEvents::ISSUE_CREATED, $event);
     }
 
     /**
@@ -280,11 +279,11 @@ class Workflow
 
         if (empty($row['issue_id'])) {
             $event = new EventContext($prj_id, $issue_id, null, $arguments, $mail);
-            EventManager::dispatch(SystemEvents::MAIL_PENDING, $event);
+            ServiceContainer::dispatch(SystemEvents::MAIL_PENDING, $event);
         }
 
         $event = new EventContext($prj_id, $issue_id, null, $arguments, $mail);
-        EventManager::dispatch(SystemEvents::MAIL_CREATED, $event);
+        ServiceContainer::dispatch(SystemEvents::MAIL_CREATED, $event);
     }
 
     /**
@@ -303,7 +302,7 @@ class Workflow
             'sup_ids' => $sup_ids,
         ];
         $event = new EventContext($prj_id, $issue_id, null, $arguments);
-        EventManager::dispatch(SystemEvents::MAIL_ASSOCIATED_MANUAL, $event);
+        ServiceContainer::dispatch(SystemEvents::MAIL_ASSOCIATED_MANUAL, $event);
     }
 
     /**
@@ -329,7 +328,7 @@ class Workflow
             'closing' => $closing,
         ];
         $event = new EventContext($prj_id, $issue_id, $usr_id, $arguments);
-        EventManager::dispatch(SystemEvents::NOTE_CREATED, $event);
+        ServiceContainer::dispatch(SystemEvents::NOTE_CREATED, $event);
     }
 
     /**
@@ -346,7 +345,7 @@ class Workflow
     {
         $statusList = Status::getAssocStatusList($prj_id, false);
         $event = new ResultableEvent($prj_id, $issue_id, null, [], $statusList);
-        EventManager::dispatch(SystemEvents::ISSUE_ALLOWED_STATUSES, $event);
+        ServiceContainer::dispatch(SystemEvents::ISSUE_ALLOWED_STATUSES, $event);
         if ($event->hasResult()) {
             return $event->getResult();
         }
@@ -381,7 +380,7 @@ class Workflow
         ];
 
         $event = new EventContext($prj_id, $issue_id, $usr_id, $arguments);
-        EventManager::dispatch(SystemEvents::ISSUE_CLOSED, $event);
+        ServiceContainer::dispatch(SystemEvents::ISSUE_CLOSED, $event);
     }
 
     /**
@@ -403,7 +402,7 @@ class Workflow
             'changed' => $changed,
         ];
         $event = new EventContext($prj_id, $issue_id, null, $arguments);
-        EventManager::dispatch(SystemEvents::CUSTOM_FIELDS_UPDATED, $event);
+        ServiceContainer::dispatch(SystemEvents::CUSTOM_FIELDS_UPDATED, $event);
     }
 
     /**
@@ -430,7 +429,7 @@ class Workflow
         ];
 
         $event = new ResultableEvent($prj_id, $issue_id, null, $arguments);
-        EventManager::dispatch(SystemEvents::NOTIFICATION_HANDLE_SUBSCRIPTION, $event);
+        ServiceContainer::dispatch(SystemEvents::NOTIFICATION_HANDLE_SUBSCRIPTION, $event);
 
         // assign back, in case these were changed
         $subscriber_usr_id = $event['subscriber_usr_id'];
@@ -466,7 +465,7 @@ class Workflow
         ];
 
         $event = new ResultableEvent($prj_id, $issue_id, null, $arguments, $address);
-        EventManager::dispatch(SystemEvents::NOTIFICATION_NOTIFY_ADDRESS, $event);
+        ServiceContainer::dispatch(SystemEvents::NOTIFICATION_NOTIFY_ADDRESS, $event);
 
         if ($event->hasResult()) {
             return $event->getResult();
@@ -494,7 +493,7 @@ class Workflow
         ];
 
         $event = new ResultableEvent($prj_id, $issue_id, null, $arguments);
-        EventManager::dispatch(SystemEvents::NOTIFICATION_NOTIFY_ADDRESSES_EXTRA, $event);
+        ServiceContainer::dispatch(SystemEvents::NOTIFICATION_NOTIFY_ADDRESSES_EXTRA, $event);
 
         if ($event->hasResult()) {
             return $event->getResult();
@@ -519,7 +518,7 @@ class Workflow
     {
         $address = AddressHeader::fromString($email)->getAddress();
         $event = new ResultableEvent($prj_id, $issue_id, null, [], $address);
-        EventManager::dispatch(SystemEvents::ACCESS_ISSUE_EMAIL, $event);
+        ServiceContainer::dispatch(SystemEvents::ACCESS_ISSUE_EMAIL, $event);
         if ($event->hasResult()) {
             return $event->getResult();
         }
@@ -545,7 +544,7 @@ class Workflow
             'mail' => $mail,
         ];
         $event = new ResultableEvent($prj_id, $issue_id, null, $arguments, $address);
-        EventManager::dispatch(SystemEvents::ACCESS_ISSUE_NOTE, $event);
+        ServiceContainer::dispatch(SystemEvents::ACCESS_ISSUE_NOTE, $event);
         if ($event->hasResult()) {
             return $event->getResult();
         }
@@ -566,7 +565,7 @@ class Workflow
     public static function canCloneIssue(int $prj_id, int $issue_id, int $usr_id): ?bool
     {
         $event = new ResultableEvent($prj_id, $issue_id, $usr_id);
-        EventManager::dispatch(SystemEvents::ACCESS_ISSUE_CLONE, $event);
+        ServiceContainer::dispatch(SystemEvents::ACCESS_ISSUE_CLONE, $event);
         if ($event->hasResult()) {
             return $event->getResult();
         }
@@ -587,7 +586,7 @@ class Workflow
     public static function canChangeAccessLevel(int $prj_id, int $issue_id, int $usr_id): ?bool
     {
         $event = new ResultableEvent($prj_id, $issue_id, $usr_id);
-        EventManager::dispatch(SystemEvents::ACCESS_ISSUE_CHANGE_ACCESS, $event);
+        ServiceContainer::dispatch(SystemEvents::ACCESS_ISSUE_CHANGE_ACCESS, $event);
         if ($event->hasResult()) {
             return $event->getResult();
         }
@@ -609,7 +608,7 @@ class Workflow
     {
         $address = AddressHeader::fromString($email)->getAddress();
         $event = new ResultableEvent($prj_id, $issue_id, null, [], $address);
-        EventManager::dispatch(SystemEvents::AUTHORIZED_REPLIER_ADD, $event);
+        ServiceContainer::dispatch(SystemEvents::AUTHORIZED_REPLIER_ADD, $event);
 
         // assign back, in case it was modified by event
         if (isset($event['email'])) {
@@ -636,7 +635,7 @@ class Workflow
     public static function preEmailDownload(int $prj_id, ImapMessage $mail): bool
     {
         $event = new EventContext($prj_id, null, null, [], $mail);
-        EventManager::dispatch(SystemEvents::MAIL_PROCESS_BEFORE, $event);
+        ServiceContainer::dispatch(SystemEvents::MAIL_PROCESS_BEFORE, $event);
         if ($event->isPropagationStopped()) {
             return false;
         }
@@ -661,7 +660,7 @@ class Workflow
             'data' => $data,
         ];
         $event = new ResultableEvent($prj_id, $issue_id, null, $arguments);
-        EventManager::dispatch(SystemEvents::NOTE_INSERT_BEFORE, $event);
+        ServiceContainer::dispatch(SystemEvents::NOTE_INSERT_BEFORE, $event);
 
         // assign back, in case it was changed
         $data = $event['data'];
@@ -688,7 +687,7 @@ class Workflow
     {
         $event = new ResultableEvent($prj_id, null, null);
         $event->setResult(true);
-        EventManager::dispatch(SystemEvents::PROJECT_NOTIFICATION_AUTO_ADD, $event);
+        ServiceContainer::dispatch(SystemEvents::PROJECT_NOTIFICATION_AUTO_ADD, $event);
 
         return $event->getResult();
     }
@@ -714,7 +713,7 @@ class Workflow
             'account' => $account,
         ];
         $event = new ResultableEvent($prj_id, null, null, $arguments, $mail);
-        EventManager::dispatch(SystemEvents::ISSUE_EMAIL_CREATE_OPTIONS, $event);
+        ServiceContainer::dispatch(SystemEvents::ISSUE_EMAIL_CREATE_OPTIONS, $event);
 
         if ($event->hasResult()) {
             return $event->getResult();
@@ -742,7 +741,7 @@ class Workflow
             'address' => $address,
         ];
         $event = new EventContext($prj_id, null, null, $arguments, $mail);
-        EventManager::dispatch(SystemEvents::MAIL_QUEUE_MODIFY, $event);
+        ServiceContainer::dispatch(SystemEvents::MAIL_QUEUE_MODIFY, $event);
     }
 
     /**
@@ -763,7 +762,7 @@ class Workflow
             'notify' => $notify,
         ];
         $event = new ResultableEvent($prj_id, $issue_id, null, $arguments);
-        EventManager::dispatch(SystemEvents::ISSUE_STATUS_BEFORE, $event);
+        ServiceContainer::dispatch(SystemEvents::ISSUE_STATUS_BEFORE, $event);
 
         // assign back, in case they were modified
         $issue_id = $event['issue_id'];
@@ -789,7 +788,7 @@ class Workflow
     public static function prePage(int $prj_id, string $page_name): void
     {
         $event = new EventContext($prj_id, null, null, [], $page_name);
-        EventManager::dispatch(SystemEvents::PAGE_BEFORE, $event);
+        ServiceContainer::dispatch(SystemEvents::PAGE_BEFORE, $event);
     }
 
     /**
@@ -812,7 +811,7 @@ class Workflow
             'source' => $source,
         ];
         $event = new ResultableEvent($prj_id, $issue_id, null, $arguments);
-        EventManager::dispatch(SystemEvents::NOTIFICATION_ACTIONS, $event);
+        ServiceContainer::dispatch(SystemEvents::NOTIFICATION_ACTIONS, $event);
 
         if ($event->hasResult()) {
             return $event->getResult();
@@ -835,7 +834,7 @@ class Workflow
     public static function getIssueFieldsToDisplay(int $prj_id, int $issue_id, string $location): array
     {
         $event = new ResultableEvent($prj_id, $issue_id, null, [], $location);
-        EventManager::dispatch(SystemEvents::ISSUE_FIELDS_DISPLAY, $event);
+        ServiceContainer::dispatch(SystemEvents::ISSUE_FIELDS_DISPLAY, $event);
 
         if ($event->hasResult()) {
             return $event->getResult();
@@ -854,7 +853,7 @@ class Workflow
     public static function addLinkFilters(LinkFilter $linkFilter, int $prj_id): void
     {
         $event = new EventContext($prj_id, null, null, [], $linkFilter);
-        EventManager::dispatch(SystemEvents::ISSUE_LINK_FILTERS, $event);
+        ServiceContainer::dispatch(SystemEvents::ISSUE_LINK_FILTERS, $event);
     }
 
     /**
@@ -866,7 +865,7 @@ class Workflow
     public static function canUpdateIssue(int $prj_id, int $issue_id, int $usr_id): ?bool
     {
         $event = new ResultableEvent($prj_id, $issue_id, $usr_id);
-        EventManager::dispatch(SystemEvents::ACCESS_ISSUE_UPDATE, $event);
+        ServiceContainer::dispatch(SystemEvents::ACCESS_ISSUE_UPDATE, $event);
 
         if ($event->hasResult()) {
             return $event->getResult();
@@ -884,7 +883,7 @@ class Workflow
     public static function canChangeAssignee(int $prj_id, int $issue_id, int $usr_id): ?bool
     {
         $event = new ResultableEvent($prj_id, $issue_id, $usr_id);
-        EventManager::dispatch(SystemEvents::ACCESS_ISSUE_CHANGE_ASSIGNEE, $event);
+        ServiceContainer::dispatch(SystemEvents::ACCESS_ISSUE_CHANGE_ASSIGNEE, $event);
 
         if ($event->hasResult()) {
             return $event->getResult();
@@ -902,7 +901,7 @@ class Workflow
     public static function getActiveGroup(int $prj_id): ?int
     {
         $event = new ResultableEvent($prj_id, null, null);
-        EventManager::dispatch(SystemEvents::GROUP_ACTIVE, $event);
+        ServiceContainer::dispatch(SystemEvents::GROUP_ACTIVE, $event);
 
         if ($event->hasResult()) {
             return $event->getResult();
@@ -920,7 +919,7 @@ class Workflow
     public static function getAccessLevels(?int $prj_id): ?array
     {
         $event = new ResultableEvent($prj_id, null, null);
-        EventManager::dispatch(SystemEvents::ACCESS_LEVELS, $event);
+        ServiceContainer::dispatch(SystemEvents::ACCESS_LEVELS, $event);
 
         if ($event->hasResult()) {
             return $event->getResult();
@@ -943,7 +942,7 @@ class Workflow
         ];
         $event = new ResultableEvent($prj_id, $issue_id, $usr_id, $arguments);
         $event->setResult($return);
-        EventManager::dispatch(SystemEvents::ACCESS_ISSUE, $event);
+        ServiceContainer::dispatch(SystemEvents::ACCESS_ISSUE, $event);
 
         return $event->getResult();
     }
@@ -958,7 +957,7 @@ class Workflow
     public static function getAdditionalAccessSQL(int $prj_id, int $usr_id): ?string
     {
         $event = new ResultableEvent($prj_id, null, $usr_id);
-        EventManager::dispatch(SystemEvents::ACCESS_LISTING_SQL, $event);
+        ServiceContainer::dispatch(SystemEvents::ACCESS_LISTING_SQL, $event);
 
         if ($event->hasResult()) {
             return $event->getResult();
@@ -980,7 +979,7 @@ class Workflow
             'new_prj_id' => $new_prj_id,
         ];
         $event = new ResultableEvent($prj_id, $issue_id, null, $arguments);
-        EventManager::dispatch(SystemEvents::ISSUE_MOVE_FROM_PROJECT, $event);
+        ServiceContainer::dispatch(SystemEvents::ISSUE_MOVE_FROM_PROJECT, $event);
     }
 
     /**
@@ -996,7 +995,7 @@ class Workflow
             'old_prj_id' => $old_prj_id,
         ];
         $event = new ResultableEvent($prj_id, $issue_id, null, $arguments);
-        EventManager::dispatch(SystemEvents::ISSUE_MOVE_TO_PROJECT, $event);
+        ServiceContainer::dispatch(SystemEvents::ISSUE_MOVE_TO_PROJECT, $event);
     }
 
     /**
@@ -1018,7 +1017,7 @@ class Workflow
         ];
         $event = new ResultableEvent($prj_id, $issue_id, null, $arguments);
         $event->setResult($mapping);
-        EventManager::dispatch(SystemEvents::ISSUE_MOVE_MAPPING, $event);
+        ServiceContainer::dispatch(SystemEvents::ISSUE_MOVE_MAPPING, $event);
 
         return $event->getResult();
     }

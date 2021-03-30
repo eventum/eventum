@@ -12,7 +12,6 @@
  */
 
 use Eventum\Event\SystemEvents;
-use Eventum\EventDispatcher\EventManager;
 use Eventum\Mail\Exception\RoutingException;
 use Eventum\Mail\Helper\AddressHeader;
 use Eventum\Mail\Helper\WarningMessage;
@@ -90,7 +89,7 @@ class Routing
      */
     protected static function route_emails(MailMessage $mail): bool
     {
-        EventManager::dispatch(SystemEvents::MAIL_ROUTE_EMAIL, $mail);
+        ServiceContainer::dispatch(SystemEvents::MAIL_ROUTE_EMAIL, $mail);
 
         // check if the email routing interface is even supposed to be enabled
         $setup = ServiceContainer::getConfig();
@@ -243,7 +242,7 @@ class Routing
      */
     protected static function route_notes(MailMessage $mail): bool
     {
-        EventManager::dispatch(SystemEvents::MAIL_ROUTE_NOTE, $mail);
+        ServiceContainer::dispatch(SystemEvents::MAIL_ROUTE_NOTE, $mail);
 
         $headers = $mail->getHeaders();
 
@@ -371,7 +370,7 @@ class Routing
      */
     protected static function route_drafts(MailMessage $mail): bool
     {
-        EventManager::dispatch(SystemEvents::MAIL_ROUTE_DRAFT, $mail);
+        ServiceContainer::dispatch(SystemEvents::MAIL_ROUTE_DRAFT, $mail);
 
         $headers = $mail->getHeaders();
 

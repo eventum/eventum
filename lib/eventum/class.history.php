@@ -14,7 +14,7 @@
 use Eventum\Db\DatabaseException;
 use Eventum\Db\Doctrine;
 use Eventum\Event;
-use Eventum\EventDispatcher\EventManager;
+use Eventum\ServiceContainer;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
 /**
@@ -81,7 +81,7 @@ class History
         $params['prj_id'] = (int)Auth::getCurrentProject();
 
         $event = new GenericEvent(null, $params);
-        EventManager::dispatch(Event\SystemEvents::HISTORY_ADD, $event);
+        ServiceContainer::dispatch(Event\SystemEvents::HISTORY_ADD, $event);
     }
 
     /**

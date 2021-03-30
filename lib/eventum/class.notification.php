@@ -16,7 +16,6 @@ use Eventum\Db\DatabaseException;
 use Eventum\Db\Doctrine;
 use Eventum\Diff\Differ;
 use Eventum\Event\SystemEvents;
-use Eventum\EventDispatcher\EventManager;
 use Eventum\Mail\Helper\AddressHeader;
 use Eventum\Mail\Helper\WarningMessage;
 use Eventum\Mail\MailBuilder;
@@ -1220,7 +1219,7 @@ class Notification
         ];
 
         $event = new GenericEvent(null, $arguments);
-        EventManager::dispatch(SystemEvents::NOTIFY_ISSUE_CREATED, $event);
+        ServiceContainer::dispatch(SystemEvents::NOTIFY_ISSUE_CREATED, $event);
 
         self::notifySubscribers($issue_id, $emails, 'new_issue', $data, $subject, false, false, $headers);
     }

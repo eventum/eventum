@@ -102,7 +102,7 @@ class ServiceProvider implements ServiceProviderInterface
         };
 
         $app[EventDispatcherInterface::class] = static function () {
-            return EventManager::getEventDispatcher();
+            return EventManager::getEventDispatcher(false);
         };
 
         $app[ExtensionManager::class] = static function ($app) {
