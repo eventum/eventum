@@ -18,7 +18,6 @@ use Eventum\Crypto\CryptoManager;
 use Eventum\Crypto\EncryptedValue;
 use Eventum\Test\TestCase;
 use Exception;
-use InvalidArgumentException;
 
 /**
  * @group crypto
@@ -101,26 +100,6 @@ class CryptoTest extends TestCase
     {
         $encrypted = CryptoManager::encrypt('');
         $this->assertNotEmpty($encrypted);
-    }
-
-    /**
-     * should not encrypt null
-     *
-     * @expectedException InvalidArgumentException
-     */
-    public function testEncryptNull(): void
-    {
-        CryptoManager::encrypt(null);
-    }
-
-    /**
-     * should not encrypt false
-     *
-     * @expectedException InvalidArgumentException
-     */
-    public function testEncryptFalse(): void
-    {
-        CryptoManager::encrypt(false);
     }
 
     /**
