@@ -99,7 +99,8 @@ class CryptoTest extends TestCase
      */
     public function testEncryptEmptyString(): void
     {
-        CryptoManager::encrypt('');
+        $encrypted = CryptoManager::encrypt('');
+        $this->assertNotEmpty($encrypted);
     }
 
     /**
@@ -123,19 +124,21 @@ class CryptoTest extends TestCase
     }
 
     /**
-     * encrypt "0" is ok
+     * encrypt "0" (string) is ok
      */
     public function testEncryptZeroString(): void
     {
-        CryptoManager::encrypt('0');
+        $encrypted = CryptoManager::encrypt('0');
+        $this->assertNotEmpty($encrypted);
     }
 
     /**
-     * encrypt 0 is ok
+     * encrypt 0 (number) is ok
      */
-    public function testEncryptZero(): void
+    public function testEncryptZeroNumber(): void
     {
-        CryptoManager::encrypt(0);
+        $encrypted = CryptoManager::encrypt(0);
+        $this->assertNotEmpty($encrypted);
     }
 
     /**
