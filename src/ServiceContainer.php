@@ -15,6 +15,7 @@ namespace Eventum;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Eventum\Config\Config;
+use Eventum\EventDispatcher\EventManager;
 use Eventum\Extension\ExtensionManager;
 use LogicException;
 use Pimple\Container;
@@ -22,8 +23,10 @@ use Pimple\Psr11\Container as PsrContainer;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\KernelInterface;
+use Symfony\Contracts\EventDispatcher\Event;
 
 class ServiceContainer
 {
@@ -114,6 +117,28 @@ class ServiceContainer
         }
 
         return static::get(EntityManagerInterface::class);
+    }
+
+    /**
+     * @since 3.10.2
+     */
+    public static function getEventDispatcher(): EventDispatcherInterface
+    {
+        return EventManager::getEventDispatcher();
+    }
+
+    /**
+     * Helper to dispatch events
+     *
+     * @param string $eventName
+     * @param Event|\Symfony\Component\EventDispatcher\Event $event
+     * @return Event|object
+     * @see EventDispatcherInterface::dispatch()
+     * @since 3.10.2
+     */
+    public static function dispatch(string $eventName, $event = null)
+    {
+        return static::getEventDispatcher()->dispatch($event ?? new Event(), $eventName);
     }
 
     /**

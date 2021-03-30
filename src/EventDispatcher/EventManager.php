@@ -53,9 +53,12 @@ class EventManager
      * @param Event|\Symfony\Component\EventDispatcher\Event $event
      * @return Event|object
      * @see EventDispatcherInterface::dispatch()
+     * @deprecated since 3.10.2, use ServiceContainer::dispatch();
      */
     public static function dispatch($eventName, $event = null)
     {
+        trigger_deprecation('eventum/eventum', '3.10.2', 'Method "%s::%s" is deprecated, use ServiceContainer::dispatch', __CLASS__, __METHOD__);
+
         return self::getEventDispatcher()->dispatch($event ?? new Event(), $eventName);
     }
 }
