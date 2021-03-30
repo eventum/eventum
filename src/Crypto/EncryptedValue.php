@@ -13,6 +13,7 @@
 
 namespace Eventum\Crypto;
 
+use Defuse\Crypto\Exception\CryptoException as DefuseCryptoException;
 use Throwable;
 
 /**
@@ -65,7 +66,11 @@ final class EncryptedValue
             throw new CryptoException('Value not initialized yet');
         }
 
-        return CryptoManager::decrypt($this->ciphertext);
+        try {
+            return CryptoManager::decrypt($this->ciphertext);
+        } catch (DefuseCryptoException $e) {
+            throw new CryptoException($e->getMessage(), $e->getCode(), $e);
+        }
     }
 
     /**
