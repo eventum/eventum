@@ -15,7 +15,6 @@ namespace Eventum;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Eventum\Config\Config;
-use Eventum\EventDispatcher\EventManager;
 use Eventum\Extension\ExtensionManager;
 use LogicException;
 use Pimple\Container;
@@ -37,6 +36,7 @@ class ServiceContainer
         if (!$container) {
             $container = new Container();
             $container->register(new ServiceProvider\ServiceProvider());
+            $container->register(new ServiceProvider\EventDispatcherService());
             $container->register(new ServiceProvider\FulltextSearchService());
             $container->register(new ServiceProvider\MarkdownServiceProvider());
             $container->register(new ServiceProvider\ConsoleCommandsService());
@@ -124,7 +124,7 @@ class ServiceContainer
      */
     public static function getEventDispatcher(): EventDispatcherInterface
     {
-        return EventManager::getEventDispatcher(false);
+        return static::get(EventDispatcherInterface::class);
     }
 
     /**

@@ -17,7 +17,6 @@ use Doctrine\DBAL\Driver\Connection;
 use Doctrine\ORM\EntityManagerInterface;
 use Eventum\Db\Adapter\PdoAdapter;
 use Eventum\DebugBarManager;
-use Eventum\EventDispatcher\EventManager;
 use Eventum\Extension\ExtensionManager;
 use Eventum\Kernel;
 use Eventum\Mail\MessageIdGenerator;
@@ -27,7 +26,6 @@ use Psr\Log\LoggerInterface;
 use Setup;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\KernelInterface;
 
@@ -99,10 +97,6 @@ class ServiceProvider implements ServiceProviderInterface
             $container = $app[ContainerInterface::class];
 
             return $container->get(LoggerInterface::class);
-        };
-
-        $app[EventDispatcherInterface::class] = static function () {
-            return EventManager::getEventDispatcher(false);
         };
 
         $app[ExtensionManager::class] = static function ($app) {

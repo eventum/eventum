@@ -13,9 +13,7 @@
 
 namespace Eventum\EventDispatcher;
 
-use Eventum\Event\Subscriber;
 use Eventum\ServiceContainer;
-use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Contracts\EventDispatcher\Event;
 
@@ -29,22 +27,10 @@ class EventManager
     {
         static $dispatcher;
         if (!$dispatcher) {
-            $dispatcher = new EventDispatcher();
-
-            // register subscribers from extensions
-            $em = ServiceContainer::getExtensionManager();
-            $em->boot();
-            $subscribers = $em->getSubscribers();
-            foreach ($subscribers as $subscriber) {
-                $dispatcher->addSubscriber($subscriber);
-            }
-
-            // load builtin event subscribers
-            $dispatcher->addSubscriber(new Subscriber\MailQueueListener());
-            $dispatcher->addSubscriber(new Subscriber\CryptoSubscriber());
             if ($notifyDeprecated) {
                 trigger_deprecation('eventum/eventum', '3.10.2', 'Method "%s::%s" is deprecated', __CLASS__, __METHOD__);
             }
+            $dispatcher = ServiceContainer::getEventDispatcher();
         }
 
         return $dispatcher;
@@ -63,6 +49,6 @@ class EventManager
     {
         trigger_deprecation('eventum/eventum', '3.10.2', 'Method "%s::%s" is deprecated, use ServiceContainer::dispatch', __CLASS__, __METHOD__);
 
-        return self::getEventDispatcher(false)->dispatch($event ?? new Event(), $eventName);
+        return ServiceContainer::dispatch($eventName, $event);
     }
 }
