@@ -88,10 +88,10 @@ abstract class TestCase extends WebTestCase
 
         // flush cache to ensure doctrine has to fetch from db
         foreach ($commit->getFiles() as $file) {
-            $em->detach($file);
+            $em->clear(get_class($file));
         }
-        $em->detach($commit);
-        $em->detach($commit->getIssue());
+        $em->clear(get_class($commit));
+        $em->clear(get_class($commit->getIssue()));
 
         return $commit;
     }
