@@ -16,6 +16,7 @@ See [Upgrading] for details on how to upgrade.
 - Use logger via Symfony container, #1029
 - Fix twig deprecation, #1038
 - Fix markdown `heading_permalink` deprecation, #1037
+- Use `random_bytes()` rather RandomLib library, #1036
 
 [3.10.2]: https://github.com/eventum/eventum/compare/v3.10.1...master
 
