@@ -14,6 +14,7 @@ See [Upgrading] for details on how to upgrade.
 - Deprecate EventManager class, #1033
 - Fix catching Defuse CryptoException, #1034
 - Use logger via Symfony container, #1029
+- Fix twig deprecation, #1038
 
 [3.10.2]: https://github.com/eventum/eventum/compare/v3.10.1...master
 
