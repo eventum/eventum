@@ -24,9 +24,6 @@ use Symfony\Component\EventDispatcher\GenericEvent;
 
 require_once __DIR__ . '/autoload.php';
 
-// workflow may use this in constructor
-Eventum\Monolog\Logger::initialize();
-
 // TODO: use "connection" => $pdo_instance once PEAR DB support is dropped
 // http://docs.phinx.org/en/latest/commands.html#configuration-file-parameter
 

@@ -1,4 +1,5 @@
 monolog:
+  channels: [ "auth" ]
   handlers:
     error_mailer:
       type: service
@@ -11,6 +12,10 @@ monolog:
       type: stream
       path: "%kernel.logs_dir%/%kernel.environment%.doctrine.log"
       channels: ["doctrine"]
+    auth:
+      type: stream
+      path: "%kernel.logs_dir%/%kernel.environment%.auth.log"
+      channels: ["auth"]
     deprecation:
       type: stream
       path: "%kernel.logs_dir%/%kernel.environment%.deprecations.log"

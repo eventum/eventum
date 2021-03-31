@@ -27,6 +27,7 @@ use Setup;
  * @method static Monolog\Logger db() Database log channel
  * @method static Monolog\Logger auth() Auth log channel
  * @method static Monolog\Logger cli() CLI log channel
+ * @deprecated
  */
 class Logger extends Registry
 {
@@ -67,11 +68,12 @@ class Logger extends Registry
     public static function __callStatic($name, $arguments)
     {
         if ($name === 'app') {
+            trigger_deprecation('eventum/eventum', '3.10.2', 'Calling "%s::%s" is deprecated', self::class, $name);
+
             return ServiceContainer::getLogger();
         }
 
         trigger_deprecation('eventum/eventum', '3.10.0', 'Calling "%s::%s" is deprecated', self::class, $name);
-
         self::initialize();
 
         return parent::getInstance($name);

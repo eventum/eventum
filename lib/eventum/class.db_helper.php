@@ -15,7 +15,6 @@ use Eventum\Config\Paths;
 use Eventum\Db\Adapter\AdapterInterface;
 use Eventum\Db\Adapter\NullAdapter;
 use Eventum\Db\DatabaseException;
-use Eventum\Monolog\Logger;
 use Eventum\ServiceContainer;
 
 class DB_Helper
@@ -40,7 +39,8 @@ class DB_Helper
 
             return $instance;
         } catch (DatabaseException $e) {
-            Logger::db()->error($e->getMessage(), ['exception' => $e]);
+            $logger = ServiceContainer::getLogger();
+            $logger->error($e->getMessage(), ['exception' => $e]);
         }
 
         // set dummy provider in as offline.php uses db methods

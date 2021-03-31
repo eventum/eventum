@@ -13,6 +13,7 @@
 
 namespace Eventum\Monolog;
 
+use Eventum\Config\Config;
 use Eventum\ServiceContainer;
 use Misc;
 use Monolog;
@@ -21,6 +22,9 @@ use Setup;
 
 class MailHandler extends NativeMailerHandler
 {
+    /** @var Config */
+    private $config;
+
     /**
      * Create mail handler for Eventum errors
      *
@@ -28,17 +32,28 @@ class MailHandler extends NativeMailerHandler
      */
     public function __construct($level = Monolog\Logger::ERROR)
     {
-        $setup = ServiceContainer::getConfig();
-        $config = $setup['email_error'];
+        $this->config = $this->getConfig();
+        parent::__construct([], $this->config['subject'], Setup::getSmtpFrom(), $level);
+        $this->setTo($this->config['addresses']);
+    }
 
-        if ($config['status'] === 'enabled') {
-            $notify_list = trim($config['addresses']);
+    public function setTo($to): self
+    {
+        if ($this->config['status'] === 'enabled') {
+            $notify_list = trim($to);
             // recipient list can be comma separated
             $to = Misc::trim(explode(',', $notify_list));
         } else {
             $to = [];
         }
 
-        parent::__construct($to, $config['subject'], Setup::getSmtpFrom(), $level);
+        $this->to = $to;
+
+        return $this;
+    }
+
+    private function getConfig(): Config
+    {
+        return ServiceContainer::getConfig()['email_error'];
     }
 }
