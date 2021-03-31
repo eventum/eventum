@@ -13,6 +13,7 @@
 
 namespace Eventum\Crypto;
 
+use Defuse\Crypto\Exception\CryptoException as DefuseCryptoException;
 use Defuse\Crypto\Key;
 use Eventum\Opcache;
 use Setup;
@@ -43,8 +44,8 @@ final class CryptoKeyManager
         try {
             $this->key = Key::createNewRandomKey();
             $this->storePrivateKey();
-        } catch (CryptoException $e) {
-            throw new CryptoException('Cannot perform operation: ' . $e->getMessage());
+        } catch (DefuseCryptoException $e) {
+            throw new CryptoException('Cannot perform operation: ' . $e->getMessage(), $e->getCode(), $e);
         }
     }
 
@@ -120,8 +121,8 @@ final class CryptoKeyManager
 
         try {
             $this->key = Key::loadFromAsciiSafeString($key);
-        } catch (CryptoException $e) {
-            throw new CryptoException('Cannot perform operation: ' . $e->getMessage());
+        } catch (DefuseCryptoException $e) {
+            throw new CryptoException('Cannot perform operation: ' . $e->getMessage(), $e->getCode(), $e);
         }
 
         return true;

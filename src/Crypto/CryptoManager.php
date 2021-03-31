@@ -14,6 +14,7 @@
 namespace Eventum\Crypto;
 
 use Defuse\Crypto\Crypto;
+use Defuse\Crypto\Exception\CryptoException as DefuseCryptoException;
 use Defuse\Crypto\Key;
 use Defuse\Crypto\RuntimeTests;
 use Eventum\ServiceContainer;
@@ -51,7 +52,7 @@ final class CryptoManager
         }
         try {
             RuntimeTests::runtimeTest();
-        } catch (CryptoException $e) {
+        } catch (DefuseCryptoException $e) {
             throw new CryptoException($e->getMessage(), $e->getCode(), $e);
         }
 
@@ -79,8 +80,8 @@ final class CryptoManager
 
         try {
             $ciphertext = Crypto::encrypt($plaintext, self::getKey(), true);
-        } catch (CryptoException $e) {
-            throw new CryptoException('Cannot perform operation: ' . $e->getMessage());
+        } catch (DefuseCryptoException $e) {
+            throw new CryptoException('Cannot perform operation: ' . $e->getMessage(), $e->getCode(), $e);
         }
 
         return rtrim(base64_encode($ciphertext), '=');
@@ -114,8 +115,8 @@ final class CryptoManager
 
             // support legacy decrypt
             return Crypto::legacyDecrypt($ciphertext, $key);
-        } catch (CryptoException $e) {
-            throw new CryptoException('Cannot perform operation: ' . $e->getMessage());
+        } catch (DefuseCryptoException $e) {
+            throw new CryptoException('Cannot perform operation: ' . $e->getMessage(), $e->getCode(), $e);
         }
     }
 

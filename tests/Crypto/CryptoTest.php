@@ -18,7 +18,6 @@ use Eventum\Crypto\CryptoManager;
 use Eventum\Crypto\EncryptedValue;
 use Eventum\Test\TestCase;
 use Exception;
-use InvalidArgumentException;
 
 /**
  * @group crypto
@@ -99,43 +98,26 @@ class CryptoTest extends TestCase
      */
     public function testEncryptEmptyString(): void
     {
-        CryptoManager::encrypt('');
+        $encrypted = CryptoManager::encrypt('');
+        $this->assertNotEmpty($encrypted);
     }
 
     /**
-     * should not encrypt null
-     *
-     * @expectedException InvalidArgumentException
-     */
-    public function testEncryptNull(): void
-    {
-        CryptoManager::encrypt(null);
-    }
-
-    /**
-     * should not encrypt false
-     *
-     * @expectedException InvalidArgumentException
-     */
-    public function testEncryptFalse(): void
-    {
-        CryptoManager::encrypt(false);
-    }
-
-    /**
-     * encrypt "0" is ok
+     * encrypt "0" (string) is ok
      */
     public function testEncryptZeroString(): void
     {
-        CryptoManager::encrypt('0');
+        $encrypted = CryptoManager::encrypt('0');
+        $this->assertNotEmpty($encrypted);
     }
 
     /**
-     * encrypt 0 is ok
+     * encrypt 0 (number) is ok
      */
-    public function testEncryptZero(): void
+    public function testEncryptZeroNumber(): void
     {
-        CryptoManager::encrypt(0);
+        $encrypted = CryptoManager::encrypt(0);
+        $this->assertNotEmpty($encrypted);
     }
 
     /**
@@ -159,15 +141,5 @@ class CryptoTest extends TestCase
 
         $trace = $f($value);
         $this->assertNotContains($plaintext, $trace);
-    }
-
-    public function testZendCrypt(): void
-    {
-        $key = 'secretkeyvalue';
-        $method = 'aes-128-cbc';
-        $keysize = 16;
-        $hash_function = 'sha256';
-        $ENCRYPTION_INFO = 'DefusePHP|KeyForEncryption';
-//        $ekey = self::HKDF($hash_function, $key, $keysize, $ENCRYPTION_INFO);
     }
 }

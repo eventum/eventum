@@ -12,6 +12,7 @@ See [Upgrading] for details on how to upgrade.
 - Move SCM setup to Extension, #890
 - Deprecate bin scripts over excuting via bin/console.php, #1031
 - Deprecate EventManager class, #1033
+- Fix catching Defuse CryptoException, #1034
 
 [3.10.2]: https://github.com/eventum/eventum/compare/v3.10.1...master
 
