@@ -1,4 +1,5 @@
 twig:
   strict_variables: true
+  exception_controller: null
 
 # vim:ts=2:sw=2:et
