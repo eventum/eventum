@@ -25,14 +25,13 @@ use Eventum\Model\Entity\EmailAccount;
 use InvalidArgumentException;
 use LimitIterator;
 use Psr\Log\LoggerInterface;
-use Symfony\Component\Console\Command\Command as SymfonyCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Throwable;
 
-class MailDownloadCommand extends SymfonyCommand
+class MailDownloadCommand extends BaseCommand
 {
     use LoggerTrait;
 

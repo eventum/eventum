@@ -18,7 +18,6 @@ use DateTimeZone;
 use DB_Helper;
 use Eventum\Attachment\AttachmentManager;
 use Eventum\Attachment\StorageManager;
-use Eventum\Console\ConsoleTrait;
 use Eventum\Db\Adapter\AdapterInterface;
 use Exception;
 use League\Flysystem\Adapter\Local;
@@ -27,17 +26,14 @@ use League\Flysystem\FileNotFoundException;
 use League\Flysystem\Filesystem;
 use Misc;
 use RuntimeException;
-use Symfony\Component\Console\Command\Command as SymfonyCommand;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class AttachmentMigrateCommand extends SymfonyCommand
+class AttachmentMigrateCommand extends BaseCommand
 {
-    use ConsoleTrait;
-
     public const DEFAULT_COMMAND = 'attachment:migrate';
     private const DEFAULT_CHUNKSIZE = 100;
 
@@ -75,7 +71,6 @@ class AttachmentMigrateCommand extends SymfonyCommand
         $limit = $input->getOption('limit');
         $chunksize = $input->getOption('chunksize') ?: self::DEFAULT_CHUNKSIZE;
 
-        $this->output = $output;
         $this->assertInput($source_adapter, $target_adapter, $migrate, $verify);
 
         $this->source_adapter = $source_adapter;

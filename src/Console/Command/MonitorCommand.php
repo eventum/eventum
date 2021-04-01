@@ -21,12 +21,11 @@ use Eventum\ServiceContainer;
 use Exception;
 use Mail_Queue;
 use Setup;
-use Symfony\Component\Console\Command\Command as SymfonyCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class MonitorCommand extends SymfonyCommand
+class MonitorCommand extends BaseCommand
 {
     public const DEFAULT_COMMAND = 'system:monitor';
 
@@ -38,9 +37,6 @@ class MonitorCommand extends SymfonyCommand
     public const STATE_DEPENDENT = 4;
 
     protected static $defaultName = 'eventum:' . self::DEFAULT_COMMAND;
-
-    /** @var OutputInterface */
-    private $output;
 
     /** @var int */
     private $errors = 0;
@@ -54,7 +50,6 @@ class MonitorCommand extends SymfonyCommand
     public function execute(InputInterface $input, OutputInterface $output): int
     {
         $quiet = $input->getOption('quiet');
-        $this->output = $output;
 
         // the owner, group and filesize settings should be changed to match the correct permissions on your server.
         $configPath = Setup::getConfigPath();

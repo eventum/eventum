@@ -19,19 +19,15 @@ use InvalidArgumentException;
 use LogicException;
 use ReflectionException;
 use Setup;
-use Symfony\Component\Console\Command\Command as SymfonyCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class ExtensionEnableCommand extends SymfonyCommand
+class ExtensionEnableCommand extends BaseCommand
 {
     public const DEFAULT_COMMAND = 'extension:enable';
 
     protected static $defaultName = 'eventum:' . self::DEFAULT_COMMAND;
-
-    /** @var OutputInterface */
-    private $output;
 
     protected function configure(): void
     {
@@ -45,7 +41,6 @@ class ExtensionEnableCommand extends SymfonyCommand
         $filename = $input->getArgument('filename');
         $classname = $input->getArgument('classname');
 
-        $this->output = $output;
         $this->setupExtension($filename, $classname);
 
         return 0;

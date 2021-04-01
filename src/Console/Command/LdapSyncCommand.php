@@ -16,19 +16,15 @@ namespace Eventum\Console\Command;
 use Eventum\Auth\Adapter\LdapAdapter;
 use Eventum\Auth\AuthException;
 use Eventum\Auth\Ldap\UserEntry;
-use Eventum\Console\ConsoleTrait;
 use Generator;
 use InvalidArgumentException;
 use RuntimeException;
-use Symfony\Component\Console\Command\Command as SymfonyCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class LdapSyncCommand extends SymfonyCommand
+class LdapSyncCommand extends BaseCommand
 {
-    use ConsoleTrait;
-
     public const DEFAULT_COMMAND = 'ldap:sync';
 
     protected static $defaultName = 'eventum:' . self::DEFAULT_COMMAND;
@@ -55,7 +51,6 @@ class LdapSyncCommand extends SymfonyCommand
         $noUpdate = $input->getOption('no-update');
         $noDisable = $input->getOption('no-disable');
 
-        $this->output = $output;
         $this->dryrun = $dryrun;
 
         $this->ldap = new LdapAdapter();

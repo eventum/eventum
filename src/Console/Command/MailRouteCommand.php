@@ -16,12 +16,11 @@ namespace Eventum\Console\Command;
 use Eventum\Mail\Exception\RoutingException;
 use Eventum\Mail\MailMessage;
 use Routing;
-use Symfony\Component\Console\Command\Command as SymfonyCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class MailRouteCommand extends SymfonyCommand
+class MailRouteCommand extends BaseCommand
 {
     public const DEFAULT_COMMAND = 'mail:route';
 

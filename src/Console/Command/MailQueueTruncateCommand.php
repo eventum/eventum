@@ -14,12 +14,11 @@
 namespace Eventum\Console\Command;
 
 use Mail_Queue;
-use Symfony\Component\Console\Command\Command as SymfonyCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class MailQueueTruncateCommand extends SymfonyCommand
+class MailQueueTruncateCommand extends BaseCommand
 {
     public const DEFAULT_COMMAND = 'mail-queue:truncate';
     private const DEFAULT_INTERVAL = '1 month';
