@@ -16,7 +16,7 @@ namespace Eventum\Console\Command;
 use Eventum\Console\ConsoleTrait;
 use Symfony\Component\Console\Output\OutputInterface;
 
-abstract class Command
+abstract class BaseCommand
 {
     use ConsoleTrait;
 
