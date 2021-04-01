@@ -77,7 +77,7 @@ class MarkdownServiceProvider implements ServiceProviderInterface
             'allow_unsafe_links' => false,
             'max_nesting_level' => self::MAX_NESTING_LEVEL,
             'heading_permalink' => [
-                'inner_contents' => '¶',
+                'symbol' => '¶',
                 'insert' => 'after',
             ],
 
