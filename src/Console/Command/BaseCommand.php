@@ -13,12 +13,15 @@
 
 namespace Eventum\Console\Command;
 
+use Eventum\Logger\LoggerTrait;
 use Symfony\Component\Console\Command\Command as SymfonyCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 abstract class BaseCommand extends SymfonyCommand
 {
+    use LoggerTrait;
+
     protected const DEBUG = OutputInterface::VERBOSITY_DEBUG;
     protected const VERBOSE = OutputInterface::VERBOSITY_VERBOSE;
     protected const VERY_VERBOSE = OutputInterface::VERBOSITY_VERY_VERBOSE;
@@ -33,6 +36,7 @@ abstract class BaseCommand extends SymfonyCommand
     {
         $this->output = $output;
         $this->input = $input;
+        $this->logger = $this->getLogger();
     }
 
     /**

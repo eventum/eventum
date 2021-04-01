@@ -17,14 +17,12 @@ use Doctrine\ORM\EntityNotFoundException;
 use Email_Account;
 use Eventum\ConcurrentLock;
 use Eventum\Db\Doctrine;
-use Eventum\Logger\LoggerTrait;
 use Eventum\Mail\Imap\ImapConnection;
 use Eventum\Mail\MailDownLoader;
 use Eventum\Mail\ProcessMailMessage;
 use Eventum\Model\Entity\EmailAccount;
 use InvalidArgumentException;
 use LimitIterator;
-use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -33,8 +31,6 @@ use Throwable;
 
 class MailDownloadCommand extends BaseCommand
 {
-    use LoggerTrait;
-
     public const DEFAULT_COMMAND = 'mail:download';
 
     protected static $defaultName = 'eventum:' . self::DEFAULT_COMMAND;
@@ -46,13 +42,6 @@ class MailDownloadCommand extends BaseCommand
      * @var int
      */
     private $limit = 0;
-
-    public function __construct(LoggerInterface $logger = null)
-    {
-        $logger = $logger ?: $this->getLogger();
-        $this->logger = $logger;
-        parent::__construct();
-    }
 
     protected function configure(): void
     {
