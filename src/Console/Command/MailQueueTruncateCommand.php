@@ -22,7 +22,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 class MailQueueTruncateCommand extends SymfonyCommand
 {
     public const DEFAULT_COMMAND = 'mail-queue:truncate';
-    public const USAGE = self::DEFAULT_COMMAND . ' [-q|--quiet] [--interval=]';
     private const DEFAULT_INTERVAL = '1 month';
 
     protected static $defaultName = 'eventum:' . self::DEFAULT_COMMAND;
@@ -39,19 +38,13 @@ class MailQueueTruncateCommand extends SymfonyCommand
         $interval = $input->getOption('interval') ?: self::DEFAULT_INTERVAL;
         $quiet = $input->getOption('quiet');
 
-        $this($output, $quiet, $interval);
-
-        return 0;
-    }
-
-    public function __invoke(OutputInterface $output, $quiet, $interval): void
-    {
-        $interval = $interval ?: self::DEFAULT_INTERVAL;
         Mail_Queue::truncate($interval);
 
         if (!$quiet) {
             $message = ev_gettext('Mail queue truncated by %1$s.', $interval);
             $output->writeln("<info>$message</info>");
         }
+
+        return 0;
     }
 }

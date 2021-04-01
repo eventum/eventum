@@ -29,7 +29,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 class MonitorCommand extends SymfonyCommand
 {
     public const DEFAULT_COMMAND = 'system:monitor';
-    public const USAGE = self::DEFAULT_COMMAND . ' [-q|--quiet]';
 
     // Nagios compatible exit codes
     public const STATE_OK = 0;
@@ -55,12 +54,6 @@ class MonitorCommand extends SymfonyCommand
     public function execute(InputInterface $input, OutputInterface $output): int
     {
         $quiet = $input->getOption('quiet');
-
-        return $this($output, $quiet);
-    }
-
-    public function __invoke(OutputInterface $output, $quiet): int
-    {
         $this->output = $output;
 
         // the owner, group and filesize settings should be changed to match the correct permissions on your server.

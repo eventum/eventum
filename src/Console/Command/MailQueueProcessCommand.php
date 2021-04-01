@@ -22,7 +22,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 class MailQueueProcessCommand extends SymfonyCommand
 {
     public const DEFAULT_COMMAND = 'mail-queue:process';
-    public const USAGE = self::DEFAULT_COMMAND;
 
     protected static $defaultName = 'eventum:' . self::DEFAULT_COMMAND;
 
@@ -31,19 +30,14 @@ class MailQueueProcessCommand extends SymfonyCommand
 
     public function execute(InputInterface $input, OutputInterface $output): int
     {
-        $this();
-
-        return 0;
-    }
-
-    public function __invoke(): void
-    {
         $lock = new ConcurrentLock($this->lock_name);
         $lock->synchronized(
             function (): void {
                 $this->processMailQueue();
             }
         );
+
+        return 0;
     }
 
     private function processMailQueue(): void

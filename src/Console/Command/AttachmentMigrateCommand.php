@@ -39,7 +39,6 @@ class AttachmentMigrateCommand extends SymfonyCommand
     use ConsoleTrait;
 
     public const DEFAULT_COMMAND = 'attachment:migrate';
-    public const USAGE = self::DEFAULT_COMMAND . ' [source_adapter] [target_adapter] [--chunksize=] [--limit=] [--migrate] [--verify]';
     private const DEFAULT_CHUNKSIZE = 100;
 
     protected static $defaultName = 'eventum:' . self::DEFAULT_COMMAND;
@@ -74,16 +73,8 @@ class AttachmentMigrateCommand extends SymfonyCommand
         $migrate = $input->getOption('migrate');
         $verify = $input->getOption('verify');
         $limit = $input->getOption('limit');
-        $chunksize = $input->getOption('chunksize');
+        $chunksize = $input->getOption('chunksize') ?: self::DEFAULT_CHUNKSIZE;
 
-        $this($output, $source_adapter, $target_adapter, $migrate, $verify, $limit, $chunksize);
-
-        return 0;
-    }
-
-    public function __invoke(OutputInterface $output, $source_adapter, $target_adapter, $migrate, $verify, $limit, $chunksize): void
-    {
-        $chunksize = $chunksize ?: self::DEFAULT_CHUNKSIZE;
         $this->output = $output;
         $this->assertInput($source_adapter, $target_adapter, $migrate, $verify);
 
@@ -98,6 +89,8 @@ class AttachmentMigrateCommand extends SymfonyCommand
             $this->migrateAttachments((int)$chunksize, (int)$limit);
             $this->postUpgradeNotice();
         }
+
+        return 0;
     }
 
     private function verifyAttachments($chunkSize, $limit): void

@@ -25,7 +25,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 class ReminderCheckCommand extends SymfonyCommand
 {
     public const DEFAULT_COMMAND = 'reminder:check';
-    public const USAGE = self::DEFAULT_COMMAND . ' [--debug]';
 
     protected static $defaultName = 'eventum:' . self::DEFAULT_COMMAND;
 
@@ -47,14 +46,6 @@ class ReminderCheckCommand extends SymfonyCommand
     public function execute(InputInterface $input, OutputInterface $output): int
     {
         $debug = $input->getOption('debug');
-
-        $this($output, $debug);
-
-        return 0;
-    }
-
-    public function __invoke(OutputInterface $output, $debug): void
-    {
         $this->output = $output;
 
         // backward compatible --debug option is same as -vvv
@@ -70,6 +61,8 @@ class ReminderCheckCommand extends SymfonyCommand
                 $this->checkReminders();
             }
         );
+
+        return 0;
     }
 
     /**

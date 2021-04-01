@@ -30,7 +30,6 @@ class LdapSyncCommand extends SymfonyCommand
     use ConsoleTrait;
 
     public const DEFAULT_COMMAND = 'ldap:sync';
-    public const USAGE = self::DEFAULT_COMMAND . ' [--dry-run] [--create-users] [--no-update] [--no-disable]';
 
     protected static $defaultName = 'eventum:' . self::DEFAULT_COMMAND;
 
@@ -56,13 +55,6 @@ class LdapSyncCommand extends SymfonyCommand
         $noUpdate = $input->getOption('no-update');
         $noDisable = $input->getOption('no-disable');
 
-        $this($output, $dryrun, $createUsers, $noUpdate, $noDisable);
-
-        return 0;
-    }
-
-    public function __invoke(OutputInterface $output, $dryrun = false, $createUsers, $noUpdate, $noDisable): void
-    {
         $this->output = $output;
         $this->dryrun = $dryrun;
 
@@ -71,6 +63,8 @@ class LdapSyncCommand extends SymfonyCommand
 
         $this->updateUsers(!$noUpdate);
         $this->disableUsers(!$noDisable);
+
+        return 0;
     }
 
     /**

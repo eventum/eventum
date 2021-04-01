@@ -37,7 +37,6 @@ class MailDownloadCommand extends SymfonyCommand
     use LoggerTrait;
 
     public const DEFAULT_COMMAND = 'mail:download';
-    public const USAGE = self::DEFAULT_COMMAND . ' [username] [hostname] [mailbox] [--limit=] [--no-lock]';
 
     protected static $defaultName = 'eventum:' . self::DEFAULT_COMMAND;
 
@@ -68,22 +67,14 @@ class MailDownloadCommand extends SymfonyCommand
 
     public function execute(InputInterface $input, OutputInterface $output): int
     {
-        $username = $input->getArgument('username');
-        $hostname = $input->getArgument('hostname');
+        $username = $input->getArgument('username') ?: '';
+        $hostname = $input->getArgument('hostname') ?: '';
         $mailbox = $input->getArgument('mailbox');
         $noLock = $input->getOption('no-lock');
-        $limit = $input->getOption('limit');
+        $this->limit = $input->getOption('limit') ?: 0;
 
-        $this($username, $hostname, $mailbox, $noLock, $limit);
-
-        return 0;
-    }
-
-    public function __invoke(?string $username, ?string $hostname, ?string $mailbox, ?bool $noLock, ?int $limit): void
-    {
-        $account = $this->findAccount($hostname ?: '', $username ?: '', $mailbox);
+        $account = $this->findAccount($hostname, $username, $mailbox);
         $account_id = $account->getId();
-        $this->limit = $limit ?: 0;
 
         if (!$noLock) {
             $lock = new ConcurrentLock('download_emails_' . $account_id);
@@ -95,6 +86,8 @@ class MailDownloadCommand extends SymfonyCommand
         } else {
             $this->processEmails($account_id);
         }
+
+        return 0;
     }
 
     private function processEmails(int $account_id): void

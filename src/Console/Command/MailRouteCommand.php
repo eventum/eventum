@@ -24,7 +24,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 class MailRouteCommand extends SymfonyCommand
 {
     public const DEFAULT_COMMAND = 'mail:route';
-    public const USAGE = self::DEFAULT_COMMAND . '  [filename]';
 
     protected static $defaultName = 'eventum:' . self::DEFAULT_COMMAND;
 
@@ -38,18 +37,6 @@ class MailRouteCommand extends SymfonyCommand
     {
         $filename = $input->getArgument('filename');
 
-        $this($output, $filename);
-
-        return 0;
-    }
-
-    /**
-     * @param OutputInterface $output
-     * @param string $filename optional filename to load
-     * @return int Program exit code
-     */
-    public function __invoke(OutputInterface $output, $filename): int
-    {
         // take input from first argument if specified
         // otherwise read from STDIN
         if ($filename) {

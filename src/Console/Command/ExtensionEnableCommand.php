@@ -27,7 +27,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 class ExtensionEnableCommand extends SymfonyCommand
 {
     public const DEFAULT_COMMAND = 'extension:enable';
-    public const USAGE = self::DEFAULT_COMMAND . ' [filename] [classname]';
 
     protected static $defaultName = 'eventum:' . self::DEFAULT_COMMAND;
 
@@ -46,15 +45,10 @@ class ExtensionEnableCommand extends SymfonyCommand
         $filename = $input->getArgument('filename');
         $classname = $input->getArgument('classname');
 
-        $this($output, $filename, $classname);
-
-        return 0;
-    }
-
-    public function __invoke(OutputInterface $output, $filename, $classname): void
-    {
         $this->output = $output;
         $this->setupExtension($filename, $classname);
+
+        return 0;
     }
 
     /**
