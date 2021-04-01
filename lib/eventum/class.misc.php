@@ -530,24 +530,6 @@ class Misc
     }
 
     /**
-     * Generate a random byte string of the requested size.
-     *
-     * Uses Medium Strength Generator
-     *
-     * @see https://github.com/ircmaxell/RandomLib#factory-getlowstrengthgenerator
-     *
-     * @param int $size
-     * @return string
-     * @deprecated since 3.10.2, use random_bytes() instead
-     */
-    public static function generateRandom($size = 32)
-    {
-        trigger_deprecation('eventum/eventum', '3.10.2', 'Method "%s::%s" is deprecated, use random_bytes', __CLASS__, __METHOD__);
-
-        return random_bytes($size);
-    }
-
-    /**
      * Wrapper to call unserialize safe way.
      * This specifies that no classes may be instantiated.
      *
