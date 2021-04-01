@@ -1,6 +1,6 @@
 # Eventum Issue Tracking System
 
-## [3.10.2]
+## [3.10.2] - 2021-04-01
 
 See [Upgrading] for details on how to upgrade.
 
@@ -18,7 +18,7 @@ See [Upgrading] for details on how to upgrade.
 - Fix markdown `heading_permalink` deprecation, #1037
 - Use `random_bytes()` rather RandomLib library, #1036
 
-[3.10.2]: https://github.com/eventum/eventum/compare/v3.10.1...master
+[3.10.2]: https://github.com/eventum/eventum/compare/v3.10.1...v3.10.2
 
 ## [3.10.1] - 2021-03-24
 
