@@ -13,8 +13,6 @@
 
 namespace Eventum\Mail;
 
-use Misc;
-
 class MessageIdGenerator
 {
     /** @var string */
@@ -36,7 +34,7 @@ class MessageIdGenerator
         $first = microtime(true);
 
         // second part is random string
-        $second = bin2hex(Misc::generateRandom(16));
+        $second = bin2hex(random_bytes(16));
 
         return $this->format($first, $second);
     }

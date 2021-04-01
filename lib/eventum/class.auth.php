@@ -51,7 +51,7 @@ class Auth
     public static function generatePrivateKey(): void
     {
         $path = Setup::getPrivateKeyPath();
-        $private_key = md5(Misc::generateRandom(32));
+        $private_key = md5(random_bytes(32));
 
         $contents = '<' . "?php\n\$private_key = " . var_export($private_key, 1) . ";\n";
 
