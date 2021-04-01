@@ -538,9 +538,12 @@ class Misc
      *
      * @param int $size
      * @return string
+     * @deprecated since 3.10.2, use random_bytes() instead
      */
     public static function generateRandom($size = 32)
     {
+        trigger_deprecation('eventum/eventum', '3.10.2', 'Method "%s::%s" is deprecated, use random_bytes', __CLASS__, __METHOD__);
+
         return random_bytes($size);
     }
 
