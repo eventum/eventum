@@ -13,17 +13,19 @@
 
 namespace Eventum\Db;
 
+use LazyProperty\LazyPropertiesTrait;
 use PDO;
 use Phinx;
 use Phinx\Db\Adapter\MysqlAdapter;
 use Phinx\Db\Table;
 use Phinx\Migration\AbstractMigration as PhinxAbstractMigration;
-use RuntimeException;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Output\OutputInterface;
 
 abstract class AbstractMigration extends PhinxAbstractMigration
 {
+    use LazyPropertiesTrait;
+
     // According to https://dev.mysql.com/doc/refman/5.0/en/blob.html BLOB sizes are the same as TEXT
     protected const BLOB_TINY = MysqlAdapter::BLOB_TINY;
     protected const BLOB_REGULAR = MysqlAdapter::BLOB_REGULAR;
@@ -71,33 +73,18 @@ abstract class AbstractMigration extends PhinxAbstractMigration
 
     public function init(): void
     {
-        // undefine to lazy init the values
-        unset($this->engine, $this->charset, $this->collation);
-    }
-
-    public function __get($name)
-    {
-        $this->initOptions();
-
-        if (!isset($this->$name)) {
-            throw new RuntimeException("Unknown property: '$name'");
-        }
-
-        return $this->$name;
-    }
-
-    /**
-     * This would be in init() but it's too early to use adapter.
-     *
-     * @see https://github.com/robmorgan/phinx/issues/1095
-     */
-    private function initOptions(): void
-    {
-        // extract options from phinx.php config
-        $options = $this->getAdapter()->getOptions();
-        $this->charset = $options['charset'];
-        $this->collation = $options['collation'];
-        $this->engine = $options['engine'];
+        /**
+         * These need to be initialized later than init or constructor
+         * @see https://github.com/robmorgan/phinx/issues/1095
+         */
+        $this->initLazyProperties([
+            /** @see getCharset */
+            'charset',
+            /** @see getCollation */
+            'collation',
+            /** @see getEngine */
+            'engine',
+        ]);
     }
 
     /**
@@ -262,5 +249,20 @@ abstract class AbstractMigration extends PhinxAbstractMigration
         $progressBar->setMessage('');
 
         return $progressBar;
+    }
+
+    private function getCharset(): string
+    {
+        return $this->getAdapter()->getOptions()['charset'];
+    }
+
+    private function getCollation(): string
+    {
+        return $this->getAdapter()->getOptions()['collation'];
+    }
+
+    private function getEngine(): string
+    {
+        return $this->getAdapter()->getOptions()['engine'];
     }
 }
