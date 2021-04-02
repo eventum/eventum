@@ -5,6 +5,7 @@
 See [Upgrading] for details on how to upgrade.
 
 - Fix `DynamicCustomFieldController` accessing repository too soon, #1041
+- Refactor: Add LazyProperties to AbstractMigration, #1042
 
 [3.10.3]: https://github.com/eventum/eventum/compare/v3.10.2...master
 

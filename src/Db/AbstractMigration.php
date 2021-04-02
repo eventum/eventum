@@ -13,17 +13,19 @@
 
 namespace Eventum\Db;
 
+use LazyProperty\LazyPropertiesTrait;
 use PDO;
 use Phinx;
 use Phinx\Db\Adapter\MysqlAdapter;
 use Phinx\Db\Table;
 use Phinx\Migration\AbstractMigration as PhinxAbstractMigration;
-use RuntimeException;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Output\OutputInterface;
 
 abstract class AbstractMigration extends PhinxAbstractMigration
 {
+    use LazyPropertiesTrait;
+
     // According to https://dev.mysql.com/doc/refman/5.0/en/blob.html BLOB sizes are the same as TEXT
     protected const BLOB_TINY = MysqlAdapter::BLOB_TINY;
     protected const BLOB_REGULAR = MysqlAdapter::BLOB_REGULAR;
@@ -71,42 +73,22 @@ abstract class AbstractMigration extends PhinxAbstractMigration
 
     public function init(): void
     {
-        // undefine to lazy init the values
-        unset($this->engine, $this->charset, $this->collation);
-    }
-
-    public function __get($name)
-    {
-        $this->initOptions();
-
-        if (!isset($this->$name)) {
-            throw new RuntimeException("Unknown property: '$name'");
-        }
-
-        return $this->$name;
-    }
-
-    /**
-     * This would be in init() but it's too early to use adapter.
-     *
-     * @see https://github.com/robmorgan/phinx/issues/1095
-     */
-    private function initOptions(): void
-    {
-        // extract options from phinx.php config
-        $options = $this->getAdapter()->getOptions();
-        $this->charset = $options['charset'];
-        $this->collation = $options['collation'];
-        $this->engine = $options['engine'];
+        $this->initLazyProperties([
+            /** @see getCharset */
+            'charset',
+            /** @see getCollation */
+            'collation',
+            /** @see getEngine */
+            'engine',
+        ]);
     }
 
     /**
      * Override until upstream adds support
      *
      * @see https://github.com/robmorgan/phinx/pull/810
-     * {@inheritdoc}
      */
-    public function table($tableName, $options = [])
+    public function table($tableName, $options = []): Table
     {
         $options['engine'] = $options['engine'] ?? $this->engine;
         $options['charset'] = $options['charset'] ?? $this->charset;
@@ -115,20 +97,12 @@ abstract class AbstractMigration extends PhinxAbstractMigration
         return parent::table($tableName, $options);
     }
 
-    /**
-     * @param string $columnName
-     * @return string
-     */
-    protected function quoteColumnName($columnName)
+    protected function quoteColumnName(string $columnName): string
     {
         return $this->getAdapter()->quoteColumnName($columnName);
     }
 
-    /**
-     * @param string $tableName
-     * @return string
-     */
-    protected function quoteTableName($tableName)
+    protected function quoteTableName(string $tableName): string
     {
         return $this->getAdapter()->quoteTableName($tableName);
     }
@@ -138,11 +112,8 @@ abstract class AbstractMigration extends PhinxAbstractMigration
      * As long as execute() does not take params, we need to quote values.
      *
      * @see https://github.com/robmorgan/phinx/pull/850
-     * @param string $value
-     * @param int $parameter_type
-     * @return string
      */
-    protected function quote($value, $parameter_type = PDO::PARAM_STR)
+    protected function quote(string $value, int $parameter_type = PDO::PARAM_STR): string
     {
         /** @var MysqlAdapter $adapter */
         $adapter = $this->getAdapter();
@@ -152,12 +123,8 @@ abstract class AbstractMigration extends PhinxAbstractMigration
 
     /**
      * Run SQL Query, return single result.
-     *
-     * @param string $sql
-     * @param string $column
-     * @return string|null
      */
-    protected function queryOne($sql, $column = '0'): ?string
+    protected function queryOne(string $sql, $column = '0'): ?string
     {
         $rows = $this->queryColumn($sql, $column);
 
@@ -170,10 +137,6 @@ abstract class AbstractMigration extends PhinxAbstractMigration
 
     /**
      * Run SQL Query, return single column.
-     *
-     * @param string $sql
-     * @param string $column
-     * @return array
      */
     protected function queryColumn(string $sql, string $column): array
     {
@@ -188,13 +151,8 @@ abstract class AbstractMigration extends PhinxAbstractMigration
 
     /**
      * Run SQL Query, return key => value pairs
-     *
-     * @param string $sql
-     * @param string $keyColumn
-     * @param string $valueColumn
-     * @return array
      */
-    protected function queryPair($sql, $keyColumn, $valueColumn)
+    protected function queryPair(string $sql, string $keyColumn, string $valueColumn): array
     {
         $rows = [];
         foreach ($this->query($sql) as $row) {
@@ -210,10 +168,10 @@ abstract class AbstractMigration extends PhinxAbstractMigration
      * Return columns indexed by column names
      *
      * @param Table $table
-     * @param array $columnNames
+     * @param string[] $columnNames
      * @return Table\Column[]
      */
-    protected function getColumns(Table $table, $columnNames = [])
+    protected function getColumns(Table $table, array $columnNames = []): array
     {
         $columns = [];
         foreach ($table->getColumns() as $column) {
@@ -227,12 +185,7 @@ abstract class AbstractMigration extends PhinxAbstractMigration
         return $columns;
     }
 
-    /**
-     * @param string $tableName
-     * @param string $columnName
-     * @return Table\Column
-     */
-    protected function getColumn($tableName, $columnName)
+    protected function getColumn(string $tableName, string $columnName): Table\Column
     {
         $table = $this->table($tableName);
         $columns = $this->getColumns($table, [$columnName]);
@@ -251,16 +204,27 @@ abstract class AbstractMigration extends PhinxAbstractMigration
         $this->output->writeln($messages, $options);
     }
 
-    /**
-     * @param int $total
-     * @return ProgressBar
-     */
-    protected function createProgressBar($total)
+    protected function createProgressBar(int $total): ProgressBar
     {
         $progressBar = new ProgressBar($this->output, $total);
         $progressBar->setFormat(' %current%/%max% [%bar%] %percent:3s%% %elapsed:6s%/%estimated:-6s% %memory:6s% | %message% ');
         $progressBar->setMessage('');
 
         return $progressBar;
+    }
+
+    private function getCharset(): string
+    {
+        return $this->getAdapter()->getOptions()['charset'];
+    }
+
+    private function getCollation(): string
+    {
+        return $this->getAdapter()->getOptions()['collation'];
+    }
+
+    private function getEngine(): string
+    {
+        return $this->getAdapter()->getOptions()['engine'];
     }
 }
