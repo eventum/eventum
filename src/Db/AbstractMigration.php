@@ -91,9 +91,8 @@ abstract class AbstractMigration extends PhinxAbstractMigration
      * Override until upstream adds support
      *
      * @see https://github.com/robmorgan/phinx/pull/810
-     * {@inheritdoc}
      */
-    public function table($tableName, $options = [])
+    public function table($tableName, $options = []): Table
     {
         $options['engine'] = $options['engine'] ?? $this->engine;
         $options['charset'] = $options['charset'] ?? $this->charset;
@@ -102,20 +101,12 @@ abstract class AbstractMigration extends PhinxAbstractMigration
         return parent::table($tableName, $options);
     }
 
-    /**
-     * @param string $columnName
-     * @return string
-     */
-    protected function quoteColumnName($columnName)
+    protected function quoteColumnName(string $columnName): string
     {
         return $this->getAdapter()->quoteColumnName($columnName);
     }
 
-    /**
-     * @param string $tableName
-     * @return string
-     */
-    protected function quoteTableName($tableName)
+    protected function quoteTableName(string $tableName): string
     {
         return $this->getAdapter()->quoteTableName($tableName);
     }
@@ -125,11 +116,8 @@ abstract class AbstractMigration extends PhinxAbstractMigration
      * As long as execute() does not take params, we need to quote values.
      *
      * @see https://github.com/robmorgan/phinx/pull/850
-     * @param string $value
-     * @param int $parameter_type
-     * @return string
      */
-    protected function quote($value, $parameter_type = PDO::PARAM_STR)
+    protected function quote(string $value, int $parameter_type = PDO::PARAM_STR): string
     {
         /** @var MysqlAdapter $adapter */
         $adapter = $this->getAdapter();
@@ -139,12 +127,8 @@ abstract class AbstractMigration extends PhinxAbstractMigration
 
     /**
      * Run SQL Query, return single result.
-     *
-     * @param string $sql
-     * @param string $column
-     * @return string|null
      */
-    protected function queryOne($sql, $column = '0'): ?string
+    protected function queryOne(string $sql, $column = '0'): ?string
     {
         $rows = $this->queryColumn($sql, $column);
 
@@ -157,10 +141,6 @@ abstract class AbstractMigration extends PhinxAbstractMigration
 
     /**
      * Run SQL Query, return single column.
-     *
-     * @param string $sql
-     * @param string $column
-     * @return array
      */
     protected function queryColumn(string $sql, string $column): array
     {
@@ -175,13 +155,8 @@ abstract class AbstractMigration extends PhinxAbstractMigration
 
     /**
      * Run SQL Query, return key => value pairs
-     *
-     * @param string $sql
-     * @param string $keyColumn
-     * @param string $valueColumn
-     * @return array
      */
-    protected function queryPair($sql, $keyColumn, $valueColumn)
+    protected function queryPair(string $sql, string $keyColumn, string $valueColumn): array
     {
         $rows = [];
         foreach ($this->query($sql) as $row) {
@@ -197,10 +172,10 @@ abstract class AbstractMigration extends PhinxAbstractMigration
      * Return columns indexed by column names
      *
      * @param Table $table
-     * @param array $columnNames
+     * @param string[] $columnNames
      * @return Table\Column[]
      */
-    protected function getColumns(Table $table, $columnNames = [])
+    protected function getColumns(Table $table, array $columnNames = []): array
     {
         $columns = [];
         foreach ($table->getColumns() as $column) {
@@ -214,12 +189,7 @@ abstract class AbstractMigration extends PhinxAbstractMigration
         return $columns;
     }
 
-    /**
-     * @param string $tableName
-     * @param string $columnName
-     * @return Table\Column
-     */
-    protected function getColumn($tableName, $columnName)
+    protected function getColumn(string $tableName, string $columnName): Table\Column
     {
         $table = $this->table($tableName);
         $columns = $this->getColumns($table, [$columnName]);
@@ -238,11 +208,7 @@ abstract class AbstractMigration extends PhinxAbstractMigration
         $this->output->writeln($messages, $options);
     }
 
-    /**
-     * @param int $total
-     * @return ProgressBar
-     */
-    protected function createProgressBar($total)
+    protected function createProgressBar(int $total): ProgressBar
     {
         $progressBar = new ProgressBar($this->output, $total);
         $progressBar->setFormat(' %current%/%max% [%bar%] %percent:3s%% %elapsed:6s%/%estimated:-6s% %memory:6s% | %message% ');
