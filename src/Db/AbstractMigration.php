@@ -73,10 +73,6 @@ abstract class AbstractMigration extends PhinxAbstractMigration
 
     public function init(): void
     {
-        /**
-         * These need to be initialized later than init or constructor
-         * @see https://github.com/robmorgan/phinx/issues/1095
-         */
         $this->initLazyProperties([
             /** @see getCharset */
             'charset',
