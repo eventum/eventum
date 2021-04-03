@@ -3,20 +3,15 @@
 # install tools necessary for CI
 #
 
-cachedir=$(pwd)/cache
-install -d $cachedir
+destdir="$1"
 
 # copy tool from cache
 # or download and put it to cache
 get() {
-	local tool=$1
-	local cachefile=$cachedir/$tool
-	if [ -e $cachefile ]; then
-		cp -p $cachefile .
-	else
-		make $tool
-		cp -p $tool $cachedir
-	fi
+	local tool="$1"
+
+	make $tool
+	cp -p $tool $destdir
 }
 
 get php-cs-fixer.phar
