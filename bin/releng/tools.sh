@@ -14,7 +14,5 @@ get() {
 	cp -p $tool $destdir
 }
 
-get php-cs-fixer.phar
 get phpcompatinfo.phar
-get box.phar
 get phing.phar
