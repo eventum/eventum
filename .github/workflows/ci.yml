@@ -92,9 +92,10 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Build release tarball
+        env:
+          BUILD_IMAGE: ghcr.io/eventum/eventum:release-image
         run: |
-          docker build . -f bin/releng/Dockerfile -t releng --target=releng
-          docker run -v $(pwd):/app releng bin/releng/dist.sh
+          docker run -v $(pwd):/app $BUILD_IMAGE bin/releng/dist.sh
 
       # https://github.com/actions/upload-artifact
       - uses: actions/upload-artifact@v2
