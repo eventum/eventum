@@ -7,9 +7,6 @@ if [ -f "$DOCKER_ENV_LOAD" ]; then
 	. "$DOCKER_ENV_LOAD"
 fi
 
-bin/releng/tools.sh
-bin/releng/locales.sh
-
 # need to fetch tags first for release process
 git fetch origin --unshallow "+refs/tags/v*:refs/tags/v*"
 

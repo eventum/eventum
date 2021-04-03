@@ -265,9 +265,6 @@ prepare_source() {
 	phplint
 }
 
-# download tools
-make phpcompatinfo.phar phing.phar
-
 composer=$(find_prog composer)
 phpcompatinfo=$(find_prog phpcompatinfo)
 phing=$(find_prog phing)
