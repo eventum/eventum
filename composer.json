@@ -36,7 +36,7 @@
         "defuse/php-encryption": "^2.1",
         "doctrine/dbal": "^2.5",
         "doctrine/doctrine-bundle": "^2.0",
-        "doctrine/orm": "2.7.3",
+        "doctrine/orm": "^2.7.3",
         "enrise/urihelper": "^1.0",
         "ezyang/htmlpurifier": "^4.10",
         "fonts/liberation": "*",
