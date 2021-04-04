@@ -44,7 +44,7 @@ RUN bin/releng/locales.sh
 
 COPY Makefile .
 COPY bin/releng/tools.sh ./bin/releng/tools.sh
-RUN bin/releng/tools.sh
+RUN bin/releng/tools.sh /usr/bin
 
 # docker build . -f bin/releng/Dockerfile -t app --target=stage-release
 FROM releng AS stage-release
