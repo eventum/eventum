@@ -11,14 +11,33 @@
  * that were distributed with this source code.
  */
 
-namespace Eventum\Console;
+namespace Eventum\Console\Command;
 
+use Eventum\Logger\LoggerTrait;
+use Symfony\Component\Console\Command\Command as SymfonyCommand;
+use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-trait ConsoleTrait
+abstract class BaseCommand extends SymfonyCommand
 {
+    use LoggerTrait;
+
+    protected const DEBUG = OutputInterface::VERBOSITY_DEBUG;
+    protected const VERBOSE = OutputInterface::VERBOSITY_VERBOSE;
+    protected const VERY_VERBOSE = OutputInterface::VERBOSITY_VERY_VERBOSE;
+
+    /** @var InputInterface */
+    protected $input;
+
     /** @var OutputInterface */
     protected $output;
+
+    protected function initialize(InputInterface $input, OutputInterface $output): void
+    {
+        $this->output = $output;
+        $this->input = $input;
+        $this->logger = $this->getLogger();
+    }
 
     /**
      * Writes a message to the output and adds a newline at the end.

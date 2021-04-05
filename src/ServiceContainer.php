@@ -39,7 +39,6 @@ class ServiceContainer
             $container->register(new ServiceProvider\ServiceProvider());
             $container->register(new ServiceProvider\FulltextSearchService());
             $container->register(new ServiceProvider\MarkdownServiceProvider());
-            $container->register(new ServiceProvider\ConsoleCommandsService());
         }
 
         return $container;
@@ -47,9 +46,12 @@ class ServiceContainer
 
     /**
      * @since 3.8.13
+     * @deprecated since 3.10.3
      */
     public static function getContainer(): ContainerInterface
     {
+        trigger_deprecation('eventum/eventum', '3.10.3', 'Method "%s::%s" is deprecated', __CLASS__, __METHOD__);
+
         static $container;
 
         if (!$container) {

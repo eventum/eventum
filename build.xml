@@ -175,10 +175,6 @@
 				<include name="schema/**"/>
 			</fileset>
 
-			<fileset dir="${vendor}/mnapoli/silly">
-				<include name="website/**"/>
-			</fileset>
-
 			<fileset dir="${vendor}/doctrine/dbal">
 				<include name="bin/**"/>
 			</fileset>

@@ -21,15 +21,13 @@ use Eventum\ServiceContainer;
 use Exception;
 use Mail_Queue;
 use Setup;
-use Symfony\Component\Console\Command\Command as SymfonyCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class MonitorCommand extends SymfonyCommand
+class MonitorCommand extends BaseCommand
 {
     public const DEFAULT_COMMAND = 'system:monitor';
-    public const USAGE = self::DEFAULT_COMMAND . ' [-q|--quiet]';
 
     // Nagios compatible exit codes
     public const STATE_OK = 0;
@@ -39,9 +37,6 @@ class MonitorCommand extends SymfonyCommand
     public const STATE_DEPENDENT = 4;
 
     protected static $defaultName = 'eventum:' . self::DEFAULT_COMMAND;
-
-    /** @var OutputInterface */
-    private $output;
 
     /** @var int */
     private $errors = 0;
@@ -55,13 +50,6 @@ class MonitorCommand extends SymfonyCommand
     public function execute(InputInterface $input, OutputInterface $output): int
     {
         $quiet = $input->getOption('quiet');
-
-        return $this($output, $quiet);
-    }
-
-    public function __invoke(OutputInterface $output, $quiet): int
-    {
-        $this->output = $output;
 
         // the owner, group and filesize settings should be changed to match the correct permissions on your server.
         $configPath = Setup::getConfigPath();
@@ -130,7 +118,7 @@ class MonitorCommand extends SymfonyCommand
         $table_list = DB_Helper::getInstance()->getColumn('SHOW TABLES');
         foreach ($required_tables as $table) {
             if (!in_array($table, $table_list, true)) {
-                $this->error(ev_gettext('ERROR: Could not find required table "%s"', $table));
+                $this->addError(ev_gettext('ERROR: Could not find required table "%s"', $table));
             }
         }
     }
@@ -144,7 +132,7 @@ class MonitorCommand extends SymfonyCommand
         try {
             $status = DB_Helper::getInstance()->getPair($stmt);
         } catch (DatabaseException $e) {
-            $this->error(ev_gettext('ERROR: There was a DB error checking the mail queue status'));
+            $this->addError(ev_gettext('ERROR: There was a DB error checking the mail queue status'));
 
             return;
         }
@@ -169,7 +157,7 @@ class MonitorCommand extends SymfonyCommand
         }
 
         $message = implode(', ', $messages);
-        $this->error(ev_gettext('ERROR: There are mails with errors: %s', $message));
+        $this->addError(ev_gettext('ERROR: There are mails with errors: %s', $message));
     }
 
     /**
@@ -198,13 +186,13 @@ class MonitorCommand extends SymfonyCommand
         try {
             $res = DB_Helper::getInstance()->getOne($stmt);
         } catch (DatabaseException $e) {
-            $this->error(ev_gettext('ERROR: There was a DB error checking the mail association status'));
+            $this->addError(ev_gettext('ERROR: There was a DB error checking the mail association status'));
 
             return;
         }
 
         if ($res > 0) {
-            $this->error(ev_gettext('ERROR: There is a total of %d emails not associated.', $res));
+            $this->addError(ev_gettext('ERROR: There is a total of %d emails not associated.', $res));
         }
     }
 
@@ -217,14 +205,14 @@ class MonitorCommand extends SymfonyCommand
         $free_space = disk_free_space($partition);
         $free_percentage = ($free_space * 100) / $total_space;
         if ($free_percentage < $low_limit) {
-            $this->error(
+            $this->addError(
                 ev_gettext('ERROR: Almost no free disk space left (percentage left: %.2f%%)', $free_percentage)
             );
 
             return;
         }
         if ($free_percentage < $high_limit) {
-            $this->error(
+            $this->addError(
                 ev_gettext(
                     'ERROR: Free disk space left is getting very low (percentage left: %.2f%%)',
                     $free_percentage
@@ -246,7 +234,7 @@ class MonitorCommand extends SymfonyCommand
         foreach ($required_files as $file_path => $options) {
             // check if file exists
             if (!file_exists($file_path)) {
-                $this->error(ev_gettext('ERROR: File could not be found (path: %s)', $file_path));
+                $this->addError(ev_gettext('ERROR: File could not be found (path: %s)', $file_path));
                 continue;
             }
             // check the owner and group for these files
@@ -258,7 +246,7 @@ class MonitorCommand extends SymfonyCommand
                     $owner,
                     $options['owner']
                 );
-                $this->error($message);
+                $this->addError($message);
             }
             if (!empty($options['check_group']) && $options['group'] != $group) {
                 $message = ev_gettext(
@@ -267,7 +255,7 @@ class MonitorCommand extends SymfonyCommand
                     $group,
                     $options['group']
                 );
-                $this->error($message);
+                $this->addError($message);
             }
             // check permission bits
             $perm = self::getOctalPerms($file_path);
@@ -278,7 +266,7 @@ class MonitorCommand extends SymfonyCommand
                     $perm,
                     $options['permission']
                 );
-                $this->error($message);
+                $this->addError($message);
             }
 
             // check filesize
@@ -288,7 +276,7 @@ class MonitorCommand extends SymfonyCommand
                     $file_path,
                     filesize($file_path)
                 );
-                $this->error($message);
+                $this->addError($message);
             }
         }
     }
@@ -303,13 +291,13 @@ class MonitorCommand extends SymfonyCommand
         foreach ($required_directories as $dir_path => $options) {
             // check if directory exists
             if (!file_exists($dir_path)) {
-                $this->error(ev_gettext('ERROR: Directory could not be found (path: %1$s)', $dir_path));
+                $this->addError(ev_gettext('ERROR: Directory could not be found (path: %1$s)', $dir_path));
                 continue;
             }
             // check permission bits
             $perm = self::getOctalPerms($dir_path);
             if ((@$options['check_permission']) && ($options['permission'] != $perm)) {
-                $this->error(
+                $this->addError(
                     ev_gettext(
                         'ERROR: Directory permission mismatch (path: %1$s; current perm: %2$s; correct perm: %3$s)',
                         $dir_path,
@@ -326,7 +314,7 @@ class MonitorCommand extends SymfonyCommand
      *
      * @param string $message
      */
-    private function error($message): void
+    private function addError(string $message): void
     {
         $this->output->writeln("<error>$message</error>");
         $this->errors++;

@@ -15,15 +15,13 @@ namespace Eventum\Console\Command;
 
 use Eventum\Db\Doctrine;
 use Eventum\Export\IssueExport;
-use Symfony\Component\Console\Command\Command as SymfonyCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class ExportIssuesCommand extends SymfonyCommand
+class ExportIssuesCommand extends BaseCommand
 {
     public const DEFAULT_COMMAND = 'export:issues';
-    public const USAGE = self::DEFAULT_COMMAND . ' [issueId] [filename]';
 
     protected static $defaultName = 'eventum:' . self::DEFAULT_COMMAND;
 
@@ -39,16 +37,11 @@ class ExportIssuesCommand extends SymfonyCommand
         $issueId = $input->getArgument('issueId');
         $fileName = $input->getArgument('fileName');
 
-        $this($issueId, $fileName);
-
-        return 0;
-    }
-
-    public function __invoke(?int $issueId, ?string $fileName): void
-    {
         if ($issueId) {
             $this->exportIssue($issueId, $fileName ?: 'output.csv');
         }
+
+        return 0;
     }
 
     private function exportIssue(int $issueId, string $fileName): void

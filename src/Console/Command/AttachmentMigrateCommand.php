@@ -18,7 +18,6 @@ use DateTimeZone;
 use DB_Helper;
 use Eventum\Attachment\AttachmentManager;
 use Eventum\Attachment\StorageManager;
-use Eventum\Console\ConsoleTrait;
 use Eventum\Db\Adapter\AdapterInterface;
 use Exception;
 use League\Flysystem\Adapter\Local;
@@ -27,19 +26,15 @@ use League\Flysystem\FileNotFoundException;
 use League\Flysystem\Filesystem;
 use Misc;
 use RuntimeException;
-use Symfony\Component\Console\Command\Command as SymfonyCommand;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class AttachmentMigrateCommand extends SymfonyCommand
+class AttachmentMigrateCommand extends BaseCommand
 {
-    use ConsoleTrait;
-
     public const DEFAULT_COMMAND = 'attachment:migrate';
-    public const USAGE = self::DEFAULT_COMMAND . ' [source_adapter] [target_adapter] [--chunksize=] [--limit=] [--migrate] [--verify]';
     private const DEFAULT_CHUNKSIZE = 100;
 
     protected static $defaultName = 'eventum:' . self::DEFAULT_COMMAND;
@@ -74,17 +69,8 @@ class AttachmentMigrateCommand extends SymfonyCommand
         $migrate = $input->getOption('migrate');
         $verify = $input->getOption('verify');
         $limit = $input->getOption('limit');
-        $chunksize = $input->getOption('chunksize');
+        $chunksize = $input->getOption('chunksize') ?: self::DEFAULT_CHUNKSIZE;
 
-        $this($output, $source_adapter, $target_adapter, $migrate, $verify, $limit, $chunksize);
-
-        return 0;
-    }
-
-    public function __invoke(OutputInterface $output, $source_adapter, $target_adapter, $migrate, $verify, $limit, $chunksize): void
-    {
-        $chunksize = $chunksize ?: self::DEFAULT_CHUNKSIZE;
-        $this->output = $output;
         $this->assertInput($source_adapter, $target_adapter, $migrate, $verify);
 
         $this->source_adapter = $source_adapter;
@@ -98,6 +84,8 @@ class AttachmentMigrateCommand extends SymfonyCommand
             $this->migrateAttachments((int)$chunksize, (int)$limit);
             $this->postUpgradeNotice();
         }
+
+        return 0;
     }
 
     private function verifyAttachments($chunkSize, $limit): void

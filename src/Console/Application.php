@@ -14,19 +14,11 @@
 namespace Eventum\Console;
 
 use Eventum\ServiceContainer;
-use Silly\Application as BaseApplication;
 use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Console\Output\ConsoleOutput;
 
-class Application extends BaseApplication
+class Application
 {
-    public function __construct($name = 'UNKNOWN', $version = 'UNKNOWN')
-    {
-        parent::__construct($name, $version);
-        $this->setDispatcher(ServiceContainer::getEventDispatcher());
-        $this->useContainer(ServiceContainer::getContainer());
-    }
-
     public function routeDeprecatedCommand(array $argv): int
     {
         $input = new ArgvInput($argv);
