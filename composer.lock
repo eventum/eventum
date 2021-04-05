@@ -3763,12 +3763,12 @@
             ],
             "authors": [
                 {
-                    "name": "Kore Nordmann",
-                    "email": "mail@kore-nordmann.de"
-                },
-                {
                     "name": "Sebastian Bergmann",
                     "email": "sebastian@phpunit.de"
+                },
+                {
+                    "name": "Kore Nordmann",
+                    "email": "mail@kore-nordmann.de"
                 }
             ],
             "description": "Diff implementation",
@@ -7898,16 +7898,16 @@
         },
         {
             "name": "symfony/phpunit-bridge",
-            "version": "v4.4.20",
+            "version": "v4.4.21",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/phpunit-bridge.git",
-                "reference": "847101d2eb6309d377abf930937e9f527433d9a3"
+                "reference": "a34407514dd6bd1da99c1ab572faa99896e14f4c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/phpunit-bridge/zipball/847101d2eb6309d377abf930937e9f527433d9a3",
-                "reference": "847101d2eb6309d377abf930937e9f527433d9a3",
+                "url": "https://api.github.com/repos/symfony/phpunit-bridge/zipball/a34407514dd6bd1da99c1ab572faa99896e14f4c",
+                "reference": "a34407514dd6bd1da99c1ab572faa99896e14f4c",
                 "shasum": ""
             },
             "require": {
@@ -7973,7 +7973,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-02-04T17:21:43+00:00"
+            "time": "2021-03-23T20:33:06+00:00"
         },
         {
             "name": "symfony/stopwatch",
