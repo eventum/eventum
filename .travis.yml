@@ -15,9 +15,10 @@ jobs:
       name: GitHub Release
       script:
         - docker --version
-        - docker build . -f bin/releng/Dockerfile -t releng --target=releng
+        - BUILD_IMAGE=ghcr.io/eventum/eventum:release-image
+        - unset LANG LANGUAGE LC_ALL
         - export -p > env.sh
-        - docker run -v $(pwd):/app -e DOCKER_ENV_LOAD=./env.sh releng bin/releng/dist.sh
+        - docker run -v $(pwd):/app -e DOCKER_ENV_LOAD=./env.sh $BUILD_IMAGE bin/releng/dist.sh
 
       # https://docs.travis-ci.com/user/deployment/releases
       # https://docs.travis-ci.com/user/build-stages/deploy-github-releases/
