@@ -16,6 +16,7 @@ jobs:
       script:
         - docker --version
         - BUILD_IMAGE=ghcr.io/eventum/eventum:release-image
+        - unset LANG LANGUAGE LC_ALL
         - export -p > env.sh
         - docker run -v $(pwd):/app -e DOCKER_ENV_LOAD=./env.sh $BUILD_IMAGE bin/releng/dist.sh
 
