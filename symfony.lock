@@ -42,10 +42,7 @@
         "version": "2.13.3"
     },
     "doctrine/dbal": {
-        "version": "2.10.2"
-    },
-    "doctrine/deprecations": {
-        "version": "v0.5.3"
+        "version": "2.12.1"
     },
     "doctrine/doctrine-bundle": {
         "version": "2.0",
