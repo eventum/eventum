@@ -68,10 +68,12 @@ class DynamicCustomFieldController extends AjaxBaseController
 
     private function getData(): array
     {
+        $repo = $this->repository->getCustomFieldRepository();
+
         if ($this->issue_id) {
-            $customFields = $this->customFieldRepository->getListByIssue($this->prj_id, $this->issue_id, $this->role_id, null, true);
+            $customFields = $repo->getListByIssue($this->prj_id, $this->issue_id, $this->role_id, null, true);
         } else {
-            $customFields = $this->customFieldRepository->getListByProject($this->prj_id, $this->role_id, $this->form_type, null, true);
+            $customFields = $repo->getListByProject($this->prj_id, $this->role_id, $this->form_type, null, true);
         }
 
         $data = [];
