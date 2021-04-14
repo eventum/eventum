@@ -21,7 +21,8 @@ trait HelperTrait
 
     private function initHelpers(): void
     {
-        $this->initLazyProperties([
+        $lazyProperties = property_exists($this, 'lazyProperties') ? $this->lazyProperties : [];
+        $lazyProperties += [
             /** @see getAssign */
             'assign',
             /** @see getAttach */
@@ -40,7 +41,8 @@ trait HelperTrait
             'plot',
             /** @see getRepository */
             'repository',
-        ]);
+        ];
+        $this->initLazyProperties($lazyProperties);
     }
 
     protected function getAssign(): AssignHelper
