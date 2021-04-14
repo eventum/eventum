@@ -4,7 +4,7 @@
 
 See [Upgrading] for details on how to upgrade.
 
-- Fix `DynamicCustomFieldController` accessing repository too soon, #1041
+- Fix `DynamicCustomFieldController` accessing repository too soon, #1041, #1061
 - Refactor: Add LazyProperties to AbstractMigration, #1042
 - Remove leftovers from mnapoli/silly from commands, #1040
 
