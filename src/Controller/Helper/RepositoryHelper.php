@@ -20,7 +20,7 @@ use Eventum\Model\Repository\CustomFieldRepository;
 class RepositoryHelper
 {
     /** @var int */
-    private $usr_id;
+    public $usr_id;
 
     public function getUserPreferences(): UserPreference
     {
