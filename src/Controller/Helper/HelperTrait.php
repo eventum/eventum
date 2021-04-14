@@ -52,10 +52,7 @@ trait HelperTrait
 
     protected function getAttach(): AttachHelper
     {
-        $helper = new AttachHelper();
-        $helper->request = $this->getRequest();
-
-        return $helper;
+        return new AttachHelper();
     }
 
     protected function getCsrf(): CsrfHelper

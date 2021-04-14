@@ -70,7 +70,7 @@ class FileUploadController extends BaseController
 
         $minimum_role = $post->getInt('minimum_role', User::ROLE_VIEWER);
 
-        $iaf_ids = $this->attach->getAttachedFileIds();
+        $iaf_ids = $this->attach->getAttachedFileIds($this->getRequest()->request);
         // description for attachments
         $file_description = $post->get('file_description');
 

@@ -13,19 +13,13 @@
 
 namespace Eventum\Controller\Helper;
 
-use Attachment;
 use Eventum\Attachment\AttachmentManager;
-use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\ParameterBag;
 
 class AttachHelper
 {
-    /** @var Request */
-    public $request;
-
-    public function getAttachedFileIds()
+    public function getAttachedFileIds(ParameterBag $post)
     {
-        $post = $this->request->request;
-
         // from ajax upload, attachment file ids
         $iaf_ids = $post->get('iaf_ids') ? explode(',', $post->get('iaf_ids')) : null;
 
