@@ -87,7 +87,7 @@ class AdvSearchController extends BaseController
     protected function prepareTemplate(): void
     {
         $users = Project::getUserAssocList($this->prj_id, 'active', User::ROLE_CUSTOMER);
-        $assign_options = $this->assign->getAssignOptions($users);
+        $assign_options = $this->assign->getAssignOptions($this->prj_id, $this->usr_id, $users);
 
         $this->tpl->assign([
             'cats' => Category::getAssocList($this->prj_id),

@@ -19,12 +19,6 @@ use User;
 
 class AssignHelper
 {
-    /** @var int */
-    public $usr_id;
-
-    /** @var int */
-    public $prj_id;
-
     /**
      * Generate options for assign list.
      * If there are groups and user is above a customer, include groups
@@ -32,7 +26,7 @@ class AssignHelper
      * @param array $users
      * @return array
      */
-    public function getAssignOptions($users): array
+    public function getAssignOptions(int $prj_id, int $usr_id, $users): array
     {
         $assign_options = [
             '' => ev_gettext('Any'),
@@ -40,7 +34,7 @@ class AssignHelper
             '-2' => ev_gettext('myself and un-assigned'),
         ];
 
-        $user_groups = User::getGroups($this->usr_id);
+        $user_groups = User::getGroups($usr_id);
 
         if (Auth::isAnonUser()) {
             unset($assign_options['-2']);
@@ -49,7 +43,7 @@ class AssignHelper
             $assign_options['-4'] = ev_gettext('myself, un-assigned and my group');
         }
 
-        if (Auth::getCurrentRole() > User::ROLE_CUSTOMER && ($groups = Group::getAssocList($this->prj_id))) {
+        if (Auth::getCurrentRole() > User::ROLE_CUSTOMER && ($groups = Group::getAssocList($prj_id))) {
             foreach ($groups as $grp_id => $grp_name) {
                 $assign_options["grp:$grp_id"] = ev_gettext('Group') . ': ' . $grp_name;
             }
