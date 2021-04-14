@@ -157,7 +157,7 @@ class ViewController extends BaseController
             'previous' => null,
         ];
 
-        $prefs = $this->repository->getUserPreferences();
+        $prefs = $this->repository->getUserPreferences($this->usr_id);
         if ($prefs->isIssueNavigationEnabled()) {
             $options = Search::saveSearchParams();
             $sides = Issue::getSides($this->issue_id, $options);

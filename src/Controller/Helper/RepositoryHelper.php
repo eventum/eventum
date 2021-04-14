@@ -19,12 +19,9 @@ use Eventum\Model\Repository\CustomFieldRepository;
 
 class RepositoryHelper
 {
-    /** @var int */
-    public $usr_id;
-
-    public function getUserPreferences(): UserPreference
+    public function getUserPreferences(int $usr_id): UserPreference
     {
-        return Doctrine::getUserPreferenceRepository()->findOrCreate($this->usr_id);
+        return Doctrine::getUserPreferenceRepository()->findOrCreate($usr_id);
     }
 
     public function getCustomFieldRepository(): CustomFieldRepository
