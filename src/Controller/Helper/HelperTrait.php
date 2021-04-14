@@ -47,7 +47,11 @@ trait HelperTrait
 
     protected function getAssign(): AssignHelper
     {
-        return new AssignHelper();
+        $helper = new AssignHelper();
+        $helper->prj_id = $this->prj_id;
+        $helper->usr_id = $this->usr_id;
+
+        return $helper;
     }
 
     protected function getAttach(): AttachHelper

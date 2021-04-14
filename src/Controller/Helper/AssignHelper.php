@@ -20,10 +20,10 @@ use User;
 class AssignHelper
 {
     /** @var int */
-    private $usr_id;
+    public $usr_id;
 
     /** @var int */
-    private $prj_id;
+    public $prj_id;
 
     /**
      * Generate options for assign list.
@@ -32,7 +32,7 @@ class AssignHelper
      * @param array $users
      * @return array
      */
-    public function getAssignOptions($users)
+    public function getAssignOptions($users): array
     {
         $assign_options = [
             '' => ev_gettext('Any'),
