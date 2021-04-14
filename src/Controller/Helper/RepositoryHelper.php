@@ -15,6 +15,7 @@ namespace Eventum\Controller\Helper;
 
 use Eventum\Db\Doctrine;
 use Eventum\Model\Entity\UserPreference;
+use Eventum\Model\Repository\CustomFieldRepository;
 
 class RepositoryHelper
 {
@@ -24,5 +25,10 @@ class RepositoryHelper
     public function getUserPreferences(): UserPreference
     {
         return Doctrine::getUserPreferenceRepository()->findOrCreate($this->usr_id);
+    }
+
+    public function getCustomFieldRepository(): CustomFieldRepository
+    {
+        return Doctrine::getCustomFieldRepository();
     }
 }
