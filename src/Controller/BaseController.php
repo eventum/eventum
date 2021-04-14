@@ -15,9 +15,9 @@ namespace Eventum\Controller;
 
 use Auth;
 use Enrise\Uri;
+use Eventum\Controller\Helper\HelperTrait;
 use Eventum\ServiceContainer;
 use InvalidArgumentException;
-use ReflectionClass;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Template_Helper;
@@ -37,6 +37,8 @@ use Template_Helper;
  */
 abstract class BaseController
 {
+    use HelperTrait;
+
     /** @var Template_Helper */
     protected $tpl;
 
@@ -56,9 +58,6 @@ abstract class BaseController
     /** @var int */
     protected $role_id;
 
-    /** @var array */
-    private $helpers;
-
     /**
      * Constructor.
      */
@@ -67,6 +66,7 @@ abstract class BaseController
         $this->tpl = new Template_Helper($this->tpl_name);
         $this->tpl->enableDebugBar(true);
 
+        $this->initHelpers();
         $this->configure();
     }
 
@@ -202,33 +202,6 @@ abstract class BaseController
     protected function isPostRequest(): bool
     {
         return $this->getRequest()->isMethod(Request::METHOD_POST);
-    }
-
-    public function __get($name)
-    {
-        $className = 'Eventum\\Controller\\Helper\\' . ucfirst($name) . 'Helper';
-
-        if (!isset($this->helpers[$className])) {
-            $this->helpers[$className] = $helper = new $className();
-
-            // clone properties with same name
-            $reflectionClass = new ReflectionClass($helper);
-            foreach ($reflectionClass->getProperties() as $property) {
-                if (property_exists($this, $property->getName())) {
-                    $property->setAccessible(true);
-                    $property->setValue($helper, $this->{$property->getName()});
-                }
-            }
-
-            // add Request property
-            if ($reflectionClass->hasProperty('request')) {
-                $property = $reflectionClass->getProperty('request');
-                $property->setAccessible(true);
-                $property->setValue($helper, $this->getRequest());
-            }
-        }
-
-        return $this->helpers[$className];
     }
 
     /**
