@@ -15,14 +15,9 @@ namespace Eventum\Controller\Ajax;
 
 use Auth;
 use Eventum\CustomField\Fields\DynamicCustomFieldInterface;
-use Eventum\Db\Doctrine;
-use Eventum\Model\Repository\CustomFieldRepository;
-use LazyProperty\LazyPropertiesTrait;
 
 class DynamicCustomFieldController extends AjaxBaseController
 {
-    use LazyPropertiesTrait;
-
     /** @var string */
     protected $tpl_name = 'js/dynamic_custom_field.tpl.js';
     /** @var int */
@@ -31,18 +26,12 @@ class DynamicCustomFieldController extends AjaxBaseController
     private $issue_id;
     /** @var string */
     private $form_type;
-    /** @var CustomFieldRepository */
-    private $customFieldRepository;
 
     /**
      * {@inheritdoc}
      */
     protected function configure(): void
     {
-        $this->initLazyProperties([
-            /** @see getCustomFieldRepository */
-            'customFieldRepository',
-        ]);
         $request = $this->getRequest();
 
         $this->issue_id = $request->request->getInt('iss_id') ?: $request->query->getInt('iss_id');
@@ -102,10 +91,5 @@ class DynamicCustomFieldController extends AjaxBaseController
     protected function prepareTemplate(): void
     {
         $this->tpl->assign('fields', $this->getData());
-    }
-
-    private function getCustomFieldRepository(): CustomFieldRepository
-    {
-        return Doctrine::getCustomFieldRepository();
     }
 }
