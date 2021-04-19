@@ -4,6 +4,8 @@
 
 See [Upgrading] for details on how to upgrade.
 
+- Fix JavaScript error on Add time tracking page, #1064
+
 [3.10.4]: https://github.com/eventum/eventum/compare/v3.10.3...master
 
 ## [3.10.3] - 2021-04-19

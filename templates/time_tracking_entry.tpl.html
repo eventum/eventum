@@ -66,12 +66,12 @@ function validateTimeForm()
     }
 
     var now = new Date();
-    var d1 = makeDate(f, 'date');
+    var d1 = Eventum.makeDate('date');
     if (d1 > now) {
         alert('{t}Start time in the future.{/t}');
         return false;
     }
-    var d2 = makeDate(f, 'date2');
+    var d2 = Eventum.makeDate('date2');
     if (d2 > now) {
         alert('{t}End time in the future.{/t}');
         return false;
