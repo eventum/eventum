@@ -5,6 +5,7 @@
 See [Upgrading] for details on how to upgrade.
 
 - Fix JavaScript error on Add time tracking page, #1064
+- Add HelperTrait to register all lazy properties, #1062
 
 [3.10.4]: https://github.com/eventum/eventum/compare/v3.10.3...master
 
