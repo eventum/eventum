@@ -1,6 +1,6 @@
 # Eventum Issue Tracking System
 
-## [3.10.3]
+## [3.10.3] - 2021-04-19
 
 See [Upgrading] for details on how to upgrade.
 
@@ -8,7 +8,7 @@ See [Upgrading] for details on how to upgrade.
 - Refactor: Add LazyProperties to AbstractMigration, #1042
 - Remove leftovers from mnapoli/silly from commands, #1040
 
-[3.10.3]: https://github.com/eventum/eventum/compare/v3.10.2...master
+[3.10.3]: https://github.com/eventum/eventum/compare/v3.10.2...v3.10.3
 
 ## [3.10.2] - 2021-04-01
 
