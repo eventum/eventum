@@ -16,9 +16,7 @@ namespace Eventum\Controller\Manage;
 use Auth;
 use CRM;
 use Custom_Field;
-use Eventum\Db\Doctrine;
 use Eventum\Model\Entity\CustomField;
-use Eventum\Model\Repository\CustomFieldRepository;
 use Eventum\ServiceContainer;
 use Project;
 use Setup;
@@ -45,9 +43,6 @@ class CustomFieldsController extends ManageBaseController
     /** @var string */
     private $cat;
 
-    /** @var CustomFieldRepository */
-    private $repo;
-
     /**
      * {@inheritdoc}
      */
@@ -56,7 +51,6 @@ class CustomFieldsController extends ManageBaseController
         $request = $this->getRequest();
 
         $this->cat = $request->request->get('cat') ?: $request->query->get('cat');
-        $this->repo = Doctrine::getCustomFieldRepository();
     }
 
     /**
@@ -91,8 +85,9 @@ class CustomFieldsController extends ManageBaseController
         try {
             $cf = $this->updateFromRequest(new CustomField(), $post);
             $cf->setType($post->get('field_type'));
-            $this->repo->persistAndFlush($cf);
-            $this->repo->setProjectAssociation($cf, $post->get('projects'));
+            $repo = $this->repository->getCustomFieldRepository();
+            $repo->persistAndFlush($cf);
+            $repo->setProjectAssociation($cf, $post->get('projects'));
 
             $message = ev_gettext('Thank you, the custom field was added successfully.');
             $this->messages->addInfoMessage($message);
@@ -111,12 +106,13 @@ class CustomFieldsController extends ManageBaseController
     {
         $post = $this->getRequest()->request;
         $fld_id = $post->get('id');
+        $repo = $this->repository->getCustomFieldRepository();
 
         try {
-            $cf = $this->updateFromRequest($this->repo->findOrCreate($fld_id), $post);
-            $this->repo->setFieldType($cf, $post->get('field_type'));
-            $this->repo->persistAndFlush($cf);
-            $this->repo->setProjectAssociation($cf, $post->get('projects'));
+            $cf = $this->updateFromRequest($repo->findOrCreate($fld_id), $post);
+            $repo->setFieldType($cf, $post->get('field_type'));
+            $repo->persistAndFlush($cf);
+            $repo->setProjectAssociation($cf, $post->get('projects'));
 
             $message = ev_gettext('Thank you, the custom field was updated successfully.');
             $this->messages->addInfoMessage($message);
@@ -133,11 +129,12 @@ class CustomFieldsController extends ManageBaseController
     {
         $post = $this->getRequest()->request;
         $fields = $post->get('items', []);
+        $repo = $this->repository->getCustomFieldRepository();
 
         try {
             foreach ($fields as $fld_id) {
-                $cf = $this->repo->findById($fld_id);
-                $this->repo->removeCustomField($cf);
+                $cf = $repo->findById($fld_id);
+                $repo->removeCustomField($cf);
             }
 
             $message = ev_gettext('Thank you, the custom field was removed successfully.');
@@ -157,7 +154,8 @@ class CustomFieldsController extends ManageBaseController
         $fld_id = $get->getInt('id');
         $direction = $get->getInt('direction');
 
-        $this->repo->updateRank($fld_id, $direction);
+        $repo = $this->repository->getCustomFieldRepository();
+        $repo->updateRank($fld_id, $direction);
         $this->redirect(Setup::getRelativeUrl() . 'manage/custom_fields.php');
     }
 
@@ -191,7 +189,8 @@ class CustomFieldsController extends ManageBaseController
     private function getList(): array
     {
         $res = [];
-        foreach ($this->repo->getList() as $cf) {
+        $repo = $this->repository->getCustomFieldRepository();
+        foreach ($repo->getList() as $cf) {
             $row = $cf->toArray();
             $row['projects'] = implode(', ', $cf->getProjectTitles());
             $row['min_role_name'] = User::getRole($cf->getMinRole());
@@ -229,6 +228,8 @@ class CustomFieldsController extends ManageBaseController
 
     private function updateFromRequest(CustomField $cf, ParameterBag $post): CustomField
     {
+        $repo = $this->repository->getCustomFieldRepository();
+
         return $cf
             ->setTitle($post->get('title'))
             ->setDescription($post->get('description'))
@@ -242,7 +243,7 @@ class CustomFieldsController extends ManageBaseController
             ->setIsEditFormRequired($post->get('edit_form_required', 0))
             ->setMinRole($post->get('min_role', User::ROLE_VIEWER))
             ->setMinRoleEdit($post->get('min_role_edit', User::ROLE_VIEWER))
-            ->setRank($post->getInt('rank') ?: $this->repo->getNextRank())
+            ->setRank($post->getInt('rank') ?: $repo->getNextRank())
             ->setOrderBy($post->get('order_by', 'cfo_id ASC'))
             ->setBackendClass($post->get('custom_field_backend'));
     }

@@ -16,9 +16,7 @@ namespace Eventum\Controller;
 use APIAuthToken;
 use Auth;
 use Date_Helper;
-use Eventum\Db\Doctrine;
 use Eventum\Model\Entity\UserPreference;
-use Eventum\Model\Repository\UserPreferenceRepository;
 use Exception;
 use Language;
 use Project;
@@ -39,8 +37,6 @@ class PreferencesController extends BaseController
     private $lang;
     /** @var array */
     private $permissions;
-    /** @var UserPreferenceRepository */
-    private $repo;
 
     /**
      * {@inheritdoc}
@@ -51,7 +47,6 @@ class PreferencesController extends BaseController
 
         $this->cat = $post->get('cat');
         $this->lang = $post->get('language');
-        $this->repo = Doctrine::getUserPreferenceRepository();
     }
 
     /**
@@ -134,7 +129,8 @@ class PreferencesController extends BaseController
         try {
             $post = $this->getRequest()->request;
             $projects = $post->get('projects') ?: [];
-            $this->repo->updateProjectPreference($this->usr_id, $projects);
+            $repo = $this->repository->getUserPreferenceRepository();
+            $repo->updateProjectPreference($this->usr_id, $projects);
 
             $res = 1;
         } catch (Throwable $e) {
@@ -161,9 +157,11 @@ class PreferencesController extends BaseController
                 $post->set('email_signature', $contents);
             }
 
-            $prefs = $this->repo->findOrCreate($this->usr_id);
+            $prefs = $this->repository->getUserPreferences($this->usr_id);
             $this->updateFromRequest($prefs, $post);
-            $this->repo->persistAndFlush($prefs);
+
+            $repo = $this->repository->getUserPreferenceRepository();
+            $repo->persistAndFlush($prefs);
 
             $res = 1;
         } catch (Throwable $e) {
@@ -252,7 +250,7 @@ class PreferencesController extends BaseController
      */
     protected function prepareTemplate(): void
     {
-        $upr = $this->repo->findOrCreate($this->usr_id);
+        $upr = $this->repository->getUserPreferences($this->usr_id);
         $projects = Project::getAssocList($this->usr_id, false, true);
 
         $this->tpl->assign(
