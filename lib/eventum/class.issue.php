@@ -14,6 +14,7 @@
 use Eventum\Attachment\AttachmentManager;
 use Eventum\Db\DatabaseException;
 use Eventum\Db\Doctrine;
+use Eventum\Event\EventContext;
 use Eventum\Event\SystemEvents;
 use Eventum\Mail\MailMessage;
 use Eventum\ServiceContainer;
@@ -1823,38 +1824,30 @@ class Issue
      */
     public static function createFromPost()
     {
+        $prj_id = Auth::getCurrentProject();
+        $usr_id = Auth::getUserID();
+
         $keys = [
             'add_primary_contact', 'attached_emails', 'category', 'contact', 'contact_email', 'contact_extra_emails', 'contact_person_fname',
             'contact_person_lname', 'contact_phone', 'contact_timezone', 'contract', 'customer', 'custom_fields', 'description',
             'estimated_dev_time', 'group', 'notify_customer', 'notify_senders', 'priority', 'private', 'release', 'severity', 'summary', 'users',
             'product', 'product_version', 'expected_resolution_date', 'associated_issues', 'access_level',
         ];
-        $data = [];
+
+        $data = [
+            'reporter' => $usr_id,
+            'msg_id' => Mail_Helper::generateMessageID(),
+        ];
         foreach ($keys as $key) {
             if (isset($_POST[$key])) {
                 $data[$key] = $_POST[$key];
             }
         }
 
-        $prj_id = Auth::getCurrentProject();
-        $usr_id = Auth::getUserID();
+        $event = new EventContext($prj_id, null, $usr_id, $data);
+        ServiceContainer::dispatch(SystemEvents::ISSUE_CREATE_PARAMS, $event);
 
-        // if we are creating an issue for a customer, put the
-        // main customer contact as the reporter for it
-        if (CRM::hasCustomerIntegration($prj_id)) {
-            $crm = CRM::getInstance($prj_id);
-            $contact_usr_id = User::getUserIDByContactID($data['contact']);
-            if (empty($contact_usr_id)) {
-                $contact_usr_id = $usr_id;
-            }
-            $data['reporter'] = $contact_usr_id;
-        } else {
-            $data['reporter'] = $usr_id;
-        }
-
-        $data['msg_id'] = Mail_Helper::generateMessageID();
-
-        $issue_id = self::insertIssue($prj_id, $data);
+        $issue_id = self::insertIssue($prj_id, $event);
         if ($issue_id == -1) {
             return -1;
         }
@@ -1935,7 +1928,7 @@ class Issue
         } else {
             // only use the round-robin feature if this new issue was not
             // already assigned to a customer account manager
-            if (@count($managers) < 1) {
+            if (empty($managers) || count($managers) < 1) {
                 $assignee = Round_Robin::getNextAssignee($prj_id);
                 // assign the issue to the round robin person
                 if (!empty($assignee)) {
@@ -2007,7 +2000,7 @@ class Issue
         }
 
         // handle associated issues
-        if (isset($data['associated_issues'])) {
+        if (isset($data['associated_issues']) && $data['associated_issues']) {
             $associated_issues = explode(',', $data['associated_issues']);
             if ($clone_iss_id) {
                 $associated_issues[] = $clone_iss_id;
@@ -2027,7 +2020,7 @@ class Issue
      * Insert issue to database.
      *
      * @param   int $prj_id The project ID
-     * @param   array $data of issue to be inserted
+     * @param   array|ArrayAccess $data of issue to be inserted
      * @return  int The new issue ID
      */
     private static function insertIssue($prj_id, $data)
