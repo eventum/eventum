@@ -157,9 +157,10 @@ class PreferencesController extends BaseController
                 $post->set('email_signature', $contents);
             }
 
-            $repo = $this->repository->getUserPreferenceRepository();
-            $prefs = $repo->findOrCreate($this->usr_id);
+            $prefs = $this->repository->getUserPreferences($this->usr_id);
             $this->updateFromRequest($prefs, $post);
+
+            $repo = $this->repository->getUserPreferenceRepository();
             $repo->persistAndFlush($prefs);
 
             $res = 1;
@@ -249,8 +250,7 @@ class PreferencesController extends BaseController
      */
     protected function prepareTemplate(): void
     {
-        $repo = $this->repository->getUserPreferenceRepository();
-        $upr = $repo->findOrCreate($this->usr_id);
+        $upr = $this->repository->getUserPreferences($this->usr_id);
         $projects = Project::getAssocList($this->usr_id, false, true);
 
         $this->tpl->assign(
