@@ -6,6 +6,7 @@ See [Upgrading] for details on how to upgrade.
 
 - Fix JavaScript error on Add time tracking page, #1064
 - Add HelperTrait to register all lazy properties, #1062, #1069, #1070
+- Add `ISSUE_CREATE_PARAMS` event when creating new issue, #1063, #1072
 
 [3.10.4]: https://github.com/eventum/eventum/compare/v3.10.3...master
 

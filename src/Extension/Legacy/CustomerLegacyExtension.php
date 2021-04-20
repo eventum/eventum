@@ -17,14 +17,22 @@ use CRM;
 use Eventum\Event\EventContext;
 use Eventum\Event\SystemEvents;
 use Eventum\Extension\Provider;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use User;
 
 /**
  * Extension that adds integration of legacy Customer classes to Extension events
  */
-class CustomerLegacyExtension implements Provider\SubscriberProvider
+class CustomerLegacyExtension implements Provider\SubscriberProvider, EventSubscriberInterface
 {
     public function getSubscribers(): array
+    {
+        return [
+            self::class,
+        ];
+    }
+
+    public static function getSubscribedEvents(): array
     {
         return [
             /** @see CustomerLegacyExtension::newIssueParams */
