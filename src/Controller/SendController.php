@@ -169,7 +169,7 @@ class SendController extends BaseController
     {
         $post = $this->getRequest()->request;
 
-        $iaf_ids = $this->attach->getAttachedFileIds();
+        $iaf_ids = $this->attach->getAttachedFileIds($this->getRequest()->request);
 
         $options = [
             'parent_sup_id' => $post->get('parent_id'),

@@ -47,19 +47,12 @@ trait HelperTrait
 
     protected function getAssign(): AssignHelper
     {
-        $helper = new AssignHelper();
-        $helper->prj_id = $this->prj_id;
-        $helper->usr_id = $this->usr_id;
-
-        return $helper;
+        return new AssignHelper();
     }
 
     protected function getAttach(): AttachHelper
     {
-        $helper = new AttachHelper();
-        $helper->request = $this->getRequest();
-
-        return $helper;
+        return new AttachHelper();
     }
 
     protected function getCsrf(): CsrfHelper
@@ -94,9 +87,6 @@ trait HelperTrait
 
     protected function getRepository(): RepositoryHelper
     {
-        $helper = new RepositoryHelper();
-        $helper->usr_id = $this->usr_id;
-
-        return $helper;
+        return new RepositoryHelper();
     }
 }

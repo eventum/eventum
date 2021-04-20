@@ -158,7 +158,7 @@ class ListController extends BaseController
         $options = array_merge($options, $this->options_override);
 
         $users = Project::getUserAssocList($this->prj_id, 'active', User::ROLE_CUSTOMER);
-        $assign_options = $this->assign->getAssignOptions($users);
+        $assign_options = $this->assign->getAssignOptions($this->prj_id, $this->usr_id, $users);
 
         $list = Search::getListing($this->prj_id, $options, $this->pagerRow, $this->rows);
         $refreshRate = Prefs::getUserPreference($this->usr_id)->getListRefreshRate() * 60;
