@@ -15,9 +15,7 @@ namespace Eventum\Controller\Manage;
 
 use Email_Account;
 use Eventum\Db\DatabaseException;
-use Eventum\Db\Doctrine;
 use Eventum\Model\Entity;
-use Eventum\Model\Repository\EmailAccountRepository;
 use Project;
 use Symfony\Component\HttpFoundation\ParameterBag;
 use User;
@@ -32,15 +30,12 @@ class EmailAccountsController extends ManageBaseController
 
     /** @var string */
     private $cat;
-    /** @var EmailAccountRepository */
-    private $repo;
 
     protected function configure(): void
     {
         $request = $this->getRequest();
 
         $this->cat = $request->request->get('cat') ?: $request->query->get('cat');
-        $this->repo = Doctrine::getEmailAccountRepository();
     }
 
     protected function defaultAction(): void
@@ -62,7 +57,8 @@ class EmailAccountsController extends ManageBaseController
         $account = $this->updateFromRequest(new Entity\EmailAccount(), $post);
 
         try {
-            $this->repo->updateAccount($account);
+            $repo = $this->repository->getEmailAccountRepository();
+            $repo->updateAccount($account);
         } catch (DatabaseException $e) {
             $this->messages->addErrorMessage(ev_gettext('An error occurred while trying to add the new account.'));
 
@@ -78,10 +74,11 @@ class EmailAccountsController extends ManageBaseController
         $post = $this->getRequest()->request;
 
         $account_id = $post->getInt('id');
-        $account = $this->updateFromRequest($this->repo->findOrCreate($account_id), $post);
+        $repo = $this->repository->getEmailAccountRepository();
+        $account = $this->updateFromRequest($repo->findOrCreate($account_id), $post);
 
         try {
-            $this->repo->updateAccount($account);
+            $repo->updateAccount($account);
         } catch (DatabaseException $e) {
             $this->messages->addErrorMessage(ev_gettext('An error occurred while trying to update the account information.'));
 
@@ -97,9 +94,10 @@ class EmailAccountsController extends ManageBaseController
         $post = $this->getRequest()->request;
 
         try {
+            $repo = $this->repository->getEmailAccountRepository();
             foreach ($post->get('items', []) as $account_id) {
-                $account = $this->repo->findById($account_id);
-                $this->repo->removeAccount($account);
+                $account = $repo->findById($account_id);
+                $repo->removeAccount($account);
             }
         } catch (DatabaseException $e) {
             $this->messages->addErrorMessage(ev_gettext('An error occurred while trying to delete the account information.'));
@@ -168,7 +166,8 @@ class EmailAccountsController extends ManageBaseController
     private function getEmailAccounts(): array
     {
         $res = [];
-        foreach ($this->repo->findAll() as $account) {
+        $repo = $this->repository->getEmailAccountRepository();
+        foreach ($repo->findAll() as $account) {
             $row = $account->toArray();
             $row['prj_title'] = Project::getName($row['ema_prj_id']);
 
