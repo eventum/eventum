@@ -20,7 +20,7 @@ use Symfony\Component\HttpFoundation\Request;
 class AttachHelper
 {
     /** @var Request */
-    private $request;
+    public $request;
 
     public function getAttachedFileIds()
     {
