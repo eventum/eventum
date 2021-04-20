@@ -14,8 +14,6 @@
 namespace Eventum\Controller\Ajax;
 
 use Eventum\CustomField\Fields\DynamicCustomFieldInterface;
-use Eventum\Db\Doctrine;
-use Eventum\Model\Repository\CustomFieldRepository;
 
 class DynamicCustomFieldOptionsController extends AjaxBaseController
 {
@@ -23,8 +21,6 @@ class DynamicCustomFieldOptionsController extends AjaxBaseController
 
     /** @var */
     private $fld_id;
-    /** @var CustomFieldRepository */
-    private $repo;
 
     /**
      * {@inheritdoc}
@@ -34,7 +30,6 @@ class DynamicCustomFieldOptionsController extends AjaxBaseController
         $request = $this->getRequest();
 
         $this->fld_id = $request->query->getInt('fld_id');
-        $this->repo = Doctrine::getCustomFieldRepository();
     }
 
     /**
@@ -46,7 +41,8 @@ class DynamicCustomFieldOptionsController extends AjaxBaseController
             return;
         }
 
-        $cf = $this->repo->findById($this->fld_id);
+        $repo = $this->repository->getCustomFieldRepository();
+        $cf = $repo->findById($this->fld_id);
         $backend = $cf->getProxy();
         if ($backend && $backend->hasInterface(DynamicCustomFieldInterface::class)) {
             echo json_encode($backend->getDynamicOptions($_GET));
