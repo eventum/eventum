@@ -16,6 +16,7 @@ namespace Eventum\Controller\Helper;
 use Eventum\Db\Doctrine;
 use Eventum\Model\Entity\UserPreference;
 use Eventum\Model\Repository\CustomFieldRepository;
+use Eventum\Model\Repository\ProjectRepository;
 use Eventum\Model\Repository\UserPreferenceRepository;
 
 class RepositoryHelper
@@ -33,5 +34,10 @@ class RepositoryHelper
     public function getCustomFieldRepository(): CustomFieldRepository
     {
         return Doctrine::getCustomFieldRepository();
+    }
+
+    public function getProjectRepository(): ProjectRepository
+    {
+        return Doctrine::getProjectRepository();
     }
 }
