@@ -17,11 +17,9 @@ use Auth;
 use DateTime;
 use Display_Column;
 use Eventum\Db\DatabaseException;
-use Eventum\Db\Doctrine;
 use Eventum\Extension\Legacy\WorkflowLegacyExtension;
 use Eventum\Extension\RegisterExtension;
 use Eventum\Model\Entity;
-use Eventum\Model\Repository\ProjectRepository;
 use Eventum\ServiceContainer;
 use Project;
 use Status;
@@ -40,8 +38,6 @@ class ProjectsController extends ManageBaseController
 
     /** @var int */
     private $prj_id;
-    /** @var ProjectRepository */
-    private $repo;
 
     protected function configure(): void
     {
@@ -49,7 +45,6 @@ class ProjectsController extends ManageBaseController
 
         $this->cat = $request->request->get('cat') ?: $request->query->get('cat');
         $this->prj_id = $request->request->getInt('prj_id') ?: $request->query->getInt('prj_id');
-        $this->repo = Doctrine::getProjectRepository();
     }
 
     protected function defaultAction(): void
@@ -81,7 +76,8 @@ class ProjectsController extends ManageBaseController
         $project->setAnonymousPost('disabled');
 
         try {
-            $this->repo->persistAndFlush($project);
+            $repo = $this->repository->getProjectRepository();
+            $repo->persistAndFlush($project);
         } catch (DatabaseException $e) {
             $this->messages->addErrorMessage(ev_gettext('An error occurred while trying to add the new project.'));
 
@@ -125,9 +121,10 @@ class ProjectsController extends ManageBaseController
         }
 
         $prj_id = $post->getInt('id');
-        $project = $this->updateFromRequest($this->repo->findOrCreate($prj_id), $post);
+        $repo = $this->repository->getProjectRepository();
+        $project = $this->updateFromRequest($repo->findOrCreate($prj_id), $post);
         try {
-            $this->repo->persistAndFlush($project);
+            $repo->persistAndFlush($project);
         } catch (DatabaseException $e) {
             $this->messages->addErrorMessage(ev_gettext('An error occurred while trying to update the project information.'));
 
@@ -165,7 +162,8 @@ class ProjectsController extends ManageBaseController
     private function editAction(): void
     {
         $prj_id = $this->getRequest()->query->getInt('id');
-        $project = $this->repo->findById($prj_id);
+        $repo = $this->repository->getProjectRepository();
+        $project = $repo->findById($prj_id);
 
         $details = $project->toArray();
         $details['prj_assigned_users'] = Project::getUserColList($prj_id);
