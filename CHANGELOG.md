@@ -1,6 +1,6 @@
 # Eventum Issue Tracking System
 
-## [3.10.4]
+## [3.10.4] - 2021-04-21
 
 See [Upgrading] for details on how to upgrade.
 
@@ -10,7 +10,7 @@ See [Upgrading] for details on how to upgrade.
 - Validate from/to/cc headers before submiting email from web, #1075
 - Fix attachments corruption when attached to emails from web, #1068, #1076
 
-[3.10.4]: https://github.com/eventum/eventum/compare/v3.10.3...master
+[3.10.4]: https://github.com/eventum/eventum/compare/v3.10.3...v3.10.4
 
 ## [3.10.3] - 2021-04-19
 
