@@ -47,6 +47,7 @@ class MimePart extends Mime\Part
     {
         return self::create($content, $type)
             ->setDisposition(Mime\Mime::DISPOSITION_ATTACHMENT)
+            ->setEncoding(Mime\Mime::ENCODING_BASE64)
             ->setFileName($filename);
     }
 }
