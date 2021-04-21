@@ -8,6 +8,7 @@ See [Upgrading] for details on how to upgrade.
 - Add HelperTrait to register all lazy properties, #1062, #1069, #1070
 - Add `ISSUE_CREATE_PARAMS` event when creating new issue, #1063, #1072
 - Validate from/to/cc headers before submiting email from web, #1075
+- Fix attachments corruption when attached to emails from web, #1068, #1076
 
 [3.10.4]: https://github.com/eventum/eventum/compare/v3.10.3...master
 
