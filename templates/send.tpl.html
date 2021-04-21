@@ -21,7 +21,7 @@
 </center>
 <script type="text/javascript">
 <!--
-{if $garlic_prefix|default:'' != ''}
+{if $garlic_prefix|default:'' != ''  && $send_result === 1}
 Eventum.clearAutoSave('{$garlic_prefix}');
 {/if}
 
