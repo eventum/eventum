@@ -19,8 +19,11 @@ use Draft;
 use Email_Account;
 use Email_Response;
 use Eventum\Attachment\AttachmentManager;
+use Eventum\Mail\Helper\AddressHeader;
 use History;
+use InvalidArgumentException;
 use Issue;
+use Laminas\Mail\Exception\ExceptionInterface;
 use Mail_Helper;
 use Misc;
 use Note;
@@ -28,6 +31,8 @@ use Notification;
 use Prefs;
 use Status;
 use Support;
+use Symfony\Component\HttpFoundation\ParameterBag;
+use Throwable;
 use Time_Tracking;
 use User;
 use Workflow;
@@ -178,16 +183,25 @@ class SendController extends BaseController
             'ema_id' => $post->has('ema_id') ? $post->getInt('ema_id') : null,
         ];
 
-        $res = Support::sendEmail(
-            $this->issue_id,
-            $post->get('type'),
-            $post->get('from'),
-            $post->get('to', ''),
-            $post->get('cc'),
-            Mail_Helper::cleanSubject($post->get('subject')),
-            $post->get('message'),
-            $options
-        );
+        try {
+            $headers = $this->getHeaders($post);
+            $res = Support::sendEmail(
+                $this->issue_id,
+                $post->get('type'),
+                $headers['from'],
+                $headers['to'],
+                $headers['cc'],
+                Mail_Helper::cleanSubject($post->get('subject')),
+                $post->get('message'),
+                $options
+            );
+        } catch (InvalidArgumentException $e) {
+            $this->messages->addErrorMessage($e->getMessage());
+            $res = -3;
+        } catch (Throwable $e) {
+            $this->logger->error($e);
+            $res = -1;
+        }
 
         $this->tpl->assign('send_result', $res);
         $this->tpl->assign('garlic_prefix', $post->has('garlic_prefix') ? $post->get('garlic_prefix') : '');
@@ -387,13 +401,33 @@ class SendController extends BaseController
     {
         $post = $this->getRequest()->request;
 
-        $time_spent = (int) $post->get('time_spent');
+        $time_spent = (int)$post->get('time_spent');
         if (!$time_spent) {
             return;
         }
 
         $summary = $post->get('time_summary') ?: $default_summary;
-        $ttc_id = (int) $post->get('time_category');
+        $ttc_id = (int)$post->get('time_category');
         Time_Tracking::addTimeEntry($this->issue_id, $ttc_id, $time_spent, null, $summary);
+    }
+
+    private function getHeaders(ParameterBag $post): array
+    {
+        $headers = [];
+        $input = [
+            'from' => null,
+            'to' => '',
+            'cc' => null,
+        ];
+        foreach ($input as $header => $default) {
+            try {
+                $value = $post->get($header, $default);
+                $headers[$header] = AddressHeader::fromString($value)->toString();
+            } catch (ExceptionInterface $e) {
+                throw new InvalidArgumentException("Unable to parse '{$header}': '{$value}'", 0, $e);
+            }
+        }
+
+        return $headers;
     }
 }
