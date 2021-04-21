@@ -195,6 +195,9 @@ class SendController extends BaseController
                 $post->get('message'),
                 $options
             );
+        } catch (InvalidArgumentException $e) {
+            $this->messages->addErrorMessage($e->getMessage());
+            $res = -3;
         } catch (Throwable $e) {
             $this->logger->error($e);
             $res = -1;

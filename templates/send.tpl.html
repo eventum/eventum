@@ -9,7 +9,7 @@
 {if $send_result|default:'' != ''}
 <br />
 <center>
-{if $send_result == -1}
+{if $send_result == -1 || $send_result == -3}
   <span>{t}An error occurred while trying to send the email{/t}</span>
 {elseif $send_result == -2}
   <span>{t}Sorry, but the email could not be queued. This might be related to problems with your SMTP account settings.{/t}<br />
@@ -25,7 +25,7 @@
 Eventum.clearAutoSave('{$garlic_prefix}');
 {/if}
 
-{if $core.current_user_prefs.close_popup_windows}
+{if $core.current_user_prefs.close_popup_windows && $send_result !== -3}
 setTimeout('Eventum.close_and_refresh()', 2000);
 {/if}
 //-->
