@@ -56,6 +56,17 @@ class MailBuilder
         return $this;
     }
 
+    public function setTo($to): self
+    {
+        if ($to instanceof Address) {
+            $this->message->setTo($to->getEmail(), $to->getName());
+        } else {
+            $this->message->setTo($to);
+        }
+
+        return $this;
+    }
+
     public function setSubject(string $subject): self
     {
         $this->message->setSubject($subject);
