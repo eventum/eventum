@@ -106,7 +106,7 @@ class MailBuilderTest extends TestCase
             [
                 'iaf_file' => "\x1b\xff\xff\xcf",
                 'iaf_filetype' => 'application/octet-stream',
-                'iaf_filename' => 'test2123.txt',
+                'iaf_filename' => 'Testá.xlsx',
             ]
         );
         $builder->addAttachment($attachment);
