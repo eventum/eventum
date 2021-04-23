@@ -18,9 +18,10 @@ use Eventum\Mail\MailBuilder;
 use Eventum\Mail\MailMessage;
 use Eventum\Test\TestCase;
 use Laminas\Mail\Header\MessageId;
+use Mail_Queue;
 use ReflectionProperty;
 
-class MimeMessageTest extends TestCase
+class MailBuilderTest extends TestCase
 {
     /** @var MailMessage */
     private $mail;
@@ -50,6 +51,34 @@ class MimeMessageTest extends TestCase
         $header->setId($this->message_id);
 
         $this->mail = $mail;
+    }
+
+    public function testZFPlainMail(): void
+    {
+        $text_message = 'zzzxx';
+        $issue_id = 1;
+        $from = '"Admin User " <note-3@eventum.example.org>';
+        $to = '"Admin User" <admin@example.com>';
+        $subject = '[#3] Note: Re: pläh';
+        $type = 'assignment';
+
+        // use mail builder
+        $builder = new MailBuilder();
+        $builder
+            ->addTextPart($text_message)
+            ->getMessage()
+            ->setFrom($from)
+            ->setTo($to)
+            ->setSubject($subject);
+        $mail = $builder->toMailMessage();
+
+        $options = [
+            'save_email_copy' => true,
+            'issue_id' => $issue_id,
+            'type' => $type,
+        ];
+        Mail_Queue::queue($mail, $to, $options);
+        $this->assertTrue(true);
     }
 
     /**
