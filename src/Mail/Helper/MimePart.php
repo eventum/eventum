@@ -13,6 +13,7 @@
 
 namespace Eventum\Mail\Helper;
 
+use Laminas\Mail\Header\HeaderWrap;
 use Laminas\Mime;
 
 class MimePart extends Mime\Part
@@ -45,6 +46,10 @@ class MimePart extends Mime\Part
      */
     public static function createAttachmentPart($content, $type, $filename): self
     {
+        // For now, Encode filenames with Quoted Printable
+        // @see https://github.com/eventum/eventum/issues/1078#issuecomment-825755772
+        $filename = HeaderWrap::mimeEncodeValue($filename, self::CHARSET);
+
         return self::create($content, $type)
             ->setDisposition(Mime\Mime::DISPOSITION_ATTACHMENT)
             ->setEncoding(Mime\Mime::ENCODING_BASE64)
