@@ -20,7 +20,7 @@ use Eventum\Test\TestCase;
 use Laminas\Mail\Header\MessageId;
 use ReflectionProperty;
 
-class MimeMessageTest extends TestCase
+class MailBuilderTest extends TestCase
 {
     /** @var MailMessage */
     private $mail;
@@ -56,15 +56,24 @@ class MimeMessageTest extends TestCase
      * @see http://framework.zend.com/manual/current/en/modules/zend.mail.message.html
      * @see http://framework.zend.com/manual/current/en/modules/zend.mail.attachments.html
      */
-    public function testMimeMessageText(): void
+    public function testPlaintext(): void
     {
         $body = "Hello, bödi tekst\n\nBye";
+        $from = '"Admin User " <note-3@eventum.example.org>';
+        $to = '"Admin User" <admin@example.com>';
+        $subject = '[#3] Note: Re: pläh';
 
         $builder = new MailBuilder();
-        $builder->addTextPart($body);
+        $builder
+            ->addTextPart($body)
+            ->getMessage()
+            ->setFrom($from)
+            ->setTo($to)
+            ->setSubject($subject);
         $mail = $builder->toMailMessage();
 
-        $this->assertEquals("text/plain;\r\n charset=\"UTF-8\"", $mail->contentType);
+        $this->assertStringStartsWith('text/plain', $mail->getHeaders()->get('Content-Type')->getFieldValue());
+        $this->assertEquals(0, $mail->countParts());
         $this->assertEquals($body, $mail->getContent());
     }
 
