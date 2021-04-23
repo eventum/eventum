@@ -52,16 +52,20 @@ class MailBuilderTest extends TestCase
         $this->mail = $mail;
     }
 
+    /**
+     * @see http://framework.zend.com/manual/current/en/modules/zend.mail.message.html
+     * @see http://framework.zend.com/manual/current/en/modules/zend.mail.attachments.html
+     */
     public function testPlaintext(): void
     {
-        $text_message = 'zzzxx';
+        $body = "Hello, bödi tekst\n\nBye";
         $from = '"Admin User " <note-3@eventum.example.org>';
         $to = '"Admin User" <admin@example.com>';
         $subject = '[#3] Note: Re: pläh';
 
         $builder = new MailBuilder();
         $builder
-            ->addTextPart($text_message)
+            ->addTextPart($body)
             ->getMessage()
             ->setFrom($from)
             ->setTo($to)
@@ -70,21 +74,6 @@ class MailBuilderTest extends TestCase
 
         $this->assertStringStartsWith('text/plain', $mail->getHeaders()->get('Content-Type')->getFieldValue());
         $this->assertEquals(0, $mail->countParts());
-    }
-
-    /**
-     * @see http://framework.zend.com/manual/current/en/modules/zend.mail.message.html
-     * @see http://framework.zend.com/manual/current/en/modules/zend.mail.attachments.html
-     */
-    public function testMimeMessageText(): void
-    {
-        $body = "Hello, bödi tekst\n\nBye";
-
-        $builder = new MailBuilder();
-        $builder->addTextPart($body);
-        $mail = $builder->toMailMessage();
-
-        $this->assertEquals("text/plain;\r\n charset=\"UTF-8\"", $mail->contentType);
         $this->assertEquals($body, $mail->getContent());
     }
 
