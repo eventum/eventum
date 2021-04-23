@@ -350,7 +350,6 @@ class User
 
         $builder = new MailBuilder();
         $builder->addTextPart($text_message)
-            ->getMessage()
             ->setSubject($subject)
             ->setTo($usr_email);
 
@@ -386,7 +385,6 @@ class User
 
         $builder = new MailBuilder();
         $builder->addTextPart($text_message)
-            ->getMessage()
             ->setSubject($subject)
             ->setTo($usr_email);
 

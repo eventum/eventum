@@ -310,8 +310,8 @@ class Support
         $subject = ev_gettext('%s: Postmaster notify: see transcript for details', Setup::getShortName());
 
         $builder = new MailBuilder();
-        $builder->addTextPart($tpl->getTemplateContents())
-            ->getMessage()
+        $builder
+            ->addTextPart($tpl->getTemplateContents())
             ->setSubject($subject)
             ->setTo($sender_email);
 
@@ -1420,12 +1420,10 @@ class Support
     {
         $builder = new MailBuilder();
         $builder->addTextPart($body);
-
-        $message = $builder->getMessage();
-        $message->setSubject($subject);
-        $message->setFrom($from);
+        $builder->setSubject($subject);
+        $builder->setFrom($from);
         if ($to) {
-            $message->setTo($to);
+            $builder->setTo($to);
         }
 
         if ($iaf_ids) {
@@ -1437,7 +1435,7 @@ class Support
 
         if ($cc) {
             $ccs = AddressHeader::fromString($cc)->getAddressList();
-            $message->addCc($ccs);
+            $builder->addCc($ccs);
         }
 
         $m = $builder->toMailMessage();
@@ -1490,7 +1488,6 @@ class Support
             $builder = new MailBuilder();
             $builder
                 ->addTextPart($body)
-                ->getMessage()
                 ->setSubject($subject)
                 ->setTo($recipient)
                 ->setFrom($from);
