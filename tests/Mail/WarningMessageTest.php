@@ -39,7 +39,6 @@ class WarningMessageTest extends TestCase
         $builder = new MailBuilder();
         $builder
             ->addTextPart($body)
-            ->getMessage()
             ->setSubject($subject)
             ->setTo($recipient)
             ->setFrom($from);

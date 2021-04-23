@@ -83,12 +83,10 @@ class MailBuilderTest extends TestCase
 
         $builder = new MailBuilder();
         $builder->addTextPart($body);
-
-        $message = $builder->getMessage();
-        $message->setSubject($this->subject);
-        $message->setFrom($this->from);
+        $builder->setSubject($this->subject);
+        $builder->setFrom($this->from);
         if ($this->to) {
-            $message->setTo($this->to);
+            $builder->setTo($this->to);
         }
 
         // textual attachment
