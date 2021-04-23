@@ -67,6 +67,13 @@ class MailBuilder
         return $this;
     }
 
+    public function addCc($address): self
+    {
+        $this->message->addCc($address);
+
+        return $this;
+    }
+
     public function setSubject(string $subject): self
     {
         $this->message->setSubject($subject);
