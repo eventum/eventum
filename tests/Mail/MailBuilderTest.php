@@ -115,9 +115,10 @@ class MailBuilderTest extends TestCase
 
         $this->assertStringStartsWith('multipart/mixed;', $mail->contentType);
 
-        // it's reusable
+        // Test that filename is with expected value
         $m = MailMessage::createFromString($mail->getRawContent());
-        $this->assertNotEmpty($m);
+        $attachments = $m->getAttachments();
+        $this->assertEquals('Testá.xlsx', $attachments[1]['filename']);
     }
 
     private function createAttachment(array $params): Attachment
