@@ -4,6 +4,8 @@
 
 See [Upgrading] for details on how to upgrade.
 
+- Resolve Doctrine ORM 3.0 EntityManager::detach deprecation, #1035
+
 [3.10.6]: https://github.com/eventum/eventum/compare/v3.10.5...master
 
 ## [3.10.5] - 2021-04-27
