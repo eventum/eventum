@@ -1,12 +1,12 @@
 # Eventum Issue Tracking System
 
-## [3.10.5]
+## [3.10.5] - 2021-04-27
 
 See [Upgrading] for details on how to upgrade.
 
 - Fix filename upload with unicode names, #1078, #1080
 
-[3.10.5]: https://github.com/eventum/eventum/compare/v3.10.4...master
+[3.10.5]: https://github.com/eventum/eventum/compare/v3.10.4...v3.10.5
 
 ## [3.10.4] - 2021-04-21
 
