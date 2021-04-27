@@ -16,6 +16,7 @@ namespace Eventum\Mail;
 use Eventum\Attachment\Attachment;
 use Eventum\Mail\Helper\MimePart;
 use Laminas\Mail;
+use Laminas\Mail\Address;
 use Laminas\Mime;
 
 /**
@@ -42,6 +43,42 @@ class MailBuilder
     public function getMessage(): Mail\Message
     {
         return $this->message;
+    }
+
+    public function setFrom($from): self
+    {
+        if ($from instanceof Address) {
+            $this->message->setFrom($from->getEmail(), $from->getName());
+        } else {
+            $this->message->setFrom($from);
+        }
+
+        return $this;
+    }
+
+    public function setTo($to): self
+    {
+        if ($to instanceof Address) {
+            $this->message->setTo($to->getEmail(), $to->getName());
+        } else {
+            $this->message->setTo($to);
+        }
+
+        return $this;
+    }
+
+    public function addCc($address): self
+    {
+        $this->message->addCc($address);
+
+        return $this;
+    }
+
+    public function setSubject(string $subject): self
+    {
+        $this->message->setSubject($subject);
+
+        return $this;
     }
 
     /**

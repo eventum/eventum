@@ -1078,8 +1078,8 @@ class Notification
             }
 
             $builder = new MailBuilder();
-            $builder->addTextPart($tpl->getTemplateContents());
-            $builder->getMessage()
+            $builder
+                ->addTextPart($tpl->getTemplateContents())
                 ->setSubject($full_subject)
                 ->setTo($email)
                 ->setFrom($from);
@@ -2225,7 +2225,6 @@ class Notification
 
         $builder = new MailBuilder();
         $builder->addTextPart($text_message)
-            ->getMessage()
             ->setSubject($subject)
             ->setTo($to);
 
@@ -2252,10 +2251,9 @@ class Notification
 
         $builder = new MailBuilder();
         $builder->addTextPart($text_message)
-            ->getMessage()
             ->setSubject($subject)
-            ->setFrom($fromAddress->getEmail(), $fromAddress->getName())
-            ->setTo($toAddress->getEmail(), $toAddress->getName());
+            ->setFrom($fromAddress)
+            ->setTo($toAddress);
 
         $mail = $builder->toMailMessage();
         $mail->addHeaders(Mail_Helper::getBaseThreadingHeaders($issue_id));

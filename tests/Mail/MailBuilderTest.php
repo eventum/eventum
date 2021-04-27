@@ -74,7 +74,7 @@ class MailBuilderTest extends TestCase
 
         $this->assertStringStartsWith('text/plain', $mail->getHeaders()->get('Content-Type')->getFieldValue());
         $this->assertEquals(0, $mail->countParts());
-        $this->assertEquals($body, $mail->getContent());
+        $this->assertEquals($body, $mail->getMessageBody());
     }
 
     public function testMimeMessageAttachment(): void
@@ -83,12 +83,10 @@ class MailBuilderTest extends TestCase
 
         $builder = new MailBuilder();
         $builder->addTextPart($body);
-
-        $message = $builder->getMessage();
-        $message->setSubject($this->subject);
-        $message->setFrom($this->from);
+        $builder->setSubject($this->subject);
+        $builder->setFrom($this->from);
         if ($this->to) {
-            $message->setTo($this->to);
+            $builder->setTo($this->to);
         }
 
         // textual attachment
