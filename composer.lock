@@ -5576,16 +5576,16 @@
         },
         {
             "name": "symfony/lock",
-            "version": "v4.4.23",
+            "version": "v4.4.25",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/lock.git",
-                "reference": "0859e744a614e96260949f10d9ac4b8adc8cdd0f"
+                "reference": "19da02c62477e20f59f38f020c9bd3a404541c7e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/lock/zipball/0859e744a614e96260949f10d9ac4b8adc8cdd0f",
-                "reference": "0859e744a614e96260949f10d9ac4b8adc8cdd0f",
+                "url": "https://api.github.com/repos/symfony/lock/zipball/19da02c62477e20f59f38f020c9bd3a404541c7e",
+                "reference": "19da02c62477e20f59f38f020c9bd3a404541c7e",
                 "shasum": ""
             },
             "require": {
@@ -5646,7 +5646,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-05-04T12:06:07+00:00"
+            "time": "2021-05-26T11:20:16+00:00"
         },
         {
             "name": "symfony/mime",
