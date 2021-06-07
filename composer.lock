@@ -5731,16 +5731,16 @@
         },
         {
             "name": "symfony/monolog-bridge",
-            "version": "v4.4.22",
+            "version": "v4.4.25",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/monolog-bridge.git",
-                "reference": "cdf4b4cdf9ffbc47fc8f3612a291e6b4db1b9e7e"
+                "reference": "dd94e3503b6a18f1b79d04f6b6dc78af91a0cb9b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/monolog-bridge/zipball/cdf4b4cdf9ffbc47fc8f3612a291e6b4db1b9e7e",
-                "reference": "cdf4b4cdf9ffbc47fc8f3612a291e6b4db1b9e7e",
+                "url": "https://api.github.com/repos/symfony/monolog-bridge/zipball/dd94e3503b6a18f1b79d04f6b6dc78af91a0cb9b",
+                "reference": "dd94e3503b6a18f1b79d04f6b6dc78af91a0cb9b",
                 "shasum": ""
             },
             "require": {
@@ -5803,7 +5803,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-04-07T15:47:03+00:00"
+            "time": "2021-05-26T11:20:16+00:00"
         },
         {
             "name": "symfony/monolog-bundle",
