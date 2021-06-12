@@ -453,10 +453,11 @@ class Auth
         $config = ServiceContainer::getConfig();
         $cookieDomain = $config['cookie_domain'];
         $cookiePath = $config['cookie_path'];
+        $cookieSecure = $config['cookie_secure'];
         if ($cookieDomain) {
-            setcookie($name, $value, $expiration, $cookiePath, $cookieDomain);
+            setcookie($name, $value, $expiration, $cookiePath, $cookieDomain, $cookieSecure);
         } else {
-            setcookie($name, $value, $expiration, $cookiePath);
+            setcookie($name, $value, $expiration, $cookiePath, "", $cookieSecure);
         }
     }
 

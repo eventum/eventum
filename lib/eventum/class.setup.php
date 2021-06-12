@@ -353,6 +353,7 @@ class Setup
             'short_name' => 'Eventum',
             'tool_caption' => 'Eventum',
             'cookie' => 'eventum',
+            'cookie_secure' => false,
             'relative_url' => '/',
             'monitor' => [
                 'diskcheck' => [
