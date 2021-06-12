@@ -5,6 +5,7 @@
 See [Upgrading] for details on how to upgrade.
 
 - Resolve Doctrine ORM 3.0 EntityManager::detach deprecation, #1035
+- Add optional Secure attribute for Eventum cookies, #1139
 
 [3.10.6]: https://github.com/eventum/eventum/compare/v3.10.5...master
 
