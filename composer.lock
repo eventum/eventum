@@ -3951,16 +3951,16 @@
         },
         {
             "name": "symfony/cache",
-            "version": "v4.4.25",
+            "version": "v4.4.26",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/cache.git",
-                "reference": "e2486bd59ac996afff25cdbfb823e982a0550c3e"
+                "reference": "fcdbaf8af546939eeed5e32399656da2ad371aaf"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/cache/zipball/e2486bd59ac996afff25cdbfb823e982a0550c3e",
-                "reference": "e2486bd59ac996afff25cdbfb823e982a0550c3e",
+                "url": "https://api.github.com/repos/symfony/cache/zipball/fcdbaf8af546939eeed5e32399656da2ad371aaf",
+                "reference": "fcdbaf8af546939eeed5e32399656da2ad371aaf",
                 "shasum": ""
             },
             "require": {
@@ -4037,7 +4037,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-05-26T17:39:37+00:00"
+            "time": "2021-06-23T18:14:43+00:00"
         },
         {
             "name": "symfony/cache-contracts",
@@ -5055,16 +5055,16 @@
         },
         {
             "name": "symfony/framework-bundle",
-            "version": "v4.4.25",
+            "version": "v4.4.26",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/framework-bundle.git",
-                "reference": "182442cad12e3a2ba912eddc20566a51067f8069"
+                "reference": "fb29db31d6a1bb69271009c47ce19d59c6fef25a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/framework-bundle/zipball/182442cad12e3a2ba912eddc20566a51067f8069",
-                "reference": "182442cad12e3a2ba912eddc20566a51067f8069",
+                "url": "https://api.github.com/repos/symfony/framework-bundle/zipball/fb29db31d6a1bb69271009c47ce19d59c6fef25a",
+                "reference": "fb29db31d6a1bb69271009c47ce19d59c6fef25a",
                 "shasum": ""
             },
             "require": {
@@ -5193,7 +5193,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-05-26T11:20:16+00:00"
+            "time": "2021-06-28T15:39:02+00:00"
         },
         {
             "name": "symfony/http-client-contracts",
