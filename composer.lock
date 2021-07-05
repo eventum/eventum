@@ -7154,16 +7154,16 @@
         },
         {
             "name": "symfony/var-exporter",
-            "version": "v4.4.25",
+            "version": "v4.4.26",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/var-exporter.git",
-                "reference": "723c038aac53280c8ad4209add93e679a33bbe3f"
+                "reference": "ac8cd05f3a70ee2805070ebdf7a0e0ddea574f91"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/var-exporter/zipball/723c038aac53280c8ad4209add93e679a33bbe3f",
-                "reference": "723c038aac53280c8ad4209add93e679a33bbe3f",
+                "url": "https://api.github.com/repos/symfony/var-exporter/zipball/ac8cd05f3a70ee2805070ebdf7a0e0ddea574f91",
+                "reference": "ac8cd05f3a70ee2805070ebdf7a0e0ddea574f91",
                 "shasum": ""
             },
             "require": {
@@ -7219,7 +7219,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-05-26T17:39:37+00:00"
+            "time": "2021-06-26T11:58:58+00:00"
         },
         {
             "name": "symfony/yaml",
