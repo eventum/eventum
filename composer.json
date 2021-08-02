@@ -118,6 +118,8 @@
         "symfony/dependency-injection": ">=5",
         "symfony/dom-crawler": ">=5",
         "symfony/finder": ">=5",
+        "symfony/mime": ">=5",
+        "symfony/options-resolver": ">=5",
         "symfony/property-access": ">=5",
         "symfony/property-info": ">=5",
         "symfony/routing": ">=5",
@@ -157,7 +159,14 @@
     "repositories": [
         {
             "type": "composer",
-            "url": "https://eventum.github.io/composer/"
+            "url": "https://eventum.github.io/composer/",
+            "only": [
+                "fonts/liberation",
+                "horde/text-flowed",
+                "horde/util",
+                "phplot/phplot",
+                "sphinx/php-sphinxapi"
+            ]
         }
     ],
     "minimum-stability": "dev",
