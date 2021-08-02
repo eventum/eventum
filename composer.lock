@@ -3955,23 +3955,24 @@
         },
         {
             "name": "symfony/cache",
-            "version": "v4.4.26",
+            "version": "v4.4.27",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/cache.git",
-                "reference": "fcdbaf8af546939eeed5e32399656da2ad371aaf"
+                "reference": "49002c15f3e26b13c7d36c6ffe5d597ef6719cc1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/cache/zipball/fcdbaf8af546939eeed5e32399656da2ad371aaf",
-                "reference": "fcdbaf8af546939eeed5e32399656da2ad371aaf",
+                "url": "https://api.github.com/repos/symfony/cache/zipball/49002c15f3e26b13c7d36c6ffe5d597ef6719cc1",
+                "reference": "49002c15f3e26b13c7d36c6ffe5d597ef6719cc1",
                 "shasum": ""
             },
             "require": {
                 "php": ">=7.1.3",
                 "psr/cache": "^1.0|^2.0",
-                "psr/log": "~1.0",
+                "psr/log": "^1|^2|^3",
                 "symfony/cache-contracts": "^1.1.7|^2",
+                "symfony/polyfill-php80": "^1.16",
                 "symfony/service-contracts": "^1.1|^2",
                 "symfony/var-exporter": "^4.2|^5.0"
             },
@@ -4041,7 +4042,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-06-23T18:14:43+00:00"
+            "time": "2021-07-23T15:41:52+00:00"
         },
         {
             "name": "symfony/cache-contracts",
@@ -4818,21 +4819,22 @@
         },
         {
             "name": "symfony/expression-language",
-            "version": "v4.4.25",
+            "version": "v4.4.27",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/expression-language.git",
-                "reference": "4515f7d3fa614a23c7acc1162d7ef069c165d7af"
+                "reference": "40c43e27983d8b3a5e4c6ee60d975a3303165cf0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/expression-language/zipball/4515f7d3fa614a23c7acc1162d7ef069c165d7af",
-                "reference": "4515f7d3fa614a23c7acc1162d7ef069c165d7af",
+                "url": "https://api.github.com/repos/symfony/expression-language/zipball/40c43e27983d8b3a5e4c6ee60d975a3303165cf0",
+                "reference": "40c43e27983d8b3a5e4c6ee60d975a3303165cf0",
                 "shasum": ""
             },
             "require": {
                 "php": ">=7.1.3",
                 "symfony/cache": "^3.4|^4.0|^5.0",
+                "symfony/polyfill-php80": "^1.16",
                 "symfony/service-contracts": "^1.1|^2"
             },
             "type": "library",
@@ -4874,7 +4876,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-05-26T11:20:16+00:00"
+            "time": "2021-07-21T12:19:41+00:00"
         },
         {
             "name": "symfony/filesystem",
