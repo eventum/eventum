@@ -30,8 +30,8 @@ Session.vim
 /phpmd.phar
 /phpunit.phar
 
-/node_modules/
-/vendor/
+/node_modules
+/vendor
 /package-lock.json
 /yarn-error.log
 
