@@ -1,5 +1,8 @@
 on:
   workflow_call:
+    secrets:
+      github-token:
+        required: true
 
 env:
   REGISTRY: ghcr.io
@@ -54,7 +57,7 @@ jobs:
       # https://github.com/actions/upload-artifact
       - uses: actions/upload-artifact@v3
         with:
-          name: eventum-${{ steps.vars.outputs.version }}
+          name: eventum
           path: eventum-*.tar.xz
           # 'warn' or 'ignore' are also available, defaults to `warn`
           if-no-files-found: error
@@ -97,5 +100,33 @@ jobs:
           name: docker-${{ steps.vars.outputs.version }}
           path: eventum-docker-*.tar
           if-no-files-found: error
+
+  publish:
+    name: Create Release
+    runs-on: ubuntu-20.04
+    needs: build
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout eventum/eventum code
+        uses: actions/checkout@v3
+
+      - uses: actions/download-artifact@v3
+        with:
+          name: eventum
+
+      - uses: ncipollo/release-action@v1
+        if: github.ref == 'refs/tags/snapshot' || startsWith(github.ref, 'refs/tags/v')
+        env:
+          SNAPSHOT: ${{ github.ref == 'refs/tags/snapshot' }}
+          RELEASE: ${{ github.ref != 'refs/tags/snapshot' }}
+        with:
+          allowUpdates: ${{ env.SNAPSHOT }}
+          artifacts: eventum-*.tar.xz
+          replacesArtifacts: false
+          generateReleaseNotes: ${{ env.RELEASE }}
+          token: ${{ secrets.github-token }}
+          prerelease: ${{ env.SNAPSHOT }}
 
 # vim:ft=yaml:et:ts=2:sw=2
