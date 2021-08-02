@@ -159,7 +159,14 @@
     "repositories": [
         {
             "type": "composer",
-            "url": "https://eventum.github.io/composer/"
+            "url": "https://eventum.github.io/composer/",
+            "only": [
+                "fonts/liberation",
+                "horde/text-flowed",
+                "horde/util",
+                "phplot/phplot",
+                "sphinx/php-sphinxapi"
+            ]
         }
     ],
     "minimum-stability": "dev",
