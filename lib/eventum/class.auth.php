@@ -457,7 +457,7 @@ class Auth
         if ($cookieDomain) {
             setcookie($name, $value, $expiration, $cookiePath, $cookieDomain, $cookieSecure);
         } else {
-            setcookie($name, $value, $expiration, $cookiePath, "", $cookieSecure);
+            setcookie($name, $value, $expiration, $cookiePath, '', $cookieSecure);
         }
     }
 
