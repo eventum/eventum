@@ -1,13 +1,16 @@
 #!/bin/sh
-set -xe
+set -eu
+set -x
 
+self=$(readlink -f "$0")
+bindir=$(dirname "$self")
 tarball=$(readlink -f $1)
 tarname=$(basename $tarball .tar.xz)
 
 unpack $tarball
 ln -snf $tarname eventum
 cd eventum
-../../bin/releng/setup-perms.sh
+$bindir/setup-perms.sh
 
 listen=127.0.0.1:8013
 php -S $listen -t htdocs &
