@@ -15,8 +15,8 @@ More information can be found at the following URL:
 We welcome you to send patches, bug fixes and other contributions to Eventum.
 Please see the [CONTRIBUTING.md](CONTRIBUTING.md) file for more details into how to do so.
 
-Bryan Alsdorf
-Elan Ruusamäe
+Bryan Alsdorf  
+Elan Ruusamäe  
 The Eventum Team
 
   [1]: http://news.gmane.org/gmane.comp.bug-tracking.eventum.user
