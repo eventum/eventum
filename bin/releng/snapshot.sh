@@ -13,6 +13,11 @@ have() {
 	type -p "$1" >/dev/null 2>&1
 }
 
+die() {
+	echo >&2 "ERROR: $*"
+	exit 1
+}
+
 # create commit message
 # assumes few variables being set
 get_commit_message() {
@@ -107,7 +112,7 @@ travis_log() {
 > .travis.log
 if have travis; then
 	before_id=$(travis_branch_build_id snapshot)
-	test -n "$before_id" || dir "Unable to figure out before_id"
+	test -n "$before_id" || die "Unable to figure out before_id"
 fi
 
 create_snapshot_tag
