@@ -93,7 +93,7 @@ travis_log() {
 	# ".5" is the "deploy" job
 	local branch="snapshot" job_id=5 build_id
 
-	printf >&2 "travis: figuring out build id for $branch after #$before_id..."
+	printf >&2 "travis: figuring out build id for branch $branch after #$before_id..."
 	build_id=$(travis_build_id "$branch")
 	printf >&2 " #$build_id\n"
 
@@ -105,7 +105,10 @@ travis_log() {
 }
 
 > .travis.log
-have travis && before_id=$(travis_branch_build_id snapshot)
+if have travis; then
+	before_id=$(travis_branch_build_id snapshot)
+	test -n "$before_id" || dir "Unable to figure out before_id"
+fi
 
 create_snapshot_tag
 
