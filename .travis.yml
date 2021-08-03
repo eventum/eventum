@@ -29,7 +29,7 @@ jobs:
         provider: releases
         # Create token in https://github.com/settings/tokens and set as env var:
         # $ travis env set -p GITHUB_API_TOKEN ...
-        # or via https://travis-ci.org/eventum/eventum/settings
+        # or via https://travis-ci.com/eventum/eventum/settings
         api_key: $GITHUB_API_TOKEN
         file_glob: true
         file:

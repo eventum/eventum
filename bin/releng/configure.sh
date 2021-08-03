@@ -9,7 +9,6 @@ install -d $PHP_INI_DIR
 composer config platform.ext-ldap '0'
 
 # no gd for php 8.0
-# https://travis-ci.org/glensc/eventum/jobs/490544010
 composer config platform.ext-gd '0'
 
 # disable xdebug

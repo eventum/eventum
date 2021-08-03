@@ -18,8 +18,8 @@ upload_snapshot_changelog() {
 	notes=$(cat <<-EOF
 $notes
 
-Build [#$TRAVIS_BUILD_NUMBER](https://travis-ci.org/$TRAVIS_REPO_SLUG/builds/$TRAVIS_BUILD_ID) finished at $date
-Release tarball built from [#$TRAVIS_JOB_NUMBER](https://travis-ci.org/$TRAVIS_REPO_SLUG/jobs/$TRAVIS_JOB_ID)
+Build [#$TRAVIS_BUILD_NUMBER](https://travis-ci.com/$TRAVIS_REPO_SLUG/builds/$TRAVIS_BUILD_ID) finished at $date
+Release tarball built from [#$TRAVIS_JOB_NUMBER](https://travis-ci.com/$TRAVIS_REPO_SLUG/jobs/$TRAVIS_JOB_ID)
 
 	EOF
 	)

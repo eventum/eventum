@@ -26,7 +26,7 @@ get_commit_message() {
 	Uploaded from Travis CI. Use at your own risk.
 
 	If the snapshot tarball (eventum-${version#v}.tar.xz) is not appearing here,
-	check Travis CI project for errors: https://travis-ci.org/eventum/eventum
+	check Travis CI project for errors: https://travis-ci.com/eventum/eventum
 	EOF
 }
 
@@ -50,7 +50,7 @@ create_snapshot_tag() {
 travis_cmd() {
 	local cmd="$1"; shift
 
-	travis "$cmd" $travis_opts --repo "$repo" "$@" | tee -a .travis.log
+	travis "$cmd" --com $travis_opts --repo "$repo" "$@" | tee -a .travis.log
 }
 
 # suggest to install travis cli tool

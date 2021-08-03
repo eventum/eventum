@@ -15,13 +15,13 @@ More information can be found at the following URL:
 We welcome you to send patches, bug fixes and other contributions to Eventum.
 Please see the [CONTRIBUTING.md](CONTRIBUTING.md) file for more details into how to do so.
 
-Bryan Alsdorf  
-Elan Ruusamäe  
+Bryan Alsdorf
+Elan Ruusamäe
 The Eventum Team
 
   [1]: http://news.gmane.org/gmane.comp.bug-tracking.eventum.user
   [2]: http://news.gmane.org/gmane.comp.bug-tracking.eventum.devel
-[travis-badge]: https://travis-ci.org/eventum/eventum.svg?branch=master
-[travis-url]: https://travis-ci.org/eventum/eventum
+[travis-badge]: https://api.travis-ci.com/eventum/eventum.svg?branch=master
+[travis-url]: https://travis-ci.com/github/eventum/eventum
 [gitter-badge]: https://badges.gitter.im/Join%20Chat.svg
 [gitter-url]: https://gitter.im/eventum/eventum
