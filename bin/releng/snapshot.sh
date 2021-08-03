@@ -72,7 +72,7 @@ travis_branch_build_id() {
 	local branch="$1"
 
 	# snapshot: #6057 started    Move travis options to environment, use long options
-	travis_cmd branches | sed -rne "s/^$branch:.+#([0-9]+) (created|started|errored|passed|failed) .+/\1/p" | head -n1
+	travis_cmd branches | sed -rne "s/^$branch:.+#([0-9]+) (created|canceled|started|errored|passed|failed) .+/\1/p" | head -n1
 }
 
 # find last build id from specified branch
