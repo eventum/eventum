@@ -3568,16 +3568,16 @@
         },
         {
             "name": "robmorgan/phinx",
-            "version": "0.12.7",
+            "version": "0.12.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/cakephp/phinx.git",
-                "reference": "bdd8f337fcdf24c20d0b708664a85ca9b8d5dbe2"
+                "reference": "d2ed1b452cc90f4cae4ea6b5976b94fb9e5ed2a2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cakephp/phinx/zipball/bdd8f337fcdf24c20d0b708664a85ca9b8d5dbe2",
-                "reference": "bdd8f337fcdf24c20d0b708664a85ca9b8d5dbe2",
+                "url": "https://api.github.com/repos/cakephp/phinx/zipball/d2ed1b452cc90f4cae4ea6b5976b94fb9e5ed2a2",
+                "reference": "d2ed1b452cc90f4cae4ea6b5976b94fb9e5ed2a2",
                 "shasum": ""
             },
             "require": {
@@ -3588,7 +3588,7 @@
                 "symfony/console": "^3.4|^4.0|^5.0"
             },
             "require-dev": {
-                "cakephp/cakephp-codesniffer": "^3.0",
+                "cakephp/cakephp-codesniffer": "^4.0",
                 "ext-json": "*",
                 "ext-pdo": "*",
                 "phpunit/phpunit": "^8.5|^9.3",
@@ -3646,7 +3646,7 @@
                 "migrations",
                 "phinx"
             ],
-            "time": "2021-04-16T14:27:37+00:00"
+            "time": "2021-07-28T15:31:39+00:00"
         },
         {
             "name": "sebastian/diff",
@@ -4123,16 +4123,16 @@
         },
         {
             "name": "symfony/config",
-            "version": "v4.4.27",
+            "version": "v4.4.30",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/config.git",
-                "reference": "8132e8d645d703e9b7c9c4f25067b93638683a35"
+                "reference": "d9ea72de055cd822e5228ff898e2aad2f52f76b0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/config/zipball/8132e8d645d703e9b7c9c4f25067b93638683a35",
-                "reference": "8132e8d645d703e9b7c9c4f25067b93638683a35",
+                "url": "https://api.github.com/repos/symfony/config/zipball/d9ea72de055cd822e5228ff898e2aad2f52f76b0",
+                "reference": "d9ea72de055cd822e5228ff898e2aad2f52f76b0",
                 "shasum": ""
             },
             "require": {
@@ -4194,7 +4194,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-07-21T12:19:41+00:00"
+            "time": "2021-08-04T20:31:23+00:00"
         },
         {
             "name": "symfony/console",
