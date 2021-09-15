@@ -4,10 +4,11 @@ One of our objectives is to make upgrading from an earlier release as
 painless as possible, and we provide scripts that should bring your
 existing Eventum installation up-to-date.
 
-Eventum supports sequential upgrade path using released minor versions.
+Eventum supports sequential upgrade by minor version. For example,
+you can upgrade version 3.1.x to 3.2.0, skipping all intermediate patch versions.
 
-To explain more clearly: you may skip all patch versions and upgrade to the
-next minor version.
+Eventum does not support skipping minor versions. For example, it is not possible
+to upgrade from version 3.1.x to 3.9.0.
 
 This table lists upgrade path from SOURCE to TARGET version, the third column
 shows PHP version required for the update.
