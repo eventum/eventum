@@ -93,7 +93,7 @@ $(document).ready(function () {
     // configure chosen
     // https://harvesthq.github.io/chosen/
     // https://harvesthq.github.io/chosen/options.html
-    $(".chosen-select").chosen({search_contains: true});
+    $(".chosen-select").chosen({search_contains: true, disable_search_threshold: 10});
 
     // https://github.com/jackmoore/autosize
     autosize($textarea);
