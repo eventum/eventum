@@ -6,6 +6,8 @@ See [Upgrading] for details on how to upgrade.
 
 [3.10.7]: https://github.com/eventum/eventum/compare/v3.10.6...master
 
+- Hide the search input on single selects if there are 10 or fewer options, #1200
+
 ## [3.10.6] - 2021-08-03
 
 See [Upgrading] for details on how to upgrade.
