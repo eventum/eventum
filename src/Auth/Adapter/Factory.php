@@ -53,6 +53,7 @@ abstract class Factory
                     LdapAdapter::class,
                 ],
             ],
+            CustomAdapter::class => [],
         ];
 
         $em = ServiceContainer::getExtensionManager();
