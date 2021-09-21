@@ -26,7 +26,7 @@ use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigura
  * To enable this extension, write to config/setup.php:
  *
  * 'extensions' => [
- *   'Example\\ExampleExtension' => '/path/to/this/file/ExampleExtension.php',
+ *   'Example\\ExampleExtension' => '/path/to/eventum/docs/examples/extension/ExampleExtension.php',
  * ],
  */
 class ExampleExtension implements
