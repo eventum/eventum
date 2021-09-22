@@ -62,7 +62,7 @@ class ExampleExtension implements
             'Pimple\\' => $phpDir,
         ];
         $psr4 = [
-            'Example\\' => [$baseDir . '/docs/examples/extension'],
+            'Example\\' => [self::EXTENSION_DIR],
         ];
 
         $files = [
