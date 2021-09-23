@@ -72,7 +72,7 @@ class LdapAdapter implements AdapterInterface
         $this->default_role = $config['default_role'];
         $this->create_users = (bool)$config['create_users'];
 
-        if (!$this->active_dn || !$this->inactive_dn) {
+        if (!$this->active_dn) {
             throw new AuthException('LDAP Adapter not configured');
         }
     }
