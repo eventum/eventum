@@ -1079,9 +1079,10 @@ class User
      * Method used to add a new user to the system.
      *
      * @param   array $user The array of user information
+     * @param   bool $notify
      * @return  int usr_id being created
      */
-    public static function insert(array $user)
+    public static function insert(array $user, $notify = true)
     {
         $params = [
             $user['customer_id'] ?? null,
@@ -1130,8 +1131,8 @@ class User
             }
         }
 
-        // send email to user only if password is set
-        if (isset($user['password']) && $user['password'] !== '') {
+        // send email to user
+        if ($notify == true) {
             Notification::notifyNewUser($usr_id, $user['password']);
         }
 
