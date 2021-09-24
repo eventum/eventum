@@ -8,6 +8,7 @@ See [Upgrading] for details on how to upgrade.
 
 - Hide the search input on single selects if there are 10 or fewer options, #1200
 - Make LDAP "Inactive DN" parameter optional, #1208
+- Make user notification on account creation optional, #1210
 
 ## [3.10.6] - 2021-08-03
 
