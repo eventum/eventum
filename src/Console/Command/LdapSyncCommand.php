@@ -149,7 +149,7 @@ class LdapSyncCommand extends BaseCommand
         foreach ($users as $user) {
             $emails = $user->getEmails();
             // skip entries with no email
-            if (!$this->findValidEmail($emails)) {
+            if (!$this->hasValidEmail($emails)) {
                 $uid = $user->getUid();
                 $this->writeln("skip (no email): $uid", OutputInterface::VERBOSITY_VERBOSE);
                 continue;
@@ -160,20 +160,20 @@ class LdapSyncCommand extends BaseCommand
     }
 
     /**
-     * Find a valid email
+     * Return true if at least one valid email found
      *
      * @param string[] $emails
-     * @return string|null
+     * @return bool
      */
-    private function findValidEmail(array $emails): ?string
+    private function hasValidEmail(array $emails): bool
     {
         foreach ($emails as $email) {
             if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
-                return $email;
+                return true;
             }
         }
 
-        return null;
+        return false;
     }
 
     /**
