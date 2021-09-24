@@ -1130,8 +1130,10 @@ class User
             }
         }
 
-        // send email to user
-        Notification::notifyNewUser($usr_id, $user['password']);
+        // send email to user only if password is set
+        if (isset($user['password']) && $user['password'] !== '') {
+            Notification::notifyNewUser($usr_id, $user['password']);
+        }
 
         // add user id and do not expose password to event
         $user['id'] = (int)$usr_id;
