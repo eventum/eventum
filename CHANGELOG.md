@@ -10,6 +10,7 @@ See [Upgrading] for details on how to upgrade.
 - Make LDAP "Inactive DN" parameter optional, #1208
 - Make user notification on account creation optional, #1210
 - Add loose email validation in LdapSyncCommand, #1209
+- Allow to turn off notifications on account insert in LdapAdapter, #1211
 
 ## [3.10.6] - 2021-08-03
 
