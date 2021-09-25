@@ -9,6 +9,7 @@ See [Upgrading] for details on how to upgrade.
 - Make user notification on account creation optional, #1210
 - Add loose email validation in LdapSyncCommand, #1209
 - Add an option to tune notifications on account inserts in LdapSyncCommand, #1211
+- Allow to turn off notifications on account insert in LdapAdapter, #1211
 
 [3.10.7]: https://github.com/eventum/eventum/compare/v3.10.6...master
 
