@@ -41,7 +41,8 @@ class LdapSyncCommand extends BaseCommand
             ->addOption('dry-run', null, InputOption::VALUE_NONE)
             ->addOption('create-users', null, InputOption::VALUE_NONE)
             ->addOption('no-update', null, InputOption::VALUE_NONE)
-            ->addOption('no-disable', null, InputOption::VALUE_NONE);
+            ->addOption('no-disable', null, InputOption::VALUE_NONE)
+            ->addOption('no-notify', null, InputOption::VALUE_NONE);
     }
 
     public function execute(InputInterface $input, OutputInterface $output): int
@@ -50,11 +51,16 @@ class LdapSyncCommand extends BaseCommand
         $createUsers = $input->getOption('create-users');
         $noUpdate = $input->getOption('no-update');
         $noDisable = $input->getOption('no-disable');
+        $noNotify = $input->getOption('no-notify');
 
         $this->dryrun = $dryrun;
 
         $this->ldap = new LdapAdapter();
         $this->ldap->create_users = $createUsers;
+
+        if ($noNotify) {
+            $this->ldap->notify_users = false;
+        }
 
         $this->updateUsers(!$noUpdate);
         $this->disableUsers(!$noDisable);

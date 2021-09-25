@@ -34,6 +34,9 @@ class LdapAdapter implements AdapterInterface
     /** @var bool */
     public $create_users;
 
+    /** @var bool */
+    public $notify_users = true;
+
     /** @var \Monolog\Logger */
     private $logger;
 
@@ -342,7 +345,7 @@ class LdapAdapter implements AdapterInterface
             }
         }
 
-        $usr_id = User::insert($data);
+        $usr_id = User::insert($data, $this->notify_users);
         if ($usr_id > 0 && $emails) {
             $this->updateAliases($usr_id, $emails);
         }
