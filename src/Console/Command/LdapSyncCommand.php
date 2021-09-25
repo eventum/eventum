@@ -41,7 +41,7 @@ class LdapSyncCommand extends BaseCommand
             ->addOption('dry-run', null, InputOption::VALUE_NONE)
             ->addOption('create-users', null, InputOption::VALUE_NONE)
             ->addOption('no-update', null, InputOption::VALUE_NONE)
-            ->addOption('no-disable', null, InputOption::VALUE_NONE);
+            ->addOption('no-disable', null, InputOption::VALUE_NONE)
             ->addOption('no-notify', null, InputOption::VALUE_NONE);
     }
 
