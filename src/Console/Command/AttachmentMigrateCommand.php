@@ -32,6 +32,13 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
+/**
+ * A script that changes migrates attachments from one storage backend to another another storage backend.
+ *
+ * This may take a very long time to run, depending on how much data needs to be migrated.
+ *
+ * WARNING: Migrating data is a risky business. Make sure you have EVERYTHING backed up before you begin this process.
+ */
 class AttachmentMigrateCommand extends BaseCommand
 {
     public const DEFAULT_COMMAND = 'attachment:migrate';
