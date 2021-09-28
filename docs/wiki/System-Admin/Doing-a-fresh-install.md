@@ -86,17 +86,13 @@ To configure the accounts used with the email integration feature, go to:
 
 `Administration` >>> `Manage Email Accounts`
 
-In order for Eventum's email integration feature to work, you need to set up a cron job to run the `download_emails.php` script every so often. The following is an example of the required crontab line (using an IMAP account):
+In order for Eventum's email integration feature to work, you need to set up a cron job to run the mail download script every so often. The following is an example of the required crontab line (using an IMAP account):
 
-    0 * * * * <PATH-TO-EVENTUM>/bin/download_emails.php username mail.example.com INBOX
+    0 * * * * <PATH-TO-EVENTUM>/bin/console.php eventum:mail:download username mail.example.com INBOX
 
 The above will run the command every hour, and will download emails associated with the given email account and `IMAP` mailbox. If you have more than one email account, you may add another crontab entry for the other accounts (or poll different `IMAP` mailboxes of the same account).
 
 **NOTE:** The mailbox parameter shown in the examples as `INBOX` is **ONLY** required for `IMAP` accounts. Using that parameter on `POP` accounts causes "Error: Could not find a email account with the parameter provided. Please verify your email account settings and try again."
-
-You can also call the `download_emails.php` script via the web using the following URL: `http://eventum_server/path-to-eventum/rpc/download_emails.php?username=username&hostname=mail.example.com&mailbox=INBOX`
-
-**NB:** the web trick no longer works!
 
 ### Reminder System (check_reminders.php)
 
