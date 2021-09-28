@@ -37,6 +37,15 @@ Commits follow good practices for message and content
 [good commit messages]: http://chris.beams.io/posts/git-commit/
 [atomic commits]: http://www.freshconsulting.com/atomic-commits/
 
+Keep your forked repository even with the master one
+- Check remotes `git remote -v`
+- Add Eventum as upstream `git remote add upstream https://github.com/eventum/eventum.git`
+- Switch to master `git checkout master`
+- Fetch latest changes `git fetch upstream`
+- Rebase for clean pull requests `git rebase upstream/master`
+- Update your forked repo `git push`
+- Do not work on `master` branch
+
 ## Development
 
 For asset compilation [laravel-mix] is used.
