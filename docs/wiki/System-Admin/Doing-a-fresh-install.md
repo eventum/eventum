@@ -192,12 +192,3 @@ to
 ```php
 define('APP_BASE_URL', 'https://' . APP_HOSTNAME . APP_RELATIVE_URL);
 ```
-
-## Installing with PHP on FastCGI
-
-Using FastCGI you must consider the following:
-
--   Since Basic Authentication might not work, you might not be able to access the Custom Search RSS
--   Running php scripts from command line will probably use different php.ini for WEB and CLI. You should pass the php.ini file path in the command for CRON and manual executions:
-
-`php -c /path-to-php-ini/php.ini -f /path-to-eventum/misc/process_mail_queue.php`
