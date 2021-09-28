@@ -11,7 +11,7 @@
  * that were distributed with this source code.
  */
 
-namespace Example\Console\Command;
+namespace Example\Command;
 
 use Eventum\Console\Command\BaseCommand;
 use Symfony\Component\Console\Input\InputInterface;
