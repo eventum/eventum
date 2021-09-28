@@ -173,15 +173,9 @@ See [IRC Bot page](../System-Advanced/Using-the-IRC-bot.md) for details.
 
 The Eventum command line interface allows you to access most of the features of the web interface straight from a command shell. In order to install it, you will need PHP. If you use SSL, you will also need the `curl` and `openssl` PHP extensions.
 
-Assuming you have the requirements properly set up:
+See [eventum/cli] project for more details.
 
--   Copy the `cli` directory to another location (i.e. copy to `~/bin`)
--   Add that location to your `PATH` environment variable
--   Set the required permission in the script (`chmod +x ~/bin/cli/eventum`)
--   Copy the new `.eventumrc` example file to your home directory (`cp cli/eventumrc ~/.eventumrc`)
--   Edit `~/.eventumrc` and set the appropriate values, be sure to secure the file permissions (`chmod 600 ~/.evenumrc`)
--   Run it (`eventum --help`)
--   Test it with `eventum 1` (display issue #1 details)
+[eventum/cli]: https://github.com/eventum/cli
 
 ## Installing on SSL (https)
 
