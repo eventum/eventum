@@ -45,10 +45,10 @@ class ReminderCheckCommand extends BaseCommand
 
         // backward compatible --debug option is same as -vvv
         if ($debug) {
-            $output->setVerbosity(OutputInterface::VERBOSITY_DEBUG);
+            $output->setVerbosity(self::DEBUG);
         }
 
-        Reminder::$debug = $output->getVerbosity() === OutputInterface::VERBOSITY_DEBUG;
+        Reminder::$debug = $output->getVerbosity() === self::DEBUG;
 
         $lock = new ConcurrentLock($this->lock_name);
         $lock->synchronized(
@@ -167,6 +167,6 @@ class ReminderCheckCommand extends BaseCommand
 
     private function debugMessage($message): void
     {
-        $this->output->writeln($message, OutputInterface::VERBOSITY_DEBUG);
+        $this->output->writeln($message, self::DEBUG);
     }
 }
