@@ -49,6 +49,7 @@ See [Upgrading] for details on how to upgrade.
 - Refactor: Add LazyProperties to AbstractMigration, #1042
 - Remove leftovers from mnapoli/silly from commands, #1040
 - Add example command for extension, #1216
+- Re-structure example extension for Symfony project layout, #1216
 
 [3.10.3]: https://github.com/eventum/eventum/compare/v3.10.2...v3.10.3
 

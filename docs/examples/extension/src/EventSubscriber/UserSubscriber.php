@@ -11,14 +11,13 @@
  * that were distributed with this source code.
  */
 
-namespace Example\Subscriber;
+namespace Example\EventSubscriber;
 
 use Eventum\Event\SystemEvents;
-use Misc;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
-class HistorySubscriber implements EventSubscriberInterface
+class UserSubscriber implements EventSubscriberInterface
 {
     /**
      * {@inheritdoc}
@@ -26,17 +25,24 @@ class HistorySubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents(): array
     {
         return [
-            SystemEvents::HISTORY_ADD => 'historyAdded',
+            SystemEvents::USER_CREATE => 'userCreated',
+            SystemEvents::USER_UPDATE => 'userUpdated',
         ];
     }
 
     /**
      * @param GenericEvent $event
      */
-    public function historyAdded(GenericEvent $event): void
+    public function userCreated(GenericEvent $event): void
     {
-        $his_summary = Misc::processTokens(ev_gettext($event['his_summary']), $event['his_context']);
+        error_log("user created: #{$event['id']}");
+    }
 
-        error_log("HISTORY[issue {$event['his_iss_id']}]: {$event['his_id']}: $his_summary");
+    /**
+     * @param GenericEvent $event
+     */
+    public function userUpdated(GenericEvent $event): void
+    {
+        error_log("user updated: #{$event['id']}");
     }
 }
