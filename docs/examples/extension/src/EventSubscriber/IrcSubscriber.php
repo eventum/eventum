@@ -11,7 +11,7 @@
  * that were distributed with this source code.
  */
 
-namespace Example\Subscriber;
+namespace Example\EventSubscriber;
 
 use Eventum\Event\SystemEvents;
 use Eventum\Mail\MailMessage;

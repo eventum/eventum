@@ -62,7 +62,7 @@ class ExampleExtension implements
             'Pimple\\' => $phpDir,
         ];
         $psr4 = [
-            'Example\\' => [self::EXTENSION_DIR],
+            'Example\\' => [self::EXTENSION_DIR . '/src'],
         ];
 
         $files = [
@@ -157,11 +157,11 @@ class ExampleExtension implements
     public function getSubscribers(): array
     {
         return [
-            Subscriber\CommitSubscriber::class,
-            Subscriber\CryptoSubscriber::class,
-            Subscriber\GitlabLinkSubscriber::class,
-            Subscriber\HistorySubscriber::class,
-            Subscriber\UserSubscriber::class,
+            EventSubscriber\CommitSubscriber::class,
+            EventSubscriber\CryptoSubscriber::class,
+            EventSubscriber\GitlabLinkSubscriber::class,
+            EventSubscriber\HistorySubscriber::class,
+            EventSubscriber\UserSubscriber::class,
         ];
     }
 
