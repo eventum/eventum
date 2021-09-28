@@ -45,13 +45,13 @@ When upgrading to a new version of Eventum, please follow these instructions:
 1.  Check the [requirements](Prerequisites.md) for the version
 1.  Backup your copy of Eventum - files and data
 1.  Rename the current Eventum directory out of the way (`eventum.old`)
-1.  Extract new Eventum version to existing installation direcory (`eventum`)
+1.  Extract new Eventum version to existing installation directory (`eventum`)
 1.  Restore config and workflow files from the previous version
 1.  Run the upgrade script
 
 This way of installing will get rid of files that got removed from newer Eventum version.
 
-NOTE: If you change the installation direcory, you need to change config files to the new direcory value.
+NOTE: If you change the installation directory, you need to change config files to the new directory value.
 
 ## Step by step instructions
 
