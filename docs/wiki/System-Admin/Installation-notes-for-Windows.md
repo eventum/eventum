@@ -11,8 +11,8 @@ This is how I setup jobs to run under Windows XP to process the mail queue or do
 -   Create a new scheduled task (process_mail_queue).
 -   Under the "Task" tab, set the following values (adjust to match your PHP and Eventum paths).
 
-    -   Run: C:\\php4\\cli\\php.exe -f c:/eventum/misc/process_mail_queue.php
-    -   Start in: c:\\eventum\\misc\\
+    -   Run: `C:\php4\cli\php.exe -f c:/eventum/bin/console.php eventum:mail-queue:truncate`
+    -   Start in: `c:\eventum\`
 
 -   Under the "Schedule" tab, set the task to run daily (any time will do) and click "Advanced".
 
