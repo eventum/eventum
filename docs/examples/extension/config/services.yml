@@ -7,6 +7,6 @@ services:
   # makes classes in Console/Command/ available to be used as services
   # this creates a service per class whose id is the fully-qualified class name
   Example\Console\Command\:
-    resource: '../Console/Command/*'
+    resource: '../src/Console/Command/*'
 
 # vim:ts=4:sw=4:et
