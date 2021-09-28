@@ -12,14 +12,6 @@
  * that were distributed with this source code.
  */
 
-/**
- * A script that changes migrates attachments from one storage backend to another another storage backend.
- *
- * This may take a very long time to run, depending on how much data needs to be migrated.
- *
- * WARNING: Migrating data is a risky business. Make sure you have EVERYTHING backed up before you begin this process.
- */
-
 use Eventum\Console\Application;
 use Eventum\Console\Command\AttachmentMigrateCommand as Command;
 
