@@ -89,7 +89,7 @@ class LdapSyncCommand extends BaseCommand
 
             // FIXME: where's adding new users part?
             // TODO: check if ldap enabled and eventum disabled activates accounts in eventum
-            $this->writeln("checking: $uid, $dn", OutputInterface::VERBOSITY_VERY_VERBOSE);
+            $this->writeln("checking: $uid, $dn", self::VERY_VERBOSE);
             try {
                 $this->updateLocalUserFromBackend($uid);
             } catch (AuthException $e) {
@@ -117,7 +117,7 @@ class LdapSyncCommand extends BaseCommand
             $uid = $user->getUid();
             $dn = $user->getDn();
 
-            $this->writeln("checking: $uid, $dn", OutputInterface::VERBOSITY_VERY_VERBOSE);
+            $this->writeln("checking: $uid, $dn", self::VERY_VERBOSE);
 
             $active = $this->ldap->accountActive($uid);
 
@@ -157,7 +157,7 @@ class LdapSyncCommand extends BaseCommand
             // skip entries with no email
             if (!$this->hasValidEmail($emails)) {
                 $uid = $user->getUid();
-                $this->writeln("skip (no email): $uid", OutputInterface::VERBOSITY_VERBOSE);
+                $this->writeln("skip (no email): $uid", self::VERBOSE);
                 continue;
             }
 
