@@ -27,8 +27,8 @@ Using Eventum 1.5.4 to create these steps.
 9. Click on 'Manage Email Accounts'
 10. Create a working email account entry [eventum_issues@example.com] in Manage Email Accounts for the account you created in step 1. Make sure to test it out. You can associate the email account with any of the projects. Pick one.
 11. Create dummy email accounts for your remaining projects. These are necessary (currently) because of an old design that will likely change in a future release.
-12. Add a crontab entry for /eventum/misc/download_emails.php with the appropriate arguments as documented in the INSTALL file. Below is a sample crontab for an IMAP account
+12. Add a crontab entry for download emails with the appropriate arguments as documented in the INSTALL file. Below is a sample crontab for an IMAP account
 
 ```text
-0 * * * * cd /var/www/eventum/misc; /usr/local/bin/php -q download_emails.php eventum_issues@example.com mail.example.com INBOX
+0 * * * * /var/www/eventum/bin/console.php eventum:mail:download eventum_issues@example.com mail.example.com INBOX
 ```

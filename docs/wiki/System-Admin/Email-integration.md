@@ -45,17 +45,17 @@ In order for the email function to work, the "SMTP (Outgoing Email) Settings" in
 
 A common mistake for the email integration is forgetting to set the mail scripts to run. The scripts are:
 
-1.  `bin/download_emails.php` (Downloads e-mail to Eventum)
-2.  `bin/process_mail_queue.php` (Sends e-mail from Eventum)
+1.  `bin/console.php eventum:mail:download` (Downloads e-mail to Eventum)
+2.  `bin/console.php eventum:mail-queue:process` (Sends e-mail from Eventum)
 
 For user on a Unix/Linux system, the timing is generally set [using cron](Adding-a-cron-entry.md). For Windows, use either the Task Scheduler, or find a "cron equivalent" program.
 
 Look in the INSTALL file for information on how to set up the mail scripts.
 
-If you are running under PHP on Unix/Linux, you may have a problem getting the process_mail_queue.php script to work.
+If you are running under PHP on Unix/Linux, you may have a problem getting the process mail queue script to work.
 Edit your local configuration file (php.ini) and increase the amount of memory a script may have (memory_limit).
 
-The `download_emails.php` script requires [some parameters](Doing-a-fresh-install.md#email-download-download_emailsphp). Look in the source of that file or run from commandline to see what they are (username, hostname). You must provide these parameters when setting up your cron.
+The download emails script requires [some parameters](Doing-a-fresh-install.md#email-download). Look in the source of that file or run from commandline to see what they are (username, hostname). You must provide these parameters when setting up your cron.
 
 1.  Notes about [Japanese character sets](Localization:Japanese "wikilink") and E-mail integration.
 

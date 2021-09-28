@@ -2,11 +2,9 @@
 
 All email is sent using a cron script on Unix systems (including OS X) and needs to be added to the cron tables. An example is given in the INSTALL file, but the mechanics are not.
 
-**The PHP switch on this page was incorrect. It should be "`/usr/bin/php -f file`"**
-
 **Please check your crontab entries!!**
 
-`* * * * * cd /path-to-eventum/misc; /usr/bin/php -f process_mail_queue.php`
+`* * * * * /path-to-eventum/bin/console.php eventum:mail-queue:process`
 
 If you already have cron scripts running you don't need this - just add another entry. If you do not, then do the following:
 
