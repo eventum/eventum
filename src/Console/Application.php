@@ -17,6 +17,9 @@ use Eventum\ServiceContainer;
 use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Console\Output\ConsoleOutput;
 
+/**
+ * @deprecated since 3.10.3, use Symfony bin/console.php for console application
+ */
 class Application
 {
     public function routeDeprecatedCommand(array $argv): int
