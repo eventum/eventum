@@ -109,7 +109,7 @@ class LdapSyncCommand extends BaseCommand
     private function disableMissedUsers($enabled): void
     {
         if (!$enabled || !$this->ldap->active_dn) {
-            $this->writeln('Skip missed users');
+            $this->writeln('Skip Disable missed LDAP users', self::VERBOSE);
 
             return;
         }
@@ -141,7 +141,7 @@ class LdapSyncCommand extends BaseCommand
     private function disableUsers($enabled): void
     {
         if (!$enabled || !$this->ldap->inactive_dn) {
-            $this->writeln('Skipping disable users');
+            $this->writeln('Skipping disable inactive LDAP users');
 
             return;
         }
