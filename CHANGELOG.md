@@ -9,7 +9,7 @@ See [Upgrading] for details on how to upgrade.
 - Make user notification on account creation optional, #1210
 - Add loose email validation in LdapSyncCommand, #1209
 - Add an option to tune notifications on account inserts in LdapSyncCommand, #1211
-- LdapSyncCommand: Disable users which are not found in LDAP Active DN, #1221
+- LdapSyncCommand: Disable users missing from LDAP Active DN, #1221
 
 [3.10.7]: https://github.com/eventum/eventum/compare/v3.10.6...master
 
