@@ -37,7 +37,7 @@ Commits follow good practices for message and content
 [good commit messages]: http://chris.beams.io/posts/git-commit/
 [atomic commits]: http://www.freshconsulting.com/atomic-commits/
 
-Keep your forked repository even with the master one
+How to update forked repository to be up to date with the `master`:
 - Check remotes `git remote -v`
 - Add Eventum as upstream `git remote add upstream https://github.com/eventum/eventum.git`
 - Switch to master `git checkout master`
