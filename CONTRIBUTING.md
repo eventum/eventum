@@ -44,7 +44,7 @@ How to update forked repository to be up to date with the `master`:
 - Fetch latest changes `git fetch upstream`
 - Rebase for clean pull requests `git rebase upstream/master`
 - Update your forked repo `git push`
-- Do not work on `master` branch
+- Do not make commits on your `master` branch
 
 ## Development
 
