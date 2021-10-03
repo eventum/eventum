@@ -40,6 +40,7 @@ class LdapSyncCommand extends BaseCommand
         $this
             ->addOption('dry-run', null, InputOption::VALUE_NONE)
             ->addOption('create-users', null, InputOption::VALUE_NONE)
+            ->addOption('disable-missing', null, InputOption::VALUE_NONE)
             ->addOption('no-update', null, InputOption::VALUE_NONE)
             ->addOption('no-disable', null, InputOption::VALUE_NONE)
             ->addOption('no-notify', null, InputOption::VALUE_NONE);
@@ -52,6 +53,7 @@ class LdapSyncCommand extends BaseCommand
         $noUpdate = $input->getOption('no-update');
         $noDisable = $input->getOption('no-disable');
         $noNotify = $input->getOption('no-notify');
+        $disableMissing = $input->getOption('disable-missing');
 
         $this->dryrun = $dryrun;
 
@@ -64,6 +66,7 @@ class LdapSyncCommand extends BaseCommand
 
         $this->updateUsers(!$noUpdate);
         $this->disableUsers(!$noDisable);
+        $this->disableMissingUsers($disableMissing);
 
         return 0;
     }
@@ -99,6 +102,38 @@ class LdapSyncCommand extends BaseCommand
     }
 
     /**
+     * Process active users missing from ldap
+     *
+     * @param bool $enabled
+     */
+    private function disableMissingUsers($enabled): void
+    {
+        if (!$enabled || !$this->ldap->active_dn) {
+            $this->writeln('Skip Disable missing LDAP users', self::VERBOSE);
+
+            return;
+        }
+
+        $users = User::getActiveAssocList();
+        foreach ($users as $usr_id => $name) {
+            $uid = User::getExternalID($usr_id);
+
+            if ($uid) {
+                // try to find user
+                $remote = $this->ldap->getLdapUser($uid);
+
+                // handle missing users
+                if ($remote === null) {
+                   $this->disableAccount("", $uid);
+                }
+            } else {
+                $email = User::getEmail($usr_id);
+                $this->writeln("<info>LDAP uid not found</info> for $usr_id, $email", self::VERY_VERBOSE);
+            }
+        }
+    }
+
+    /**
      * Process inactive users from ldap
      *
      * @param bool $enabled
@@ -106,7 +141,7 @@ class LdapSyncCommand extends BaseCommand
     private function disableUsers($enabled): void
     {
         if (!$enabled || !$this->ldap->inactive_dn) {
-            $this->writeln('Skipping disable users');
+            $this->writeln('Skipping disable inactive LDAP users');
 
             return;
         }
