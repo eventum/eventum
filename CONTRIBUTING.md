@@ -42,7 +42,7 @@ How to update forked repository to be up to date with the `master`:
 - Add Eventum as upstream `git remote add upstream https://github.com/eventum/eventum.git`
 - Switch to master `git checkout master`
 - Fetch latest changes `git fetch upstream`
-- Rebase for clean pull requests `git rebase upstream/master`
+- Rebase for clean pull requests `git rebase -i upstream/master`
 - Update your forked repo `git push`
 - Do not make commits on your `master` branch
 
