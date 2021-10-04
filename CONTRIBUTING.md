@@ -20,6 +20,7 @@ reported, by looking at [open issues].
 
 [issue tracker]: https://github.com/eventum/eventum/issues
 [new issue]: https://github.com/eventum/eventum/issues/new
+[open issues]: https://github.com/eventum/eventum/issues?q=is%3Aissue+is%3Aopen+sort%3Aupdated-desc
 
 ## Pull requests
 
