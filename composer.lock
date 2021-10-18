@@ -8,16 +8,16 @@
     "packages": [
         {
             "name": "cakephp/core",
-            "version": "4.2.8",
+            "version": "4.2.10",
             "source": {
                 "type": "git",
                 "url": "https://github.com/cakephp/core.git",
-                "reference": "bed4b6f09550909beea5440627d5a6ff85fb1934"
+                "reference": "a99b4fef0e7c17bcf3cab659130963c0d6074805"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cakephp/core/zipball/bed4b6f09550909beea5440627d5a6ff85fb1934",
-                "reference": "bed4b6f09550909beea5440627d5a6ff85fb1934",
+                "url": "https://api.github.com/repos/cakephp/core/zipball/a99b4fef0e7c17bcf3cab659130963c0d6074805",
+                "reference": "a99b4fef0e7c17bcf3cab659130963c0d6074805",
                 "shasum": ""
             },
             "require": {
@@ -55,20 +55,20 @@
                 "core",
                 "framework"
             ],
-            "time": "2021-06-26T14:06:56+00:00"
+            "time": "2021-09-11T20:25:27+00:00"
         },
         {
             "name": "cakephp/database",
-            "version": "4.2.8",
+            "version": "4.2.10",
             "source": {
                 "type": "git",
                 "url": "https://github.com/cakephp/database.git",
-                "reference": "ef7f8ca5e782d54483267a0617118cac09768e57"
+                "reference": "d3c4c632289592e9f9f7f384232e1d99a1cad7e5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cakephp/database/zipball/ef7f8ca5e782d54483267a0617118cac09768e57",
-                "reference": "ef7f8ca5e782d54483267a0617118cac09768e57",
+                "url": "https://api.github.com/repos/cakephp/database/zipball/d3c4c632289592e9f9f7f384232e1d99a1cad7e5",
+                "reference": "d3c4c632289592e9f9f7f384232e1d99a1cad7e5",
                 "shasum": ""
             },
             "require": {
@@ -104,20 +104,20 @@
                 "database abstraction",
                 "pdo"
             ],
-            "time": "2021-05-24T17:26:44+00:00"
+            "time": "2021-09-29T17:24:01+00:00"
         },
         {
             "name": "cakephp/datasource",
-            "version": "4.2.8",
+            "version": "4.2.10",
             "source": {
                 "type": "git",
                 "url": "https://github.com/cakephp/datasource.git",
-                "reference": "cc101051e8d601cf6c2895d635ccefecca97ff4e"
+                "reference": "211d985dbd9d55e81b1725ecb40e9da2cd83da05"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cakephp/datasource/zipball/cc101051e8d601cf6c2895d635ccefecca97ff4e",
-                "reference": "cc101051e8d601cf6c2895d635ccefecca97ff4e",
+                "url": "https://api.github.com/repos/cakephp/datasource/zipball/211d985dbd9d55e81b1725ecb40e9da2cd83da05",
+                "reference": "211d985dbd9d55e81b1725ecb40e9da2cd83da05",
                 "shasum": ""
             },
             "require": {
@@ -156,11 +156,11 @@
                 "entity",
                 "query"
             ],
-            "time": "2021-07-03T10:28:16+00:00"
+            "time": "2021-09-09T17:32:14+00:00"
         },
         {
             "name": "cakephp/utility",
-            "version": "4.2.8",
+            "version": "4.2.10",
             "source": {
                 "type": "git",
                 "url": "https://github.com/cakephp/utility.git",
@@ -3561,16 +3561,16 @@
         },
         {
             "name": "robmorgan/phinx",
-            "version": "0.12.8",
+            "version": "0.12.9",
             "source": {
                 "type": "git",
                 "url": "https://github.com/cakephp/phinx.git",
-                "reference": "d2ed1b452cc90f4cae4ea6b5976b94fb9e5ed2a2"
+                "reference": "5a0146a74c1bc195d1f5da86afa3b68badf7d90e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cakephp/phinx/zipball/d2ed1b452cc90f4cae4ea6b5976b94fb9e5ed2a2",
-                "reference": "d2ed1b452cc90f4cae4ea6b5976b94fb9e5ed2a2",
+                "url": "https://api.github.com/repos/cakephp/phinx/zipball/5a0146a74c1bc195d1f5da86afa3b68badf7d90e",
+                "reference": "5a0146a74c1bc195d1f5da86afa3b68badf7d90e",
                 "shasum": ""
             },
             "require": {
@@ -3639,7 +3639,7 @@
                 "migrations",
                 "phinx"
             ],
-            "time": "2021-07-28T15:31:39+00:00"
+            "time": "2021-10-12T10:49:25+00:00"
         },
         {
             "name": "sebastian/diff",
