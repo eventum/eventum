@@ -31,7 +31,7 @@ get_commit_message() {
 	Uploaded from Travis CI. Use at your own risk.
 
 	If the snapshot tarball (eventum-${version#v}.tar.xz) is not appearing here,
-	check Travis CI project for errors: https://travis-ci.com/eventum/eventum
+	check Travis CI project for errors: https://app.travis-ci.com/github/eventum/eventum/builds
 	EOF
 }
 
