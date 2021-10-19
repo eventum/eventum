@@ -10,6 +10,8 @@ See [Upgrading] for details on how to upgrade.
 - Add loose email validation in LdapSyncCommand, #1209
 - Add an option to tune notifications on account inserts in LdapSyncCommand, #1211
 - LdapSyncCommand: Disable users missing from LDAP Active DN, #1221
+- Add example command for extension, #1216
+- Re-structure example extension for Symfony project layout, #1216
 
 [3.10.7]: https://github.com/eventum/eventum/compare/v3.10.6...master
 
@@ -49,8 +51,6 @@ See [Upgrading] for details on how to upgrade.
 - Fix `DynamicCustomFieldController` accessing repository too soon, #1041, #1061
 - Refactor: Add LazyProperties to AbstractMigration, #1042
 - Remove leftovers from mnapoli/silly from commands, #1040
-- Add example command for extension, #1216
-- Re-structure example extension for Symfony project layout, #1216
 
 [3.10.3]: https://github.com/eventum/eventum/compare/v3.10.2...v3.10.3
 
