@@ -34,6 +34,7 @@
         "ext-spl": "*",
         "ext-xml": "*",
         "defuse/php-encryption": "^2.1",
+        "doctrine/cache": "1.11.*",
         "doctrine/dbal": "2.12.x",
         "doctrine/doctrine-bundle": "^2.0",
         "doctrine/orm": "^2.7.3",
