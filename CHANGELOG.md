@@ -1,6 +1,6 @@
 # Eventum Issue Tracking System
 
-## [3.10.7]
+## [3.10.7] - 2021-10-19
 
 See [Upgrading] for details on how to upgrade.
 
@@ -13,7 +13,7 @@ See [Upgrading] for details on how to upgrade.
 - Add example command for extension, #1216
 - Re-structure example extension for Symfony project layout, #1216
 
-[3.10.7]: https://github.com/eventum/eventum/compare/v3.10.6...master
+[3.10.7]: https://github.com/eventum/eventum/compare/v3.10.6...v3.10.7
 
 ## [3.10.6] - 2021-08-03
 
