@@ -33,7 +33,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * A script that changes migrates attachments from one storage backend to another another storage backend.
+ * A script that migrates attachments from one storage backend to another storage backend.
  *
  * This may take a very long time to run, depending on how much data needs to be migrated.
  *
