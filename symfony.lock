@@ -504,6 +504,9 @@
     "twig/twig": {
         "version": "v3.0.4"
     },
+    "webmozart/assert": {
+        "version": "1.10.0"
+    },
     "willdurand/email-reply-parser": {
         "version": "2.9.0"
     },
