@@ -17,7 +17,7 @@
         }
     ],
     "require": {
-        "php": "^7.3.0 || ^8.0",
+        "php": "^7.4.0 || ^8.0",
         "ext-ctype": "*",
         "ext-dom": "*",
         "ext-fileinfo": "*",
@@ -54,7 +54,7 @@
         "league/html-to-markdown": "^4.8",
         "monolog/monolog": "^1.22.0",
         "ocramius/lazy-property": "^1.0",
-        "ocramius/package-versions": "^1.4",
+        "ocramius/package-versions": "^1.9",
         "perftools/php-profiler": "^1.0",
         "phlib/flysystem-pdo": "^1.1",
         "php-ds/php-ds": "^1.2",
@@ -132,7 +132,7 @@
     "config": {
         "autoloader-suffix": "EventumCore",
         "platform": {
-            "php": "7.3.0"
+            "php": "7.4.0"
         },
         "sort-packages": true
     },
