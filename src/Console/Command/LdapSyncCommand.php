@@ -124,7 +124,7 @@ class LdapSyncCommand extends BaseCommand
 
                 // handle missing users
                 if ($remote === null) {
-                   $this->disableAccount("", $uid);
+                    $this->disableAccount('', $uid);
                 }
             } else {
                 $email = User::getEmail($usr_id);
