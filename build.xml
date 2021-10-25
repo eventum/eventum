@@ -55,6 +55,7 @@
 				<include name="**/*.y"/>
 				<include name="**/.coveralls.yml"/>
 				<include name="**/.doctrine-project.json"/>
+				<include name="**/.editorconfig"/>
 				<include name="**/.gitattributes"/>
 				<include name="**/.github/**"/>
 				<include name="**/.gitignore"/>
