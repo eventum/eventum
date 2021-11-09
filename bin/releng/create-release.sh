@@ -1,6 +1,11 @@
 #!/bin/sh
 set -eu
 
+die() {
+	echo >&2 "ERROR: $*"
+	exit 1
+}
+
 get_version() {
 	local oldver newver version="${1:-}"
 
@@ -29,8 +34,7 @@ patch_changelog() {
 	c1=$(md5sum < CHANGELOG.md)
 	sed -i -e "$@" CHANGELOG.md
 	c2=$(md5sum < CHANGELOG.md)
-	# changelog not modified. something wrong
-	test "$c1" != "$c2"
+	test "$c1" != "$c2" || die "CHANGELOG.md not modified. Something is wrong."
 }
 
 if [ "${1:-}" = "--amend" ]; then
