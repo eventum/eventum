@@ -8,16 +8,16 @@
     "packages": [
         {
             "name": "cakephp/core",
-            "version": "4.2.10",
+            "version": "4.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/cakephp/core.git",
-                "reference": "a99b4fef0e7c17bcf3cab659130963c0d6074805"
+                "reference": "4726edc33d282c833b948618ca58b776db89de53"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cakephp/core/zipball/a99b4fef0e7c17bcf3cab659130963c0d6074805",
-                "reference": "a99b4fef0e7c17bcf3cab659130963c0d6074805",
+                "url": "https://api.github.com/repos/cakephp/core/zipball/4726edc33d282c833b948618ca58b776db89de53",
+                "reference": "4726edc33d282c833b948618ca58b776db89de53",
                 "shasum": ""
             },
             "require": {
@@ -55,20 +55,20 @@
                 "core",
                 "framework"
             ],
-            "time": "2021-09-11T20:25:27+00:00"
+            "time": "2021-10-26T20:01:16+00:00"
         },
         {
             "name": "cakephp/database",
-            "version": "4.2.10",
+            "version": "4.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/cakephp/database.git",
-                "reference": "d3c4c632289592e9f9f7f384232e1d99a1cad7e5"
+                "reference": "18bc67243cf11cc4e5400c90aca85cd781fba2ea"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cakephp/database/zipball/d3c4c632289592e9f9f7f384232e1d99a1cad7e5",
-                "reference": "d3c4c632289592e9f9f7f384232e1d99a1cad7e5",
+                "url": "https://api.github.com/repos/cakephp/database/zipball/18bc67243cf11cc4e5400c90aca85cd781fba2ea",
+                "reference": "18bc67243cf11cc4e5400c90aca85cd781fba2ea",
                 "shasum": ""
             },
             "require": {
@@ -104,20 +104,20 @@
                 "database abstraction",
                 "pdo"
             ],
-            "time": "2021-09-29T17:24:01+00:00"
+            "time": "2021-10-30T02:52:01+00:00"
         },
         {
             "name": "cakephp/datasource",
-            "version": "4.2.10",
+            "version": "4.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/cakephp/datasource.git",
-                "reference": "211d985dbd9d55e81b1725ecb40e9da2cd83da05"
+                "reference": "b5b37b8a935395362216daf219c2490666bb2d97"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cakephp/datasource/zipball/211d985dbd9d55e81b1725ecb40e9da2cd83da05",
-                "reference": "211d985dbd9d55e81b1725ecb40e9da2cd83da05",
+                "url": "https://api.github.com/repos/cakephp/datasource/zipball/b5b37b8a935395362216daf219c2490666bb2d97",
+                "reference": "b5b37b8a935395362216daf219c2490666bb2d97",
                 "shasum": ""
             },
             "require": {
@@ -156,20 +156,20 @@
                 "entity",
                 "query"
             ],
-            "time": "2021-09-09T17:32:14+00:00"
+            "time": "2021-11-01T18:41:51+00:00"
         },
         {
             "name": "cakephp/utility",
-            "version": "4.2.10",
+            "version": "4.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/cakephp/utility.git",
-                "reference": "4259ae4154e639557af751ae719d58253a79282a"
+                "reference": "fee2cf64752ac2516af6ac86c95e3e961a8ead7f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cakephp/utility/zipball/4259ae4154e639557af751ae719d58253a79282a",
-                "reference": "4259ae4154e639557af751ae719d58253a79282a",
+                "url": "https://api.github.com/repos/cakephp/utility/zipball/fee2cf64752ac2516af6ac86c95e3e961a8ead7f",
+                "reference": "fee2cf64752ac2516af6ac86c95e3e961a8ead7f",
                 "shasum": ""
             },
             "require": {
@@ -209,7 +209,7 @@
                 "string",
                 "utility"
             ],
-            "time": "2021-03-29T16:08:09+00:00"
+            "time": "2021-10-26T20:01:16+00:00"
         },
         {
             "name": "composer/package-versions-deprecated",
@@ -1502,16 +1502,16 @@
         },
         {
             "name": "doctrine/sql-formatter",
-            "version": "1.1.1",
+            "version": "1.1.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/sql-formatter.git",
-                "reference": "56070bebac6e77230ed7d306ad13528e60732871"
+                "reference": "20c39c2de286a9d3262cc8ed282a4ae60e265894"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/sql-formatter/zipball/56070bebac6e77230ed7d306ad13528e60732871",
-                "reference": "56070bebac6e77230ed7d306ad13528e60732871",
+                "url": "https://api.github.com/repos/doctrine/sql-formatter/zipball/20c39c2de286a9d3262cc8ed282a4ae60e265894",
+                "reference": "20c39c2de286a9d3262cc8ed282a4ae60e265894",
                 "shasum": ""
             },
             "require": {
@@ -1524,11 +1524,6 @@
                 "bin/sql-formatter"
             ],
             "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.x-dev"
-                }
-            },
             "autoload": {
                 "psr-4": {
                     "Doctrine\\SqlFormatter\\": "src"
@@ -1551,7 +1546,7 @@
                 "highlight",
                 "sql"
             ],
-            "time": "2020-07-30T16:57:33+00:00"
+            "time": "2021-11-05T11:11:14+00:00"
         },
         {
             "name": "enrise/urihelper",
@@ -3680,12 +3675,12 @@
             ],
             "authors": [
                 {
-                    "name": "Sebastian Bergmann",
-                    "email": "sebastian@phpunit.de"
-                },
-                {
                     "name": "Kore Nordmann",
                     "email": "mail@kore-nordmann.de"
+                },
+                {
+                    "name": "Sebastian Bergmann",
+                    "email": "sebastian@phpunit.de"
                 }
             ],
             "description": "Diff implementation",
@@ -3950,16 +3945,16 @@
         },
         {
             "name": "symfony/cache",
-            "version": "v4.4.31",
+            "version": "v4.4.33",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/cache.git",
-                "reference": "4d9074f2777dfde2b78c5c60affa66c5e7518117"
+                "reference": "7342bf4f6f433cc1ee7fc6ec0a627951da5d92f5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/cache/zipball/4d9074f2777dfde2b78c5c60affa66c5e7518117",
-                "reference": "4d9074f2777dfde2b78c5c60affa66c5e7518117",
+                "url": "https://api.github.com/repos/symfony/cache/zipball/7342bf4f6f433cc1ee7fc6ec0a627951da5d92f5",
+                "reference": "7342bf4f6f433cc1ee7fc6ec0a627951da5d92f5",
                 "shasum": ""
             },
             "require": {
@@ -4038,7 +4033,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-09-25T11:31:41+00:00"
+            "time": "2021-10-25T16:36:08+00:00"
         },
         {
             "name": "symfony/cache-contracts",
@@ -6439,16 +6434,16 @@
         },
         {
             "name": "symfony/security-core",
-            "version": "v4.4.31",
+            "version": "v4.4.33",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/security-core.git",
-                "reference": "99ae75e257d5a4fd8537464d98d1dede0180b611"
+                "reference": "8c89331d8d22b585652d0217de2dd0f423c2c980"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/security-core/zipball/99ae75e257d5a4fd8537464d98d1dede0180b611",
-                "reference": "99ae75e257d5a4fd8537464d98d1dede0180b611",
+                "url": "https://api.github.com/repos/symfony/security-core/zipball/8c89331d8d22b585652d0217de2dd0f423c2c980",
+                "reference": "8c89331d8d22b585652d0217de2dd0f423c2c980",
                 "shasum": ""
             },
             "require": {
@@ -6519,7 +6514,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-09-20T16:52:24+00:00"
+            "time": "2021-10-23T07:49:03+00:00"
         },
         {
             "name": "symfony/security-csrf",
@@ -6731,16 +6726,16 @@
         },
         {
             "name": "symfony/serializer",
-            "version": "v4.4.31",
+            "version": "v4.4.33",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/serializer.git",
-                "reference": "a10b610f75349dbee1d3ad05c7a2cbf4f1872e34"
+                "reference": "5cb0dc3028e0f32888fed2d467b7762824fef843"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/serializer/zipball/a10b610f75349dbee1d3ad05c7a2cbf4f1872e34",
-                "reference": "a10b610f75349dbee1d3ad05c7a2cbf4f1872e34",
+                "url": "https://api.github.com/repos/symfony/serializer/zipball/5cb0dc3028e0f32888fed2d467b7762824fef843",
+                "reference": "5cb0dc3028e0f32888fed2d467b7762824fef843",
                 "shasum": ""
             },
             "require": {
@@ -6818,7 +6813,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-09-17T08:50:49+00:00"
+            "time": "2021-09-27T18:46:41+00:00"
         },
         {
             "name": "symfony/service-contracts",
@@ -6973,16 +6968,16 @@
         },
         {
             "name": "symfony/validator",
-            "version": "v4.4.31",
+            "version": "v4.4.33",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/validator.git",
-                "reference": "9420a2e8874263a684588283e40252209d80e1a5"
+                "reference": "ff0397aa280de38a631660f5aa8067cfbc519e11"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/validator/zipball/9420a2e8874263a684588283e40252209d80e1a5",
-                "reference": "9420a2e8874263a684588283e40252209d80e1a5",
+                "url": "https://api.github.com/repos/symfony/validator/zipball/ff0397aa280de38a631660f5aa8067cfbc519e11",
+                "reference": "ff0397aa280de38a631660f5aa8067cfbc519e11",
                 "shasum": ""
             },
             "require": {
@@ -7072,7 +7067,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-09-20T16:52:24+00:00"
+            "time": "2021-10-28T08:11:47+00:00"
         },
         {
             "name": "symfony/var-dumper",
