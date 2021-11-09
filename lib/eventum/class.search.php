@@ -371,15 +371,6 @@ class Search
             $sort_by = Misc::escapeString($options['sort_by']);
         }
 
-        // default sort by option
-        $default_sort_by_options = ['last_action_date', 'pri_rank', 'iss_id', 'sta_rank', 'iss_summary'];
-        // check $sort_by
-        if (in_array($sort_by, $default_sort_by_options, true)) {
-            $sort_by = $sort_by;
-        } else {
-            $sort_by = '';
-        }
-
         $stmt .= '
                  GROUP BY
                     iss_id
