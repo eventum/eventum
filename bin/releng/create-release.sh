@@ -59,7 +59,8 @@ cache_gpg_askpass
 patch_changelog "s/^## \[$(quote "$VERSION")\] *-* *$/& - $RELDATE/"
 patch_changelog "/^\[$(quote "$VERSION")\]/ s/\.\.\.master/...$TAG/"
 
-git commit -am "Prepare for $VERSION release"
+git add CHANGELOG.md
+git commit -m "Prepare for $VERSION release"
 
 if $AMEND; then
 	echo "Entering shell to make changes before release"
