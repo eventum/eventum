@@ -29,7 +29,7 @@
     "font-awesome": "^4.7.0",
     "jquery": "1.9.x",
     "jquery-form": "^4.3.0",
-    "jquery-ui": "1.12.x",
+    "jquery-ui": "^1.13.0",
     "js-cookie": "^2.2.1",
     "laravel-mix": "^5.0.9",
     "mermaid": "^8.9.1",
@@ -49,6 +49,7 @@
     "datatables/jquery": "1.9.x",
     "drmonty-garlicjs/jquery": "1.9.x",
     "jquery-form/jquery": "1.9.x",
+    "jquery-ui/jquery": "1.9.x",
     "timeago/jquery": "1.9.x"
   }
 }
