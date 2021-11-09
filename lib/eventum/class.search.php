@@ -20,6 +20,8 @@ use Eventum\Session;
  */
 class Search
 {
+    private const SORT_BY_FIELDS = ['last_action_date', 'pri_rank', 'iss_id', 'sta_rank', 'iss_summary'];
+
     /**
      * Method used to get a specific parameter in the issue listing cookie.
      *
@@ -368,7 +370,12 @@ class Search
             $fld_details = Custom_Field::getDetails($fld_id);
             $sort_by = 'cf_sort.' . Custom_Field::getDBValueFieldNameByType($fld_details['fld_type']);
         } else {
-            $sort_by = DB_Helper::getInstance()->quoteIdentifier($options['sort_by']);
+            if (in_array($options['sort_by'], self::SORT_BY_FIELDS, true)) {
+                $sort_by = $options['sort_by'];
+            } else {
+                $sort_by = 'pri_rank';
+            }
+            $sort_by = DB_Helper::getInstance()->quoteIdentifier($sort_by);
         }
 
         $stmt .= '
