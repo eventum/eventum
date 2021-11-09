@@ -49,7 +49,6 @@ mix.scripts([
     'node_modules/jquery-ui/ui/tabbable.js',
 
     'node_modules/jquery-ui/ui/data.js',
-    'node_modules/jquery-ui/ui/jquery-1-7.js',
     'node_modules/jquery-ui/ui/ie.js',
 
     'node_modules/jquery-ui/ui/disable-selection.js',
