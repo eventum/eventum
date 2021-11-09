@@ -20,7 +20,7 @@ use Eventum\Session;
  */
 class Search
 {
-    private const SORT_BY_FIELDS = ['last_action_date', 'pri_rank', 'iss_id', 'sta_rank', 'iss_summary'];
+    private const SORT_BY_FIELDS = ['last_action_date', 'pri_rank', 'iss_id', 'sta_rank', 'iss_summary', 'custom_field'];
 
     /**
      * Method used to get a specific parameter in the issue listing cookie.
@@ -89,7 +89,8 @@ class Search
     {
         $request_only = !$save_db; // if we should only look at get / post not the DB or cookies
 
-        $sort_by = self::getParam('sort_by', $request_only);
+        $sort_by = self::getParam('sort_by', $request_only, self::SORT_BY_FIELDS);
+        $sort_by = $sort_by ?: 'pri_rank';
         $sort_order = self::getParam('sort_order', $request_only, ['asc', 'desc']);
         $rows = self::getParam('rows', $request_only);
         $hide_closed = self::getParam('hide_closed', $request_only);
@@ -370,12 +371,7 @@ class Search
             $fld_details = Custom_Field::getDetails($fld_id);
             $sort_by = 'cf_sort.' . Custom_Field::getDBValueFieldNameByType($fld_details['fld_type']);
         } else {
-            if (in_array($options['sort_by'], self::SORT_BY_FIELDS, true)) {
-                $sort_by = $options['sort_by'];
-            } else {
-                $sort_by = 'pri_rank';
-            }
-            $sort_by = DB_Helper::getInstance()->quoteIdentifier($sort_by);
+            $sort_by = DB_Helper::getInstance()->quoteIdentifier($options['sort_by']);
         }
 
         $stmt .= '
