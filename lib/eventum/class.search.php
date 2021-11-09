@@ -372,7 +372,7 @@ class Search
         }
 
         // default sort by option
-        $default_sort_by_option = ['last_action_date', 'pri_rank', 'iss_id', 'sta_rank', 'iss_summary'];
+        $default_sort_by_options = ['last_action_date', 'pri_rank', 'iss_id', 'sta_rank', 'iss_summary'];
         // check $sort_by
         if (in_array($sort_by, $default_sort_by_options, true)) {
             $sort_by = $sort_by;
