@@ -4,6 +4,8 @@
 
 See [Upgrading] for details on how to upgrade.
 
+- Fix `sort_by` not being filtered in search form, #1252
+
 [3.10.8]: https://github.com/eventum/eventum/compare/v3.10.7...master
 
 ## [3.10.7] - 2021-10-19
