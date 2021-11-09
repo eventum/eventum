@@ -1,5 +1,13 @@
 # Eventum Issue Tracking System
 
+## [3.10.7.1]
+
+See [Upgrading] for details on how to upgrade.
+
+- Fix bug allowing to execute arbitrary JavaScript in SVG files, #1252
+
+[3.10.7.1]: https://github.com/eventum/eventum/compare/v3.10.7...master
+
 ## [3.10.7] - 2021-10-19
 
 See [Upgrading] for details on how to upgrade.

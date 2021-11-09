@@ -636,6 +636,7 @@ class Misc
         header('Content-Type: ' . $filetype);
         header("Content-Disposition: {$disposition}; filename=\"{$filename}\"; filename*=UTF-8''{$filename}");
         header("Content-Length: {$filesize}");
+        header("Content-Security-Policy: script-src 'none'");
         echo $data;
         exit;
     }
