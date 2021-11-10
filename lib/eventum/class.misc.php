@@ -289,7 +289,7 @@ class Misc
      *
      * @param   string|array $input The original string
      * @return  string|array The escaped (or not) string
-     * @deprecated Using this is bad design, must use placeholders in query
+     * @deprecated Using this is bad design, must use placeholders in query. and $add_quote=false is unsafe if used improperly
      */
     public static function escapeString($input, $add_quotes = false)
     {

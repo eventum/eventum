@@ -252,7 +252,7 @@ class ListController extends BaseController
         $current_sort_order = $options['sort_order'];
         foreach ($sortfields as $field => $sortfield) {
             $sort_order = $fields[$field];
-            if ($current_sort_by == $sortfield) {
+            if ($current_sort_by === $sortfield) {
                 if (strtolower($current_sort_order) === 'asc') {
                     $sort_order = 'desc';
                 } else {

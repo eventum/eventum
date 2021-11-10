@@ -92,6 +92,7 @@ class DB_Helper
      * @param   string $str The string that needs to be escaped
      * @param   bool $add_quotes Whether to add quotes around result as well
      * @return  string The escaped string
+     * @deprecated Using this is bad design, must use placeholders in query
      */
     public static function escapeString($str, $add_quotes = false): string
     {
