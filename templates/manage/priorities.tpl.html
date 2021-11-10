@@ -79,7 +79,7 @@
             <th colspan="2">
                 {t}Manage Priorities{/t}
                 <div class="right">
-                    ({t}Current Project{/t}: {$project.prj_title})
+                    ({t}Current Project{/t}: {$project.prj_title|escape:"html"})
                 </div>
             </th>
         </tr>
@@ -88,7 +88,7 @@
                 {t}Title{/t}: *
             </th>
             <td>
-                <input type="text" name="title" size="40" value="{$info.pri_title|default:''}">
+                <input type="text" name="title" size="40" value="{$info.pri_title|default:''|escape:'html'}">
                 {include file="error_icon.tpl.html" field="title"}
             </td>
         </tr>
@@ -154,7 +154,7 @@
                 {if $list[i].pri_icon > 0}<span class="priority_icon priority-icon-{$list[i].pri_icon}" title="{$list[i].pri_icon}"></span>{/if}
             </td>
             <td width="100%">
-                &nbsp;<a href="{$core.rel_url}manage/priorities.php?cat=edit&id={$list[i].pri_id}&prj_id={$project.prj_id}" title="{t}update this entry{/t}">{$list[i].pri_title}</a>
+                &nbsp;<a href="{$core.rel_url}manage/priorities.php?cat=edit&id={$list[i].pri_id}&prj_id={$project.prj_id}" title="{t}update this entry{/t}">{$list[i].pri_title|escape:"html"}</a>
             </td>
         </tr>
         {sectionelse}

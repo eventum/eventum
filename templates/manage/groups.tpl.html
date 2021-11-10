@@ -73,7 +73,7 @@ function checkDelete()
             {t}Name{/t} *
         </th>
         <td>
-            <input type="text" name="group_name" size="40" value="{$info.grp_name|default:''}">
+            <input type="text" name="group_name" size="40" value="{$info.grp_name|default:''|escape:'html'}">
             {include file="error_icon.tpl.html" field="group_name"}
         </td>
     </tr>
@@ -82,7 +82,7 @@ function checkDelete()
             {t}Description{/t}
         </th>
         <td>
-            <input type="text" name="description" size="100" value="{$info.grp_description|default:''}">
+            <input type="text" name="description" size="100" value="{$info.grp_description|default:''|escape:'html'}">
             {include file="error_icon.tpl.html" field="description"}
         </td>
     </tr>
@@ -155,16 +155,16 @@ function checkDelete()
             <input type="checkbox" name="items[]" value="{$list[i].grp_id}" {if $smarty.section.i.total == 0}disabled{/if}>
         </td>
         <td width="20%">
-            &nbsp;<a href="{$core.rel_url}manage/groups.php?cat=edit&id={$list[i].grp_id}" title="{t}update this entry{/t}">{$list[i].grp_name}</a>
+            &nbsp;<a href="{$core.rel_url}manage/groups.php?cat=edit&id={$list[i].grp_id}" title="{t}update this entry{/t}">{$list[i].grp_name|escape:"html"}</a>
         </td>
         <td width="20%">
-            &nbsp;{$list[i].grp_description}
+            &nbsp;{$list[i].grp_description|escape:"html"}
         </td>
         <td width="40%">
-            &nbsp;{$list[i].manager}
+            &nbsp;{$list[i].manager|escape:"html"}
         </td>
         <td width="20%">
-            &nbsp;{", "|join:$list[i].projects}
+            &nbsp;{", "|join:$list[i].projects|escape:"html"}
         </td>
     </tr>
     {sectionelse}

@@ -133,11 +133,11 @@
         </td>
         <td width="20%">
           <a href="{$core.rel_url}manage/users.php?cat=edit&id={$list[i].usr_id}"
-                   title="{t}update this entry{/t}">{$list[i].usr_full_name|default:$list[i].usr_email}</a>
+                   title="{t}update this entry{/t}">{$list[i].usr_full_name|default:$list[i].usr_email|escape:"html"}</a>
         </td>
         <td width="20%" nowrap>
           {foreach from=$list[i].roles item=role_data}
-            {$role_data.prj_title}: {$role_data.role}
+            {$role_data.prj_title|escape:"html"}: {$role_data.role}
             <br/>
           {/foreach}
         </td>
