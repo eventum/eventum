@@ -4,6 +4,8 @@
 
 See [Upgrading] for details on how to upgrade.
 
+- Fix bug stored xss - Data when render on FE allows execution of arbitrary javascript code
+
 [3.10.9]: https://github.com/eventum/eventum/compare/v3.10.8...master
 
 ## [3.10.8] - 2021-11-10
