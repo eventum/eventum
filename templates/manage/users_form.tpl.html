@@ -149,7 +149,7 @@
         <table border="0">
           {foreach from=$project_list key=prj_id item=prj_name}
             <tr>
-              <td>{$prj_name}:</td>
+              <td>{$prj_name|escape:"html"}:</td>
               <td>
                 {if $info.roles.$prj_id.pru_role|default:'' == $core.roles.customer}
                   <span>{t}Customer{/t}</span>

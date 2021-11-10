@@ -372,7 +372,7 @@
             {if $core.current_role < $core.roles.manager and $custom[i].cst_is_global}
             {$custom[i].cst_title}
             {else}
-            <a href="adv_search.php?custom_id={$custom[i].cst_id}" title="{t}edit this custom search{/t}">{$custom[i].cst_title}</a>
+            <a href="adv_search.php?custom_id={$custom[i].cst_id}" title="{t}edit this custom search{/t}">{$custom[i].cst_title|escape:"html"}</a>
             {/if}
             </span>
             {if $custom[i].cst_is_global}<span><i>({t}global filter{/t})</i></span>{/if}

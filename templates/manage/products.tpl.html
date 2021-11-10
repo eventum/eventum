@@ -57,7 +57,7 @@
                 {t}Title{/t} *
             </th>
             <td>
-                <input type="text" name="title" size="40" value="{$info.pro_title|default:''}">
+                <input type="text" name="title" size="40" value="{$info.pro_title|default:''|escape:'html'}">
                 {include file="error_icon.tpl.html" field="title"}
             </td>
         </tr>

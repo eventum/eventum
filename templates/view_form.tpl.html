@@ -76,7 +76,7 @@
                             {/if}
                         {elseif $row.field|default:'' == 'product'}
                             {if $issue.products|@count > 0}
-                                {$issue.products[0].product}
+                                {$issue.products[0].product|escape:"html"}
                                 {$issue.products[0].version}
                             {/if}
                         {elseif $row.field == 'customer_0'}

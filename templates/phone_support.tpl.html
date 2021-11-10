@@ -59,8 +59,8 @@ function addPhoneCall()
             <td>{$phone_entries[i].phs_call_from_lname}, {$phone_entries[i].phs_call_from_fname}</td>
             <td>{$phone_entries[i].phs_call_to_lname}, {$phone_entries[i].phs_call_to_fname}</td>
             <td>{$phone_entries[i].phs_type|capitalize}</td>
-            <td nowrap>{$phone_entries[i].phc_title}</td>
-            <td nowrap>{$phone_entries[i].phs_phone_number} ({$phone_entries[i].phs_phone_type})</td>
+            <td nowrap>{$phone_entries[i].phc_title|escape:"html"}</td>
+            <td nowrap>{$phone_entries[i].phs_phone_number|escape:"html"} ({$phone_entries[i].phs_phone_type})</td>
           </tr>
           {include file="expandable_cell/body.tpl.html" ec_id="phone" list_id=$phone_entries[i].phs_id colspan="9" class=$row_class}
           {sectionelse}

@@ -111,7 +111,7 @@
             {elseif $field_name == 'time_spent'}
               {$list[i].time_spent}
             {elseif $field_name == 'prc_title'}
-              {$list[i].prc_title}
+              {$list[i].prc_title|escape:"html"}
             {elseif $field_name == 'pre_title'}
               {$list[i].pre_title|escape:"html"}
             {elseif $field_name == 'iss_customer_id'}
