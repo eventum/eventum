@@ -4,7 +4,7 @@
 
 See [Upgrading] for details on how to upgrade.
 
-- Fix `sort_by` not being filtered in search form, #1252
+- Fix `sort_by` not being filtered in search form, #1252, #1255
 - Fix bug allowing to execute arbitrary JavaScript in SVG files, #1251
 
 [3.10.8]: https://github.com/eventum/eventum/compare/v3.10.7...master
