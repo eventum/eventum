@@ -40,7 +40,7 @@
                     {if $project@first}checked="checked"{/if}>
                 </td>
                 <td>
-                    <label class="project_label" for="project_{$prj_id}">{$project}</label>
+                    <label class="project_label" for="project_{$prj_id}">{$project|escape:"html"}</label>
                 </td>
             </tr>
             {/foreach}
