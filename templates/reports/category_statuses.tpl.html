@@ -7,12 +7,12 @@
     <tr>
         <th>{t}Category{/t}</th>
         {foreach from=$statuses item=status}
-        <th>{$status}</th>
+        <th>{$status|escape:"html"}</th>
         {/foreach}
     </tr>
     {foreach from=$data item=row}
     <tr class="{cycle values='odd,even'}">
-        <td>{$row.title}</td>
+        <td>{$row.title|escape:"html"}</td>
         {foreach from=$row.statuses item=col}
         <td align="right">{$col.count}</td>
         {/foreach}

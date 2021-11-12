@@ -220,7 +220,7 @@
                   {t}Title{/t}
                 </th>
                 <td>
-                  <input type="text" name="title" maxlength="255" size="40" value="{$info.fld_title|default:''}">
+                  <input type="text" name="title" maxlength="255" size="40" value="{$info.fld_title|default:''|escape:'html'}">
                   {include file="error_icon.tpl.html" field="title"}
                 </td>
               </tr>
@@ -229,7 +229,7 @@
                   {t}Short Description{/t}
                 </th>
                 <td>
-                  <input type="text" name="description" maxlength="255" size="40" value="{$info.fld_description|default:''}">
+                  <input type="text" name="description" maxlength="255" size="40" value="{$info.fld_description|default:''|escape:'html'}">
                   <span>({t}it will show up by the side of the field{/t})</span>
                 </td>
               </tr>
@@ -419,16 +419,16 @@
                 {rank_icon href="{$core.rel_url}manage/custom_fields.php?cat=change_rank&id={$list[i].fld_id}&direction=-1" direction="up"}
               </td>
               <td width="15%">
-                &nbsp;<a href="{$core.rel_url}manage/custom_fields.php?cat=edit&id={$list[i].fld_id}" title="{t}update this entry{/t}">{$list[i].fld_title}</a>
+                &nbsp;<a href="{$core.rel_url}manage/custom_fields.php?cat=edit&id={$list[i].fld_id}" title="{t}update this entry{/t}">{$list[i].fld_title|escape:"html"}</a>
               </td>
               <td width="20%">
-                &nbsp;{$list[i].projects}
+                &nbsp;{$list[i].projects|escape:"html"}
               </td>
               <td width="10%">
-                &nbsp;{$list[i].min_role_name}
+                &nbsp;{$list[i].min_role_name|escape:"html"}
               </td>
               <td width="10%">
-                &nbsp;{$list[i].min_role_edit_name}
+                &nbsp;{$list[i].min_role_edit_name|escape:"html"}
               </td>
               <td width="5%">
                 <nobr>&nbsp;{if $list[i].fld_type == 'combo'}{t}Combo Box{/t}{elseif $list[i].fld_type == 'multiple'}{t}Multiple Combo Box{/t}{elseif $list[i].fld_type == 'textarea'}{t}Textarea{/t}{elseif $list[i].fld_type == 'date'}{t}Date{/t}{elseif $list[i].fld_type == 'integer'}{t}Integer{/t}{elseif $list[i].fld_type == 'checkbox'}Checkbox{else}{t}Text Input{/t}{/if}</nobr>
