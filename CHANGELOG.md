@@ -4,7 +4,7 @@
 
 See [Upgrading] for details on how to upgrade.
 
-- Fix bug stored xss - Data when render on FE allows execution of arbitrary javascript code
+- Fix Multiple Stored XSS in Administration allowing execution of arbitrary JavaScript code, #1260
 
 [3.10.9]: https://github.com/eventum/eventum/compare/v3.10.8...master
 
