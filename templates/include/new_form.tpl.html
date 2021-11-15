@@ -47,7 +47,7 @@
     <tr class="title">
       <th colspan="2">
         {t}Create New Issue{/t}
-        <span class="menu">({t}Current Project{/t}: {$core.project_name})</span>
+        <span class="menu">({t}Current Project{/t}: {$core.project_name|escape:'html'})</span>
       </th>
     </tr>
     {if $cats|@count > 0 && $core.current_role >= $field_display_settings.category.min_role}

@@ -18,11 +18,11 @@
 <tr class="custom_field"
     data-custom-id="{$custom_fields[i].fld_id}"
     data-custom-type="{$custom_fields[i].fld_type}"
-    data-custom-title="{$custom_fields[i].fld_title}"
+    data-custom-title="{$custom_fields[i].fld_title|escape:'html'}"
     data-custom-required="{$cf_required}"
     data-custom-validation-js="{$custom_fields[i].validation_js|default:''}">
   <th class="{if $custom_fields[i].fld_min_role > $core.roles.customer}internal{/if}">
-    {$custom_fields[i].fld_title}{if $cf_required} *{/if}
+    {$custom_fields[i].fld_title|escape:"html"}{if $cf_required} *{/if}
   </th>
   <td>
     {if $custom_fields[i].fld_type == 'text'}
