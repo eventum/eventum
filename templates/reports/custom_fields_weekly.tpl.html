@@ -176,7 +176,7 @@
         <th>{t}Issue ID{/t}</th>
         <th>{t}Summary{/t}</th>
         <th>{t}Time Spent{/t}</th>
-        <th>{$field_info.fld_title}</th>
+        <th>{$field_info.fld_title|escape:"html"}</th>
         {if $per_user}
         <th>{t}User{/t}</th>
         {/if}

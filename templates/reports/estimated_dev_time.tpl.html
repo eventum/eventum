@@ -16,7 +16,7 @@
     </tr>
     {section name="issues" loop=$data}
     <tr class="{cycle values='odd,even'}">
-        <td align="center">{$data[issues].prc_title}</td>
+        <td align="center">{$data[issues].prc_title|escape:"html"}</td>
         <td align="center">{$data[issues].dev_time}</td>
     </tr>
     {/section}
