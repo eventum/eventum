@@ -150,13 +150,13 @@ function checkDelete()
                     &nbsp;{$list[i].lfi_replacement|escape:"html"}
                 </td>
                 <td width="20%">
-                    &nbsp;{$list[i].lfi_description}
+                    &nbsp;{$list[i].lfi_description|escape:"html"}
                 </td>
                 <td width="20%">
-                    &nbsp;{$list[i].min_usr_role_name}
+                    &nbsp;{$list[i].min_usr_role_name|escape:"html"}
                 </td>
                 <td width="20%">
-                    &nbsp;{", "|join:$list[i].project_names}
+                    &nbsp;{", "|join:$list[i].project_names|escape:"html"}
                 </td>
             </tr>
             {sectionelse}

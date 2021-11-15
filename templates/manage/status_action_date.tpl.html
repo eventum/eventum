@@ -131,7 +131,7 @@
     {section name="i" loop=$list}
     <tr class="{cycle values='odd,even'}">
       <td width="4" nowrap align="center"><input type="checkbox" name="items[]" value="{$list[i].psd_id}"></td>
-      <td width="20%">{$list[i].prj_title}</td>
+      <td width="20%">{$list[i].prj_title|escape:"html"}</td>
       <td width="20%">
         &nbsp;<a href="{$core.rel_url}manage/status_action_date.php?cat=edit&id={$list[i].psd_id}" title="{t}update this entry{/t}">{$list[i].sta_title|escape:"html"}</a>
       </td>

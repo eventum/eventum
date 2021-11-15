@@ -47,7 +47,7 @@
             <th colspan="2">
               {t}Manage Releases{/t}
                 <div class="right">
-                    ({t}Current Project{/t}: {$project.prj_title})
+                    ({t}Current Project{/t}: {$project.prj_title|escape:"html"})
                 </div>
             </th>
           </tr>
@@ -56,7 +56,7 @@
               {t}Title{/t}:
             </th>
             <td>
-              <input type="text" name="title" size="40" value="{$info.pre_title|default:''}">
+              <input type="text" name="title" size="40" value="{$info.pre_title|default:''|escape:'html'}">
               {include file="error_icon.tpl.html" field="title"}
             </td>
           </tr>
@@ -111,7 +111,7 @@
             <tr class="{cycle values='odd,even'}">
               <td width="4" nowrap align="center"><input type="checkbox" name="items[]" value="{$list[i].pre_id}"></td>
               <td width="40%">
-                &nbsp;<a href="{$core.rel_url}manage/releases.php?cat=edit&id={$list[i].pre_id}&prj_id={$project.prj_id}" title="{t}update this entry{/t}">{$list[i].pre_title}</a>
+                &nbsp;<a href="{$core.rel_url}manage/releases.php?cat=edit&id={$list[i].pre_id}&prj_id={$project.prj_id}" title="{t}update this entry{/t}">{$list[i].pre_title|escape:"html"}</a>
               </td>
               <td>&nbsp;{$list[i].pre_scheduled_date}</td>
               <td>&nbsp;{$list[i].pre_status}</td>

@@ -46,7 +46,7 @@
         <tr class="title">
             <th colspan="2">
                 {t}Manage Phone Support Categories{/t}
-                <div class="right">({t}Current Project{/t}: {$project.prj_title})</div>
+                <div class="right">({t}Current Project{/t}: {$project.prj_title|escape:"html"})</div>
             </th>
         </tr>
         <tr>
@@ -54,7 +54,7 @@
                 {t}Title{/t}: *
             </th>
             <td>
-                <input type="text" name="title" size="40" value="{$info.phc_title|default:''}">
+                <input type="text" name="title" size="40" value="{$info.phc_title|default:''|escape:'html'}">
                 {include file="error_icon.tpl.html" field="title"}
             </td>
         </tr>
@@ -88,7 +88,7 @@
         <tr class="{cycle values='odd,even'}">
             <td width="4" nowrap align="center"><input type="checkbox" name="items[]" value="{$list[i].phc_id}"></td>
             <td width="100%">
-                &nbsp;<a href="{$core.rel_url}manage/phone_categories.php?cat=edit&id={$list[i].phc_id}&prj_id={$project.prj_id}" title="{t}update this entry{/t}">{$list[i].phc_title}</a>
+                &nbsp;<a href="{$core.rel_url}manage/phone_categories.php?cat=edit&id={$list[i].phc_id}&prj_id={$project.prj_id}" title="{t}update this entry{/t}">{$list[i].phc_title|escape:"html"}</a>
             </td>
         </tr>
         {sectionelse}

@@ -244,7 +244,7 @@
     {section name="i" loop=$list}
     <tr class="{cycle values='odd,even'}">
       <td width="4" align="center" nowrap><input type="checkbox" name="items[]" value="{$list[i].ema_id}"></td>
-      <td>&nbsp;{$list[i].prj_title}</td>
+      <td>&nbsp;{$list[i].prj_title|escape:"html"}</td>
       <td width="30%">
         &nbsp;<a href="{$core.rel_url}manage/email_accounts.php?cat=edit&id={$list[i].ema_id}" title="{t}update this entry{/t}">{$list[i].ema_hostname|escape:"html"}</a></td>
       <td>&nbsp;{$list[i].ema_type}</td>

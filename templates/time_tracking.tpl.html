@@ -26,7 +26,7 @@
               {if $core.user.usr_id == $time_entries[i].ttr_usr_id}[ <a class="delete_time_entry" data-ttr-id="{$time_entries[i].ttr_id}" href="popup.php?cat=delete_time&id={$time_entries[i].ttr_id}">{t}delete{/t}</a> ]{/if}
             </td>
             <td>{$time_entries[i].formatted_time}</td>
-            <td nowrap>{$time_entries[i].ttc_title}</td>
+            <td nowrap>{$time_entries[i].ttc_title|escape:"html"}</td>
             <td>
                 {if $time_entries[i].ttr_usr_id == $core.current_user_id or $core.current_role >= $core.roles.manager}
                     {assign var="edit_entry" value=true}

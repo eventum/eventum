@@ -11,7 +11,7 @@
           {section name="i" loop=$custom_fields}
           <tr class="{cycle values='odd,even'}" {if $custom_fields[i].hide_when_no_options|default:0 == 1 && $custom_fields[i].value == ''}style="display: none"{/if}>
             <th class="{if $custom_fields[i].fld_min_role > $core.roles.customer}internal{/if}">
-                {$custom_fields[i].fld_title}
+                {$custom_fields[i].fld_title|escape:"html"}
             </th>
             <td>
               {if $custom_fields[i].fld_type == 'textarea'}
