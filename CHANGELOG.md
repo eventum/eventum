@@ -1,12 +1,12 @@
 # Eventum Issue Tracking System
 
-## [3.10.9]
+## [3.10.9] - 2021-11-15
 
 See [Upgrading] for details on how to upgrade.
 
 - Fix Multiple Stored XSS in Administration allowing execution of arbitrary JavaScript code, #1260
 
-[3.10.9]: https://github.com/eventum/eventum/compare/v3.10.8...master
+[3.10.9]: https://github.com/eventum/eventum/compare/v3.10.8...v3.10.9
 
 ## [3.10.8] - 2021-11-10
 
