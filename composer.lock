@@ -4738,16 +4738,16 @@
         },
         {
             "name": "symfony/event-dispatcher-contracts",
-            "version": "v1.1.9",
+            "version": "v1.1.11",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/event-dispatcher-contracts.git",
-                "reference": "84e23fdcd2517bf37aecbd16967e83f0caee25a7"
+                "reference": "01e9a4efac0ee33a05dfdf93b346f62e7d0e998c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/event-dispatcher-contracts/zipball/84e23fdcd2517bf37aecbd16967e83f0caee25a7",
-                "reference": "84e23fdcd2517bf37aecbd16967e83f0caee25a7",
+                "url": "https://api.github.com/repos/symfony/event-dispatcher-contracts/zipball/01e9a4efac0ee33a05dfdf93b346f62e7d0e998c",
+                "reference": "01e9a4efac0ee33a05dfdf93b346f62e7d0e998c",
                 "shasum": ""
             },
             "require": {
@@ -4760,7 +4760,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.1-dev"
+                    "dev-main": "1.1-dev"
                 },
                 "thanks": {
                     "name": "symfony/contracts",
@@ -4810,7 +4810,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2020-07-06T13:19:58+00:00"
+            "time": "2021-03-23T15:25:38+00:00"
         },
         {
             "name": "symfony/expression-language",
@@ -6341,16 +6341,16 @@
         },
         {
             "name": "symfony/security-bundle",
-            "version": "v4.4.27",
+            "version": "v4.4.34",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/security-bundle.git",
-                "reference": "49a09063f633d059b34d53c47adee7144c883bbe"
+                "reference": "18d4a6695b7daec4e62c31cede8cadc17499919b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/security-bundle/zipball/49a09063f633d059b34d53c47adee7144c883bbe",
-                "reference": "49a09063f633d059b34d53c47adee7144c883bbe",
+                "url": "https://api.github.com/repos/symfony/security-bundle/zipball/18d4a6695b7daec4e62c31cede8cadc17499919b",
+                "reference": "18d4a6695b7daec4e62c31cede8cadc17499919b",
                 "shasum": ""
             },
             "require": {
@@ -6430,20 +6430,20 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-07-24T09:09:34+00:00"
+            "time": "2021-11-03T10:04:43+00:00"
         },
         {
             "name": "symfony/security-core",
-            "version": "v4.4.33",
+            "version": "v4.4.34",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/security-core.git",
-                "reference": "8c89331d8d22b585652d0217de2dd0f423c2c980"
+                "reference": "a7f51f1e72f5f47c4ff8849b253ff270ac0db01c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/security-core/zipball/8c89331d8d22b585652d0217de2dd0f423c2c980",
-                "reference": "8c89331d8d22b585652d0217de2dd0f423c2c980",
+                "url": "https://api.github.com/repos/symfony/security-core/zipball/a7f51f1e72f5f47c4ff8849b253ff270ac0db01c",
+                "reference": "a7f51f1e72f5f47c4ff8849b253ff270ac0db01c",
                 "shasum": ""
             },
             "require": {
@@ -6514,7 +6514,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-10-23T07:49:03+00:00"
+            "time": "2021-11-15T14:42:25+00:00"
         },
         {
             "name": "symfony/security-csrf",
@@ -6650,16 +6650,16 @@
         },
         {
             "name": "symfony/security-http",
-            "version": "v4.4.30",
+            "version": "v4.4.34",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/security-http.git",
-                "reference": "ebbf7f1c871c1c3c1d54738d0e0f3ae7815a559b"
+                "reference": "7661d7d1dafdd67e48af2d80d4bd75a70dd912df"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/security-http/zipball/ebbf7f1c871c1c3c1d54738d0e0f3ae7815a559b",
-                "reference": "ebbf7f1c871c1c3c1d54738d0e0f3ae7815a559b",
+                "url": "https://api.github.com/repos/symfony/security-http/zipball/7661d7d1dafdd67e48af2d80d4bd75a70dd912df",
+                "reference": "7661d7d1dafdd67e48af2d80d4bd75a70dd912df",
                 "shasum": ""
             },
             "require": {
@@ -6722,7 +6722,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-08-18T09:30:30+00:00"
+            "time": "2021-11-04T12:23:33+00:00"
         },
         {
             "name": "symfony/serializer",
