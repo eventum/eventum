@@ -3675,12 +3675,12 @@
             ],
             "authors": [
                 {
-                    "name": "Kore Nordmann",
-                    "email": "mail@kore-nordmann.de"
-                },
-                {
                     "name": "Sebastian Bergmann",
                     "email": "sebastian@phpunit.de"
+                },
+                {
+                    "name": "Kore Nordmann",
+                    "email": "mail@kore-nordmann.de"
                 }
             ],
             "description": "Diff implementation",
@@ -5510,16 +5510,16 @@
         },
         {
             "name": "symfony/ldap",
-            "version": "v4.4.31",
+            "version": "v4.4.34",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/ldap.git",
-                "reference": "161d2bd412d1b1ecbf666e3a30119615c1638b42"
+                "reference": "73dd15fc2763d836de0273234ac38b7458d079c6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/ldap/zipball/161d2bd412d1b1ecbf666e3a30119615c1638b42",
-                "reference": "161d2bd412d1b1ecbf666e3a30119615c1638b42",
+                "url": "https://api.github.com/repos/symfony/ldap/zipball/73dd15fc2763d836de0273234ac38b7458d079c6",
+                "reference": "73dd15fc2763d836de0273234ac38b7458d079c6",
                 "shasum": ""
             },
             "require": {
@@ -5576,7 +5576,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-09-26T15:26:38+00:00"
+            "time": "2021-11-04T12:23:33+00:00"
         },
         {
             "name": "symfony/lock",
