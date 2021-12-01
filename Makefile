@@ -31,6 +31,11 @@ define fetch_tool
 curl -sSLf $1 -o $@.tmp && chmod +x $@.tmp && mv $@.tmp $@
 endef
 
+define phive
+phive install --target bin/tools $1@$2 $3
+ln -snf bin/tools/$1 $1.phar
+endef
+
 php-cs-fixer := $(call find_tool, php-cs-fixer)
 phpcompatinfo := $(call find_tool, phpcompatinfo)
 gush := $(call find_tool, gush)
