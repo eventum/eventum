@@ -22,6 +22,7 @@ PHPCS_FIXER_VERSION := 2.14.1
 PHPMD_VERSION := 2.6.0
 CODECEPT_VERSION := 2.3.6
 PSALM_VERSION := 3.1.1
+COMPOSER_VERSION:= ^1.10
 
 define find_tool
 $(shell PATH=$$PATH:. which $1.phar 2>/dev/null || which $1 2>/dev/null || echo false)
@@ -71,7 +72,7 @@ box.phar:
 	curl -LSs https://box-project.github.io/box2/installer.php | php
 
 composer.phar:
-	curl -sS https://getcomposer.org/installer | php
+	$(call phive,composer,$(COMPOSER_VERSION),--force-accept-unsigned)
 
 php-cs-fixer.phar:
 	$(call fetch_tool,https://github.com/FriendsOfPHP/PHP-CS-Fixer/releases/download/v$(PHPCS_FIXER_VERSION)/php-cs-fixer.phar)
