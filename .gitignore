@@ -29,6 +29,7 @@ Session.vim
 /phpcompatinfo.phar
 /phpmd.phar
 /phpunit.phar
+/bin/tools/
 
 /node_modules
 /vendor
