@@ -181,6 +181,7 @@
             "yarn",
             "yarn run assets:development"
         ],
+        "openurl": "open http://eventum.127.0.0.1.xip.io:8012/",
         "test": "simple-phpunit --exclude-group=$PHPUNIT_EXCLUDE_GROUP"
     },
     "extra": {
