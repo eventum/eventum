@@ -125,6 +125,7 @@
         "symfony/property-info": ">=5",
         "symfony/routing": ">=5",
         "symfony/serializer": ">=5",
+        "symfony/service-contracts": ">=2.5.0",
         "symfony/twig-bridge": ">=5"
     },
     "suggest": {
