@@ -79,4 +79,18 @@ RUN \
     make -r -f /src/localization/Makefile touch-po
 eot
 
+# docker build . -f bin/releng/Dockerfile -t app --target=build-assets
+FROM $BUILD_IMAGE AS build-assets
+WORKDIR /app
+RUN \
+    --mount=type=cache,id=yarn,target=/usr/local/share/.cache/yarn \
+    --mount=type=bind,source=./package.json,target=./package.json \
+    --mount=type=bind,source=./yarn.lock,target=./yarn.lock \
+    yarn
+RUN \
+    --mount=type=bind,source=./package.json,target=./package.json \
+    --mount=type=bind,source=./webpack.mix.js,target=./webpack.mix.js \
+    --mount=type=bind,source=./res/assets,target=./res/assets \
+    yarn assets:production
+
 FROM releng AS release
