@@ -1,7 +1,10 @@
+# syntax = docker/dockerfile:1.3-labs
 #
 # Dockerfile for Building Eventum Release
 # https://github.com/eventum/eventum
 #
+
+ARG BUILD_IMAGE=ghcr.io/eventum/eventum:release-image-v2
 
 # Image for building release
 FROM ubuntu:focal AS base
