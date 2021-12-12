@@ -78,6 +78,9 @@ RUN \
     cp -af /po/localization/*.po .
     make -r -f /src/localization/Makefile touch-po
 eot
+RUN \
+    --mount=type=bind,source=./localization/Makefile,target=./Makefile \
+    make install clean
 
 # docker build . -f bin/releng/Dockerfile -t app --target=build-vendor
 FROM $BUILD_IMAGE AS build-vendor
