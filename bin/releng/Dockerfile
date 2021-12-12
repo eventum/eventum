@@ -68,4 +68,15 @@ RUN \
     git archive HEAD | tar -x -C /app && \
     bin/releng/update_timestamps.sh / /app
 
+# docker build . -f bin/releng/Dockerfile -t app --target=build-po
+FROM $BUILD_IMAGE AS build-po
+RUN bzr branch lp:~glen666/eventum/po /po
+WORKDIR /app/localization
+RUN \
+    --mount=type=bind,source=./localization,target=/src/localization,rw \
+<<eot bash
+    cp -af /po/localization/*.po .
+    make -r -f /src/localization/Makefile touch-po
+eot
+
 FROM releng AS release
