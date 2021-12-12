@@ -8,32 +8,6 @@ topdir=$(pwd)
 
 quick=${QUICK-false}
 
-find_prog() {
-	set +x
-	local c version prog=$1
-
-	case "$prog" in
-	phing)
-		version="-version"
-		;;
-	*)
-		version="--version"
-		;;
-	esac
-
-	names="./$prog.phar $prog.phar $prog"
-	prog=
-	for c in $names; do
-		prog=$(which $c) || continue
-		prog=$(readlink -f "$prog")
-		break
-	done
-
-	${prog:-false} $version >&2
-
-	echo ${prog:-false}
-}
-
 vcs_checkout() {
 	set -x
 	local dir=$dir absdir
@@ -77,13 +51,13 @@ clean_whitespace() {
 install_dependencies() {
 	echo >&2 "Setup composer deps"
 
-	$composer install --prefer-dist --no-dev --no-suggest
+	composer install --prefer-dist --no-dev --no-suggest
 
 	# clean distribution and dump autoloader again
 	clean_vendor
 	# call "composer install" to workaround for flex not placing the version check
-	$composer install --prefer-dist --no-dev --no-suggest
-	$composer dump-autoload
+	composer install --prefer-dist --no-dev --no-suggest
+	composer dump-autoload
 }
 
 install_assets() {
@@ -97,7 +71,7 @@ dependencies_report() {
 	echo >&2 "Create dependencies report"
 
 	# save dependencies information
-	$composer licenses --no-dev --no-ansi > deps
+	composer licenses --no-dev --no-ansi > deps
 	# avoid composer warning in resulting doc file
 	grep Warning: deps && exit 1
 	clean_whitespace deps
@@ -109,7 +83,7 @@ phpcompatinfo_report() {
 	echo >&2 "Create phpcompatinfo report"
 
 	cp $topdir/phpcompatinfo.json .
-	$phpcompatinfo analyser:run --alias current --output docs/PhpCompatInfo.txt
+	phpcompatinfo analyser:run --alias current --output docs/PhpCompatInfo.txt
 	rm phpcompatinfo.json
 
 	# avoid empty result
@@ -135,7 +109,7 @@ clean_scripts() {
 
 clean_vendor() {
 	echo >&2 "Cleanup vendor of unwanted files"
-	$phing -f $topdir/build.xml clean-vendor
+	phing -f $topdir/build.xml clean-vendor
 
 	# Clean empty dirs
 	find vendor -type d -print0 | sort -zr | xargs -0 rmdir --ignore-fail-on-non-empty
@@ -147,7 +121,7 @@ clean_vendor() {
 
 clean_dist() {
 	echo >&2 "Cleanup distribution of unwanted files"
-	$phing -f $topdir/build.xml clean-dist
+	phing -f $topdir/build.xml clean-dist
 }
 
 cleanup_postdist() {
@@ -169,7 +143,7 @@ phplint() {
 	$quick && return
 
 	echo "Running php lint on source files using $(php --version | head -n1)"
-	$phing -f $topdir/build.xml phplint
+	phing -f $topdir/build.xml phplint
 	rm .phplint.cache
 }
 
@@ -234,10 +208,6 @@ prepare_source() {
 
 	phplint
 }
-
-composer=$(find_prog composer)
-phpcompatinfo=$(find_prog phpcompatinfo)
-phing=$(find_prog phing)
 
 # checkout
 vcs_checkout
