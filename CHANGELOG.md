@@ -7,6 +7,7 @@ See [Upgrading] for details on how to upgrade.
 - Feature: Add getExtensionConfig helper for external extensions, #1286
 - Fix: Use MarkdownConverter instead of deprecated CommonMarkConverter, #1289
 - Feature: Use ServiceContainer first when finding classes for extensions, #1290
+- Fix: Drop "replace" keys from composer.json, #1291
 
 [3.10.10]: https://github.com/eventum/eventum/compare/v3.10.9...master
 
