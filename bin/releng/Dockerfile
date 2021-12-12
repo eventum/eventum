@@ -79,6 +79,44 @@ RUN \
     make -r -f /src/localization/Makefile touch-po
 eot
 
+# docker build . -f bin/releng/Dockerfile -t app --target=build-vendor
+FROM $BUILD_IMAGE AS build-vendor
+WORKDIR /app
+
+# Install hirak/prestissimo for parallel downloads
+ENV COMPOSER_CACHE_DIR=/root/.cache/composer
+RUN \
+    --mount=type=cache,id=composer,target=/root/.cache/composer \
+    --mount=type=cache,id=composer-bin,target=/root/.composer \
+   composer global require hirak/prestissimo --ansi
+
+# Install runtime dependencies
+RUN \
+    --mount=type=cache,id=composer,target=/root/.cache/composer \
+    --mount=type=cache,id=composer-bin,target=/root/.composer \
+    --mount=type=bind,source=./composer.json,target=./composer.json \
+    --mount=type=bind,source=./composer.lock,target=./composer.lock \
+    --mount=type=cache,target=./lib/eventum,ro \
+    composer install --prefer-dist --no-dev --no-suggest --no-scripts --no-autoloader --ansi
+
+# Remove packages defined in "extra.replace"
+RUN \
+    --mount=type=cache,id=composer,target=/root/.cache/composer \
+    --mount=type=cache,id=composer-bin,target=/root/.composer \
+    --mount=type=bind,source=./composer.json,target=/src/composer.json \
+    --mount=type=bind,source=./composer.lock,target=/src/composer.lock \
+    --mount=type=bind,source=./bin/releng/composer-replace.sh,target=./bin/releng/composer-replace.sh \
+    cp /src/* . && \
+    bin/releng/composer-replace.sh
+
+# Cleanup vendor of unwanted files
+RUN \
+    --mount=type=bind,source=./build.xml,target=/src/build.xml \
+    phing -f /src/build.xml clean-vendor
+
+# Clean empty dirs
+RUN find vendor -type d -print0 | sort -zr | xargs -0 rmdir --ignore-fail-on-non-empty
+
 # docker build . -f bin/releng/Dockerfile -t app --target=build-assets
 FROM $BUILD_IMAGE AS build-assets
 WORKDIR /app
