@@ -60,4 +60,12 @@ COPY . .
 FROM stage-release AS build-release
 RUN bin/releng/build-release.sh
 
+# docker build . -f bin/releng/Dockerfile -t app --target=build-src
+FROM $BUILD_IMAGE AS build-src
+WORKDIR /src
+RUN \
+    --mount=type=bind,target=/src \
+    git archive HEAD | tar -x -C /app && \
+    bin/releng/update_timestamps.sh / /app
+
 FROM releng AS release
