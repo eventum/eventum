@@ -5,6 +5,7 @@
 See [Upgrading] for details on how to upgrade.
 
 - Add getExtensionConfig helper for external extensions, #1286
+- Fix: Use MarkdownConverter instead of deprecated CommonMarkConverter, #1289
 
 [3.10.10]: https://github.com/eventum/eventum/compare/v3.10.9...master
 
