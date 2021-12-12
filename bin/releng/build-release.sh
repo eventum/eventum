@@ -8,74 +8,18 @@ topdir=$(pwd)
 
 quick=${QUICK-false}
 
-find_prog() {
-	set +x
-	local c version prog=$1
-
-	case "$prog" in
-	phing)
-		version="-version"
-		;;
-	*)
-		version="--version"
-		;;
-	esac
-
-	names="./$prog.phar $prog.phar $prog"
-	prog=
-	for c in $names; do
-		prog=$(which $c) || continue
-		prog=$(readlink -f "$prog")
-		break
-	done
-
-	${prog:-false} $version >&2
-
-	echo ${prog:-false}
-}
-
-# update timestamps from last commit
-# see http://stackoverflow.com/a/5531813
-update_timestamps() {
-	set +x
-	echo >&2 "Updating timestamps from last commit of each file in ${dir#$topdir/}, please wait..."
-	git ls-files | while read file; do
-		# skip files which were not exported
-		test -f "$dir/$file" || continue
-		rev=$(git rev-list -n 1 HEAD "$file")
-		file_time=$(git show --pretty=format:%ai --abbrev-commit $rev | head -n 1)
-		touch -d "$file_time" "$dir/$file"
-	done
-}
-
 vcs_checkout() {
 	set -x
-	local submodule dir=$dir absdir
+	local dir=$dir absdir
 
 	rm -rf $dir
 	install -d $dir
 	absdir=$(readlink -f $dir)
 
-	# setup submodules
-	git submodule init
-	git submodule update
-
 	git archive HEAD | tar -x -C $dir
 
 	$quick && return
-
-	# include submodules
-	# see http://stackoverflow.com/a/16843717
-	dir=$absdir git submodule foreach 'cd $toplevel/$path && git archive HEAD | tar -x -C $dir/$path/'
-
-	update_timestamps
-
-	local submodule
-	for submodule in $(git submodule -q foreach 'echo $path'); do
-		cd $submodule
-		dir=$absdir/$submodule update_timestamps
-		cd $topdir
-	done
+	$topdir/bin/releng/update_timestamps.sh $topdir $dir
 }
 
 po_checkout() {
@@ -107,13 +51,17 @@ clean_whitespace() {
 install_dependencies() {
 	echo >&2 "Setup composer deps"
 
-	$composer install --prefer-dist --no-dev --no-suggest
+	# remove packages defined in "extra.replace"
+	$topdir/bin/releng/composer-replace.sh
+
+	composer install --prefer-dist --no-dev --no-suggest
 
 	# clean distribution and dump autoloader again
 	clean_vendor
+
 	# call "composer install" to workaround for flex not placing the version check
-	$composer install --prefer-dist --no-dev --no-suggest
-	$composer dump-autoload
+	composer install --prefer-dist --no-dev --no-suggest
+	composer dump-autoload
 }
 
 install_assets() {
@@ -127,7 +75,7 @@ dependencies_report() {
 	echo >&2 "Create dependencies report"
 
 	# save dependencies information
-	$composer licenses --no-dev --no-ansi > deps
+	composer licenses --no-dev --no-ansi > deps
 	# avoid composer warning in resulting doc file
 	grep Warning: deps && exit 1
 	clean_whitespace deps
@@ -139,7 +87,7 @@ phpcompatinfo_report() {
 	echo >&2 "Create phpcompatinfo report"
 
 	cp $topdir/phpcompatinfo.json .
-	$phpcompatinfo analyser:run --alias current --output docs/PhpCompatInfo.txt
+	phpcompatinfo analyser:run --alias current --output docs/PhpCompatInfo.txt
 	rm phpcompatinfo.json
 
 	# avoid empty result
@@ -165,7 +113,7 @@ clean_scripts() {
 
 clean_vendor() {
 	echo >&2 "Cleanup vendor of unwanted files"
-	$phing -f $topdir/build.xml clean-vendor
+	phing -f $topdir/build.xml clean-vendor
 
 	# Clean empty dirs
 	find vendor -type d -print0 | sort -zr | xargs -0 rmdir --ignore-fail-on-non-empty
@@ -177,7 +125,7 @@ clean_vendor() {
 
 clean_dist() {
 	echo >&2 "Cleanup distribution of unwanted files"
-	$phing -f $topdir/build.xml clean-dist
+	phing -f $topdir/build.xml clean-dist
 }
 
 cleanup_postdist() {
@@ -199,7 +147,7 @@ phplint() {
 	$quick && return
 
 	echo "Running php lint on source files using $(php --version | head -n1)"
-	$phing -f $topdir/build.xml phplint
+	phing -f $topdir/build.xml phplint
 	rm .phplint.cache
 }
 
@@ -264,10 +212,6 @@ prepare_source() {
 
 	phplint
 }
-
-composer=$(find_prog composer)
-phpcompatinfo=$(find_prog phpcompatinfo)
-phing=$(find_prog phing)
 
 # checkout
 vcs_checkout

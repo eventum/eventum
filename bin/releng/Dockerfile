@@ -18,6 +18,7 @@ RUN set -x \
     gettext \
     git \
     gnupg \
+    jq \
     make \
     php-curl \
     php-dom \

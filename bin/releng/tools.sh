@@ -12,6 +12,7 @@ get() {
 
 	make $tool
 	cp -p $tool $destdir
+	ln -s $tool $destdir/${tool%.phar}
 }
 
 get phpcompatinfo.phar

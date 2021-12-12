@@ -15,7 +15,7 @@ jobs:
       name: GitHub Release
       script:
         - docker --version
-        - BUILD_IMAGE=ghcr.io/eventum/eventum:release-image
+        - BUILD_IMAGE=ghcr.io/eventum/eventum:release-image-v2
         - unset LANG LANGUAGE LC_ALL
         - export -p > env.sh
         - docker run -v $(pwd):/app -e DOCKER_ENV_LOAD=./env.sh $BUILD_IMAGE bin/releng/dist.sh

@@ -122,6 +122,9 @@
     "laminas/laminas-config": {
         "version": "3.3.0"
     },
+    "laminas/laminas-loader": {
+        "version": "2.8.0"
+    },
     "laminas/laminas-mail": {
         "version": "2.11.0"
     },
@@ -160,6 +163,9 @@
     },
     "ocramius/package-versions": {
         "version": "1.4.2"
+    },
+    "paragonie/random_compat": {
+        "version": "v9.99.100"
     },
     "perftools/php-profiler": {
         "version": "0.7.2"
@@ -376,6 +382,21 @@
             "phpunit.xml.dist",
             "tests/bootstrap.php"
         ]
+    },
+    "symfony/polyfill-ctype": {
+        "version": "v1.23.0"
+    },
+    "symfony/polyfill-intl-idn": {
+        "version": "v1.23.0"
+    },
+    "symfony/polyfill-intl-normalizer": {
+        "version": "v1.23.0"
+    },
+    "symfony/polyfill-mbstring": {
+        "version": "v1.23.1"
+    },
+    "symfony/polyfill-php72": {
+        "version": "v1.23.0"
     },
     "symfony/polyfill-php73": {
         "version": "v1.17.0"
