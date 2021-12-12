@@ -84,7 +84,7 @@ class MarkdownServiceProvider implements ServiceProviderInterface
             // https://commonmark.thephpleague.com/1.5/extensions/mentions/
             'mentions' => [
                 'eventum_handle' => [
-                    'symbol' => '@',
+                    'prefix' => '@',
                     'regex' => '/^[A-Za-z0-9_]{1,255}(?!\w)/',
                     'generator' => new UserMentionGenerator(Setup::getBaseUrl()),
                 ],
