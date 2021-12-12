@@ -22,7 +22,6 @@ use Giberti\EmojiExtension\EmojiExtension;
 use HTMLPurifier;
 use HTMLPurifier_HTML5Config;
 use League\CommonMark\Block\Element\FencedCode;
-use League\CommonMark\CommonMarkConverter;
 use League\CommonMark\Environment;
 use League\CommonMark\Event\DocumentParsedEvent;
 use League\CommonMark\Extension\Attributes\AttributesExtension;
@@ -34,6 +33,7 @@ use League\CommonMark\Extension\InlinesOnly\InlinesOnlyExtension;
 use League\CommonMark\Extension\Mention\MentionExtension;
 use League\CommonMark\Extension\Table\TableExtension;
 use League\CommonMark\Extension\TaskList\TaskListExtension;
+use League\CommonMark\MarkdownConverter;
 use Misc;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
@@ -65,7 +65,7 @@ class MarkdownServiceProvider implements ServiceProviderInterface
         };
     }
 
-    private function createConverter(bool $inline): CommonMarkConverter
+    private function createConverter(bool $inline): MarkdownConverter
     {
         $config = [
             'renderer' => [
@@ -115,7 +115,7 @@ class MarkdownServiceProvider implements ServiceProviderInterface
 
         $this->applyExtensions($environment);
 
-        return new CommonMarkConverter([], $environment);
+        return new MarkdownConverter($environment);
     }
 
     private function applyExtensions(Environment $environment): void
