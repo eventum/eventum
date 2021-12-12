@@ -50,32 +50,16 @@ update_timestamps() {
 
 vcs_checkout() {
 	set -x
-	local submodule dir=$dir absdir
+	local dir=$dir absdir
 
 	rm -rf $dir
 	install -d $dir
 	absdir=$(readlink -f $dir)
 
-	# setup submodules
-	git submodule init
-	git submodule update
-
 	git archive HEAD | tar -x -C $dir
 
 	$quick && return
-
-	# include submodules
-	# see http://stackoverflow.com/a/16843717
-	dir=$absdir git submodule foreach 'cd $toplevel/$path && git archive HEAD | tar -x -C $dir/$path/'
-
 	update_timestamps
-
-	local submodule
-	for submodule in $(git submodule -q foreach 'echo $path'); do
-		cd $submodule
-		dir=$absdir/$submodule update_timestamps
-		cd $topdir
-	done
 }
 
 po_checkout() {
