@@ -51,10 +51,14 @@ clean_whitespace() {
 install_dependencies() {
 	echo >&2 "Setup composer deps"
 
+	# remove packages defined in "extra.replace"
+	$topdir/bin/releng/composer-replace.sh
+
 	composer install --prefer-dist --no-dev --no-suggest
 
 	# clean distribution and dump autoloader again
 	clean_vendor
+
 	# call "composer install" to workaround for flex not placing the version check
 	composer install --prefer-dist --no-dev --no-suggest
 	composer dump-autoload
