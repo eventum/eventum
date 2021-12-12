@@ -40,12 +40,14 @@ RUN set -x \
 
 FROM deps AS releng
 WORKDIR /app
-COPY bin/releng/locales.sh ./bin/releng/locales.sh
-RUN bin/releng/locales.sh
+RUN \
+    --mount=type=bind,source=./bin/releng/locales.sh,target=./bin/releng/locales.sh \
+    bin/releng/locales.sh
 
-COPY Makefile .
-COPY bin/releng/tools.sh ./bin/releng/tools.sh
-RUN bin/releng/tools.sh /usr/bin
+RUN \
+    --mount=type=bind,source=./Makefile,target=./Makefile \
+    --mount=type=bind,source=./bin/releng/tools.sh,target=./bin/releng/tools.sh \
+    bin/releng/tools.sh /usr/bin
 
 # docker build . -f bin/releng/Dockerfile -t app --target=stage-release
 FROM releng AS stage-release
