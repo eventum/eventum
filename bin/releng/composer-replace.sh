@@ -10,4 +10,4 @@ mv -f $composer composer.json
 # now remove the packages
 packages=$(jq -r '.extra.replace|keys[]' composer.json)
 set -x
-composer remove $packages --update-no-dev --ansi
+composer remove $packages --update-no-dev --no-scripts --no-update-with-dependencies --ansi
