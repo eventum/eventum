@@ -93,7 +93,7 @@ jobs:
 
       - name: Build release tarball
         env:
-          BUILD_IMAGE: ghcr.io/eventum/eventum:release-image
+          BUILD_IMAGE: ghcr.io/eventum/eventum:release-image-v2
         run: |
           docker run -v $(pwd):/app $BUILD_IMAGE bin/releng/dist.sh
 
