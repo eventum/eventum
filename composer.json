@@ -180,6 +180,16 @@
         "public-dir": "htdocs",
         "symfony": {
             "require": "4.4.*"
+        },
+        "replace": {
+            "laminas/laminas-loader": "2.99",
+            "laminas/laminas-zendframework-bridge": "1.99",
+            "paragonie/random_compat": "9.99.99",
+            "symfony/polyfill-ctype": "1.99",
+            "symfony/polyfill-intl-idn": "1.99",
+            "symfony/polyfill-intl-normalizer": "1.99",
+            "symfony/polyfill-mbstring": "1.99",
+            "symfony/polyfill-php72": "1.99"
         }
     },
     "support": {
