@@ -85,7 +85,7 @@ class MarkdownServiceProvider implements ServiceProviderInterface
             'mentions' => [
                 'eventum_handle' => [
                     'prefix' => '@',
-                    'regex' => '/^[A-Za-z0-9_]{1,255}(?!\w)/',
+                    'pattern' => '^[a-z0-9_]{1,255}(?!\w)',
                     'generator' => new UserMentionGenerator(Setup::getBaseUrl()),
                 ],
             ],
