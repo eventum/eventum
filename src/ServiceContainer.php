@@ -78,6 +78,29 @@ class ServiceContainer
     }
 
     /**
+     * Return Config object for extension under 'extension' tree.
+     *
+     * @since 3.10.10
+     */
+    public static function getExtensionConfig(string $name): Config
+    {
+        $setup = static::getConfig();
+        $config = $setup['extension'][$name];
+
+        // if no config yet. create it.
+        if (!$config) {
+            if (!$setup['extension']) {
+                $setup['extension'] = [];
+            }
+            $setup['extension'][$name] = [];
+            Setup::save();
+            $config = $setup['extension'][$name];
+        }
+
+        return $config;
+    }
+
+    /**
      * @since 3.9.3
      * @since 3.10.2 Add support for $name
      */
