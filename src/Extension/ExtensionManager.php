@@ -222,12 +222,20 @@ final class ExtensionManager implements
 
     /**
      * Create new instance of named class,
+     * Lookup it fom service container, if not found
      * use factory from extensions that provide factory method.
      *
      * @return object
+     * @since 3.10.10 will try to lookup from service container first
      */
     protected function createInstance(Provider\ExtensionProvider $preferredExtension, string $className)
     {
+        // First try from service container
+        $container = ServiceContainer::getInstance();
+        if (isset($container[$className])) {
+            return $container[$className];
+        }
+
         $getSortedExtensions = static function (array $extensions) use ($preferredExtension): Generator {
             // prefer provided extension
             if ($preferredExtension instanceof Provider\FactoryProvider) {
