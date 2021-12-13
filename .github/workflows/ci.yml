@@ -131,7 +131,7 @@ jobs:
       # https://github.com/actions/upload-artifact
       - uses: actions/upload-artifact@v2
         with:
-          name: release
+          name: eventum-${{ steps.vars.outputs.version }}
           path: eventum-*.tar.xz
           # 'warn' or 'ignore' are also available, defaults to `warn`
           if-no-files-found: error
@@ -163,7 +163,7 @@ jobs:
 
       - uses: actions/upload-artifact@v2
         with:
-          name: docker
+          name: docker-${{ steps.vars.outputs.version }}
           path: eventum-docker-*.tar
           if-no-files-found: error
 
