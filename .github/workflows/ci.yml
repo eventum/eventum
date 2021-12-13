@@ -147,6 +147,7 @@ jobs:
           DOCKER_BUILDKIT: "1"
           IMAGE_TAG: eventum/eventum:latest
           CACHE_TAG: eventum/eventum:latest
+          APP_VERSION: ${{ steps.vars.outputs.version }}
         working-directory: docker
         run: |
           mv ../eventum-*.tar.xz .
@@ -158,12 +159,12 @@ jobs:
             --cache-from=$CACHE_TAG \
             .
           docker history --human=false $IMAGE_TAG
-          docker save $IMAGE_TAG -o ../eventum-docker.tar
+          docker save $IMAGE_TAG -o ../eventum-docker-$APP_VERSION.tar
 
       - uses: actions/upload-artifact@v2
         with:
           name: docker
-          path: eventum-docker.tar
+          path: eventum-docker-*.tar
           if-no-files-found: error
 
   # https://github.com/fastify/github-action-merge-dependabot
