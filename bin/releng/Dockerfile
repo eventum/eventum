@@ -126,7 +126,7 @@ RUN \
     --mount=type=cache,id=composer,target=/root/.cache/composer \
     --mount=type=bind,source=./composer.json,target=./composer.json \
     --mount=type=bind,source=./composer.lock,target=./composer.lock \
-    --mount=type=cache,target=./lib/eventum,ro \
+    --mount=type=bind,from=build-src,source=/app/lib/eventum,target=./lib/eventum,ro \
 <<eot
     if [ "${APP_VERSION%-*-*}" != "$APP_VERSION" ]; then
         APP_VERSION=$(IFS=-; set -- $APP_VERSION; echo dev-${1#v}-$2@$3)
