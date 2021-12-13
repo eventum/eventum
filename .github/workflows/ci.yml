@@ -91,16 +91,47 @@ jobs:
       - name: Checkout eventum/eventum code
         uses: actions/checkout@v2
 
-      - name: Build release tarball
-        env:
-          BUILD_IMAGE: ghcr.io/eventum/eventum:release-image-v2
+      - name: Set version variable
+        id: vars
         run: |
-          docker run -v $(pwd):/app $BUILD_IMAGE bin/releng/dist.sh
+          echo "GITHUB_REF=$GITHUB_REF"
+          if [[ "${GITHUB_REF#refs/tags/}" != "${GITHUB_REF}" ]]; then
+            APP_VERSION=${GITHUB_REF#refs/tags/}
+          else
+            git fetch origin --tags --unshallow "+refs/tags/v*:refs/tags/v*"
+            version=$(git describe --tags --match=v*)
+            APP_VERSION=${version#v}
+          fi
+          echo ::set-output name=version::$APP_VERSION
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+
+      - name: Build release tarball
+        uses: docker/build-push-action@v2
+        env:
+          APP_VERSION: ${{ steps.vars.outputs.version }}
+        with:
+          context: .
+          file: bin/releng/Dockerfile
+          build-args: |
+            APP_VERSION=${{ env.APP_VERSION }}
+          platforms: linux/amd64
+          target: out
+          outputs: |
+            type=local,dest=out
+
+      - name: Compress release
+        run: |
+          mv out/eventum-*.tar .
+          ls -lh eventum-*.tar
+          xz -9e eventum-*.tar
+          ls -lh eventum-*.tar.xz
 
       # https://github.com/actions/upload-artifact
       - uses: actions/upload-artifact@v2
         with:
-          name: release
+          name: eventum-${{ steps.vars.outputs.version }}
           path: eventum-*.tar.xz
           # 'warn' or 'ignore' are also available, defaults to `warn`
           if-no-files-found: error
@@ -116,6 +147,7 @@ jobs:
           DOCKER_BUILDKIT: "1"
           IMAGE_TAG: eventum/eventum:latest
           CACHE_TAG: eventum/eventum:latest
+          APP_VERSION: ${{ steps.vars.outputs.version }}
         working-directory: docker
         run: |
           mv ../eventum-*.tar.xz .
@@ -127,12 +159,12 @@ jobs:
             --cache-from=$CACHE_TAG \
             .
           docker history --human=false $IMAGE_TAG
-          docker save $IMAGE_TAG -o ../eventum-docker.tar
+          docker save $IMAGE_TAG -o ../eventum-docker-$APP_VERSION.tar
 
       - uses: actions/upload-artifact@v2
         with:
-          name: docker
-          path: eventum-docker.tar
+          name: docker-${{ steps.vars.outputs.version }}
+          path: eventum-docker-*.tar
           if-no-files-found: error
 
   # https://github.com/fastify/github-action-merge-dependabot

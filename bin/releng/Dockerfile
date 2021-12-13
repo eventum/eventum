@@ -175,16 +175,16 @@ WORKDIR /eventum-$APP_VERSION
 RUN \
     --mount=type=bind,from=build-src,source=/app,target=.,rw \
     --mount=type=bind,from=build-po,source=/app/localization,target=./localization,rw \
-    --mount=type=bind,from=build-src,source=/app/localization/LINGUAS.php,target=./localization/LINGUAS.php \
-    --mount=type=bind,from=build-src,source=/app/localization/Makefile,target=./localization/Makefile \
-    --mount=type=bind,from=build-src,source=/app/localization/eventum.pot,target=./localization/eventum.pot \
+    --mount=type=bind,from=build-src,source=/app/localization/LINGUAS.php,target=./localization/LINGUAS.php,rw \
+    --mount=type=bind,from=build-src,source=/app/localization/Makefile,target=./localization/Makefile,rw \
+    --mount=type=bind,from=build-src,source=/app/localization/eventum.pot,target=./localization/eventum.pot,rw \
     --mount=type=bind,from=build-assets,source=/app/htdocs/css,target=./htdocs/css,rw \
     --mount=type=bind,from=build-assets,source=/app/htdocs/js,target=./htdocs/js,rw \
     --mount=type=bind,from=build-assets,source=/app/htdocs/fonts,target=./htdocs/fonts,rw \
     --mount=type=bind,from=build-assets,source=/app/htdocs/images,target=./htdocs/images,rw \
     --mount=type=bind,from=build-assets,source=/app/htdocs/mix-manifest.json,target=./htdocs/mix-manifest.json,rw \
-    --mount=type=bind,from=build-src,source=/app/htdocs/images/eventum.gif,target=./htdocs/images/eventum.gif \
-    --mount=type=bind,from=build-src,source=/app/htdocs/images/no_data.gif,target=./htdocs/images/no_data.gif \
+    --mount=type=bind,from=build-src,source=/app/htdocs/images/eventum.gif,target=./htdocs/images/eventum.gif,rw \
+    --mount=type=bind,from=build-src,source=/app/htdocs/images/no_data.gif,target=./htdocs/images/no_data.gif,rw \
     --mount=type=bind,from=build-phpcompatinfo,source=/app/PhpCompatInfo.txt,target=./docs/PhpCompatInfo.txt,rw \
     --mount=type=bind,from=build-vendor,source=/app/vendor,target=./vendor,rw \
 <<eot bash -xe
