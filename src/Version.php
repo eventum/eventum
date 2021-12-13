@@ -16,6 +16,7 @@ namespace Eventum;
 final class Version
 {
     private const UNPARSED_VERSION = 'No version set (parsed as 1.0.0)';
+    private const UNKNOWN_VERSION = '0.0.0@';
 
     /** @var string */
     public $reference;
@@ -36,6 +37,10 @@ final class Version
      */
     public function __construct(string $versionString)
     {
+        if ($versionString === self::UNKNOWN_VERSION) {
+            return;
+        }
+
         [$reference, $hash] = explode('@', $versionString, 2);
         if ($reference === self::UNPARSED_VERSION) {
             return;
