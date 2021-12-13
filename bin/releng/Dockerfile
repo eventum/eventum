@@ -170,4 +170,9 @@ RUN \
     --mount=type=bind,from=build-vendor,source=/app/vendor,target=./vendor \
     tar -cf /out/eventum-$APP_VERSION.tar -C / eventum-$APP_VERSION/
 
+# APP_VERSION=$(git describe --tags --match=v*)
+# docker build . -f bin/releng/Dockerfile --build-arg=APP_VERSION=${APP_VERSION#v} --target=out -o out
+FROM scratch AS out
+COPY --from=build-tar /out/* /
+
 FROM releng AS release
