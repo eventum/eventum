@@ -160,14 +160,23 @@ RUN \
     --mount=type=bind,from=build-src,source=/app/localization/LINGUAS.php,target=./localization/LINGUAS.php \
     --mount=type=bind,from=build-src,source=/app/localization/Makefile,target=./localization/Makefile \
     --mount=type=bind,from=build-src,source=/app/localization/eventum.pot,target=./localization/eventum.pot \
-    --mount=type=bind,from=build-assets,source=/app/htdocs/css,target=./htdocs/css \
-    --mount=type=bind,from=build-assets,source=/app/htdocs/js,target=./htdocs/js \
-    --mount=type=bind,from=build-assets,source=/app/htdocs/fonts,target=./htdocs/fonts \
+    --mount=type=bind,from=build-assets,source=/app/htdocs/css,target=./htdocs/css,rw \
+    --mount=type=bind,from=build-assets,source=/app/htdocs/js,target=./htdocs/js,rw \
+    --mount=type=bind,from=build-assets,source=/app/htdocs/fonts,target=./htdocs/fonts,rw \
     --mount=type=bind,from=build-assets,source=/app/htdocs/images,target=./htdocs/images,rw \
     --mount=type=bind,from=build-assets,source=/app/htdocs/mix-manifest.json,target=./htdocs/mix-manifest.json,rw \
     --mount=type=bind,from=build-src,source=/app/htdocs/images/eventum.gif,target=./htdocs/images/eventum.gif \
     --mount=type=bind,from=build-src,source=/app/htdocs/images/no_data.gif,target=./htdocs/images/no_data.gif \
-    --mount=type=bind,from=build-vendor,source=/app/vendor,target=./vendor \
+    --mount=type=bind,from=build-vendor,source=/app/vendor,target=./vendor,rw \
+<<eot bash -xe
+    # install dirs and fix permissions
+    install -d var/{log,cache,lock}
+    install -d config/{workflow,custom_field,templates,crm,partner,include}
+    touch var/log/{eventum.log,auth.log,cli.log,errors.log,login_attempts.log}
+    touch config/{private_key.php,secret_key.php,setup.php}
+    chmod -R a+rX,g-w .
+    chmod -R a+rwX config var
+
     tar -cf /out/eventum-$APP_VERSION.tar \
         --exclude=*.phar \
         --exclude=.dockerignore \
@@ -184,6 +193,7 @@ RUN \
         --exclude=webpack.mix.js \
         --exclude=yarn.lock \
         -C / eventum-$APP_VERSION/
+eot
 
 # APP_VERSION=$(git describe --tags --match=v*)
 # docker build . -f bin/releng/Dockerfile --build-arg=APP_VERSION=${APP_VERSION#v} --target=out -o out
