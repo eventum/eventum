@@ -120,6 +120,21 @@ RUN \
 # Clean empty dirs
 RUN find vendor -type d -print0 | sort -zr | xargs -0 rmdir --ignore-fail-on-non-empty
 
+# Dump autoloader, including package versions
+ARG APP_VERSION=0.0.0
+RUN \
+    --mount=type=cache,id=composer,target=/root/.cache/composer \
+    --mount=type=bind,source=./composer.json,target=./composer.json \
+    --mount=type=bind,source=./composer.lock,target=./composer.lock \
+    --mount=type=cache,target=./lib/eventum,ro \
+<<eot
+    if [ "${APP_VERSION%-*-*}" != "$APP_VERSION" ]; then
+        APP_VERSION=$(IFS=-; set -- $APP_VERSION; echo dev-${1#v}-$2@$3)
+    fi
+    COMPOSER_ROOT_VERSION=$APP_VERSION \
+    composer dump-autoload --no-dev --ansi
+eot
+
 # docker build . -f bin/releng/Dockerfile -t app --target=build-assets
 FROM $BUILD_IMAGE AS build-assets
 WORKDIR /app
