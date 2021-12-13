@@ -151,8 +151,9 @@ RUN \
 
 # docker build . -f bin/releng/Dockerfile -t app --target=build-tar
 FROM $BUILD_IMAGE AS build-tar
-WORKDIR /app
+WORKDIR /out
 ARG APP_VERSION=unknown
+WORKDIR /eventum-$APP_VERSION
 RUN \
     --mount=type=bind,from=build-src,source=/app,target=.,rw \
     --mount=type=bind,from=build-po,source=/app/localization,target=./localization,rw \
@@ -167,6 +168,6 @@ RUN \
     --mount=type=bind,from=build-src,source=/app/htdocs/images/eventum.gif,target=./htdocs/images/eventum.gif \
     --mount=type=bind,from=build-src,source=/app/htdocs/images/no_data.gif,target=./htdocs/images/no_data.gif \
     --mount=type=bind,from=build-vendor,source=/app/vendor,target=./vendor \
-    tar -cf /eventum-$APP_VERSION.tar --exclude=*.phar .
+    tar -cf /out/eventum-$APP_VERSION.tar -C / eventum-$APP_VERSION/
 
 FROM releng AS release
