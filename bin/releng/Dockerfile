@@ -168,7 +168,22 @@ RUN \
     --mount=type=bind,from=build-src,source=/app/htdocs/images/eventum.gif,target=./htdocs/images/eventum.gif \
     --mount=type=bind,from=build-src,source=/app/htdocs/images/no_data.gif,target=./htdocs/images/no_data.gif \
     --mount=type=bind,from=build-vendor,source=/app/vendor,target=./vendor \
-    tar -cf /out/eventum-$APP_VERSION.tar -C / eventum-$APP_VERSION/
+    tar -cf /out/eventum-$APP_VERSION.tar \
+        --exclude=*.phar \
+        --exclude=.dockerignore \
+        --exclude=bin/releng \
+        --exclude=composer.json \
+        --exclude=composer.lock \
+        --exclude=contrib/git \
+        --exclude=contrib/shell-semver \
+        --exclude=htdocs/debugbar \
+        --exclude=package.json \
+        --exclude=res/packages/test \
+        --exclude=src/Mail/MailStorage.php \
+        --exclude=symfony.lock \
+        --exclude=webpack.mix.js \
+        --exclude=yarn.lock \
+        -C / eventum-$APP_VERSION/
 
 # APP_VERSION=$(git describe --tags --match=v*)
 # docker build . -f bin/releng/Dockerfile --build-arg=APP_VERSION=${APP_VERSION#v} --target=out -o out
