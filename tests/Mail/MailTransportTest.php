@@ -35,7 +35,7 @@ class MailTransportTest extends TestCase
      */
     public function testMessageObject(): void
     {
-        list($recipient, $headers, $body) = $this->loadMailTrace('zf-mail-591ca27fb27c2.json');
+        [$recipient, $headers, $body] = $this->loadMailTrace('zf-mail-591ca27fb27c2.json');
 
         $message = MailMessage::createFromHeaderBody((array)$headers, $body)->toMessage();
 

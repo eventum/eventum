@@ -654,7 +654,7 @@ class Misc
             return 'attachment';
         }
 
-        list($type) = $parts;
+        [$type] = $parts;
 
         // display inline images and text documents
         if (in_array($type, ['image', 'text'])) {

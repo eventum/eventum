@@ -220,7 +220,7 @@ class Draft
         } else {
             $res['from'] = User::getFromHeader($res['emd_usr_id']);
         }
-        list($res['to'], $res['cc']) = self::getEmailRecipients($emd_id);
+        [$res['to'], $res['cc']] = self::getEmailRecipients($emd_id);
 
         return $res;
     }
@@ -264,7 +264,7 @@ class Draft
             } else {
                 $row['from'] = User::getFromHeader($row['emd_usr_id']);
             }
-            list($row['to']) = self::getEmailRecipients($row['emd_id']);
+            [$row['to']] = self::getEmailRecipients($row['emd_id']);
             if (empty($row['to'])) {
                 $row['to'] = 'Notification List';
             }

@@ -2218,7 +2218,7 @@ class Issue
                 continue;
             }
 
-            list($label, $date_field_name) = @$customizations[$row['iss_sta_id']];
+            [$label, $date_field_name] = @$customizations[$row['iss_sta_id']];
             if ((empty($label)) || (empty($date_field_name))) {
                 $row['status_action_date'] = '';
                 continue;

@@ -26,7 +26,7 @@ if (!isset($argv[2])) {
     throw new InvalidArgumentException(sprintf('Usage: %s source_usr_id target_usr_id', $argv[0]));
 }
 
-list($source_usr_id, $target_usr_id) = array_slice($argv, 1, 2);
+[$source_usr_id, $target_usr_id] = array_slice($argv, 1, 2);
 
 require __DIR__ . '/../init.php';
 

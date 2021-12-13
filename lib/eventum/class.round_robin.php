@@ -93,7 +93,7 @@ class Round_Robin
     public static function getNextAssignee($prj_id)
     {
         // get the full list of users for the given project
-        list($blackout_start, $blackout_end, $users) = self::getUsersByProject($prj_id);
+        [$blackout_start, $blackout_end, $users] = self::getUsersByProject($prj_id);
         if (count($users) == 0) {
             return 0;
         }
@@ -117,7 +117,7 @@ class Round_Robin
         do {
             $timezone = $users[$next_usr_id]['timezone'];
             $user = Date_Helper::getDateTime(false, $timezone);
-            list($today, $tomorrow) = self::getBlackoutDates($user, $blackout_start, $blackout_end);
+            [$today, $tomorrow] = self::getBlackoutDates($user, $blackout_start, $blackout_end);
             $first = Date_Helper::getDateTime($today . ' ' . $blackout_start, $timezone);
             $second = Date_Helper::getDateTime($tomorrow . ' ' . $blackout_end, $timezone);
 

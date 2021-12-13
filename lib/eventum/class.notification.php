@@ -264,7 +264,7 @@ class Notification
             $email = $address->getEmail();
             $sender_name = $address->getName();
 
-            list($username, $hostname) = explode('@', $email);
+            [$username, $hostname] = explode('@', $email);
             $item = [
                 'email' => $email,
                 'sender_name' => $sender_name ? sprintf('"%s"', $sender_name) : '',

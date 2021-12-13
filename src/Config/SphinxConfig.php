@@ -58,7 +58,7 @@ class SphinxConfig
         $this->sql_sock = '';
 
         $parts = explode(':', $this->sql_host, 2);
-        if (count($parts) >= 2 && list($host, $socket) = $parts) {
+        if (count($parts) >= 2 && [$host, $socket] = $parts) {
             $this->sql_sock_enabled = '';
             $this->sql_host = $host;
             $this->sql_sock = $socket;
