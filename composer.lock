@@ -3165,16 +3165,16 @@
         },
         {
             "name": "phpxmlrpc/phpxmlrpc",
-            "version": "4.5.2",
+            "version": "4.6.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/gggeek/phpxmlrpc.git",
-                "reference": "c27693ac87a6a64a63d410f3e0cd9aa00cf7841a"
+                "reference": "b9401ffa2174663e376dcbb3aadba09eb62d8d19"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/gggeek/phpxmlrpc/zipball/c27693ac87a6a64a63d410f3e0cd9aa00cf7841a",
-                "reference": "c27693ac87a6a64a63d410f3e0cd9aa00cf7841a",
+                "url": "https://api.github.com/repos/gggeek/phpxmlrpc/zipball/b9401ffa2174663e376dcbb3aadba09eb62d8d19",
+                "reference": "b9401ffa2174663e376dcbb3aadba09eb62d8d19",
                 "shasum": ""
             },
             "require": {
@@ -3191,7 +3191,7 @@
                 "ext-mbstring": "*",
                 "ext-xsl": "*",
                 "indeyets/pake": "^1.99",
-                "phpunit/phpunit": "^5.0 || ^8.5.12",
+                "phpunit/phpunit": "^5.0 || ^8.5.14",
                 "phpunit/phpunit-selenium": "*",
                 "yoast/phpunit-polyfills": "*"
             },
@@ -3220,7 +3220,7 @@
                 "xml-rpc",
                 "xmlrpc"
             ],
-            "time": "2021-01-11T09:22:31+00:00"
+            "time": "2021-12-09T18:28:20+00:00"
         },
         {
             "name": "pimple/pimple",
