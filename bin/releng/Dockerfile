@@ -134,4 +134,24 @@ RUN \
     --mount=type=bind,source=./res/assets,target=./res/assets \
     yarn assets:production
 
+# docker build . -f bin/releng/Dockerfile -t app --target=build-tar
+FROM $BUILD_IMAGE AS build-tar
+WORKDIR /app
+ARG APP_VERSION=unknown
+RUN \
+    --mount=type=bind,from=build-src,source=/app,target=.,rw \
+    --mount=type=bind,from=build-po,source=/app/localization,target=./localization,rw \
+    --mount=type=bind,from=build-src,source=/app/localization/LINGUAS.php,target=./localization/LINGUAS.php \
+    --mount=type=bind,from=build-src,source=/app/localization/Makefile,target=./localization/Makefile \
+    --mount=type=bind,from=build-src,source=/app/localization/eventum.pot,target=./localization/eventum.pot \
+    --mount=type=bind,from=build-assets,source=/app/htdocs/css,target=./htdocs/css \
+    --mount=type=bind,from=build-assets,source=/app/htdocs/js,target=./htdocs/js \
+    --mount=type=bind,from=build-assets,source=/app/htdocs/fonts,target=./htdocs/fonts \
+    --mount=type=bind,from=build-assets,source=/app/htdocs/images,target=./htdocs/images,rw \
+    --mount=type=bind,from=build-assets,source=/app/htdocs/mix-manifest.json,target=./htdocs/mix-manifest.json,rw \
+    --mount=type=bind,from=build-src,source=/app/htdocs/images/eventum.gif,target=./htdocs/images/eventum.gif \
+    --mount=type=bind,from=build-src,source=/app/htdocs/images/no_data.gif,target=./htdocs/images/no_data.gif \
+    --mount=type=bind,from=build-vendor,source=/app/vendor,target=./vendor \
+    tar -cf /eventum-$APP_VERSION.tar --exclude=*.phar .
+
 FROM releng AS release
