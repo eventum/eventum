@@ -149,6 +149,24 @@ RUN \
     --mount=type=bind,source=./res/assets,target=./res/assets \
     yarn assets:production
 
+# docker build . -f bin/releng/Dockerfile -t app --target=build-phpcompatinfo
+FROM $BUILD_IMAGE AS build-phpcompatinfo
+RUN \
+    --mount=type=bind,source=./phpcompatinfo.json,target=./phpcompatinfo.json \
+    --mount=type=bind,source=./bin,target=./bin \
+    --mount=type=bind,source=./db,target=./db \
+    --mount=type=bind,source=./htdocs,target=./htdocs \
+    --mount=type=bind,source=./lib,target=./lib \
+    --mount=type=bind,source=./res,target=./res \
+    --mount=type=bind,source=./src,target=./src \
+    --mount=type=bind,source=./autoload.php,target=./autoload.php \
+    --mount=type=bind,source=./init.php,target=./init.php \
+    --mount=type=bind,source=./phinx.php,target=./phinx.php \
+	phpcompatinfo analyser:run --alias current --output PhpCompatInfo.txt
+
+# Avoid empty result
+RUN if grep -qF 'None data source matching' PhpCompatInfo.txt; then exit 2; fi
+
 # docker build . -f bin/releng/Dockerfile -t app --target=build-tar
 FROM $BUILD_IMAGE AS build-tar
 WORKDIR /out
@@ -167,6 +185,7 @@ RUN \
     --mount=type=bind,from=build-assets,source=/app/htdocs/mix-manifest.json,target=./htdocs/mix-manifest.json,rw \
     --mount=type=bind,from=build-src,source=/app/htdocs/images/eventum.gif,target=./htdocs/images/eventum.gif \
     --mount=type=bind,from=build-src,source=/app/htdocs/images/no_data.gif,target=./htdocs/images/no_data.gif \
+    --mount=type=bind,from=build-phpcompatinfo,source=/app/PhpCompatInfo.txt,target=./docs/PhpCompatInfo.txt,rw \
     --mount=type=bind,from=build-vendor,source=/app/vendor,target=./vendor,rw \
 <<eot bash -xe
     # install dirs and fix permissions
