@@ -1,6 +1,6 @@
 # Eventum Issue Tracking System
 
-## [3.10.10]
+## [3.10.10] - 2021-12-13
 
 See [Upgrading] for details on how to upgrade.
 
@@ -9,7 +9,7 @@ See [Upgrading] for details on how to upgrade.
 - Feature: Use ServiceContainer first when finding classes for extensions, #1290
 - Fix: Drop "replace" keys from composer.json, #1291
 
-[3.10.10]: https://github.com/eventum/eventum/compare/v3.10.9...master
+[3.10.10]: https://github.com/eventum/eventum/compare/v3.10.9...v3.10.10
 
 ## [3.10.9] - 2021-11-15
 
