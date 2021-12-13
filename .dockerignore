@@ -1,0 +1,4 @@
+# Paths not necessary for building release
+/node_modules
+/releases/
+/tests/

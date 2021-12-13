@@ -213,6 +213,14 @@ prepare_source() {
 	phplint
 }
 
+action="${1:-}"
+
+# perform standalone operation
+if [ -n "$action" ]; then
+	"$1"
+	exit $?
+fi
+
 # checkout
 vcs_checkout
 po_checkout
