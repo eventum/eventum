@@ -13,12 +13,13 @@
 
 namespace Eventum\Extension\Provider;
 
-use Symfony\Component\Routing\RouteCollectionBuilder;
+use Symfony\Component\Routing\Loader\Configurator\RoutingConfigurator;
 
 interface RouteProvider extends ExtensionProvider
 {
     /**
      * @since 3.8.1
+     * @since 3.11.0 use RoutingConfigurator type
      */
-    public function configureRoutes(RouteCollectionBuilder $routes): void;
+    public function configureRoutes(RoutingConfigurator $routes): void;
 }

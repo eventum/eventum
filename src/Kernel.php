@@ -183,10 +183,8 @@ class Kernel extends BaseKernel implements CompilerPassInterface
             $routes->import("{$this->configDir}/routes.yml");
         }
 
-        /*
         $em = ServiceContainer::getExtensionManager();
         $em->configureRoutes($routes);
-        */
     }
 
     public function getProjectDir(): string

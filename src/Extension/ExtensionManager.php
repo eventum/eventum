@@ -24,7 +24,7 @@ use RuntimeException;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
-use Symfony\Component\Routing\RouteCollectionBuilder;
+use Symfony\Component\Routing\Loader\Configurator\RoutingConfigurator;
 use Throwable;
 
 final class ExtensionManager implements
@@ -155,7 +155,7 @@ final class ExtensionManager implements
         }
     }
 
-    public function configureRoutes(RouteCollectionBuilder $routes): void
+    public function configureRoutes(RoutingConfigurator $routes): void
     {
         /** @var Provider\RouteProvider[] $extensions */
         $extensions = $this->filterExtensions(static function (Provider\ExtensionProvider $extension) {
