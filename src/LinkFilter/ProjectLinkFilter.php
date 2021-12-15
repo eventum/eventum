@@ -14,6 +14,7 @@
 namespace Eventum\LinkFilter;
 
 use Issue;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Load LinkFilters from database for a project
@@ -44,7 +45,7 @@ class ProjectLinkFilter implements LinkFilterInterface
      * @param   array $matches Regular expression matches
      * @return  string The link to the appropriate issue
      */
-    public function __invoke(array $matches): string
+    public function __invoke(array $matches, Request $request): string
     {
         $issue_id = $matches['issue_id'];
         // check if the issue is still open
