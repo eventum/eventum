@@ -159,7 +159,7 @@ final class ExtensionManager implements
     {
         /** @var Provider\RouteProvider[] $extensions */
         $extensions = $this->filterExtensions(static function (Provider\ExtensionProvider $extension) {
-            return $extension instanceof Provider\RouteProvider;
+            return $extension instanceof Provider\RoutingConfiguratorProvider;
         });
 
         foreach ($extensions as $extension) {
