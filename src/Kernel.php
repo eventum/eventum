@@ -38,6 +38,9 @@ class Kernel extends BaseKernel implements CompilerPassInterface
     public const DEFAULT_ENVIRONMENT = 'prod';
 
     /** @var string */
+    private $rootDir;
+
+    /** @var string */
     private $configDir;
 
     /** @var string */
@@ -50,7 +53,6 @@ class Kernel extends BaseKernel implements CompilerPassInterface
         $this->rootDir = dirname(__DIR__);
         $this->configDir = "{$this->rootDir}/config";
         $this->resourceDir = "{$this->rootDir}/res";
-        $this->name = $this->getName(false);
     }
 
     public function ensureBooted(): self
