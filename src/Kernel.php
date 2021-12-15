@@ -26,7 +26,7 @@ use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Kernel as BaseKernel;
-use Symfony\Component\Routing\RouteCollectionBuilder;
+use Symfony\Component\Routing\Loader\Configurator\RoutingConfigurator;
 
 class Kernel extends BaseKernel implements CompilerPassInterface
 {
@@ -167,7 +167,7 @@ class Kernel extends BaseKernel implements CompilerPassInterface
         $em->configureContainer($container, $loader);
     }
 
-    protected function configureRoutes(RouteCollectionBuilder $routes): void
+    protected function configureRoutes(RoutingConfigurator $routes): void
     {
         if ($this->environment === 'dev') {
             $routes->import("{$this->resourceDir}/{routes}/{$this->environment}/*.yml", '/', 'glob');
@@ -183,8 +183,10 @@ class Kernel extends BaseKernel implements CompilerPassInterface
             $routes->import("{$this->configDir}/routes.yml");
         }
 
+        /*
         $em = ServiceContainer::getExtensionManager();
         $em->configureRoutes($routes);
+        */
     }
 
     public function getProjectDir(): string
