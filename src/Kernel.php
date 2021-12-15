@@ -48,8 +48,7 @@ class Kernel extends BaseKernel implements CompilerPassInterface
 
     public function __construct(string $environment, bool $debug)
     {
-        $this->environment = $environment;
-        $this->debug = $debug;
+        parent::__construct($environment, $debug);
         $this->rootDir = dirname(__DIR__);
         $this->configDir = "{$this->rootDir}/config";
         $this->resourceDir = "{$this->rootDir}/res";
