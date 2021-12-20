@@ -26,7 +26,7 @@ trait RedirectResponseTrait
      * @param array $params
      * @param bool $allow_external If external urls should be allowed
      */
-    protected function redirect(string $url, $params = [], $allow_external = false): Response
+    protected function redirect(string $url, array $params = [], bool $allow_external = false): Response
     {
         if ($params) {
             $q = strpos($url, '?') !== false ? '&' : '?';

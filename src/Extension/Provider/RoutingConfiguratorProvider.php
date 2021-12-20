@@ -15,11 +15,10 @@ namespace Eventum\Extension\Provider;
 
 use Symfony\Component\Routing\Loader\Configurator\RoutingConfigurator;
 
-interface RouteProvider extends ExtensionProvider
+interface RoutingConfiguratorProvider extends ExtensionProvider
 {
     /**
-     * @since 3.8.1
-     * @since 3.11.0 use RoutingConfigurator type
+     * @since 3.11.0
      */
     public function configureRoutes(RoutingConfigurator $routes): void;
 }

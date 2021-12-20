@@ -27,7 +27,8 @@ interface LinkFilterInterface
      * @param Request $request
      * @return  string The link to the appropriate issue
      * @since 3.9.8 Adds $request parameter
-     * @since 3.10.0 The $request parameter will be mandatory
+     * @since 3.10.0 The $request parameter will be mandatory in future version
+     * @since 3.11.0 The $request parameter is required mandatory
      */
-    public function __invoke(array $matches/*, Request $request*/): string;
+    public function __invoke(array $matches, Request $request): string;
 }

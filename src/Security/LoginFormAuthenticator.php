@@ -20,7 +20,6 @@ use Eventum\Auth\AuthException;
 use Eventum\Db\Doctrine;
 use Eventum\Model\Entity\User;
 use Eventum\Session;
-use Psr\Container\ContainerInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -42,15 +41,12 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
 {
     use TargetPathTrait;
 
-    /** @var ContainerInterface */
-    protected $container;
     /** @var UrlGeneratorInterface */
     private $urlGenerator;
     /** @var AuthAdapterInterface */
     private $auth;
 
     public function __construct(
-        ContainerInterface $container,
         UrlGeneratorInterface $urlGenerator
     ) {
         // hack base url to generate proper routes
@@ -58,7 +54,6 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
         $context->setBaseUrl('');
         $urlGenerator->setContext($context);
 
-        $this->container = $container;
         $this->urlGenerator = $urlGenerator;
         $this->auth = Auth::getAuthBackend();
     }

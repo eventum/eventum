@@ -26,7 +26,7 @@ use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Kernel as BaseKernel;
-use Symfony\Component\Routing\RouteCollectionBuilder;
+use Symfony\Component\Routing\Loader\Configurator\RoutingConfigurator;
 
 class Kernel extends BaseKernel implements CompilerPassInterface
 {
@@ -38,6 +38,9 @@ class Kernel extends BaseKernel implements CompilerPassInterface
     public const DEFAULT_ENVIRONMENT = 'prod';
 
     /** @var string */
+    private $rootDir;
+
+    /** @var string */
     private $configDir;
 
     /** @var string */
@@ -45,12 +48,10 @@ class Kernel extends BaseKernel implements CompilerPassInterface
 
     public function __construct(string $environment, bool $debug)
     {
-        $this->environment = $environment;
-        $this->debug = $debug;
+        parent::__construct($environment, $debug);
         $this->rootDir = dirname(__DIR__);
         $this->configDir = "{$this->rootDir}/config";
         $this->resourceDir = "{$this->rootDir}/res";
-        $this->name = $this->getName(false);
     }
 
     public function ensureBooted(): self
@@ -166,7 +167,7 @@ class Kernel extends BaseKernel implements CompilerPassInterface
         $em->configureContainer($container, $loader);
     }
 
-    protected function configureRoutes(RouteCollectionBuilder $routes): void
+    protected function configureRoutes(RoutingConfigurator $routes): void
     {
         if ($this->environment === 'dev') {
             $routes->import("{$this->resourceDir}/{routes}/{$this->environment}/*.yml", '/', 'glob');

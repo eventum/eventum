@@ -14,6 +14,7 @@
 namespace Eventum\Db\Adapter;
 
 use Doctrine\DBAL\Driver\Connection;
+use Doctrine\DBAL\Statement;
 use Eventum;
 use Eventum\Db\DatabaseException;
 use PDO;
@@ -156,6 +157,7 @@ class PdoAdapter implements AdapterInterface
      */
     private function fetchAll($query, $params, $fetchmode)
     {
+        /** @var Statement $stmt */
         $stmt = $this->db->prepare($query);
         $this->convertParams($params);
         try {
