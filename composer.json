@@ -92,6 +92,7 @@
     },
     "require-dev": {
         "balbuf/composer-git-merge-driver": "^1.1",
+        "captainhook/captainhook": "^5.10",
         "eventum/rpc": "^4.3.0",
         "jasig/phpcas": "~1.3.3",
         "maximebf/debugbar": "1.*",
