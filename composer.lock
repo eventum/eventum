@@ -1034,8 +1034,8 @@
             },
             "autoload": {
                 "psr-4": {
-                    "Doctrine\\Common\\Inflector\\": "lib/Doctrine/Common/Inflector",
-                    "Doctrine\\Inflector\\": "lib/Doctrine/Inflector"
+                    "Doctrine\\Inflector\\": "lib/Doctrine/Inflector",
+                    "Doctrine\\Common\\Inflector\\": "lib/Doctrine/Common/Inflector"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -1610,12 +1610,12 @@
             },
             "type": "library",
             "autoload": {
-                "psr-0": {
-                    "HTMLPurifier": "library/"
-                },
                 "files": [
                     "library/HTMLPurifier.composer.php"
                 ],
+                "psr-0": {
+                    "HTMLPurifier": "library/"
+                },
                 "exclude-from-classmap": [
                     "/library/HTMLPurifier/Language/"
                 ]
@@ -5641,16 +5641,16 @@
         },
         {
             "name": "symfony/ldap",
-            "version": "v4.4.37",
+            "version": "v4.4.38",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/ldap.git",
-                "reference": "7e457209d5600fd4e80499179d59dab9a43c5dcb"
+                "reference": "ce7178fe46bfb176ab9f307237ac894f4ceb0822"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/ldap/zipball/7e457209d5600fd4e80499179d59dab9a43c5dcb",
-                "reference": "7e457209d5600fd4e80499179d59dab9a43c5dcb",
+                "url": "https://api.github.com/repos/symfony/ldap/zipball/ce7178fe46bfb176ab9f307237ac894f4ceb0822",
+                "reference": "ce7178fe46bfb176ab9f307237ac894f4ceb0822",
                 "shasum": ""
             },
             "require": {
@@ -5707,7 +5707,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-01-02T09:41:36+00:00"
+            "time": "2022-02-10T10:25:12+00:00"
         },
         {
             "name": "symfony/lock",
@@ -6109,12 +6109,12 @@
                 }
             },
             "autoload": {
-                "psr-4": {
-                    "Symfony\\Polyfill\\Ctype\\": ""
-                },
                 "files": [
                     "bootstrap.php"
-                ]
+                ],
+                "psr-4": {
+                    "Symfony\\Polyfill\\Ctype\\": ""
+                }
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
