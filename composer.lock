@@ -8846,16 +8846,16 @@
         },
         {
             "name": "symfony/web-profiler-bundle",
-            "version": "v4.4.38",
+            "version": "v4.4.39",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/web-profiler-bundle.git",
-                "reference": "5fe79ebd9c7021ee924e586868edc44fe3d1ed20"
+                "reference": "f9a41e7a881512daaa4a39583cd7a8f760688d3b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/web-profiler-bundle/zipball/5fe79ebd9c7021ee924e586868edc44fe3d1ed20",
-                "reference": "5fe79ebd9c7021ee924e586868edc44fe3d1ed20",
+                "url": "https://api.github.com/repos/symfony/web-profiler-bundle/zipball/f9a41e7a881512daaa4a39583cd7a8f760688d3b",
+                "reference": "f9a41e7a881512daaa4a39583cd7a8f760688d3b",
                 "shasum": ""
             },
             "require": {
@@ -8918,7 +8918,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-02-25T07:53:35+00:00"
+            "time": "2022-02-28T11:53:56+00:00"
         },
         {
             "name": "twig/twig",
