@@ -14,6 +14,7 @@
 namespace Eventum\Console\Command;
 
 use Eventum\Db\Doctrine;
+use Eventum\Export\GitlabExportWriter;
 use Eventum\Export\IssueExport;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -48,6 +49,9 @@ class ExportIssuesCommand extends BaseCommand
 
     private function exportIssue(string $directory, int $issueId): void
     {
+        $writer = new GitlabExportWriter($directory);
+        $writer->export();
+
         $repo = Doctrine::getIssueRepository();
         $issue = $repo->findById($issueId);
 
