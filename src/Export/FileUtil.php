@@ -20,14 +20,23 @@ final class FileUtil
     public static function createWritableStream(string $fileName)
     {
         $directory = dirname($fileName);
-        if (!mkdir($directory, 0755, true) && !is_dir($directory)) {
-            throw new RuntimeException(sprintf('Directory "%s" was not created', $directory));
-        }
+        self::ensureDirectory($directory);
         $stream = fopen($fileName, 'wb');
         if (!$stream) {
             throw new RuntimeException("Can't open {$fileName} for writing");
         }
 
         return $stream;
+    }
+
+    public static function ensureDirectory(string $directory): void
+    {
+        if (is_dir($directory)) {
+            return;
+        }
+
+        if (!mkdir($directory, 0755, true) && !is_dir($directory)) {
+            throw new RuntimeException(sprintf('Directory "%s" was not created', $directory));
+        }
     }
 }
