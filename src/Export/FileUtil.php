@@ -17,6 +17,17 @@ use RuntimeException;
 
 final class FileUtil
 {
+    public static function readJsonFile(string $fileName): array
+    {
+        $contents = file_get_contents($fileName);
+        if (!$contents) {
+            throw new RuntimeException("Could not read {$fileName}");
+        }
+        $result = json_decode($contents, true, 512, JSON_THROW_ON_ERROR);
+
+        return $result;
+    }
+
     public static function writeFile(string $fileName, string $content): void
     {
         self::ensureDirectory(dirname($fileName));
