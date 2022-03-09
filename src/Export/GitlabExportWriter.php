@@ -45,4 +45,9 @@ class GitlabExportWriter
     {
         FileUtil::writeFile($this->directory . '/' . $fileName, $content);
     }
+
+    private function writeJsonFile(string $fileName, array $data): void
+    {
+        $this->writeFile($fileName, json_encode($data, JSON_THROW_ON_ERROR));
+    }
 }
