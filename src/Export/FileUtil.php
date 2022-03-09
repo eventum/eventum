@@ -17,6 +17,16 @@ use RuntimeException;
 
 final class FileUtil
 {
+    public static function writeFile(string $fileName, string $content): void
+    {
+        self::ensureDirectory(dirname($fileName));
+        $result = file_put_contents($fileName, $content);
+
+        if ($result === false) {
+            throw new RuntimeException("Could not write {$fileName}");
+        }
+    }
+
     public static function createWritableStream(string $fileName)
     {
         $directory = dirname($fileName);
