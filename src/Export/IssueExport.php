@@ -13,6 +13,7 @@
 
 namespace Eventum\Export;
 
+use Doctrine\ORM\Query;
 use Eventum\Db\Doctrine;
 use Eventum\Model\Entity\Issue;
 use Eventum\ServiceContainer;
@@ -52,19 +53,19 @@ class IssueExport
     {
         $converterStep = new ConverterStep();
         $dateTimeConverter = new DateTimeToStringValueConverter();
-        $converterStep->add(static function (array $item) use ($dateTimeConverter) {
+        $converterStep->add(static function (Issue $issue) use ($dateTimeConverter) {
             // The importer is very limited:
             //  Issues can be imported to a project by uploading a CSV file with the columns title and description, in that order.
             //  The user uploading the CSV file will be set as the author of the imported issues.
             // https://docs.gitlab.com/ce/user/project/issues/csv_import.html
             return [
-                'Title' => $item['summary'],
-                'Description' => $item['description'],
-                'Issue ID' => $item['id'],
-                'Author' => $item['user_id'],
-                'State' => $item['status_id'],
-                'Created At (UTC)' => $dateTimeConverter($item['createdDate']),
-                'Updated At (UTC)' => $dateTimeConverter($item['updatedDate']),
+                'Title' => $issue->getSummary(),
+                'Description' => $issue->getDescription(),
+                'Issue ID' => $issue->getId(),
+                'Author' => $issue->getUserId(),
+                'State' => $issue->getStatusId(),
+                'Created At (UTC)' => $dateTimeConverter($issue->getCreatedDate()),
+                'Updated At (UTC)' => $dateTimeConverter($issue->getUpdatedDate()),
             ];
         });
 
@@ -76,7 +77,7 @@ class IssueExport
         $objectManager = ServiceContainer::getEntityManager();
         $repo = Doctrine::getIssueRepository();
 
-        $reader = new DoctrineReader($objectManager, Issue::class);
+        $reader = new DoctrineReader($objectManager, Issue::class, Query::HYDRATE_OBJECT);
         $reader->setQueryBuilder($repo->createQueryBuilder('o')->andWhere("o.id={$issue->getId()}"));
 
         return $reader;
