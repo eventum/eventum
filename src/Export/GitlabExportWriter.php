@@ -38,6 +38,7 @@ class GitlabExportWriter
     public function export(): void
     {
         $this->writeVersion();
+        $this->writeDataFiles();
         $this->writeProject();
         $this->writeProjectFeature();
     }
@@ -63,6 +64,14 @@ class GitlabExportWriter
         $data['updated_at'] = $createdAt;
 
         $this->writeJsonFile('tree/project/project_feature.ndjson', $data);
+    }
+
+    private function writeDataFiles(): void
+    {
+        $fileNames = $this->readJsonFile('project_features.json');
+        foreach ($fileNames as $fileName) {
+            $this->writeFile("tree/project/{$fileName}.ndjson", '');
+        }
     }
 
     private function writeFile(string $fileName, string $content): void
