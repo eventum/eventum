@@ -24,6 +24,7 @@ use Port\Steps\Step\ConverterStep;
 use Port\Steps\StepAggregator;
 use Port\ValueConverter\DateTimeToStringValueConverter;
 use Port\Writer;
+use Port\Writer\StreamMergeWriter;
 use RuntimeException;
 
 class IssueExport
