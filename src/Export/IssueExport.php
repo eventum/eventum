@@ -15,6 +15,7 @@ namespace Eventum\Export;
 
 use Doctrine\ORM\Query;
 use Eventum\Db\Doctrine;
+use Eventum\Export\Serializer\IssueSerializer;
 use Eventum\Export\Writer\NdjsonStreamWriter;
 use Eventum\Model\Entity\Issue;
 use Eventum\ServiceContainer;
@@ -51,22 +52,7 @@ class IssueExport
     private function createConverters(): ConverterStep
     {
         $converterStep = new ConverterStep();
-        $dateTimeConverter = new DateTimeToStringValueConverter();
-        $converterStep->add(static function (Issue $issue) use ($dateTimeConverter) {
-            // The importer is very limited:
-            //  Issues can be imported to a project by uploading a CSV file with the columns title and description, in that order.
-            //  The user uploading the CSV file will be set as the author of the imported issues.
-            // https://docs.gitlab.com/ce/user/project/issues/csv_import.html
-            return [
-                'Title' => $issue->getSummary(),
-                'Description' => $issue->getDescription(),
-                'Issue ID' => $issue->getId(),
-                'Author' => $issue->getUserId(),
-                'State' => $issue->getStatusId(),
-                'Created At (UTC)' => $dateTimeConverter($issue->getCreatedDate()),
-                'Updated At (UTC)' => $dateTimeConverter($issue->getUpdatedDate()),
-            ];
-        });
+        $converterStep->add(new IssueSerializer());
 
         return $converterStep;
     }
