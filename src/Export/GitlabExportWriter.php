@@ -16,25 +16,25 @@ namespace Eventum\Export;
 class GitlabExportWriter
 {
     /**
-     * https://gitlab.com/help/user/project/settings/import_export.md#version-history
+     * https://docs.gitlab.com/ee/user/project/settings/import_export.html#version-history
      */
-    const EXPORT_VERSION = '0.2.2';
+    private const EXPORT_VERSION = '0.2.2';
 
     /** @var string */
-    private $export_version;
+    private $exportVersion;
 
-    public function __construct($export_version = self::EXPORT_VERSION)
+    public function __construct(string $exportVersion = self::EXPORT_VERSION)
     {
-        $this->export_version = $export_version;
+        $this->exportVersion = $exportVersion;
     }
 
-    public function export($path)
+    public function export($path): void
     {
         $this->writeVersion($path);
     }
 
-    private function writeVersion($path)
+    private function writeVersion($path): void
     {
-        file_put_contents($path . '/VERSION', $this->export_version);
+        file_put_contents($path . '/VERSION', $this->exportVersion);
     }
 }
