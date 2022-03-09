@@ -49,7 +49,7 @@ class IssueSerializer
         $data['author_id'] = $this->getAuthorId($issue);
         $data['created_at'] = $dateTimeConverter($issue->getCreatedDate());
         $data['updated_at'] = $dateTimeConverter($issue->getUpdatedDate());
-        $data['description'] = $issue->getDescription();
+        $data['description'] = $this->getDescription($issue);
         $data['iid'] = $issue->getId();
         $data['state'] = $this->getState($issue);
 
@@ -64,5 +64,16 @@ class IssueSerializer
     private function getState(Issue $issue): string
     {
         return $issue->getStatus()->isClosed() ? 'closed' : 'opened';
+    }
+
+    private function getDescription(Issue $issue, int $maxLength = 10000): string
+    {
+        $description = $issue->getDescription();
+        if (strlen($description) >= $maxLength) {
+            $this->warning("Description for #{$issue->getId()} length over {$maxLength}, truncating");
+            $description = mb_substr($description, 0, $maxLength, 'UTF-8');
+        }
+
+        return $description;
     }
 }
