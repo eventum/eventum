@@ -15,16 +15,15 @@ namespace Eventum\Export;
 
 use Doctrine\ORM\Query;
 use Eventum\Db\Doctrine;
+use Eventum\Export\Writer\NdjsonStreamWriter;
 use Eventum\Model\Entity\Issue;
 use Eventum\ServiceContainer;
-use Port\Csv\CsvWriter;
 use Port\Doctrine\DoctrineReader;
 use Port\Reader;
 use Port\Steps\Step\ConverterStep;
 use Port\Steps\StepAggregator;
 use Port\ValueConverter\DateTimeToStringValueConverter;
 use Port\Writer;
-use Port\Writer\StreamMergeWriter;
 use RuntimeException;
 
 class IssueExport
@@ -91,7 +90,7 @@ class IssueExport
             throw new RuntimeException("Can't open {$this->fileName} for writing");
         }
 
-        $writer = new CsvWriter($delimiter = ',', $enclosure = '"', $stream, $utf8Encoding = false, $prependHeaderRow = true);
+        $writer = new NdjsonStreamWriter($stream);
 
         return $writer;
     }
