@@ -31,34 +31,32 @@ class ExportIssuesCommand extends BaseCommand
     {
         $this
             ->addArgument('directory', InputArgument::OPTIONAL, 'Output directory', '.')
-            ->addOption('issueId', null, InputOption::VALUE_REQUIRED, 'Issue Id to export')
+            ->addOption('issueId', null, InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY, 'Issue Id to export')
             ->setDescription('Export Issues to GitLab export format');
     }
 
     public function execute(InputInterface $input, OutputInterface $output): int
     {
         $directory = $input->getArgument('directory');
-        $issueId = $input->getOption('issueId');
+        $issueIds = $input->getOption('issueId');
 
-        if ($issueId) {
-            $this->exportIssue($directory, $issueId);
-            $output->writeln("Exported to directory <info>{$directory}</>");
-            $command = sprintf('tar -C %s -czf %s.tar.gz .', $directory, basename($directory));
-            $output->writeln("You can create tar.gz with <info>{$command}</>");
-        }
+        $this->exportIssue($directory, $issueIds);
+        $output->writeln("Exported to directory <info>{$directory}</>");
+        $command = sprintf('tar -C %s -czf %s.tar.gz .', $directory, basename($directory));
+        $output->writeln("You can create tar.gz with <info>{$command}</>");
 
         return 0;
     }
 
-    private function exportIssue(string $directory, int $issueId): void
+    private function exportIssue(string $directory, array $issueIds): void
     {
         $writer = new GitlabExportWriter($directory);
         $writer->export();
 
         $repo = Doctrine::getIssueRepository();
-        $issue = $repo->findById($issueId);
+        $issues = $repo->findBy(['id' => $issueIds]);
 
         $exporter = new IssueExport($directory);
-        $exporter->export($issue);
+        $exporter->export($issues);
     }
 }

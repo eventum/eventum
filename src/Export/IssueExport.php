@@ -35,9 +35,12 @@ class IssueExport
         $this->directory = $directory;
     }
 
-    public function export(Issue $issue): void
+    /**
+     * @param Issue[] $issues
+     */
+    public function export(array $issues): void
     {
-        $reader = $this->createReader($issue);
+        $reader = $this->createReader($issues);
         $writer = $this->createWriter();
 
         $workflow = new StepAggregator($reader);
@@ -56,13 +59,23 @@ class IssueExport
         return $converterStep;
     }
 
-    private function createReader(Issue $issue): Reader
+    private function createReader(array $issues): Reader
     {
         $objectManager = ServiceContainer::getEntityManager();
         $repo = Doctrine::getIssueRepository();
 
         $reader = new DoctrineReader($objectManager, Issue::class, Query::HYDRATE_OBJECT);
-        $reader->setQueryBuilder($repo->createQueryBuilder('o')->andWhere("o.id={$issue->getId()}"));
+
+        $queryBuilder = $repo->createQueryBuilder('o');
+        $issueIds = array_map(static function (Issue $issue) {
+            return $issue->getId();
+        }, $issues);
+        if ($issueIds) {
+            $queryBuilder
+                ->andWhere('o.id in (:ids)')
+                ->setParameter('ids', $issueIds);
+        }
+        $reader->setQueryBuilder($queryBuilder);
 
         return $reader;
     }
