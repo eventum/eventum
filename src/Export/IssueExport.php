@@ -24,15 +24,19 @@ use Port\Reader;
 use Port\Steps\Step\ConverterStep;
 use Port\Steps\StepAggregator;
 use Port\Writer;
+use Psr\Log\LoggerInterface;
 
 class IssueExport
 {
     /** @var string */
     private $directory;
+    /** @var LoggerInterface */
+    private $logger;
 
-    public function __construct(string $directory)
+    public function __construct(string $directory, LoggerInterface $logger)
     {
         $this->directory = $directory;
+        $this->logger = $logger;
     }
 
     /**
@@ -54,7 +58,7 @@ class IssueExport
     private function createConverters(): ConverterStep
     {
         $converterStep = new ConverterStep();
-        $converterStep->add(new IssueSerializer());
+        $converterStep->add(new IssueSerializer($this->logger));
 
         return $converterStep;
     }

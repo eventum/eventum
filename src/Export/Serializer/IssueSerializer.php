@@ -15,11 +15,15 @@ namespace Eventum\Export\Serializer;
 
 use Eventum\Config\Paths;
 use Eventum\Export\FileUtil;
+use Eventum\Logger\LoggerTrait;
 use Eventum\Model\Entity\Issue;
 use Port\ValueConverter\DateTimeToStringValueConverter;
+use Psr\Log\LoggerInterface;
 
 class IssueSerializer
 {
+    use LoggerTrait;
+
     // "2021-05-19T14:16:35.842+03:00"
     private const DATE_FORMAT = DATE_RFC3339;
 
@@ -28,11 +32,12 @@ class IssueSerializer
     /** @var array */
     private $template;
 
-    public function __construct()
+    public function __construct(LoggerInterface $logger)
     {
         $this->dateTimeConverter = new DateTimeToStringValueConverter(self::DATE_FORMAT);
         $fileName = Paths::APP_RESOURCES_PATH . '/export/gitlab/issue.json';
         $this->template = FileUtil::readJsonFile($fileName);
+        $this->logger = $logger;
     }
 
     public function __invoke(Issue $issue): array

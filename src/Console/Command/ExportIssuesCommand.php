@@ -56,7 +56,7 @@ class ExportIssuesCommand extends BaseCommand
         $repo = Doctrine::getIssueRepository();
         $issues = $repo->findBy(['id' => $issueIds]);
 
-        $exporter = new IssueExport($directory);
+        $exporter = new IssueExport($directory, $this->logger);
         $exporter->export($issues);
     }
 }
