@@ -42,6 +42,9 @@ class ExportIssuesCommand extends BaseCommand
 
         if ($issueId) {
             $this->exportIssue($directory, $issueId);
+            $output->writeln("Exported to directory <info>{$directory}</>");
+            $command = sprintf('tar -C %s -czf %s.tar.gz .', $directory, basename($directory));
+            $output->writeln("You can create tar.gz with <info>{$command}</>");
         }
 
         return 0;
