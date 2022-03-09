@@ -22,19 +22,27 @@ class GitlabExportWriter
 
     /** @var string */
     private $exportVersion;
+    /** @var string */
+    private $directory;
 
-    public function __construct(string $exportVersion = self::EXPORT_VERSION)
+    public function __construct(string $directory, string $exportVersion = self::EXPORT_VERSION)
     {
+        $this->directory = $directory;
         $this->exportVersion = $exportVersion;
     }
 
-    public function export($path): void
+    public function export(): void
     {
-        $this->writeVersion($path);
+        $this->writeVersion();
     }
 
-    private function writeVersion($path): void
+    private function writeVersion(): void
     {
-        file_put_contents($path . '/VERSION', $this->exportVersion);
+        $this->writeFile('VERSION', $this->exportVersion);
+    }
+
+    private function writeFile(string $fileName, string $content): void
+    {
+        FileUtil::writeFile($this->directory . '/' . $fileName, $content);
     }
 }
