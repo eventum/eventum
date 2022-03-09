@@ -18,12 +18,15 @@ use Port\ValueConverter\DateTimeToStringValueConverter;
 
 class IssueSerializer
 {
+    // "2021-05-19T14:16:35.842+03:00"
+    private const DATE_FORMAT = DATE_RFC3339;
+
     /** @var DateTimeToStringValueConverter */
     private $dateTimeConverter;
 
     public function __construct()
     {
-        $this->dateTimeConverter = new DateTimeToStringValueConverter();
+        $this->dateTimeConverter = new DateTimeToStringValueConverter(self::DATE_FORMAT);
     }
 
     public function __invoke(Issue $issue): array
