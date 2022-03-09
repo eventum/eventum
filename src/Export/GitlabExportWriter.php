@@ -13,7 +13,9 @@
 
 namespace Eventum\Export;
 
+use DateTime;
 use Eventum\Config\Paths;
+use Eventum\Export\ValueConverter\DateTimeValueConverter;
 
 class GitlabExportWriter
 {
@@ -37,6 +39,7 @@ class GitlabExportWriter
     {
         $this->writeVersion();
         $this->writeProject();
+        $this->writeProjectFeature();
     }
 
     private function writeVersion(): void
@@ -49,6 +52,17 @@ class GitlabExportWriter
         $data = $this->readJsonFile('project.json');
         $data['description'] = 'Issues exported from Eventum';
         $this->writeJsonFile('tree/project.json', $data);
+    }
+
+    private function writeProjectFeature(): void
+    {
+        $dateTimeConverter = new DateTimeValueConverter();
+        $createdAt = $dateTimeConverter->convert(new DateTime());
+        $data = $this->readJsonFile('project_feature.json');
+        $data['created_at'] = $createdAt;
+        $data['updated_at'] = $createdAt;
+
+        $this->writeJsonFile('tree/project/project_feature.ndjson', $data);
     }
 
     private function writeFile(string $fileName, string $content): void
