@@ -15,9 +15,9 @@ namespace Eventum\Export\Serializer;
 
 use Eventum\Config\Paths;
 use Eventum\Export\FileUtil;
+use Eventum\Export\ValueConverter\DateTimeValueConverter;
 use Eventum\Logger\LoggerTrait;
 use Eventum\Model\Entity\Issue;
-use Port\ValueConverter\DateTimeToStringValueConverter;
 use Psr\Log\LoggerInterface;
 
 class IssueSerializer
@@ -27,14 +27,14 @@ class IssueSerializer
     // "2021-05-19T14:16:35.842+03:00"
     private const DATE_FORMAT = DATE_RFC3339;
 
-    /** @var DateTimeToStringValueConverter */
+    /** @var DateTimeValueConverter */
     private $dateTimeConverter;
     /** @var array */
     private $template;
 
     public function __construct(LoggerInterface $logger)
     {
-        $this->dateTimeConverter = new DateTimeToStringValueConverter(self::DATE_FORMAT);
+        $this->dateTimeConverter = new DateTimeValueConverter();
         $fileName = Paths::APP_RESOURCES_PATH . '/export/gitlab/issue.json';
         $this->template = FileUtil::readJsonFile($fileName);
         $this->logger = $logger;
@@ -42,13 +42,12 @@ class IssueSerializer
 
     public function __invoke(Issue $issue): array
     {
-        $dateTimeConverter = $this->dateTimeConverter;
         $data = $this->template;
 
         $data['title'] = $issue->getSummary();
         $data['author_id'] = $this->getAuthorId($issue);
-        $data['created_at'] = $dateTimeConverter($issue->getCreatedDate());
-        $data['updated_at'] = $dateTimeConverter($issue->getUpdatedDate());
+        $data['created_at'] = $this->dateTimeConverter->convert($issue->getCreatedDate());
+        $data['updated_at'] = $this->dateTimeConverter->convert($issue->getUpdatedDate());
         $data['description'] = $this->getDescription($issue);
         $data['iid'] = $issue->getId();
         $data['state'] = $this->getState($issue);
