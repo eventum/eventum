@@ -13,6 +13,8 @@
 
 namespace Eventum\Export\Serializer;
 
+use Eventum\Config\Paths;
+use Eventum\Export\FileUtil;
 use Eventum\Model\Entity\Issue;
 use Port\ValueConverter\DateTimeToStringValueConverter;
 
@@ -23,51 +25,30 @@ class IssueSerializer
 
     /** @var DateTimeToStringValueConverter */
     private $dateTimeConverter;
+    /** @var array */
+    private $template;
 
     public function __construct()
     {
         $this->dateTimeConverter = new DateTimeToStringValueConverter(self::DATE_FORMAT);
+        $fileName = Paths::APP_RESOURCES_PATH . '/export/gitlab/issue.json';
+        $this->template = FileUtil::readJsonFile($fileName);
     }
 
     public function __invoke(Issue $issue): array
     {
         $dateTimeConverter = $this->dateTimeConverter;
+        $data = $this->template;
 
-        return [
-            'title' => $issue->getSummary(),
-            'author_id' => $this->getAuthorId($issue),
-            'project_id' => 1,
-            'created_at' => $dateTimeConverter($issue->getCreatedDate()),
-            'updated_at' => $dateTimeConverter($issue->getUpdatedDate()),
-            'description' => $issue->getDescription(),
-            'iid' => $issue->getId(),
-            'updated_by_id' => null,
-            'confidential' => false,
-            'due_date' => null,
-            'lock_version' => 0,
-            'time_estimate' => 0,
-            'relative_position' => 1073745862,
-            'last_edited_at' => null,
-            'last_edited_by_id' => null,
-            'discussion_locked' => null,
-            'closed_at' => null,
-            'closed_by_id' => null,
-            'weight' => null,
-            'health_status' => null,
-            'external_key' => null,
-            'issue_type' => 'issue',
-            'state' => $this->getState($issue),
-            'events' => [],
-            'timelogs' => [],
-            'notes' => [],
-            'label_links' => [],
-            'resource_label_events' => [],
-            'designs' => [],
-            'design_versions' => [],
-            'issue_assignees' => [],
-            'zoom_meetings' => [],
-            'award_emoji' => [],
-        ];
+        $data['title'] = $issue->getSummary();
+        $data['author_id'] = $this->getAuthorId($issue);
+        $data['created_at'] = $dateTimeConverter($issue->getCreatedDate());
+        $data['updated_at'] = $dateTimeConverter($issue->getUpdatedDate());
+        $data['description'] = $issue->getDescription();
+        $data['iid'] = $issue->getId();
+        $data['state'] = $this->getState($issue);
+
+        return $data;
     }
 
     private function getAuthorId(Issue $issue): int
