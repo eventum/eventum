@@ -22,18 +22,17 @@ use Port\Doctrine\DoctrineReader;
 use Port\Reader;
 use Port\Steps\Step\ConverterStep;
 use Port\Steps\StepAggregator;
-use Port\ValueConverter\DateTimeToStringValueConverter;
 use Port\Writer;
 use RuntimeException;
 
 class IssueExport
 {
     /** @var string */
-    private $fileName;
+    private $directory;
 
-    public function __construct(string $fileName)
+    public function __construct(string $directory)
     {
-        $this->fileName = $fileName;
+        $this->directory = $directory;
     }
 
     public function export(Issue $issue): void
@@ -85,7 +84,12 @@ class IssueExport
 
     private function createWriter(): Writer
     {
-        $stream = fopen($this->fileName, 'wb');
+        $directory = sprintf('%s/tree/project', $this->directory);
+        $fileName = sprintf('%s/issues.ndjson', $directory);
+        if (!mkdir($directory, 0755, true) && !is_dir($directory)) {
+            throw new RuntimeException(sprintf('Directory "%s" was not created', $directory));
+        }
+        $stream = fopen($fileName, 'wb');
         if (!$stream) {
             throw new RuntimeException("Can't open {$this->fileName} for writing");
         }

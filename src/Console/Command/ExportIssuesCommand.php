@@ -17,6 +17,7 @@ use Eventum\Db\Doctrine;
 use Eventum\Export\IssueExport;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class ExportIssuesCommand extends BaseCommand
@@ -28,28 +29,29 @@ class ExportIssuesCommand extends BaseCommand
     protected function configure(): void
     {
         $this
-            ->addArgument('issueId', InputArgument::REQUIRED)
-            ->addArgument('fileName', InputArgument::REQUIRED);
+            ->addArgument('directory', InputArgument::OPTIONAL, 'Output directory', '.')
+            ->addOption('issueId', null, InputOption::VALUE_REQUIRED, 'Issue Id to export')
+            ->setDescription('Export Issues to GitLab export format');
     }
 
     public function execute(InputInterface $input, OutputInterface $output): int
     {
-        $issueId = $input->getArgument('issueId');
-        $fileName = $input->getArgument('fileName');
+        $directory = $input->getArgument('directory');
+        $issueId = $input->getOption('issueId');
 
         if ($issueId) {
-            $this->exportIssue($issueId, $fileName ?: 'output.csv');
+            $this->exportIssue($directory, $issueId);
         }
 
         return 0;
     }
 
-    private function exportIssue(int $issueId, string $fileName): void
+    private function exportIssue(string $directory, int $issueId): void
     {
         $repo = Doctrine::getIssueRepository();
         $issue = $repo->findById($issueId);
 
-        $exporter = new IssueExport($fileName);
+        $exporter = new IssueExport($directory);
         $exporter->export($issue);
     }
 }
