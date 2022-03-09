@@ -13,6 +13,21 @@
 
 namespace Eventum\Export;
 
+use RuntimeException;
+
 final class FileUtil
 {
+    public static function createWritableStream(string $fileName)
+    {
+        $directory = dirname($fileName);
+        if (!mkdir($directory, 0755, true) && !is_dir($directory)) {
+            throw new RuntimeException(sprintf('Directory "%s" was not created', $directory));
+        }
+        $stream = fopen($fileName, 'wb');
+        if (!$stream) {
+            throw new RuntimeException("Can't open {$fileName} for writing");
+        }
+
+        return $stream;
+    }
 }
