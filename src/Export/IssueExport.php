@@ -24,7 +24,6 @@ use Port\Reader;
 use Port\Steps\Step\ConverterStep;
 use Port\Steps\StepAggregator;
 use Port\Writer;
-use RuntimeException;
 
 class IssueExport
 {
@@ -70,15 +69,8 @@ class IssueExport
 
     private function createWriter(): Writer
     {
-        $directory = sprintf('%s/tree/project', $this->directory);
-        $fileName = sprintf('%s/issues.ndjson', $directory);
-        if (!mkdir($directory, 0755, true) && !is_dir($directory)) {
-            throw new RuntimeException(sprintf('Directory "%s" was not created', $directory));
-        }
-        $stream = fopen($fileName, 'wb');
-        if (!$stream) {
-            throw new RuntimeException("Can't open {$this->fileName} for writing");
-        }
+        $fileName = sprintf('%s/tree/project/issues.ndjson', $this->directory);
+        $stream = FileUtil::createWritableStream($fileName);
 
         $writer = new NdjsonStreamWriter($stream);
 
