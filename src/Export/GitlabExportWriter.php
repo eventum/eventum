@@ -13,6 +13,8 @@
 
 namespace Eventum\Export;
 
+use Eventum\Config\Paths;
+
 class GitlabExportWriter
 {
     /**
@@ -88,6 +90,11 @@ class GitlabExportWriter
     private function writeFile(string $fileName, string $content): void
     {
         FileUtil::writeFile($this->directory . '/' . $fileName, $content);
+    }
+
+    private function readJsonFile(string $fileName): array
+    {
+        return FileUtil::readJsonFile(Paths::APP_RESOURCES_PATH . '/export/gitlab/' . $fileName);
     }
 
     private function writeJsonFile(string $fileName, array $data): void
