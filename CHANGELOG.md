@@ -4,6 +4,8 @@
 
 See [Upgrading] for details on how to upgrade.
 
+- Fix checkboxes in custom field administration, #1357
+
 [3.10.11]: https://github.com/eventum/eventum/compare/v3.10.10...master
 
 ## [3.10.10] - 2021-12-13
