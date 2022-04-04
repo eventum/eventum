@@ -4003,16 +4003,16 @@
         },
         {
             "name": "symfony/cache",
-            "version": "v4.4.38",
+            "version": "v4.4.40",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/cache.git",
-                "reference": "84a3a42d8f7a049e3a1dd363e35235426e274ddf"
+                "reference": "fd2f2af3cbb77fba274837a831c7e314fafae5ef"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/cache/zipball/84a3a42d8f7a049e3a1dd363e35235426e274ddf",
-                "reference": "84a3a42d8f7a049e3a1dd363e35235426e274ddf",
+                "url": "https://api.github.com/repos/symfony/cache/zipball/fd2f2af3cbb77fba274837a831c7e314fafae5ef",
+                "reference": "fd2f2af3cbb77fba274837a831c7e314fafae5ef",
                 "shasum": ""
             },
             "require": {
@@ -4091,7 +4091,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-02-21T12:59:00+00:00"
+            "time": "2022-03-22T15:30:10+00:00"
         },
         {
             "name": "symfony/cache-contracts",
@@ -4872,16 +4872,16 @@
         },
         {
             "name": "symfony/expression-language",
-            "version": "v4.4.37",
+            "version": "v4.4.40",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/expression-language.git",
-                "reference": "b25f28d2bca785d0715426bdd4af873288fe1d89"
+                "reference": "a7e81d14dfe475130c9fbcc3bc269c1d42afd422"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/expression-language/zipball/b25f28d2bca785d0715426bdd4af873288fe1d89",
-                "reference": "b25f28d2bca785d0715426bdd4af873288fe1d89",
+                "url": "https://api.github.com/repos/symfony/expression-language/zipball/a7e81d14dfe475130c9fbcc3bc269c1d42afd422",
+                "reference": "a7e81d14dfe475130c9fbcc3bc269c1d42afd422",
                 "shasum": ""
             },
             "require": {
@@ -4928,7 +4928,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-01-02T09:41:36+00:00"
+            "time": "2022-03-30T11:45:56+00:00"
         },
         {
             "name": "symfony/filesystem",
