@@ -2895,16 +2895,16 @@
         },
         {
             "name": "perftools/php-profiler",
-            "version": "1.0.0",
+            "version": "1.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/perftools/php-profiler.git",
-                "reference": "f860cb59e39ca67c3db37f680e8cd3b460db68fb"
+                "reference": "67c7ebf6404f10a6ad7821ac2faccb840b784e4a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/perftools/php-profiler/zipball/f860cb59e39ca67c3db37f680e8cd3b460db68fb",
-                "reference": "f860cb59e39ca67c3db37f680e8cd3b460db68fb",
+                "url": "https://api.github.com/repos/perftools/php-profiler/zipball/67c7ebf6404f10a6ad7821ac2faccb840b784e4a",
+                "reference": "67c7ebf6404f10a6ad7821ac2faccb840b784e4a",
                 "shasum": ""
             },
             "require": {
@@ -2949,7 +2949,7 @@
                 }
             ],
             "description": "PHP Profiling based on XHGUI",
-            "time": "2021-10-18T01:40:28+00:00"
+            "time": "2022-04-05T14:27:56+00:00"
         },
         {
             "name": "phlib/flysystem-pdo",
