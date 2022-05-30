@@ -4171,16 +4171,16 @@
         },
         {
             "name": "symfony/config",
-            "version": "v4.4.41",
+            "version": "v4.4.42",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/config.git",
-                "reference": "9d031eb2d4292aed117b0f7fafd5c436dcf3dfd7"
+                "reference": "83cdafd1bd3370de23e3dc2ed01026908863be81"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/config/zipball/9d031eb2d4292aed117b0f7fafd5c436dcf3dfd7",
-                "reference": "9d031eb2d4292aed117b0f7fafd5c436dcf3dfd7",
+                "url": "https://api.github.com/repos/symfony/config/zipball/83cdafd1bd3370de23e3dc2ed01026908863be81",
+                "reference": "83cdafd1bd3370de23e3dc2ed01026908863be81",
                 "shasum": ""
             },
             "require": {
@@ -4242,7 +4242,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-04-12T15:19:55+00:00"
+            "time": "2022-05-17T07:10:14+00:00"
         },
         {
             "name": "symfony/console",
@@ -4398,16 +4398,16 @@
         },
         {
             "name": "symfony/dependency-injection",
-            "version": "v4.4.41",
+            "version": "v4.4.42",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/dependency-injection.git",
-                "reference": "74c7f55de0eced4d3c9654809b1871870386a577"
+                "reference": "f6fdbf252765a09c7ac243617f79f1babef792c9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/dependency-injection/zipball/74c7f55de0eced4d3c9654809b1871870386a577",
-                "reference": "74c7f55de0eced4d3c9654809b1871870386a577",
+                "url": "https://api.github.com/repos/symfony/dependency-injection/zipball/f6fdbf252765a09c7ac243617f79f1babef792c9",
+                "reference": "f6fdbf252765a09c7ac243617f79f1babef792c9",
                 "shasum": ""
             },
             "require": {
@@ -4477,7 +4477,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-04-12T15:19:55+00:00"
+            "time": "2022-05-24T15:15:52+00:00"
         },
         {
             "name": "symfony/deprecation-contracts",
@@ -5395,16 +5395,16 @@
         },
         {
             "name": "symfony/http-kernel",
-            "version": "v4.4.41",
+            "version": "v4.4.42",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/http-kernel.git",
-                "reference": "7f8ce5bffc3939c63b7da32de5a546c98eb67698"
+                "reference": "04181de9459df639512dadf83d544ce12edd6776"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/http-kernel/zipball/7f8ce5bffc3939c63b7da32de5a546c98eb67698",
-                "reference": "7f8ce5bffc3939c63b7da32de5a546c98eb67698",
+                "url": "https://api.github.com/repos/symfony/http-kernel/zipball/04181de9459df639512dadf83d544ce12edd6776",
+                "reference": "04181de9459df639512dadf83d544ce12edd6776",
                 "shasum": ""
             },
             "require": {
@@ -5492,7 +5492,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-04-27T17:13:11+00:00"
+            "time": "2022-05-27T07:04:21+00:00"
         },
         {
             "name": "symfony/inflector",
@@ -6793,16 +6793,16 @@
         },
         {
             "name": "symfony/security-bundle",
-            "version": "v4.4.41",
+            "version": "v4.4.42",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/security-bundle.git",
-                "reference": "6549321a5abecccb311a697b6cb508a3c325ed18"
+                "reference": "fe663bfc6197aa664f9c2b5729dff6f8ea48f931"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/security-bundle/zipball/6549321a5abecccb311a697b6cb508a3c325ed18",
-                "reference": "6549321a5abecccb311a697b6cb508a3c325ed18",
+                "url": "https://api.github.com/repos/symfony/security-bundle/zipball/fe663bfc6197aa664f9c2b5729dff6f8ea48f931",
+                "reference": "fe663bfc6197aa664f9c2b5729dff6f8ea48f931",
                 "shasum": ""
             },
             "require": {
@@ -6882,7 +6882,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-04-12T15:19:55+00:00"
+            "time": "2022-05-11T09:56:22+00:00"
         },
         {
             "name": "symfony/security-core",
@@ -7102,16 +7102,16 @@
         },
         {
             "name": "symfony/security-http",
-            "version": "v4.4.41",
+            "version": "v4.4.42",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/security-http.git",
-                "reference": "36736d8d5fcb1ff0f74e569f6a4bc64e8c9c267e"
+                "reference": "0af230c1e206cf99131727672fdf5b25da29302a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/security-http/zipball/36736d8d5fcb1ff0f74e569f6a4bc64e8c9c267e",
-                "reference": "36736d8d5fcb1ff0f74e569f6a4bc64e8c9c267e",
+                "url": "https://api.github.com/repos/symfony/security-http/zipball/0af230c1e206cf99131727672fdf5b25da29302a",
+                "reference": "0af230c1e206cf99131727672fdf5b25da29302a",
                 "shasum": ""
             },
             "require": {
@@ -7174,7 +7174,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-04-12T15:19:55+00:00"
+            "time": "2022-05-13T08:30:43+00:00"
         },
         {
             "name": "symfony/serializer",
