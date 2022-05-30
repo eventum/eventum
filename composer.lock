@@ -5565,16 +5565,16 @@
         },
         {
             "name": "symfony/ldap",
-            "version": "v4.4.41",
+            "version": "v4.4.42",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/ldap.git",
-                "reference": "c31ecc0e37f9a36c893a11c25f6f0d2bbea53de7"
+                "reference": "8d5ba95e1d7e4d6ec080c8335e5cad21d31a3bb8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/ldap/zipball/c31ecc0e37f9a36c893a11c25f6f0d2bbea53de7",
-                "reference": "c31ecc0e37f9a36c893a11c25f6f0d2bbea53de7",
+                "url": "https://api.github.com/repos/symfony/ldap/zipball/8d5ba95e1d7e4d6ec080c8335e5cad21d31a3bb8",
+                "reference": "8d5ba95e1d7e4d6ec080c8335e5cad21d31a3bb8",
                 "shasum": ""
             },
             "require": {
@@ -5631,7 +5631,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-04-12T15:19:55+00:00"
+            "time": "2022-05-14T11:33:38+00:00"
         },
         {
             "name": "symfony/lock",
