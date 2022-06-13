@@ -2895,16 +2895,16 @@
         },
         {
             "name": "perftools/php-profiler",
-            "version": "1.0.1",
+            "version": "1.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/perftools/php-profiler.git",
-                "reference": "67c7ebf6404f10a6ad7821ac2faccb840b784e4a"
+                "reference": "40edd32f8ac471dd4d0f6e7057ed0acab4eb1c36"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/perftools/php-profiler/zipball/67c7ebf6404f10a6ad7821ac2faccb840b784e4a",
-                "reference": "67c7ebf6404f10a6ad7821ac2faccb840b784e4a",
+                "url": "https://api.github.com/repos/perftools/php-profiler/zipball/40edd32f8ac471dd4d0f6e7057ed0acab4eb1c36",
+                "reference": "40edd32f8ac471dd4d0f6e7057ed0acab4eb1c36",
                 "shasum": ""
             },
             "require": {
@@ -2948,8 +2948,8 @@
                     "email": "glen@pld-linux.org"
                 }
             ],
-            "description": "PHP Profiling based on XHGUI",
-            "time": "2022-04-05T14:27:56+00:00"
+            "description": "PHP Profiling based on XHGui",
+            "time": "2022-06-09T14:39:38+00:00"
         },
         {
             "name": "phlib/flysystem-pdo",
@@ -4394,6 +4394,7 @@
                     "type": "tidelift"
                 }
             ],
+            "abandoned": "symfony/error-handler",
             "time": "2022-04-12T15:19:55+00:00"
         },
         {
