@@ -102,7 +102,7 @@ class ProcessMailMessage
         }
 
         // pass in $mail object so it can be modified
-        if (!Workflow::preEmailDownload($this->prj_id, $mail)) {
+        if (!Workflow::preEmailDownload($this->prj_id, $mail, $this->connection)) {
             $this->debug("Skip $resource: Skipped by workflow");
 
             return;
