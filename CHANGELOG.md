@@ -1,13 +1,13 @@
 # Eventum Issue Tracking System
 
-## [3.10.11]
+## [3.10.11] - 2022-07-07
 
 See [Upgrading] for details on how to upgrade.
 
 - Fix checkboxes in custom field administration, #1357
 - Feature: Add `$connection` to `MAIL_PROCESS_BEFORE` event, #1414
 
-[3.10.11]: https://github.com/eventum/eventum/compare/v3.10.10...master
+[3.10.11]: https://github.com/eventum/eventum/compare/v3.10.10...v3.10.11
 
 ## [3.10.10] - 2021-12-13
 
