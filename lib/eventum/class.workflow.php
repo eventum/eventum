@@ -20,6 +20,7 @@ use Eventum\Event\SystemEvents;
 use Eventum\Extension\ExtensionLoader;
 use Eventum\LinkFilter\LinkFilter;
 use Eventum\Mail\Helper\AddressHeader;
+use Eventum\Mail\Imap\ImapConnection;
 use Eventum\Mail\ImapMessage;
 use Eventum\Mail\MailMessage;
 use Eventum\ServiceContainer;
@@ -631,10 +632,12 @@ class Workflow
      * @return  mixed null by default, -1 if the rest of the email script should not be processed
      * @since 3.8.11 emits ISSUE_UPDATED_BEFORE event
      * @since 3.8.13 workflow integration is done by WorkflowLegacyExtension
+     * @since 3.10.11 Passes connection as 'connection' key to event
      */
-    public static function preEmailDownload(int $prj_id, ImapMessage $mail): bool
+    public static function preEmailDownload(int $prj_id, ImapMessage $mail, ImapConnection $connection): bool
     {
         $event = new EventContext($prj_id, null, null, [], $mail);
+        $event['connection'] = $connection;
         ServiceContainer::dispatch(SystemEvents::MAIL_PROCESS_BEFORE, $event);
         if ($event->isPropagationStopped()) {
             return false;
