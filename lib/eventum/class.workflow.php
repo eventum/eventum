@@ -630,7 +630,7 @@ class Workflow
      * @param   int $prj_id The project ID
      * @param   ImapMessage $mail The Imap Mail Message object
      * @return  mixed null by default, -1 if the rest of the email script should not be processed
-     * @since 3.8.11 emits ISSUE_UPDATED_BEFORE event
+     * @since 3.8.11 emits MAIL_PROCESS_BEFORE event
      * @since 3.8.13 workflow integration is done by WorkflowLegacyExtension
      * @since 3.10.11 Passes connection as 'connection' key to event
      */
