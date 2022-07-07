@@ -100,7 +100,7 @@ jobs:
         run: |
           echo "GITHUB_REF=$GITHUB_REF"
           if [[ "${GITHUB_REF#refs/tags/v}" != "${GITHUB_REF}" ]]; then
-            APP_VERSION=${GITHUB_REF#refs/tags/}
+            APP_VERSION=${GITHUB_REF#refs/tags/v}
           else
             git fetch origin --unshallow "+refs/tags/v*:refs/tags/v*"
             version=$(git describe --tags --match=v*)
