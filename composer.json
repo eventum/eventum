@@ -126,7 +126,11 @@
         "platform": {
             "php": "7.3.0"
         },
-        "sort-packages": true
+        "sort-packages": true,
+        "allow-plugins": {
+            "symfony/flex": true,
+            "symfony/thanks": true
+        }
     },
     "autoload": {
         "psr-4": {
