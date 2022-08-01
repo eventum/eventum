@@ -5566,16 +5566,16 @@
         },
         {
             "name": "symfony/ldap",
-            "version": "v4.4.42",
+            "version": "v4.4.44",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/ldap.git",
-                "reference": "8d5ba95e1d7e4d6ec080c8335e5cad21d31a3bb8"
+                "reference": "445c0e5f284cff33d7f449a0b078c8d732122ceb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/ldap/zipball/8d5ba95e1d7e4d6ec080c8335e5cad21d31a3bb8",
-                "reference": "8d5ba95e1d7e4d6ec080c8335e5cad21d31a3bb8",
+                "url": "https://api.github.com/repos/symfony/ldap/zipball/445c0e5f284cff33d7f449a0b078c8d732122ceb",
+                "reference": "445c0e5f284cff33d7f449a0b078c8d732122ceb",
                 "shasum": ""
             },
             "require": {
@@ -5632,7 +5632,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-05-14T11:33:38+00:00"
+            "time": "2022-06-27T13:16:42+00:00"
         },
         {
             "name": "symfony/lock",
@@ -5938,16 +5938,16 @@
         },
         {
             "name": "symfony/options-resolver",
-            "version": "v4.4.37",
+            "version": "v4.4.44",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/options-resolver.git",
-                "reference": "41d1e741a292574887629369400820c9645e8a87"
+                "reference": "583f56160f716dd435f1cd721fd14b548f4bb510"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/options-resolver/zipball/41d1e741a292574887629369400820c9645e8a87",
-                "reference": "41d1e741a292574887629369400820c9645e8a87",
+                "url": "https://api.github.com/repos/symfony/options-resolver/zipball/583f56160f716dd435f1cd721fd14b548f4bb510",
+                "reference": "583f56160f716dd435f1cd721fd14b548f4bb510",
                 "shasum": ""
             },
             "require": {
@@ -5998,7 +5998,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-01-02T09:41:36+00:00"
+            "time": "2022-07-20T09:59:04+00:00"
         },
         {
             "name": "symfony/polyfill-ctype",
