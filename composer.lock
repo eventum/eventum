@@ -3365,31 +3365,31 @@
         },
         {
             "name": "portphp/steps",
-            "version": "1.3.0",
+            "version": "1.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/portphp/steps.git",
-                "reference": "6a5b6e0791905b94cb7a52cece29257e311959a8"
+                "reference": "67291741ef6b7e1ab25083bf824635149c559848"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/portphp/steps/zipball/6a5b6e0791905b94cb7a52cece29257e311959a8",
-                "reference": "6a5b6e0791905b94cb7a52cece29257e311959a8",
+                "url": "https://api.github.com/repos/portphp/steps/zipball/67291741ef6b7e1ab25083bf824635149c559848",
+                "reference": "67291741ef6b7e1ab25083bf824635149c559848",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.6.0",
                 "portphp/portphp": "^1.0.0",
                 "seld/signal-handler": "^1.0",
-                "symfony/property-access": "^2.3 || ^3.0 || ^4.0 || ^5.0",
-                "symfony/validator": "^2.5 || ^3.0 || ^4.0 || ^5.0"
+                "symfony/property-access": "^2.3 || ^3.0 || ^4.0 || ^5.0 || ^6.0",
+                "symfony/validator": "^2.5 || ^3.0 || ^4.0 || ^5.0 || ^6.0"
             },
             "conflict": {
                 "symfony/validator": "<2.5"
             },
             "require-dev": {
-                "henrikbjorn/phpspec-code-coverage": "^1.0",
-                "phpspec/phpspec": "^2.2"
+                "friends-of-phpspec/phpspec-code-coverage": "^6.1",
+                "phpspec/phpspec": "^7.2"
             },
             "suggest": {
                 "symfony/property-access": "Used in MappingStep",
@@ -3426,7 +3426,7 @@
             ],
             "description": "Step aggregator for Port",
             "homepage": "https://github.com/portphp",
-            "time": "2020-04-02T06:51:39+00:00"
+            "time": "2022-07-21T09:55:25+00:00"
         },
         {
             "name": "psr/cache",
@@ -3759,24 +3759,26 @@
         },
         {
             "name": "seld/signal-handler",
-            "version": "1.2.0",
+            "version": "1.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Seldaek/signal-handler.git",
-                "reference": "0852a32d804c6a80f428f6e815eb383ff1c4c2fd"
+                "reference": "7904836d112951e9f30ef4871036ab34399c8dd5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Seldaek/signal-handler/zipball/0852a32d804c6a80f428f6e815eb383ff1c4c2fd",
-                "reference": "0852a32d804c6a80f428f6e815eb383ff1c4c2fd",
+                "url": "https://api.github.com/repos/Seldaek/signal-handler/zipball/7904836d112951e9f30ef4871036ab34399c8dd5",
+                "reference": "7904836d112951e9f30ef4871036ab34399c8dd5",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.4.0"
+                "php": ">=7.1.0"
             },
             "require-dev": {
-                "phpunit/phpunit": "^4.8",
-                "psr/log": "^1.0"
+                "phpstan/phpstan": "^1",
+                "phpstan/phpstan-phpunit": "^1",
+                "phpunit/phpunit": "^7.5.20 || ^8.5.23",
+                "psr/log": "^1 || ^2 || ^3"
             },
             "type": "library",
             "autoload": {
@@ -3795,7 +3797,7 @@
                     "homepage": "http://seld.be"
                 }
             ],
-            "description": "Simple unix signal handler that silently fails on windows for easy cross-platform development",
+            "description": "Simple unix signal handler that silently fails where signals are not supported for easy cross-platform development",
             "keywords": [
                 "posix",
                 "sigint",
@@ -3803,7 +3805,7 @@
                 "sigterm",
                 "unix"
             ],
-            "time": "2019-07-29T10:26:24+00:00"
+            "time": "2022-02-17T20:38:26+00:00"
         },
         {
             "name": "smarty-gettext/smarty-gettext",
