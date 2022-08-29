@@ -4,10 +4,11 @@
 # https://github.com/eventum/eventum
 #
 
-ARG BUILD_IMAGE=ghcr.io/eventum/eventum:release-image-v2
+# docker build . -f bin/releng/Dockerfile -t ghcr.io/eventum/eventum:release-image-v3
+ARG BUILD_IMAGE=ghcr.io/eventum/eventum:release-image-v3
 
 # Image for building release
-FROM ubuntu:focal AS base
+FROM ubuntu:20.04 AS base
 
 FROM base AS deps
 RUN set -x \
