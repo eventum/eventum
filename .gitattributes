@@ -11,7 +11,6 @@
 /.gush.yml export-ignore
 /.php_cs export-ignore
 /.styleci.yml export-ignore
-/.travis.yml export-ignore
 /phpcompatinfo.json export-ignore
 /build.xml export-ignore
 /phive.xml export-ignore

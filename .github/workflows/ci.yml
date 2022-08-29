@@ -72,7 +72,7 @@ jobs:
 
       - name: Seed database
         run: |
-          cp -p tests/travis/*.php config
+          cp -p tests/ci/*.php config
           vendor/bin/phinx migrate -e test
           cat config/setup.php
           vendor/bin/phinx seed:run -e test
