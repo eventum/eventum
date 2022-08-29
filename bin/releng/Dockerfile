@@ -218,7 +218,7 @@ RUN \
         -C / eventum-$APP_VERSION/
 eot
 
-# APP_VERSION=$(git describe --tags --match=v*)
+# APP_VERSION=$(git describe --tags --match="v*")
 # docker build . -f bin/releng/Dockerfile --build-arg=APP_VERSION=${APP_VERSION#v} --target=out -o out
 FROM scratch AS out
 COPY --from=build-tar /out/* /
