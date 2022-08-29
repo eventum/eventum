@@ -1,7 +1,7 @@
 Eventum Issue Tracking System
 =============================
 
-[![Build Status][travis-badge]][travis-url]
+[![Build Status][ci-badge]][ci-url]
 [![Join the Chat][gitter-badge]][gitter-url]
 
 Eventum is a user friendly and very flexible issue tracking system, that can
@@ -21,7 +21,7 @@ The Eventum Team
 
   [1]: http://news.gmane.org/gmane.comp.bug-tracking.eventum.user
   [2]: http://news.gmane.org/gmane.comp.bug-tracking.eventum.devel
-[travis-badge]: https://api.travis-ci.com/eventum/eventum.svg?branch=master
-[travis-url]: https://travis-ci.com/github/eventum/eventum
+[ci-badge]: https://github.com/eventum/eventum/actions/workflows/ci.yml/badge.svg
+[ci-url]: https://github.com/eventum/eventum/actions/workflows/ci.yml
 [gitter-badge]: https://badges.gitter.im/Join%20Chat.svg
 [gitter-url]: https://gitter.im/eventum/eventum
