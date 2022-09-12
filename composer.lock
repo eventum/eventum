@@ -8117,16 +8117,16 @@
         },
         {
             "name": "maximebf/debugbar",
-            "version": "v1.18.0",
+            "version": "v1.18.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/maximebf/php-debugbar.git",
-                "reference": "0d44b75f3b5d6d41ae83b79c7a4bceae7fbc78b6"
+                "reference": "ba0af68dd4316834701ecb30a00ce9604ced3ee9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/maximebf/php-debugbar/zipball/0d44b75f3b5d6d41ae83b79c7a4bceae7fbc78b6",
-                "reference": "0d44b75f3b5d6d41ae83b79c7a4bceae7fbc78b6",
+                "url": "https://api.github.com/repos/maximebf/php-debugbar/zipball/ba0af68dd4316834701ecb30a00ce9604ced3ee9",
+                "reference": "ba0af68dd4316834701ecb30a00ce9604ced3ee9",
                 "shasum": ""
             },
             "require": {
@@ -8146,7 +8146,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.17-dev"
+                    "dev-master": "1.18-dev"
                 }
             },
             "autoload": {
@@ -8175,7 +8175,7 @@
                 "debug",
                 "debugbar"
             ],
-            "time": "2021-12-27T18:49:48+00:00"
+            "time": "2022-03-31T14:55:54+00:00"
         },
         {
             "name": "sentry/sentry",
