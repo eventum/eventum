@@ -3864,20 +3864,20 @@
         },
         {
             "name": "smarty/smarty",
-            "version": "v3.1.46",
+            "version": "v3.1.47",
             "source": {
                 "type": "git",
                 "url": "https://github.com/smarty-php/smarty.git",
-                "reference": "b3ade90dece67812410954528e0039fb5b73bcf7"
+                "reference": "a09364fe1706cb465e910eb040e592053d7effb8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/smarty-php/smarty/zipball/b3ade90dece67812410954528e0039fb5b73bcf7",
-                "reference": "b3ade90dece67812410954528e0039fb5b73bcf7",
+                "url": "https://api.github.com/repos/smarty-php/smarty/zipball/a09364fe1706cb465e910eb040e592053d7effb8",
+                "reference": "a09364fe1706cb465e910eb040e592053d7effb8",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.2"
+                "php": "^5.2 || ^7.0"
             },
             "require-dev": {
                 "phpunit/phpunit": "^7.5 || ^6.5 || ^5.7 || ^4.8",
@@ -3917,7 +3917,7 @@
             "keywords": [
                 "templating"
             ],
-            "time": "2022-08-01T21:58:13+00:00"
+            "time": "2022-09-14T11:29:00+00:00"
         },
         {
             "name": "sphinx/php-sphinxapi",
