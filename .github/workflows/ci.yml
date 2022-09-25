@@ -1,4 +1,4 @@
-name: "Tests"
+name: "CI"
 
 on:
   push:
@@ -11,187 +11,21 @@ on:
       - v*
   pull_request:
 
-env:
-  REGISTRY: ghcr.io
-  IMAGE_NAME: ${{ github.repository }}
-
 jobs:
   test:
-    name: PHP ${{ matrix.php }}
-    runs-on: ubuntu-20.04
-    strategy:
-      matrix:
-        php:
-          - "7.3"
-          - "7.4"
-
-    env:
-      MYSQL_USER: "eventum"
-      MYSQL_PASSWORD: "password"
-      MYSQL_DATABASE: "eventum"
-      MYSQL_HOST: "127.0.0.1"
-
-    services:
-      mysql:
-        image: percona/percona-server:5.7
-        ports:
-          - 3306:3306
-        env:
-          MYSQL_USER: "eventum"
-          MYSQL_PASSWORD: "password"
-          MYSQL_DATABASE: "eventum"
-          MYSQL_ALLOW_EMPTY_PASSWORD: "1"
-        options: --health-cmd="mysqladmin ping" --health-interval=5s --health-timeout=2s --health-retries=3
-
-    steps:
-      - name: Checkout Code
-        uses: actions/checkout@v2
-
-      - name: Setup PHP ${{ matrix.php }}
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: ${{ matrix.php }}
-          tools: composer:v1
-          extensions: pdo, pdo_mysql, gd, ldap, tidy
-
-      - name: Validate composer.json and composer.lock
-        run: composer validate
-
-      - name: Cache Composer packages
-        id: composer-cache
-        uses: actions/cache@v2
-        with:
-          path: vendor
-          key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-php-
-
-      - name: Install dependencies
-        if: steps.composer-cache.outputs.cache-hit != 'true'
-        run: composer install --prefer-dist --no-progress --no-suggest
-
-      - name: Seed database
-        run: |
-          cp -p tests/ci/*.php config
-          vendor/bin/phinx migrate -e test
-          cat config/setup.php
-          vendor/bin/phinx seed:run -e test
-
-      - name: Run PHPUnit tests
-        run: composer test
-        env:
-          # comma separated @group names to exclude
-          PHPUNIT_EXCLUDE_GROUP: "ldap,imap,logger,mail,api,locale,date,crypto,flaky"
-
-      - name: MySQL Service logs
-        run: docker logs ${{ job.services.mysql.id }}
-        if: always()
+    name: Tests
+    uses: ./.github/workflows/tests.yml
 
   release:
-    name: Build release
-    runs-on: ubuntu-20.04
+    name: Release
+    uses: ./.github/workflows/release.yml
     needs: test
-    steps:
-      - name: Checkout eventum/eventum code
-        uses: actions/checkout@v2
 
-      - name: Set version variable
-        id: vars
-        run: |
-          echo "GITHUB_REF=$GITHUB_REF"
-          if [[ "${GITHUB_REF#refs/tags/v}" != "${GITHUB_REF}" ]]; then
-            APP_VERSION=${GITHUB_REF#refs/tags/v}
-          else
-            git fetch origin --unshallow "+refs/tags/v*:refs/tags/v*"
-            version=$(git describe --tags --abbrev=9 --match="v*")
-            APP_VERSION=${version#v}
-          fi
-          echo ::set-output name=version::$APP_VERSION
-
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v1
-
-      - name: Build release tarball
-        uses: docker/build-push-action@v2
-        env:
-          APP_VERSION: ${{ steps.vars.outputs.version }}
-        with:
-          context: .
-          file: bin/releng/Dockerfile
-          build-args: |
-            APP_VERSION=${{ env.APP_VERSION }}
-          platforms: linux/amd64
-          target: out
-          outputs: |
-            type=local,dest=out
-
-      - name: Compress release
-        run: |
-          mv out/eventum-*.tar .
-          ls -lh eventum-*.tar
-          xz -9e eventum-*.tar
-          ls -lh eventum-*.tar.xz
-
-      # https://github.com/actions/upload-artifact
-      - uses: actions/upload-artifact@v2
-        with:
-          name: eventum-${{ steps.vars.outputs.version }}
-          path: eventum-*.tar.xz
-          # 'warn' or 'ignore' are also available, defaults to `warn`
-          if-no-files-found: error
-
-      - name: Extract metadata (tags, labels) for Docker
-        id: meta
-        uses: docker/metadata-action@v3
-        with:
-          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
-          tags: |
-            type=ref,event=branch
-            type=semver,pattern={{version}}
-            type=semver,pattern={{major}}.{{minor}}
-            type=semver,pattern={{major}},enable=${{ !startsWith(github.ref, 'refs/tags/0.') }}
-
-      - name: Checkout eventum/docker code
-        uses: actions/checkout@v2
-        with:
-         repository: eventum/docker
-         path: docker
-
-      - name: Prepare tarball for Docker build
-        run: |
-          ln eventum-*.tar.xz docker
-
-      - name: Build and export to Docker
-        uses: docker/build-push-action@v2
-        with:
-          context: docker
-          load: true
-          build-args: |
-            BUILDTYPE=local
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
-          outputs: |
-            type=docker,dest=eventum-docker-${{ steps.vars.outputs.version }}.tar
-
-      - uses: actions/upload-artifact@v2
-        with:
-          name: docker-${{ steps.vars.outputs.version }}
-          path: eventum-docker-*.tar
-          if-no-files-found: error
-
-  # https://github.com/fastify/github-action-merge-dependabot
   automerge:
+    name: Auto-merge
+    uses: ./.github/workflows/automerge.yml
     needs: release
-    runs-on: ubuntu-20.04
-
-    permissions:
-      pull-requests: write
-      contents: write
-
-    steps:
-      - uses: fastify/github-action-merge-dependabot@v3.0.0
-        if: ${{ github.actor == 'dependabot[bot]' && github.event_name == 'pull_request' }}
-        with:
-          github-token: ${{secrets.GITHUB_TOKEN}}
+    secrets:
+      github-token: ${{ secrets.GITHUB_TOKEN }}
 
 # vim:ft=yaml:et:ts=2:sw=2
