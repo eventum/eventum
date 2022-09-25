@@ -61,7 +61,7 @@ snapshot:
 
 dist:
 	@set -xe; \
-	APP_VERSION=`git describe --tags --match="v*"`; \
+	APP_VERSION=`git describe --tags --abbrev=9 --match="v*"`; \
 	docker build -f bin/releng/Dockerfile --target=out . -o releases --build-arg=APP_VERSION=$${APP_VERSION#v}
 
 test:

@@ -103,7 +103,7 @@ jobs:
             APP_VERSION=${GITHUB_REF#refs/tags/v}
           else
             git fetch origin --unshallow "+refs/tags/v*:refs/tags/v*"
-            version=$(git describe --tags --match=v*)
+            version=$(git describe --tags --abbrev=9 --match="v*")
             APP_VERSION=${version#v}
           fi
           echo ::set-output name=version::$APP_VERSION
