@@ -60,10 +60,6 @@ RUN \
 FROM releng AS stage-release
 COPY . .
 
-# docker build . -f bin/releng/Dockerfile -t app --target=build-release
-FROM stage-release AS build-release
-RUN bin/releng/build-release.sh
-
 # docker build . -f bin/releng/Dockerfile -t app --target=build-src
 FROM $BUILD_IMAGE AS build-src
 WORKDIR /src
@@ -218,7 +214,7 @@ RUN \
         -C / eventum-$APP_VERSION/
 eot
 
-# APP_VERSION=$(git describe --tags --match="v*")
+# APP_VERSION=$(git describe --tags --abbrev=9 --match="v*")
 # docker build . -f bin/releng/Dockerfile --build-arg=APP_VERSION=${APP_VERSION#v} --target=out -o out
 FROM scratch AS out
 COPY --from=build-tar /out/* /
