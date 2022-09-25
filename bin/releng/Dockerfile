@@ -4,10 +4,11 @@
 # https://github.com/eventum/eventum
 #
 
-ARG BUILD_IMAGE=ghcr.io/eventum/eventum:release-image-v2
+# docker build . -f bin/releng/Dockerfile -t ghcr.io/eventum/eventum:release-image-v3
+ARG BUILD_IMAGE=ghcr.io/eventum/eventum:release-image-v3
 
 # Image for building release
-FROM ubuntu:focal AS base
+FROM ubuntu:20.04 AS base
 
 FROM base AS deps
 RUN set -x \
@@ -38,8 +39,11 @@ RUN set -x \
     xz-utils \
     && curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add - \
     && echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list \
+    && curl -sS https://deb.nodesource.com/gpgkey/nodesource.gpg.key | gpg --dearmor | tee /usr/share/keyrings/nodesource.gpg >/dev/null \
+    && echo 'deb [signed-by=/usr/share/keyrings/nodesource.gpg] https://deb.nodesource.com/node_16.x focal main' > /etc/apt/sources.list.d/nodesource.list \
     && apt update && apt install -y --no-install-recommends nodejs yarn \
-	&& exit 0
+    && rm -rf /var/lib/apt/lists/* \
+    && exit 0
 
 FROM deps AS releng
 WORKDIR /app
@@ -214,7 +218,7 @@ RUN \
         -C / eventum-$APP_VERSION/
 eot
 
-# APP_VERSION=$(git describe --tags --match=v*)
+# APP_VERSION=$(git describe --tags --match="v*")
 # docker build . -f bin/releng/Dockerfile --build-arg=APP_VERSION=${APP_VERSION#v} --target=out -o out
 FROM scratch AS out
 COPY --from=build-tar /out/* /

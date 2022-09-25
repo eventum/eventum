@@ -11,7 +11,7 @@ get() {
 	local tool="$1"
 
 	make $tool
-	cp -p $tool $destdir
+	ln $tool $destdir || cp -p $tool $destdir
 	ln -s $tool $destdir/${tool%.phar}
 }
 
