@@ -112,19 +112,10 @@ jobs:
           path: eventum-docker-*.tar
           if-no-files-found: error
 
-  # https://github.com/fastify/github-action-merge-dependabot
   automerge:
+    uses: ./.github/workflows/automerge.yml
     needs: release
-    runs-on: ubuntu-20.04
-
-    permissions:
-      pull-requests: write
-      contents: write
-
-    steps:
-      - uses: fastify/github-action-merge-dependabot@v3.0.0
-        if: ${{ github.actor == 'dependabot[bot]' && github.event_name == 'pull_request' }}
-        with:
-          github-token: ${{secrets.GITHUB_TOKEN}}
+    secrets:
+      github-token: ${{ secrets.GITHUB_TOKEN }}
 
 # vim:ft=yaml:et:ts=2:sw=2
