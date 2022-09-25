@@ -59,12 +59,6 @@ snapshot:
 	bin/releng/snapshot.sh
 	test -x ./dropin && ./dropin
 
-dist:
-	bin/releng/build-release.sh
-
-quickdist:
-	QUICK=true bin/releng/build-release.sh
-
 test:
 	phpunit
 

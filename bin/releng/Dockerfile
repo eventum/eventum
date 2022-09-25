@@ -60,10 +60,6 @@ RUN \
 FROM releng AS stage-release
 COPY . .
 
-# docker build . -f bin/releng/Dockerfile -t app --target=build-release
-FROM stage-release AS build-release
-RUN bin/releng/build-release.sh
-
 # docker build . -f bin/releng/Dockerfile -t app --target=build-src
 FROM $BUILD_IMAGE AS build-src
 WORKDIR /src
