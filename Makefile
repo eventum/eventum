@@ -59,6 +59,11 @@ snapshot:
 	bin/releng/snapshot.sh
 	test -x ./dropin && ./dropin
 
+dist:
+	@set -xe; \
+	APP_VERSION=`git describe --tags --match="v*"`; \
+	docker build -f bin/releng/Dockerfile --target=out . -o releases --build-arg=APP_VERSION=$${APP_VERSION#v}
+
 test:
 	phpunit
 
