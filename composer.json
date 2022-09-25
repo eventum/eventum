@@ -52,6 +52,7 @@
         "league/commonmark": "^1.5.4",
         "league/flysystem": "^1.0",
         "league/html-to-markdown": "^4.8",
+        "liborm85/composer-vendor-cleaner": "^1.7",
         "monolog/monolog": "^1.22.0",
         "ocramius/lazy-property": "^1.0",
         "ocramius/package-versions": "^1.4",
@@ -130,7 +131,8 @@
         "sort-packages": true,
         "allow-plugins": {
             "symfony/flex": true,
-            "symfony/thanks": true
+            "symfony/thanks": true,
+            "liborm85/composer-vendor-cleaner": true
         }
     },
     "autoload": {
