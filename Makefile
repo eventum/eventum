@@ -12,6 +12,7 @@ sbindir         := /usr/sbin
 bindir          := /usr/bin
 logdir          := /var/log/$(name)
 smartyplugindir := $(datadir)/lib/Smarty/plugins
+docker_progress := auto
 
 PHPCOMPATINFO_VERSION := 5.0.1
 PHPUNIT_VERSION := 4.8.11
@@ -59,10 +60,11 @@ snapshot:
 	bin/releng/snapshot.sh
 	test -x ./dropin && ./dropin
 
+# make dist docker_progress=plain
 dist:
 	@set -xe; \
 	APP_VERSION=`git describe --tags --abbrev=9 --match="v*"`; \
-	docker build -f bin/releng/Dockerfile --target=out . -o releases --build-arg=APP_VERSION=$${APP_VERSION#v}
+	docker build -f bin/releng/Dockerfile --target=out . -o releases --build-arg=APP_VERSION=$${APP_VERSION#v} --progress=$(docker_progress)
 
 test:
 	phpunit
