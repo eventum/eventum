@@ -133,6 +133,9 @@
             "symfony/flex": true,
             "symfony/thanks": true,
             "liborm85/composer-vendor-cleaner": true
+        },
+        "dev-files": {
+            "no-dev-only": true
         }
     },
     "autoload": {
@@ -188,6 +191,7 @@
         "symfony": {
             "require": "4.4.*"
         },
+        "dev-files": "composer.dev-files.json",
         "replace": {
             "laminas/laminas-loader": "2.99",
             "laminas/laminas-zendframework-bridge": "1.99",
