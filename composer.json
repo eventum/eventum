@@ -116,7 +116,8 @@
         "symfony/routing": ">=5",
         "symfony/serializer": ">=5",
         "symfony/service-contracts": ">=2.5.0",
-        "symfony/twig-bridge": ">=5"
+        "symfony/twig-bridge": ">=5",
+        "symfony/validator": ">=5"
     },
     "suggest": {
         "ext-imap": "Support for fetching mail over IMAP/POP3"
