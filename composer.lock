@@ -7539,16 +7539,16 @@
         },
         {
             "name": "symfony/var-dumper",
-            "version": "v4.4.44",
+            "version": "v4.4.46",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/var-dumper.git",
-                "reference": "f19951007dae942cc79b979c1fe26bfdfbeb54ed"
+                "reference": "90425fd98d1ecad98e4b2dca9f54f62069193b15"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/var-dumper/zipball/f19951007dae942cc79b979c1fe26bfdfbeb54ed",
-                "reference": "f19951007dae942cc79b979c1fe26bfdfbeb54ed",
+                "url": "https://api.github.com/repos/symfony/var-dumper/zipball/90425fd98d1ecad98e4b2dca9f54f62069193b15",
+                "reference": "90425fd98d1ecad98e4b2dca9f54f62069193b15",
                 "shasum": ""
             },
             "require": {
@@ -7621,7 +7621,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-07-20T09:59:04+00:00"
+            "time": "2022-09-03T23:07:25+00:00"
         },
         {
             "name": "symfony/var-exporter",
