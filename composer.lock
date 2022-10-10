@@ -5648,16 +5648,16 @@
         },
         {
             "name": "symfony/lock",
-            "version": "v4.4.40",
+            "version": "v4.4.46",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/lock.git",
-                "reference": "ec23fb51d9b531f7fcd2279afe5b474e624c2445"
+                "reference": "8b060dd4e10f05219698ceb3a4ad735b19c1be4f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/lock/zipball/ec23fb51d9b531f7fcd2279afe5b474e624c2445",
-                "reference": "ec23fb51d9b531f7fcd2279afe5b474e624c2445",
+                "url": "https://api.github.com/repos/symfony/lock/zipball/8b060dd4e10f05219698ceb3a4ad735b19c1be4f",
+                "reference": "8b060dd4e10f05219698ceb3a4ad735b19c1be4f",
                 "shasum": ""
             },
             "require": {
@@ -5666,10 +5666,10 @@
                 "symfony/polyfill-php80": "^1.16"
             },
             "conflict": {
-                "doctrine/dbal": "<2.6"
+                "doctrine/dbal": "<2.7"
             },
             "require-dev": {
-                "doctrine/dbal": "^2.6|^3.0",
+                "doctrine/dbal": "^2.7|^3.0",
                 "predis/predis": "~1.0"
             },
             "type": "library",
@@ -5719,7 +5719,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-03-22T11:09:53+00:00"
+            "time": "2022-09-19T08:41:12+00:00"
         },
         {
             "name": "symfony/mime",
