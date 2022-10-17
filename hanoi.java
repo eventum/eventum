@@ -1,6 +1,6 @@
 //Prabhutva contibution on hanoi puzzle
 
-class pb
+class hanoi
 {
 	static void towerOfHanoi(int i, char from_rod, char to_rod, char aux_rod)
 	{
