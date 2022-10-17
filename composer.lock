@@ -5408,16 +5408,16 @@
         },
         {
             "name": "symfony/http-kernel",
-            "version": "v4.4.46",
+            "version": "v4.4.47",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/http-kernel.git",
-                "reference": "fb72bc54f300151fadef84fce79764138b1ef943"
+                "reference": "91cf5dbc9ea4d902470e596246a736179acfb79d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/http-kernel/zipball/fb72bc54f300151fadef84fce79764138b1ef943",
-                "reference": "fb72bc54f300151fadef84fce79764138b1ef943",
+                "url": "https://api.github.com/repos/symfony/http-kernel/zipball/91cf5dbc9ea4d902470e596246a736179acfb79d",
+                "reference": "91cf5dbc9ea4d902470e596246a736179acfb79d",
                 "shasum": ""
             },
             "require": {
@@ -5505,7 +5505,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-09-30T07:27:59+00:00"
+            "time": "2022-10-12T07:05:45+00:00"
         },
         {
             "name": "symfony/inflector",
@@ -8587,16 +8587,16 @@
         },
         {
             "name": "symfony/twig-bridge",
-            "version": "v4.4.44",
+            "version": "v4.4.45",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/twig-bridge.git",
-                "reference": "53e4f5ed93901d857ec07e2440cc113537c1a489"
+                "reference": "7d6e6dbb1c029f4131e6e479ebd535a9a3633481"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/twig-bridge/zipball/53e4f5ed93901d857ec07e2440cc113537c1a489",
-                "reference": "53e4f5ed93901d857ec07e2440cc113537c1a489",
+                "url": "https://api.github.com/repos/symfony/twig-bridge/zipball/7d6e6dbb1c029f4131e6e479ebd535a9a3633481",
+                "reference": "7d6e6dbb1c029f4131e6e479ebd535a9a3633481",
                 "shasum": ""
             },
             "require": {
@@ -8697,7 +8697,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-07-20T09:59:04+00:00"
+            "time": "2022-08-03T09:58:25+00:00"
         },
         {
             "name": "symfony/twig-bundle",
@@ -8786,16 +8786,16 @@
         },
         {
             "name": "symfony/web-profiler-bundle",
-            "version": "v4.4.44",
+            "version": "v4.4.47",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/web-profiler-bundle.git",
-                "reference": "346128217ae50ac62d32b2d42257b90598dc9fc2"
+                "reference": "c173202d8ce82fde63ec0953eaffdf065018b8f4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/web-profiler-bundle/zipball/346128217ae50ac62d32b2d42257b90598dc9fc2",
-                "reference": "346128217ae50ac62d32b2d42257b90598dc9fc2",
+                "url": "https://api.github.com/repos/symfony/web-profiler-bundle/zipball/c173202d8ce82fde63ec0953eaffdf065018b8f4",
+                "reference": "c173202d8ce82fde63ec0953eaffdf065018b8f4",
                 "shasum": ""
             },
             "require": {
@@ -8858,20 +8858,20 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-07-20T09:59:04+00:00"
+            "time": "2022-09-29T14:10:52+00:00"
         },
         {
             "name": "twig/twig",
-            "version": "v3.4.1",
+            "version": "v3.4.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/twigphp/Twig.git",
-                "reference": "e939eae92386b69b49cfa4599dd9bead6bf4a342"
+                "reference": "c38fd6b0b7f370c198db91ffd02e23b517426b58"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twigphp/Twig/zipball/e939eae92386b69b49cfa4599dd9bead6bf4a342",
-                "reference": "e939eae92386b69b49cfa4599dd9bead6bf4a342",
+                "url": "https://api.github.com/repos/twigphp/Twig/zipball/c38fd6b0b7f370c198db91ffd02e23b517426b58",
+                "reference": "c38fd6b0b7f370c198db91ffd02e23b517426b58",
                 "shasum": ""
             },
             "require": {
@@ -8930,7 +8930,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-05-17T05:48:52+00:00"
+            "time": "2022-09-28T08:42:51+00:00"
         }
     ],
     "aliases": [
