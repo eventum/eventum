@@ -2,4 +2,6 @@
 
 ## Reporting a Vulnerability
 
-Please report security issues to `glen@pld-linux.org`
+If you discover a security vulnerability within axios, please submit a report via [huntr.dev](https://huntr.dev/bounties/?target=https://github.com/eventum/eventum). Bounties and CVEs are automatically managed and allocated via the platform.
+
+Alternatively you can report security issues to `glen@pld-linux.org`.
