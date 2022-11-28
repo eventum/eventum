@@ -99,6 +99,7 @@ RUN \
     --mount=type=cache,id=composer-bin,target=/root/.composer \
     --mount=type=bind,source=./composer.json,target=./composer.json \
     --mount=type=bind,source=./composer.lock,target=./composer.lock \
+    --mount=type=bind,source=./composer.dev-files.json,target=./composer.dev-files.json \
     --mount=type=cache,target=./lib/eventum,ro \
     composer install --prefer-dist --no-dev --no-suggest --no-scripts --no-autoloader --ansi
 
@@ -108,6 +109,7 @@ RUN \
     --mount=type=cache,id=composer-bin,target=/root/.composer \
     --mount=type=bind,source=./composer.json,target=/src/composer.json \
     --mount=type=bind,source=./composer.lock,target=/src/composer.lock \
+    --mount=type=bind,source=./composer.dev-files.json,target=./composer.dev-files.json \
     --mount=type=bind,source=./bin/releng/composer-replace.sh,target=./bin/releng/composer-replace.sh \
     cp /src/* . && \
     bin/releng/composer-replace.sh
@@ -126,6 +128,7 @@ RUN \
     --mount=type=cache,id=composer,target=/root/.cache/composer \
     --mount=type=bind,source=./composer.json,target=./composer.json \
     --mount=type=bind,source=./composer.lock,target=./composer.lock \
+    --mount=type=bind,source=./composer.dev-files.json,target=./composer.dev-files.json \
     --mount=type=bind,from=build-src,source=/app/lib/eventum,target=./lib/eventum,ro \
 <<eot
     if [ "${APP_VERSION%-*-*}" != "$APP_VERSION" ]; then

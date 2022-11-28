@@ -1,0 +1,119 @@
+{
+	"/": [
+		"Test/",
+		"Tests/",
+		"doc/",
+		"docs/",
+		"test/",
+		"tests/",
+		"examples/",
+		"contrib/",
+		"demo/",
+		"data/",
+		"bin/",
+		"*.md",
+		"*.mdown",
+		"*.plex",
+		"*.sh",
+		"*.txt",
+		"*.y",
+		".coveralls.yml",
+		".doctrine-project.json",
+		".editorconfig",
+		".gitattributes",
+		".github/**",
+		".gitignore",
+		".horde.yml",
+		".php_cs*",
+		".scrutinizer.yml",
+		".travis.yml",
+		"AUTHORS",
+		"COPYING*",
+		"ChangeLog*",
+		"LICENSE*",
+		"Makefile*",
+		"NEWS*",
+		"README*",
+		"UPGRADE*",
+		"appveyor.yml",
+		"benchmark.php",
+		"box.json",
+		"build.properties",
+		"build.xml",
+		"composer.json",
+		"composer.lock",
+		"couscous.yml",
+		"example.php",
+		"humbug.json*",
+		"infection.json*",
+		"package.xml",
+		"pakefile.php",
+		"phpbench.json",
+		"phpcs.xml*",
+		"phpmd.xml*",
+		"phpstan.neon",
+		"phpunit.xml*",
+		"psalm.xml",
+		"symfony.lock",
+		"travis.ini",
+		"robmorgan/phinx/composer.json"
+	],
+	"smarty-gettext/smarty-gettext": [
+		"tsmarty2c.1"
+	],
+	"willdurand/email-reply-parser": [
+		"src/autoload.php"
+	],
+	"laminas/laminas-config": [
+		"src/Factory.php",
+		"src/StandaloneWriterPluginManager.php",
+		"src/ReaderPluginManager.php",
+		"src/StandaloneReaderPluginManager.php",
+		"src/WriterPluginManager.php",
+		"src/AbstractConfigFactory.php",
+		"src/Writer/",
+		"src/Reader/",
+		"src/Processor/"
+	],
+	"laminas/laminas-validator": [
+		"src/Barcode/",
+		"src/Barcode.php",
+		"src/Db/",
+		"src/File/",
+		"src/Sitemap/"
+	],
+	"laminas/laminas-mail": [
+		"src/Transport/Null.php"
+	],
+	"monolog/monolog": [
+		"src/Monolog/Handler/TestHandler.php"
+	],
+	"fonts/liberation": [
+		"LiberationMono-Bold.ttf",
+		"LiberationMono-BoldItalic.ttf",
+		"LiberationMono-Italic.ttf",
+		"LiberationMono-Regular.ttf",
+		"LiberationSans-Bold.ttf",
+		"LiberationSans-BoldItalic.ttf",
+		"LiberationSans-Italic.ttf",
+		"LiberationSerif-Bold.ttf",
+		"LiberationSerif-BoldItalic.ttf",
+		"LiberationSerif-Italic.ttf",
+		"LiberationSerif-Regular.ttf"
+	],
+	"phpxmlrpc/phpxmlrpc": [
+		"debugger/",
+		"extras/",
+		"lib/"
+	],
+	"robmorgan/phinx": [
+		"app/",
+		"bin/",
+		"phinx.yml",
+		"src/Phinx/Db/Adapter/PostgresAdapter.php",
+		"src/Phinx/Db/Adapter/SQLiteAdapter.php",
+		"src/Phinx/Db/Adapter/SqlServerAdapter.php",
+		"src/Phinx/Wrapper/TextWrapper.php",
+		"src/composer_autoloader.php"
+	]
+}
