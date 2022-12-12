@@ -8390,16 +8390,16 @@
         },
         {
             "name": "symfony/phpunit-bridge",
-            "version": "v4.4.47",
+            "version": "v4.4.49",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/phpunit-bridge.git",
-                "reference": "75857fc94e9cb68e7ab32e7a962750f73ce40396"
+                "reference": "b3378a7d305666a69e08457b65af8bca179fbbbb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/phpunit-bridge/zipball/75857fc94e9cb68e7ab32e7a962750f73ce40396",
-                "reference": "75857fc94e9cb68e7ab32e7a962750f73ce40396",
+                "url": "https://api.github.com/repos/symfony/phpunit-bridge/zipball/b3378a7d305666a69e08457b65af8bca179fbbbb",
+                "reference": "b3378a7d305666a69e08457b65af8bca179fbbbb",
                 "shasum": ""
             },
             "require": {
@@ -8465,7 +8465,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-10-03T15:15:11+00:00"
+            "time": "2022-11-08T14:39:54+00:00"
         },
         {
             "name": "symfony/stopwatch",
