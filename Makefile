@@ -58,7 +58,6 @@ install: install-eventum
 
 snapshot:
 	bin/releng/snapshot.sh
-	test -x ./dropin && ./dropin
 
 # make dist docker_progress=plain
 dist:
