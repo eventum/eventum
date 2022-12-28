@@ -2,7 +2,7 @@
 # create snapshot release from current HEAD
 # https://github.com/eventum/eventum/releases/tag/snapshot
 
-set -e
+set -eu
 
 repo_url=git@github.com:eventum/eventum.git
 repo=eventum/eventum
@@ -15,17 +15,19 @@ die() {
 # create commit message
 # assumes few variables being set
 get_commit_message() {
+	local filename=eventum-${version#v}.tar.xz
+	local tarball=https://github.com/eventum/eventum/releases/download/snapshot/$filename
 	cat <<-EOF
-	snapshot from $branch branch
+	A snapshot from $branch branch
 
 	Created on $date from $commit on **$branch** branch.
 
 	$shortlog
 
-	Uploaded from Travis CI. Use at your own risk.
+	Uploaded from GitHub Action. Use at your own risk.
 
-	If the snapshot tarball (eventum-${version#v}.tar.xz) is not appearing here,
-	check Travis CI project for errors: https://app.travis-ci.com/github/eventum/eventum/builds
+	If the snapshot tarball ([$filename]($tarball)) is not appearing here,
+	check Actions tab for errors: https://github.com/eventum/eventum/actions
 	EOF
 }
 
