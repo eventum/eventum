@@ -116,6 +116,16 @@ jobs:
         with:
           name: eventum
 
+      - name: Generate Release notes
+        if: github.ref == 'refs/tags/snapshot' || startsWith(github.ref, 'refs/tags/v')
+        run: |
+          # Extract message from the tag
+          # https://stackoverflow.com/a/63583775/2314626
+          tag=${GITHUB_REF#refs/tags/}
+          echo "Release notes from '$tag' tag"
+          git fetch origin --unshallow "+refs/tags/*:refs/tags/*"
+          git tag -l --format='%(contents)' $tag | tee RELEASE_NOTES.md
+
       - uses: ncipollo/release-action@v1
         if: github.ref == 'refs/tags/snapshot' || startsWith(github.ref, 'refs/tags/v')
         env:
@@ -125,7 +135,9 @@ jobs:
           allowUpdates: ${{ env.SNAPSHOT }}
           artifacts: eventum-*.tar.xz
           replacesArtifacts: false
+          omitBody: ${{ env.RELEASE }}
           generateReleaseNotes: ${{ env.RELEASE }}
+          bodyFile: RELEASE_NOTES.md
           token: ${{ secrets.github-token }}
           prerelease: ${{ env.SNAPSHOT }}
 
