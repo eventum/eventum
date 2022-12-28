@@ -28,7 +28,7 @@ jobs:
           echo "version=$APP_VERSION" >> $GITHUB_OUTPUT
 
       - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v1
+        uses: docker/setup-buildx-action@v2
 
       - name: Build release tarball
         uses: docker/build-push-action@v3
