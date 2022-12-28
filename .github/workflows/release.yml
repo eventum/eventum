@@ -52,7 +52,7 @@ jobs:
           ls -lh eventum-*.tar.xz
 
       # https://github.com/actions/upload-artifact
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v3
         with:
           name: eventum-${{ steps.vars.outputs.version }}
           path: eventum-*.tar.xz
@@ -92,7 +92,7 @@ jobs:
           outputs: |
             type=docker,dest=eventum-docker-${{ steps.vars.outputs.version }}.tar
 
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v3
         with:
           name: docker-${{ steps.vars.outputs.version }}
           path: eventum-docker-*.tar
