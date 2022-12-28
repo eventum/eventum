@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - name: Checkout eventum/eventum code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Set version variable
         id: vars
@@ -24,13 +24,14 @@ jobs:
             version=$(git describe --tags --abbrev=9 --match="v*")
             APP_VERSION=${version#v}
           fi
-          echo ::set-output name=version::$APP_VERSION
+          echo "version=$APP_VERSION"
+          echo "version=$APP_VERSION" >> $GITHUB_OUTPUT
 
       - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v1
+        uses: docker/setup-buildx-action@v2
 
       - name: Build release tarball
-        uses: docker/build-push-action@v2
+        uses: docker/build-push-action@v3
         env:
           APP_VERSION: ${{ steps.vars.outputs.version }}
         with:
@@ -51,7 +52,7 @@ jobs:
           ls -lh eventum-*.tar.xz
 
       # https://github.com/actions/upload-artifact
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v3
         with:
           name: eventum-${{ steps.vars.outputs.version }}
           path: eventum-*.tar.xz
@@ -60,7 +61,7 @@ jobs:
 
       - name: Extract metadata (tags, labels) for Docker
         id: meta
-        uses: docker/metadata-action@v3
+        uses: docker/metadata-action@v4
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
           tags: |
@@ -70,7 +71,7 @@ jobs:
             type=semver,pattern={{major}},enable=${{ !startsWith(github.ref, 'refs/tags/0.') }}
 
       - name: Checkout eventum/docker code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           repository: eventum/docker
           path: docker
@@ -80,7 +81,7 @@ jobs:
           ln eventum-*.tar.xz docker
 
       - name: Build and export to Docker
-        uses: docker/build-push-action@v2
+        uses: docker/build-push-action@v3
         with:
           context: docker
           load: true
@@ -91,7 +92,7 @@ jobs:
           outputs: |
             type=docker,dest=eventum-docker-${{ steps.vars.outputs.version }}.tar
 
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v3
         with:
           name: docker-${{ steps.vars.outputs.version }}
           path: eventum-docker-*.tar
