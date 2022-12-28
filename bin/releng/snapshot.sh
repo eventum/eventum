@@ -31,7 +31,7 @@ get_commit_message() {
 
 create_snapshot_tag() {
 	local version branch commit date message
-	git tag -d snapshot || :
+	git for-each-ref refs/tags/snapshot --format '%(refname:strip=2)' | xargs git tag -d
 	git fetch --no-tags "$repo_url" "+refs/tags/v*:refs/tags/v*"
 
 	version=$(git describe --tags --abbrev=9 HEAD)
