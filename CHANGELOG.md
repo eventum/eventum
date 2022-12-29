@@ -56,7 +56,7 @@ See [Upgrading] for details on how to upgrade.
 - Add an option to tune notifications on account inserts in LdapSyncCommand, #1211
 - LdapSyncCommand: Disable users missing from LDAP Active DN, #1221
 - Add example command for extension, #1216
-- Re-structure example extension for Symfony project layout, #1216
+- Re-structure example extension for Symfony project layout, #1217
 
 [3.10.7]: https://github.com/eventum/eventum/compare/v3.10.6...v3.10.7
 
