@@ -83,4 +83,7 @@ cat <<EOF
 Manage milestones:
 - https://github.com/eventum/eventum/milestones
 
+Bump next version:
+$ ./bin/releng/bump.sh
+
 EOF
