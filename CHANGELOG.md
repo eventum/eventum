@@ -4,6 +4,8 @@
 
 See [Upgrading] for details on how to upgrade.
 
+- Update node, composer dependencies
+
 [3.10.12]: https://github.com/eventum/eventum/compare/v3.10.11...master
 
 ## [3.10.11] - 2022-07-07
