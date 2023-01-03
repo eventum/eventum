@@ -87,7 +87,7 @@ final class AppInfo
         }
 
         if ($version->version) {
-            $link = "releases/tag/{$version->version}";
+            $link = "releases/tag/v{$version->version}";
         } else {
             $link = "commit/{$version->hash}";
         }
