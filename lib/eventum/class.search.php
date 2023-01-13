@@ -123,19 +123,19 @@ class Search
             'match_mode' => self::getParam('match_mode', $request_only),
             'hide_excerpts' => self::getParam('hide_excerpts', $request_only),
             'search_type' => Misc::stripHTML($search_type),
-            'users' => Misc::escapeInteger(self::getArrayParam('users', $request_only)),
-            'status' => Misc::escapeInteger(self::getArrayParam('status', $request_only)),
-            'priority' => Misc::escapeInteger(self::getArrayParam('priority', $request_only)),
-            'severity' => Misc::escapeInteger(self::getArrayParam('severity', $request_only)),
-            'category' => Misc::escapeInteger(self::getArrayParam('category', $request_only)),
+            'users' => self::getArrayParam('users', $request_only),
+            'status' => self::getArrayParam('status', $request_only),
+            'priority' => self::getArrayParam('priority', $request_only),
+            'severity' => self::getArrayParam('severity', $request_only),
+            'category' => self::getArrayParam('category', $request_only),
             'customer_email' => Misc::stripHTML(self::getParam('customer_email', $request_only)),
             // advanced search form
             'show_authorized_issues' => Misc::escapeString(self::getParam('show_authorized_issues', $request_only, ['yes', 'no'])),
             'show_notification_list_issues' => Misc::escapeString(self::getParam('show_notification_list_issues', $request_only, ['yes', 'no'])),
-            'reporter' => Misc::escapeInteger(self::getArrayParam('reporter', $request_only)),
-            'product' => Misc::escapeInteger(self::getArrayParam('product', $request_only)),
+            'reporter' => self::getArrayParam('reporter', $request_only),
+            'product' => self::getArrayParam('product', $request_only),
             // other fields
-            'release' => Misc::escapeInteger(self::getArrayParam('release', $request_only)),
+            'release' => self::getArrayParam('release', $request_only),
             // custom fields
             'custom_field' => Misc::stripHTML($custom_field),
         ];
