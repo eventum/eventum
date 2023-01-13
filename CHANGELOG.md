@@ -5,6 +5,7 @@
 See [Upgrading] for details on how to upgrade.
 
 - Fix exception in ManageBaseController, LDAP login, #1435, #1482, #1174
+- Various fixes for PHP 8 compatibility, #1483
 
 [3.10.13]: https://github.com/eventum/eventum/compare/v3.10.12...master
 
