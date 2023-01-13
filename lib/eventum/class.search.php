@@ -371,7 +371,7 @@ class Search
             $fld_details = Custom_Field::getDetails($fld_id);
             $sort_by = 'cf_sort.' . Custom_Field::getDBValueFieldNameByType($fld_details['fld_type']);
         } else {
-            $sort_by = DB_Helper::getInstance()->quoteIdentifier($options['sort_by']);
+            $sort_by = $options['sort_by'];
         }
 
         $stmt .= '
