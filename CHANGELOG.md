@@ -4,6 +4,8 @@
 
 See [Upgrading] for details on how to upgrade.
 
+- Fix exception in ManageBaseController, #1435, #1482
+
 [3.10.13]: https://github.com/eventum/eventum/compare/v3.10.12...master
 
 ## [3.10.12] - 2023-01-03
