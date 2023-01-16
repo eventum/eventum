@@ -108,6 +108,7 @@ RUN \
     --mount=type=cache,id=composer-bin,target=/root/.composer \
     --mount=type=bind,source=./composer.json,target=/src/composer.json \
     --mount=type=bind,source=./composer.lock,target=/src/composer.lock \
+    --mount=type=bind,from=build-src,source=/app/lib/eventum,target=./lib/eventum,ro \
     --mount=type=bind,source=./bin/releng/composer-replace.sh,target=./bin/releng/composer-replace.sh \
     cp /src/* . && \
     bin/releng/composer-replace.sh
