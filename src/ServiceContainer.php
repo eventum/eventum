@@ -107,7 +107,7 @@ class ServiceContainer
     public static function getLogger($name = null): LoggerInterface
     {
         if ($name !== null) {
-            $container = static::getKernel()->getContainer();
+            $container = static::getKernel()->ensureBooted()->getContainer();
             /** @var LoggerInterface $logger */
             $logger = $container->get("monolog.logger.$name");
 
