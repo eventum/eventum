@@ -3,26 +3,17 @@
     <table width="100%">
         <input type="hidden" name="cat" value="search">
         <input type="hidden" name="pagerRow" value="0">
-        <input type="hidden" name="created_date[Year]" value="{$options.created_date.Year|default:''}">
-        <input type="hidden" name="created_date[Month]" value="{$options.created_date.Month|default:''}">
-        <input type="hidden" name="created_date[Day]" value="{$options.created_date.Day|default:''}">
-        <input type="hidden" name="created_date[filter_type]" value="{$options.created_date.filter_type|default:''}">
-        <input type="hidden" name="updated_date[Year]" value="{$options.updated_date.Year|default:''}">
-        <input type="hidden" name="updated_date[Month]" value="{$options.updated_date.Month|default:''}">
-        <input type="hidden" name="updated_date[Day]" value="{$options.updated_date.Day|default:''}">
-        <input type="hidden" name="updated_date[filter_type]" value="{$options.updated_date.filter_type|default:''}">
-        <input type="hidden" name="last_response_date[Year]" value="{$options.last_response_date.Year|default:''}">
-        <input type="hidden" name="last_response_date[Month]" value="{$options.last_response_date.Month|default:''}">
-        <input type="hidden" name="last_response_date[Day]" value="{$options.last_response_date.Day|default:''}">
-        <input type="hidden" name="last_response_date[filter_type]" value="{$options.last_response_date.filter_type|default:''}">
-        <input type="hidden" name="first_response_date[Year]" value="{$options.first_response_date.Year|default:''}">
-        <input type="hidden" name="first_response_date[Month]" value="{$options.first_response_date.Month|default:''}">
-        <input type="hidden" name="first_response_date[Day]" value="{$options.first_response_date.Day|default:''}">
-        <input type="hidden" name="first_response_date[filter_type]" value="{$options.first_response_date.filter_type|default:''}">
-        <input type="hidden" name="closed_date[Year]" value="{$options.closed_date.Year|default:''}">
-        <input type="hidden" name="closed_date[Month]" value="{$options.closed_date.Month|default:''}">
-        <input type="hidden" name="closed_date[Day]" value="{$options.closed_date.Day|default:''}">
-        <input type="hidden" name="closed_date[filter_type]" value="{$options.closed_date.filter_type|default:''}">
+        {assign var="date_fields" value=["created", "updated", "last_response", "first_response", "closed"]}
+        {section name="i" loop=$date_fields}
+        {assign var="f" value=$date_fields[i]}
+        <input type="hidden" name="{$f}_date[filter_type]" value="{$options[$f|cat:'_date'].filter_type|default:''}">
+        <input type="hidden" name="{$f}_date[Year]" value="{$options[$f|cat:'_date'].Year|default:''}">
+        <input type="hidden" name="{$f}_date[Month]" value="{$options[$f|cat:'_date'].Month|default:''}">
+        <input type="hidden" name="{$f}_date[Day]" value="{$options[$f|cat:'_date'].Day|default:''}">
+        <input type="hidden" name="{$f}_date_end[Year]" value="{$options[$f|cat:'_date_end'].Year|default:''}">
+        <input type="hidden" name="{$f}_date_end[Month]" value="{$options[$f|cat:'_date_end'].Month|default:''}">
+        <input type="hidden" name="{$f}_date_end[Day]" value="{$options[$f|cat:'_date_end'].Day|default:''}">
+        {/section}
         <input type="hidden" name="show_authorized_issues" value="{$options.show_authorized_issues|default:''}">
         <input type="hidden" name="show_notification_list_issues" value="{$options.show_notification_list_issues|default:''}">
         <input type="hidden" name="custom_field" value="{$options.custom_field|@serialize|urlencode}">
