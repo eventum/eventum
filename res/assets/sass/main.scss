@@ -393,19 +393,12 @@ td.light {
 }
 
 /* for jquery-chosen */
-.chosen-container .chosen-drop {
-    position: relative;
-}
-
 .chosen-select {
     width: 290px;
 }
 
 .chosen-container {
-    height: 27px;
-
     .chosen-drop {
-        top: 0;
         box-shadow: 4px 4px 5px rgba(0, 0, 0, 0.3);
     }
 }
