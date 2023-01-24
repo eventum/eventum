@@ -1,0 +1,2 @@
+# Ignore main.css to .scss rename
+2f8631aaab0e0a5c344af29b641d81b6ac0a275a
