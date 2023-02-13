@@ -3330,21 +3330,21 @@
         },
         {
             "name": "phpxmlrpc/phpxmlrpc",
-            "version": "4.9.5",
+            "version": "4.10.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/gggeek/phpxmlrpc.git",
-                "reference": "b61833dbd45deedb366cc78cd3bf95c0e9a89a8b"
+                "reference": "7103864975ca0b930574cabc8b4593093ee4432e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/gggeek/phpxmlrpc/zipball/b61833dbd45deedb366cc78cd3bf95c0e9a89a8b",
-                "reference": "b61833dbd45deedb366cc78cd3bf95c0e9a89a8b",
+                "url": "https://api.github.com/repos/gggeek/phpxmlrpc/zipball/7103864975ca0b930574cabc8b4593093ee4432e",
+                "reference": "7103864975ca0b930574cabc8b4593093ee4432e",
                 "shasum": ""
             },
             "require": {
                 "ext-xml": "*",
-                "php": "^5.3.0 || ^7.0 || ^8.0"
+                "php": "^5.4.0 || ^7.0 || ^8.0"
             },
             "conflict": {
                 "phpxmlrpc/extras": "<= 0.6.3"
@@ -3361,7 +3361,7 @@
                 "ext-curl": "Needed for HTTPS, HTTP2 and HTTP 1.1 support, NTLM Auth etc...",
                 "ext-mbstring": "Needed to allow reception of requests/responses in character sets other than ASCII,LATIN-1,UTF-8",
                 "ext-zlib": "Needed for sending compressed requests and receiving compressed responses, if cURL is not available",
-                "phpxmlrpc/extras": "Adds more featured Server classes and other useful bits",
+                "phpxmlrpc/extras": "Adds more featured Server classes, including self-documenting and ajax-enabled servers",
                 "phpxmlrpc/jsonrpc": "Adds support for the JSON-RPC protocol"
             },
             "type": "library",
@@ -3383,9 +3383,9 @@
             ],
             "support": {
                 "issues": "https://github.com/gggeek/phpxmlrpc/issues",
-                "source": "https://github.com/gggeek/phpxmlrpc/tree/4.9.5"
+                "source": "https://github.com/gggeek/phpxmlrpc/tree/4.10.0"
             },
-            "time": "2023-01-11T11:15:43+00:00"
+            "time": "2023-02-11T17:10:30+00:00"
         },
         {
             "name": "pimple/pimple",
