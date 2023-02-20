@@ -5413,16 +5413,16 @@
         },
         {
             "name": "symfony/flex",
-            "version": "v1.19.4",
+            "version": "v1.19.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/flex.git",
-                "reference": "c82477240111bfe41a1067c9f0ab91d40bafa5b6"
+                "reference": "51077ed0f6dc2c94cd0b670167eee3747c31b2c1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/flex/zipball/c82477240111bfe41a1067c9f0ab91d40bafa5b6",
-                "reference": "c82477240111bfe41a1067c9f0ab91d40bafa5b6",
+                "url": "https://api.github.com/repos/symfony/flex/zipball/51077ed0f6dc2c94cd0b670167eee3747c31b2c1",
+                "reference": "51077ed0f6dc2c94cd0b670167eee3747c31b2c1",
                 "shasum": ""
             },
             "require": {
@@ -5458,7 +5458,7 @@
             "description": "Composer plugin for Symfony",
             "support": {
                 "issues": "https://github.com/symfony/flex/issues",
-                "source": "https://github.com/symfony/flex/tree/v1.19.4"
+                "source": "https://github.com/symfony/flex/tree/v1.19.5"
             },
             "funding": [
                 {
@@ -5474,7 +5474,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-12-20T07:19:24+00:00"
+            "time": "2023-01-30T17:02:31+00:00"
         },
         {
             "name": "symfony/framework-bundle",
