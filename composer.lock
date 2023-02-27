@@ -3330,16 +3330,16 @@
         },
         {
             "name": "phpxmlrpc/phpxmlrpc",
-            "version": "4.10.0",
+            "version": "4.10.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/gggeek/phpxmlrpc.git",
-                "reference": "7103864975ca0b930574cabc8b4593093ee4432e"
+                "reference": "ac18e315ac200692f3b02c773036c24be0acbefa"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/gggeek/phpxmlrpc/zipball/7103864975ca0b930574cabc8b4593093ee4432e",
-                "reference": "7103864975ca0b930574cabc8b4593093ee4432e",
+                "url": "https://api.github.com/repos/gggeek/phpxmlrpc/zipball/ac18e315ac200692f3b02c773036c24be0acbefa",
+                "reference": "ac18e315ac200692f3b02c773036c24be0acbefa",
                 "shasum": ""
             },
             "require": {
@@ -3347,7 +3347,8 @@
                 "php": "^5.4.0 || ^7.0 || ^8.0"
             },
             "conflict": {
-                "phpxmlrpc/extras": "<= 0.6.3"
+                "phpxmlrpc/extras": "<= 1.0.0-beta2",
+                "phpxmlrpc/jsonrpc": "<= 1.0.0-beta1"
             },
             "require-dev": {
                 "ext-curl": "*",
@@ -3383,9 +3384,9 @@
             ],
             "support": {
                 "issues": "https://github.com/gggeek/phpxmlrpc/issues",
-                "source": "https://github.com/gggeek/phpxmlrpc/tree/4.10.0"
+                "source": "https://github.com/gggeek/phpxmlrpc/tree/4.10.1"
             },
-            "time": "2023-02-11T17:10:30+00:00"
+            "time": "2023-02-22T12:25:19+00:00"
         },
         {
             "name": "pimple/pimple",
