@@ -1,6 +1,6 @@
 # Eventum Issue Tracking System
 
-## [3.10.13]
+## [3.10.13] - 2023-03-21
 
 See [Upgrading] for details on how to upgrade.
 
@@ -8,7 +8,7 @@ See [Upgrading] for details on how to upgrade.
 - Various fixes for PHP 8 compatibility, #1483
 - Fix "chosen" select box rendering in Firefox, #1486
 
-[3.10.13]: https://github.com/eventum/eventum/compare/v3.10.12...master
+[3.10.13]: https://github.com/eventum/eventum/compare/v3.10.12...v3.10.13
 
 ## [3.10.12] - 2023-01-03
 
