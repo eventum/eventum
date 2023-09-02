@@ -110,6 +110,30 @@ $(document).ready(function () {
     // https://mermaid-js.github.io/mermaid/#/usage
     mermaid.initialize({startOnLoad:true});
 
+    // copy to clipboard
+    // NOTE: navigator.clipboard requires secure origin, i.e https:// urls
+    // https://web.dev/async-clipboard/
+    if (navigator.clipboard) {
+        $(".copyable").each((i, e) => {
+            const $e = $(e);
+            let text = $e.text();
+
+            const $button = $("<button >📋</button>");
+            $button.attr("aria-label", "Copy to clipboard");
+            $button.on('click', () => {
+                try {
+                    navigator.clipboard.writeText(text);
+                    $button.html("✅");
+                    setTimeout(() => $button.html("📋"), 1000);
+                } catch (err) {
+                    console.error('Failed to copy: ', err);
+                }
+                return false;
+            })
+            $e.append($button);
+        });
+    }
+
     // jquery timeago
     jQuery.timeago.settings.allowFuture = true;
 
