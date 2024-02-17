@@ -1,12 +1,12 @@
 # Eventum Issue Tracking System
 
-## [3.10.14]
+## [3.10.14] - 2024-02-17
 
 See [Upgrading] for details on how to upgrade.
 
 - Update composer dependencies
 
-[3.10.14]: https://github.com/eventum/eventum/compare/v3.10.13...master
+[3.10.14]: https://github.com/eventum/eventum/compare/v3.10.13...v3.10.14
 
 ## [3.10.13] - 2023-03-21
 
