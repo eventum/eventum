@@ -13,31 +13,38 @@
 
 namespace Eventum\Export;
 
+use Doctrine\ORM\Query;
 use Eventum\Db\Doctrine;
+use Eventum\Export\Serializer\IssueSerializer;
+use Eventum\Export\Writer\NdjsonStreamWriter;
 use Eventum\Model\Entity\Issue;
 use Eventum\ServiceContainer;
-use Port\Csv\CsvWriter;
 use Port\Doctrine\DoctrineReader;
 use Port\Reader;
 use Port\Steps\Step\ConverterStep;
 use Port\Steps\StepAggregator;
-use Port\ValueConverter\DateTimeToStringValueConverter;
 use Port\Writer;
-use RuntimeException;
+use Psr\Log\LoggerInterface;
 
 class IssueExport
 {
     /** @var string */
-    private $fileName;
+    private $directory;
+    /** @var LoggerInterface */
+    private $logger;
 
-    public function __construct(string $fileName)
+    public function __construct(string $directory, LoggerInterface $logger)
     {
-        $this->fileName = $fileName;
+        $this->directory = $directory;
+        $this->logger = $logger;
     }
 
-    public function export(Issue $issue): void
+    /**
+     * @param Issue[] $issues
+     */
+    public function export(array $issues): void
     {
-        $reader = $this->createReader($issue);
+        $reader = $this->createReader($issues);
         $writer = $this->createWriter();
 
         $workflow = new StepAggregator($reader);
@@ -51,45 +58,38 @@ class IssueExport
     private function createConverters(): ConverterStep
     {
         $converterStep = new ConverterStep();
-        $dateTimeConverter = new DateTimeToStringValueConverter();
-        $converterStep->add(static function (array $item) use ($dateTimeConverter) {
-            // The importer is very limited:
-            //  Issues can be imported to a project by uploading a CSV file with the columns title and description, in that order.
-            //  The user uploading the CSV file will be set as the author of the imported issues.
-            // https://docs.gitlab.com/ce/user/project/issues/csv_import.html
-            return [
-                'Title' => $item['summary'],
-                'Description' => $item['description'],
-                'Issue ID' => $item['id'],
-                'Author' => $item['user_id'],
-                'State' => $item['status_id'],
-                'Created At (UTC)' => $dateTimeConverter($item['createdDate']),
-                'Updated At (UTC)' => $dateTimeConverter($item['updatedDate']),
-            ];
-        });
+        $converterStep->add(new IssueSerializer($this->logger));
 
         return $converterStep;
     }
 
-    private function createReader(Issue $issue): Reader
+    private function createReader(array $issues): Reader
     {
         $objectManager = ServiceContainer::getEntityManager();
         $repo = Doctrine::getIssueRepository();
 
-        $reader = new DoctrineReader($objectManager, Issue::class);
-        $reader->setQueryBuilder($repo->createQueryBuilder('o')->andWhere("o.id={$issue->getId()}"));
+        $reader = new DoctrineReader($objectManager, Issue::class, Query::HYDRATE_OBJECT);
+
+        $queryBuilder = $repo->createQueryBuilder('o');
+        $issueIds = array_map(static function (Issue $issue) {
+            return $issue->getId();
+        }, $issues);
+        if ($issueIds) {
+            $queryBuilder
+                ->andWhere('o.id in (:ids)')
+                ->setParameter('ids', $issueIds);
+        }
+        $reader->setQueryBuilder($queryBuilder);
 
         return $reader;
     }
 
     private function createWriter(): Writer
     {
-        $stream = fopen($this->fileName, 'wb');
-        if (!$stream) {
-            throw new RuntimeException("Can't open {$this->fileName} for writing");
-        }
+        $fileName = sprintf('%s/tree/project/issues.ndjson', $this->directory);
+        $stream = FileUtil::createWritableStream($fileName);
 
-        $writer = new CsvWriter($delimiter = ',', $enclosure = '"', $stream, $utf8Encoding = false, $prependHeaderRow = true);
+        $writer = new NdjsonStreamWriter($stream);
 
         return $writer;
     }
