@@ -46,6 +46,10 @@ class PlotHelper
     private function create($width, $height)
     {
         $plot = new PHPlot($width, $height);
+        if (PHP_MAJOR_VERSION >= 8) {
+            // Hack to make PHPlot 6.1 work with PHP 8: manually call the old-style constructor
+            $plot->PHPlot($width, $height);
+        }
         $plot->SetTTFPath($this->fonts_path);
         $plot->SetUseTTF(true);
 
