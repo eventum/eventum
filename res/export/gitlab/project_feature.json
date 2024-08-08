@@ -1,0 +1,19 @@
+{
+  "project_id": 1,
+  "merge_requests_access_level": 0,
+  "issues_access_level": 20,
+  "wiki_access_level": 0,
+  "snippets_access_level": 0,
+  "builds_access_level": 0,
+  "created_at": "",
+  "updated_at": "",
+  "repository_access_level": 0,
+  "pages_access_level": 0,
+  "forking_access_level": 0,
+  "metrics_dashboard_access_level": 0,
+  "requirements_access_level": 0,
+  "analytics_access_level": 0,
+  "operations_access_level": 0,
+  "security_and_compliance_access_level": 0,
+  "container_registry_access_level": 0
+}

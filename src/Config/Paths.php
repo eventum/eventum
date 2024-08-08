@@ -29,6 +29,7 @@ final class Paths
 
     // define other paths
     public const APP_TPL_PATH = APP_PATH . '/templates';
+    public const APP_RESOURCES_PATH = APP_PATH . '/res';
     public const APP_TPL_COMPILE_PATH = self::APP_CACHE_PATH . '/smarty';
     public const APP_LOG_PATH = self::APP_VAR_PATH . '/log';
     public const APP_LOCKS_PATH = self::APP_VAR_PATH . '/lock';
