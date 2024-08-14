@@ -147,8 +147,9 @@
 
 			<fileset dir="${vendor}/phplot/phplot">
 				<!-- need just phplot.php and maybe rgb.inc.php -->
-				<exclude name="phplot.php"/>
-				<exclude name="rgb.inc.php"/>
+				<include name="phplotdocs/**"/>
+				<exclude name="src/phplot.php"/>
+				<exclude name="src/rgb.inc.php"/>
 			</fileset>
 
 			<fileset dir="${vendor}/phpxmlrpc/phpxmlrpc">
