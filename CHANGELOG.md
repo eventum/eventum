@@ -4,6 +4,8 @@
 
 See [Upgrading] for details on how to upgrade.
 
+- Update PHPlot to v8.0.0.3, #1537
+
 [3.10.15]: https://github.com/eventum/eventum/compare/v3.10.14...master
 
 ## [3.10.14] - 2024-02-17
