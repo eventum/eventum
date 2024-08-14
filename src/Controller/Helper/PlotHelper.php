@@ -18,7 +18,7 @@ use Custom_Field;
 use Date_Helper;
 use Eventum\Config\Paths;
 use Eventum\Session;
-use PHPlot;
+use Phplot\Phplot\phplot;
 use Prefs;
 use Project;
 use Report;
@@ -45,7 +45,7 @@ class PlotHelper
      */
     private function create($width, $height)
     {
-        $plot = new PHPlot($width, $height);
+        $plot = new phplot($width, $height);
         $plot->SetTTFPath($this->fonts_path);
         $plot->SetUseTTF(true);
 
