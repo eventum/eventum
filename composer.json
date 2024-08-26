@@ -58,7 +58,7 @@
         "perftools/php-profiler": "^1.0",
         "phlib/flysystem-pdo": "^1.1",
         "php-ds/php-ds": "^1.2",
-        "phplot/phplot": "~6.1.0",
+        "phplot/phplot": "~8.0.0",
         "phpxmlrpc/phpxmlrpc": "^4.1",
         "pimple/pimple": "^3.2",
         "portphp/csv": "^1.1",
@@ -162,7 +162,6 @@
                 "fonts/liberation",
                 "horde/text-flowed",
                 "horde/util",
-                "phplot/phplot",
                 "sphinx/php-sphinxapi"
             ]
         }

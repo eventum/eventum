@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "02e779f47eee4fae8c6f14ae78a692f7",
+    "content-hash": "4f7ac7df5e56d23cc06da52918c6491e",
     "packages": [
         {
             "name": "cakephp/core",
@@ -3305,33 +3305,49 @@
         },
         {
             "name": "phplot/phplot",
-            "version": "v6.1.0",
+            "version": "v8.0.0.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/PHPlot/phplot.git",
+                "reference": "e36d9513e1e0df5d75784e98e6ca4ae745ba27c9"
+            },
             "dist": {
-                "type": "tar",
-                "url": "https://downloads.sourceforge.net/phplot/phplot-6.1.0.tar.gz",
-                "shasum": "252f0b5bdfd64817630f9b67771dcf086a94a867"
+                "type": "zip",
+                "url": "https://api.github.com/repos/PHPlot/phplot/zipball/e36d9513e1e0df5d75784e98e6ca4ae745ba27c9",
+                "reference": "e36d9513e1e0df5d75784e98e6ca4ae745ba27c9",
+                "shasum": ""
             },
             "require": {
-                "ext-date": "*",
-                "ext-gd": "*",
-                "ext-pcre": "*",
-                "php": ">=5.3.0"
+                "ext-gd": "*"
             },
             "type": "library",
             "autoload": {
-                "classmap": [
-                    "phplot.php"
-                ]
+                "psr-4": {
+                    "Phplot\\Phplot\\": "src/"
+                }
             },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
-                "LGPL v2.1"
+                "LGPL-2.1-or-later"
             ],
-            "description": "PHPlot - Create charts in PHP",
-            "homepage": "http://phplot.sourceforge.net",
-            "keywords": [
-                "chart",
-                "phplot"
-            ]
+            "authors": [
+                {
+                    "name": "AJRepo",
+                    "email": "AJRepo@users.noreply.github.com"
+                }
+            ],
+            "description": "PHP graph library for dynamic scientific, business, and stock-market charts and graphs.",
+            "support": {
+                "issues": "https://github.com/PHPlot/phplot/issues",
+                "source": "https://github.com/PHPlot/phplot/tree/v8.0.0.3"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/ajrepo",
+                    "type": "github"
+                }
+            ],
+            "time": "2023-08-21T14:54:51+00:00"
         },
         {
             "name": "phpxmlrpc/phpxmlrpc",
