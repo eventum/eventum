@@ -8154,31 +8154,35 @@
         },
         {
             "name": "symfony/yaml",
-            "version": "v4.4.45",
+            "version": "v5.3.14",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/yaml.git",
-                "reference": "aeccc4dc52a9e634f1d1eebeb21eacfdcff1053d"
+                "reference": "c441e9d2e340642ac8b951b753dea962d55b669d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/yaml/zipball/aeccc4dc52a9e634f1d1eebeb21eacfdcff1053d",
-                "reference": "aeccc4dc52a9e634f1d1eebeb21eacfdcff1053d",
+                "url": "https://api.github.com/repos/symfony/yaml/zipball/c441e9d2e340642ac8b951b753dea962d55b669d",
+                "reference": "c441e9d2e340642ac8b951b753dea962d55b669d",
                 "shasum": ""
             },
             "require": {
-                "php": ">=7.1.3",
+                "php": ">=7.2.5",
+                "symfony/deprecation-contracts": "^2.1",
                 "symfony/polyfill-ctype": "~1.8"
             },
             "conflict": {
-                "symfony/console": "<3.4"
+                "symfony/console": "<4.4"
             },
             "require-dev": {
-                "symfony/console": "^3.4|^4.0|^5.0"
+                "symfony/console": "^4.4|^5.0"
             },
             "suggest": {
                 "symfony/console": "For validating YAML files using the lint command"
             },
+            "bin": [
+                "Resources/bin/yaml-lint"
+            ],
             "type": "library",
             "autoload": {
                 "psr-4": {
@@ -8205,7 +8209,7 @@
             "description": "Loads and dumps YAML files",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/yaml/tree/v4.4.45"
+                "source": "https://github.com/symfony/yaml/tree/v5.3.14"
             },
             "funding": [
                 {
@@ -8221,25 +8225,25 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-08-02T15:47:23+00:00"
+            "time": "2022-01-26T16:05:39+00:00"
         },
         {
             "name": "theorchard/monolog-cascade",
-            "version": "0.5.3",
+            "version": "0.6.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/theorchard/monolog-cascade.git",
-                "reference": "034f018e9814c7a057ad2f64242f25e07aaad174"
+                "reference": "9ea42aa6b7ea18322ded0d9cfbcea5761fd0a57d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/theorchard/monolog-cascade/zipball/034f018e9814c7a057ad2f64242f25e07aaad174",
-                "reference": "034f018e9814c7a057ad2f64242f25e07aaad174",
+                "url": "https://api.github.com/repos/theorchard/monolog-cascade/zipball/9ea42aa6b7ea18322ded0d9cfbcea5761fd0a57d",
+                "reference": "9ea42aa6b7ea18322ded0d9cfbcea5761fd0a57d",
                 "shasum": ""
             },
             "require": {
-                "monolog/monolog": "^1.13",
-                "php": "^5.3.9 || ^7.0",
+                "monolog/monolog": "^1.13 || ^2.0",
+                "php": ">=7.2",
                 "symfony/config": "^2.7 || ^3.0 || ^4.0 || ^5.0",
                 "symfony/options-resolver": "^2.7 || ^3.0 || ^4.0 || ^5.0",
                 "symfony/serializer": "^2.7 || ^3.0 || ^4.0 || ^5.0",
@@ -8248,8 +8252,8 @@
             "require-dev": {
                 "mikey179/vfsstream": "^1.6",
                 "php-coveralls/php-coveralls": "^1.0",
-                "phpunit/phpcov": "^2.0",
-                "phpunit/phpunit": "^4.8",
+                "phpunit/phpcov": "^6.0",
+                "phpunit/phpunit": "^8.5",
                 "squizlabs/php_codesniffer": "^2.5"
             },
             "type": "library",
@@ -8287,9 +8291,9 @@
             ],
             "support": {
                 "issues": "https://github.com/theorchard/monolog-cascade/issues",
-                "source": "https://github.com/theorchard/monolog-cascade/tree/0.5.3"
+                "source": "https://github.com/theorchard/monolog-cascade/tree/0.6.1"
             },
-            "time": "2020-09-12T14:44:09+00:00"
+            "time": "2022-05-24T18:48:27+00:00"
         },
         {
             "name": "webmozart/assert",
