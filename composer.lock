@@ -3351,16 +3351,16 @@
         },
         {
             "name": "phpxmlrpc/phpxmlrpc",
-            "version": "4.10.4",
+            "version": "4.11.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/gggeek/phpxmlrpc.git",
-                "reference": "ede1b630c57e7092d8946f6c48e852fc63bcfbba"
+                "reference": "e50480272493d90dd4aca9fb861a9b9ce0ef4729"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/gggeek/phpxmlrpc/zipball/ede1b630c57e7092d8946f6c48e852fc63bcfbba",
-                "reference": "ede1b630c57e7092d8946f6c48e852fc63bcfbba",
+                "url": "https://api.github.com/repos/gggeek/phpxmlrpc/zipball/e50480272493d90dd4aca9fb861a9b9ce0ef4729",
+                "reference": "e50480272493d90dd4aca9fb861a9b9ce0ef4729",
                 "shasum": ""
             },
             "require": {
@@ -3405,9 +3405,9 @@
             ],
             "support": {
                 "issues": "https://github.com/gggeek/phpxmlrpc/issues",
-                "source": "https://github.com/gggeek/phpxmlrpc/tree/4.10.4"
+                "source": "https://github.com/gggeek/phpxmlrpc/tree/4.11.0"
             },
-            "time": "2024-06-27T08:36:24+00:00"
+            "time": "2024-09-07T14:44:05+00:00"
         },
         {
             "name": "pimple/pimple",
