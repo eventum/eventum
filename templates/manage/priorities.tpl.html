@@ -46,15 +46,16 @@
 	$(function() {
 		$.widget( "custom.iconselectmenu", $.ui.selectmenu, {
 			_renderItem: function( $ul, item ) {
-				var $li = $( "<li>", { text: item.label } );
+				var $li = $( "<li>" );
+				var $wrapper = $( "<div>", { text: item.label } );
 				if ( item.disabled ) {
 					$li.addClass( "ui-state-disabled" );
 				}
 				$( "<span>", {
 					"class": item.element.attr( "data-class" )
 				})
-					.appendTo( $li );
-				return $li.appendTo( $ul );
+					.appendTo( $wrapper );
+				return $li.append( $wrapper ).appendTo( $ul );
 			}
 		});
 
