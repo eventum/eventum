@@ -53,7 +53,12 @@ mix.scripts([
     'node_modules/jquery-ui/ui/ie.js',
 
     'node_modules/jquery-ui/ui/disable-selection.js',
+    'node_modules/jquery-ui/ui/escape-selector.js',
+    'node_modules/jquery-ui/ui/form.js',
+    'node_modules/jquery-ui/ui/form-reset-mixin.js',
+    'node_modules/jquery-ui/ui/labels.js',
     'node_modules/jquery-ui/ui/plugin.js',
+    'node_modules/jquery-ui/ui/safe-active-element.js',
     'node_modules/jquery-ui/ui/widgets/datepicker.js',
     'node_modules/jquery-ui/ui/widget.js',
     'node_modules/jquery-ui/ui/widgets/mouse.js',
@@ -92,9 +97,6 @@ mix.scripts([
     'node_modules/jquery-ui/ui/widgets/tabs.js', // new
     'node_modules/jquery-ui/ui/widgets/tooltip.js', // new
 
-    // 'node_modules/jquery-ui/ui/form.js', // unused
-    // 'node_modules/jquery-ui/ui/labels.js', // unused
-    // 'node_modules/jquery-ui/ui/safe-active-element.js', // unused
     // 'node_modules/jquery-ui/ui/safe-blur.js', // unused
 ], 'htdocs/js/jquery-ui.js');
 
