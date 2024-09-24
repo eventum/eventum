@@ -1,0 +1,4 @@
+# Ignore main.css to .scss rename
+2f8631aaab0e0a5c344af29b641d81b6ac0a275a
+# Moves global styles from page to main
+92ead898130c2b7e1ca9d5a6a1b5377eb8ce1396
