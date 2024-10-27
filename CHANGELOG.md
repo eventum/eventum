@@ -6,6 +6,7 @@ See [Upgrading] for details on how to upgrade.
 
 - Update PHPlot to v8.0.0.3 to fix rendering with PHP 8, #1537
 - Fix display of icons in priority dropdown list, #1535
+- Fix false error when disabling users in filtered list, #1544
 
 [3.10.15]: https://github.com/eventum/eventum/compare/v3.10.14...master
 

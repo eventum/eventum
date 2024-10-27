@@ -11,7 +11,7 @@
   function checkDelete()
   {
     var total_selected = Eventum.getField('items[]').filter(':checked').length;
-    var total = Eventum.getField('items[]').length;
+    var total = {$list|@count};
     if (Eventum.getField('status').val() == 'inactive') {
       if (active_users_count < 2) {
         alert('{t escape=js}You cannot change the status of the only active user left in the system.{/t}');
