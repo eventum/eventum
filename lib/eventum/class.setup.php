@@ -26,25 +26,6 @@ use Symfony\Component\Filesystem\Exception\IOException;
 class Setup
 {
     /**
-     * Get system setup options for the application.
-     * The configuration is loaded from config/setup.php file
-     *
-     * @return Config The system-wide preferences
-     * @deprecated use ServiceContainer::getConfig()
-     */
-    public static function get(): Config
-    {
-        trigger_deprecation('eventum/eventum', '3.10.2', 'Calling "%s::%s" is deprecated', self::class, __METHOD__);
-
-        static $config;
-        if (!$config) {
-            $config = self::initialize();
-        }
-
-        return $config;
-    }
-
-    /**
      * @return array
      * @since 3.8.0
      */
