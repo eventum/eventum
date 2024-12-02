@@ -20,7 +20,6 @@ use Eventum\Controller\Traits\RedirectResponseTrait;
 use Eventum\Controller\Traits\RequestTrait;
 use Eventum\Controller\Traits\SmartyResponseTrait;
 use Eventum\Db\Doctrine;
-use Eventum\Monolog\Logger;
 use Eventum\ServiceContainer;
 use Eventum\Setup\DatabaseSetup;
 use Eventum\Setup\RequirementNotSatisfiedException;
@@ -133,7 +132,6 @@ class SetupController
      */
     private function setupDatabase(): void
     {
-        Logger::initialize();
         $post = $this->getPost();
 
         $db_hostname = $post->get('db_hostname');
