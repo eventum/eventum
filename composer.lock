@@ -3351,16 +3351,16 @@
         },
         {
             "name": "phpxmlrpc/phpxmlrpc",
-            "version": "4.11.0",
+            "version": "4.11.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/gggeek/phpxmlrpc.git",
-                "reference": "e50480272493d90dd4aca9fb861a9b9ce0ef4729"
+                "reference": "06b9d7275d637f6859527091a54a5edfe8a16749"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/gggeek/phpxmlrpc/zipball/e50480272493d90dd4aca9fb861a9b9ce0ef4729",
-                "reference": "e50480272493d90dd4aca9fb861a9b9ce0ef4729",
+                "url": "https://api.github.com/repos/gggeek/phpxmlrpc/zipball/06b9d7275d637f6859527091a54a5edfe8a16749",
+                "reference": "06b9d7275d637f6859527091a54a5edfe8a16749",
                 "shasum": ""
             },
             "require": {
@@ -3405,9 +3405,9 @@
             ],
             "support": {
                 "issues": "https://github.com/gggeek/phpxmlrpc/issues",
-                "source": "https://github.com/gggeek/phpxmlrpc/tree/4.11.0"
+                "source": "https://github.com/gggeek/phpxmlrpc/tree/4.11.1"
             },
-            "time": "2024-09-07T14:44:05+00:00"
+            "time": "2025-01-17T17:04:37+00:00"
         },
         {
             "name": "pimple/pimple",
@@ -9497,5 +9497,5 @@
     "platform-overrides": {
         "php": "7.3.0"
     },
-    "plugin-api-version": "2.6.0"
+    "plugin-api-version": "2.3.0"
 }
