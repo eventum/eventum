@@ -1,3 +1,5 @@
 # Commits to ignore from git blame
 # $ git blame --ignore-revs-file .git-blame-ignore-revs
 #
+# Composer: reformat with spaces
+04bd38c664a4cc1a5f4e775e69e95b7581c3d7d4
