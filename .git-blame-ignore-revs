@@ -1,0 +1,3 @@
+# Commits to ignore from git blame
+# $ git blame --ignore-revs-file .git-blame-ignore-revs
+#
