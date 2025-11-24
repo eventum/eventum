@@ -169,4 +169,28 @@ class StorageManager
     {
         return $this->mount_manager->move($old_path, $new_path);
     }
+
+   /**
+    * Check if File exists
+    * @param string $path
+    * @return bool
+    */
+    public function fileExists($path): bool
+    {
+         return $this->mount_manager->has($path);
+    }
+
+   /**
+    * Get Contents of file if it exists
+    * @param string $path
+    * @return string
+    */
+    public function getFileContents($path): string
+    {
+        if($this->mount_manager->has($path)){
+            return $this->mount_manager->read($path);
+        }else{
+            threw new League\Flysystem\FileNotFoundException($path);
+        }
+    }
 }

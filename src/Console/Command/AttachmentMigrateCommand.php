@@ -169,9 +169,25 @@ class AttachmentMigrateCommand extends BaseCommand
         $file_path = AttachmentManager::generatePath($iaf_id, $filename, $issue_id);
         $new_path = str_replace("{$this->sm->getDefaultAdapter()}://", "{$this->target_adapter}://", $file_path);
 
-        // throws League\Flysystem\Exception
-        // we let it abort whole process
-        $this->sm->moveFile($old_path, $new_path);
+        // Check if file exists. If it does
+        // run SHA-256 hash on old_path and new_path data
+        // Delete old_path if new_path verifies
+        // Recopy old_path to new_path if hashes match
+        //   after deleting new_path (invalid file)
+        if(!$this->sm->fileExists($new_path)){
+            $this->writeln("Moving $old_path to $new_path");
+            $this->sm->moveFile($old_path, $new_path);
+        }else{
+            $this->writeln("$filename already exists. Verifying....\n");
+            if(hash('sha256', $this->sm->getFileContents($old_path)) === hash('sha256', $this->sm->getFileContents($new_path))){
+               $this->writeln("$filename verifies\n");
+               $this->sm->deleteFile($old_path);
+            }else{
+               $this->writeln("$new_path doesn\'t verify. Recopying...\n");
+               $this->sm->deleteFile($new_path);
+               $this->sm->moveFile($old_path, $new_path);
+            }
+        }
         $this->moveFileDatabase($iaf_id, $new_path);
         $this->touchLocalFile($new_path, $file);
     }
