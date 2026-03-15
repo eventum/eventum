@@ -42,22 +42,6 @@ final class ExtensionManager implements
     /** @var bool */
     private $booted = false;
 
-    /**
-     * Singleton Extension Manager
-     *
-     * @return ExtensionManager
-     * @deprecated since 3.8.11, use ServiceContainer::getExtensionManager() instead
-     */
-    public static function getManager(): self
-    {
-        static $manager;
-        if (!$manager) {
-            $manager = ServiceContainer::getExtensionManager();
-        }
-
-        return $manager;
-    }
-
     public function __construct(iterable $extensions)
     {
         $this->extensionFiles = $extensions;
