@@ -19,8 +19,6 @@ use Eventum\EventDispatcher\EventManager;
 use Eventum\Extension\ExtensionManager;
 use LogicException;
 use Pimple\Container;
-use Pimple\Psr11\Container as PsrContainer;
-use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -39,23 +37,6 @@ class ServiceContainer
             $container->register(new ServiceProvider\ServiceProvider());
             $container->register(new ServiceProvider\FulltextSearchService());
             $container->register(new ServiceProvider\MarkdownServiceProvider());
-        }
-
-        return $container;
-    }
-
-    /**
-     * @since 3.8.13
-     * @deprecated since 3.10.3
-     */
-    public static function getContainer(): ContainerInterface
-    {
-        trigger_deprecation('eventum/eventum', '3.10.3', 'Method "%s::%s" is deprecated', __CLASS__, __METHOD__);
-
-        static $container;
-
-        if (!$container) {
-            $container = new PsrContainer(self::getInstance());
         }
 
         return $container;
