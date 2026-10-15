@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "4f7ac7df5e56d23cc06da52918c6491e",
+    "content-hash": "60b3a61174c8be6d1d4b131b26ede73e",
     "packages": [
         {
             "name": "cakephp/core",
@@ -1696,19 +1696,6 @@
             "time": "2024-11-01T03:51:45+00:00"
         },
         {
-            "name": "fonts/liberation",
-            "version": "2.00.1",
-            "dist": {
-                "type": "tar",
-                "url": "https://releases.pagure.org/liberation-fonts/liberation-fonts-ttf-2.00.1.tar.gz",
-                "shasum": "84b40d7f8bb0cd085dd70b3abed197133d761557"
-            },
-            "type": "library",
-            "license": [
-                "OFL-1.1"
-            ]
-        },
-        {
             "name": "giberti/commonmark-emoji-extension",
             "version": "0.2",
             "source": {
@@ -2945,6 +2932,19 @@
                 }
             ],
             "time": "2022-04-17T13:12:02+00:00"
+        },
+        {
+            "name": "liberationfonts/liberation-fonts",
+            "version": "2.00.3",
+            "dist": {
+                "type": "tar",
+                "url": "https://github.com/liberationfonts/liberation-fonts/files/2012634/liberation-fonts-ttf-2.00.3.tar.gz",
+                "shasum": "4ec2cf1ba6d47a1fa4189bb6d9153f498c11856a"
+            },
+            "type": "library",
+            "license": [
+                "OFL-1.1"
+            ]
         },
         {
             "name": "monolog/monolog",

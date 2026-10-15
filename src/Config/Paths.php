@@ -34,6 +34,6 @@ final class Paths
     public const APP_LOCKS_PATH = self::APP_VAR_PATH . '/lock';
 
     // fonts directory for phplot
-    public const APP_FONTS_PATH = APP_PATH . '/vendor/fonts/liberation';
+    public const APP_FONTS_PATH = APP_PATH . '/vendor/liberationfonts/liberation-fonts';
     public const APP_HELP_PATH = APP_PATH . '/docs/help';
 }

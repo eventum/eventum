@@ -140,7 +140,7 @@
 				<include name="Monolog/Handler/TestHandler.php"/>
 			</fileset>
 
-			<fileset dir="${vendor}/fonts/liberation">
+			<fileset dir="${vendor}/liberationfonts/liberation-fonts">
 				<!-- we need just LiberationSans-Regular.ttf -->
 				<exclude name="LiberationSans-Regular.ttf"/>
 			</fileset>
