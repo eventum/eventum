@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "60b3a61174c8be6d1d4b131b26ede73e",
+    "content-hash": "41519e8786d0de9cdf4a80dd8940190d",
     "packages": [
         {
             "name": "cakephp/core",
@@ -307,6 +307,73 @@
                 }
             ],
             "time": "2022-01-17T14:14:24+00:00"
+        },
+        {
+            "name": "concretecms/monolog-cascade",
+            "version": "0.5.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/concretecms/monolog-cascade.git",
+                "reference": "034f018e9814c7a057ad2f64242f25e07aaad174"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/concretecms/monolog-cascade/zipball/034f018e9814c7a057ad2f64242f25e07aaad174",
+                "reference": "034f018e9814c7a057ad2f64242f25e07aaad174",
+                "shasum": ""
+            },
+            "require": {
+                "monolog/monolog": "^1.13",
+                "php": "^5.3.9 || ^7.0",
+                "symfony/config": "^2.7 || ^3.0 || ^4.0 || ^5.0",
+                "symfony/options-resolver": "^2.7 || ^3.0 || ^4.0 || ^5.0",
+                "symfony/serializer": "^2.7 || ^3.0 || ^4.0 || ^5.0",
+                "symfony/yaml": "^2.7 || ^3.0 || ^4.0 || ^5.0"
+            },
+            "require-dev": {
+                "mikey179/vfsstream": "^1.6",
+                "php-coveralls/php-coveralls": "^1.0",
+                "phpunit/phpcov": "^2.0",
+                "phpunit/phpunit": "^4.8",
+                "squizlabs/php_codesniffer": "^2.5"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "0.5.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Cascade\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Raphaël Antonmattei",
+                    "email": "rantonmattei@theorchard.com",
+                    "homepage": "https://github.com/rantonmattei"
+                }
+            ],
+            "description": "Monolog extension to configure multiple loggers in the blink of an eye and access them from anywhere",
+            "homepage": "https://github.com/theorchard/monolog-cascade",
+            "keywords": [
+                "cascade",
+                "log",
+                "logger",
+                "monolog",
+                "monolog extension",
+                "monolog plugin",
+                "monolog utils"
+            ],
+            "support": {
+                "source": "https://github.com/concretecms/monolog-cascade/tree/0.5.3"
+            },
+            "time": "2020-09-12T14:44:09+00:00"
         },
         {
             "name": "container-interop/container-interop",
@@ -8214,74 +8281,6 @@
                 }
             ],
             "time": "2022-08-02T15:47:23+00:00"
-        },
-        {
-            "name": "theorchard/monolog-cascade",
-            "version": "0.5.3",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/theorchard/monolog-cascade.git",
-                "reference": "034f018e9814c7a057ad2f64242f25e07aaad174"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/theorchard/monolog-cascade/zipball/034f018e9814c7a057ad2f64242f25e07aaad174",
-                "reference": "034f018e9814c7a057ad2f64242f25e07aaad174",
-                "shasum": ""
-            },
-            "require": {
-                "monolog/monolog": "^1.13",
-                "php": "^5.3.9 || ^7.0",
-                "symfony/config": "^2.7 || ^3.0 || ^4.0 || ^5.0",
-                "symfony/options-resolver": "^2.7 || ^3.0 || ^4.0 || ^5.0",
-                "symfony/serializer": "^2.7 || ^3.0 || ^4.0 || ^5.0",
-                "symfony/yaml": "^2.7 || ^3.0 || ^4.0 || ^5.0"
-            },
-            "require-dev": {
-                "mikey179/vfsstream": "^1.6",
-                "php-coveralls/php-coveralls": "^1.0",
-                "phpunit/phpcov": "^2.0",
-                "phpunit/phpunit": "^4.8",
-                "squizlabs/php_codesniffer": "^2.5"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "0.5.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Cascade\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Raphaël Antonmattei",
-                    "email": "rantonmattei@theorchard.com",
-                    "homepage": "https://github.com/rantonmattei"
-                }
-            ],
-            "description": "Monolog extension to configure multiple loggers in the blink of an eye and access them from anywhere",
-            "homepage": "https://github.com/theorchard/monolog-cascade",
-            "keywords": [
-                "cascade",
-                "log",
-                "logger",
-                "monolog",
-                "monolog extension",
-                "monolog plugin",
-                "monolog utils"
-            ],
-            "support": {
-                "issues": "https://github.com/theorchard/monolog-cascade/issues",
-                "source": "https://github.com/theorchard/monolog-cascade/tree/0.5.3"
-            },
-            "time": "2020-09-12T14:44:09+00:00"
         },
         {
             "name": "webmozart/assert",
