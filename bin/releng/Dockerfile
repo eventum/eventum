@@ -86,13 +86,6 @@ RUN \
 FROM $BUILD_IMAGE AS build-vendor
 WORKDIR /app
 
-# Install hirak/prestissimo for parallel downloads
-ENV COMPOSER_CACHE_DIR=/root/.cache/composer
-RUN \
-    --mount=type=cache,id=composer,target=/root/.cache/composer \
-    --mount=type=cache,id=composer-bin,target=/root/.composer \
-   composer global require hirak/prestissimo --ansi
-
 # Install runtime dependencies
 RUN \
     --mount=type=cache,id=composer,target=/root/.cache/composer \
