@@ -24,6 +24,7 @@ RUN set -x \
     gnupg \
     jq \
     make \
+    php-cli \
     php-curl \
     php-dom \
     php-gd \
