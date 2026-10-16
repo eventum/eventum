@@ -54,6 +54,8 @@ jobs:
 
       - name: Install dependencies
         if: steps.composer-cache.outputs.cache-hit != 'true'
+        env:
+          COMPOSER_ALLOW_UNSAFE_PHAR_METADATA: "1"
         run: composer install --prefer-dist --no-progress --no-suggest
 
       - name: Seed database
