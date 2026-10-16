@@ -16,7 +16,6 @@ RUN set -x \
     && apt update && apt install -y --no-install-recommends \
     bash \
     bzr \
-    composer \
     coreutils \
     curl \
     gettext \
@@ -45,6 +44,9 @@ RUN set -x \
     && apt update && apt install -y --no-install-recommends nodejs yarn \
     && rm -rf /var/lib/apt/lists/* \
     && exit 0
+
+# docker build . -f bin/releng/Dockerfile -t app --target=composer
+FROM composer/composer:2.10-bin AS composer
 
 FROM deps AS releng
 WORKDIR /app
@@ -89,6 +91,7 @@ WORKDIR /app
 
 # Install runtime dependencies
 RUN \
+    --mount=type=bind,from=composer,source=/composer,target=/usr/bin/composer \
     --mount=type=cache,id=composer,target=/root/.cache/composer \
     --mount=type=cache,id=composer-bin,target=/root/.composer \
     --mount=type=bind,source=./composer.json,target=./composer.json \
@@ -98,6 +101,7 @@ RUN \
 
 # Remove packages defined in "extra.replace"
 RUN \
+    --mount=type=bind,from=composer,source=/composer,target=/usr/bin/composer \
     --mount=type=cache,id=composer,target=/root/.cache/composer \
     --mount=type=cache,id=composer-bin,target=/root/.composer \
     --mount=type=bind,source=./composer.json,target=/src/composer.json \
@@ -118,6 +122,7 @@ RUN find vendor -type d -print0 | sort -zr | xargs -0 rmdir --ignore-fail-on-non
 # Dump autoloader, including package versions
 ARG APP_VERSION=0.0.0
 RUN \
+    --mount=type=bind,from=composer,source=/composer,target=/usr/bin/composer \
     --mount=type=cache,id=composer,target=/root/.cache/composer \
     --mount=type=bind,source=./composer.json,target=./composer.json \
     --mount=type=bind,source=./composer.lock,target=./composer.lock \
