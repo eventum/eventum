@@ -11,7 +11,7 @@ env:
 jobs:
   build:
     name: Build
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     steps:
       - name: Checkout eventum/eventum code
         uses: actions/checkout@v3
@@ -103,7 +103,7 @@ jobs:
 
   publish:
     name: Create Release
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     needs: build
     permissions:
       contents: write
