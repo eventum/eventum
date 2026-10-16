@@ -5,7 +5,7 @@
 #
 
 # docker build . -f bin/releng/Dockerfile -t ghcr.io/eventum/eventum:release-image-v3
-ARG BUILD_IMAGE=ghcr.io/eventum/eventum:release-image-v3
+ARG BUILD_IMAGE=ghcr.io/eventum/eventum:release-image-v4
 
 # Image for building release
 FROM ubuntu:20.04 AS base

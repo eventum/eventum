@@ -42,7 +42,7 @@ jobs:
           file: bin/releng/Dockerfile
           build-args: |
             APP_VERSION=${{ env.APP_VERSION }}
-          platforms: linux/amd64
+          platforms: linux/arm64
           target: out
           outputs: |
             type=local,dest=out
