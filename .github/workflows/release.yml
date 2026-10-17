@@ -42,7 +42,7 @@ jobs:
           file: bin/releng/Dockerfile
           build-args: |
             APP_VERSION=${{ env.APP_VERSION }}
-          platforms: linux/amd64
+          platforms: linux/arm64
           target: out
           outputs: |
             type=local,dest=out
@@ -55,7 +55,7 @@ jobs:
           ls -lh eventum-*.tar.xz
 
       # https://github.com/actions/upload-artifact
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         with:
           name: eventum
           path: eventum-*.tar.xz
@@ -95,7 +95,7 @@ jobs:
           outputs: |
             type=docker,dest=eventum-docker-${{ steps.vars.outputs.version }}.tar
 
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         with:
           name: docker-${{ steps.vars.outputs.version }}
           path: eventum-docker-*.tar
@@ -112,7 +112,7 @@ jobs:
       - name: Checkout eventum/eventum code
         uses: actions/checkout@v3
 
-      - uses: actions/download-artifact@v3
+      - uses: actions/download-artifact@v4
         with:
           name: eventum
 

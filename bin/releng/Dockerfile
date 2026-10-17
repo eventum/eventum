@@ -5,7 +5,7 @@
 #
 
 # docker build . -f bin/releng/Dockerfile -t ghcr.io/eventum/eventum:release-image-v3
-ARG BUILD_IMAGE=ghcr.io/eventum/eventum:release-image-v3
+ARG BUILD_IMAGE=ghcr.io/eventum/eventum:release-image-v5
 
 # Image for building release
 FROM ubuntu:20.04 AS base
@@ -16,7 +16,6 @@ RUN set -x \
     && apt update && apt install -y --no-install-recommends \
     bash \
     bzr \
-    composer \
     coreutils \
     curl \
     gettext \
@@ -24,6 +23,7 @@ RUN set -x \
     gnupg \
     jq \
     make \
+    php-cli \
     php-curl \
     php-dom \
     php-gd \
@@ -40,10 +40,13 @@ RUN set -x \
     && curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add - \
     && echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list \
     && curl -sS https://deb.nodesource.com/gpgkey/nodesource.gpg.key | gpg --dearmor | tee /usr/share/keyrings/nodesource.gpg >/dev/null \
-    && echo 'deb [signed-by=/usr/share/keyrings/nodesource.gpg] https://deb.nodesource.com/node_16.x focal main' > /etc/apt/sources.list.d/nodesource.list \
+    && echo "deb [signed-by=/usr/share/keyrings/nodesource.gpg] https://deb.nodesource.com/node_16.x nodistro main" > /etc/apt/sources.list.d/nodesource.list \
     && apt update && apt install -y --no-install-recommends nodejs yarn \
     && rm -rf /var/lib/apt/lists/* \
     && exit 0
+
+# docker build . -f bin/releng/Dockerfile -t app --target=composer
+FROM composer/composer:2.10-bin AS composer
 
 FROM deps AS releng
 WORKDIR /app
@@ -86,15 +89,10 @@ RUN \
 FROM $BUILD_IMAGE AS build-vendor
 WORKDIR /app
 
-# Install hirak/prestissimo for parallel downloads
-ENV COMPOSER_CACHE_DIR=/root/.cache/composer
-RUN \
-    --mount=type=cache,id=composer,target=/root/.cache/composer \
-    --mount=type=cache,id=composer-bin,target=/root/.composer \
-   composer global require hirak/prestissimo --ansi
-
 # Install runtime dependencies
+ENV COMPOSER_ALLOW_UNSAFE_PHAR_METADATA=1
 RUN \
+    --mount=type=bind,from=composer,source=/composer,target=/usr/bin/composer \
     --mount=type=cache,id=composer,target=/root/.cache/composer \
     --mount=type=cache,id=composer-bin,target=/root/.composer \
     --mount=type=bind,source=./composer.json,target=./composer.json \
@@ -104,6 +102,7 @@ RUN \
 
 # Remove packages defined in "extra.replace"
 RUN \
+    --mount=type=bind,from=composer,source=/composer,target=/usr/bin/composer \
     --mount=type=cache,id=composer,target=/root/.cache/composer \
     --mount=type=cache,id=composer-bin,target=/root/.composer \
     --mount=type=bind,source=./composer.json,target=/src/composer.json \
@@ -124,6 +123,7 @@ RUN find vendor -type d -print0 | sort -zr | xargs -0 rmdir --ignore-fail-on-non
 # Dump autoloader, including package versions
 ARG APP_VERSION=0.0.0
 RUN \
+    --mount=type=bind,from=composer,source=/composer,target=/usr/bin/composer \
     --mount=type=cache,id=composer,target=/root/.cache/composer \
     --mount=type=bind,source=./composer.json,target=./composer.json \
     --mount=type=bind,source=./composer.lock,target=./composer.lock \
