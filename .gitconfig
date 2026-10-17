@@ -1,0 +1,10 @@
+# https://stackoverflow.com/questions/34957237/can-i-configure-git-blame-to-always-ignore-certain-commits-want-to-fix-git-blam/57129540#57129540
+# Requires Git 2.23
+#
+# Invoke from shell:
+# $ git config --add include.path $(git rev-parse --show-toplevel)/.gitconfig
+
+[blame]
+	ignoreRevsFile = .gitconfig
+
+# vim:ft=gitconfig
