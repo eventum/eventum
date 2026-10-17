@@ -90,6 +90,7 @@ FROM $BUILD_IMAGE AS build-vendor
 WORKDIR /app
 
 # Install runtime dependencies
+ENV COMPOSER_ALLOW_UNSAFE_PHAR_METADATA=1
 RUN \
     --mount=type=bind,from=composer,source=/composer,target=/usr/bin/composer \
     --mount=type=cache,id=composer,target=/root/.cache/composer \
